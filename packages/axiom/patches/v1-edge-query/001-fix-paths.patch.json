@@ -1,38 +1,179 @@
 {
-  "description": "The v1-edge-query.json spec describes the Axiom Query API for regional edge deployments; most endpoints have no counterpart on the canonical Axiom Cloud API (api.axiom.co). Only queryApl maps cleanly (/v1/datasets/_apl). Drop the rest so they don't get generated as broken operations — the metrics-info endpoints under /v1/datasets/{dataset}/metrics on api.axiom.co are the OTLP metrics ingest endpoint and have an incompatible request/response shape. Note: patches run after the generate script prefixes every path with /v1/, so the JSON Pointer targets reflect that.",
+  "description": "From v1-edge-query/001-fix-paths.patch.json: The v1-edge-query.json spec describes the Axiom Query API for regional edge deployments; most endpoints have no counterpart on the canonical Axiom Cloud API (api.axiom.co). Only queryApl maps cleanly (/v1/datasets/_apl). Drop the rest so they don't get generated as broken operations — the metrics-info endpoints under /v1/datasets/{dataset}/metrics on api.axiom.co are the OTLP metrics ingest endpoint and have an incompatible request/response shape. Note: patches run after the generate script prefixes every path with /v1/, so the JSON Pointer targets reflect that.",
   "patches": [
     {
-      "op": "move",
-      "from": "/paths/~1v1~1query~1_apl?format=tabular",
-      "path": "/paths/~1v1~1datasets~1_apl?format=tabular"
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#APLRequestWithOptions"
     },
     {
       "op": "remove",
-      "path": "/paths/~1v1~1query~1batch"
+      "path": "/shapes/com.axiom.api#APLRequestWithOptionsDefaultOrderItem"
     },
     {
       "op": "remove",
-      "path": "/paths/~1v1~1query~1_mpl"
+      "path": "/shapes/com.axiom.api#APLRequestWithOptionsDefaultOrderList"
     },
     {
       "op": "remove",
-      "path": "/paths/~1v1~1query~1metrics~1info~1datasets~1{dataset}~1metrics"
+      "path": "/shapes/com.axiom.api#APLRequestWithOptionsLibrariesList"
     },
     {
       "op": "remove",
-      "path": "/paths/~1v1~1query~1metrics~1info~1datasets~1{dataset}~1metrics~1{metric}~1tags"
+      "path": "/shapes/com.axiom.api#APLRequestWithOptionsVariablesMap"
     },
     {
       "op": "remove",
-      "path": "/paths/~1v1~1query~1metrics~1info~1datasets~1{dataset}~1metrics~1{metric}~1tags~1{tag}~1values"
+      "path": "/shapes/com.axiom.api#MetricsRequestWithOptions"
     },
     {
       "op": "remove",
-      "path": "/paths/~1v1~1query~1metrics~1info~1datasets~1{dataset}~1tags"
+      "path": "/shapes/com.axiom.api#BatchQueryRequestBodyItem"
     },
     {
       "op": "remove",
-      "path": "/paths/~1v1~1query~1metrics~1info~1datasets~1{dataset}~1tags~1{tag}~1values"
+      "path": "/shapes/com.axiom.api#BatchQueryRequestBodyList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#BatchQueryRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#BatchQuery"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#QueryMetricsRequestFormat"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#QueryMetricsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#QueryMetricsResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#QueryMetrics"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricsResponseBodyValue"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricsResponseBodyMap"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricsResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetrics"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#FindMetricsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#FindMetricsResponseBodyList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#FindMetricsResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#FindMetrics"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricTagsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricTagsResponseBodyList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricTagsResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricTags"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricTagValuesRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricTagValuesResponseBodyList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricTagValuesResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetMetricTagValues"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetTagsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetTagsResponseBodyList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetTagsResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetTags"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetTagValuesRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetTagValuesResponseBodyList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetTagValuesResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#GetDatasetTagValues"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#NotFound"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.axiom.api#QueryApl/traits/smithy.api#http/uri",
+      "value": "/v1/datasets/_apl"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.axiom.api#AxiomEdgeQuery/operations",
+      "value": [
+        {
+          "target": "com.axiom.api#QueryApl"
+        }
+      ]
     }
   ]
 }

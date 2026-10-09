@@ -179,10 +179,10 @@ export const CreateExperienceRequestLogo = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateExperienceRequestLogo>;
 
 export interface CreateExperienceRequest {
+  /** The unique identifier of the company to create this experience for. */
+  account_id: string;
   /** The unique identifier of the app that powers this experience. */
   app_id: string;
-  /** The unique identifier of the company to create this experience for. */
-  company_id: string;
   /** Whether the experience is publicly accessible without a membership. */
   is_public?: boolean | null;
   /** A logo image displayed alongside the experience name. */
@@ -196,8 +196,8 @@ export interface CreateExperienceRequest {
 }
 export const CreateExperienceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    account_id: S.String,
     app_id: S.String,
-    company_id: S.String,
     is_public: S.optional(S.NullOr(S.Boolean)),
     logo: S.optional(S.NullOr(CreateExperienceRequestLogo)),
     name: S.optional(S.NullOr(S.String)),
@@ -264,11 +264,11 @@ export interface ListExperienceRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id: string;
   product_id?: string;
   app_id?: string;
   created_before?: string;
   created_after?: string;
+  account_id: string;
 }
 export const ListExperienceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -276,11 +276,11 @@ export const ListExperienceRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.String.pipe(T.Query()),
     product_id: S.optional(S.String.pipe(T.Query())),
     app_id: S.optional(S.String.pipe(T.Query())),
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
+    account_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/experiences", code: 200 })),
 ).annotate({ identifier: "ListExperienceRequest" }) as any as S.Schema<ListExperienceRequest>;
 

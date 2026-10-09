@@ -41,7 +41,7 @@
     "com.whop.account_links#CreateAccountLinkRequest": {
       "type": "structure",
       "members": {
-        "company_id": {
+        "account_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the company to generate the link for, starting with 'biz_'. Must be a sub-merchant of the API key's company.",

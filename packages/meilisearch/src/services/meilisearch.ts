@@ -35,9 +35,7 @@ export class NotFound
 export interface CancelLogsRequest {}
 export const CancelLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "DELETE", uri: "/logs/stream", code: 200 })),
-).annotate({
-  identifier: "CancelLogsRequest",
-}) as any as S.Schema<CancelLogsRequest>;
+).annotate({ identifier: "CancelLogsRequest" }) as any as S.Schema<CancelLogsRequest>;
 
 export interface CancelLogsResponse {}
 export const CancelLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -141,9 +139,7 @@ export const CancelTasksRequest = /*@__PURE__*/ S.suspend(() =>
     afterFinishedAt: S.optional(S.String.pipe(T.Query())),
     beforeFinishedAt: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/tasks/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelTasksRequest",
-}) as any as S.Schema<CancelTasksRequest>;
+).annotate({ identifier: "CancelTasksRequest" }) as any as S.Schema<CancelTasksRequest>;
 
 /** A summarized view of a task, returned when a task is enqueued */
 export interface SummarizedTaskView {
@@ -169,9 +165,7 @@ export const SummarizedTaskView = /*@__PURE__*/ S.suspend(() =>
     enqueuedAt: S.String,
     customMetadata: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SummarizedTaskView",
-}) as any as S.Schema<SummarizedTaskView>;
+).annotate({ identifier: "SummarizedTaskView" }) as any as S.Schema<SummarizedTaskView>;
 
 /** A text content part of a message. */
 export interface ChatCompletionRequestMessageContentPartText {
@@ -660,9 +654,7 @@ export const PredictionContent = /*@__PURE__*/ S.suspend(() =>
     content: PredictionContentContent,
     type: PredictionContentType,
   }),
-).annotate({
-  identifier: "PredictionContent",
-}) as any as S.Schema<PredictionContent>;
+).annotate({ identifier: "PredictionContent" }) as any as S.Schema<PredictionContent>;
 
 /** The voice the model uses to respond in audio output. */
 export type ChatCompletionAudioVoice =
@@ -692,9 +684,7 @@ export const ChatCompletionAudio = /*@__PURE__*/ S.suspend(() =>
     voice: ChatCompletionAudioVoice,
     format: ChatCompletionAudioFormat,
   }),
-).annotate({
-  identifier: "ChatCompletionAudio",
-}) as any as S.Schema<ChatCompletionAudio>;
+).annotate({ identifier: "ChatCompletionAudio" }) as any as S.Schema<ChatCompletionAudio>;
 
 export type ResponseFormatCase0Type = "text";
 export const ResponseFormatCase0Type = S.String;
@@ -707,9 +697,7 @@ export const ResponseFormatCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: ResponseFormatCase0Type,
   }),
-).annotate({
-  identifier: "ResponseFormatCase0",
-}) as any as S.Schema<ResponseFormatCase0>;
+).annotate({ identifier: "ResponseFormatCase0" }) as any as S.Schema<ResponseFormatCase0>;
 
 export type ResponseFormatCase1Type = "json_object";
 export const ResponseFormatCase1Type = S.String;
@@ -722,9 +710,7 @@ export const ResponseFormatCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: ResponseFormatCase1Type,
   }),
-).annotate({
-  identifier: "ResponseFormatCase1",
-}) as any as S.Schema<ResponseFormatCase1>;
+).annotate({ identifier: "ResponseFormatCase1" }) as any as S.Schema<ResponseFormatCase1>;
 
 /** A JSON Schema-based response format specification for Structured Outputs. */
 export interface ResponseFormatJsonSchema {
@@ -744,9 +730,7 @@ export const ResponseFormatJsonSchema = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(S.Unknown),
     strict: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ResponseFormatJsonSchema",
-}) as any as S.Schema<ResponseFormatJsonSchema>;
+).annotate({ identifier: "ResponseFormatJsonSchema" }) as any as S.Schema<ResponseFormatJsonSchema>;
 
 export type ResponseFormatCase2Type = "json_schema";
 export const ResponseFormatCase2Type = S.String;
@@ -761,9 +745,7 @@ export const ResponseFormatCase2 = /*@__PURE__*/ S.suspend(() =>
     json_schema: ResponseFormatJsonSchema,
     type: ResponseFormatCase2Type,
   }),
-).annotate({
-  identifier: "ResponseFormatCase2",
-}) as any as S.Schema<ResponseFormatCase2>;
+).annotate({ identifier: "ResponseFormatCase2" }) as any as S.Schema<ResponseFormatCase2>;
 
 /** An object specifying the format that the model must output (text, JSON object, or JSON schema). */
 export type ResponseFormat = ResponseFormatCase0 | ResponseFormatCase1 | ResponseFormatCase2;
@@ -823,9 +805,7 @@ export const ChatCompletionTool = /*@__PURE__*/ S.suspend(() =>
     type: ChatCompletionToolType,
     function: FunctionObject,
   }),
-).annotate({
-  identifier: "ChatCompletionTool",
-}) as any as S.Schema<ChatCompletionTool>;
+).annotate({ identifier: "ChatCompletionTool" }) as any as S.Schema<ChatCompletionTool>;
 
 /** A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported. */
 export type ChatRequestToolsList = Array<ChatCompletionTool>;
@@ -943,9 +923,7 @@ export const ChatCompletionFunctions = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     parameters: S.Unknown,
   }),
-).annotate({
-  identifier: "ChatCompletionFunctions",
-}) as any as S.Schema<ChatCompletionFunctions>;
+).annotate({ identifier: "ChatCompletionFunctions" }) as any as S.Schema<ChatCompletionFunctions>;
 
 /** Deprecated in favor of `tools`. A list of functions the model may generate JSON inputs for. */
 export type ChatRequestFunctionsList = Array<ChatCompletionFunctions>;
@@ -1041,13 +1019,7 @@ export const ChatRequest = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(S.NullOr(S.String)),
     function_call: S.optional(S.NullOr(ChatCompletionFunctionCall)),
     functions: S.optional(S.NullOr(ChatRequestFunctionsList)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/chats/{workspace_uid}/chat/completions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/chats/{workspace_uid}/chat/completions", code: 200 })),
 ).annotate({ identifier: "ChatRequest" }) as any as S.Schema<ChatRequest>;
 
 /** The tool calls generated by the model, such as function calls. */
@@ -1191,9 +1163,7 @@ export const ChatChoiceLogprobs = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.NullOr(ChatChoiceLogprobsContentList)),
     refusal: S.optional(S.NullOr(ChatChoiceLogprobsRefusalList)),
   }),
-).annotate({
-  identifier: "ChatChoiceLogprobs",
-}) as any as S.Schema<ChatChoiceLogprobs>;
+).annotate({ identifier: "ChatChoiceLogprobs" }) as any as S.Schema<ChatChoiceLogprobs>;
 
 /** A chat completion choice generated by the model. */
 export interface ChatChoice {
@@ -1234,9 +1204,7 @@ export const PromptTokensDetails = /*@__PURE__*/ S.suspend(() =>
     audio_tokens: S.optional(S.NullOr(S.Number)),
     cached_tokens: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PromptTokensDetails",
-}) as any as S.Schema<PromptTokensDetails>;
+).annotate({ identifier: "PromptTokensDetails" }) as any as S.Schema<PromptTokensDetails>;
 
 /** Breakdown of tokens used in a completion. */
 export interface CompletionTokensDetails {
@@ -1255,9 +1223,7 @@ export const CompletionTokensDetails = /*@__PURE__*/ S.suspend(() =>
     reasoning_tokens: S.optional(S.NullOr(S.Number)),
     rejected_prediction_tokens: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CompletionTokensDetails",
-}) as any as S.Schema<CompletionTokensDetails>;
+).annotate({ identifier: "CompletionTokensDetails" }) as any as S.Schema<CompletionTokensDetails>;
 
 /** Usage statistics for the completion request. */
 export interface CompletionUsage {
@@ -1278,9 +1244,7 @@ export const CompletionUsage = /*@__PURE__*/ S.suspend(() =>
     prompt_tokens_details: S.optional(S.NullOr(PromptTokensDetails)),
     completion_tokens_details: S.optional(S.NullOr(CompletionTokensDetails)),
   }),
-).annotate({
-  identifier: "CompletionUsage",
-}) as any as S.Schema<CompletionUsage>;
+).annotate({ identifier: "CompletionUsage" }) as any as S.Schema<CompletionUsage>;
 
 /** Represents a chat completion response returned by model, based on the provided input. */
 export interface CreateChatCompletionResponse {
@@ -1324,16 +1288,8 @@ export const ClearAllDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     customMetadata: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/documents",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ClearAllDocumentsRequest",
-}) as any as S.Schema<ClearAllDocumentsRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/documents", code: 200 })),
+).annotate({ identifier: "ClearAllDocumentsRequest" }) as any as S.Schema<ClearAllDocumentsRequest>;
 
 export interface ClearAllDocumentsResponse {}
 export const ClearAllDocumentsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1343,9 +1299,7 @@ export const ClearAllDocumentsResponse = /*@__PURE__*/ S.suspend(() => S.Struct(
 export interface ClearRulesRequest {}
 export const ClearRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "DELETE", uri: "/dynamic-search-rules", code: 200 })),
-).annotate({
-  identifier: "ClearRulesRequest",
-}) as any as S.Schema<ClearRulesRequest>;
+).annotate({ identifier: "ClearRulesRequest" }) as any as S.Schema<ClearRulesRequest>;
 
 export interface ClearRulesResponse {}
 export const ClearRulesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1370,9 +1324,7 @@ export const CompactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annot
 export interface CompactTaskQueueRequest {}
 export const CompactTaskQueueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/tasks/compact", code: 200 })),
-).annotate({
-  identifier: "CompactTaskQueueRequest",
-}) as any as S.Schema<CompactTaskQueueRequest>;
+).annotate({ identifier: "CompactTaskQueueRequest" }) as any as S.Schema<CompactTaskQueueRequest>;
 
 export interface TaskCompactionSummary {
   /** Size of the task queue database before compaction. */
@@ -1394,9 +1346,7 @@ export const TaskCompactionSummary = /*@__PURE__*/ S.suspend(() =>
     actionRequired: S.optional(S.NullOr(S.String)),
     errorMessage: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TaskCompactionSummary",
-}) as any as S.Schema<TaskCompactionSummary>;
+).annotate({ identifier: "TaskCompactionSummary" }) as any as S.Schema<TaskCompactionSummary>;
 
 export type Action =
   | "*"
@@ -1494,9 +1444,7 @@ export const CreateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     indexes: CreateApiKeyRequestIndexesList,
     expiresAt: S.NullOr(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/keys", code: 200 })),
-).annotate({
-  identifier: "CreateApiKeyRequest",
-}) as any as S.Schema<CreateApiKeyRequest>;
+).annotate({ identifier: "CreateApiKeyRequest" }) as any as S.Schema<CreateApiKeyRequest>;
 
 /** The list of actions (permissions) this key is allowed to perform. Examples include `documents.add`, `search`, `indexes.create`, `settings.update`, etc. Use `*` to grant all permissions. */
 export type KeyViewActionsList = Array<Action>;
@@ -1548,9 +1496,7 @@ export const KeyView = /*@__PURE__*/ S.suspend(() =>
 export interface CreateDumpRequest {}
 export const CreateDumpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/dumps", code: 200 })),
-).annotate({
-  identifier: "CreateDumpRequest",
-}) as any as S.Schema<CreateDumpRequest>;
+).annotate({ identifier: "CreateDumpRequest" }) as any as S.Schema<CreateDumpRequest>;
 
 export interface CreateDumpResponse {}
 export const CreateDumpResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1568,33 +1514,18 @@ export const CreateIndexRequest = /*@__PURE__*/ S.suspend(() =>
     uid: S.String,
     primaryKey: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/indexes", code: 200 })),
-).annotate({
-  identifier: "CreateIndexRequest",
-}) as any as S.Schema<CreateIndexRequest>;
+).annotate({ identifier: "CreateIndexRequest" }) as any as S.Schema<CreateIndexRequest>;
 
 export interface CreateIndexResponse {}
 export const CreateIndexResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateIndexResponse",
 }) as any as S.Schema<CreateIndexResponse>;
 
-/** An array of attribute name patterns. Each pattern can be an exact attribute name, or include wildcards (`*`) at the start, end, or both. Examples: `["title", "description_*", "*_date", "*content*"]`. */
-export type AttributePatternsPatternsList = Array<string>;
-export const AttributePatternsPatternsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<AttributePatternsPatternsList>;
-
 /** A collection of patterns used to match attribute names. Patterns can include wildcards (`*`) for flexible matching. For example, `title` matches exactly, `overview_*` matches any attribute starting with `overview_`, and `*_date` matches any attribute ending with `_date`. */
-export interface AttributePatterns {
-  /** An array of attribute name patterns. Each pattern can be an exact attribute name, or include wildcards (`*`) at the start, end, or both. Examples: `["title", "description_*", "*_date", "*content*"]`. */
-  patterns: AttributePatternsPatternsList;
-}
-export const AttributePatterns = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    patterns: AttributePatternsPatternsList,
-  }),
-).annotate({
-  identifier: "AttributePatterns",
-}) as any as S.Schema<AttributePatterns>;
+export type AttributePatterns = Array<string>;
+export const AttributePatterns = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AttributePatterns>;
 
 /** Filter fields by attribute name patterns or by capability (displayed, searchable, sortable, etc.). All criteria are ANDed. */
 export interface ListFieldsFilter {
@@ -1622,9 +1553,7 @@ export const ListFieldsFilter = /*@__PURE__*/ S.suspend(() =>
     rankingRule: S.optional(S.NullOr(S.Boolean)),
     filterable: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ListFieldsFilter",
-}) as any as S.Schema<ListFieldsFilter>;
+).annotate({ identifier: "ListFieldsFilter" }) as any as S.Schema<ListFieldsFilter>;
 
 export interface CreateIndexFieldRequest {
   /** Unique identifier of the index whose fields to list. */
@@ -1642,9 +1571,7 @@ export const CreateIndexFieldRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     filter: S.optional(S.NullOr(ListFieldsFilter)),
   }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/fields", code: 200 })),
-).annotate({
-  identifier: "CreateIndexFieldRequest",
-}) as any as S.Schema<CreateIndexFieldRequest>;
+).annotate({ identifier: "CreateIndexFieldRequest" }) as any as S.Schema<CreateIndexFieldRequest>;
 
 export interface FieldDisplayConfig {
   enabled: boolean;
@@ -1653,9 +1580,7 @@ export const FieldDisplayConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
   }),
-).annotate({
-  identifier: "FieldDisplayConfig",
-}) as any as S.Schema<FieldDisplayConfig>;
+).annotate({ identifier: "FieldDisplayConfig" }) as any as S.Schema<FieldDisplayConfig>;
 
 export type FieldSearchConfig = FieldDisplayConfig;
 export const FieldSearchConfig = FieldDisplayConfig;
@@ -1680,9 +1605,7 @@ export const FieldRankingRuleConfig = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     order: S.optional(FieldRankingRuleConfigOrderList),
   }),
-).annotate({
-  identifier: "FieldRankingRuleConfig",
-}) as any as S.Schema<FieldRankingRuleConfig>;
+).annotate({ identifier: "FieldRankingRuleConfig" }) as any as S.Schema<FieldRankingRuleConfig>;
 
 export type FacetValuesSort = "alpha" | "count";
 export const FacetValuesSort = S.String;
@@ -1702,9 +1625,7 @@ export const FieldFilterableConfig = /*@__PURE__*/ S.suspend(() =>
     equality: S.Boolean,
     comparison: S.Boolean,
   }),
-).annotate({
-  identifier: "FieldFilterableConfig",
-}) as any as S.Schema<FieldFilterableConfig>;
+).annotate({ identifier: "FieldFilterableConfig" }) as any as S.Schema<FieldFilterableConfig>;
 
 export type FieldLocalizedConfigLocalesList = Array<string>;
 export const FieldLocalizedConfigLocalesList = /*@__PURE__*/ S.Array(
@@ -1718,9 +1639,7 @@ export const FieldLocalizedConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     locales: FieldLocalizedConfigLocalesList,
   }),
-).annotate({
-  identifier: "FieldLocalizedConfig",
-}) as any as S.Schema<FieldLocalizedConfig>;
+).annotate({ identifier: "FieldLocalizedConfig" }) as any as S.Schema<FieldLocalizedConfig>;
 
 export interface PaginationViewFieldResultsItem {
   name: string;
@@ -1770,16 +1689,12 @@ export const PaginationViewField = /*@__PURE__*/ S.suspend(() =>
     limit: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "PaginationViewField",
-}) as any as S.Schema<PaginationViewField>;
+).annotate({ identifier: "PaginationViewField" }) as any as S.Schema<PaginationViewField>;
 
 export interface CreateSnapshotRequest {}
 export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/snapshots", code: 200 })),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Schema<CreateSnapshotRequest>;
 
 export interface CreateSnapshotResponse {}
 export const CreateSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1787,9 +1702,7 @@ export const CreateSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<CreateSnapshotResponse>;
 
 /** HTTP headers to include in webhook requests. */
-export type CreateWebhookRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CreateWebhookRequestHeadersMap = { [key: string]: string | undefined };
 export const CreateWebhookRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1806,14 +1719,10 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     headers: S.optional(S.NullOr(CreateWebhookRequestHeadersMap)),
   }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 /** HTTP headers to include in webhook requests. */
-export type CreateWebhookResponseHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CreateWebhookResponseHeadersMap = { [key: string]: string | undefined };
 export const CreateWebhookResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1836,9 +1745,7 @@ export const CreateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String,
     isEditable: S.Boolean,
   }),
-).annotate({
-  identifier: "CreateWebhookResponse",
-}) as any as S.Schema<CreateWebhookResponse>;
+).annotate({ identifier: "CreateWebhookResponse" }) as any as S.Schema<CreateWebhookResponse>;
 
 export interface DeleteAllRequest {
   /** Unique identifier of the index. */
@@ -1847,16 +1754,8 @@ export interface DeleteAllRequest {
 export const DeleteAllRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteAllRequest",
-}) as any as S.Schema<DeleteAllRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings", code: 200 })),
+).annotate({ identifier: "DeleteAllRequest" }) as any as S.Schema<DeleteAllRequest>;
 
 export interface DeleteAllResponse {}
 export const DeleteAllResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1871,9 +1770,7 @@ export const DeleteApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/keys/{key}", code: 200 })),
-).annotate({
-  identifier: "DeleteApiKeyRequest",
-}) as any as S.Schema<DeleteApiKeyRequest>;
+).annotate({ identifier: "DeleteApiKeyRequest" }) as any as S.Schema<DeleteApiKeyRequest>;
 
 export interface DeleteApiKeyResponse {}
 export const DeleteApiKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1887,16 +1784,8 @@ export interface DeletechatRequest {
 export const DeletechatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/chat",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeletechatRequest",
-}) as any as S.Schema<DeletechatRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/chat", code: 200 })),
+).annotate({ identifier: "DeletechatRequest" }) as any as S.Schema<DeletechatRequest>;
 
 export interface DeletechatResponse {}
 export const DeletechatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1911,9 +1800,7 @@ export const DeleteChatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace_uid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/chats/{workspace_uid}", code: 200 })),
-).annotate({
-  identifier: "DeleteChatRequest",
-}) as any as S.Schema<DeleteChatRequest>;
+).annotate({ identifier: "DeleteChatRequest" }) as any as S.Schema<DeleteChatRequest>;
 
 export interface DeleteChatResponse {}
 export const DeleteChatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1927,16 +1814,8 @@ export interface DeletedictionaryRequest {
 export const DeletedictionaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/dictionary",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeletedictionaryRequest",
-}) as any as S.Schema<DeletedictionaryRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/dictionary", code: 200 })),
+).annotate({ identifier: "DeletedictionaryRequest" }) as any as S.Schema<DeletedictionaryRequest>;
 
 export interface DeletedictionaryResponse {}
 export const DeletedictionaryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1988,9 +1867,7 @@ export const DeletedistinctAttributeRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeletedistinctAttributeResponse {}
 export const DeletedistinctAttributeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeletedistinctAttributeResponse",
-  },
+  { identifier: "DeletedistinctAttributeResponse" },
 ) as any as S.Schema<DeletedistinctAttributeResponse>;
 
 export interface DeleteDocumentRequest {
@@ -2007,15 +1884,9 @@ export const DeleteDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     document_id: S.String.pipe(T.Label()),
     customMetadata: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/documents/{document_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/documents/{document_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteDocumentRequest",
-}) as any as S.Schema<DeleteDocumentRequest>;
+).annotate({ identifier: "DeleteDocumentRequest" }) as any as S.Schema<DeleteDocumentRequest>;
 
 export interface DeleteDocumentResponse {}
 export const DeleteDocumentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2040,11 +1911,7 @@ export const DeleteDocumentsBatchRequest = /*@__PURE__*/ S.suspend(() =>
     customMetadata: S.optional(S.String.pipe(T.Query())),
     body: DeleteDocumentsBatchRequestBodyList.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/indexes/{index_uid}/documents/delete-batch",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/indexes/{index_uid}/documents/delete-batch", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDocumentsBatchRequest",
@@ -2068,22 +1935,14 @@ export const DeleteDocumentsByFilterRequest = /*@__PURE__*/ S.suspend(() =>
     index_uid: S.String.pipe(T.Label()),
     customMetadata: S.optional(S.String.pipe(T.Query())),
     filter: S.Unknown,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/indexes/{index_uid}/documents/delete",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/documents/delete", code: 200 })),
 ).annotate({
   identifier: "DeleteDocumentsByFilterRequest",
 }) as any as S.Schema<DeleteDocumentsByFilterRequest>;
 
 export interface DeleteDocumentsByFilterResponse {}
 export const DeleteDocumentsByFilterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteDocumentsByFilterResponse",
-  },
+  { identifier: "DeleteDocumentsByFilterResponse" },
 ) as any as S.Schema<DeleteDocumentsByFilterResponse>;
 
 export interface DeleteembeddersRequest {
@@ -2093,16 +1952,8 @@ export interface DeleteembeddersRequest {
 export const DeleteembeddersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/embedders",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteembeddersRequest",
-}) as any as S.Schema<DeleteembeddersRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/embedders", code: 200 })),
+).annotate({ identifier: "DeleteembeddersRequest" }) as any as S.Schema<DeleteembeddersRequest>;
 
 export interface DeleteembeddersResponse {}
 export const DeleteembeddersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2116,16 +1967,8 @@ export interface DeletefacetingRequest {
 export const DeletefacetingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/faceting",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeletefacetingRequest",
-}) as any as S.Schema<DeletefacetingRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/faceting", code: 200 })),
+).annotate({ identifier: "DeletefacetingRequest" }) as any as S.Schema<DeletefacetingRequest>;
 
 export interface DeletefacetingResponse {}
 export const DeletefacetingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2165,15 +2008,9 @@ export const DeleteforeignKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/foreign-keys",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/foreign-keys", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteforeignKeysRequest",
-}) as any as S.Schema<DeleteforeignKeysRequest>;
+).annotate({ identifier: "DeleteforeignKeysRequest" }) as any as S.Schema<DeleteforeignKeysRequest>;
 
 export interface DeleteforeignKeysResponse {}
 export const DeleteforeignKeysResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2188,9 +2025,7 @@ export const DeleteIndexRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}", code: 200 })),
-).annotate({
-  identifier: "DeleteIndexRequest",
-}) as any as S.Schema<DeleteIndexRequest>;
+).annotate({ identifier: "DeleteIndexRequest" }) as any as S.Schema<DeleteIndexRequest>;
 
 export interface DeleteIndexResponse {}
 export const DeleteIndexResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2254,16 +2089,8 @@ export interface DeletepaginationRequest {
 export const DeletepaginationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/pagination",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeletepaginationRequest",
-}) as any as S.Schema<DeletepaginationRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/pagination", code: 200 })),
+).annotate({ identifier: "DeletepaginationRequest" }) as any as S.Schema<DeletepaginationRequest>;
 
 export interface DeletepaginationResponse {}
 export const DeletepaginationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2303,11 +2130,7 @@ export const DeleterankingRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/ranking-rules",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/ranking-rules", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleterankingRulesRequest",
@@ -2326,9 +2149,7 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/dynamic-search-rules/{uid}", code: 200 })),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {}
 export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2368,11 +2189,7 @@ export const DeletesearchCutoffMsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/search-cutoff-ms",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/search-cutoff-ms", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletesearchCutoffMsRequest",
@@ -2391,11 +2208,7 @@ export const DeleteseparatorTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/separator-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/separator-tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteseparatorTokensRequest",
@@ -2438,16 +2251,8 @@ export interface DeletestopWordsRequest {
 export const DeletestopWordsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/stop-words",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeletestopWordsRequest",
-}) as any as S.Schema<DeletestopWordsRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/stop-words", code: 200 })),
+).annotate({ identifier: "DeletestopWordsRequest" }) as any as S.Schema<DeletestopWordsRequest>;
 
 export interface DeletestopWordsResponse {}
 export const DeletestopWordsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2461,16 +2266,8 @@ export interface DeletesynonymsRequest {
 export const DeletesynonymsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/synonyms",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeletesynonymsRequest",
-}) as any as S.Schema<DeletesynonymsRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/synonyms", code: 200 })),
+).annotate({ identifier: "DeletesynonymsRequest" }) as any as S.Schema<DeletesynonymsRequest>;
 
 export interface DeletesynonymsResponse {}
 export const DeletesynonymsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2548,9 +2345,7 @@ export const DeleteTasksRequest = /*@__PURE__*/ S.suspend(() =>
     afterFinishedAt: S.optional(S.String.pipe(T.Query())),
     beforeFinishedAt: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/tasks", code: 200 })),
-).annotate({
-  identifier: "DeleteTasksRequest",
-}) as any as S.Schema<DeleteTasksRequest>;
+).annotate({ identifier: "DeleteTasksRequest" }) as any as S.Schema<DeleteTasksRequest>;
 
 export interface DeletetypoToleranceRequest {
   /** Unique identifier of the index. */
@@ -2560,11 +2355,7 @@ export const DeletetypoToleranceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/typo-tolerance",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/typo-tolerance", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletetypoToleranceRequest",
@@ -2583,9 +2374,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/webhooks/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2611,22 +2400,14 @@ export const EditDocumentsByFunctionRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.Unknown),
     context: S.optional(S.Unknown),
     function: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/indexes/{index_uid}/documents/edit",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/documents/edit", code: 200 })),
 ).annotate({
   identifier: "EditDocumentsByFunctionRequest",
 }) as any as S.Schema<EditDocumentsByFunctionRequest>;
 
 export interface EditDocumentsByFunctionResponse {}
 export const EditDocumentsByFunctionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "EditDocumentsByFunctionResponse",
-  },
+  { identifier: "EditDocumentsByFunctionResponse" },
 ) as any as S.Schema<EditDocumentsByFunctionResponse>;
 
 /** Export settings for a specific index */
@@ -2641,14 +2422,10 @@ export const ExportIndexSettings = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.NullOr(S.String)),
     overrideSettings: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ExportIndexSettings",
-}) as any as S.Schema<ExportIndexSettings>;
+).annotate({ identifier: "ExportIndexSettings" }) as any as S.Schema<ExportIndexSettings>;
 
 /** Index patterns to export with their settings */
-export type ExportRequestIndexesMap = {
-  [key: string]: ExportIndexSettings | undefined;
-};
+export type ExportRequestIndexesMap = { [key: string]: ExportIndexSettings | undefined };
 export const ExportRequestIndexesMap = /*@__PURE__*/ S.Record(
   S.String,
   ExportIndexSettings,
@@ -2840,9 +2617,7 @@ export const MinWordSizeTyposSetting = /*@__PURE__*/ S.suspend(() =>
     oneTypo: S.optional(S.NullOr(S.Number)),
     twoTypos: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "MinWordSizeTyposSetting",
-}) as any as S.Schema<MinWordSizeTyposSetting>;
+).annotate({ identifier: "MinWordSizeTyposSetting" }) as any as S.Schema<MinWordSizeTyposSetting>;
 
 /** Words for which typo tolerance is disabled. Use for brand names or terms that must match exactly. */
 export type TypoSettingsDisableOnWordsList = Array<string>;
@@ -2899,9 +2674,7 @@ export const FacetingSettings = /*@__PURE__*/ S.suspend(() =>
     maxValuesPerFacet: S.optional(S.NullOr(S.Number)),
     sortFacetValuesBy: S.optional(S.NullOr(FacetingSettingsSortFacetValuesByMap)),
   }),
-).annotate({
-  identifier: "FacetingSettings",
-}) as any as S.Schema<FacetingSettings>;
+).annotate({ identifier: "FacetingSettings" }) as any as S.Schema<FacetingSettings>;
 
 /** Pagination: cap on how many results a search can return. */
 export interface PaginationSettings {
@@ -2912,9 +2685,7 @@ export const PaginationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxTotalHits: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PaginationSettings",
-}) as any as S.Schema<PaginationSettings>;
+).annotate({ identifier: "PaginationSettings" }) as any as S.Schema<PaginationSettings>;
 
 export type EmbedderSource =
   | "openAi"
@@ -2929,18 +2700,14 @@ export type OverridePooling = "useModel" | "forceCls" | "forceMean";
 export const OverridePooling = S.String;
 
 /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at indexing time. For `rest` with multimodal; key is fragment name, value the payload. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - 🏗️ When a fragment is deleted by passing `null` to its name, the corresponding embeddings are removed from documents. - 🏗️ When a fragment is modified, the corresponding embeddings are regenerated if their rendered version changes. */
-export type EmbeddingSettingsIndexingFragmentsMap = {
-  [key: string]: unknown | undefined;
-};
+export type EmbeddingSettingsIndexingFragmentsMap = { [key: string]: unknown | undefined };
 export const EmbeddingSettingsIndexingFragmentsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<EmbeddingSettingsIndexingFragmentsMap>;
 
 /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at search time. For `rest` with multimodal. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - 🌱 Changing the value of this parameter never regenerates embeddings */
-export type EmbeddingSettingsSearchFragmentsMap = {
-  [key: string]: unknown | undefined;
-};
+export type EmbeddingSettingsSearchFragmentsMap = { [key: string]: unknown | undefined };
 export const EmbeddingSettingsSearchFragmentsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2954,27 +2721,21 @@ export const EmbeddingSettingsHeadersMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<EmbeddingSettingsHeadersMap>;
 
 /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at indexing time. For `rest` with multimodal; key is fragment name, value the payload. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - Only available for `indexingEmbedder`, not `searchEmbedder`. - 🏗️ When a fragment is deleted by passing `null` to its name, the corresponding embeddings are removed from documents. - 🏗️ When a fragment is modified, the corresponding embeddings are regenerated if their rendered version changes. */
-export type SubEmbeddingSettingsIndexingFragmentsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SubEmbeddingSettingsIndexingFragmentsMap = { [key: string]: unknown | undefined };
 export const SubEmbeddingSettingsIndexingFragmentsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SubEmbeddingSettingsIndexingFragmentsMap>;
 
 /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at search time. For `rest` with multimodal. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - 🌱 Changing the value of this parameter never regenerates embeddings */
-export type SubEmbeddingSettingsSearchFragmentsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SubEmbeddingSettingsSearchFragmentsMap = { [key: string]: unknown | undefined };
 export const SubEmbeddingSettingsSearchFragmentsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SubEmbeddingSettingsSearchFragmentsMap>;
 
 /** Extra HTTP headers sent to the embedder. - Available for `rest`. - 🌱 Changing the value of this parameter never regenerates embeddings */
-export type SubEmbeddingSettingsHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type SubEmbeddingSettingsHeadersMap = { [key: string]: string | undefined };
 export const SubEmbeddingSettingsHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3026,9 +2787,7 @@ export const SubEmbeddingSettings = /*@__PURE__*/ S.suspend(() =>
     response: S.optional(S.Unknown),
     headers: S.optional(S.NullOr(SubEmbeddingSettingsHeadersMap)),
   }),
-).annotate({
-  identifier: "SubEmbeddingSettings",
-}) as any as S.Schema<SubEmbeddingSettings>;
+).annotate({ identifier: "SubEmbeddingSettings" }) as any as S.Schema<SubEmbeddingSettings>;
 
 /** Describes the mean and sigma of distribution of embedding similarity in the embedding space. The intended use is to make the similarity score more comparable to the regular ranking score. This allows to correct effects where results are too "packed" around a certain value. */
 export interface DistributionShift {
@@ -3042,9 +2801,7 @@ export const DistributionShift = /*@__PURE__*/ S.suspend(() =>
     current_mean: S.Number,
     current_sigma: S.Number,
   }),
-).annotate({
-  identifier: "DistributionShift",
-}) as any as S.Schema<DistributionShift>;
+).annotate({ identifier: "DistributionShift" }) as any as S.Schema<DistributionShift>;
 
 /** Embedder configuration for [AI-powered / hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). */
 export interface EmbeddingSettings {
@@ -3101,14 +2858,10 @@ export const EmbeddingSettings = /*@__PURE__*/ S.suspend(() =>
     indexingEmbedder: S.optional(S.NullOr(SubEmbeddingSettings)),
     distribution: S.optional(S.NullOr(DistributionShift)),
   }),
-).annotate({
-  identifier: "EmbeddingSettings",
-}) as any as S.Schema<EmbeddingSettings>;
+).annotate({ identifier: "EmbeddingSettings" }) as any as S.Schema<EmbeddingSettings>;
 
 /** [Embedders](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search) used for semantic and [hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). Map of embedder name to config (`source`, `model`, `documentTemplate`, etc.). */
-export type SettingsUncheckedEmbeddersMap = {
-  [key: string]: EmbeddingSettings | undefined;
-};
+export type SettingsUncheckedEmbeddersMap = { [key: string]: EmbeddingSettings | undefined };
 export const SettingsUncheckedEmbeddersMap = /*@__PURE__*/ S.Record(
   S.String,
   EmbeddingSettings,
@@ -3133,6 +2886,7 @@ export type Locale =
   | "cs"
   | "da"
   | "de"
+  | "cy"
   | "el"
   | "en"
   | "eo"
@@ -3202,6 +2956,7 @@ export type Locale =
   | "ces"
   | "dan"
   | "deu"
+  | "cym"
   | "ell"
   | "eng"
   | "epo"
@@ -3347,9 +3102,7 @@ export const ChatSearchParams = /*@__PURE__*/ S.suspend(() =>
     attributesToSearchOn: S.optional(S.NullOr(ChatSearchParamsAttributesToSearchOnList)),
     rankingScoreThreshold: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ChatSearchParams",
-}) as any as S.Schema<ChatSearchParams>;
+).annotate({ identifier: "ChatSearchParams" }) as any as S.Schema<ChatSearchParams>;
 
 /** [Chat (conversation)](https://www.meilisearch.com/docs/learn/chat/getting_started_with_chat) settings: how the index is described to the LLM and how it is queried. */
 export interface ChatSettings {
@@ -3437,9 +3190,7 @@ export const SettingsUnchecked = /*@__PURE__*/ S.suspend(() =>
     prefixSearch: S.optional(S.NullOr(PrefixSearchSettings)),
     chat: S.optional(S.NullOr(ChatSettings)),
   }),
-).annotate({
-  identifier: "SettingsUnchecked",
-}) as any as S.Schema<SettingsUnchecked>;
+).annotate({ identifier: "SettingsUnchecked" }) as any as S.Schema<SettingsUnchecked>;
 
 export interface GetApiKeyRequest {
   /** The `uid` or `key` field of an existing API key. */
@@ -3449,9 +3200,7 @@ export const GetApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/keys/{key}", code: 200 })),
-).annotate({
-  identifier: "GetApiKeyRequest",
-}) as any as S.Schema<GetApiKeyRequest>;
+).annotate({ identifier: "GetApiKeyRequest" }) as any as S.Schema<GetApiKeyRequest>;
 
 export interface GetBatchRequest {
   /** The unique batch identifier. */
@@ -3461,9 +3210,7 @@ export const GetBatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     batch_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/batches/{batch_id}", code: 200 })),
-).annotate({
-  identifier: "GetBatchRequest",
-}) as any as S.Schema<GetBatchRequest>;
+).annotate({ identifier: "GetBatchRequest" }) as any as S.Schema<GetBatchRequest>;
 
 /** Information about a single processing step within a batch or task. Each step has a name, current progress, and total items to process. */
 export interface ProgressStepView {
@@ -3480,9 +3227,7 @@ export const ProgressStepView = /*@__PURE__*/ S.suspend(() =>
     finished: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "ProgressStepView",
-}) as any as S.Schema<ProgressStepView>;
+).annotate({ identifier: "ProgressStepView" }) as any as S.Schema<ProgressStepView>;
 
 /** A hierarchical list of processing steps currently being executed. Steps are listed from outermost to innermost, with each step representing a more granular operation within its parent step. */
 export type ProgressViewStepsList = Array<ProgressStepView>;
@@ -3526,27 +3271,21 @@ export const BatchStatsViewIndexUidsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<BatchStatsViewIndexUidsMap>;
 
 /** Detailed progress trace information */
-export type BatchStatsViewProgressTraceMap = {
-  [key: string]: unknown | undefined;
-};
+export type BatchStatsViewProgressTraceMap = { [key: string]: unknown | undefined };
 export const BatchStatsViewProgressTraceMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<BatchStatsViewProgressTraceMap>;
 
 /** Write channel congestion metrics */
-export type BatchStatsViewWriteChannelCongestionMap = {
-  [key: string]: unknown | undefined;
-};
+export type BatchStatsViewWriteChannelCongestionMap = { [key: string]: unknown | undefined };
 export const BatchStatsViewWriteChannelCongestionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<BatchStatsViewWriteChannelCongestionMap>;
 
 /** Internal database size information */
-export type BatchStatsViewInternalDatabaseSizesMap = {
-  [key: string]: unknown | undefined;
-};
+export type BatchStatsViewInternalDatabaseSizesMap = { [key: string]: unknown | undefined };
 export const BatchStatsViewInternalDatabaseSizesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3567,9 +3306,7 @@ export const EmbedderStatsView = /*@__PURE__*/ S.suspend(() =>
     failed: S.Number,
     lastError: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "EmbedderStatsView",
-}) as any as S.Schema<EmbedderStatsView>;
+).annotate({ identifier: "EmbedderStatsView" }) as any as S.Schema<EmbedderStatsView>;
 
 /** Provides comprehensive statistics about a batch's execution. Includes task counts, status breakdowns, and AI embedder usage. This information is useful for monitoring system performance and understanding batch composition. */
 export interface BatchStatsView {
@@ -3714,9 +3451,7 @@ export const GetBatchesRequest = /*@__PURE__*/ S.suspend(() =>
     afterFinishedAt: S.optional(S.String.pipe(T.Query())),
     beforeFinishedAt: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/batches", code: 200 })),
-).annotate({
-  identifier: "GetBatchesRequest",
-}) as any as S.Schema<GetBatchesRequest>;
+).annotate({ identifier: "GetBatchesRequest" }) as any as S.Schema<GetBatchesRequest>;
 
 /** Array of batch objects */
 export type AllBatchesResultsList = Array<BatchView>;
@@ -3750,9 +3485,7 @@ export const AllBatches = /*@__PURE__*/ S.suspend(() =>
 export interface GetBatchesStreamRequest {}
 export const GetBatchesStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/batches/stream", code: 200 })),
-).annotate({
-  identifier: "GetBatchesStreamRequest",
-}) as any as S.Schema<GetBatchesStreamRequest>;
+).annotate({ identifier: "GetBatchesStreamRequest" }) as any as S.Schema<GetBatchesStreamRequest>;
 
 export interface GetBatchesStreamResponse {}
 export const GetBatchesStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3766,13 +3499,7 @@ export interface GetchatRequest {
 export const GetchatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/chat",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/chat", code: 200 })),
 ).annotate({ identifier: "GetchatRequest" }) as any as S.Schema<GetchatRequest>;
 
 export interface GetChatRequest {
@@ -3797,16 +3524,8 @@ export interface GetdictionaryRequest {
 export const GetdictionaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/dictionary",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetdictionaryRequest",
-}) as any as S.Schema<GetdictionaryRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/dictionary", code: 200 })),
+).annotate({ identifier: "GetdictionaryRequest" }) as any as S.Schema<GetdictionaryRequest>;
 
 export type GetdictionaryResponseBodyList = Array<string>;
 export const GetdictionaryResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3816,9 +3535,7 @@ export const GetdictionaryResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetdictionaryResponse = GetdictionaryResponseBodyList;
 export const GetdictionaryResponse = /*@__PURE__*/ S.suspend(() =>
   GetdictionaryResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetdictionaryResponse",
-}) as any as S.Schema<GetdictionaryResponse>;
+).annotate({ identifier: "GetdictionaryResponse" }) as any as S.Schema<GetdictionaryResponse>;
 
 export interface GetdisplayedAttributesRequest {
   /** Unique identifier of the index. */
@@ -3828,11 +3545,7 @@ export const GetdisplayedAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/displayed-attributes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/displayed-attributes", code: 200 }),
   ),
 ).annotate({
   identifier: "GetdisplayedAttributesRequest",
@@ -3858,11 +3571,7 @@ export const GetdistinctAttributeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/distinct-attribute",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/distinct-attribute", code: 200 }),
   ),
 ).annotate({
   identifier: "GetdistinctAttributeRequest",
@@ -3900,22 +3609,14 @@ export const GetDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     retrieveVectors: S.optional(S.Boolean.pipe(T.Query())),
     useNetwork: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/documents/{document_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/documents/{document_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDocumentRequest",
-}) as any as S.Schema<GetDocumentRequest>;
+).annotate({ identifier: "GetDocumentRequest" }) as any as S.Schema<GetDocumentRequest>;
 
 export type GetDocumentResponse = unknown;
 export const GetDocumentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDocumentResponse",
-}) as any as S.Schema<GetDocumentResponse>;
+).annotate({ identifier: "GetDocumentResponse" }) as any as S.Schema<GetDocumentResponse>;
 
 export type GetDocumentsRequestFieldsList = Array<string>;
 export const GetDocumentsRequestFieldsList = /*@__PURE__*/ S.Array(
@@ -3959,9 +3660,7 @@ export const GetDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(S.String.pipe(T.Query())),
     useNetwork: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/documents", code: 200 })),
-).annotate({
-  identifier: "GetDocumentsRequest",
-}) as any as S.Schema<GetDocumentsRequest>;
+).annotate({ identifier: "GetDocumentsRequest" }) as any as S.Schema<GetDocumentsRequest>;
 
 /** Items for the current page. */
 export type PaginationViewValueResultsList = Array<unknown>;
@@ -3986,9 +3685,7 @@ export const PaginationViewValue = /*@__PURE__*/ S.suspend(() =>
     limit: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "PaginationViewValue",
-}) as any as S.Schema<PaginationViewValue>;
+).annotate({ identifier: "PaginationViewValue" }) as any as S.Schema<PaginationViewValue>;
 
 export interface GetembeddersRequest {
   /** Unique identifier of the index. */
@@ -3997,16 +3694,8 @@ export interface GetembeddersRequest {
 export const GetembeddersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/embedders",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetembeddersRequest",
-}) as any as S.Schema<GetembeddersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/embedders", code: 200 })),
+).annotate({ identifier: "GetembeddersRequest" }) as any as S.Schema<GetembeddersRequest>;
 
 /** Fragments (with [Liquid](https://shopify.github.io/liquid/)) sent to the embedder at indexing time. For `rest` with multimodal; key is fragment name, value the payload. See also [Image search with multimodal embeddings](https://www.meilisearch.com/docs/learn/ai_powered_search/image_search_with_multimodal_embeddings) - 🏗️ When a fragment is deleted by passing `null` to its name, the corresponding embeddings are removed from documents. - 🏗️ When a fragment is modified, the corresponding embeddings are regenerated if their rendered version changes. */
 export type SettingEmbeddingSettingsInnerIndexingFragmentsMap = {
@@ -4027,9 +3716,7 @@ export const SettingEmbeddingSettingsInnerSearchFragmentsMap = /*@__PURE__*/ S.R
 ) as any as S.Schema<SettingEmbeddingSettingsInnerSearchFragmentsMap>;
 
 /** Extra HTTP headers sent to the embedder. - Available for `rest`. - 🌱 Changing the value of this parameter never regenerates embeddings */
-export type SettingEmbeddingSettingsInnerHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type SettingEmbeddingSettingsInnerHeadersMap = { [key: string]: string | undefined };
 export const SettingEmbeddingSettingsInnerHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4102,13 +3789,9 @@ export const SettingEmbeddingSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inner: S.optional(S.NullOr(SettingEmbeddingSettingsInner)),
   }),
-).annotate({
-  identifier: "SettingEmbeddingSettings",
-}) as any as S.Schema<SettingEmbeddingSettings>;
+).annotate({ identifier: "SettingEmbeddingSettings" }) as any as S.Schema<SettingEmbeddingSettings>;
 
-export type GetembeddersResponseBodyMap = {
-  [key: string]: SettingEmbeddingSettings | undefined;
-};
+export type GetembeddersResponseBodyMap = { [key: string]: SettingEmbeddingSettings | undefined };
 export const GetembeddersResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   SettingEmbeddingSettings,
@@ -4117,9 +3800,7 @@ export const GetembeddersResponseBodyMap = /*@__PURE__*/ S.Record(
 export type GetembeddersResponse = GetembeddersResponseBodyMap;
 export const GetembeddersResponse = /*@__PURE__*/ S.suspend(() =>
   GetembeddersResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetembeddersResponse",
-}) as any as S.Schema<GetembeddersResponse>;
+).annotate({ identifier: "GetembeddersResponse" }) as any as S.Schema<GetembeddersResponse>;
 
 export interface GetfacetingRequest {
   /** Unique identifier of the index. */
@@ -4128,23 +3809,13 @@ export interface GetfacetingRequest {
 export const GetfacetingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/faceting",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetfacetingRequest",
-}) as any as S.Schema<GetfacetingRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/faceting", code: 200 })),
+).annotate({ identifier: "GetfacetingRequest" }) as any as S.Schema<GetfacetingRequest>;
 
 export interface GetFeaturesRequest {}
 export const GetFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/experimental-features", code: 200 })),
-).annotate({
-  identifier: "GetFeaturesRequest",
-}) as any as S.Schema<GetFeaturesRequest>;
+).annotate({ identifier: "GetFeaturesRequest" }) as any as S.Schema<GetFeaturesRequest>;
 
 /** Experimental features that can be toggled at runtime */
 export interface RuntimeTogglableFeatures {
@@ -4180,6 +3851,8 @@ export interface RuntimeTogglableFeatures {
   legacySearch?: boolean | null;
   /** Enable the `POST /render-template` route */
   renderRoute?: boolean | null;
+  /** Enable the `POST /mcp` route */
+  mcpRoute?: boolean | null;
 }
 export const RuntimeTogglableFeatures = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4199,10 +3872,9 @@ export const RuntimeTogglableFeatures = /*@__PURE__*/ S.suspend(() =>
     disableDocumentsFetchQueue: S.optional(S.NullOr(S.Boolean)),
     legacySearch: S.optional(S.NullOr(S.Boolean)),
     renderRoute: S.optional(S.NullOr(S.Boolean)),
+    mcpRoute: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "RuntimeTogglableFeatures",
-}) as any as S.Schema<RuntimeTogglableFeatures>;
+).annotate({ identifier: "RuntimeTogglableFeatures" }) as any as S.Schema<RuntimeTogglableFeatures>;
 
 export interface GetfilterableAttributesRequest {
   /** Unique identifier of the index. */
@@ -4241,16 +3913,8 @@ export interface GetforeignKeysRequest {
 export const GetforeignKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/foreign-keys",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetforeignKeysRequest",
-}) as any as S.Schema<GetforeignKeysRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/foreign-keys", code: 200 })),
+).annotate({ identifier: "GetforeignKeysRequest" }) as any as S.Schema<GetforeignKeysRequest>;
 
 export type GetforeignKeysResponseBodyList = Array<ForeignKey>;
 export const GetforeignKeysResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4260,16 +3924,12 @@ export const GetforeignKeysResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetforeignKeysResponse = GetforeignKeysResponseBodyList;
 export const GetforeignKeysResponse = /*@__PURE__*/ S.suspend(() =>
   GetforeignKeysResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetforeignKeysResponse",
-}) as any as S.Schema<GetforeignKeysResponse>;
+).annotate({ identifier: "GetforeignKeysResponse" }) as any as S.Schema<GetforeignKeysResponse>;
 
 export interface GetHealthRequest {}
 export const GetHealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/health", code: 200 })),
-).annotate({
-  identifier: "GetHealthRequest",
-}) as any as S.Schema<GetHealthRequest>;
+).annotate({ identifier: "GetHealthRequest" }) as any as S.Schema<GetHealthRequest>;
 
 export type HealthStatus = "available" | "mustRestart";
 export const HealthStatus = S.String;
@@ -4292,9 +3952,7 @@ export const GetIndexRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}", code: 200 })),
-).annotate({
-  identifier: "GetIndexRequest",
-}) as any as S.Schema<GetIndexRequest>;
+).annotate({ identifier: "GetIndexRequest" }) as any as S.Schema<GetIndexRequest>;
 
 /** An index containing searchable documents */
 export interface IndexView {
@@ -4333,26 +3991,20 @@ export const GetIndexStatsRequest = /*@__PURE__*/ S.suspend(() =>
     showInternalDatabaseSizes: S.optional(S.Boolean.pipe(T.Query())),
     sizeFormat: S.optional(SizeFormat.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/stats", code: 200 })),
-).annotate({
-  identifier: "GetIndexStatsRequest",
-}) as any as S.Schema<GetIndexStatsRequest>;
+).annotate({ identifier: "GetIndexStatsRequest" }) as any as S.Schema<GetIndexStatsRequest>;
 
 export type Size = number | string;
 export const Size = S.Unknown as any as S.Schema<Size>;
 
 /** Size of all the internal databases for the index. Database names can change from version to version. */
-export type IndexStatsInternalDatabaseSizesMap = {
-  [key: string]: Size | undefined;
-};
+export type IndexStatsInternalDatabaseSizesMap = { [key: string]: Size | undefined };
 export const IndexStatsInternalDatabaseSizesMap = /*@__PURE__*/ S.Record(
   S.String,
   Size,
 ) as any as S.Schema<IndexStatsInternalDatabaseSizesMap>;
 
 /** Association of every field name with the number of times it occurs in the documents. */
-export type IndexStatsFieldDistributionMap = {
-  [key: string]: number | undefined;
-};
+export type IndexStatsFieldDistributionMap = { [key: string]: number | undefined };
 export const IndexStatsFieldDistributionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -4404,11 +4056,7 @@ export const GetlocalizedAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/localized-attributes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/localized-attributes", code: 200 }),
   ),
 ).annotate({
   identifier: "GetlocalizedAttributesRequest",
@@ -4448,16 +4096,12 @@ export const GetLogsRequest = /*@__PURE__*/ S.suspend(() =>
 export type GetLogsResponse = string;
 export const GetLogsResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetLogsResponse",
-}) as any as S.Schema<GetLogsResponse>;
+).annotate({ identifier: "GetLogsResponse" }) as any as S.Schema<GetLogsResponse>;
 
 export interface GetMetricsRequest {}
 export const GetMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/metrics", code: 200 })),
-).annotate({
-  identifier: "GetMetricsRequest",
-}) as any as S.Schema<GetMetricsRequest>;
+).annotate({ identifier: "GetMetricsRequest" }) as any as S.Schema<GetMetricsRequest>;
 
 export interface GetMetricsResponse {}
 export const GetMetricsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4467,9 +4111,7 @@ export const GetMetricsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).an
 export interface GetNetworkRequest {}
 export const GetNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/network", code: 200 })),
-).annotate({
-  identifier: "GetNetworkRequest",
-}) as any as S.Schema<GetNetworkRequest>;
+).annotate({ identifier: "GetNetworkRequest" }) as any as S.Schema<GetNetworkRequest>;
 
 /** Configuration for a remote Meilisearch instance */
 export interface Remote {
@@ -4585,11 +4227,7 @@ export const GetnonSeparatorTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/non-separator-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/non-separator-tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "GetnonSeparatorTokensRequest",
@@ -4614,16 +4252,8 @@ export interface GetpaginationRequest {
 export const GetpaginationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/pagination",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetpaginationRequest",
-}) as any as S.Schema<GetpaginationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/pagination", code: 200 })),
+).annotate({ identifier: "GetpaginationRequest" }) as any as S.Schema<GetpaginationRequest>;
 
 export interface GetproximityPrecisionRequest {
   /** Unique identifier of the index. */
@@ -4633,11 +4263,7 @@ export const GetproximityPrecisionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/proximity-precision",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/proximity-precision", code: 200 }),
   ),
 ).annotate({
   identifier: "GetproximityPrecisionRequest",
@@ -4660,16 +4286,8 @@ export interface GetrankingRulesRequest {
 export const GetrankingRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/ranking-rules",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetrankingRulesRequest",
-}) as any as S.Schema<GetrankingRulesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/ranking-rules", code: 200 })),
+).annotate({ identifier: "GetrankingRulesRequest" }) as any as S.Schema<GetrankingRulesRequest>;
 
 /** Sorted by decreasing number of matched query terms. */
 export type RankingRuleViewCase0 = "words";
@@ -4712,9 +4330,7 @@ export const RankingRuleViewCase8 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     asc: S.String,
   }),
-).annotate({
-  identifier: "RankingRuleViewCase8",
-}) as any as S.Schema<RankingRuleViewCase8>;
+).annotate({ identifier: "RankingRuleViewCase8" }) as any as S.Schema<RankingRuleViewCase8>;
 
 /** Sorted by the decreasing value of the field specified. */
 export interface RankingRuleViewCase9 {
@@ -4725,9 +4341,7 @@ export const RankingRuleViewCase9 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     desc: S.String,
   }),
-).annotate({
-  identifier: "RankingRuleViewCase9",
-}) as any as S.Schema<RankingRuleViewCase9>;
+).annotate({ identifier: "RankingRuleViewCase9" }) as any as S.Schema<RankingRuleViewCase9>;
 
 export type RankingRuleView =
   | RankingRuleViewCase0
@@ -4750,9 +4364,7 @@ export const GetrankingRulesResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetrankingRulesResponse = GetrankingRulesResponseBodyList;
 export const GetrankingRulesResponse = /*@__PURE__*/ S.suspend(() =>
   GetrankingRulesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetrankingRulesResponse",
-}) as any as S.Schema<GetrankingRulesResponse>;
+).annotate({ identifier: "GetrankingRulesResponse" }) as any as S.Schema<GetrankingRulesResponse>;
 
 export interface GetRuleRequest {
   /** Unique identifier of the search rule. */
@@ -4803,9 +4415,7 @@ export const FilterCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     values: S.optional(FilterConditionValuesMap),
   }),
-).annotate({
-  identifier: "FilterCondition",
-}) as any as S.Schema<FilterCondition>;
+).annotate({ identifier: "FilterCondition" }) as any as S.Schema<FilterCondition>;
 
 export interface Conditions {
   time?: TimeCondition | null;
@@ -4820,35 +4430,74 @@ export const Conditions = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Conditions" }) as any as S.Schema<Conditions>;
 
-export interface Selector {
+/** An action that pins a selected document. */
+export interface PinAction {
+  /** Index name. For the action to select any document, when this parameter is provided, the index of the query must match the provided parameter. */
   indexUid?: string | null;
+  /** Document ID of the document to select. Only the document whose [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) value matches the specified id will be selected by the action. If there is no such document in the index of the query, then no documents will be selected and no pinning will occur. */
   id: string;
+  /** Position at which the document should be pinned. */
+  position: number;
 }
-export const Selector = /*@__PURE__*/ S.suspend(() =>
+export const PinAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     indexUid: S.optional(S.NullOr(S.String)),
     id: S.String,
+    position: S.Number,
   }),
-).annotate({ identifier: "Selector" }) as any as S.Schema<Selector>;
+).annotate({ identifier: "PinAction" }) as any as S.Schema<PinAction>;
 
-export interface RuleAction {
-  /** Target document selector for this action. */
-  selector: Selector;
-  /** Action payload to apply to the selected document. */
-  action: unknown;
+/** Pins a selected document. */
+export type RuleActionsPinList = Array<PinAction>;
+export const RuleActionsPinList = /*@__PURE__*/ S.Array(
+  PinAction,
+) as any as S.Schema<RuleActionsPinList>;
+
+/** Array of specific document IDs to select. Only documents whose [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) value matches the specified ids will be selected by the action. If `filter` is also specified, the documents must also satisfy the filter to be selected. */
+export type ScaleActionIdsList = Array<string>;
+export const ScaleActionIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ScaleActionIdsList>;
+
+/** An action that applies a multiplicative factor to the score of selected documents. */
+export interface ScaleAction {
+  /** List of index patterns. For the action to select any document, when this parameter is provided, the index of the query must match the provided parameter. */
+  indexUid?: string | null;
+  /** Array of specific document IDs to select. Only documents whose [primary key](https://www.meilisearch.com/docs/learn/getting_started/primary_key) value matches the specified ids will be selected by the action. If `filter` is also specified, the documents must also satisfy the filter to be selected. */
+  ids?: ScaleActionIdsList | null;
+  /** Filter expression to select documents. Attributes must be added to the `filterableAttributes` index setting before they can be used in filters. Accepts a string or an array of arrays of strings for AND/OR combinations. Only documents matching the specified filter will be selected. If `ids` is also specified, the documents matching the filter must also have their primary key part of the `ids` list to be selected. If the filter cannot be evaluated for the current index due to referencing attributes that are not filterable, then no document will be applied for this action. */
+  filter?: unknown;
+  /** Scale factor for selected documents. - Set it >1.0 to boost the selected documents. - Set it <1.0 to deboost the selected documents. - Set it =0.0 to hide the selected documents. */
+  weight: number;
 }
-export const RuleAction = /*@__PURE__*/ S.suspend(() =>
+export const ScaleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    selector: Selector,
-    action: S.Unknown,
+    indexUid: S.optional(S.NullOr(S.String)),
+    ids: S.optional(S.NullOr(ScaleActionIdsList)),
+    filter: S.optional(S.Unknown),
+    weight: S.Number,
   }),
-).annotate({ identifier: "RuleAction" }) as any as S.Schema<RuleAction>;
+).annotate({ identifier: "ScaleAction" }) as any as S.Schema<ScaleAction>;
 
-/** Actions to apply when the dynamic search rule matches. */
-export type DynamicSearchRuleActionsList = Array<RuleAction>;
-export const DynamicSearchRuleActionsList = /*@__PURE__*/ S.Array(
-  RuleAction,
-) as any as S.Schema<DynamicSearchRuleActionsList>;
+/** Applies a multiplicative factor to the score of selected documents. */
+export type RuleActionsScaleList = Array<ScaleAction>;
+export const RuleActionsScaleList = /*@__PURE__*/ S.Array(
+  ScaleAction,
+) as any as S.Schema<RuleActionsScaleList>;
+
+/** List of actions to apply when this rule is active for the query. */
+export interface RuleActions {
+  /** Pins a selected document. */
+  pin?: RuleActionsPinList;
+  /** Applies a multiplicative factor to the score of selected documents. */
+  scale?: RuleActionsScaleList;
+}
+export const RuleActions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pin: S.optional(RuleActionsPinList),
+    scale: S.optional(RuleActionsScaleList),
+  }),
+).annotate({ identifier: "RuleActions" }) as any as S.Schema<RuleActions>;
 
 export interface DynamicSearchRule {
   /** Unique identifier of the dynamic search rule. */
@@ -4864,7 +4513,7 @@ export interface DynamicSearchRule {
   /** Conditions that must match before the dynamic search rule applies. */
   conditions?: Conditions;
   /** Actions to apply when the dynamic search rule matches. */
-  actions: DynamicSearchRuleActionsList;
+  actions?: RuleActions;
 }
 export const DynamicSearchRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4874,11 +4523,9 @@ export const DynamicSearchRule = /*@__PURE__*/ S.suspend(() =>
     precedence: S.optional(S.NullOr(S.Number)),
     active: S.optional(S.Boolean),
     conditions: S.optional(Conditions),
-    actions: DynamicSearchRuleActionsList,
+    actions: S.optional(RuleActions),
   }),
-).annotate({
-  identifier: "DynamicSearchRule",
-}) as any as S.Schema<DynamicSearchRule>;
+).annotate({ identifier: "DynamicSearchRule" }) as any as S.Schema<DynamicSearchRule>;
 
 export interface GetsearchableAttributesRequest {
   /** Unique identifier of the index. */
@@ -4918,15 +4565,9 @@ export const GetsearchCutoffMsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/search-cutoff-ms",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/search-cutoff-ms", code: 200 }),
   ),
-).annotate({
-  identifier: "GetsearchCutoffMsRequest",
-}) as any as S.Schema<GetsearchCutoffMsRequest>;
+).annotate({ identifier: "GetsearchCutoffMsRequest" }) as any as S.Schema<GetsearchCutoffMsRequest>;
 
 export type GetsearchCutoffMsResponse = number;
 export const GetsearchCutoffMsResponse = /*@__PURE__*/ S.suspend(() =>
@@ -4943,11 +4584,7 @@ export const GetseparatorTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/separator-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/separator-tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "GetseparatorTokensRequest",
@@ -4972,16 +4609,8 @@ export interface GetSettingsRequest {
 export const GetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/chats/{workspace_uid}/settings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSettingsRequest",
-}) as any as S.Schema<GetSettingsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/chats/{workspace_uid}/settings", code: 200 })),
+).annotate({ identifier: "GetSettingsRequest" }) as any as S.Schema<GetSettingsRequest>;
 
 export interface GetSettingsResponse {}
 export const GetSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5034,9 +4663,7 @@ export const GetSimilarRequest = /*@__PURE__*/ S.suspend(() =>
     show_performance_details: S.optional(S.Boolean.pipe(T.Query())),
     ranking_score_threshold: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/similar", code: 200 })),
-).annotate({
-  identifier: "GetSimilarRequest",
-}) as any as S.Schema<GetSimilarRequest>;
+).annotate({ identifier: "GetSimilarRequest" }) as any as S.Schema<GetSimilarRequest>;
 
 /** Document with highlighted and cropped attributes. Present when `attributesToHighlight` or `attributesToCrop` was set. */
 export type SearchHitFormattedMap = { [key: string]: unknown | undefined };
@@ -5083,9 +4710,7 @@ export const SearchHitMatchesPositionMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<SearchHitMatchesPositionMap>;
 
 /** Per-rule score breakdown (words, typo, proximity, etc.). Present when `showRankingScoreDetails` was true. */
-export type SearchHitRankingScoreDetailsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchHitRankingScoreDetailsMap = { [key: string]: unknown | undefined };
 export const SearchHitRankingScoreDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5155,9 +4780,7 @@ export const GetSimilarResponse = /*@__PURE__*/ S.suspend(() =>
     processingTimeMs: S.Number,
     performanceDetails: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "GetSimilarResponse",
-}) as any as S.Schema<GetSimilarResponse>;
+).annotate({ identifier: "GetSimilarResponse" }) as any as S.Schema<GetSimilarResponse>;
 
 export interface GetsortableAttributesRequest {
   /** Unique identifier of the index. */
@@ -5167,11 +4790,7 @@ export const GetsortableAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/sortable-attributes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/sortable-attributes", code: 200 }),
   ),
 ).annotate({
   identifier: "GetsortableAttributesRequest",
@@ -5200,9 +4819,7 @@ export const GetStatsRequest = /*@__PURE__*/ S.suspend(() =>
     showInternalDatabaseSizes: S.optional(S.Boolean.pipe(T.Query())),
     sizeFormat: S.optional(SizeFormat.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/stats", code: 200 })),
-).annotate({
-  identifier: "GetStatsRequest",
-}) as any as S.Schema<GetStatsRequest>;
+).annotate({ identifier: "GetStatsRequest" }) as any as S.Schema<GetStatsRequest>;
 
 /** Statistics for each index */
 export type StatsIndexesMap = { [key: string]: IndexStats | undefined };
@@ -5238,16 +4855,8 @@ export interface GetstopWordsRequest {
 export const GetstopWordsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/stop-words",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetstopWordsRequest",
-}) as any as S.Schema<GetstopWordsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/stop-words", code: 200 })),
+).annotate({ identifier: "GetstopWordsRequest" }) as any as S.Schema<GetstopWordsRequest>;
 
 export type GetstopWordsResponseBodyList = Array<string>;
 export const GetstopWordsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5257,9 +4866,7 @@ export const GetstopWordsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetstopWordsResponse = GetstopWordsResponseBodyList;
 export const GetstopWordsResponse = /*@__PURE__*/ S.suspend(() =>
   GetstopWordsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetstopWordsResponse",
-}) as any as S.Schema<GetstopWordsResponse>;
+).annotate({ identifier: "GetstopWordsResponse" }) as any as S.Schema<GetstopWordsResponse>;
 
 export interface GetsynonymsRequest {
   /** Unique identifier of the index. */
@@ -5268,16 +4875,8 @@ export interface GetsynonymsRequest {
 export const GetsynonymsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/synonyms",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetsynonymsRequest",
-}) as any as S.Schema<GetsynonymsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/synonyms", code: 200 })),
+).annotate({ identifier: "GetsynonymsRequest" }) as any as S.Schema<GetsynonymsRequest>;
 
 export type GetsynonymsResponseBodyValueList = Array<string>;
 export const GetsynonymsResponseBodyValueList = /*@__PURE__*/ S.Array(
@@ -5295,9 +4894,7 @@ export const GetsynonymsResponseBodyMap = /*@__PURE__*/ S.Record(
 export type GetsynonymsResponse = GetsynonymsResponseBodyMap;
 export const GetsynonymsResponse = /*@__PURE__*/ S.suspend(() =>
   GetsynonymsResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetsynonymsResponse",
-}) as any as S.Schema<GetsynonymsResponse>;
+).annotate({ identifier: "GetsynonymsResponse" }) as any as S.Schema<GetsynonymsResponse>;
 
 export interface GetTaskRequest {
   /** The task identifier. */
@@ -5588,6 +5185,7 @@ export type Code =
   | "webhook_not_found"
   | "immutable_webhook_uuid"
   | "immutable_webhook_is_editable"
+  | "invalid_dynamic_search_rule_uid"
   | "invalid_dynamic_search_rule_offset"
   | "invalid_dynamic_search_rule_limit"
   | "invalid_dynamic_search_rule_filter"
@@ -5648,9 +5246,7 @@ export const DbTaskNetworkCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     origin: Origin,
   }),
-).annotate({
-  identifier: "DbTaskNetworkCase0",
-}) as any as S.Schema<DbTaskNetworkCase0>;
+).annotate({ identifier: "DbTaskNetworkCase0" }) as any as S.Schema<DbTaskNetworkCase0>;
 
 /** Represents a task that was replicated to a remote Meilisearch instance. Contains either the remote task UID on success, or an error if replication failed. */
 export interface RemoteTask {
@@ -5665,9 +5261,7 @@ export const RemoteTask = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "RemoteTask" }) as any as S.Schema<RemoteTask>;
 
-export type DbTaskNetworkCase1RemoteTasksMap = {
-  [key: string]: RemoteTask | undefined;
-};
+export type DbTaskNetworkCase1RemoteTasksMap = { [key: string]: RemoteTask | undefined };
 export const DbTaskNetworkCase1RemoteTasksMap = /*@__PURE__*/ S.Record(
   S.String,
   RemoteTask,
@@ -5683,9 +5277,7 @@ export const DbTaskNetworkCase1 = /*@__PURE__*/ S.suspend(() =>
     remote_tasks: DbTaskNetworkCase1RemoteTasksMap,
     network_version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbTaskNetworkCase1",
-}) as any as S.Schema<DbTaskNetworkCase1>;
+).annotate({ identifier: "DbTaskNetworkCase1" }) as any as S.Schema<DbTaskNetworkCase1>;
 
 /** Import data stored in a task */
 export interface ImportData {
@@ -5714,9 +5306,7 @@ export const DbTaskNetworkCase2 = /*@__PURE__*/ S.suspend(() =>
     import_from: ImportData,
     network_change: Origin,
   }),
-).annotate({
-  identifier: "DbTaskNetworkCase2",
-}) as any as S.Schema<DbTaskNetworkCase2>;
+).annotate({ identifier: "DbTaskNetworkCase2" }) as any as S.Schema<DbTaskNetworkCase2>;
 
 export type DbTaskNetwork = DbTaskNetworkCase0 | DbTaskNetworkCase1 | DbTaskNetworkCase2;
 export const DbTaskNetwork = S.Unknown as any as S.Schema<DbTaskNetwork>;
@@ -5866,9 +5456,7 @@ export const GetTasksRequest = /*@__PURE__*/ S.suspend(() =>
     afterFinishedAt: S.optional(S.String.pipe(T.Query())),
     beforeFinishedAt: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/tasks", code: 200 })),
-).annotate({
-  identifier: "GetTasksRequest",
-}) as any as S.Schema<GetTasksRequest>;
+).annotate({ identifier: "GetTasksRequest" }) as any as S.Schema<GetTasksRequest>;
 
 /** Array of task objects matching the query */
 export type AllTasksResultsList = Array<TaskView>;
@@ -5902,9 +5490,7 @@ export const AllTasks = /*@__PURE__*/ S.suspend(() =>
 export interface GetTasksStreamRequest {}
 export const GetTasksStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tasks/stream", code: 200 })),
-).annotate({
-  identifier: "GetTasksStreamRequest",
-}) as any as S.Schema<GetTasksStreamRequest>;
+).annotate({ identifier: "GetTasksStreamRequest" }) as any as S.Schema<GetTasksStreamRequest>;
 
 export interface GetTasksStreamResponse {}
 export const GetTasksStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5919,22 +5505,14 @@ export const GettypoToleranceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/typo-tolerance",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/typo-tolerance", code: 200 }),
   ),
-).annotate({
-  identifier: "GettypoToleranceRequest",
-}) as any as S.Schema<GettypoToleranceRequest>;
+).annotate({ identifier: "GettypoToleranceRequest" }) as any as S.Schema<GettypoToleranceRequest>;
 
 export interface GetVersionRequest {}
 export const GetVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/version", code: 200 })),
-).annotate({
-  identifier: "GetVersionRequest",
-}) as any as S.Schema<GetVersionRequest>;
+).annotate({ identifier: "GetVersionRequest" }) as any as S.Schema<GetVersionRequest>;
 
 export interface VersionResponse {
   /** The commit used to compile this build of Meilisearch. */
@@ -5950,9 +5528,7 @@ export const VersionResponse = /*@__PURE__*/ S.suspend(() =>
     commitDate: S.String,
     pkgVersion: S.String,
   }),
-).annotate({
-  identifier: "VersionResponse",
-}) as any as S.Schema<VersionResponse>;
+).annotate({ identifier: "VersionResponse" }) as any as S.Schema<VersionResponse>;
 
 export interface GetWebhookRequest {
   /** Universally unique identifier of the webhook. */
@@ -5962,14 +5538,10 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/webhooks/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 /** HTTP headers to include in webhook requests. */
-export type GetWebhookResponseHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type GetWebhookResponseHeadersMap = { [key: string]: string | undefined };
 export const GetWebhookResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5992,16 +5564,12 @@ export const GetWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String,
     isEditable: S.Boolean,
   }),
-).annotate({
-  identifier: "GetWebhookResponse",
-}) as any as S.Schema<GetWebhookResponse>;
+).annotate({ identifier: "GetWebhookResponse" }) as any as S.Schema<GetWebhookResponse>;
 
 export interface GetWebhooksRequest {}
 export const GetWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
-).annotate({
-  identifier: "GetWebhooksRequest",
-}) as any as S.Schema<GetWebhooksRequest>;
+).annotate({ identifier: "GetWebhooksRequest" }) as any as S.Schema<GetWebhooksRequest>;
 
 /** HTTP headers to include in webhook requests. */
 export type WebhookWithMetadataRedactedAuthorizationHeadersMap = {
@@ -6062,9 +5630,7 @@ export const ListApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/keys", code: 200 })),
-).annotate({
-  identifier: "ListApiKeysRequest",
-}) as any as S.Schema<ListApiKeysRequest>;
+).annotate({ identifier: "ListApiKeysRequest" }) as any as S.Schema<ListApiKeysRequest>;
 
 /** The list of actions (permissions) this key is allowed to perform. Examples include `documents.add`, `search`, `indexes.create`, `settings.update`, etc. Use `*` to grant all permissions. */
 export type PaginationViewKeyViewResultsItemActionsList = Array<Action>;
@@ -6138,9 +5704,7 @@ export const PaginationViewKeyView = /*@__PURE__*/ S.suspend(() =>
     limit: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "PaginationViewKeyView",
-}) as any as S.Schema<PaginationViewKeyView>;
+).annotate({ identifier: "PaginationViewKeyView" }) as any as S.Schema<PaginationViewKeyView>;
 
 export interface ListIndexesRequest {
   /** The number of indexes to skip before starting to retrieve anything. */
@@ -6153,9 +5717,7 @@ export const ListIndexesRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/indexes", code: 200 })),
-).annotate({
-  identifier: "ListIndexesRequest",
-}) as any as S.Schema<ListIndexesRequest>;
+).annotate({ identifier: "ListIndexesRequest" }) as any as S.Schema<ListIndexesRequest>;
 
 /** An index containing searchable documents */
 export interface PaginationViewIndexViewResultsItem {
@@ -6202,9 +5764,7 @@ export const PaginationViewIndexView = /*@__PURE__*/ S.suspend(() =>
     limit: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "PaginationViewIndexView",
-}) as any as S.Schema<PaginationViewIndexView>;
+).annotate({ identifier: "PaginationViewIndexView" }) as any as S.Schema<PaginationViewIndexView>;
 
 export interface ListRulesFilter {
   /** Only include rules whose names match these patterns (e.g. `["black-friday", "promo*"]`). */
@@ -6217,9 +5777,7 @@ export const ListRulesFilter = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.NullOr(S.String)),
     active: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ListRulesFilter",
-}) as any as S.Schema<ListRulesFilter>;
+).annotate({ identifier: "ListRulesFilter" }) as any as S.Schema<ListRulesFilter>;
 
 export interface ListRulesRequest {
   /** Number of rules to skip. Defaults to 0. */
@@ -6234,15 +5792,7 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     filter: S.optional(S.NullOr(ListRulesFilter)),
   }).pipe(T.Http({ method: "POST", uri: "/dynamic-search-rules", code: 200 })),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
-
-/** Actions to apply when the dynamic search rule matches. */
-export type PaginationViewDynamicSearchRuleResultsItemActionsList = Array<RuleAction>;
-export const PaginationViewDynamicSearchRuleResultsItemActionsList = /*@__PURE__*/ S.Array(
-  RuleAction,
-) as any as S.Schema<PaginationViewDynamicSearchRuleResultsItemActionsList>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 
 export interface PaginationViewDynamicSearchRuleResultsItem {
   /** Unique identifier of the dynamic search rule. */
@@ -6258,7 +5808,7 @@ export interface PaginationViewDynamicSearchRuleResultsItem {
   /** Conditions that must match before the dynamic search rule applies. */
   conditions?: Conditions;
   /** Actions to apply when the dynamic search rule matches. */
-  actions: PaginationViewDynamicSearchRuleResultsItemActionsList;
+  actions?: RuleActions;
 }
 export const PaginationViewDynamicSearchRuleResultsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6268,7 +5818,7 @@ export const PaginationViewDynamicSearchRuleResultsItem = /*@__PURE__*/ S.suspen
     precedence: S.optional(S.NullOr(S.Number)),
     active: S.optional(S.Boolean),
     conditions: S.optional(Conditions),
-    actions: PaginationViewDynamicSearchRuleResultsItemActionsList,
+    actions: S.optional(RuleActions),
   }),
 ).annotate({
   identifier: "PaginationViewDynamicSearchRuleResultsItem",
@@ -6305,14 +5855,243 @@ export const PaginationViewDynamicSearchRule = /*@__PURE__*/ S.suspend(() =>
 export interface ListWorkspacesRequest {}
 export const ListWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/chats", code: 200 })),
-).annotate({
-  identifier: "ListWorkspacesRequest",
-}) as any as S.Schema<ListWorkspacesRequest>;
+).annotate({ identifier: "ListWorkspacesRequest" }) as any as S.Schema<ListWorkspacesRequest>;
 
 export interface ListWorkspacesResponse {}
 export const ListWorkspacesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ListWorkspacesResponse",
 }) as any as S.Schema<ListWorkspacesResponse>;
+
+/** The request ID MUST NOT match the ID of any other request the sender has issued and not yet received a response for */
+export type RequestId = number | string;
+export const RequestId = S.Unknown as any as S.Schema<RequestId>;
+
+export interface McpClientMeta {
+  io_modelcontextprotocol_protocolVersion: string;
+  io_modelcontextprotocol_clientInfo: unknown;
+  io_modelcontextprotocol_clientCapabilities?: unknown;
+}
+export const McpClientMeta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    io_modelcontextprotocol_protocolVersion: S.String.pipe(
+      T.Body("io.modelcontextprotocol/protocolVersion"),
+    ),
+    io_modelcontextprotocol_clientInfo: S.Unknown.pipe(
+      T.Body("io.modelcontextprotocol/clientInfo"),
+    ),
+    io_modelcontextprotocol_clientCapabilities: S.optional(
+      S.Unknown.pipe(T.Body("io.modelcontextprotocol/clientCapabilities")),
+    ),
+  }),
+).annotate({ identifier: "McpClientMeta" }) as any as S.Schema<McpClientMeta>;
+
+export interface ParamsWithMeta {
+  _meta?: McpClientMeta | null;
+  /** The tool name to call used by the MCP protocol. You can find more information about this field on [the MCP specification](https://modelcontextprotocol.io/specification/2026-07-28/server/tools#tool-names). */
+  name?: string | null;
+  /** The arguments to give to the tool from the MCP protocol. You can find more information about this field on [the MCP specification](https://modelcontextprotocol.io/specification/2026-07-28/schema#calltoolrequestparams). */
+  arguments?: unknown;
+}
+export const ParamsWithMeta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _meta: S.optional(S.NullOr(McpClientMeta)),
+    name: S.optional(S.NullOr(S.String)),
+    arguments: S.optional(S.Unknown),
+  }),
+).annotate({ identifier: "ParamsWithMeta" }) as any as S.Schema<ParamsWithMeta>;
+
+export interface McpRequest {
+  /** Defines the version of a JSON-RPC request. You can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object). */
+  jsonrpc: string;
+  /** Defines the id of a JSON-RPC request. You can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object). */
+  id: RequestId;
+  /** The method to call using the JSON-RPC format. You can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object). */
+  method: string;
+  /** The parameters to call the method with following the JSON-RPC format. You can find more information about this field on [the JSON-RPC specification](https://www.jsonrpc.org/specification#request_object). */
+  params: ParamsWithMeta;
+}
+export const McpRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jsonrpc: S.String,
+    id: RequestId,
+    method: S.String,
+    params: ParamsWithMeta,
+  }).pipe(T.Http({ method: "POST", uri: "/mcp", code: 200 })),
+).annotate({ identifier: "McpRequest" }) as any as S.Schema<McpRequest>;
+
+/** Protocol versions the server supports. The client should choose one of these for subsequent requests. */
+export type McpResultSupportedVersionsList = Array<string>;
+export const McpResultSupportedVersionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<McpResultSupportedVersionsList>;
+
+/** <https://modelcontextprotocol.io/specification/2026-07-28/server/tools#data-types> */
+export interface McpToolDefinition {
+  /** Unique identifier for the tool. */
+  name: string;
+  /** Optional human-readable name of the tool for display purposes. */
+  title: string;
+  /** Human-readable description of functionality. */
+  description: string;
+  /** JSON Schema defining expected parameters. */
+  inputSchema: unknown;
+}
+export const McpToolDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    title: S.String,
+    description: S.String,
+    inputSchema: S.Unknown,
+  }),
+).annotate({ identifier: "McpToolDefinition" }) as any as S.Schema<McpToolDefinition>;
+
+export type McpResultToolsList = Array<McpToolDefinition>;
+export const McpResultToolsList = /*@__PURE__*/ S.Array(
+  McpToolDefinition,
+) as any as S.Schema<McpResultToolsList>;
+
+export type McpResultResourcesList = Array<unknown>;
+export const McpResultResourcesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<McpResultResourcesList>;
+
+export type McpResultPromptsList = Array<unknown>;
+export const McpResultPromptsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<McpResultPromptsList>;
+
+export interface ClientServerInfo {
+  name: string;
+  version: string;
+}
+export const ClientServerInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    version: S.String,
+  }),
+).annotate({ identifier: "ClientServerInfo" }) as any as S.Schema<ClientServerInfo>;
+
+export interface McpServerMeta {
+  io_modelcontextprotocol_serverInfo: ClientServerInfo;
+}
+export const McpServerMeta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    io_modelcontextprotocol_serverInfo: ClientServerInfo.pipe(
+      T.Body("io.modelcontextprotocol/serverInfo"),
+    ),
+  }),
+).annotate({ identifier: "McpServerMeta" }) as any as S.Schema<McpServerMeta>;
+
+export type McpCapabilitiesToolsMap = { [key: string]: unknown | undefined };
+export const McpCapabilitiesToolsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<McpCapabilitiesToolsMap>;
+
+export interface McpCapabilities {
+  tools?: McpCapabilitiesToolsMap | null;
+}
+export const McpCapabilities = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tools: S.optional(S.NullOr(McpCapabilitiesToolsMap)),
+  }),
+).annotate({ identifier: "McpCapabilities" }) as any as S.Schema<McpCapabilities>;
+
+export interface McpTextContentOutput {
+  type: string;
+  text: string;
+}
+export const McpTextContentOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    text: S.String,
+  }),
+).annotate({ identifier: "McpTextContentOutput" }) as any as S.Schema<McpTextContentOutput>;
+
+export type McpResultContentList = Array<McpTextContentOutput>;
+export const McpResultContentList = /*@__PURE__*/ S.Array(
+  McpTextContentOutput,
+) as any as S.Schema<McpResultContentList>;
+
+export interface McpResult {
+  resultType: string;
+  isError?: boolean | null;
+  /** Protocol versions the server supports. The client should choose one of these for subsequent requests. */
+  supportedVersions?: McpResultSupportedVersionsList | null;
+  tools?: McpResultToolsList | null;
+  resources?: McpResultResourcesList | null;
+  prompts?: McpResultPromptsList | null;
+  _meta?: McpServerMeta | null;
+  capabilities?: McpCapabilities | null;
+  content?: McpResultContentList | null;
+  structuredContent?: unknown;
+  /** Optional natural-language guidance for LLMs on how to use this server effectively. */
+  instructions?: string | null;
+  ttlMs: number;
+  cacheScope: string;
+}
+export const McpResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resultType: S.String,
+    isError: S.optional(S.NullOr(S.Boolean)),
+    supportedVersions: S.optional(S.NullOr(McpResultSupportedVersionsList)),
+    tools: S.optional(S.NullOr(McpResultToolsList)),
+    resources: S.optional(S.NullOr(McpResultResourcesList)),
+    prompts: S.optional(S.NullOr(McpResultPromptsList)),
+    _meta: S.optional(S.NullOr(McpServerMeta)),
+    capabilities: S.optional(S.NullOr(McpCapabilities)),
+    content: S.optional(S.NullOr(McpResultContentList)),
+    structuredContent: S.optional(S.Unknown),
+    instructions: S.optional(S.NullOr(S.String)),
+    ttlMs: S.Number,
+    cacheScope: S.String,
+  }),
+).annotate({ identifier: "McpResult" }) as any as S.Schema<McpResult>;
+
+export interface McpErrorData {
+  statusCode: number;
+  errorName: string;
+  errorType: string;
+  errorLink: string;
+}
+export const McpErrorData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statusCode: S.Number,
+    errorName: S.String,
+    errorType: S.String,
+    errorLink: S.String,
+  }),
+).annotate({ identifier: "McpErrorData" }) as any as S.Schema<McpErrorData>;
+
+export interface McpJsonRpcError {
+  code: number;
+  message: string;
+  data?: McpErrorData | null;
+}
+export const McpJsonRpcError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.Number,
+    message: S.String,
+    data: S.optional(S.NullOr(McpErrorData)),
+  }),
+).annotate({ identifier: "McpJsonRpcError" }) as any as S.Schema<McpJsonRpcError>;
+
+export interface McpResponse {
+  /** The JSON-RPC version. */
+  jsonrpc: string;
+  /** The JSON-RPC request ID. */
+  id: RequestId;
+  result?: McpResult | null;
+  error?: McpJsonRpcError | null;
+}
+export const McpResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jsonrpc: S.String,
+    id: RequestId,
+    result: S.optional(S.NullOr(McpResult)),
+    error: S.optional(S.NullOr(McpJsonRpcError)),
+  }),
+).annotate({ identifier: "McpResponse" }) as any as S.Schema<McpResponse>;
 
 /** Attributes to display in the returned documents */
 export type SearchQueryWithIndexAttributesToRetrieveList = Array<string>;
@@ -6382,9 +6161,7 @@ export const FederationOptions = /*@__PURE__*/ S.suspend(() =>
     remote: S.optional(S.NullOr(S.String)),
     queryPosition: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "FederationOptions",
-}) as any as S.Schema<FederationOptions>;
+).annotate({ identifier: "FederationOptions" }) as any as S.Schema<FederationOptions>;
 
 /** A `SearchQuery` + an index UID and optional FederationOptions. */
 export interface SearchQueryWithIndex {
@@ -6483,9 +6260,7 @@ export const SearchQueryWithIndex = /*@__PURE__*/ S.suspend(() =>
     showPerformanceDetails: S.optional(S.NullOr(S.Boolean)),
     federationOptions: S.optional(S.NullOr(FederationOptions)),
   }),
-).annotate({
-  identifier: "SearchQueryWithIndex",
-}) as any as S.Schema<SearchQueryWithIndex>;
+).annotate({ identifier: "SearchQueryWithIndex" }) as any as S.Schema<SearchQueryWithIndex>;
 
 /** An array of search queries to execute. Each query can target a different index and have its own parameters. When `federation` is `null`, results are returned separately for each query. When `federation` is set, results are merged. Each query object must include `indexUid` to specify which index to search. */
 export type MultiSearchWithPostRequestQueriesList = Array<SearchQueryWithIndex>;
@@ -6494,9 +6269,7 @@ export const MultiSearchWithPostRequestQueriesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MultiSearchWithPostRequestQueriesList>;
 
 /** Facets to retrieve per index */
-export type FederationFacetsByIndexMap = {
-  [key: string]: AttributePatterns | undefined;
-};
+export type FederationFacetsByIndexMap = { [key: string]: AttributePatterns | undefined };
 export const FederationFacetsByIndexMap = /*@__PURE__*/ S.Record(
   S.String,
   AttributePatterns,
@@ -6567,9 +6340,7 @@ export const MultiSearchWithPostResponseHitsList = /*@__PURE__*/ S.Array(
 export type Vec = Array<number>;
 export const Vec = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<Vec>;
 
-export type MultiSearchWithPostResponseQueryVectorsMap = {
-  [key: string]: Vec | undefined;
-};
+export type MultiSearchWithPostResponseQueryVectorsMap = { [key: string]: Vec | undefined };
 export const MultiSearchWithPostResponseQueryVectorsMap = /*@__PURE__*/ S.Record(
   S.String,
   Vec,
@@ -6606,17 +6377,13 @@ export const FacetStats = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "FacetStats" }) as any as S.Schema<FacetStats>;
 
 /** Merged facet statistics across all indexes */
-export type MultiSearchWithPostResponseFacetStatsMap = {
-  [key: string]: FacetStats | undefined;
-};
+export type MultiSearchWithPostResponseFacetStatsMap = { [key: string]: FacetStats | undefined };
 export const MultiSearchWithPostResponseFacetStatsMap = /*@__PURE__*/ S.Record(
   S.String,
   FacetStats,
 ) as any as S.Schema<MultiSearchWithPostResponseFacetStatsMap>;
 
-export type ComputedFacetsDistributionValueMap = {
-  [key: string]: number | undefined;
-};
+export type ComputedFacetsDistributionValueMap = { [key: string]: number | undefined };
 export const ComputedFacetsDistributionValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -6769,9 +6536,7 @@ export const PatchApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/keys/{key}", code: 200 })),
-).annotate({
-  identifier: "PatchApiKeyRequest",
-}) as any as S.Schema<PatchApiKeyRequest>;
+).annotate({ identifier: "PatchApiKeyRequest" }) as any as S.Schema<PatchApiKeyRequest>;
 
 export interface PatchchatRequest {
   /** Unique identifier of the index. */
@@ -6791,25 +6556,15 @@ export const PatchchatRequest = /*@__PURE__*/ S.suspend(() =>
     documentTemplate: S.optional(S.NullOr(S.String)),
     documentTemplateMaxBytes: S.optional(S.NullOr(S.Number)),
     searchParameters: S.optional(S.NullOr(ChatSearchParams)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/indexes/{index_uid}/settings/chat",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchchatRequest",
-}) as any as S.Schema<PatchchatRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/indexes/{index_uid}/settings/chat", code: 200 })),
+).annotate({ identifier: "PatchchatRequest" }) as any as S.Schema<PatchchatRequest>;
 
 export interface PatchchatResponse {}
 export const PatchchatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PatchchatResponse",
 }) as any as S.Schema<PatchchatResponse>;
 
-export type PatchembeddersRequestBodyMap = {
-  [key: string]: SettingEmbeddingSettings | undefined;
-};
+export type PatchembeddersRequestBodyMap = { [key: string]: SettingEmbeddingSettings | undefined };
 export const PatchembeddersRequestBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   SettingEmbeddingSettings,
@@ -6824,16 +6579,8 @@ export const PatchembeddersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     body: PatchembeddersRequestBodyMap.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/indexes/{index_uid}/settings/embedders",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchembeddersRequest",
-}) as any as S.Schema<PatchembeddersRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/indexes/{index_uid}/settings/embedders", code: 200 })),
+).annotate({ identifier: "PatchembeddersRequest" }) as any as S.Schema<PatchembeddersRequest>;
 
 export interface PatchembeddersResponse {}
 export const PatchembeddersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6862,16 +6609,8 @@ export const PatchfacetingRequest = /*@__PURE__*/ S.suspend(() =>
     index_uid: S.String.pipe(T.Label()),
     maxValuesPerFacet: S.optional(S.NullOr(S.Number)),
     sortFacetValuesBy: S.optional(S.NullOr(PatchfacetingRequestSortFacetValuesByMap)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/indexes/{index_uid}/settings/faceting",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchfacetingRequest",
-}) as any as S.Schema<PatchfacetingRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/indexes/{index_uid}/settings/faceting", code: 200 })),
+).annotate({ identifier: "PatchfacetingRequest" }) as any as S.Schema<PatchfacetingRequest>;
 
 export interface PatchfacetingResponse {}
 export const PatchfacetingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6911,6 +6650,8 @@ export interface PatchFeaturesRequest {
   legacySearch?: boolean | null;
   /** Enable the `POST /render-template` route */
   renderRoute?: boolean | null;
+  /** Enable the `POST /mcp` route */
+  mcpRoute?: boolean | null;
 }
 export const PatchFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6930,10 +6671,9 @@ export const PatchFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
     disableDocumentsFetchQueue: S.optional(S.NullOr(S.Boolean)),
     legacySearch: S.optional(S.NullOr(S.Boolean)),
     renderRoute: S.optional(S.NullOr(S.Boolean)),
+    mcpRoute: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.Http({ method: "PATCH", uri: "/experimental-features", code: 200 })),
-).annotate({
-  identifier: "PatchFeaturesRequest",
-}) as any as S.Schema<PatchFeaturesRequest>;
+).annotate({ identifier: "PatchFeaturesRequest" }) as any as S.Schema<PatchFeaturesRequest>;
 
 export interface PatchpaginationRequest {
   /** Unique identifier of the index. */
@@ -6945,16 +6685,8 @@ export const PatchpaginationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     maxTotalHits: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/indexes/{index_uid}/settings/pagination",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchpaginationRequest",
-}) as any as S.Schema<PatchpaginationRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/indexes/{index_uid}/settings/pagination", code: 200 })),
+).annotate({ identifier: "PatchpaginationRequest" }) as any as S.Schema<PatchpaginationRequest>;
 
 export interface PatchpaginationResponse {}
 export const PatchpaginationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7019,16 +6751,8 @@ export const PatchSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     baseUrl: S.optional(S.NullOr(S.String)),
     apiKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     prompts: S.optional(S.NullOr(PatchSettingsRequestPrompts)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/chats/{workspace_uid}/settings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchSettingsRequest",
-}) as any as S.Schema<PatchSettingsRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/chats/{workspace_uid}/settings", code: 200 })),
+).annotate({ identifier: "PatchSettingsRequest" }) as any as S.Schema<PatchSettingsRequest>;
 
 export interface PatchSettingsResponse {}
 export const PatchSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7069,11 +6793,7 @@ export const PatchtypoToleranceRequest = /*@__PURE__*/ S.suspend(() =>
     disableOnAttributes: S.optional(S.NullOr(PatchtypoToleranceRequestDisableOnAttributesList)),
     disableOnNumbers: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/indexes/{index_uid}/settings/typo-tolerance",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/indexes/{index_uid}/settings/typo-tolerance", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchtypoToleranceRequest",
@@ -7133,13 +6853,7 @@ export const PostDocumentsByQueryRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.Unknown),
     sort: S.optional(S.NullOr(PostDocumentsByQueryRequestSortList)),
     useNetwork: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/indexes/{index_uid}/documents/fetch",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/documents/fetch", code: 200 })),
 ).annotate({
   identifier: "PostDocumentsByQueryRequest",
 }) as any as S.Schema<PostDocumentsByQueryRequest>;
@@ -7212,9 +6926,7 @@ export const PostNetworkChangeRequest = /*@__PURE__*/ S.suspend(() =>
     origin: Origin,
     message: Message,
   }).pipe(T.Http({ method: "POST", uri: "/network/control", code: 200 })),
-).annotate({
-  identifier: "PostNetworkChangeRequest",
-}) as any as S.Schema<PostNetworkChangeRequest>;
+).annotate({ identifier: "PostNetworkChangeRequest" }) as any as S.Schema<PostNetworkChangeRequest>;
 
 export interface PostNetworkChangeResponse {}
 export const PostNetworkChangeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7252,9 +6964,7 @@ export const RenderQueryTemplate = /*@__PURE__*/ S.suspend(() =>
     inline: S.optional(S.Unknown),
     documentTemplateMaxBytes: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "RenderQueryTemplate",
-}) as any as S.Schema<RenderQueryTemplate>;
+).annotate({ identifier: "RenderQueryTemplate" }) as any as S.Schema<RenderQueryTemplate>;
 
 export type RenderQueryInputKind = "indexDocument" | "inlineDocument" | "inlineSearch";
 export const RenderQueryInputKind = S.String;
@@ -7272,9 +6982,7 @@ export const RenderQueryInput = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.NullOr(S.String)),
     inline: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "RenderQueryInput",
-}) as any as S.Schema<RenderQueryInput>;
+).annotate({ identifier: "RenderQueryInput" }) as any as S.Schema<RenderQueryInput>;
 
 export interface PostRenderRequest {
   /** Template/fragment to fetch for rendering. Use its `kind` parameter to determine the type of template or fragment to fetch. */
@@ -7286,9 +6994,7 @@ export const PostRenderRequest = /*@__PURE__*/ S.suspend(() =>
     template: RenderQueryTemplate,
     input: S.optional(S.NullOr(RenderQueryInput)),
   }).pipe(T.Http({ method: "POST", uri: "/render-template", code: 200 })),
-).annotate({
-  identifier: "PostRenderRequest",
-}) as any as S.Schema<PostRenderRequest>;
+).annotate({ identifier: "PostRenderRequest" }) as any as S.Schema<PostRenderRequest>;
 
 export interface RenderResult {
   /** **Un**rendered template or fragment, fetched in index or echoed back from inline template in request. */
@@ -7350,9 +7056,7 @@ export const PostSimilarRequest = /*@__PURE__*/ S.suspend(() =>
     showPerformanceDetails: S.optional(S.Boolean),
     rankingScoreThreshold: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/similar", code: 200 })),
-).annotate({
-  identifier: "PostSimilarRequest",
-}) as any as S.Schema<PostSimilarRequest>;
+).annotate({ identifier: "PostSimilarRequest" }) as any as S.Schema<PostSimilarRequest>;
 
 /** Results of the query */
 export type PostSimilarResponseHitsList = Array<SearchHit>;
@@ -7398,9 +7102,7 @@ export const PostSimilarResponse = /*@__PURE__*/ S.suspend(() =>
     processingTimeMs: S.Number,
     performanceDetails: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "PostSimilarResponse",
-}) as any as S.Schema<PostSimilarResponse>;
+).annotate({ identifier: "PostSimilarResponse" }) as any as S.Schema<PostSimilarResponse>;
 
 export type PutdictionaryRequestBodyList = Array<string>;
 export const PutdictionaryRequestBodyList = /*@__PURE__*/ S.Array(
@@ -7416,16 +7118,8 @@ export const PutdictionaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     body: PutdictionaryRequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/dictionary",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutdictionaryRequest",
-}) as any as S.Schema<PutdictionaryRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/dictionary", code: 200 })),
+).annotate({ identifier: "PutdictionaryRequest" }) as any as S.Schema<PutdictionaryRequest>;
 
 export interface PutdictionaryResponse {}
 export const PutdictionaryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7447,11 +7141,7 @@ export const PutdisplayedAttributesRequest = /*@__PURE__*/ S.suspend(() =>
     index_uid: S.String.pipe(T.Label()),
     body: PutdisplayedAttributesRequestBodyList.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/displayed-attributes",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/displayed-attributes", code: 200 }),
   ),
 ).annotate({
   identifier: "PutdisplayedAttributesRequest",
@@ -7470,11 +7160,7 @@ export const PutdistinctAttributeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/distinct-attribute",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/distinct-attribute", code: 200 }),
   ),
 ).annotate({
   identifier: "PutdistinctAttributeRequest",
@@ -7512,9 +7198,7 @@ export const PutfilterableAttributesRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PutfilterableAttributesResponse {}
 export const PutfilterableAttributesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutfilterableAttributesResponse",
-  },
+  { identifier: "PutfilterableAttributesResponse" },
 ) as any as S.Schema<PutfilterableAttributesResponse>;
 
 export type PutforeignKeysRequestBodyList = Array<ForeignKey>;
@@ -7531,16 +7215,8 @@ export const PutforeignKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     body: PutforeignKeysRequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/foreign-keys",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutforeignKeysRequest",
-}) as any as S.Schema<PutforeignKeysRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/foreign-keys", code: 200 })),
+).annotate({ identifier: "PutforeignKeysRequest" }) as any as S.Schema<PutforeignKeysRequest>;
 
 export interface PutforeignKeysResponse {}
 export const PutforeignKeysResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7562,11 +7238,7 @@ export const PutlocalizedAttributesRequest = /*@__PURE__*/ S.suspend(() =>
     index_uid: S.String.pipe(T.Label()),
     body: PutlocalizedAttributesRequestBodyList.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/localized-attributes",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/localized-attributes", code: 200 }),
   ),
 ).annotate({
   identifier: "PutlocalizedAttributesRequest",
@@ -7592,11 +7264,7 @@ export const PutnonSeparatorTokensRequest = /*@__PURE__*/ S.suspend(() =>
     index_uid: S.String.pipe(T.Label()),
     body: PutnonSeparatorTokensRequestBodyList.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/non-separator-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/non-separator-tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "PutnonSeparatorTokensRequest",
@@ -7617,11 +7285,7 @@ export const PutproximityPrecisionRequest = /*@__PURE__*/ S.suspend(() =>
     index_uid: S.String.pipe(T.Label()),
     body: ProximityPrecisionView.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/proximity-precision",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/proximity-precision", code: 200 }),
   ),
 ).annotate({
   identifier: "PutproximityPrecisionRequest",
@@ -7646,16 +7310,8 @@ export const PutrankingRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     body: PutrankingRulesRequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/ranking-rules",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutrankingRulesRequest",
-}) as any as S.Schema<PutrankingRulesRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/ranking-rules", code: 200 })),
+).annotate({ identifier: "PutrankingRulesRequest" }) as any as S.Schema<PutrankingRulesRequest>;
 
 export interface PutrankingRulesResponse {}
 export const PutrankingRulesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7689,9 +7345,7 @@ export const PutsearchableAttributesRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PutsearchableAttributesResponse {}
 export const PutsearchableAttributesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutsearchableAttributesResponse",
-  },
+  { identifier: "PutsearchableAttributesResponse" },
 ) as any as S.Schema<PutsearchableAttributesResponse>;
 
 export interface PutsearchCutoffMsRequest {
@@ -7702,15 +7356,9 @@ export const PutsearchCutoffMsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/search-cutoff-ms",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/search-cutoff-ms", code: 200 }),
   ),
-).annotate({
-  identifier: "PutsearchCutoffMsRequest",
-}) as any as S.Schema<PutsearchCutoffMsRequest>;
+).annotate({ identifier: "PutsearchCutoffMsRequest" }) as any as S.Schema<PutsearchCutoffMsRequest>;
 
 export interface PutsearchCutoffMsResponse {}
 export const PutsearchCutoffMsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7732,11 +7380,7 @@ export const PutseparatorTokensRequest = /*@__PURE__*/ S.suspend(() =>
     index_uid: S.String.pipe(T.Label()),
     body: PutseparatorTokensRequestBodyList.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/separator-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/separator-tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "PutseparatorTokensRequest",
@@ -7762,11 +7406,7 @@ export const PutsortableAttributesRequest = /*@__PURE__*/ S.suspend(() =>
     index_uid: S.String.pipe(T.Label()),
     body: PutsortableAttributesRequestBodyList.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/sortable-attributes",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/sortable-attributes", code: 200 }),
   ),
 ).annotate({
   identifier: "PutsortableAttributesRequest",
@@ -7791,16 +7431,8 @@ export const PutstopWordsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     body: PutstopWordsRequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/stop-words",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutstopWordsRequest",
-}) as any as S.Schema<PutstopWordsRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/stop-words", code: 200 })),
+).annotate({ identifier: "PutstopWordsRequest" }) as any as S.Schema<PutstopWordsRequest>;
 
 export interface PutstopWordsResponse {}
 export const PutstopWordsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7829,16 +7461,8 @@ export const PutsynonymsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     body: PutsynonymsRequestBodyMap.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/synonyms",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutsynonymsRequest",
-}) as any as S.Schema<PutsynonymsRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/synonyms", code: 200 })),
+).annotate({ identifier: "PutsynonymsRequest" }) as any as S.Schema<PutsynonymsRequest>;
 
 export interface PutsynonymsResponse {}
 export const PutsynonymsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7864,16 +7488,8 @@ export const ReplaceDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
     csvDelimiter: S.optional(S.String.pipe(T.Query())),
     customMetadata: S.optional(S.String.pipe(T.Query())),
     skipCreation: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/indexes/{index_uid}/documents",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceDocumentsRequest",
-}) as any as S.Schema<ReplaceDocumentsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/documents", code: 200 })),
+).annotate({ identifier: "ReplaceDocumentsRequest" }) as any as S.Schema<ReplaceDocumentsRequest>;
 
 export interface ReplaceDocumentsResponse {}
 export const ReplaceDocumentsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7887,16 +7503,8 @@ export interface ResetSettingsRequest {
 export const ResetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workspace_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/chats/{workspace_uid}/settings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ResetSettingsRequest",
-}) as any as S.Schema<ResetSettingsRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/chats/{workspace_uid}/settings", code: 200 })),
+).annotate({ identifier: "ResetSettingsRequest" }) as any as S.Schema<ResetSettingsRequest>;
 
 export interface ResetSettingsResponse {}
 export const ResetSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7965,13 +7573,7 @@ export const SearchRequest = /*@__PURE__*/ S.suspend(() =>
     locales: S.optional(S.NullOr(SearchRequestLocalesList)),
     exhaustiveFacetCount: S.optional(S.NullOr(S.Boolean)),
     useNetwork: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/indexes/{index_uid}/facet-search",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/facet-search", code: 200 })),
 ).annotate({ identifier: "SearchRequest" }) as any as S.Schema<SearchRequest>;
 
 /** Schema representation of a facet value hit (for OpenAPI documentation only). */
@@ -7986,9 +7588,7 @@ export const FacetValueHitSchema = /*@__PURE__*/ S.suspend(() =>
     value: S.String,
     count: S.Number,
   }),
-).annotate({
-  identifier: "FacetValueHitSchema",
-}) as any as S.Schema<FacetValueHitSchema>;
+).annotate({ identifier: "FacetValueHitSchema" }) as any as S.Schema<FacetValueHitSchema>;
 
 /** Array of matching facet values with their document counts, sorted lexicographically in ascending order (or by count if `sortFacetValuesBy` is set to `"count"`). */
 export type FacetSearchResultFacetHitsList = Array<FacetValueHitSchema>;
@@ -7997,9 +7597,7 @@ export const FacetSearchResultFacetHitsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<FacetSearchResultFacetHitsList>;
 
 /** Errors from remote shards. Only present in federated search when some remotes failed. */
-export type FacetSearchResultRemoteErrorsMap = {
-  [key: string]: ResponseError | undefined;
-};
+export type FacetSearchResultRemoteErrorsMap = { [key: string]: ResponseError | undefined };
 export const FacetSearchResultRemoteErrorsMap = /*@__PURE__*/ S.Record(
   S.String,
   ResponseError,
@@ -8023,9 +7621,7 @@ export const FacetSearchResult = /*@__PURE__*/ S.suspend(() =>
     processingTimeMs: S.Number,
     remoteErrors: S.optional(S.NullOr(FacetSearchResultRemoteErrorsMap)),
   }),
-).annotate({
-  identifier: "FacetSearchResult",
-}) as any as S.Schema<FacetSearchResult>;
+).annotate({ identifier: "FacetSearchResult" }) as any as S.Schema<FacetSearchResult>;
 
 export interface SearchDeletefacetRequest {
   /** Unique identifier of the index. */
@@ -8035,15 +7631,9 @@ export const SearchDeletefacetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/facet-search",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/facet-search", code: 200 }),
   ),
-).annotate({
-  identifier: "SearchDeletefacetRequest",
-}) as any as S.Schema<SearchDeletefacetRequest>;
+).annotate({ identifier: "SearchDeletefacetRequest" }) as any as S.Schema<SearchDeletefacetRequest>;
 
 export interface SearchDeletefacetResponse {}
 export const SearchDeletefacetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8058,11 +7648,7 @@ export const SearchDeleteprefixRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/indexes/{index_uid}/settings/prefix-search",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/indexes/{index_uid}/settings/prefix-search", code: 200 }),
   ),
 ).annotate({
   identifier: "SearchDeleteprefixRequest",
@@ -8080,23 +7666,13 @@ export interface SearchGetfacetRequest {
 export const SearchGetfacetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/facet-search",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SearchGetfacetRequest",
-}) as any as S.Schema<SearchGetfacetRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/facet-search", code: 200 })),
+).annotate({ identifier: "SearchGetfacetRequest" }) as any as S.Schema<SearchGetfacetRequest>;
 
 export type SearchGetfacetResponse = boolean;
 export const SearchGetfacetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SearchGetfacetResponse",
-}) as any as S.Schema<SearchGetfacetResponse>;
+).annotate({ identifier: "SearchGetfacetResponse" }) as any as S.Schema<SearchGetfacetResponse>;
 
 export interface SearchGetprefixRequest {
   /** Unique identifier of the index. */
@@ -8105,23 +7681,13 @@ export interface SearchGetprefixRequest {
 export const SearchGetprefixRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/indexes/{index_uid}/settings/prefix-search",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SearchGetprefixRequest",
-}) as any as S.Schema<SearchGetprefixRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/indexes/{index_uid}/settings/prefix-search", code: 200 })),
+).annotate({ identifier: "SearchGetprefixRequest" }) as any as S.Schema<SearchGetprefixRequest>;
 
 export type SearchGetprefixResponse = PrefixSearchSettings;
 export const SearchGetprefixResponse = /*@__PURE__*/ S.suspend(() =>
   PrefixSearchSettings.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SearchGetprefixResponse",
-}) as any as S.Schema<SearchGetprefixResponse>;
+).annotate({ identifier: "SearchGetprefixResponse" }) as any as S.Schema<SearchGetprefixResponse>;
 
 export interface SearchPutfacetRequest {
   /** Unique identifier of the index. */
@@ -8130,16 +7696,8 @@ export interface SearchPutfacetRequest {
 export const SearchPutfacetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/facet-search",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SearchPutfacetRequest",
-}) as any as S.Schema<SearchPutfacetRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/facet-search", code: 200 })),
+).annotate({ identifier: "SearchPutfacetRequest" }) as any as S.Schema<SearchPutfacetRequest>;
 
 export interface SearchPutfacetResponse {}
 export const SearchPutfacetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8155,16 +7713,8 @@ export const SearchPutprefixRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_uid: S.String.pipe(T.Label()),
     body: PrefixSearchSettings.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/indexes/{index_uid}/settings/prefix-search",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SearchPutprefixRequest",
-}) as any as S.Schema<SearchPutprefixRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/indexes/{index_uid}/settings/prefix-search", code: 200 })),
+).annotate({ identifier: "SearchPutprefixRequest" }) as any as S.Schema<SearchPutprefixRequest>;
 
 export interface SearchPutprefixResponse {}
 export const SearchPutprefixResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8307,9 +7857,7 @@ export const SearchWithPostRequest = /*@__PURE__*/ S.suspend(() =>
     showRankingScoreDetails: S.optional(S.Boolean),
     showPerformanceDetails: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/indexes/{index_uid}/search", code: 200 })),
-).annotate({
-  identifier: "SearchWithPostRequest",
-}) as any as S.Schema<SearchWithPostRequest>;
+).annotate({ identifier: "SearchWithPostRequest" }) as any as S.Schema<SearchWithPostRequest>;
 
 /** Matching documents. Each hit contains document fields and, when requested, `_formatted`, `_matchesPosition`, `_rankingScore`, `_rankingScoreDetails`, `_geoDistance`. */
 export type SearchWithPostResponseHitsList = Array<SearchHit>;
@@ -8324,27 +7872,21 @@ export const SearchWithPostResponseQueryVectorList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SearchWithPostResponseQueryVectorList>;
 
 /** Count of matching documents per facet value for each requested facet. Present when `facets` was set. */
-export type SearchWithPostResponseFacetDistributionMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchWithPostResponseFacetDistributionMap = { [key: string]: unknown | undefined };
 export const SearchWithPostResponseFacetDistributionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SearchWithPostResponseFacetDistributionMap>;
 
 /** Minimum and maximum numeric values per facet. Present for numeric facets when `facets` was set. */
-export type SearchWithPostResponseFacetStatsMap = {
-  [key: string]: FacetStats | undefined;
-};
+export type SearchWithPostResponseFacetStatsMap = { [key: string]: FacetStats | undefined };
 export const SearchWithPostResponseFacetStatsMap = /*@__PURE__*/ S.Record(
   S.String,
   FacetStats,
 ) as any as S.Schema<SearchWithPostResponseFacetStatsMap>;
 
 /** Errors from remote shards. Federated search only. */
-export type SearchWithPostResponseRemoteErrorsMap = {
-  [key: string]: ResponseError | undefined;
-};
+export type SearchWithPostResponseRemoteErrorsMap = { [key: string]: ResponseError | undefined };
 export const SearchWithPostResponseRemoteErrorsMap = /*@__PURE__*/ S.Record(
   S.String,
   ResponseError,
@@ -8408,9 +7950,7 @@ export const SearchWithPostResponse = /*@__PURE__*/ S.suspend(() =>
     remoteErrors: S.optional(S.NullOr(SearchWithPostResponseRemoteErrorsMap)),
     semanticHitCount: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "SearchWithPostResponse",
-}) as any as S.Schema<SearchWithPostResponse>;
+).annotate({ identifier: "SearchWithPostResponse" }) as any as S.Schema<SearchWithPostResponse>;
 
 export type SearchWithUrlQueryRequestAttributesToRetrieveList = Array<string>;
 export const SearchWithUrlQueryRequestAttributesToRetrieveList = /*@__PURE__*/ S.Array(
@@ -8568,18 +8108,14 @@ export const SearchWithUrlQueryResponseQueryVectorList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SearchWithUrlQueryResponseQueryVectorList>;
 
 /** Count of matching documents per facet value for each requested facet. Present when `facets` was set. */
-export type SearchWithUrlQueryResponseFacetDistributionMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchWithUrlQueryResponseFacetDistributionMap = { [key: string]: unknown | undefined };
 export const SearchWithUrlQueryResponseFacetDistributionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SearchWithUrlQueryResponseFacetDistributionMap>;
 
 /** Minimum and maximum numeric values per facet. Present for numeric facets when `facets` was set. */
-export type SearchWithUrlQueryResponseFacetStatsMap = {
-  [key: string]: FacetStats | undefined;
-};
+export type SearchWithUrlQueryResponseFacetStatsMap = { [key: string]: FacetStats | undefined };
 export const SearchWithUrlQueryResponseFacetStatsMap = /*@__PURE__*/ S.Record(
   S.String,
   FacetStats,
@@ -8674,9 +8210,7 @@ export const SwapIndexesPayload = /*@__PURE__*/ S.suspend(() =>
     indexes: SwapIndexesPayloadIndexesList,
     rename: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SwapIndexesPayload",
-}) as any as S.Schema<SwapIndexesPayload>;
+).annotate({ identifier: "SwapIndexesPayload" }) as any as S.Schema<SwapIndexesPayload>;
 
 export type SwapIndexesRequestBodyList = Array<SwapIndexesPayload>;
 export const SwapIndexesRequestBodyList = /*@__PURE__*/ S.Array(
@@ -8690,9 +8224,7 @@ export const SwapIndexesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: SwapIndexesRequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/swap-indexes", code: 200 })),
-).annotate({
-  identifier: "SwapIndexesRequest",
-}) as any as S.Schema<SwapIndexesRequest>;
+).annotate({ identifier: "SwapIndexesRequest" }) as any as S.Schema<SwapIndexesRequest>;
 
 export interface SwapIndexesResponse {}
 export const SwapIndexesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8774,9 +8306,7 @@ export const UpdateAllRequestSynonymsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<UpdateAllRequestSynonymsMap>;
 
 /** [Embedders](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search) used for semantic and [hybrid search](https://www.meilisearch.com/docs/learn/ai_powered_search/getting_started_with_ai_search). Map of embedder name to config (`source`, `model`, `documentTemplate`, etc.). */
-export type UpdateAllRequestEmbeddersMap = {
-  [key: string]: EmbeddingSettings | undefined;
-};
+export type UpdateAllRequestEmbeddersMap = { [key: string]: EmbeddingSettings | undefined };
 export const UpdateAllRequestEmbeddersMap = /*@__PURE__*/ S.Record(
   S.String,
   EmbeddingSettings,
@@ -8856,16 +8386,8 @@ export const UpdateAllRequest = /*@__PURE__*/ S.suspend(() =>
     facetSearch: S.optional(S.NullOr(S.Boolean)),
     prefixSearch: S.optional(S.NullOr(PrefixSearchSettings)),
     chat: S.optional(S.NullOr(ChatSettings)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/indexes/{index_uid}/settings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateAllRequest",
-}) as any as S.Schema<UpdateAllRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/indexes/{index_uid}/settings", code: 200 })),
+).annotate({ identifier: "UpdateAllRequest" }) as any as S.Schema<UpdateAllRequest>;
 
 export interface UpdateAllResponse {}
 export const UpdateAllResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8892,9 +8414,7 @@ export const UpdateDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
     customMetadata: S.optional(S.String.pipe(T.Query())),
     skipCreation: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "PUT", uri: "/indexes/{index_uid}/documents", code: 200 })),
-).annotate({
-  identifier: "UpdateDocumentsRequest",
-}) as any as S.Schema<UpdateDocumentsRequest>;
+).annotate({ identifier: "UpdateDocumentsRequest" }) as any as S.Schema<UpdateDocumentsRequest>;
 
 export interface UpdateDocumentsResponse {}
 export const UpdateDocumentsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8915,9 +8435,7 @@ export const UpdateIndexRequest = /*@__PURE__*/ S.suspend(() =>
     primaryKey: S.optional(S.NullOr(S.String)),
     uid: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/indexes/{index_uid}", code: 200 })),
-).annotate({
-  identifier: "UpdateIndexRequest",
-}) as any as S.Schema<UpdateIndexRequest>;
+).annotate({ identifier: "UpdateIndexRequest" }) as any as S.Schema<UpdateIndexRequest>;
 
 export interface UpdateIndexResponse {}
 export const UpdateIndexResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8925,36 +8443,28 @@ export const UpdateIndexResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 }) as any as S.Schema<UpdateIndexResponse>;
 
 /** Map of remote instance names to their configurations - Pass `null` as a value for a remote to remove it from the configuration. - Removing a remote will also remove it from all shards. - Remotes that don't appear in this list will be unmodified by the network call. */
-export type UpdateNetworkRequestRemotesMap = {
-  [key: string]: Remote | undefined;
-};
+export type UpdateNetworkRequestRemotesMap = { [key: string]: Remote | undefined };
 export const UpdateNetworkRequestRemotesMap = /*@__PURE__*/ S.Record(
   S.String,
   Remote,
 ) as any as S.Schema<UpdateNetworkRequestRemotesMap>;
 
 /** Map of shard names to their configurations. - Pass `null` as a value for a shard to remove it from the configuration. - Shards that don't appear in this list will be unmodified by the network call. */
-export type UpdateNetworkRequestShardsMap = {
-  [key: string]: Shard | undefined;
-};
+export type UpdateNetworkRequestShardsMap = { [key: string]: Shard | undefined };
 export const UpdateNetworkRequestShardsMap = /*@__PURE__*/ S.Record(
   S.String,
   Shard,
 ) as any as S.Schema<UpdateNetworkRequestShardsMap>;
 
 /** Previous shard configurations This field should not be passed by end-users. It is used in internal communications between Meilisearch instances */
-export type UpdateNetworkRequestPreviousShardsMap = {
-  [key: string]: Shard | undefined;
-};
+export type UpdateNetworkRequestPreviousShardsMap = { [key: string]: Shard | undefined };
 export const UpdateNetworkRequestPreviousShardsMap = /*@__PURE__*/ S.Record(
   S.String,
   Shard,
 ) as any as S.Schema<UpdateNetworkRequestPreviousShardsMap>;
 
 /** Previous remote configurations This field should not be passed by end-users. It is used in internal communications between Meilisearch instances */
-export type UpdateNetworkRequestPreviousRemotesMap = {
-  [key: string]: Remote | undefined;
-};
+export type UpdateNetworkRequestPreviousRemotesMap = { [key: string]: Remote | undefined };
 export const UpdateNetworkRequestPreviousRemotesMap = /*@__PURE__*/ S.Record(
   S.String,
   Remote,
@@ -8983,15 +8493,7 @@ export const UpdateNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     leader: S.optional(S.NullOr(S.String)),
     previousRemotes: S.optional(S.NullOr(UpdateNetworkRequestPreviousRemotesMap)),
   }).pipe(T.Http({ method: "PATCH", uri: "/network", code: 200 })),
-).annotate({
-  identifier: "UpdateNetworkRequest",
-}) as any as S.Schema<UpdateNetworkRequest>;
-
-/** Actions to apply when the dynamic search rule matches. */
-export type UpdateOrCreateRuleRequestActionsList = Array<RuleAction>;
-export const UpdateOrCreateRuleRequestActionsList = /*@__PURE__*/ S.Array(
-  RuleAction,
-) as any as S.Schema<UpdateOrCreateRuleRequestActionsList>;
+).annotate({ identifier: "UpdateNetworkRequest" }) as any as S.Schema<UpdateNetworkRequest>;
 
 export interface UpdateOrCreateRuleRequest {
   /** Unique identifier of the search rule. */
@@ -9003,8 +8505,7 @@ export interface UpdateOrCreateRuleRequest {
   /** Whether the dynamic search rule is active. */
   active?: boolean | null;
   conditions?: Conditions | null;
-  /** Actions to apply when the dynamic search rule matches. */
-  actions?: UpdateOrCreateRuleRequestActionsList | null;
+  actions?: RuleActions | null;
 }
 export const UpdateOrCreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9013,7 +8514,7 @@ export const UpdateOrCreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     precedence: S.optional(S.NullOr(S.Number)),
     active: S.optional(S.NullOr(S.Boolean)),
     conditions: S.optional(S.NullOr(Conditions)),
-    actions: S.optional(S.NullOr(UpdateOrCreateRuleRequestActionsList)),
+    actions: S.optional(S.NullOr(RuleActions)),
   }).pipe(T.Http({ method: "PATCH", uri: "/dynamic-search-rules/{uid}", code: 200 })),
 ).annotate({
   identifier: "UpdateOrCreateRuleRequest",
@@ -9042,9 +8543,7 @@ export const UpdateStderrTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 }) as any as S.Schema<UpdateStderrTargetResponse>;
 
 /** HTTP headers to include in webhook requests. */
-export type UpdateWebhookRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWebhookRequestHeadersMap = { [key: string]: string | undefined };
 export const UpdateWebhookRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9064,14 +8563,10 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     headers: S.optional(S.NullOr(UpdateWebhookRequestHeadersMap)),
   }).pipe(T.Http({ method: "PATCH", uri: "/webhooks/{uuid}", code: 200 })),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 /** HTTP headers to include in webhook requests. */
-export type UpdateWebhookResponseHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWebhookResponseHeadersMap = { [key: string]: string | undefined };
 export const UpdateWebhookResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9094,9 +8589,7 @@ export const UpdateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String,
     isEditable: S.Boolean,
   }),
-).annotate({
-  identifier: "UpdateWebhookResponse",
-}) as any as S.Schema<UpdateWebhookResponse>;
+).annotate({ identifier: "UpdateWebhookResponse" }) as any as S.Schema<UpdateWebhookResponse>;
 
 export type CancelLogsError = MeilisearchOpError;
 /** Stop retrieving logs Call this route to make the engine stop sending logs to the client that opened the `POST /logs/stream` connection. */
@@ -10522,6 +10015,17 @@ export const listWorkspaces: API.OperationMethod<
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
 }));
+
+export type McpError = MeilisearchOpError;
+/** Model context protocol (MCP) The `/mcp` route exposes [the MCP open protocol](https://modelcontextprotocol.io) that enables seamless integration between LLM applications and external data sources and tools. */
+export const mcp: API.OperationMethod<McpRequest, McpResponse, McpError, MeilisearchOpContext> =
+  /*@__PURE__*/ API.make(() => ({
+    input: McpRequest,
+    output: McpResponse,
+    errors: [UnknownMeilisearchError],
+    protocol: MeilisearchProtocol,
+    retry: Retry.Retry,
+  }));
 
 export type MultiSearchWithPostError = MeilisearchOpError;
 /** Perform a multi-search Run multiple search queries in a single API request. Each query can target a different index, so you can search across several indexes at once and get one combined response. **Warning:** If Meilisearch encounters an error processing any query in the request, it immediately stops and returns an error message for the first error encountered. Partial results are not returned. */

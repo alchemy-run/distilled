@@ -45,6 +45,16 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** Ledger transfers only. The type of the feed named by `feed_id`. */
+export type CreateTransferRequestFeedType =
+  | "dms_feed"
+  | "chat_feed"
+  | "forum_feed"
+  | "livestream_feed"
+  | "universal_post"
+  | "user";
+export const CreateTransferRequestFeedType = S.String;
+
 /** Ledger transfers only. Custom key-value pairs attached to the transfer. Max 50 keys, 100 chars per key, 500 chars per string value. */
 export type CreateTransferRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateTransferRequestMetadataMap = /*@__PURE__*/ S.Record(
@@ -65,6 +75,10 @@ export interface CreateTransferRequest {
   destination_id?: string;
   /** claim_link only. Link expiry as an ISO 8601 timestamp. Defaults to 24 hours from creation. */
   expires_at?: string | null;
+  /** Ledger transfers only. The feed the transfer was initiated from. Given with `feed_type`, the payment receipt posts into that feed instead of a direct message. */
+  feed_id?: string | null;
+  /** Ledger transfers only. The type of the feed named by `feed_id`. */
+  feed_type?: CreateTransferRequestFeedType | (string & {}) | null;
   /** Ledger transfers and wallet sends. A unique key that makes retries safe. Retrying with the same key returns the original transfer, or attaches to the original wallet send, instead of moving money twice. */
   idempotence_key?: string | null;
   /** Ledger transfers only. Custom key-value pairs attached to the transfer. Max 50 keys, 100 chars per key, 500 chars per string value. */
@@ -86,6 +100,8 @@ export const CreateTransferRequest = /*@__PURE__*/ S.suspend(() =>
     currency: S.optional(S.String),
     destination_id: S.optional(S.String),
     expires_at: S.optional(S.NullOr(S.String)),
+    feed_id: S.optional(S.NullOr(S.String)),
+    feed_type: S.optional(S.NullOr(CreateTransferRequestFeedType)),
     idempotence_key: S.optional(S.NullOr(S.String)),
     metadata: S.optional(S.NullOr(CreateTransferRequestMetadataMap)),
     notes: S.optional(S.NullOr(S.String)),
@@ -232,7 +248,7 @@ export type CreateTransferResponseBodyCase0Origin =
 export const CreateTransferResponseBodyCase0Origin =
   S.Unknown as any as S.Schema<CreateTransferResponseBodyCase0Origin>;
 
-/** Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
+/** Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
 export type CreateTransferResponseBodyCase0Status = "processing" | "succeeded" | "failed";
 export const CreateTransferResponseBodyCase0Status = S.String;
 
@@ -270,7 +286,7 @@ export interface CreateTransferResponseBodyCase0 {
   origin: CreateTransferResponseBodyCase0Origin;
   /** Source ledger account ID. */
   origin_ledger_account_id: string;
-  /** Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
+  /** Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
   status: CreateTransferResponseBodyCase0Status;
 }
 export const CreateTransferResponseBodyCase0 = /*@__PURE__*/ S.suspend(() =>
@@ -526,7 +542,7 @@ export type GetTransferResponseOrigin =
   | GetTransferResponseOriginCase1;
 export const GetTransferResponseOrigin = S.Unknown as any as S.Schema<GetTransferResponseOrigin>;
 
-/** Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
+/** Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
 export type GetTransferResponseStatus = "processing" | "succeeded" | "failed";
 export const GetTransferResponseStatus = S.String;
 
@@ -563,7 +579,7 @@ export interface GetTransferResponse {
   origin: GetTransferResponseOrigin;
   /** Source ledger account ID. */
   origin_ledger_account_id: string;
-  /** Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
+  /** Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
   status: GetTransferResponseStatus;
 }
 export const GetTransferResponse = /*@__PURE__*/ S.suspend(() =>
@@ -607,13 +623,13 @@ export interface ListTransferRequest {
   created_before?: string;
   /** Only transfers created strictly after this ISO 8601 timestamp. */
   created_after?: string;
-  /** Number of transfers to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of transfers to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to fetch the page before (from page_info.start_cursor). */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListTransferRequest = /*@__PURE__*/ S.suspend(() =>
@@ -648,7 +664,7 @@ export const ListTransferResponseDataItemMetadataMap = /*@__PURE__*/ S.Record(
 export type ListTransferResponseDataItemObject = "transfer";
 export const ListTransferResponseDataItemObject = S.String;
 
-/** Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
+/** Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
 export type ListTransferResponseDataItemStatus = "processing" | "succeeded" | "failed";
 export const ListTransferResponseDataItemStatus = S.String;
 
@@ -682,7 +698,7 @@ export interface ListTransferResponseDataItem {
   object: ListTransferResponseDataItemObject;
   /** Source ledger account ID. */
   origin_ledger_account_id: string;
-  /** Transfer status. `processing` means the on-chain leg is still executing — poll the transfer until it resolves to `succeeded` or `failed`. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
+  /** Transfer status. `processing` means the on-chain leg is still executing — subscribe to `transfer.completed` and `transfer.failed`, or retrieve the transfer to check its current status. A `failed` transfer may be retried under the same ID and later resolve to `succeeded`. */
   status: ListTransferResponseDataItemStatus;
 }
 export const ListTransferResponseDataItem = /*@__PURE__*/ S.suspend(() =>
@@ -743,11 +759,11 @@ export const ListTransferResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListTransferRecipientsRequest {
   /** The account sending the money: a company account ID (`biz_`), or a user ID (`user_`) for that user's own personal balance. */
   origin_id: string;
-  /** Search anyone on Whop by name or username, plus your own accounts by name or ID. Omit it to get the team around the balance, the people you follow, and your own accounts. The list is the same whether the balance belongs to a company or to you. Searching from a `biz_` origin additionally requires the member:basic:read scope. A credential scoped to a single company is the exception to the search itself: it only ever sees that company's own people. Complete email addresses return no matches. */
+  /** Search anyone on Whop by name or username, plus your own accounts by name or ID. An exact business ID (`biz_`) returns that business first. Omit it to get the team around the balance, the people you follow, and your own accounts. The list is the same whether the balance belongs to a company or to you. Searching from a `biz_` origin additionally requires the member:basic:read scope. A credential scoped to a single company is the exception to the search itself: it only ever sees that company's own people. Complete email addresses return no matches. Search results are limited to 20 recipients. */
   query?: string;
-  /** Number of recipients per page. Search queries preserve the dashboard's 20-result maximum. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to fetch the page after (from page_info.end_cursor). */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
 }
 export const ListTransferRecipientsRequest = /*@__PURE__*/ S.suspend(() =>

@@ -117,6 +117,12 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "allow_attach": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether other databases may be attached to this database with `ATTACH`."
+          }
         }
       },
       "traits": {}
@@ -1034,7 +1040,8 @@
         "jwt": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The generated authorization token (JWT)."
+            "smithy.api#documentation": "The generated authorization token (JWT).",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -2316,7 +2323,8 @@
         "jwt": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The generated authorization token (JWT)."
+            "smithy.api#documentation": "The generated authorization token (JWT).",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -3911,7 +3919,8 @@
         "token": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The actual token contents as a JWT. This is used with the `Bearer` header, see [Authentication](/authentication) for more details. **This token is never revealed again.**"
+            "smithy.api#documentation": "The actual token contents as a JWT. This is used with the `Bearer` header, see [Authentication](/authentication) for more details. **This token is never revealed again.**",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -3927,6 +3936,17 @@
       "output": {
         "target": "com.turso.api#CreateAPITokenResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#BadRequest"
+        },
+        {
+          "target": "com.turso.api#NotFound"
+        },
+        {
+          "target": "com.turso.api#Conflict"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -4156,6 +4176,11 @@
       "output": {
         "target": "com.turso.api#RevokeOrganizationAPITokenResponse"
       },
+      "errors": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",

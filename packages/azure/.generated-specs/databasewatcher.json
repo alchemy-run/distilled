@@ -31,10 +31,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Delete a Target",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#DeleteTargetRequest": {
@@ -90,10 +90,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Create a Target",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#TargetsCreateOrUpdateResponse": {
@@ -168,6 +168,42 @@
           "target": "com.azure.databasewatcher#AzureResourceManagerResourceProvisioningState",
           "traits": {
             "smithy.api#documentation": "The provisioning state of the resource."
+          }
+        },
+        "sqlDbResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure resource ID of an Azure SQL DB database target (targetType SqlDb)."
+          }
+        },
+        "sqlEpResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp)."
+          }
+        },
+        "anchorDatabaseResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp)."
+          }
+        },
+        "sqlMiResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi)."
+          }
+        },
+        "connectionTcpPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi)."
+          }
+        },
+        "readIntent": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi)."
           }
         }
       },
@@ -431,6 +467,42 @@
             "smithy.api#documentation": "The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately.",
             "smithy.api#required": {}
           }
+        },
+        "sqlDbResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure resource ID of an Azure SQL DB database target (targetType SqlDb)."
+          }
+        },
+        "sqlEpResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp)."
+          }
+        },
+        "anchorDatabaseResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp)."
+          }
+        },
+        "sqlMiResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi)."
+          }
+        },
+        "connectionTcpPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi)."
+          }
+        },
+        "readIntent": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi)."
+          }
         }
       },
       "traits": {
@@ -450,10 +522,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Get a Target",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#GetTargetResponse": {
@@ -547,10 +619,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "List Target resources by Watcher",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#TargetListResult": {
@@ -666,10 +738,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/stop",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "The action to stop monitoring all targets configured for a database watcher.",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#StopWatcherResponse": {
@@ -1056,10 +1128,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/start",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "The action to start monitoring all targets configured for a database watcher.",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#StartWatcherResponse": {
@@ -1205,10 +1277,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Delete a SharedPrivateLinkResource",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#DeleteSharedPrivateLinkResourceRequest": {
@@ -1264,10 +1336,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Create a SharedPrivateLinkResource",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#CreateSharedPrivateLinkResourceResponse": {
@@ -1481,10 +1553,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Get a SharedPrivateLinkResource",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#GetSharedPrivateLinkResourceResponse": {
@@ -1578,10 +1650,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "List SharedPrivateLinkResource resources by Watcher",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#SharedPrivateLinkResourceListResult": {
@@ -1697,10 +1769,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}/startValidation",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Starts health validation for a watcher.",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#StartHealthValidationValidationResponse": {
@@ -1942,10 +2014,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Get a HealthValidation",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#GetHealthValidationResponse": {
@@ -2039,10 +2111,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "List HealthValidation resources by Watcher",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#HealthValidationListResult": {
@@ -2158,10 +2230,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Delete a AlertRuleResource",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#DeleteAlertRuleResourceRequest": {
@@ -2217,10 +2289,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Create a AlertRuleResource",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#AlertRuleResourcesCreateOrUpdateResponse": {
@@ -2432,10 +2504,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Get a AlertRuleResource",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#GetAlertRuleResourceResponse": {
@@ -2529,10 +2601,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "List AlertRuleResource resources by Watcher",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#AlertRuleResourceListResult": {
@@ -2648,10 +2720,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Delete a Watcher",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#DeleteWatcherRequest": {
@@ -2699,10 +2771,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Update a Watcher",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#UpdateWatcherResponse": {
@@ -2984,10 +3056,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Create a Watcher",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#WatchersCreateOrUpdateResponse": {
@@ -3207,10 +3279,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "Get a Watcher",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#GetWatcherResponse": {
@@ -3356,10 +3428,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "List Watcher resources by resource group",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#WatcherListResult": {
@@ -3527,10 +3599,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.DatabaseWatcher/watchers",
           "code": 200,
-          "apiVersion": "2025-01-02"
+          "apiVersion": "2024-10-01-preview"
         },
         "smithy.api#documentation": "List Watcher resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2025-01-02"
+        "com.distilled.openapi#apiVersion": "2024-10-01-preview"
       }
     },
     "com.azure.databasewatcher#ListWatcherBySubscriptionRequest": {

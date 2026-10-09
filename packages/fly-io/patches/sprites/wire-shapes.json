@@ -1,0 +1,152 @@
+{
+  "description": "Restore the Sprites shapes the published spec loses (regressed when #849 moved off the hand-written spec; observed by alchemy's live Sprite tests, which pass against these shapes). POST /sprites/{name}/exec answers with stdout/stderr/exit frames that SpritesProtocol decodes to { exit_code, stdout, stderr }, but the spec documents no body. Its `cmd` and `env` query parameters repeat (the spec says so in prose) but are typed as single strings. POST /sprites/{name}/checkpoint and .../restore stream NDJSON progress events, which the spec's oneOf converts to Unit. POST /sprites accepts `labels` (echoed on SpriteResponse.labels) and answers 409 for a name already in use. PUT .../services/{service_name} accepts a service without `args` or `needs`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#ExecResult",
+      "value": {
+        "type": "structure",
+        "members": {
+          "exit_code": { "target": "smithy.api#Integer" },
+          "stdout": { "target": "smithy.api#String" },
+          "stderr": { "target": "smithy.api#String" }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvExecuteCommand/output",
+      "value": { "target": "com.flyio.sprites#ExecResult" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvExecuteCommandRequestCmdList",
+      "value": { "type": "list", "member": { "target": "smithy.api#String" }, "traits": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvExecuteCommandRequestEnvList",
+      "value": { "type": "list", "member": { "target": "smithy.api#String" }, "traits": {} }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvExecuteCommandRequest/members/cmd/target",
+      "value": "com.flyio.sprites#SpriteEnvExecuteCommandRequestCmdList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvExecuteCommandRequest/members/env/target",
+      "value": "com.flyio.sprites#SpriteEnvExecuteCommandRequestEnvList"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#StreamEvent",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": { "target": "smithy.api#String" },
+          "data": { "target": "smithy.api#String" },
+          "error": { "target": "smithy.api#String" },
+          "time": { "target": "smithy.api#String" }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#CreateCheckpointResponseBodyList",
+      "value": {
+        "type": "list",
+        "member": { "target": "com.flyio.sprites#StreamEvent" },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#CreateCheckpointResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "com.flyio.sprites#CreateCheckpointResponseBodyList",
+            "traits": { "com.distilled.openapi#rawResponse": {}, "smithy.api#required": {} }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvCreateCheckpoint/output",
+      "value": { "target": "com.flyio.sprites#CreateCheckpointResponse" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#RestoreCheckpointResponseBodyList",
+      "value": {
+        "type": "list",
+        "member": { "target": "com.flyio.sprites#StreamEvent" },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#RestoreCheckpointResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "com.flyio.sprites#RestoreCheckpointResponseBodyList",
+            "traits": { "com.distilled.openapi#rawResponse": {}, "smithy.api#required": {} }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvRestoreCheckpoint/output",
+      "value": { "target": "com.flyio.sprites#RestoreCheckpointResponse" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpritesCreatePostRequestLabelsList",
+      "value": { "type": "list", "member": { "target": "smithy.api#String" }, "traits": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpritesCreatePostRequest/members/labels",
+      "value": {
+        "target": "com.flyio.sprites#SpritesCreatePostRequestLabelsList",
+        "traits": { "smithy.api#documentation": "Labels stamped on the sprite" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [{ "status": 409 }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpritesCreatePost/errors/-",
+      "value": { "target": "com.flyio.sprites#Conflict" }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvCreateServiceRequest/members/args/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.flyio.sprites#SpriteEnvCreateServiceRequest/members/needs/traits/smithy.api#required"
+    }
+  ]
+}

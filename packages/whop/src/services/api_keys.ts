@@ -76,7 +76,28 @@ export type CreateApiKeyRequestApiVersionDate =
   | "2026-08-21-1"
   | "2026-08-25"
   | "2026-08-25-1"
-  | "2026-08-25-2";
+  | "2026-08-25-2"
+  | "2026-08-31"
+  | "2026-09-02"
+  | "2026-09-02-1"
+  | "2026-09-02-2"
+  | "2026-09-04"
+  | "2026-09-06"
+  | "2026-09-09"
+  | "2026-09-09-1"
+  | "2026-09-11"
+  | "2026-09-11-1"
+  | "2026-09-13"
+  | "2026-09-15"
+  | "2026-09-22"
+  | "2026-09-22-1"
+  | "2026-09-22-2"
+  | "2026-09-22-3"
+  | "2026-09-22-4"
+  | "2026-09-23"
+  | "2026-09-24"
+  | "2026-09-24-1"
+  | "2026-09-25";
 export const CreateApiKeyRequestApiVersionDate = S.String;
 
 /** IPv4/IPv6 CIDR ranges allowed to use this key, for example `["203.0.113.0/24"]`. Empty or `null` allows any IP. */
@@ -212,7 +233,28 @@ export type ApiKeyApiVersionDate =
   | "2026-08-21-1"
   | "2026-08-25"
   | "2026-08-25-1"
-  | "2026-08-25-2";
+  | "2026-08-25-2"
+  | "2026-08-31"
+  | "2026-09-02"
+  | "2026-09-02-1"
+  | "2026-09-02-2"
+  | "2026-09-04"
+  | "2026-09-06"
+  | "2026-09-09"
+  | "2026-09-09-1"
+  | "2026-09-11"
+  | "2026-09-11-1"
+  | "2026-09-13"
+  | "2026-09-15"
+  | "2026-09-22"
+  | "2026-09-22-1"
+  | "2026-09-22-2"
+  | "2026-09-22-3"
+  | "2026-09-22-4"
+  | "2026-09-23"
+  | "2026-09-24"
+  | "2026-09-24-1"
+  | "2026-09-25";
 export const ApiKeyApiVersionDate = S.String;
 
 export interface ApiKeyGrantAction {
@@ -349,7 +391,8 @@ export type PermissionGrantedToSystemRolesItem =
   | "admin"
   | "moderator"
   | "sales_manager"
-  | "advertiser";
+  | "advertiser"
+  | "partner";
 export const PermissionGrantedToSystemRolesItem = S.String;
 
 export type PermissionGrantedToSystemRolesList = Array<PermissionGrantedToSystemRolesItem>;
@@ -440,13 +483,13 @@ export interface ListApiKeysRequest {
   created_before?: unknown;
   /** Only return API keys created after this ISO 8601 timestamp. */
   created_after?: unknown;
-  /** The number of API keys to return (default 20, max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns API keys after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of API keys to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns API keys before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The field to sort API keys by. */
   order?: ListApiKeysRequestOrder | (string & {});
@@ -530,7 +573,28 @@ export type UpdateApiKeyRequestApiVersionDate =
   | "2026-08-21-1"
   | "2026-08-25"
   | "2026-08-25-1"
-  | "2026-08-25-2";
+  | "2026-08-25-2"
+  | "2026-08-31"
+  | "2026-09-02"
+  | "2026-09-02-1"
+  | "2026-09-02-2"
+  | "2026-09-04"
+  | "2026-09-06"
+  | "2026-09-09"
+  | "2026-09-09-1"
+  | "2026-09-11"
+  | "2026-09-11-1"
+  | "2026-09-13"
+  | "2026-09-15"
+  | "2026-09-22"
+  | "2026-09-22-1"
+  | "2026-09-22-2"
+  | "2026-09-22-3"
+  | "2026-09-22-4"
+  | "2026-09-23"
+  | "2026-09-24"
+  | "2026-09-24-1"
+  | "2026-09-25";
 export const UpdateApiKeyRequestApiVersionDate = S.String;
 
 /** IPv4/IPv6 CIDR ranges allowed to use this key, for example `["203.0.113.0/24"]`. Empty or `null` allows any IP. */

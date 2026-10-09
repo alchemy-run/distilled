@@ -75,6 +75,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "patches": "generate"
+    "generatedAt": "2026-10-05",
+    "specUpdatedAt": "2026-10-03"
   }
 }

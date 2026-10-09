@@ -35,433 +35,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export class UnprocessableEntity
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
-      code: S.Number,
-      message: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 422 }],
-  ) {}
-
-export interface DescribeStatsRequest {
-  resource?: string;
-  company_id?: string;
-  user_id?: string;
-}
-export const DescribeStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resource: S.optional(S.String.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
-    user_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/stats/describe", code: 200 })),
-).annotate({ identifier: "DescribeStatsRequest" }) as any as S.Schema<DescribeStatsRequest>;
-
-/** Debug information. */
-export interface DescribeStatsResponseBodyCase0Debug {
-  /** Unique request identifier for debugging. */
-  request_id: string | null;
-}
-export const DescribeStatsResponseBodyCase0Debug = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    request_id: S.NullOr(S.String),
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase0Debug",
-}) as any as S.Schema<DescribeStatsResponseBodyCase0Debug>;
-
-/** Query engines that support this metric. */
-export type DescribeStatsResponseBodyCase0MetricsItemSupportedEnginesList = Array<string>;
-export const DescribeStatsResponseBodyCase0MetricsItemSupportedEnginesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase0MetricsItemSupportedEnginesList>;
-
-/** A metric available for querying. */
-export interface DescribeStatsResponseBodyCase0MetricsItem {
-  /** The metric name. */
-  name: string;
-  /** The node path this metric operates on. */
-  node_path: string;
-  /** Query engines that support this metric. */
-  supported_engines: DescribeStatsResponseBodyCase0MetricsItemSupportedEnginesList;
-}
-export const DescribeStatsResponseBodyCase0MetricsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    node_path: S.String,
-    supported_engines: DescribeStatsResponseBodyCase0MetricsItemSupportedEnginesList,
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase0MetricsItem",
-}) as any as S.Schema<DescribeStatsResponseBodyCase0MetricsItem>;
-
-/** Available metrics. */
-export type DescribeStatsResponseBodyCase0MetricsList =
-  Array<DescribeStatsResponseBodyCase0MetricsItem>;
-export const DescribeStatsResponseBodyCase0MetricsList = /*@__PURE__*/ S.Array(
-  DescribeStatsResponseBodyCase0MetricsItem,
-) as any as S.Schema<DescribeStatsResponseBodyCase0MetricsList>;
-
-/** Available root nodes. */
-export type DescribeStatsResponseBodyCase0NodesList = Array<string>;
-export const DescribeStatsResponseBodyCase0NodesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase0NodesList>;
-
-/** Available API resource views. */
-export type DescribeStatsResponseBodyCase0ViewsList = Array<string>;
-export const DescribeStatsResponseBodyCase0ViewsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase0ViewsList>;
-
-/** Root schema description showing available nodes, views, and metrics. */
-export interface DescribeStatsResponseBodyCase0 {
-  /** Debug information. */
-  debug: DescribeStatsResponseBodyCase0Debug | null;
-  /** Available metrics. */
-  metrics: DescribeStatsResponseBodyCase0MetricsList;
-  /** Available root nodes. */
-  nodes: DescribeStatsResponseBodyCase0NodesList;
-  /** The typename of this object */
-  typename: string;
-  /** Available API resource views. */
-  views: DescribeStatsResponseBodyCase0ViewsList;
-}
-export const DescribeStatsResponseBodyCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    debug: S.NullOr(DescribeStatsResponseBodyCase0Debug),
-    metrics: DescribeStatsResponseBodyCase0MetricsList,
-    nodes: DescribeStatsResponseBodyCase0NodesList,
-    typename: S.String,
-    views: DescribeStatsResponseBodyCase0ViewsList,
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase0",
-}) as any as S.Schema<DescribeStatsResponseBodyCase0>;
-
-/** An association or child path available for navigation. */
-export interface DescribeStatsResponseBodyCase1AssociationsItem {
-  /** The event name (for event type). */
-  event_name: string | null;
-  /** The associated model class name (for model associations). */
-  model: string | null;
-  /** The association name. */
-  name: string;
-  /** The full path (for event associations). */
-  path: string | null;
-  /** The type (belongs_to, has_many, has_one, event, namespace). */
-  type: string;
-}
-export const DescribeStatsResponseBodyCase1AssociationsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    event_name: S.NullOr(S.String),
-    model: S.NullOr(S.String),
-    name: S.String,
-    path: S.NullOr(S.String),
-    type: S.String,
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase1AssociationsItem",
-}) as any as S.Schema<DescribeStatsResponseBodyCase1AssociationsItem>;
-
-/** Available associations or child paths. */
-export type DescribeStatsResponseBodyCase1AssociationsList =
-  Array<DescribeStatsResponseBodyCase1AssociationsItem>;
-export const DescribeStatsResponseBodyCase1AssociationsList = /*@__PURE__*/ S.Array(
-  DescribeStatsResponseBodyCase1AssociationsItem,
-) as any as S.Schema<DescribeStatsResponseBodyCase1AssociationsList>;
-
-/** Available columns. */
-export type DescribeStatsResponseBodyCase1ColumnsList = Array<string>;
-export const DescribeStatsResponseBodyCase1ColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase1ColumnsList>;
-
-/** Debug information. */
-export type DescribeStatsResponseBodyCase1Debug = DescribeStatsResponseBodyCase0Debug;
-export const DescribeStatsResponseBodyCase1Debug = DescribeStatsResponseBodyCase0Debug;
-
-/** Query engines that support this metric. */
-export type DescribeStatsResponseBodyCase1MetricsItemSupportedEnginesList = Array<string>;
-export const DescribeStatsResponseBodyCase1MetricsItemSupportedEnginesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase1MetricsItemSupportedEnginesList>;
-
-/** A metric available for querying. */
-export interface DescribeStatsResponseBodyCase1MetricsItem {
-  /** The metric name. */
-  name: string;
-  /** The node path this metric operates on. */
-  node_path: string;
-  /** Query engines that support this metric. */
-  supported_engines: DescribeStatsResponseBodyCase1MetricsItemSupportedEnginesList;
-}
-export const DescribeStatsResponseBodyCase1MetricsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    node_path: S.String,
-    supported_engines: DescribeStatsResponseBodyCase1MetricsItemSupportedEnginesList,
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase1MetricsItem",
-}) as any as S.Schema<DescribeStatsResponseBodyCase1MetricsItem>;
-
-/** Available metrics for this node. */
-export type DescribeStatsResponseBodyCase1MetricsList =
-  Array<DescribeStatsResponseBodyCase1MetricsItem>;
-export const DescribeStatsResponseBodyCase1MetricsList = /*@__PURE__*/ S.Array(
-  DescribeStatsResponseBodyCase1MetricsItem,
-) as any as S.Schema<DescribeStatsResponseBodyCase1MetricsList>;
-
-/** Represents untyped JSON */
-export type DescribeStatsResponseBodyCase1SampleItemMap = { [key: string]: unknown | undefined };
-export const DescribeStatsResponseBodyCase1SampleItemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DescribeStatsResponseBodyCase1SampleItemMap>;
-
-/** Sample data rows. */
-export type DescribeStatsResponseBodyCase1SampleList =
-  Array<DescribeStatsResponseBodyCase1SampleItemMap>;
-export const DescribeStatsResponseBodyCase1SampleList = /*@__PURE__*/ S.Array(
-  DescribeStatsResponseBodyCase1SampleItemMap,
-) as any as S.Schema<DescribeStatsResponseBodyCase1SampleList>;
-
-/** Columns that can be used for sorting. */
-export type DescribeStatsResponseBodyCase1SortableColumnsList = Array<string>;
-export const DescribeStatsResponseBodyCase1SortableColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase1SortableColumnsList>;
-
-/** Description of a node (model) including its columns and associations. */
-export interface DescribeStatsResponseBodyCase1 {
-  /** Available associations or child paths. */
-  associations: DescribeStatsResponseBodyCase1AssociationsList;
-  /** Available columns. */
-  columns: DescribeStatsResponseBodyCase1ColumnsList;
-  /** Debug information. */
-  debug: DescribeStatsResponseBodyCase0Debug | null;
-  /** The query engine being used. */
-  engine: string;
-  /** Available metrics for this node. */
-  metrics: DescribeStatsResponseBodyCase1MetricsList;
-  /** The node path being described. */
-  node: string;
-  /** Sample data rows. */
-  sample: DescribeStatsResponseBodyCase1SampleList | null;
-  /** Columns that can be used for sorting. */
-  sortable_columns: DescribeStatsResponseBodyCase1SortableColumnsList;
-  /** The typename of this object */
-  typename: string;
-}
-export const DescribeStatsResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    associations: DescribeStatsResponseBodyCase1AssociationsList,
-    columns: DescribeStatsResponseBodyCase1ColumnsList,
-    debug: S.NullOr(DescribeStatsResponseBodyCase0Debug),
-    engine: S.String,
-    metrics: DescribeStatsResponseBodyCase1MetricsList,
-    node: S.String,
-    sample: S.NullOr(DescribeStatsResponseBodyCase1SampleList),
-    sortable_columns: DescribeStatsResponseBodyCase1SortableColumnsList,
-    typename: S.String,
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase1",
-}) as any as S.Schema<DescribeStatsResponseBodyCase1>;
-
-/** Columns that can be used for breakdowns. */
-export type DescribeStatsResponseBodyCase2BreakdownableColumnsList = Array<string>;
-export const DescribeStatsResponseBodyCase2BreakdownableColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase2BreakdownableColumnsList>;
-
-/** Debug information. */
-export type DescribeStatsResponseBodyCase2Debug = DescribeStatsResponseBodyCase0Debug;
-export const DescribeStatsResponseBodyCase2Debug = DescribeStatsResponseBodyCase0Debug;
-
-/** Columns that can be used for filtering. */
-export type DescribeStatsResponseBodyCase2FilterableColumnsList = Array<string>;
-export const DescribeStatsResponseBodyCase2FilterableColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase2FilterableColumnsList>;
-
-/** Query engines that support this metric. */
-export type DescribeStatsResponseBodyCase2SupportedEnginesList = Array<string>;
-export const DescribeStatsResponseBodyCase2SupportedEnginesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase2SupportedEnginesList>;
-
-/** Description of a metric including its configuration and SQL. */
-export interface DescribeStatsResponseBodyCase2 {
-  /** Columns that can be used for breakdowns. */
-  breakdownable_columns: DescribeStatsResponseBodyCase2BreakdownableColumnsList;
-  /** Debug information. */
-  debug: DescribeStatsResponseBodyCase0Debug | null;
-  /** The query engine being used. */
-  engine: string;
-  /** Columns that can be used for filtering. */
-  filterable_columns: DescribeStatsResponseBodyCase2FilterableColumnsList;
-  /** The metric name. */
-  metric: string;
-  /** The node path this metric operates on. */
-  node: string;
-  /** The generated SQL query. */
-  sql: string | null;
-  /** Query engines that support this metric. */
-  supported_engines: DescribeStatsResponseBodyCase2SupportedEnginesList;
-  /** The timestamp column used for time filtering. */
-  timestamp_column: string;
-  /** The typename of this object */
-  typename: string;
-}
-export const DescribeStatsResponseBodyCase2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    breakdownable_columns: DescribeStatsResponseBodyCase2BreakdownableColumnsList,
-    debug: S.NullOr(DescribeStatsResponseBodyCase0Debug),
-    engine: S.String,
-    filterable_columns: DescribeStatsResponseBodyCase2FilterableColumnsList,
-    metric: S.String,
-    node: S.String,
-    sql: S.NullOr(S.String),
-    supported_engines: DescribeStatsResponseBodyCase2SupportedEnginesList,
-    timestamp_column: S.String,
-    typename: S.String,
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase2",
-}) as any as S.Schema<DescribeStatsResponseBodyCase2>;
-
-/** An association or child path available for navigation. */
-export type DescribeStatsResponseBodyCase3AssociationsItem =
-  DescribeStatsResponseBodyCase1AssociationsItem;
-export const DescribeStatsResponseBodyCase3AssociationsItem =
-  DescribeStatsResponseBodyCase1AssociationsItem;
-
-/** Available associations. */
-export type DescribeStatsResponseBodyCase3AssociationsList =
-  Array<DescribeStatsResponseBodyCase1AssociationsItem>;
-export const DescribeStatsResponseBodyCase3AssociationsList = /*@__PURE__*/ S.Array(
-  DescribeStatsResponseBodyCase1AssociationsItem,
-) as any as S.Schema<DescribeStatsResponseBodyCase3AssociationsList>;
-
-/** Available columns. */
-export type DescribeStatsResponseBodyCase3ColumnsList = Array<string>;
-export const DescribeStatsResponseBodyCase3ColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase3ColumnsList>;
-
-/** Debug information. */
-export type DescribeStatsResponseBodyCase3Debug = DescribeStatsResponseBodyCase0Debug;
-export const DescribeStatsResponseBodyCase3Debug = DescribeStatsResponseBodyCase0Debug;
-
-/** Query engines that support this metric. */
-export type DescribeStatsResponseBodyCase3MetricsItemSupportedEnginesList = Array<string>;
-export const DescribeStatsResponseBodyCase3MetricsItemSupportedEnginesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase3MetricsItemSupportedEnginesList>;
-
-/** A metric available for querying. */
-export interface DescribeStatsResponseBodyCase3MetricsItem {
-  /** The metric name. */
-  name: string;
-  /** The node path this metric operates on. */
-  node_path: string;
-  /** Query engines that support this metric. */
-  supported_engines: DescribeStatsResponseBodyCase3MetricsItemSupportedEnginesList;
-}
-export const DescribeStatsResponseBodyCase3MetricsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    node_path: S.String,
-    supported_engines: DescribeStatsResponseBodyCase3MetricsItemSupportedEnginesList,
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase3MetricsItem",
-}) as any as S.Schema<DescribeStatsResponseBodyCase3MetricsItem>;
-
-/** Available metrics. */
-export type DescribeStatsResponseBodyCase3MetricsList =
-  Array<DescribeStatsResponseBodyCase3MetricsItem>;
-export const DescribeStatsResponseBodyCase3MetricsList = /*@__PURE__*/ S.Array(
-  DescribeStatsResponseBodyCase3MetricsItem,
-) as any as S.Schema<DescribeStatsResponseBodyCase3MetricsList>;
-
-/** Represents untyped JSON */
-export type DescribeStatsResponseBodyCase3SampleItemMap = { [key: string]: unknown | undefined };
-export const DescribeStatsResponseBodyCase3SampleItemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DescribeStatsResponseBodyCase3SampleItemMap>;
-
-/** Sample data rows. */
-export type DescribeStatsResponseBodyCase3SampleList =
-  Array<DescribeStatsResponseBodyCase3SampleItemMap>;
-export const DescribeStatsResponseBodyCase3SampleList = /*@__PURE__*/ S.Array(
-  DescribeStatsResponseBodyCase3SampleItemMap,
-) as any as S.Schema<DescribeStatsResponseBodyCase3SampleList>;
-
-/** Columns that can be used for sorting. */
-export type DescribeStatsResponseBodyCase3SortableColumnsList = Array<string>;
-export const DescribeStatsResponseBodyCase3SortableColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<DescribeStatsResponseBodyCase3SortableColumnsList>;
-
-/** Description of an API resource view including its columns and associations. */
-export interface DescribeStatsResponseBodyCase3 {
-  /** Available associations. */
-  associations: DescribeStatsResponseBodyCase3AssociationsList;
-  /** Available columns. */
-  columns: DescribeStatsResponseBodyCase3ColumnsList;
-  /** Debug information. */
-  debug: DescribeStatsResponseBodyCase0Debug | null;
-  /** The query engine being used. */
-  engine: string;
-  /** Available metrics. */
-  metrics: DescribeStatsResponseBodyCase3MetricsList;
-  /** The underlying model class. */
-  model: string;
-  /** The API resource name. */
-  resource: string;
-  /** Sample data rows. */
-  sample: DescribeStatsResponseBodyCase3SampleList | null;
-  /** Columns that can be used for sorting. */
-  sortable_columns: DescribeStatsResponseBodyCase3SortableColumnsList;
-  /** The typename of this object */
-  typename: string;
-  /** The view name being described. */
-  view: string;
-}
-export const DescribeStatsResponseBodyCase3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    associations: DescribeStatsResponseBodyCase3AssociationsList,
-    columns: DescribeStatsResponseBodyCase3ColumnsList,
-    debug: S.NullOr(DescribeStatsResponseBodyCase0Debug),
-    engine: S.String,
-    metrics: DescribeStatsResponseBodyCase3MetricsList,
-    model: S.String,
-    resource: S.String,
-    sample: S.NullOr(DescribeStatsResponseBodyCase3SampleList),
-    sortable_columns: DescribeStatsResponseBodyCase3SortableColumnsList,
-    typename: S.String,
-    view: S.String,
-  }),
-).annotate({
-  identifier: "DescribeStatsResponseBodyCase3",
-}) as any as S.Schema<DescribeStatsResponseBodyCase3>;
-
-export type DescribeStatsResponseBody =
-  | DescribeStatsResponseBodyCase0
-  | DescribeStatsResponseBodyCase1
-  | DescribeStatsResponseBodyCase2
-  | DescribeStatsResponseBodyCase3;
-export const DescribeStatsResponseBody = S.Unknown as any as S.Schema<DescribeStatsResponseBody>;
-
-export type DescribeStatsResponse = DescribeStatsResponseBody;
-export const DescribeStatsResponse = /*@__PURE__*/ S.suspend(() =>
-  DescribeStatsResponseBody.pipe(T.RawResponseRoot()),
-).annotate({ identifier: "DescribeStatsResponse" }) as any as S.Schema<DescribeStatsResponse>;
-
 export type GetMetricRequestInterval =
   | "minute"
   | "five_minutes"
@@ -494,6 +67,91 @@ export const GetMetricRequestAdIdsList = /*@__PURE__*/ S.Array(
 export type GetMetricRequestSnapshotWindow = "7d" | "28d" | "30d";
 export const GetMetricRequestSnapshotWindow = S.String;
 
+export interface FunnelStep {
+  /** The Whop app build ID attached to the event. Comma-separated alternatives are ORed; different filters are ANDed. */
+  app_build_id?: string;
+  /** The event's app id. Comma-separated alternatives are ORed; different filters are ANDed. */
+  app_id?: string;
+  /** The event's browser. Comma-separated alternatives are ORed; different filters are ANDed. */
+  browser?: string;
+  /** The event's city. Comma-separated alternatives are ORed; different filters are ANDed. */
+  city?: string;
+  /** The event's country. Comma-separated alternatives are ORed; different filters are ANDed. */
+  country?: string;
+  /** The custom event name. Requires event=pixel.custom. Comma-separated alternatives are ORed; different filters are ANDed. */
+  custom_name?: string;
+  /** The event's device. Comma-separated alternatives are ORed; different filters are ANDed. */
+  device?: string;
+  /** The event name, such as pixel.page, pixel.custom, experiment.exposure, or payment.completed. Exactly one event per step. */
+  event: string;
+  /** An experiment ID owned by account_id. Requires event=experiment.exposure. Comma-separated alternatives are ORed; different filters are ANDed. */
+  experiment_id?: string;
+  /** The event's hostname. Comma-separated alternatives are ORed; different filters are ANDed. */
+  hostname?: string;
+  /** The event's os. Comma-separated alternatives are ORed; different filters are ANDed. */
+  os?: string;
+  /** The URL pathname. Use * to match zero or more characters, including slashes. Other characters match literally. Missing pages do not match. Comma-separated alternatives are ORed; different filters are ANDed. */
+  page?: string;
+  /** The plan ID attached to the event. Comma-separated alternatives are ORed; different filters are ANDed. */
+  plan_id?: string;
+  /** The product ID attached to the event. Comma-separated alternatives are ORed; different filters are ANDed. */
+  product_id?: string;
+  /** The Whop ad-click source of this page view, not conversion attribution. Use whop:* for any Whop ad click, whop:<campaign>:* for a campaign, or whop:<campaign>:<group>:<ad> for an exact ad. Only ad-click page-view events support source. With breakdown_by=source, trailing :* levels select campaign, ad-group, or ad detail. Comma-separated alternatives are ORed; different filters are ANDed. */
+  source?: string;
+  /** The event's utm source. Comma-separated alternatives are ORed; different filters are ANDed. */
+  utm_source?: string;
+  /** The exposed variant name. Requires event=experiment.exposure. Comma-separated alternatives are ORed; different filters are ANDed. */
+  variant?: string;
+}
+export const FunnelStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    app_build_id: S.optional(S.String),
+    app_id: S.optional(S.String),
+    browser: S.optional(S.String),
+    city: S.optional(S.String),
+    country: S.optional(S.String),
+    custom_name: S.optional(S.String),
+    device: S.optional(S.String),
+    event: S.String,
+    experiment_id: S.optional(S.String),
+    hostname: S.optional(S.String),
+    os: S.optional(S.String),
+    page: S.optional(S.String),
+    plan_id: S.optional(S.String),
+    product_id: S.optional(S.String),
+    source: S.optional(S.String),
+    utm_source: S.optional(S.String),
+    variant: S.optional(S.String),
+  }),
+).annotate({ identifier: "FunnelStep" }) as any as S.Schema<FunnelStep>;
+
+export interface GetMetricRequestSteps {
+  _1: FunnelStep;
+  _2: FunnelStep;
+  _3?: FunnelStep;
+  _4?: FunnelStep;
+  _5?: FunnelStep;
+  _6?: FunnelStep;
+  _7?: FunnelStep;
+  _8?: FunnelStep;
+  _9?: FunnelStep;
+  _10?: FunnelStep;
+}
+export const GetMetricRequestSteps = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _1: FunnelStep.pipe(T.Body("1")),
+    _2: FunnelStep.pipe(T.Body("2")),
+    _3: S.optional(FunnelStep.pipe(T.Body("3"))),
+    _4: S.optional(FunnelStep.pipe(T.Body("4"))),
+    _5: S.optional(FunnelStep.pipe(T.Body("5"))),
+    _6: S.optional(FunnelStep.pipe(T.Body("6"))),
+    _7: S.optional(FunnelStep.pipe(T.Body("7"))),
+    _8: S.optional(FunnelStep.pipe(T.Body("8"))),
+    _9: S.optional(FunnelStep.pipe(T.Body("9"))),
+    _10: S.optional(FunnelStep.pipe(T.Body("10"))),
+  }),
+).annotate({ identifier: "GetMetricRequestSteps" }) as any as S.Schema<GetMetricRequestSteps>;
+
 export interface GetMetricRequest {
   /** The metric to retrieve, for example net_revenue. Use GET /stats to see every metric key. The metric sets the unit and the properties you can filter or break down by. */
   metric: string;
@@ -503,11 +161,11 @@ export interface GetMetricRequest {
   user_id?: string;
   /** Start of the range — a date (YYYY-MM-DD), expanded to the start of that day, or an ISO 8601 timestamp (for example 2026-07-16T16:37:00Z), used exactly. */
   from: string;
-  /** End of the range — a date (YYYY-MM-DD), expanded to the end of that day, or an ISO 8601 timestamp (for example 2026-07-17T16:37:00Z), used exactly. */
+  /** End of the range — a date (YYYY-MM-DD), expanded to the end of that day, or an ISO 8601 timestamp (for example 2026-07-17T16:37:00Z), used exactly. Funnel entry ranges cannot exceed 90 days. */
   to: string;
-  /** How wide each point is. Defaults to day. Snapshot metrics are day-only. */
+  /** How wide each point is. Defaults to day. Snapshot metrics are day-only. Funnels support at most 2,000 first-entry cohort buckets. */
   interval?: GetMetricRequestInterval | (string & {});
-  /** Split the metric out by one of its properties — each point gets a breakdown array. For example breakdown_by=currency returns an entry for usd, an entry for eur, and so on. */
+  /** Split the metric out by one of its properties — each point gets a breakdown array. For example breakdown_by=currency returns an entry for usd, an entry for eur, and so on. Funnels use a property of the first matched event, with at most 300 groups. experiment_id and variant require an exposure as step 1. For funnel source breakdowns, steps[1][source]=whop:* groups by campaign, whop:<campaign>:* by ad group, and whop:<campaign>:<group>:* by ad. See the metric catalog for supported breakdowns. */
   breakdown_by?: string;
   /** Display currency for money metrics — every amount is converted into this ISO currency using the exchange rate on each period's date. Defaults to usd. For the ads metrics (ad_spend, ad_delivery), pass the account's ads reporting currency to match the ad entity endpoints. On transaction metrics, it is ignored when you filter or break down by currency (those report the original transaction currency, unconverted). */
   convert_to?: string;
@@ -563,8 +221,72 @@ export interface GetMetricRequest {
   ad_ids?: GetMetricRequestAdIdsList;
   /** Window used by a snapshot metric. Ordinary snapshots accept 30d as their trailing activity window. Cohorted dispute metrics accept 7d or 28d as the sales-transaction pool; their attribution window is fixed in the metric name. Each metric lists its accepted values in the catalog. */
   snapshot_window?: GetMetricRequestSnapshotWindow | (string & {});
-  /** Filter the events metric to one or more full event names, for example payment.completed or pixel.lead. Comma-separate several to break the metric down by each event. Available on metrics that list event. */
+  /** Filter the events metric to one or more full event names, for example payment.completed or pixel.lead. Comma-separated names match any listed event. Use group_by=event for separate groups. Available on metrics that list event. */
   event?: string;
+  /** Funnel only. Time allowed from the first event to the final event: integer minutes, hours, or days, up to 30d. */
+  conversion_window?: string;
+  /** Funnel only. Include only entrants whose full conversion window has elapsed. Required for confidence intervals and comparisons. */
+  mature_only?: boolean;
+  /** Funnel only. Required when metric=funnel. Consecutive one-based steps encoded as steps[1][event], steps[1][page], steps[2][event], and so on. Values are scalar strings, never JSON. */
+  steps?: GetMetricRequestSteps;
+  /** Funnel only. The breakdown value to use as baseline for whole-window final conversion. Requires breakdown_by and mature_only=true; defaults confidence_level to 0.95. */
+  compare_to?: string;
+  /** Funnel only. Confidence level for whole-window final conversion intervals, for example 0.95. Requires mature_only=true. Exposure steps must each filter one user-randomized experiment. */
+  confidence_level?: number;
+  /** People metric only: contactable equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  contactable?: boolean;
+  /** People metric only: has_purchased equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  has_purchased?: boolean;
+  /** People metric only: first_seen_at greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  first_seen_after?: string;
+  /** People metric only: first_seen_at less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  first_seen_before?: string;
+  /** People metric only: last_seen_at greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  last_seen_after?: string;
+  /** People metric only: last_seen_at less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  last_seen_before?: string;
+  /** People metric only: first_seen_at within this many days of now. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  first_seen_within_days?: number;
+  /** People metric only: last_seen_at within this many days of now. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  last_seen_within_days?: number;
+  /** People metric only: known equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  known?: boolean;
+  /** People metric only: has_email equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  has_email?: boolean;
+  /** People metric only: has_phone equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  has_phone?: boolean;
+  /** People metric only: ltv greater than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  ltv_gt?: number;
+  /** People metric only: ltv greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  ltv_gte?: number;
+  /** People metric only: ltv less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  ltv_lt?: number;
+  /** People metric only: ltv less than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  ltv_lte?: number;
+  /** People metric only: aov greater than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  aov_gt?: number;
+  /** People metric only: aov greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  aov_gte?: number;
+  /** People metric only: aov less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  aov_lt?: number;
+  /** People metric only: aov less than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  aov_lte?: number;
+  /** People metric only: purchase_count greater than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  purchase_count_gt?: number;
+  /** People metric only: purchase_count greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  purchase_count_gte?: number;
+  /** People metric only: purchase_count less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  purchase_count_lt?: number;
+  /** People metric only: purchase_count less than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  purchase_count_lte?: number;
+  /** People metric only: event_count greater than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  event_count_gt?: number;
+  /** People metric only: event_count greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  event_count_gte?: number;
+  /** People metric only: event_count less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  event_count_lt?: number;
+  /** People metric only: event_count less than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
+  event_count_lte?: number;
 }
 export const GetMetricRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -603,18 +325,75 @@ export const GetMetricRequest = /*@__PURE__*/ S.suspend(() =>
     ad_ids: S.optional(GetMetricRequestAdIdsList.pipe(T.Query())),
     snapshot_window: S.optional(GetMetricRequestSnapshotWindow.pipe(T.Query())),
     event: S.optional(S.String.pipe(T.Query())),
+    conversion_window: S.optional(S.String.pipe(T.Query())),
+    mature_only: S.optional(S.Boolean.pipe(T.Query())),
+    steps: S.optional(GetMetricRequestSteps.pipe(T.Query())),
+    compare_to: S.optional(S.String.pipe(T.Query())),
+    confidence_level: S.optional(S.Number.pipe(T.Query())),
+    contactable: S.optional(S.Boolean.pipe(T.Query())),
+    has_purchased: S.optional(S.Boolean.pipe(T.Query())),
+    first_seen_after: S.optional(S.String.pipe(T.Query())),
+    first_seen_before: S.optional(S.String.pipe(T.Query())),
+    last_seen_after: S.optional(S.String.pipe(T.Query())),
+    last_seen_before: S.optional(S.String.pipe(T.Query())),
+    first_seen_within_days: S.optional(S.Number.pipe(T.Query())),
+    last_seen_within_days: S.optional(S.Number.pipe(T.Query())),
+    known: S.optional(S.Boolean.pipe(T.Query())),
+    has_email: S.optional(S.Boolean.pipe(T.Query())),
+    has_phone: S.optional(S.Boolean.pipe(T.Query())),
+    ltv_gt: S.optional(S.Number.pipe(T.Query())),
+    ltv_gte: S.optional(S.Number.pipe(T.Query())),
+    ltv_lt: S.optional(S.Number.pipe(T.Query())),
+    ltv_lte: S.optional(S.Number.pipe(T.Query())),
+    aov_gt: S.optional(S.Number.pipe(T.Query())),
+    aov_gte: S.optional(S.Number.pipe(T.Query())),
+    aov_lt: S.optional(S.Number.pipe(T.Query())),
+    aov_lte: S.optional(S.Number.pipe(T.Query())),
+    purchase_count_gt: S.optional(S.Number.pipe(T.Query())),
+    purchase_count_gte: S.optional(S.Number.pipe(T.Query())),
+    purchase_count_lt: S.optional(S.Number.pipe(T.Query())),
+    purchase_count_lte: S.optional(S.Number.pipe(T.Query())),
+    event_count_gt: S.optional(S.Number.pipe(T.Query())),
+    event_count_gte: S.optional(S.Number.pipe(T.Query())),
+    event_count_lt: S.optional(S.Number.pipe(T.Query())),
+    event_count_lte: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/stats/{metric}", code: 200 })),
 ).annotate({ identifier: "GetMetricRequest" }) as any as S.Schema<GetMetricRequest>;
+
+export interface FunnelStepResult {
+  /** The percentage of first-step entrants reaching this step; null when there are no entrants. */
+  conversion_rate: number | null;
+  /** The number of distinct people reaching this step. */
+  count: number;
+  /** The one-based step number. */
+  step: number;
+}
+export const FunnelStepResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversion_rate: S.NullOr(S.Number),
+    count: S.Number,
+    step: S.Number,
+  }),
+).annotate({ identifier: "FunnelStepResult" }) as any as S.Schema<FunnelStepResult>;
+
+/** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
+export type GetMetricResponseDataPointsItemBreakdownItemStepsList = Array<FunnelStepResult>;
+export const GetMetricResponseDataPointsItemBreakdownItemStepsList = /*@__PURE__*/ S.Array(
+  FunnelStepResult,
+) as any as S.Schema<GetMetricResponseDataPointsItemBreakdownItemStepsList>;
 
 export interface GetMetricResponseDataPointsItemBreakdownItem {
   /** The property value, for example usd or visa. */
   name: string;
+  /** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
+  steps?: GetMetricResponseDataPointsItemBreakdownItemStepsList;
   /** The metric's value for this entry. */
   value: number | null;
 }
 export const GetMetricResponseDataPointsItemBreakdownItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
+    steps: S.optional(GetMetricResponseDataPointsItemBreakdownItemStepsList),
     value: S.NullOr(S.Number),
   }),
 ).annotate({
@@ -628,9 +407,17 @@ export const GetMetricResponseDataPointsItemBreakdownList = /*@__PURE__*/ S.Arra
   GetMetricResponseDataPointsItemBreakdownItem,
 ) as any as S.Schema<GetMetricResponseDataPointsItemBreakdownList>;
 
+/** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
+export type GetMetricResponseDataPointsItemStepsList = Array<FunnelStepResult>;
+export const GetMetricResponseDataPointsItemStepsList = /*@__PURE__*/ S.Array(
+  FunnelStepResult,
+) as any as S.Schema<GetMetricResponseDataPointsItemStepsList>;
+
 export interface GetMetricResponseDataPointsItem {
   /** Present only when broken down: one entry per property value in this period. */
   breakdown?: GetMetricResponseDataPointsItemBreakdownList;
+  /** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
+  steps?: GetMetricResponseDataPointsItemStepsList;
   /** Unix timestamp (seconds) of the period start. */
   timestamp: number;
   /** The metric's value for this period, in the metric's unit. */
@@ -639,6 +426,7 @@ export interface GetMetricResponseDataPointsItem {
 export const GetMetricResponseDataPointsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     breakdown: S.optional(GetMetricResponseDataPointsItemBreakdownList),
+    steps: S.optional(GetMetricResponseDataPointsItemStepsList),
     timestamp: S.Number,
     value: S.NullOr(S.Number),
   }),
@@ -652,22 +440,68 @@ export const GetMetricResponseDataPointsList = /*@__PURE__*/ S.Array(
   GetMetricResponseDataPointsItem,
 ) as any as S.Schema<GetMetricResponseDataPointsList>;
 
+export interface FunnelConfidenceInterval {
+  /** The lower confidence bound, in percent or percentage points for a difference. */
+  lower: number;
+  /** The upper confidence bound, in percent or percentage points for a difference. */
+  upper: number;
+}
+export const FunnelConfidenceInterval = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lower: S.Number,
+    upper: S.Number,
+  }),
+).annotate({ identifier: "FunnelConfidenceInterval" }) as any as S.Schema<FunnelConfidenceInterval>;
+
+export interface FunnelComparison {
+  /** The reference group's name. */
+  baseline: string;
+  /** Adjusted Wald interval for the difference in percentage points, with Bonferroni correction across comparisons. */
+  difference_confidence_interval: FunnelConfidenceInterval | null;
+  /** This group's conversion percentage minus the baseline's. */
+  difference_percentage_points: number;
+  /** Relative conversion improvement in percent; null if baseline conversion is zero. */
+  relative_lift_percent: number | null;
+}
+export const FunnelComparison = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    baseline: S.String,
+    difference_confidence_interval: S.NullOr(FunnelConfidenceInterval),
+    difference_percentage_points: S.Number,
+    relative_lift_percent: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "FunnelComparison" }) as any as S.Schema<FunnelComparison>;
+
+/** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
+export type GetMetricResponseDataTotalsItemStepsList = Array<FunnelStepResult>;
+export const GetMetricResponseDataTotalsItemStepsList = /*@__PURE__*/ S.Array(
+  FunnelStepResult,
+) as any as S.Schema<GetMetricResponseDataTotalsItemStepsList>;
+
 export interface GetMetricResponseDataTotalsItem {
+  comparison?: FunnelComparison | null;
+  /** Funnel only. The Wilson interval for final conversion, present when confidence_level or compare_to is supplied. */
+  confidence_interval?: FunnelConfidenceInterval | null;
   /** The property value this total is for, or the metric's name when it isn't split by a property. */
   name: string;
+  /** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
+  steps?: GetMetricResponseDataTotalsItemStepsList;
   /** The metric's whole-window value for this entry. */
   value: number | null;
 }
 export const GetMetricResponseDataTotalsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    comparison: S.optional(S.NullOr(FunnelComparison)),
+    confidence_interval: S.optional(S.NullOr(FunnelConfidenceInterval)),
     name: S.String,
+    steps: S.optional(GetMetricResponseDataTotalsItemStepsList),
     value: S.NullOr(S.Number),
   }),
 ).annotate({
   identifier: "GetMetricResponseDataTotalsItem",
 }) as any as S.Schema<GetMetricResponseDataTotalsItem>;
 
-/** Whole-window aggregates, present when the metric computes them. Don't derive these from `points`: a rate is measured across the whole window, not averaged across its points, and unique-people counts exist only at window level. */
+/** Whole-window aggregates, present when the metric computes them. Don't derive these from `points`: a rate is measured across the whole window, not averaged across its points, and whole-window unique people are distinct across every bucket. */
 export type GetMetricResponseDataTotalsList = Array<GetMetricResponseDataTotalsItem>;
 export const GetMetricResponseDataTotalsList = /*@__PURE__*/ S.Array(
   GetMetricResponseDataTotalsItem,
@@ -678,7 +512,7 @@ export interface GetMetricResponseData {
   currency?: string | null;
   /** One entry per period, oldest first. */
   points: GetMetricResponseDataPointsList;
-  /** Whole-window aggregates, present when the metric computes them. Don't derive these from `points`: a rate is measured across the whole window, not averaged across its points, and unique-people counts exist only at window level. */
+  /** Whole-window aggregates, present when the metric computes them. Don't derive these from `points`: a rate is measured across the whole window, not averaged across its points, and whole-window unique people are distinct across every bucket. */
   totals?: GetMetricResponseDataTotalsList | null;
 }
 export const GetMetricResponseData = /*@__PURE__*/ S.suspend(() =>
@@ -703,6 +537,12 @@ export const ListMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/stats", code: 200 })),
 ).annotate({ identifier: "ListMetricsRequest" }) as any as S.Schema<ListMetricsRequest>;
 
+/** Supported breakdown_by values when they differ from the filter properties. */
+export type ListMetricsResponseDataItemBreakdownsList = Array<string>;
+export const ListMetricsResponseDataItemBreakdownsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListMetricsResponseDataItemBreakdownsList>;
+
 /** The properties you can use with this metric — pass one as a filter (property=value) to narrow the series, or as breakdown_by=property to split it. */
 export type ListMetricsResponseDataItemPropertiesList = Array<string>;
 export const ListMetricsResponseDataItemPropertiesList = /*@__PURE__*/ S.Array(
@@ -720,6 +560,8 @@ export const ListMetricsResponseDataItemWindowsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListMetricsResponseDataItemWindowsList>;
 
 export interface ListMetricsResponseDataItem {
+  /** Supported breakdown_by values when they differ from the filter properties. */
+  breakdowns?: ListMetricsResponseDataItemBreakdownsList;
   /** A short description of what the metric measures. */
   description: string;
   /** The metric's key. Pass it to GET /stats/{metric} to query its values. */
@@ -735,6 +577,7 @@ export interface ListMetricsResponseDataItem {
 }
 export const ListMetricsResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    breakdowns: S.optional(ListMetricsResponseDataItemBreakdownsList),
     description: S.String,
     key: S.String,
     name: S.String,
@@ -762,218 +605,8 @@ export const ListMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ListMetricsResponse" }) as any as S.Schema<ListMetricsResponse>;
 
-/** Columns to break down the metric by. */
-export type MetricStatsRequestBreakdownsList = Array<string>;
-export const MetricStatsRequestBreakdownsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<MetricStatsRequestBreakdownsList>;
-
-/** Key-value pairs to filter the data. */
-export type MetricStatsRequestFiltersMap = { [key: string]: unknown | undefined };
-export const MetricStatsRequestFiltersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<MetricStatsRequestFiltersMap>;
-
-export interface MetricStatsRequest {
-  resource: string;
-  granularity?: string;
-  breakdowns?: MetricStatsRequestBreakdownsList;
-  filters?: MetricStatsRequestFiltersMap;
-  time_zone?: string;
-  from?: string;
-  to?: string;
-  company_id?: string;
-  user_id?: string;
-}
-export const MetricStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resource: S.String.pipe(T.Query()),
-    granularity: S.optional(S.String.pipe(T.Query())),
-    breakdowns: S.optional(MetricStatsRequestBreakdownsList.pipe(T.Query())),
-    filters: S.optional(MetricStatsRequestFiltersMap.pipe(T.Query())),
-    time_zone: S.optional(S.String.pipe(T.Query())),
-    from: S.optional(S.String.pipe(T.Query())),
-    to: S.optional(S.String.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
-    user_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/stats/metric", code: 200 })),
-).annotate({ identifier: "MetricStatsRequest" }) as any as S.Schema<MetricStatsRequest>;
-
-/** Column names in the order they appear in each data row. */
-export type MetricStatsResponseColumnsList = Array<string>;
-export const MetricStatsResponseColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<MetricStatsResponseColumnsList>;
-
-/** Represents untyped JSON */
-export type MetricStatsResponseDataItemMap = { [key: string]: unknown | undefined };
-export const MetricStatsResponseDataItemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<MetricStatsResponseDataItemMap>;
-
-/** Array of data rows, where each row is an array of values matching the columns order. */
-export type MetricStatsResponseDataList = Array<MetricStatsResponseDataItemMap>;
-export const MetricStatsResponseDataList = /*@__PURE__*/ S.Array(
-  MetricStatsResponseDataItemMap,
-) as any as S.Schema<MetricStatsResponseDataList>;
-
-/** Debug information including engine and SQL. */
-export interface MetricStatsResponseDebug {
-  /** The query engine used. */
-  engine: string | null;
-  /** Unique request identifier for debugging. */
-  request_id: string | null;
-  /** The generated SQL query (with IDs sanitized). */
-  sql: string | null;
-}
-export const MetricStatsResponseDebug = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    engine: S.NullOr(S.String),
-    request_id: S.NullOr(S.String),
-    sql: S.NullOr(S.String),
-  }),
-).annotate({ identifier: "MetricStatsResponseDebug" }) as any as S.Schema<MetricStatsResponseDebug>;
-
-/** Pagination information. */
-export interface MetricStatsResponsePagination {
-  /** Cursor for the next page of results. */
-  next_cursor: string | null;
-}
-export const MetricStatsResponsePagination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    next_cursor: S.NullOr(S.String),
-  }),
-).annotate({
-  identifier: "MetricStatsResponsePagination",
-}) as any as S.Schema<MetricStatsResponsePagination>;
-
-export interface MetricStatsResponse {
-  /** Column names in the order they appear in each data row. */
-  columns: MetricStatsResponseColumnsList | null;
-  /** Array of data rows, where each row is an array of values matching the columns order. */
-  data: MetricStatsResponseDataList | null;
-  /** Debug information including engine and SQL. */
-  debug: MetricStatsResponseDebug | null;
-  /** The node path that was queried. */
-  node: string | null;
-  /** Pagination information. */
-  pagination: MetricStatsResponsePagination | null;
-  /** The typename of this object */
-  typename: string;
-}
-export const MetricStatsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columns: S.NullOr(MetricStatsResponseColumnsList),
-    data: S.NullOr(MetricStatsResponseDataList),
-    debug: S.NullOr(MetricStatsResponseDebug),
-    node: S.NullOr(S.String),
-    pagination: S.NullOr(MetricStatsResponsePagination),
-    typename: S.String,
-  }),
-).annotate({ identifier: "MetricStatsResponse" }) as any as S.Schema<MetricStatsResponse>;
-
-/** The direction of the sort. */
-export type Direction = "asc" | "desc";
-export const Direction = S.String;
-
-export interface RawStatsRequest {
-  resource: string;
-  from?: string;
-  to?: string;
-  limit?: number;
-  cursor?: string;
-  sort?: string;
-  sort_direction?: Direction | (string & {});
-  company_id?: string;
-  user_id?: string;
-}
-export const RawStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resource: S.String.pipe(T.Query()),
-    from: S.optional(S.String.pipe(T.Query())),
-    to: S.optional(S.String.pipe(T.Query())),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    cursor: S.optional(S.String.pipe(T.Query())),
-    sort: S.optional(S.String.pipe(T.Query())),
-    sort_direction: S.optional(Direction.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
-    user_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/stats/raw", code: 200 })),
-).annotate({ identifier: "RawStatsRequest" }) as any as S.Schema<RawStatsRequest>;
-
-/** Column names in the order they appear in each data row. */
-export type RawStatsResponseColumnsList = Array<string>;
-export const RawStatsResponseColumnsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<RawStatsResponseColumnsList>;
-
-/** Represents untyped JSON */
-export type RawStatsResponseDataItemMap = { [key: string]: unknown | undefined };
-export const RawStatsResponseDataItemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<RawStatsResponseDataItemMap>;
-
-/** Array of data rows, where each row is an array of values matching the columns order. */
-export type RawStatsResponseDataList = Array<RawStatsResponseDataItemMap>;
-export const RawStatsResponseDataList = /*@__PURE__*/ S.Array(
-  RawStatsResponseDataItemMap,
-) as any as S.Schema<RawStatsResponseDataList>;
-
-/** Debug information including engine and SQL. */
-export type RawStatsResponseDebug = MetricStatsResponseDebug;
-export const RawStatsResponseDebug = MetricStatsResponseDebug;
-
-/** Pagination information. */
-export type RawStatsResponsePagination = MetricStatsResponsePagination;
-export const RawStatsResponsePagination = MetricStatsResponsePagination;
-
-export interface RawStatsResponse {
-  /** Column names in the order they appear in each data row. */
-  columns: RawStatsResponseColumnsList | null;
-  /** Array of data rows, where each row is an array of values matching the columns order. */
-  data: RawStatsResponseDataList | null;
-  /** Debug information including engine and SQL. */
-  debug: MetricStatsResponseDebug | null;
-  /** The node path that was queried. */
-  node: string | null;
-  /** Pagination information. */
-  pagination: MetricStatsResponsePagination | null;
-}
-export const RawStatsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columns: S.NullOr(RawStatsResponseColumnsList),
-    data: S.NullOr(RawStatsResponseDataList),
-    debug: S.NullOr(MetricStatsResponseDebug),
-    node: S.NullOr(S.String),
-    pagination: S.NullOr(MetricStatsResponsePagination),
-  }),
-).annotate({ identifier: "RawStatsResponse" }) as any as S.Schema<RawStatsResponse>;
-
-export type DescribeStatsError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | WhopOpError;
-/** Describe stats [Legacy API — https://docs.whop.com/api-reference] Describe available stats schema. Without resource returns root nodes and metrics. With resource returns node columns, associations, and available metrics. Required permissions: - `stats:read` */
-export const describeStats: API.OperationMethod<
-  DescribeStatsRequest,
-  DescribeStatsResponse,
-  DescribeStatsError,
-  WhopOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DescribeStatsRequest,
-  output: DescribeStatsResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
-  protocol: WhopProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetMetricError = BadRequest | Forbidden | NotFound | WhopOpError;
-/** Retrieve Metric Retrieves a metric as a time series of points for an account or user over a time range. The `market_prices` metric is public and requires no authentication. */
+/** Retrieve Metric Retrieves a metric as a time series of points for an account or user over a time range. The `market_prices` metric is public and requires no authentication. The `funnel` metric measures 2 to 10 ordered events per person. Its first matching event inside from/to anchors the cohort, breakdown and conversion window; later entries do not restart it. Intervening events are allowed, and conversions may occur after to. Funnel values are final conversion percentages; steps include counts and cumulative conversion percentages. Experiment funnels use experiment.exposure as step 1 and breakdown_by=variant. Pass steps using bracket parameters such as steps[1][event]=pixel.page&steps[1][page]=/pricing*&steps[2][event]=payment.completed. */
 export const getMetric: API.OperationMethod<
   GetMetricRequest,
   GetMetricResponse,
@@ -998,41 +631,6 @@ export const listMetrics: API.OperationMethod<
   input: ListMetricsRequest,
   output: ListMetricsResponse,
   errors: [],
-  protocol: WhopProtocol,
-  retry: Retry.Retry,
-}));
-
-export type MetricStatsError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | WhopOpError;
-/** Metric stats [Legacy API — https://docs.whop.com/api-reference] Query an aggregated metric. Returns data grouped by period with optional breakdowns. Required permissions: - `stats:read` */
-export const metricStats: API.OperationMethod<
-  MetricStatsRequest,
-  MetricStatsResponse,
-  MetricStatsError,
-  WhopOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: MetricStatsRequest,
-  output: MetricStatsResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
-  protocol: WhopProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RawStatsError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
-/** Raw stats [Legacy API — https://docs.whop.com/api-reference] Query raw data from a resource. Returns paginated rows with all columns. Required permissions: - `stats:read` */
-export const rawStats: API.OperationMethod<
-  RawStatsRequest,
-  RawStatsResponse,
-  RawStatsError,
-  WhopOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RawStatsRequest,
-  output: RawStatsResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
 }));

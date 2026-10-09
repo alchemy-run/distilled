@@ -134,41 +134,41 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
     message: S.optional(S.String),
     code: S.optional(S.Number),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    error: S.optional(Status),
     metadata: S.optional(DocumentMap),
+    error: S.optional(Status),
     response: S.optional(DocumentMap),
-    name: S.optional(S.String),
     done: S.optional(S.Boolean),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -232,34 +232,34 @@ export const WorkforcePoolStateEnum = S.String;
 export interface WorkforcePool {
   /** Identifier. The resource name of the pool. Format: `locations/{location}/workforcePools/{workforce_pool_id}` */
   name?: string;
-  /** Optional. Configure access restrictions on the workforce pool users. This is an optional field. If specified web sign-in can be restricted to given set of services or programmatic sign-in can be disabled for pool users. */
-  accessRestrictions?: AccessRestrictions;
   /** Output only. Time after which the workforce pool will be permanently purged and cannot be recovered. */
   expireTime?: string;
-  /** Immutable. The resource name of the parent. Format: `organizations/{org-id}`. */
-  parent?: string;
-  /** Output only. The state of the pool. */
-  state?: WorkforcePoolStateEnum | (string & {});
-  /** Optional. A display name for the pool. Cannot exceed 32 characters. */
-  displayName?: string;
-  /** Optional. A description of the pool. Cannot exceed 256 characters. */
-  description?: string;
+  /** Optional. Configure access restrictions on the workforce pool users. This is an optional field. If specified web sign-in can be restricted to given set of services or programmatic sign-in can be disabled for pool users. */
+  accessRestrictions?: AccessRestrictions;
   /** Optional. Disables the workforce pool. You cannot use a disabled pool to exchange tokens, or use existing tokens to access resources. If the pool is re-enabled, existing tokens grant access again. */
   disabled?: boolean;
   /** Optional. Duration that the Google Cloud access tokens, console sign-in sessions, and `gcloud` sign-in sessions from this pool are valid. Must be greater than 15 minutes (900s) and less than 12 hours (43200s). If `session_duration` is not configured, minted credentials have a default duration of one hour (3600s). For SAML providers, the lifetime of the token is the minimum of the `session_duration` and the `SessionNotOnOrAfter` claim in the SAML assertion. */
   sessionDuration?: string;
+  /** Output only. The state of the pool. */
+  state?: WorkforcePoolStateEnum | (string & {});
+  /** Optional. A description of the pool. Cannot exceed 256 characters. */
+  description?: string;
+  /** Optional. A display name for the pool. Cannot exceed 32 characters. */
+  displayName?: string;
+  /** Immutable. The resource name of the parent. Format: `organizations/{org-id}`. */
+  parent?: string;
 }
 export const WorkforcePool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    accessRestrictions: S.optional(AccessRestrictions),
     expireTime: S.optional(S.String),
-    parent: S.optional(S.String),
-    state: S.optional(WorkforcePoolStateEnum),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    accessRestrictions: S.optional(AccessRestrictions),
     disabled: S.optional(S.Boolean),
     sessionDuration: S.optional(S.String),
+    state: S.optional(WorkforcePoolStateEnum),
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
+    parent: S.optional(S.String),
   }),
 ).annotate({ identifier: "WorkforcePool" }) as any as S.Schema<WorkforcePool>;
 
@@ -287,27 +287,32 @@ export const CreateLocationsWorkforcePoolsRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "CreateLocationsWorkforcePoolsRequest",
 }) as any as S.Schema<CreateLocationsWorkforcePoolsRequest>;
 
-export type WorkforcePoolProviderStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
-export const WorkforcePoolProviderStateEnum = S.String;
-
-export type WorkforcePoolProviderScimUsageEnum =
-  | "SCIM_USAGE_UNSPECIFIED"
-  | "ENABLED_FOR_GROUPS"
-  | "ENABLED_FOR_USERS_GROUPS";
-export const WorkforcePoolProviderScimUsageEnum = S.String;
+/** Represents the parameters to control which claims are fetched from an IdP. */
+export interface GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters {
+  /** Optional. The filter used to request specific records from the IdP. By default, all of the groups that are associated with a user are fetched. For Microsoft Entra ID, you can add `$search` query parameters using [Keyword Query Language] (https://learn.microsoft.com/en-us/sharepoint/dev/general-development/keyword-query-language-kql-syntax-reference). To learn more about `$search` querying in Microsoft Entra ID, see [Use the `$search` query parameter] (https://learn.microsoft.com/en-us/graph/search-query-parameter). Additionally, Workforce Identity Federation automatically adds the following [`$filter` query parameters] (https://learn.microsoft.com/en-us/graph/filter-query-parameter), based on the value of `attributes_type`. Values passed to `filter` are converted to `$search` query parameters. Additional `$filter` query parameters cannot be added using this field. * `AZURE_AD_GROUPS_MAIL`: `mailEnabled` and `securityEnabled` filters are applied. * `AZURE_AD_GROUPS_ID`: `securityEnabled` filter is applied. */
+  filter?: string;
+}
+export const GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      filter: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters",
+  }) as any as S.Schema<GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters>;
 
 /** Representation of the value of the client secret. */
 export interface GoogleIamAdminV1WorkforcePoolProviderOidcClientSecretValue {
-  /** Optional. Input only. The plain text of the client secret value. For security reasons, this field is only used for input and will never be populated in any response. */
-  plainText?: string;
   /** Output only. A thumbprint to represent the current client secret value. */
   thumbprint?: string;
+  /** Optional. Input only. The plain text of the client secret value. For security reasons, this field is only used for input and will never be populated in any response. */
+  plainText?: string;
 }
 export const GoogleIamAdminV1WorkforcePoolProviderOidcClientSecretValue = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      plainText: S.optional(S.String),
       thumbprint: S.optional(S.String),
+      plainText: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleIamAdminV1WorkforcePoolProviderOidcClientSecretValue",
@@ -334,60 +339,43 @@ export type GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientAttr
 export const GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientAttributesTypeEnum =
   S.String;
 
-/** Represents the parameters to control which claims are fetched from an IdP. */
-export interface GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters {
-  /** Optional. The filter used to request specific records from the IdP. By default, all of the groups that are associated with a user are fetched. For Microsoft Entra ID, you can add `$search` query parameters using [Keyword Query Language] (https://learn.microsoft.com/en-us/sharepoint/dev/general-development/keyword-query-language-kql-syntax-reference). To learn more about `$search` querying in Microsoft Entra ID, see [Use the `$search` query parameter] (https://learn.microsoft.com/en-us/graph/search-query-parameter). Additionally, Workforce Identity Federation automatically adds the following [`$filter` query parameters] (https://learn.microsoft.com/en-us/graph/filter-query-parameter), based on the value of `attributes_type`. Values passed to `filter` are converted to `$search` query parameters. Additional `$filter` query parameters cannot be added using this field. * `AZURE_AD_GROUPS_MAIL`: `mailEnabled` and `securityEnabled` filters are applied. * `AZURE_AD_GROUPS_ID`: `securityEnabled` filter is applied. */
-  filter?: string;
-}
-export const GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      filter: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters",
-  }) as any as S.Schema<GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters>;
-
 /** Represents the OAuth 2.0 client credential configuration for retrieving additional user attributes that are not present in the initial authentication credentials from the identity provider, for example, groups. See https://datatracker.ietf.org/doc/html/rfc6749#section-4.4 for more details on client credentials grant flow. */
 export interface GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client {
+  /** Optional. Represents the parameters to control which claims are fetched from an IdP. */
+  queryParameters?: GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters;
   /** Required. The OAuth 2.0 client secret for retrieving extra attributes from the identity provider. Required to get the Access Token using client credentials grant flow. */
   clientSecret?: GoogleIamAdminV1WorkforcePoolProviderOidcClientSecret;
+  /** Required. The OIDC identity provider's issuer URI. Must be a valid URI using the `https` scheme. Required to get the OIDC discovery document. */
+  issuerUri?: string;
   /** Required. Represents the IdP and type of claims that should be fetched. */
   attributesType?:
     | GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientAttributesTypeEnum
     | (string & {});
-  /** Optional. Represents the parameters to control which claims are fetched from an IdP. */
-  queryParameters?: GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters;
-  /** Required. The OIDC identity provider's issuer URI. Must be a valid URI using the `https` scheme. Required to get the OIDC discovery document. */
-  issuerUri?: string;
   /** Required. The OAuth 2.0 client ID for retrieving extra attributes from the identity provider. Required to get the Access Token using client credentials grant flow. */
   clientId?: string;
 }
 export const GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      clientSecret: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidcClientSecret),
-      attributesType: S.optional(
-        GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientAttributesTypeEnum,
-      ),
       queryParameters: S.optional(
         GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientQueryParameters,
       ),
+      clientSecret: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidcClientSecret),
       issuerUri: S.optional(S.String),
+      attributesType: S.optional(
+        GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2ClientAttributesTypeEnum,
+      ),
       clientId: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client",
   }) as any as S.Schema<GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-export type GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigResponseTypeEnum =
-  | "RESPONSE_TYPE_UNSPECIFIED"
-  | "CODE"
-  | "ID_TOKEN";
-export const GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigResponseTypeEnum = S.String;
 
 export type GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigAssertionClaimsBehaviorEnum =
   | "ASSERTION_CLAIMS_BEHAVIOR_UNSPECIFIED"
@@ -396,26 +384,32 @@ export type GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigAssertionClaims
 export const GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigAssertionClaimsBehaviorEnum =
   S.String;
 
+export type GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigResponseTypeEnum =
+  | "RESPONSE_TYPE_UNSPECIFIED"
+  | "CODE"
+  | "ID_TOKEN";
+export const GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigResponseTypeEnum = S.String;
+
 /** Configuration for web single sign-on for the OIDC provider. */
 export interface GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfig {
   /** Optional. Additional scopes to request for in the OIDC authentication request on top of scopes requested by default. By default, the `openid`, `profile` and `email` scopes that are supported by the identity provider are requested. Each additional scope may be at most 256 characters. A maximum of 10 additional scopes may be configured. */
   additionalScopes?: StringList;
-  /** Required. The Response Type to request for in the OIDC Authorization Request for web sign-in. The `CODE` Response Type is recommended to avoid the Implicit Flow, for security reasons. */
-  responseType?:
-    | GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigResponseTypeEnum
-    | (string & {});
   /** Required. The behavior for how OIDC Claims are included in the `assertion` object used for attribute mapping and attribute condition. */
   assertionClaimsBehavior?:
     | GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigAssertionClaimsBehaviorEnum
+    | (string & {});
+  /** Required. The Response Type to request for in the OIDC Authorization Request for web sign-in. The `CODE` Response Type is recommended to avoid the Implicit Flow, for security reasons. */
+  responseType?:
+    | GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigResponseTypeEnum
     | (string & {});
 }
 export const GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     additionalScopes: S.optional(StringList),
-    responseType: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigResponseTypeEnum),
     assertionClaimsBehavior: S.optional(
       GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigAssertionClaimsBehaviorEnum,
     ),
+    responseType: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfigResponseTypeEnum),
   }),
 ).annotate({
   identifier: "GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfig",
@@ -423,31 +417,34 @@ export const GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfig = /*@__PURE__
 
 /** Represents an OpenID Connect 1.0 identity provider. */
 export interface GoogleIamAdminV1WorkforcePoolProviderOidc {
-  /** Required. The OIDC issuer URI. Must be a valid URI using the `https` scheme. */
-  issuerUri?: string;
-  /** Optional. The optional client secret. Required to enable Authorization Code flow for web sign-in. */
-  clientSecret?: GoogleIamAdminV1WorkforcePoolProviderOidcClientSecret;
-  /** Required. The client ID. Must match the audience claim of the JWT issued by the identity provider. */
-  clientId?: string;
   /** Required. Configuration for web single sign-on for the OIDC provider. Here, web sign-in refers to console sign-in and gcloud sign-in through the browser. */
   webSsoConfig?: GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfig;
+  /** Required. The client ID. Must match the audience claim of the JWT issued by the identity provider. */
+  clientId?: string;
   /** Optional. OIDC JWKs in JSON String format. For details on the definition of a JWK, see https://tools.ietf.org/html/rfc7517. If not set, the `jwks_uri` from the discovery document that is fetched from the well-known path of the `issuer_uri`, will be used. RSA and EC asymmetric keys are supported. The JWK must use the following format and include only the following fields: { "keys": [ { "kty": "RSA/EC", "alg": "", "use": "sig", "kid": "", "n": "", "e": "", "x": "", "y": "", "crv": "" } ] } */
   jwksJson?: string;
+  /** Optional. The optional client secret. Required to enable Authorization Code flow for web sign-in. */
+  clientSecret?: GoogleIamAdminV1WorkforcePoolProviderOidcClientSecret;
+  /** Required. The OIDC issuer URI. Must be a valid URI using the `https` scheme. */
+  issuerUri?: string;
 }
 export const GoogleIamAdminV1WorkforcePoolProviderOidc = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    issuerUri: S.optional(S.String),
-    clientSecret: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidcClientSecret),
-    clientId: S.optional(S.String),
     webSsoConfig: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidcWebSsoConfig),
+    clientId: S.optional(S.String),
     jwksJson: S.optional(S.String),
+    clientSecret: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidcClientSecret),
+    issuerUri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleIamAdminV1WorkforcePoolProviderOidc",
 }) as any as S.Schema<GoogleIamAdminV1WorkforcePoolProviderOidc>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+export type WorkforcePoolProviderScimUsageEnum =
+  | "SCIM_USAGE_UNSPECIFIED"
+  | "ENABLED_FOR_GROUPS"
+  | "ENABLED_FOR_USERS_GROUPS";
+export const WorkforcePoolProviderScimUsageEnum = S.String;
 
 /** Represents a SAML identity provider. */
 export interface GoogleIamAdminV1WorkforcePoolProviderSaml {
@@ -462,72 +459,75 @@ export const GoogleIamAdminV1WorkforcePoolProviderSaml = /*@__PURE__*/ S.suspend
   identifier: "GoogleIamAdminV1WorkforcePoolProviderSaml",
 }) as any as S.Schema<GoogleIamAdminV1WorkforcePoolProviderSaml>;
 
+export type WorkforcePoolProviderStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
+export const WorkforcePoolProviderStateEnum = S.String;
+
 /** A configuration for an external identity provider. */
 export interface WorkforcePoolProvider {
   /** Optional. Disables the workforce pool provider. You cannot use a disabled provider to exchange tokens. However, existing tokens still grant access. */
   disabled?: boolean;
-  /** Optional. A display name for the provider. Cannot exceed 32 characters. */
-  displayName?: string;
-  /** Optional. A description of the provider. Cannot exceed 256 characters. */
-  description?: string;
-  /** Output only. Time after which the workforce identity pool provider will be permanently purged and cannot be recovered. */
-  expireTime?: string;
-  /** Output only. The state of the provider. */
-  state?: WorkforcePoolProviderStateEnum | (string & {});
-  /** Optional. Gemini Enterprise only. Specifies whether the workforce identity pool provider uses SCIM-managed groups instead of the `google.groups` attribute mapping for authorization checks. The `scim_usage` and `extended_attributes_oauth2_client` fields are mutually exclusive. A request that enables both fields on the same workforce identity pool provider will produce an error. */
-  scimUsage?: WorkforcePoolProviderScimUsageEnum | (string & {});
-  /** Optional. Defines the configuration for the OAuth 2.0 client that is used to get the additional user attributes in a separate backchannel call to the identity provider. This should be used when users can't get the required claims in authentication credentials. Currently, the OAuth 2.0 protocol is the only supported authorization method for this backchannel call. */
-  extraAttributesOauth2Client?: GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client;
-  /** Optional. The configuration for OAuth 2.0 client used to get the extended group memberships for user identities. Only the `AZURE_AD_GROUPS_ID` attribute type is supported. Extended groups supports a subset of Google Cloud services. When the user accesses these services, extended group memberships override the mapped `google.groups` attribute. Extended group memberships cannot be used in attribute mapping or attribute condition expressions. To keep extended group memberships up to date, extended groups are retrieved when the user signs in and at regular intervals during the user's active session. Each user identity in the workforce identity pool must map to a unique Microsoft Entra ID user. */
-  extendedAttributesOauth2Client?: GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client;
-  /** An OpenID Connect 1.0 identity provider configuration. */
-  oidc?: GoogleIamAdminV1WorkforcePoolProviderOidc;
   /** Optional. If true, populates additional debug information in Cloud Audit Logs for this provider. Logged attribute mappings and values can be found in `sts.googleapis.com` data access logs. Default value is false. */
   detailedAuditLogging?: boolean;
-  /** Identifier. The resource name of the provider. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}` */
-  name?: string;
+  /** Optional. Defines the configuration for the OAuth 2.0 client that is used to get the additional user attributes in a separate backchannel call to the identity provider. This should be used when users can't get the required claims in authentication credentials. Currently, the OAuth 2.0 protocol is the only supported authorization method for this backchannel call. */
+  extraAttributesOauth2Client?: GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client;
   /** Required. Maps attributes from the authentication credentials issued by an external identity provider to Google Cloud attributes, such as `subject` and `segment`. Each key must be a string specifying the Google Cloud IAM attribute to map to. The following keys are supported: * `google.subject`: The principal IAM is authenticating. You can reference this value in IAM bindings. This is also the subject that appears in Cloud Logging logs. This is a required field and the mapped subject cannot exceed 127 bytes. * `google.groups`: Groups the authenticating user belongs to. You can grant groups access to resources using an IAM `principalSet` binding; access applies to all members of the group. * `google.display_name`: The name of the authenticated user. This is an optional field and the mapped display name cannot exceed 100 bytes. If not set, `google.subject` will be displayed instead. This attribute cannot be referenced in IAM bindings. * `google.profile_photo`: The URL that specifies the authenticated user's thumbnail photo. This is an optional field. When set, the image will be visible as the user's profile picture. If not set, a generic user icon will be displayed instead. This attribute cannot be referenced in IAM bindings. * `google.posix_username`: The Linux username used by OS Login. This is an optional field and the mapped POSIX username cannot exceed 32 characters. The key must match the regex `^a-zA-Z0-9._{0,31}$`. This attribute cannot be referenced in IAM bindings. You can also provide custom attributes by specifying `attribute.{custom_attribute}`, where {custom_attribute} is the name of the custom attribute to be mapped. You can define a maximum of 50 custom attributes. The maximum length of a mapped attribute key is 100 characters, and the key may only contain the characters `[a-z0-9_]`. You can reference these attributes in IAM policies to define fine-grained access for a workforce pool to Google Cloud resources. For example: * `google.subject`: `principal://iam.googleapis.com/locations/global/workforcePools/{pool}/subject/{value}` * `google.groups`: `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool}/group/{value}` * `attribute.{custom_attribute}`: `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool}/attribute.{custom_attribute}/{value}` Each value must be a [Common Expression Language] (https://opensource.google/projects/cel) function that maps an identity provider credential to the normalized attribute specified by the corresponding map key. You can use the `assertion` keyword in the expression to access a JSON representation of the authentication credential issued by the provider. The maximum length of an attribute mapping expression is 2048 characters. When evaluated, the total size of all mapped attributes must not exceed 16 KB. For OIDC providers, you must supply a custom mapping that includes the `google.subject` attribute. For example, the following maps the `sub` claim of the incoming credential to the `subject` attribute on a Google token: ``` {"google.subject": "assertion.sub"} ``` */
   attributeMapping?: StringMap;
+  /** An OpenID Connect 1.0 identity provider configuration. */
+  oidc?: GoogleIamAdminV1WorkforcePoolProviderOidc;
+  /** Identifier. The resource name of the provider. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}` */
+  name?: string;
+  /** Optional. Gemini Enterprise only. Specifies whether the workforce identity pool provider uses SCIM-managed groups instead of the `google.groups` attribute mapping for authorization checks. The `scim_usage` and `extended_attributes_oauth2_client` fields are mutually exclusive. A request that enables both fields on the same workforce identity pool provider will produce an error. */
+  scimUsage?: WorkforcePoolProviderScimUsageEnum | (string & {});
+  /** Output only. Time after which the workforce identity pool provider will be permanently purged and cannot be recovered. */
+  expireTime?: string;
+  /** Optional. The configuration for OAuth 2.0 client used to get the extended group memberships for user identities. Only the `AZURE_AD_GROUPS_ID` attribute type is supported. Extended groups supports a subset of Google Cloud services. When the user accesses these services, extended group memberships override the mapped `google.groups` attribute. Extended group memberships cannot be used in attribute mapping or attribute condition expressions. To keep extended group memberships up to date, extended groups are retrieved when the user signs in and at regular intervals during the user's active session. Each user identity in the workforce identity pool must map to a unique Microsoft Entra ID user. */
+  extendedAttributesOauth2Client?: GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client;
+  /** Optional. A description of the provider. Cannot exceed 256 characters. */
+  description?: string;
+  /** Optional. A display name for the provider. Cannot exceed 32 characters. */
+  displayName?: string;
   /** A SAML identity provider configuration. */
   saml?: GoogleIamAdminV1WorkforcePoolProviderSaml;
   /** Optional. A [Common Expression Language](https://opensource.google/projects/cel) expression, in plain text, to restrict what otherwise valid authentication credentials issued by the provider should not be accepted. The expression must output a boolean representing whether to allow the federation. The following keywords may be referenced in the expressions: * `assertion`: JSON representing the authentication credential issued by the provider. * `google`: The Google attributes mapped from the assertion in the `attribute_mappings`. `google.profile_photo`, `google.display_name` and `google.posix_username` are not supported. * `attribute`: The custom attributes mapped from the assertion in the `attribute_mappings`. The maximum length of the attribute condition expression is 4096 characters. If unspecified, all valid authentication credentials will be accepted. The following example shows how to only allow credentials with a mapped `google.groups` value of `admins`: ``` "'admins' in google.groups" ``` */
   attributeCondition?: string;
+  /** Output only. The state of the provider. */
+  state?: WorkforcePoolProviderStateEnum | (string & {});
 }
 export const WorkforcePoolProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disabled: S.optional(S.Boolean),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
-    expireTime: S.optional(S.String),
-    state: S.optional(WorkforcePoolProviderStateEnum),
-    scimUsage: S.optional(WorkforcePoolProviderScimUsageEnum),
+    detailedAuditLogging: S.optional(S.Boolean),
     extraAttributesOauth2Client: S.optional(
       GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client,
     ),
+    attributeMapping: S.optional(StringMap),
+    oidc: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidc),
+    name: S.optional(S.String),
+    scimUsage: S.optional(WorkforcePoolProviderScimUsageEnum),
+    expireTime: S.optional(S.String),
     extendedAttributesOauth2Client: S.optional(
       GoogleIamAdminV1WorkforcePoolProviderExtraAttributesOAuth2Client,
     ),
-    oidc: S.optional(GoogleIamAdminV1WorkforcePoolProviderOidc),
-    detailedAuditLogging: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    attributeMapping: S.optional(StringMap),
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
     saml: S.optional(GoogleIamAdminV1WorkforcePoolProviderSaml),
     attributeCondition: S.optional(S.String),
+    state: S.optional(WorkforcePoolProviderStateEnum),
   }),
 ).annotate({ identifier: "WorkforcePoolProvider" }) as any as S.Schema<WorkforcePoolProvider>;
 
 export interface CreateLocationsWorkforcePoolsProvidersRequest {
-  /** Required. The pool to create this provider in. Format: `locations/{location}/workforcePools/{workforce_pool_id}` */
-  parent: string;
   /** Required. The ID for the provider, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters `[a-z0-9-]`. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   workforcePoolProviderId?: string;
+  /** Required. The pool to create this provider in. Format: `locations/{location}/workforcePools/{workforce_pool_id}` */
+  parent: string;
   /** Request body */
   body?: WorkforcePoolProvider;
 }
 export const CreateLocationsWorkforcePoolsProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     workforcePoolProviderId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(WorkforcePoolProvider.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -540,6 +540,12 @@ export const CreateLocationsWorkforcePoolsProvidersRequest = /*@__PURE__*/ S.sus
   identifier: "CreateLocationsWorkforcePoolsProvidersRequest",
 }) as any as S.Schema<CreateLocationsWorkforcePoolsProvidersRequest>;
 
+export type WorkforcePoolProviderKeyUseEnum = "KEY_USE_UNSPECIFIED" | "ENCRYPTION";
+export const WorkforcePoolProviderKeyUseEnum = S.String;
+
+export type WorkforcePoolProviderKeyStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
+export const WorkforcePoolProviderKeyStateEnum = S.String;
+
 export type KeyDataFormatEnum = "KEY_FORMAT_UNSPECIFIED" | "RSA_X509_PEM";
 export const KeyDataFormatEnum = S.String;
 
@@ -548,68 +554,62 @@ export const KeyDataKeySpecEnum = S.String;
 
 /** Represents a public key data along with its format. */
 export interface KeyData {
-  /** Output only. Earliest timestamp when this key is valid. Attempts to use this key before this time will fail. Only present if the key data represents a X.509 certificate. */
-  notBeforeTime?: string;
-  /** Output only. Latest timestamp when this key is valid. Attempts to use this key after this time will fail. Only present if the key data represents a X.509 certificate. */
-  notAfterTime?: string;
-  /** Output only. The key data. The format of the key is represented by the format field. */
-  key?: string;
   /** Output only. The format of the key. */
   format?: KeyDataFormatEnum | (string & {});
   /** Required. The specifications for the key. */
   keySpec?: KeyDataKeySpecEnum | (string & {});
+  /** Output only. Latest timestamp when this key is valid. Attempts to use this key after this time will fail. Only present if the key data represents a X.509 certificate. */
+  notAfterTime?: string;
+  /** Output only. Earliest timestamp when this key is valid. Attempts to use this key before this time will fail. Only present if the key data represents a X.509 certificate. */
+  notBeforeTime?: string;
+  /** Output only. The key data. The format of the key is represented by the format field. */
+  key?: string;
 }
 export const KeyData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notBeforeTime: S.optional(S.String),
-    notAfterTime: S.optional(S.String),
-    key: S.optional(S.String),
     format: S.optional(KeyDataFormatEnum),
     keySpec: S.optional(KeyDataKeySpecEnum),
+    notAfterTime: S.optional(S.String),
+    notBeforeTime: S.optional(S.String),
+    key: S.optional(S.String),
   }),
 ).annotate({ identifier: "KeyData" }) as any as S.Schema<KeyData>;
 
-export type WorkforcePoolProviderKeyStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
-export const WorkforcePoolProviderKeyStateEnum = S.String;
-
-export type WorkforcePoolProviderKeyUseEnum = "KEY_USE_UNSPECIFIED" | "ENCRYPTION";
-export const WorkforcePoolProviderKeyUseEnum = S.String;
-
 /** Represents a public key configuration for a Workforce Pool Provider. The key can be configured in your identity provider to encrypt SAML assertions. Google holds the corresponding private key, which it uses to decrypt encrypted tokens. */
 export interface WorkforcePoolProviderKey {
-  /** Identifier. The resource name of the key. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}/keys/{key_id}` */
-  name?: string;
   /** Output only. The time after which the key will be permanently deleted and cannot be recovered. Note that the key may get purged before this time if the total limit of keys per provider is exceeded. */
   expireTime?: string;
-  /** Immutable. Public half of the asymmetric key. */
-  keyData?: KeyData;
-  /** Output only. The state of the key. */
-  state?: WorkforcePoolProviderKeyStateEnum | (string & {});
   /** Required. The purpose of the key. */
   use?: WorkforcePoolProviderKeyUseEnum | (string & {});
+  /** Identifier. The resource name of the key. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}/keys/{key_id}` */
+  name?: string;
+  /** Output only. The state of the key. */
+  state?: WorkforcePoolProviderKeyStateEnum | (string & {});
+  /** Immutable. Public half of the asymmetric key. */
+  keyData?: KeyData;
 }
 export const WorkforcePoolProviderKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     expireTime: S.optional(S.String),
-    keyData: S.optional(KeyData),
-    state: S.optional(WorkforcePoolProviderKeyStateEnum),
     use: S.optional(WorkforcePoolProviderKeyUseEnum),
+    name: S.optional(S.String),
+    state: S.optional(WorkforcePoolProviderKeyStateEnum),
+    keyData: S.optional(KeyData),
   }),
 ).annotate({ identifier: "WorkforcePoolProviderKey" }) as any as S.Schema<WorkforcePoolProviderKey>;
 
 export interface CreateLocationsWorkforcePoolsProvidersKeysRequest {
-  /** Required. The provider to create this key in. */
-  parent: string;
   /** Required. The ID to use for the key, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters `[a-z0-9-]`. */
   workforcePoolProviderKeyId?: string;
+  /** Required. The provider to create this key in. */
+  parent: string;
   /** Request body */
   body?: WorkforcePoolProviderKey;
 }
 export const CreateLocationsWorkforcePoolsProvidersKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     workforcePoolProviderKeyId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(WorkforcePoolProviderKey.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "POST", uri: "v1/{+parent}/keys", baseUrl: "https://iam.googleapis.com/" }),
@@ -623,51 +623,51 @@ export const WorkforcePoolProviderScimTenantStateEnum = S.String;
 
 /** Gemini Enterprise only. Represents a SCIM tenant. Used for provisioning and managing identity data (such as Users and Groups) in cross-domain environments. */
 export interface WorkforcePoolProviderScimTenant {
-  /** Output only. Service Agent created by SCIM Tenant API. SCIM tokens created under this tenant will be attached to this service agent. */
-  serviceAgent?: string;
   /** Output only. Gemini Enterprise only. The state of the tenant. */
   state?: WorkforcePoolProviderScimTenantStateEnum | (string & {});
-  /** Optional. Gemini Enterprise only. The display name of the SCIM tenant. Cannot exceed 32 characters. */
-  displayName?: string;
-  /** Identifier. Gemini Enterprise only. The resource name of the SCIM Tenant. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}` */
-  name?: string;
-  /** Optional. Gemini Enterprise only. The description of the SCIM tenant. Cannot exceed 256 characters. */
-  description?: string;
   /** Output only. Gemini Enterprise only. Represents the base URI as defined in [RFC 7644, Section 1.3](https://datatracker.ietf.org/doc/html/rfc7644#section-1.3). Clients must use this as the root address for managing resources under the tenant. Format: https://iamscim.googleapis.com/{version}/{tenant_id}/ */
   baseUri?: string;
-  /** Output only. Gemini Enterprise only. The timestamp that represents the time when the SCIM tenant is purged. */
-  purgeTime?: string;
   /** Required. Immutable. Gemini Enterprise only. Maps SCIM attributes to Google attributes. This mapping is used to associate the attributes synced via SCIM with the Google Cloud attributes used in IAM policies for Workforce Identity Federation. SCIM-managed user and group attributes are mapped to `google.subject` and `google.group` respectively. Each key must be a string specifying the Google Cloud IAM attribute to map to. The supported keys are as follows: * `google.subject`: The principal IAM is authenticating. You can reference this value in IAM bindings. This is also the subject that appears in Cloud Logging logs. This is a required field and the mapped subject cannot exceed 127 bytes. * `google.group`: Group the authenticating user belongs to. You can grant group access to resources using an IAM `principalSet` binding; access applies to all members of the group. Each value must be a [Common Expression Language] (https://opensource.google/projects/cel) expression that maps SCIM user or group attribute to the normalized attribute specified by the corresponding map key. Example: To map the SCIM user's `externalId` to `google.subject` and the SCIM group's `externalId` to `google.group`: ``` { "google.subject": "user.externalId", "google.group": "group.externalId" } ``` */
   claimMapping?: StringMap;
+  /** Output only. Gemini Enterprise only. The timestamp that represents the time when the SCIM tenant is purged. */
+  purgeTime?: string;
+  /** Identifier. Gemini Enterprise only. The resource name of the SCIM Tenant. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}` */
+  name?: string;
+  /** Optional. Gemini Enterprise only. The display name of the SCIM tenant. Cannot exceed 32 characters. */
+  displayName?: string;
+  /** Output only. Service Agent created by SCIM Tenant API. SCIM tokens created under this tenant will be attached to this service agent. */
+  serviceAgent?: string;
+  /** Optional. Gemini Enterprise only. The description of the SCIM tenant. Cannot exceed 256 characters. */
+  description?: string;
 }
 export const WorkforcePoolProviderScimTenant = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceAgent: S.optional(S.String),
     state: S.optional(WorkforcePoolProviderScimTenantStateEnum),
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
     baseUri: S.optional(S.String),
-    purgeTime: S.optional(S.String),
     claimMapping: S.optional(StringMap),
+    purgeTime: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    serviceAgent: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({
   identifier: "WorkforcePoolProviderScimTenant",
 }) as any as S.Schema<WorkforcePoolProviderScimTenant>;
 
 export interface CreateLocationsWorkforcePoolsProvidersScimTenantsRequest {
-  /** Required. Gemini Enterprise only. The parent to create SCIM tenant. Format: 'locations/{location}/workforcePools/{workforce_pool}/providers/{provider}' */
-  parent: string;
   /** Required. Gemini Enterprise only. The ID to use for the SCIM tenant, which becomes the final component of the resource name. This value should be 4-32 characters, containing the characters `[a-z0-9-]`. */
   workforcePoolProviderScimTenantId?: string;
+  /** Required. Gemini Enterprise only. The parent to create SCIM tenant. Format: 'locations/{location}/workforcePools/{workforce_pool}/providers/{provider}' */
+  parent: string;
   /** Request body */
   body?: WorkforcePoolProviderScimTenant;
 }
 export const CreateLocationsWorkforcePoolsProvidersScimTenantsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       workforcePoolProviderScimTenantId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(WorkforcePoolProviderScimTenant.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -685,39 +685,39 @@ export const WorkforcePoolProviderScimTokenStateEnum = S.String;
 
 /** Gemini Enterprise only. Represents a token for the WorkforcePoolProviderScimTenant. Used for authenticating SCIM provisioning requests. */
 export interface WorkforcePoolProviderScimToken {
-  /** Identifier. Gemini Enterprise only. The resource name of the SCIM Token. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}/tokens/{token}` */
-  name?: string;
   /** Output only. Gemini Enterprise only. The token string. Provide this to the IdP for authentication. Will be set only during creation. */
   securityToken?: string;
-  /** Optional. Gemini Enterprise only. The display name of the SCIM token. Cannot exceed 32 characters. */
-  displayName?: string;
+  /** Identifier. Gemini Enterprise only. The resource name of the SCIM Token. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}/tokens/{token}` */
+  name?: string;
   /** Output only. Gemini Enterprise only. The state of the token. */
   state?: WorkforcePoolProviderScimTokenStateEnum | (string & {});
+  /** Optional. Gemini Enterprise only. The display name of the SCIM token. Cannot exceed 32 characters. */
+  displayName?: string;
 }
 export const WorkforcePoolProviderScimToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     securityToken: S.optional(S.String),
-    displayName: S.optional(S.String),
+    name: S.optional(S.String),
     state: S.optional(WorkforcePoolProviderScimTokenStateEnum),
+    displayName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "WorkforcePoolProviderScimToken",
 }) as any as S.Schema<WorkforcePoolProviderScimToken>;
 
 export interface CreateLocationsWorkforcePoolsProvidersScimTenantsTokensRequest {
-  /** Required. Gemini Enterprise only. The parent tenant to create SCIM token. Format: 'locations/{location}/workforcePools/{workforce_pool}/providers/{provider}/scimTenants/{scim_tenant}' */
-  parent: string;
   /** Required. Gemini Enterprise only. The ID to use for the SCIM token, which becomes the final component of the resource name. This value should be 4-32 characters and follow the pattern: `([a-z]([a-z0-9\\-]{2,30}[a-z0-9]))` */
   workforcePoolProviderScimTokenId?: string;
+  /** Required. Gemini Enterprise only. The parent tenant to create SCIM token. Format: 'locations/{location}/workforcePools/{workforce_pool}/providers/{provider}/scimTenants/{scim_tenant}' */
+  parent: string;
   /** Request body */
   body?: WorkforcePoolProviderScimToken;
 }
 export const CreateLocationsWorkforcePoolsProvidersScimTenantsTokensRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       workforcePoolProviderScimTokenId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(WorkforcePoolProviderScimToken.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -735,44 +735,44 @@ export const RoleStageEnum = S.String;
 
 /** A role in the Identity and Access Management API. */
 export interface Role {
-  /** Used to perform a consistent read-modify-write. */
-  etag?: string;
   /** Optional. A human-readable description for the role. */
   description?: string;
-  /** The name of the role. When `Role` is used in `CreateRole`, the role name must not be set. When `Role` is used in output and other input such as `UpdateRole`, the role name is the complete path. For example, `roles/logging.viewer` for predefined roles, `organizations/{ORGANIZATION_ID}/roles/myRole` for organization-level custom roles, and `projects/{PROJECT_ID}/roles/myRole` for project-level custom roles. */
-  name?: string;
+  /** Optional. A human-readable title for the role. Typically this is limited to 100 UTF-8 bytes. */
+  title?: string;
+  /** The current launch stage of the role. If the `ALPHA` launch stage has been selected for a role, the `stage` field will not be included in the returned definition for the role. */
+  stage?: RoleStageEnum | (string & {});
   /** The current deleted state of the role. This field is read only. It will be ignored in calls to CreateRole and UpdateRole. */
   deleted?: boolean;
   /** The names of the permissions this role grants when bound in an IAM policy. */
   includedPermissions?: StringList;
-  /** The current launch stage of the role. If the `ALPHA` launch stage has been selected for a role, the `stage` field will not be included in the returned definition for the role. */
-  stage?: RoleStageEnum | (string & {});
-  /** Optional. A human-readable title for the role. Typically this is limited to 100 UTF-8 bytes. */
-  title?: string;
+  /** The name of the role. When `Role` is used in `CreateRole`, the role name must not be set. When `Role` is used in output and other input such as `UpdateRole`, the role name is the complete path. For example, `roles/logging.viewer` for predefined roles, `organizations/{ORGANIZATION_ID}/roles/myRole` for organization-level custom roles, and `projects/{PROJECT_ID}/roles/myRole` for project-level custom roles. */
+  name?: string;
+  /** Used to perform a consistent read-modify-write. */
+  etag?: string;
 }
 export const Role = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
     description: S.optional(S.String),
-    name: S.optional(S.String),
+    title: S.optional(S.String),
+    stage: S.optional(RoleStageEnum),
     deleted: S.optional(S.Boolean),
     includedPermissions: S.optional(StringList),
-    stage: S.optional(RoleStageEnum),
-    title: S.optional(S.String),
+    name: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Role" }) as any as S.Schema<Role>;
 
 /** The request to create a new role. */
 export interface CreateRoleRequest {
-  /** The role ID to use for this role. A role ID may contain alphanumeric characters, underscores (`_`), and periods (`.`). It must contain a minimum of 3 characters and a maximum of 64 characters. */
-  roleId?: string;
   /** The Role resource to create. */
   role?: Role;
+  /** The role ID to use for this role. A role ID may contain alphanumeric characters, underscores (`_`), and periods (`.`). It must contain a minimum of 3 characters and a maximum of 64 characters. */
+  roleId?: string;
 }
 export const CreateRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    roleId: S.optional(S.String),
     role: S.optional(Role),
+    roleId: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreateRoleRequest" }) as any as S.Schema<CreateRoleRequest>;
 
@@ -793,12 +793,6 @@ export const CreateOrganizationsRolesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOrganizationsRolesRequest",
 }) as any as S.Schema<CreateOrganizationsRolesRequest>;
 
-export type OauthClientClientTypeEnum =
-  | "CLIENT_TYPE_UNSPECIFIED"
-  | "PUBLIC_CLIENT"
-  | "CONFIDENTIAL_CLIENT";
-export const OauthClientClientTypeEnum = S.String;
-
 export type OauthClientAllowedGrantTypesItemEnum =
   | "GRANT_TYPE_UNSPECIFIED"
   | "AUTHORIZATION_CODE_GRANT"
@@ -815,59 +809,65 @@ export const OauthClientAllowedGrantTypesItemEnumList = /*@__PURE__*/ S.Array(
 export type OauthClientStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 export const OauthClientStateEnum = S.String;
 
+export type OauthClientClientTypeEnum =
+  | "CLIENT_TYPE_UNSPECIFIED"
+  | "PUBLIC_CLIENT"
+  | "CONFIDENTIAL_CLIENT";
+export const OauthClientClientTypeEnum = S.String;
+
 /** Represents an OauthClient. Used to access Google Cloud resources on behalf of a Workforce Identity Federation user by using OAuth 2.0 Protocol to obtain an access token from Google Cloud. */
 export interface OauthClient {
+  /** Optional. A user-specified description of the OauthClient. Cannot exceed 256 characters. */
+  description?: string;
+  /** Optional. A user-specified display name of the OauthClient. Cannot exceed 32 characters. */
+  displayName?: string;
   /** Optional. Whether the OauthClient is disabled. You cannot use a disabled OAuth client. */
   disabled?: boolean;
   /** Required. The list of scopes that the OauthClient is allowed to request during OAuth flows. The following scopes are supported: * `https://www.googleapis.com/auth/cloud-platform`: See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account. */
   allowedScopes?: StringList;
-  /** Immutable. The type of OauthClient. Either public or private. For private clients, the client secret can be managed using the dedicated OauthClientCredential resource. */
-  clientType?: OauthClientClientTypeEnum | (string & {});
-  /** Optional. The list of OAuth grant types is allowed for the OauthClient. */
-  allowedGrantTypes?: OauthClientAllowedGrantTypesItemEnumList;
   /** Output only. The system-generated OauthClient id. */
   clientId?: string;
-  /** Required. The list of redirect uris that is allowed to redirect back when authorization process is completed. */
-  allowedRedirectUris?: StringList;
   /** Output only. Time after which the OauthClient will be permanently purged and cannot be recovered. */
   expireTime?: string;
-  /** Optional. A user-specified display name of the OauthClient. Cannot exceed 32 characters. */
-  displayName?: string;
+  /** Required. The list of redirect uris that is allowed to redirect back when authorization process is completed. */
+  allowedRedirectUris?: StringList;
   /** Immutable. Identifier. The resource name of the OauthClient. Format:`projects/{project}/locations/{location}/oauthClients/{oauth_client}`. */
   name?: string;
-  /** Optional. A user-specified description of the OauthClient. Cannot exceed 256 characters. */
-  description?: string;
+  /** Optional. The list of OAuth grant types is allowed for the OauthClient. */
+  allowedGrantTypes?: OauthClientAllowedGrantTypesItemEnumList;
   /** Output only. The state of the OauthClient. */
   state?: OauthClientStateEnum | (string & {});
+  /** Immutable. The type of OauthClient. Either public or private. For private clients, the client secret can be managed using the dedicated OauthClientCredential resource. */
+  clientType?: OauthClientClientTypeEnum | (string & {});
 }
 export const OauthClient = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
     disabled: S.optional(S.Boolean),
     allowedScopes: S.optional(StringList),
-    clientType: S.optional(OauthClientClientTypeEnum),
-    allowedGrantTypes: S.optional(OauthClientAllowedGrantTypesItemEnumList),
     clientId: S.optional(S.String),
-    allowedRedirectUris: S.optional(StringList),
     expireTime: S.optional(S.String),
-    displayName: S.optional(S.String),
+    allowedRedirectUris: S.optional(StringList),
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    allowedGrantTypes: S.optional(OauthClientAllowedGrantTypesItemEnumList),
     state: S.optional(OauthClientStateEnum),
+    clientType: S.optional(OauthClientClientTypeEnum),
   }),
 ).annotate({ identifier: "OauthClient" }) as any as S.Schema<OauthClient>;
 
 export interface CreateProjectsLocationsOauthClientsRequest {
-  /** Required. The parent resource to create the OauthClient in. The only supported location is `global`. */
-  parent: string;
   /** Required. The ID to use for the OauthClient, which becomes the final component of the resource name. This value should be a string of 6 to 63 lowercase letters, digits, or hyphens. It must start with a letter, and cannot have a trailing hyphen. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   oauthClientId?: string;
+  /** Required. The parent resource to create the OauthClient in. The only supported location is `global`. */
+  parent: string;
   /** Request body */
   body?: OauthClient;
 }
 export const CreateProjectsLocationsOauthClientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     oauthClientId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(OauthClient.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -882,36 +882,36 @@ export const CreateProjectsLocationsOauthClientsRequest = /*@__PURE__*/ S.suspen
 
 /** Represents an OauthClientCredential. Used to authenticate an OauthClient while accessing Google Cloud resources on behalf of a user by using OAuth 2.0 Protocol. */
 export interface OauthClientCredential {
-  /** Optional. Whether the OauthClientCredential is disabled. You cannot use a disabled OauthClientCredential. */
-  disabled?: boolean;
-  /** Output only. The system-generated OAuth client secret. The client secret must be stored securely. If the client secret is leaked, you must delete and re-create the client credential. To learn more, see [OAuth client and credential security risks and mitigations](https://cloud.google.com/iam/docs/workforce-oauth-app#security) */
-  clientSecret?: string;
   /** Optional. A user-specified display name of the OauthClientCredential. Cannot exceed 32 characters. */
   displayName?: string;
+  /** Output only. The system-generated OAuth client secret. The client secret must be stored securely. If the client secret is leaked, you must delete and re-create the client credential. To learn more, see [OAuth client and credential security risks and mitigations](https://cloud.google.com/iam/docs/workforce-oauth-app#security) */
+  clientSecret?: string;
   /** Immutable. Identifier. The resource name of the OauthClientCredential. Format: `projects/{project}/locations/{location}/oauthClients/{oauth_client}/credentials/{credential}` */
   name?: string;
+  /** Optional. Whether the OauthClientCredential is disabled. You cannot use a disabled OauthClientCredential. */
+  disabled?: boolean;
 }
 export const OauthClientCredential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    disabled: S.optional(S.Boolean),
-    clientSecret: S.optional(S.String),
     displayName: S.optional(S.String),
+    clientSecret: S.optional(S.String),
     name: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "OauthClientCredential" }) as any as S.Schema<OauthClientCredential>;
 
 export interface CreateProjectsLocationsOauthClientsCredentialsRequest {
-  /** Required. The ID to use for the OauthClientCredential, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
-  oauthClientCredentialId?: string;
   /** Required. The parent resource to create the OauthClientCredential in. */
   parent: string;
+  /** Required. The ID to use for the OauthClientCredential, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
+  oauthClientCredentialId?: string;
   /** Request body */
   body?: OauthClientCredential;
 }
 export const CreateProjectsLocationsOauthClientsCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    oauthClientCredentialId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    oauthClientCredentialId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(OauthClientCredential.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -923,13 +923,6 @@ export const CreateProjectsLocationsOauthClientsCredentialsRequest = /*@__PURE__
 ).annotate({
   identifier: "CreateProjectsLocationsOauthClientsCredentialsRequest",
 }) as any as S.Schema<CreateProjectsLocationsOauthClientsCredentialsRequest>;
-
-export type WorkloadIdentityPoolModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "FEDERATION_ONLY"
-  | "TRUST_DOMAIN"
-  | "SYSTEM_TRUST_DOMAIN";
-export const WorkloadIdentityPoolModeEnum = S.String;
 
 export type WorkloadIdentityPoolStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 export const WorkloadIdentityPoolStateEnum = S.String;
@@ -945,24 +938,24 @@ export const InlineCertificateIssuanceConfigKeyAlgorithmEnum = S.String;
 
 /** Represents configuration for generating mutual TLS (mTLS) certificates for the identities within this pool. */
 export interface InlineCertificateIssuanceConfig {
-  /** Optional. Key algorithm to use when generating the key pair. This key pair will be used to create the certificate. If not specified, this will default to ECDSA_P256. */
-  keyAlgorithm?: InlineCertificateIssuanceConfigKeyAlgorithmEnum | (string & {});
   /** Optional. A required mapping of a Google Cloud region to the CA pool resource located in that region. The CA pool is used for certificate issuance, adhering to the following constraints: * Key format: A supported cloud region name equivalent to the location identifier in the corresponding map entry's value. * Value format: A valid CA pool resource path format like: "projects/{project}/locations/{location}/caPools/{ca_pool}" * Region Matching: Workloads are ONLY issued certificates from CA pools within the same region. Also the CA pool region (in value) must match the workload's region (key). */
   caPools?: StringMap;
-  /** Optional. Rotation window percentage, the percentage of remaining lifetime after which certificate rotation is initiated. Must be between 50 and 80. If no value is specified, rotation window percentage is defaulted to 50. */
-  rotationWindowPercentage?: number;
   /** Optional. Determines whether the trust domain utilizes the Google Cloud-provisioned default CA. A default CA in the same region as the workload will be selected to issue the certificate. Enabling this will clear any existing `ca_pools` configuration to provision the certificates. NOTE: This field is mutually exclusive with `ca_pools`. If this flag is enabled, certificates will be automatically provisioned from the default shared CAs. This flag should not be set if you want to use your own CA pools to provision the certificates. */
   useDefaultSharedCa?: boolean;
   /** Optional. Lifetime of the workload certificates issued by the CA pool. Must be between 24 hours and 30 days. If not specified, this will be defaulted to 24 hours. */
   lifetime?: string;
+  /** Optional. Key algorithm to use when generating the key pair. This key pair will be used to create the certificate. If not specified, this will default to ECDSA_P256. */
+  keyAlgorithm?: InlineCertificateIssuanceConfigKeyAlgorithmEnum | (string & {});
+  /** Optional. Rotation window percentage, the percentage of remaining lifetime after which certificate rotation is initiated. Must be between 50 and 80. If no value is specified, rotation window percentage is defaulted to 50. */
+  rotationWindowPercentage?: number;
 }
 export const InlineCertificateIssuanceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    keyAlgorithm: S.optional(InlineCertificateIssuanceConfigKeyAlgorithmEnum),
     caPools: S.optional(StringMap),
-    rotationWindowPercentage: S.optional(S.Number),
     useDefaultSharedCa: S.optional(S.Boolean),
     lifetime: S.optional(S.String),
+    keyAlgorithm: S.optional(InlineCertificateIssuanceConfigKeyAlgorithmEnum),
+    rotationWindowPercentage: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "InlineCertificateIssuanceConfig",
@@ -1034,38 +1027,45 @@ export const InlineTrustConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "InlineTrustConfig" }) as any as S.Schema<InlineTrustConfig>;
 
+export type WorkloadIdentityPoolModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "FEDERATION_ONLY"
+  | "TRUST_DOMAIN"
+  | "SYSTEM_TRUST_DOMAIN";
+export const WorkloadIdentityPoolModeEnum = S.String;
+
 /** Represents a collection of workload identities. You can define IAM policies to grant these identities access to Google Cloud resources. */
 export interface WorkloadIdentityPool {
-  /** Identifier. The resource name of the pool. */
-  name?: string;
-  /** Immutable. The mode the pool is operating in. */
-  mode?: WorkloadIdentityPoolModeEnum | (string & {});
-  /** Output only. The state of the pool. */
-  state?: WorkloadIdentityPoolStateEnum | (string & {});
-  /** Optional. Defines the Certificate Authority (CA) pool resources and configurations required for issuance and rotation of mTLS workload certificates. */
-  inlineCertificateIssuanceConfig?: InlineCertificateIssuanceConfig;
-  /** Optional. Whether the pool is disabled. You cannot use a disabled pool to exchange tokens, or use existing tokens to access resources. If the pool is re-enabled, existing tokens grant access again. */
-  disabled?: boolean;
   /** Output only. Time after which the workload identity pool will be permanently purged and cannot be recovered. */
   expireTime?: string;
-  /** Optional. Represents config to add additional trusted trust domains. */
-  inlineTrustConfig?: InlineTrustConfig;
-  /** Optional. A description of the pool. Cannot exceed 256 characters. */
-  description?: string;
   /** Optional. A display name for the pool. Cannot exceed 32 characters. */
   displayName?: string;
+  /** Output only. The state of the pool. */
+  state?: WorkloadIdentityPoolStateEnum | (string & {});
+  /** Optional. A description of the pool. Cannot exceed 256 characters. */
+  description?: string;
+  /** Optional. Whether the pool is disabled. You cannot use a disabled pool to exchange tokens, or use existing tokens to access resources. If the pool is re-enabled, existing tokens grant access again. */
+  disabled?: boolean;
+  /** Optional. Defines the Certificate Authority (CA) pool resources and configurations required for issuance and rotation of mTLS workload certificates. */
+  inlineCertificateIssuanceConfig?: InlineCertificateIssuanceConfig;
+  /** Optional. Represents config to add additional trusted trust domains. */
+  inlineTrustConfig?: InlineTrustConfig;
+  /** Immutable. The mode the pool is operating in. */
+  mode?: WorkloadIdentityPoolModeEnum | (string & {});
+  /** Identifier. The resource name of the pool. */
+  name?: string;
 }
 export const WorkloadIdentityPool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    mode: S.optional(WorkloadIdentityPoolModeEnum),
-    state: S.optional(WorkloadIdentityPoolStateEnum),
-    inlineCertificateIssuanceConfig: S.optional(InlineCertificateIssuanceConfig),
-    disabled: S.optional(S.Boolean),
     expireTime: S.optional(S.String),
-    inlineTrustConfig: S.optional(InlineTrustConfig),
-    description: S.optional(S.String),
     displayName: S.optional(S.String),
+    state: S.optional(WorkloadIdentityPoolStateEnum),
+    description: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
+    inlineCertificateIssuanceConfig: S.optional(InlineCertificateIssuanceConfig),
+    inlineTrustConfig: S.optional(InlineTrustConfig),
+    mode: S.optional(WorkloadIdentityPoolModeEnum),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "WorkloadIdentityPool" }) as any as S.Schema<WorkloadIdentityPool>;
 
@@ -1093,6 +1093,9 @@ export const CreateProjectsLocationsWorkloadIdentityPoolsRequest = /*@__PURE__*/
   identifier: "CreateProjectsLocationsWorkloadIdentityPoolsRequest",
 }) as any as S.Schema<CreateProjectsLocationsWorkloadIdentityPoolsRequest>;
 
+export type WorkloadIdentityPoolNamespaceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
+export const WorkloadIdentityPoolNamespaceStateEnum = S.String;
+
 /** The Google Cloud service that owns this namespace. */
 export interface OwnerService {
   /** Required. The service agent principal subject, e.g. "serviceAccount:service-1234@gcp-sa-gkehub.iam.gserviceaccount.com". */
@@ -1104,32 +1107,29 @@ export const OwnerService = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "OwnerService" }) as any as S.Schema<OwnerService>;
 
-export type WorkloadIdentityPoolNamespaceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
-export const WorkloadIdentityPoolNamespaceStateEnum = S.String;
-
 /** Represents a namespace for a workload identity pool. Namespaces are used to segment identities within the pool. */
 export interface WorkloadIdentityPoolNamespace {
-  /** Output only. The Google Cloud service that owns this namespace. */
-  ownerService?: OwnerService;
-  /** Optional. Whether the namespace is disabled. If disabled, credentials may no longer be issued for identities within this namespace, however existing credentials will still be accepted until they expire. */
-  disabled?: boolean;
   /** Optional. A description of the namespace. Cannot exceed 256 characters. */
   description?: string;
   /** Output only. Time after which the namespace will be permanently purged and cannot be recovered. */
   expireTime?: string;
-  /** Output only. The state of the namespace. */
-  state?: WorkloadIdentityPoolNamespaceStateEnum | (string & {});
   /** Identifier. The resource name of the namespace. */
   name?: string;
+  /** Output only. The state of the namespace. */
+  state?: WorkloadIdentityPoolNamespaceStateEnum | (string & {});
+  /** Output only. The Google Cloud service that owns this namespace. */
+  ownerService?: OwnerService;
+  /** Optional. Whether the namespace is disabled. If disabled, credentials may no longer be issued for identities within this namespace, however existing credentials will still be accepted until they expire. */
+  disabled?: boolean;
 }
 export const WorkloadIdentityPoolNamespace = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ownerService: S.optional(OwnerService),
-    disabled: S.optional(S.Boolean),
     description: S.optional(S.String),
     expireTime: S.optional(S.String),
-    state: S.optional(WorkloadIdentityPoolNamespaceStateEnum),
     name: S.optional(S.String),
+    state: S.optional(WorkloadIdentityPoolNamespaceStateEnum),
+    ownerService: S.optional(OwnerService),
+    disabled: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "WorkloadIdentityPoolNamespace",
@@ -1170,40 +1170,40 @@ export const WorkloadIdentityPoolManagedIdentityStateEnum = S.String;
 export interface WorkloadIdentityPoolManagedIdentity {
   /** Output only. Time after which the managed identity will be permanently purged and cannot be recovered. */
   expireTime?: string;
-  /** Identifier. The resource name of the managed identity. */
-  name?: string;
-  /** Optional. Whether the managed identity is disabled. If disabled, credentials may no longer be issued for the identity, however existing credentials will still be accepted until they expire. */
-  disabled?: boolean;
   /** Output only. The state of the managed identity. */
   state?: WorkloadIdentityPoolManagedIdentityStateEnum | (string & {});
   /** Optional. A description of the managed identity. Cannot exceed 256 characters. */
   description?: string;
+  /** Identifier. The resource name of the managed identity. */
+  name?: string;
+  /** Optional. Whether the managed identity is disabled. If disabled, credentials may no longer be issued for the identity, however existing credentials will still be accepted until they expire. */
+  disabled?: boolean;
 }
 export const WorkloadIdentityPoolManagedIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expireTime: S.optional(S.String),
-    name: S.optional(S.String),
-    disabled: S.optional(S.Boolean),
     state: S.optional(WorkloadIdentityPoolManagedIdentityStateEnum),
     description: S.optional(S.String),
+    name: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "WorkloadIdentityPoolManagedIdentity",
 }) as any as S.Schema<WorkloadIdentityPoolManagedIdentity>;
 
 export interface CreateProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
-  /** Required. The parent resource to create the manage identity in. The only supported location is `global`. */
-  parent: string;
   /** Required. The ID to use for the managed identity. This value must: * contain at most 63 characters * contain only lowercase alphanumeric characters or `-` * start with an alphanumeric character * end with an alphanumeric character The prefix "gcp-" will be reserved for future uses. */
   workloadIdentityPoolManagedIdentityId?: string;
+  /** Required. The parent resource to create the manage identity in. The only supported location is `global`. */
+  parent: string;
   /** Request body */
   body?: WorkloadIdentityPoolManagedIdentity;
 }
 export const CreateProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       workloadIdentityPoolManagedIdentityId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(WorkloadIdentityPoolManagedIdentity.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1216,33 +1216,16 @@ export const CreateProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdenti
     identifier: "CreateProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest",
   }) as any as S.Schema<CreateProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest>;
 
-/** Represents an OpenId Connect 1.0 identity provider. */
-export interface Oidc {
-  /** Required. The OIDC `issuer_uri`. Must be an HTTPS endpoint. Per OpenID Connect Discovery 1.0 spec, the OIDC issuer URL is used to locate the provider's public keys (via `jwks_uri`) for verifying tokens like the OIDC ID token. These public key types must be 'EC' or 'RSA'. */
-  issuerUri?: string;
-  /** Optional. OIDC JWKs in JSON String format. For details on the definition of a JWK, see https://tools.ietf.org/html/rfc7517. If not set, the `jwks_uri` from the discovery document(fetched from the .well-known path of the `issuer_uri`) will be used. Currently, RSA and EC asymmetric keys are supported. The JWK must use following format and include only the following fields: { "keys": [ { "kty": "RSA/EC", "alg": "", "use": "sig", "kid": "", "n": "", "e": "", "x": "", "y": "", "crv": "" } ] } */
-  jwksJson?: string;
-  /** Optional. Acceptable values for the `aud` field (audience) in the OIDC token. Token exchange requests are rejected if the token audience does not match one of the configured values. Each audience may be at most 256 characters. A maximum of 10 audiences may be configured. If this list is empty, the OIDC token audience must be equal to the full canonical resource name of the WorkloadIdentityPoolProvider, with or without the HTTPS prefix. For example: ``` //iam.googleapis.com/projects//locations//workloadIdentityPools//providers/ https://iam.googleapis.com/projects//locations//workloadIdentityPools//providers/ ``` */
-  allowedAudiences?: StringList;
+/** Represents an SAML 2.0 identity provider. */
+export interface Saml {
+  /** Required. SAML identity provider (IdP) configuration metadata XML doc. The XML document must comply with the [SAML 2.0 specification](https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf). The maximum size of an acceptable XML document is 128K characters. The SAML metadata XML document must satisfy the following constraints: * Must contain an IdP Entity ID. * Must contain at least one non-expired signing certificate. * For each signing certificate, the expiration must be: * From no more than 7 days in the future. * To no more than 25 years in the future. * Up to three IdP signing keys are allowed. When updating the provider's metadata XML, at least one non-expired signing key must overlap with the existing metadata. This requirement is skipped if there are no non-expired signing keys present in the existing metadata. */
+  idpMetadataXml?: string;
 }
-export const Oidc = /*@__PURE__*/ S.suspend(() =>
+export const Saml = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    issuerUri: S.optional(S.String),
-    jwksJson: S.optional(S.String),
-    allowedAudiences: S.optional(StringList),
+    idpMetadataXml: S.optional(S.String),
   }),
-).annotate({ identifier: "Oidc" }) as any as S.Schema<Oidc>;
-
-/** Represents an Amazon Web Services identity provider. */
-export interface Aws {
-  /** Required. The AWS account ID. */
-  accountId?: string;
-}
-export const Aws = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Aws" }) as any as S.Schema<Aws>;
+).annotate({ identifier: "Saml" }) as any as S.Schema<Saml>;
 
 /** An X.509-type identity provider represents a CA. It is trusted to assert a client identity if the client has a certificate that chains up to this CA. */
 export interface X509 {
@@ -1255,79 +1238,96 @@ export const X509 = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "X509" }) as any as S.Schema<X509>;
 
+/** Represents an Amazon Web Services identity provider. */
+export interface Aws {
+  /** Required. The AWS account ID. */
+  accountId?: string;
+}
+export const Aws = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.optional(S.String),
+  }),
+).annotate({ identifier: "Aws" }) as any as S.Schema<Aws>;
+
+/** Represents an OpenId Connect 1.0 identity provider. */
+export interface Oidc {
+  /** Optional. Acceptable values for the `aud` field (audience) in the OIDC token. Token exchange requests are rejected if the token audience does not match one of the configured values. Each audience may be at most 256 characters. A maximum of 10 audiences may be configured. If this list is empty, the OIDC token audience must be equal to the full canonical resource name of the WorkloadIdentityPoolProvider, with or without the HTTPS prefix. For example: ``` //iam.googleapis.com/projects//locations//workloadIdentityPools//providers/ https://iam.googleapis.com/projects//locations//workloadIdentityPools//providers/ ``` */
+  allowedAudiences?: StringList;
+  /** Optional. OIDC JWKs in JSON String format. For details on the definition of a JWK, see https://tools.ietf.org/html/rfc7517. If not set, the `jwks_uri` from the discovery document(fetched from the .well-known path of the `issuer_uri`) will be used. Currently, RSA and EC asymmetric keys are supported. The JWK must use following format and include only the following fields: { "keys": [ { "kty": "RSA/EC", "alg": "", "use": "sig", "kid": "", "n": "", "e": "", "x": "", "y": "", "crv": "" } ] } */
+  jwksJson?: string;
+  /** Required. The OIDC `issuer_uri`. Must be an HTTPS endpoint. Per OpenID Connect Discovery 1.0 spec, the OIDC issuer URL is used to locate the provider's public keys (via `jwks_uri`) for verifying tokens like the OIDC ID token. These public key types must be 'EC' or 'RSA'. */
+  issuerUri?: string;
+}
+export const Oidc = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedAudiences: S.optional(StringList),
+    jwksJson: S.optional(S.String),
+    issuerUri: S.optional(S.String),
+  }),
+).annotate({ identifier: "Oidc" }) as any as S.Schema<Oidc>;
+
 export type WorkloadIdentityPoolProviderStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 export const WorkloadIdentityPoolProviderStateEnum = S.String;
 
-/** Represents an SAML 2.0 identity provider. */
-export interface Saml {
-  /** Required. SAML identity provider (IdP) configuration metadata XML doc. The XML document must comply with the [SAML 2.0 specification](https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf). The maximum size of an acceptable XML document is 128K characters. The SAML metadata XML document must satisfy the following constraints: * Must contain an IdP Entity ID. * Must contain at least one non-expired signing certificate. * For each signing certificate, the expiration must be: * From no more than 7 days in the future. * To no more than 25 years in the future. * Up to three IdP signing keys are allowed. When updating the provider's metadata XML, at least one non-expired signing key must overlap with the existing metadata. This requirement is skipped if there are no non-expired signing keys present in the existing metadata. */
-  idpMetadataXml?: string;
-}
-export const Saml = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    idpMetadataXml: S.optional(S.String),
-  }),
-).annotate({ identifier: "Saml" }) as any as S.Schema<Saml>;
-
 /** A configuration for an external identity provider. */
 export interface WorkloadIdentityPoolProvider {
-  /** Output only. Time after which the workload identity pool provider will be permanently purged and cannot be recovered. */
-  expireTime?: string;
-  /** An OpenId Connect 1.0 identity provider. */
-  oidc?: Oidc;
-  /** An Amazon Web Services identity provider. */
-  aws?: Aws;
-  /** Identifier. The resource name of the provider. */
-  name?: string;
-  /** Optional. [A Common Expression Language](https://opensource.google/projects/cel) expression, in plain text, to restrict what otherwise valid authentication credentials issued by the provider should not be accepted. The expression must output a boolean representing whether to allow the federation. The following keywords may be referenced in the expressions: * `assertion`: JSON representing the authentication credential issued by the provider. * `google`: The Google attributes mapped from the assertion in the `attribute_mappings`. * `attribute`: The custom attributes mapped from the assertion in the `attribute_mappings`. The maximum length of the `attribute_condition` expression is 4,096 characters. Providing a condition longer than this will result in an error. If unspecified, all valid authentication credentials are accepted. However, multi-tenant identity providers (such as GitHub or Terraform Cloud) require an `attribute_condition` to prevent token spoofing. The following example shows how to only allow credentials with a mapped `google.groups` value of `admins`: ``` "'admins' in google.groups" ``` */
-  attributeCondition?: string;
-  /** An X.509-type identity provider. */
-  x509?: X509;
-  /** Output only. The state of the provider. */
-  state?: WorkloadIdentityPoolProviderStateEnum | (string & {});
-  /** Optional. A description for the provider. Cannot exceed 256 characters. */
-  description?: string;
-  /** An SAML 2.0 identity provider. */
-  saml?: Saml;
-  /** Optional. A display name for the provider. Cannot exceed 32 characters. */
-  displayName?: string;
   /** Optional. Maps attributes from authentication credentials issued by an external identity provider to Google Cloud attributes, such as `subject` and `segment`. Each key must be a string specifying the Google Cloud IAM attribute to map to. The following keys are supported: * `google.subject`: The principal IAM is authenticating. You can reference this value in IAM bindings. This is also the subject that appears in Cloud Logging logs. Cannot exceed 127 bytes. * `google.groups`: Groups the external identity belongs to. You can grant groups access to resources using an IAM `principalSet` binding; access applies to all members of the group. You can also provide custom attributes by specifying `attribute.{custom_attribute}`, where `{custom_attribute}` is the name of the custom attribute to be mapped. You can define a maximum of 50 custom attributes. The maximum length of a mapped attribute key is 100 characters, and the key may only contain the characters [a-z0-9_]. You can reference these attributes in IAM policies to define fine-grained access for a workload to Google Cloud resources. For example: * `google.subject`: `principal://iam.googleapis.com/projects/{project}/locations/{location}/workloadIdentityPools/{pool}/subject/{value}` * `google.groups`: `principalSet://iam.googleapis.com/projects/{project}/locations/{location}/workloadIdentityPools/{pool}/group/{value}` * `attribute.{custom_attribute}`: `principalSet://iam.googleapis.com/projects/{project}/locations/{location}/workloadIdentityPools/{pool}/attribute.{custom_attribute}/{value}` Each value must be a [Common Expression Language] (https://opensource.google/projects/cel) function that maps an identity provider credential to the normalized attribute specified by the corresponding map key. You can use the `assertion` keyword in the expression to access a JSON representation of the authentication credential issued by the provider. The maximum length of an attribute mapping expression is 2048 characters. When evaluated, the total size of all mapped attributes must not exceed 8KB. For AWS providers, if no attribute mapping is defined, the following default mapping applies: ``` { "google.subject":"assertion.arn", "attribute.aws_role": "assertion.arn.contains('assumed-role')" " ? assertion.arn.extract('{account_arn}assumed-role/')" " + 'assumed-role/'" " + assertion.arn.extract('assumed-role/{role_name}/')" " : assertion.arn", } ``` If any custom attribute mappings are defined, they must include a mapping to the `google.subject` attribute. For OIDC providers, you must supply a custom mapping, which must include the `google.subject` attribute. For example, the following maps the `sub` claim of the incoming credential to the `subject` attribute on a Google token: ``` {"google.subject": "assertion.sub"} ``` */
   attributeMapping?: StringMap;
+  /** An SAML 2.0 identity provider. */
+  saml?: Saml;
+  /** Optional. [A Common Expression Language](https://opensource.google/projects/cel) expression, in plain text, to restrict what otherwise valid authentication credentials issued by the provider should not be accepted. The expression must output a boolean representing whether to allow the federation. The following keywords may be referenced in the expressions: * `assertion`: JSON representing the authentication credential issued by the provider. * `google`: The Google attributes mapped from the assertion in the `attribute_mappings`. * `attribute`: The custom attributes mapped from the assertion in the `attribute_mappings`. The maximum length of the `attribute_condition` expression is 4,096 characters. Providing a condition longer than this will result in an error. If unspecified, all valid authentication credentials are accepted. However, multi-tenant identity providers (such as GitHub or Terraform Cloud) require an `attribute_condition` to prevent token spoofing. The following example shows how to only allow credentials with a mapped `google.groups` value of `admins`: ``` "'admins' in google.groups" ``` */
+  attributeCondition?: string;
+  /** Output only. Time after which the workload identity pool provider will be permanently purged and cannot be recovered. */
+  expireTime?: string;
+  /** Optional. A description for the provider. Cannot exceed 256 characters. */
+  description?: string;
+  /** Optional. A display name for the provider. Cannot exceed 32 characters. */
+  displayName?: string;
   /** Optional. Whether the provider is disabled. You cannot use a disabled provider to exchange tokens. However, existing tokens still grant access. */
   disabled?: boolean;
+  /** An X.509-type identity provider. */
+  x509?: X509;
+  /** An Amazon Web Services identity provider. */
+  aws?: Aws;
+  /** An OpenId Connect 1.0 identity provider. */
+  oidc?: Oidc;
+  /** Output only. The state of the provider. */
+  state?: WorkloadIdentityPoolProviderStateEnum | (string & {});
+  /** Identifier. The resource name of the provider. */
+  name?: string;
 }
 export const WorkloadIdentityPoolProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expireTime: S.optional(S.String),
-    oidc: S.optional(Oidc),
-    aws: S.optional(Aws),
-    name: S.optional(S.String),
-    attributeCondition: S.optional(S.String),
-    x509: S.optional(X509),
-    state: S.optional(WorkloadIdentityPoolProviderStateEnum),
-    description: S.optional(S.String),
-    saml: S.optional(Saml),
-    displayName: S.optional(S.String),
     attributeMapping: S.optional(StringMap),
+    saml: S.optional(Saml),
+    attributeCondition: S.optional(S.String),
+    expireTime: S.optional(S.String),
+    description: S.optional(S.String),
+    displayName: S.optional(S.String),
     disabled: S.optional(S.Boolean),
+    x509: S.optional(X509),
+    aws: S.optional(Aws),
+    oidc: S.optional(Oidc),
+    state: S.optional(WorkloadIdentityPoolProviderStateEnum),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "WorkloadIdentityPoolProvider",
 }) as any as S.Schema<WorkloadIdentityPoolProvider>;
 
 export interface CreateProjectsLocationsWorkloadIdentityPoolsProvidersRequest {
-  /** Required. The pool to create this provider in. */
-  parent: string;
   /** Required. The ID for the provider, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix `gcp-` is reserved for use by Google, and may not be specified. */
   workloadIdentityPoolProviderId?: string;
+  /** Required. The pool to create this provider in. */
+  parent: string;
   /** Request body */
   body?: WorkloadIdentityPoolProvider;
 }
 export const CreateProjectsLocationsWorkloadIdentityPoolsProvidersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       workloadIdentityPoolProviderId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(WorkloadIdentityPoolProvider.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1340,50 +1340,50 @@ export const CreateProjectsLocationsWorkloadIdentityPoolsProvidersRequest = /*@_
   identifier: "CreateProjectsLocationsWorkloadIdentityPoolsProvidersRequest",
 }) as any as S.Schema<CreateProjectsLocationsWorkloadIdentityPoolsProvidersRequest>;
 
-export type WorkloadIdentityPoolProviderKeyUseEnum = "KEY_USE_UNSPECIFIED" | "ENCRYPTION";
-export const WorkloadIdentityPoolProviderKeyUseEnum = S.String;
-
 export type WorkloadIdentityPoolProviderKeyStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 export const WorkloadIdentityPoolProviderKeyStateEnum = S.String;
 
+export type WorkloadIdentityPoolProviderKeyUseEnum = "KEY_USE_UNSPECIFIED" | "ENCRYPTION";
+export const WorkloadIdentityPoolProviderKeyUseEnum = S.String;
+
 /** Represents a public key configuration for your workload identity pool provider. The key can be configured in your identity provider to encrypt the SAML assertions. Google holds the corresponding private key which it uses to decrypt encrypted tokens. */
 export interface WorkloadIdentityPoolProviderKey {
-  /** Immutable. Public half of the asymmetric key. */
-  keyData?: KeyData;
-  /** Output only. Time after which the key will be permanently purged and cannot be recovered. Note that the key may get purged before this timestamp if the total limit of keys per provider is crossed. */
-  expireTime?: string;
   /** Identifier. The resource name of the key. */
   name?: string;
-  /** Required. The purpose of the key. */
-  use?: WorkloadIdentityPoolProviderKeyUseEnum | (string & {});
   /** Output only. The state of the key. */
   state?: WorkloadIdentityPoolProviderKeyStateEnum | (string & {});
+  /** Required. The purpose of the key. */
+  use?: WorkloadIdentityPoolProviderKeyUseEnum | (string & {});
+  /** Output only. Time after which the key will be permanently purged and cannot be recovered. Note that the key may get purged before this timestamp if the total limit of keys per provider is crossed. */
+  expireTime?: string;
+  /** Immutable. Public half of the asymmetric key. */
+  keyData?: KeyData;
 }
 export const WorkloadIdentityPoolProviderKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    keyData: S.optional(KeyData),
-    expireTime: S.optional(S.String),
     name: S.optional(S.String),
-    use: S.optional(WorkloadIdentityPoolProviderKeyUseEnum),
     state: S.optional(WorkloadIdentityPoolProviderKeyStateEnum),
+    use: S.optional(WorkloadIdentityPoolProviderKeyUseEnum),
+    expireTime: S.optional(S.String),
+    keyData: S.optional(KeyData),
   }),
 ).annotate({
   identifier: "WorkloadIdentityPoolProviderKey",
 }) as any as S.Schema<WorkloadIdentityPoolProviderKey>;
 
 export interface CreateProjectsLocationsWorkloadIdentityPoolsProvidersKeysRequest {
-  /** Required. The ID to use for the key, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. */
-  workloadIdentityPoolProviderKeyId?: string;
   /** Required. The parent provider resource to create the key in. */
   parent: string;
+  /** Required. The ID to use for the key, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. */
+  workloadIdentityPoolProviderKeyId?: string;
   /** Request body */
   body?: WorkloadIdentityPoolProviderKey;
 }
 export const CreateProjectsLocationsWorkloadIdentityPoolsProvidersKeysRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      workloadIdentityPoolProviderKeyId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      workloadIdentityPoolProviderKeyId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(WorkloadIdentityPoolProviderKey.pipe(T.HttpBody())),
     }).pipe(
       T.Http({ method: "POST", uri: "v1/{+parent}/keys", baseUrl: "https://iam.googleapis.com/" }),
@@ -1411,36 +1411,36 @@ export const CreateProjectsRolesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** An IAM service account. A service account is an account for an application or a virtual machine (VM) instance, not a person. You can use a service account to call Google APIs. To learn more, read the [overview of service accounts](https://cloud.google.com/iam/help/service-accounts/overview). When you create a service account, you specify the project ID that owns the service account, as well as a name that must be unique within the project. IAM uses these values to create an email address that identifies the service account. // */
 export interface ServiceAccount {
-  /** Output only. The email address of the service account. */
-  email?: string;
-  /** The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
-  name?: string;
-  /** Output only. The OAuth 2.0 client ID for the service account. */
-  oauth2ClientId?: string;
   /** Output only. The unique, stable numeric ID for the service account. Each service account retains its unique ID even if you delete the service account. For example, if you delete a service account, then create a new service account with the same name, the new service account has a different unique ID than the deleted service account. */
   uniqueId?: string;
-  /** Deprecated. Do not use. */
-  etag?: string;
   /** Output only. Whether the service account is disabled. */
   disabled?: boolean;
+  /** The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
+  name?: string;
+  /** Optional. A user-specified, human-readable description of the service account. The maximum length is 256 UTF-8 bytes. */
+  description?: string;
+  /** Output only. The email address of the service account. */
+  email?: string;
+  /** Deprecated. Do not use. */
+  etag?: string;
   /** Optional. A user-specified, human-readable name for the service account. The maximum length is 100 UTF-8 bytes. */
   displayName?: string;
   /** Output only. The ID of the project that owns the service account. */
   projectId?: string;
-  /** Optional. A user-specified, human-readable description of the service account. The maximum length is 256 UTF-8 bytes. */
-  description?: string;
+  /** Output only. The OAuth 2.0 client ID for the service account. */
+  oauth2ClientId?: string;
 }
 export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    email: S.optional(S.String),
-    name: S.optional(S.String),
-    oauth2ClientId: S.optional(S.String),
     uniqueId: S.optional(S.String),
-    etag: S.optional(S.String),
     disabled: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    email: S.optional(S.String),
+    etag: S.optional(S.String),
     displayName: S.optional(S.String),
     projectId: S.optional(S.String),
-    description: S.optional(S.String),
+    oauth2ClientId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
 
@@ -1481,29 +1481,29 @@ export const CreateProjectsServiceAccountsRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "CreateProjectsServiceAccountsRequest",
 }) as any as S.Schema<CreateProjectsServiceAccountsRequest>;
 
-export type CreateServiceAccountKeyRequestKeyAlgorithmEnum =
-  | "KEY_ALG_UNSPECIFIED"
-  | "KEY_ALG_RSA_1024"
-  | "KEY_ALG_RSA_2048";
-export const CreateServiceAccountKeyRequestKeyAlgorithmEnum = S.String;
-
 export type CreateServiceAccountKeyRequestPrivateKeyTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "TYPE_PKCS12_FILE"
   | "TYPE_GOOGLE_CREDENTIALS_FILE";
 export const CreateServiceAccountKeyRequestPrivateKeyTypeEnum = S.String;
 
+export type CreateServiceAccountKeyRequestKeyAlgorithmEnum =
+  | "KEY_ALG_UNSPECIFIED"
+  | "KEY_ALG_RSA_1024"
+  | "KEY_ALG_RSA_2048";
+export const CreateServiceAccountKeyRequestKeyAlgorithmEnum = S.String;
+
 /** The service account key create request. */
 export interface CreateServiceAccountKeyRequest {
-  /** Which type of key and algorithm to use for the key. The default is currently a 2K RSA key. However this may change in the future. */
-  keyAlgorithm?: CreateServiceAccountKeyRequestKeyAlgorithmEnum | (string & {});
   /** The output format of the private key. The default value is `TYPE_GOOGLE_CREDENTIALS_FILE`, which is the Google Credentials File format. */
   privateKeyType?: CreateServiceAccountKeyRequestPrivateKeyTypeEnum | (string & {});
+  /** Which type of key and algorithm to use for the key. The default is currently a 2K RSA key. However this may change in the future. */
+  keyAlgorithm?: CreateServiceAccountKeyRequestKeyAlgorithmEnum | (string & {});
 }
 export const CreateServiceAccountKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    keyAlgorithm: S.optional(CreateServiceAccountKeyRequestKeyAlgorithmEnum),
     privateKeyType: S.optional(CreateServiceAccountKeyRequestPrivateKeyTypeEnum),
+    keyAlgorithm: S.optional(CreateServiceAccountKeyRequestKeyAlgorithmEnum),
   }),
 ).annotate({
   identifier: "CreateServiceAccountKeyRequest",
@@ -1525,6 +1525,24 @@ export const CreateProjectsServiceAccountsKeysRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "CreateProjectsServiceAccountsKeysRequest",
 }) as any as S.Schema<CreateProjectsServiceAccountsKeysRequest>;
+
+export type ServiceAccountKeyKeyOriginEnum =
+  | "ORIGIN_UNSPECIFIED"
+  | "USER_PROVIDED"
+  | "GOOGLE_PROVIDED";
+export const ServiceAccountKeyKeyOriginEnum = S.String;
+
+export type ServiceAccountKeyKeyTypeEnum =
+  | "KEY_TYPE_UNSPECIFIED"
+  | "USER_MANAGED"
+  | "SYSTEM_MANAGED";
+export const ServiceAccountKeyKeyTypeEnum = S.String;
+
+export type ServiceAccountKeyPrivateKeyTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TYPE_PKCS12_FILE"
+  | "TYPE_GOOGLE_CREDENTIALS_FILE";
+export const ServiceAccountKeyPrivateKeyTypeEnum = S.String;
 
 export type ExtendedStatusKeyEnum =
   | "SERVICE_ACCOUNT_KEY_EXTENDED_STATUS_KEY_UNSPECIFIED"
@@ -1564,65 +1582,47 @@ export type ServiceAccountKeyKeyAlgorithmEnum =
   | "KEY_ALG_RSA_2048";
 export const ServiceAccountKeyKeyAlgorithmEnum = S.String;
 
-export type ServiceAccountKeyKeyTypeEnum =
-  | "KEY_TYPE_UNSPECIFIED"
-  | "USER_MANAGED"
-  | "SYSTEM_MANAGED";
-export const ServiceAccountKeyKeyTypeEnum = S.String;
-
-export type ServiceAccountKeyPrivateKeyTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TYPE_PKCS12_FILE"
-  | "TYPE_GOOGLE_CREDENTIALS_FILE";
-export const ServiceAccountKeyPrivateKeyTypeEnum = S.String;
-
-export type ServiceAccountKeyKeyOriginEnum =
-  | "ORIGIN_UNSPECIFIED"
-  | "USER_PROVIDED"
-  | "GOOGLE_PROVIDED";
-export const ServiceAccountKeyKeyOriginEnum = S.String;
-
 /** Represents a service account key. A service account has two sets of key-pairs: user-managed and system-managed. System-managed keys are also called _Google-owned and managed keys_. User-managed key-pairs can be created and deleted by users. Users are responsible for rotating these keys periodically to ensure security of their service accounts. Users retain the private key of these key-pairs, and Google retains ONLY the public key. System-managed keys that are actively used for signing are rotated regularly according to [security best practices](https://docs.cloud.google.com/iam/docs/key-rotation#timing). The rotation process is probabilistic, and usage of the new key will gradually ramp up and down over the key's lifetime. If you cache the public key set for a service account, we recommend that you update the cache every 15 minutes. User-managed keys can be added and removed at any time, so it is important to update the cache frequently. For Google-managed keys, Google will publish a key at least 6 hours before it is first used for signing and will keep publishing it for at least 6 hours after it was last used for signing. Public keys for all service accounts are also published at the OAuth2 Service Account API. */
 export interface ServiceAccountKey {
+  /** The key origin. */
+  keyOrigin?: ServiceAccountKeyKeyOriginEnum;
   /** The private key data. Only provided in `CreateServiceAccountKey` responses. Make sure to keep the private key data secure because it allows for the assertion of the service account identity. When base64 decoded, the private key data can be used to authenticate with Google API client libraries and with gcloud auth activate-service-account. */
   privateKeyData?: string;
-  /** The key can be used after this timestamp. */
-  validAfterTime?: string;
-  /** The key can be used before this timestamp. For system-managed key pairs, this timestamp is the end time for the private key signing operation. The public key could still be used for verification for a few hours after this time. */
-  validBeforeTime?: string;
-  /** Output only. Extended Status provides permanent information about a service account key. For example, if this key was detected as exposed or compromised, that information will remain for the lifetime of the key in the extended_status. */
-  extendedStatus?: ExtendedStatusList;
-  /** Output only. optional. If the key is disabled, it may have a DisableReason describing why it was disabled. */
-  disableReason?: ServiceAccountKeyDisableReasonEnum;
-  /** Specifies the algorithm (and possibly key size) for the key. */
-  keyAlgorithm?: ServiceAccountKeyKeyAlgorithmEnum;
-  /** The public key data. Only provided in `GetServiceAccountKey` responses. */
-  publicKeyData?: string;
+  /** The key status. */
+  disabled?: boolean;
   /** The key type. */
   keyType?: ServiceAccountKeyKeyTypeEnum;
   /** The output format for the private key. Only provided in `CreateServiceAccountKey` responses, not in `GetServiceAccountKey` or `ListServiceAccountKey` responses. Google never exposes system-managed private keys, and never retains user-managed private keys. */
   privateKeyType?: ServiceAccountKeyPrivateKeyTypeEnum;
-  /** The key status. */
-  disabled?: boolean;
+  /** Output only. Extended Status provides permanent information about a service account key. For example, if this key was detected as exposed or compromised, that information will remain for the lifetime of the key in the extended_status. */
+  extendedStatus?: ExtendedStatusList;
+  /** The public key data. Only provided in `GetServiceAccountKey` responses. */
+  publicKeyData?: string;
+  /** Output only. optional. If the key is disabled, it may have a DisableReason describing why it was disabled. */
+  disableReason?: ServiceAccountKeyDisableReasonEnum;
   /** The resource name of the service account key in the following format `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`. */
   name?: string;
-  /** The key origin. */
-  keyOrigin?: ServiceAccountKeyKeyOriginEnum;
+  /** The key can be used before this timestamp. For system-managed key pairs, this timestamp is the end time for the private key signing operation. The public key could still be used for verification for a few hours after this time. */
+  validBeforeTime?: string;
+  /** The key can be used after this timestamp. */
+  validAfterTime?: string;
+  /** Specifies the algorithm (and possibly key size) for the key. */
+  keyAlgorithm?: ServiceAccountKeyKeyAlgorithmEnum;
 }
 export const ServiceAccountKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    keyOrigin: S.optional(ServiceAccountKeyKeyOriginEnum),
     privateKeyData: S.optional(S.String),
-    validAfterTime: S.optional(S.String),
-    validBeforeTime: S.optional(S.String),
-    extendedStatus: S.optional(ExtendedStatusList),
-    disableReason: S.optional(ServiceAccountKeyDisableReasonEnum),
-    keyAlgorithm: S.optional(ServiceAccountKeyKeyAlgorithmEnum),
-    publicKeyData: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
     keyType: S.optional(ServiceAccountKeyKeyTypeEnum),
     privateKeyType: S.optional(ServiceAccountKeyPrivateKeyTypeEnum),
-    disabled: S.optional(S.Boolean),
+    extendedStatus: S.optional(ExtendedStatusList),
+    publicKeyData: S.optional(S.String),
+    disableReason: S.optional(ServiceAccountKeyDisableReasonEnum),
     name: S.optional(S.String),
-    keyOrigin: S.optional(ServiceAccountKeyKeyOriginEnum),
+    validBeforeTime: S.optional(S.String),
+    validAfterTime: S.optional(S.String),
+    keyAlgorithm: S.optional(ServiceAccountKeyKeyAlgorithmEnum),
   }),
 ).annotate({ identifier: "ServiceAccountKey" }) as any as S.Schema<ServiceAccountKey>;
 
@@ -1663,16 +1663,16 @@ export const DeleteLocationsWorkforcePoolsProvidersKeysRequest = /*@__PURE__*/ S
 }) as any as S.Schema<DeleteLocationsWorkforcePoolsProvidersKeysRequest>;
 
 export interface DeleteLocationsWorkforcePoolsProvidersScimTenantsRequest {
-  /** Optional. Deletes the SCIM tenant immediately. This operation cannot be undone. */
-  hardDelete?: boolean;
   /** Required. Gemini Enterprise only. The name of the SCIM tenant to delete. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/{provider}/scimTenants/{scim_tenant}` */
   name: string;
+  /** Optional. Deletes the SCIM tenant immediately. This operation cannot be undone. */
+  hardDelete?: boolean;
 }
 export const DeleteLocationsWorkforcePoolsProvidersScimTenantsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      hardDelete: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      hardDelete: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" }),
     ),
@@ -1708,15 +1708,15 @@ export const DeleteLocationsWorkforcePoolsSubjectsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<DeleteLocationsWorkforcePoolsSubjectsRequest>;
 
 export interface DeleteOrganizationsRolesRequest {
-  /** Used to perform a consistent read-modify-write. */
-  etag?: string;
   /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.delete](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/delete): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method deletes only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.delete](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/delete): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method deletes only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   name: string;
+  /** Used to perform a consistent read-modify-write. */
+  etag?: string;
 }
 export const DeleteOrganizationsRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" })),
 ).annotate({
   identifier: "DeleteOrganizationsRolesRequest",
@@ -1992,6 +1992,46 @@ export const GetIamPolicyLocationsWorkforcePoolsRequest = /*@__PURE__*/ S.suspen
   identifier: "GetIamPolicyLocationsWorkforcePoolsRequest",
 }) as any as S.Schema<GetIamPolicyLocationsWorkforcePoolsRequest>;
 
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    expression: S.optional(S.String),
+    location: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    role: S.optional(S.String),
+    condition: S.optional(Expr),
+    members: S.optional(StringList),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
+
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -2001,15 +2041,15 @@ export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {});
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList;
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exemptedMembers: S.optional(StringList),
     logType: S.optional(AuditLogConfigLogTypeEnum),
+    exemptedMembers: S.optional(StringList),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -2020,15 +2060,15 @@ export const AuditLogConfigList = /*@__PURE__*/ S.Array(
 
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: AuditLogConfigList;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string;
 }
 export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    service: S.optional(S.String),
     auditLogConfigs: S.optional(AuditLogConfigList),
+    service: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
 
@@ -2037,62 +2077,22 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    description: S.optional(S.String),
-    expression: S.optional(S.String),
-    location: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    members: S.optional(StringList),
-    role: S.optional(S.String),
-    condition: S.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
-
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditConfigs: S.optional(AuditConfigList),
-    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
+    version: S.optional(S.Number),
+    auditConfigs: S.optional(AuditConfigList),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
@@ -2507,15 +2507,15 @@ export const GetRolesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The request to lint an IAM policy object. */
 export interface LintPolicyRequest {
-  /** The full resource name of the policy this lint request is about. The name follows the Google Cloud format for full resource names. For example, a Google Cloud project with ID `my-project` will be named `//cloudresourcemanager.googleapis.com/projects/my-project`. The resource name is not used to read a policy from IAM. Only the data in the request object is linted. */
-  fullResourceName?: string;
   /** google.iam.v1.Binding.condition object to be linted. */
   condition?: Expr;
+  /** The full resource name of the policy this lint request is about. The name follows the Google Cloud format for full resource names. For example, a Google Cloud project with ID `my-project` will be named `//cloudresourcemanager.googleapis.com/projects/my-project`. The resource name is not used to read a policy from IAM. Only the data in the request object is linted. */
+  fullResourceName?: string;
 }
 export const LintPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fullResourceName: S.optional(S.String),
     condition: S.optional(Expr),
+    fullResourceName: S.optional(S.String),
   }),
 ).annotate({ identifier: "LintPolicyRequest" }) as any as S.Schema<LintPolicyRequest>;
 
@@ -2537,9 +2537,6 @@ export const LintPolicyIamPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "LintPolicyIamPoliciesRequest",
 }) as any as S.Schema<LintPolicyIamPoliciesRequest>;
 
-export type LintResultLevelEnum = "LEVEL_UNSPECIFIED" | "CONDITION";
-export const LintResultLevelEnum = S.String;
-
 export type LintResultSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
   | "ERROR"
@@ -2549,29 +2546,32 @@ export type LintResultSeverityEnum =
   | "DEPRECATED";
 export const LintResultSeverityEnum = S.String;
 
+export type LintResultLevelEnum = "LEVEL_UNSPECIFIED" | "CONDITION";
+export const LintResultLevelEnum = S.String;
+
 /** Structured response of a single validation unit. */
 export interface LintResult {
-  /** Human readable debug message associated with the issue. */
-  debugMessage?: string;
-  /** The validation unit level. */
-  level?: LintResultLevelEnum;
-  /** The validation unit name, for instance "lintValidationUnits/ConditionComplexityCheck". */
-  validationUnitName?: string;
   /** The validation unit severity. */
   severity?: LintResultSeverityEnum;
+  /** The validation unit name, for instance "lintValidationUnits/ConditionComplexityCheck". */
+  validationUnitName?: string;
+  /** The validation unit level. */
+  level?: LintResultLevelEnum;
   /** The name of the field for which this lint result is about. For nested messages `field_name` consists of names of the embedded fields separated by period character. The top-level qualifier is the input object to lint in the request. For example, the `field_name` value `condition.expression` identifies a lint result for the `expression` field of the provided condition. */
   fieldName?: string;
   /** 0-based character position of problematic construct within the object identified by `field_name`. Currently, this is populated only for condition expression. */
   locationOffset?: number;
+  /** Human readable debug message associated with the issue. */
+  debugMessage?: string;
 }
 export const LintResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    debugMessage: S.optional(S.String),
-    level: S.optional(LintResultLevelEnum),
-    validationUnitName: S.optional(S.String),
     severity: S.optional(LintResultSeverityEnum),
+    validationUnitName: S.optional(S.String),
+    level: S.optional(LintResultLevelEnum),
     fieldName: S.optional(S.String),
     locationOffset: S.optional(S.Number),
+    debugMessage: S.optional(S.String),
   }),
 ).annotate({ identifier: "LintResult" }) as any as S.Schema<LintResult>;
 
@@ -2590,22 +2590,22 @@ export const LintPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "LintPolicyResponse" }) as any as S.Schema<LintPolicyResponse>;
 
 export interface ListAttestationRulesProjectsLocationsWorkloadIdentityPoolsRequest {
-  /** Required. The resource name of the managed identity or namespace resource to list attestation rules of. */
-  resource: string;
-  /** Optional. A query filter. Supports the following function: * `container_ids()`: Returns only the AttestationRules under the specific container ids. The function expects a comma-delimited list with only project numbers and must use the format `projects/`. For example: `container_ids(projects/, projects/,...)`. */
-  filter?: string;
-  /** Optional. A page token, received from a previous `ListWorkloadIdentityPoolProviderKeys` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Optional. The maximum number of AttestationRules to return. If unspecified, at most 50 AttestationRules are returned. The maximum value is 100; values above 100 are truncated to 100. */
   pageSize?: number;
+  /** Required. The resource name of the managed identity or namespace resource to list attestation rules of. */
+  resource: string;
+  /** Optional. A page token, received from a previous `ListWorkloadIdentityPoolProviderKeys` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Optional. A query filter. Supports the following function: * `container_ids()`: Returns only the AttestationRules under the specific container ids. The function expects a comma-delimited list with only project numbers and must use the format `projects/`. For example: `container_ids(projects/, projects/,...)`. */
+  filter?: string;
 }
 export const ListAttestationRulesProjectsLocationsWorkloadIdentityPoolsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2624,37 +2624,37 @@ export const AttestationRuleList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListAttestationRules. */
 export interface ListAttestationRulesResponse {
-  /** A list of AttestationRules. */
-  attestationRules?: AttestationRuleList;
   /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** A list of AttestationRules. */
+  attestationRules?: AttestationRuleList;
 }
 export const ListAttestationRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attestationRules: S.optional(AttestationRuleList),
     nextPageToken: S.optional(S.String),
+    attestationRules: S.optional(AttestationRuleList),
   }),
 ).annotate({
   identifier: "ListAttestationRulesResponse",
 }) as any as S.Schema<ListAttestationRulesResponse>;
 
 export interface ListAttestationRulesProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
-  /** Optional. A query filter. Supports the following function: * `container_ids()`: Returns only the AttestationRules under the specific container ids. The function expects a comma-delimited list with only project numbers and must use the format `projects/`. For example: `container_ids(projects/, projects/,...)`. */
-  filter?: string;
-  /** Optional. The maximum number of AttestationRules to return. If unspecified, at most 50 AttestationRules are returned. The maximum value is 100; values above 100 are truncated to 100. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `ListWorkloadIdentityPoolProviderKeys` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
   /** Required. The resource name of the managed identity or namespace resource to list attestation rules of. */
   resource: string;
+  /** Optional. A query filter. Supports the following function: * `container_ids()`: Returns only the AttestationRules under the specific container ids. The function expects a comma-delimited list with only project numbers and must use the format `projects/`. For example: `container_ids(projects/, projects/,...)`. */
+  filter?: string;
+  /** Optional. The maximum number of AttestationRules to return. If unspecified, at most 50 AttestationRules are returned. The maximum value is 100; values above 100 are truncated to 100. */
+  pageSize?: number;
 }
 export const ListAttestationRulesProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
       resource: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2670,22 +2670,22 @@ export const ListAttestationRulesProjectsLocationsWorkloadIdentityPoolsNamespace
 export interface ListLocationsWorkforcePoolsRequest {
   /** Required. The parent resource to list pools for. Format: `organizations/{org-id}`. */
   parent?: string;
-  /** The maximum number of pools to return. The default value is 50. The maximum value is 100. */
-  pageSize?: number;
   /** A page token, received from a previous `ListWorkforcePools` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
-  /** The location of the pool. Format: `locations/{location}`. */
-  location: string;
+  /** The maximum number of pools to return. The default value is 50. The maximum value is 100. */
+  pageSize?: number;
   /** Whether to return soft-deleted pools. */
   showDeleted?: boolean;
+  /** The location of the pool. Format: `locations/{location}`. */
+  location: string;
 }
 export const ListLocationsWorkforcePoolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    location: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    location: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2719,10 +2719,10 @@ export const ListWorkforcePoolsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListWorkforcePoolsResponse>;
 
 export interface ListLocationsWorkforcePoolsProvidersRequest {
-  /** A page token, received from a previous `ListWorkforcePoolProviders` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Whether to return soft-deleted providers. */
   showDeleted?: boolean;
+  /** A page token, received from a previous `ListWorkforcePoolProviders` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
   /** The maximum number of providers to return. If unspecified, at most 50 providers are returned. The maximum value is 100; values above 100 are truncated to 100. */
   pageSize?: number;
   /** Required. The pool to list providers for. Format: `locations/{location}/workforcePools/{workforce_pool_id}` */
@@ -2730,8 +2730,8 @@ export interface ListLocationsWorkforcePoolsProvidersRequest {
 }
 export const ListLocationsWorkforcePoolsProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
@@ -2767,21 +2767,21 @@ export const ListWorkforcePoolProvidersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListWorkforcePoolProvidersResponse>;
 
 export interface ListLocationsWorkforcePoolsProvidersKeysRequest {
-  /** Whether to return soft-deleted keys. */
-  showDeleted?: boolean;
-  /** A page token, received from a previous `ListWorkforcePoolProviderKeys` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** The maximum number of keys to return. If unspecified, all keys are returned. The maximum value is 10; values above 10 are truncated to 10. */
   pageSize?: number;
   /** Required. The provider resource to list encryption keys for. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}` */
   parent: string;
+  /** Whether to return soft-deleted keys. */
+  showDeleted?: boolean;
+  /** A page token, received from a previous `ListWorkforcePoolProviderKeys` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
 }
 export const ListLocationsWorkforcePoolsProvidersKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+parent}/keys", baseUrl: "https://iam.googleapis.com/" }),
   ),
@@ -2796,36 +2796,36 @@ export const WorkforcePoolProviderKeyList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListWorkforcePoolProviderKeys. */
 export interface ListWorkforcePoolProviderKeysResponse {
-  /** A list of WorkforcePoolProviderKeys. */
-  workforcePoolProviderKeys?: WorkforcePoolProviderKeyList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** A list of WorkforcePoolProviderKeys. */
+  workforcePoolProviderKeys?: WorkforcePoolProviderKeyList;
 }
 export const ListWorkforcePoolProviderKeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workforcePoolProviderKeys: S.optional(WorkforcePoolProviderKeyList),
     nextPageToken: S.optional(S.String),
+    workforcePoolProviderKeys: S.optional(WorkforcePoolProviderKeyList),
   }),
 ).annotate({
   identifier: "ListWorkforcePoolProviderKeysResponse",
 }) as any as S.Schema<ListWorkforcePoolProviderKeysResponse>;
 
 export interface ListLocationsWorkforcePoolsProvidersScimTenantsRequest {
-  /** Optional. Gemini Enterprise only. The maximum number of SCIM tenants to return. If unspecified, at most 50 SCIM tenants will be returned. The maximum value is 100; values above 100 are truncated to 100. */
-  pageSize?: number;
+  /** Optional. Gemini Enterprise only. Whether to return soft-deleted SCIM tenants. */
+  showDeleted?: boolean;
   /** Required. Gemini Enterprise only. The parent to list SCIM tenants. Format: 'locations/{location}/workforcePools/{workforce_pool}/providers/{provider}' */
   parent: string;
   /** Optional. Gemini Enterprise only. A page token, received from a previous `ListScimTenants` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
-  /** Optional. Gemini Enterprise only. Whether to return soft-deleted SCIM tenants. */
-  showDeleted?: boolean;
+  /** Optional. Gemini Enterprise only. The maximum number of SCIM tenants to return. If unspecified, at most 50 SCIM tenants will be returned. The maximum value is 100; values above 100 are truncated to 100. */
+  pageSize?: number;
 }
 export const ListLocationsWorkforcePoolsProvidersScimTenantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2859,22 +2859,22 @@ export const ListWorkforcePoolProviderScimTenantsResponse = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ListWorkforcePoolProviderScimTenantsResponse>;
 
 export interface ListLocationsWorkforcePoolsProvidersScimTenantsTokensRequest {
-  /** Optional. Gemini Enterprise only. A page token, received from a previous `ListWorkforcePoolProviderScimTokens` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Optional. Gemini Enterprise only. Whether to return soft-deleted SCIM tokens. */
   showDeleted?: boolean;
-  /** Optional. Gemini Enterprise only. The maximum number of SCIM tokens to return. If unspecified, at most 2 SCIM tokens will be returned. */
-  pageSize?: number;
   /** Required. Gemini Enterprise only. The parent to list SCIM tokens. Format: 'locations/{location}/workforcePools/{workforce_pool}/providers/{provider}/scimTenants/{scim_tenant}' */
   parent: string;
+  /** Optional. Gemini Enterprise only. The maximum number of SCIM tokens to return. If unspecified, at most 2 SCIM tokens will be returned. */
+  pageSize?: number;
+  /** Optional. Gemini Enterprise only. A page token, received from a previous `ListWorkforcePoolProviderScimTokens` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
 }
 export const ListLocationsWorkforcePoolsProvidersScimTenantsTokensRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({ method: "GET", uri: "v1/{+parent}/tokens", baseUrl: "https://iam.googleapis.com/" }),
     ),
@@ -2907,24 +2907,24 @@ export type ListOrganizationsRolesViewEnum = "BASIC" | "FULL";
 export const ListOrganizationsRolesViewEnum = S.String;
 
 export interface ListOrganizationsRolesRequest {
-  /** The `parent` parameter's value depends on the target resource for the request, namely [roles](https://cloud.google.com/iam/docs/reference/rest/v1/roles), [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles), or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `parent` value format is described below: * [roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/roles/list): An empty string. This method doesn't require a resource; it simply returns all [predefined roles](https://cloud.google.com/iam/docs/understanding-roles#predefined_roles) in IAM. Example request URL: `https://iam.googleapis.com/v1/roles` * [projects.roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/list): `projects/{PROJECT_ID}`. This method lists all project-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles` * [organizations.roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/list): `organizations/{ORGANIZATION_ID}`. This method lists all organization-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
-  parent: string;
   /** Optional pagination token returned in an earlier ListRolesResponse. */
   pageToken?: string;
-  /** Optional view for the returned Role objects. When `FULL` is specified, the `includedPermissions` field is returned, which includes a list of all permissions in the role. The default value is `BASIC`, which does not return the `includedPermissions` field. */
-  view?: ListOrganizationsRolesViewEnum | (string & {});
   /** Optional limit on the number of roles to include in the response. The default is 300, and the maximum is 1,000. */
   pageSize?: number;
   /** Include Roles that have been deleted. */
   showDeleted?: boolean;
+  /** The `parent` parameter's value depends on the target resource for the request, namely [roles](https://cloud.google.com/iam/docs/reference/rest/v1/roles), [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles), or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `parent` value format is described below: * [roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/roles/list): An empty string. This method doesn't require a resource; it simply returns all [predefined roles](https://cloud.google.com/iam/docs/understanding-roles#predefined_roles) in IAM. Example request URL: `https://iam.googleapis.com/v1/roles` * [projects.roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/list): `projects/{PROJECT_ID}`. This method lists all project-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles` * [organizations.roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/list): `organizations/{ORGANIZATION_ID}`. This method lists all organization-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
+  parent: string;
+  /** Optional view for the returned Role objects. When `FULL` is specified, the `includedPermissions` field is returned, which includes a list of all permissions in the role. The default value is `BASIC`, which does not return the `includedPermissions` field. */
+  view?: ListOrganizationsRolesViewEnum | (string & {});
 }
 export const ListOrganizationsRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    view: S.optional(ListOrganizationsRolesViewEnum.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    view: S.optional(ListOrganizationsRolesViewEnum.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+parent}/roles", baseUrl: "https://iam.googleapis.com/" }),
   ),
@@ -2950,20 +2950,20 @@ export const ListRolesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListRolesResponse" }) as any as S.Schema<ListRolesResponse>;
 
 export interface ListProjectsLocationsOauthClientsRequest {
+  /** Optional. The maximum number of OauthClients to return. If unspecified, at most 50 OauthClients will be returned. The maximum value is 100; values above 100 are truncated to 100. */
+  pageSize?: number;
   /** Required. The parent to list OauthClients for. */
   parent: string;
   /** Optional. A page token, received from a previous `ListOauthClients` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
-  /** Optional. The maximum number of OauthClients to return. If unspecified, at most 50 OauthClients will be returned. The maximum value is 100; values above 100 are truncated to 100. */
-  pageSize?: number;
   /** Optional. Whether to return soft-deleted OauthClients. */
   showDeleted?: boolean;
 }
 export const ListProjectsLocationsOauthClientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -3032,21 +3032,21 @@ export const ListOauthClientCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOauthClientCredentialsResponse>;
 
 export interface ListProjectsLocationsWorkloadIdentityPoolsRequest {
-  /** The maximum number of pools to return. If unspecified, at most 50 pools are returned. The maximum value is 1000; values above are 1000 truncated to 1000. */
-  pageSize?: number;
   /** Required. The parent resource to list pools for. */
   parent: string;
-  /** Whether to return soft-deleted pools. */
-  showDeleted?: boolean;
   /** A page token, received from a previous `ListWorkloadIdentityPools` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
+  /** Whether to return soft-deleted pools. */
+  showDeleted?: boolean;
+  /** The maximum number of pools to return. If unspecified, at most 50 pools are returned. The maximum value is 1000; values above are 1000 truncated to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsWorkloadIdentityPoolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3080,22 +3080,22 @@ export const ListWorkloadIdentityPoolsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListWorkloadIdentityPoolsResponse>;
 
 export interface ListProjectsLocationsWorkloadIdentityPoolsNamespacesRequest {
-  /** A page token, received from a previous `ListWorkloadIdentityPoolNamespaces` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** The maximum number of namespaces to return. If unspecified, at most 50 namespaces are returned. The maximum value is 1000; values above are 1000 truncated to 1000. */
   pageSize?: number;
-  /** Required. The parent resource to list namespaces for. */
-  parent: string;
   /** Whether to return soft-deleted namespaces. */
   showDeleted?: boolean;
+  /** A page token, received from a previous `ListWorkloadIdentityPoolNamespaces` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Required. The parent resource to list namespaces for. */
+  parent: string;
 }
 export const ListProjectsLocationsWorkloadIdentityPoolsNamespacesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3114,15 +3114,15 @@ export const WorkloadIdentityPoolNamespaceList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListWorkloadIdentityPoolNamespaces. */
 export interface ListWorkloadIdentityPoolNamespacesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** A list of namespaces. */
   workloadIdentityPoolNamespaces?: WorkloadIdentityPoolNamespaceList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListWorkloadIdentityPoolNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     workloadIdentityPoolNamespaces: S.optional(WorkloadIdentityPoolNamespaceList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListWorkloadIdentityPoolNamespacesResponse",
@@ -3131,20 +3131,20 @@ export const ListWorkloadIdentityPoolNamespacesResponse = /*@__PURE__*/ S.suspen
 export interface ListProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
   /** A page token, received from a previous `ListWorkloadIdentityPoolManagedIdentities` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
-  /** The maximum number of managed identities to return. If unspecified, at most 50 managed identities are returned. The maximum value is 1000; values above are 1000 truncated to 1000. */
-  pageSize?: number;
   /** Whether to return soft-deleted managed identities. */
   showDeleted?: boolean;
   /** Required. The parent resource to list managed identities for. */
   parent: string;
+  /** The maximum number of managed identities to return. If unspecified, at most 50 managed identities are returned. The maximum value is 1000; values above are 1000 truncated to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       showDeleted: S.optional(S.Boolean.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3163,37 +3163,37 @@ export const WorkloadIdentityPoolManagedIdentityList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListWorkloadIdentityPoolManagedIdentities. */
 export interface ListWorkloadIdentityPoolManagedIdentitiesResponse {
-  /** A list of managed identities. */
-  workloadIdentityPoolManagedIdentities?: WorkloadIdentityPoolManagedIdentityList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** A list of managed identities. */
+  workloadIdentityPoolManagedIdentities?: WorkloadIdentityPoolManagedIdentityList;
 }
 export const ListWorkloadIdentityPoolManagedIdentitiesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workloadIdentityPoolManagedIdentities: S.optional(WorkloadIdentityPoolManagedIdentityList),
     nextPageToken: S.optional(S.String),
+    workloadIdentityPoolManagedIdentities: S.optional(WorkloadIdentityPoolManagedIdentityList),
   }),
 ).annotate({
   identifier: "ListWorkloadIdentityPoolManagedIdentitiesResponse",
 }) as any as S.Schema<ListWorkloadIdentityPoolManagedIdentitiesResponse>;
 
 export interface ListProjectsLocationsWorkloadIdentityPoolsProvidersRequest {
-  /** A page token, received from a previous `ListWorkloadIdentityPoolProviders` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
-  /** Required. The pool to list providers for. */
-  parent: string;
   /** Whether to return soft-deleted providers. */
   showDeleted?: boolean;
+  /** A page token, received from a previous `ListWorkloadIdentityPoolProviders` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
   /** The maximum number of providers to return. If unspecified, at most 50 providers are returned. The maximum value is 100; values above 100 are truncated to 100. */
   pageSize?: number;
+  /** Required. The pool to list providers for. */
+  parent: string;
 }
 export const ListProjectsLocationsWorkloadIdentityPoolsProvidersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3212,37 +3212,37 @@ export const WorkloadIdentityPoolProviderList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListWorkloadIdentityPoolProviders. */
 export interface ListWorkloadIdentityPoolProvidersResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** A list of providers. */
   workloadIdentityPoolProviders?: WorkloadIdentityPoolProviderList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListWorkloadIdentityPoolProvidersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     workloadIdentityPoolProviders: S.optional(WorkloadIdentityPoolProviderList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListWorkloadIdentityPoolProvidersResponse",
 }) as any as S.Schema<ListWorkloadIdentityPoolProvidersResponse>;
 
 export interface ListProjectsLocationsWorkloadIdentityPoolsProvidersKeysRequest {
-  /** A page token, received from a previous `ListWorkloadIdentityPoolProviderKeys` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
-  /** Required. The parent provider resource to list encryption keys for. */
-  parent: string;
   /** Whether to return soft deleted resources as well. */
   showDeleted?: boolean;
   /** The maximum number of keys to return. If unspecified, all keys are returned. The maximum value is 10; values above 10 are truncated to 10. */
   pageSize?: number;
+  /** A page token, received from a previous `ListWorkloadIdentityPoolProviderKeys` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Required. The parent provider resource to list encryption keys for. */
+  parent: string;
 }
 export const ListProjectsLocationsWorkloadIdentityPoolsProvidersKeysRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       showDeleted: S.optional(S.Boolean.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({ method: "GET", uri: "v1/{+parent}/keys", baseUrl: "https://iam.googleapis.com/" }),
     ),
@@ -3275,24 +3275,24 @@ export type ListProjectsRolesViewEnum = "BASIC" | "FULL";
 export const ListProjectsRolesViewEnum = S.String;
 
 export interface ListProjectsRolesRequest {
-  /** Include Roles that have been deleted. */
-  showDeleted?: boolean;
-  /** Optional pagination token returned in an earlier ListRolesResponse. */
-  pageToken?: string;
-  /** Optional view for the returned Role objects. When `FULL` is specified, the `includedPermissions` field is returned, which includes a list of all permissions in the role. The default value is `BASIC`, which does not return the `includedPermissions` field. */
-  view?: ListProjectsRolesViewEnum | (string & {});
   /** Optional limit on the number of roles to include in the response. The default is 300, and the maximum is 1,000. */
   pageSize?: number;
   /** The `parent` parameter's value depends on the target resource for the request, namely [roles](https://cloud.google.com/iam/docs/reference/rest/v1/roles), [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles), or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `parent` value format is described below: * [roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/roles/list): An empty string. This method doesn't require a resource; it simply returns all [predefined roles](https://cloud.google.com/iam/docs/understanding-roles#predefined_roles) in IAM. Example request URL: `https://iam.googleapis.com/v1/roles` * [projects.roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/list): `projects/{PROJECT_ID}`. This method lists all project-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles` * [organizations.roles.list](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/list): `organizations/{ORGANIZATION_ID}`. This method lists all organization-level [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles). Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   parent: string;
+  /** Optional pagination token returned in an earlier ListRolesResponse. */
+  pageToken?: string;
+  /** Include Roles that have been deleted. */
+  showDeleted?: boolean;
+  /** Optional view for the returned Role objects. When `FULL` is specified, the `includedPermissions` field is returned, which includes a list of all permissions in the role. The default value is `BASIC`, which does not return the `includedPermissions` field. */
+  view?: ListProjectsRolesViewEnum | (string & {});
 }
 export const ListProjectsRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    view: S.optional(ListProjectsRolesViewEnum.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    view: S.optional(ListProjectsRolesViewEnum.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+parent}/roles", baseUrl: "https://iam.googleapis.com/" }),
   ),
@@ -3357,15 +3357,15 @@ export const ListProjectsServiceAccountsKeysKeyTypesEnumList = /*@__PURE__*/ S.A
 ) as any as S.Schema<ListProjectsServiceAccountsKeysKeyTypesEnumList>;
 
 export interface ListProjectsServiceAccountsKeysRequest {
-  /** Filters the types of keys the user wants to include in the list response. Duplicate key types are not allowed. If no key type is provided, all keys are returned. */
-  keyTypes?: ListProjectsServiceAccountsKeysKeyTypesEnumList;
   /** Required. The resource name of the service account. Use one of the following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you can use the `-` wildcard character instead of the project ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-` wildcard character, because it can cause response messages to contain misleading error codes. For example, if you try to access the service account `projects/-/serviceAccounts/fake@example.com`, which does not exist, the response contains an HTTP `403 Forbidden` error instead of a `404 Not Found` error. */
   name: string;
+  /** Filters the types of keys the user wants to include in the list response. Duplicate key types are not allowed. If no key type is provided, all keys are returned. */
+  keyTypes?: ListProjectsServiceAccountsKeysKeyTypesEnumList;
 }
 export const ListProjectsServiceAccountsKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    keyTypes: S.optional(ListProjectsServiceAccountsKeysKeyTypesEnumList.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    keyTypes: S.optional(ListProjectsServiceAccountsKeysKeyTypesEnumList.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+name}/keys", baseUrl: "https://iam.googleapis.com/" }),
   ),
@@ -3435,17 +3435,17 @@ export const PatchLocationsWorkforcePoolsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchLocationsWorkforcePoolsRequest>;
 
 export interface PatchLocationsWorkforcePoolsProvidersRequest {
-  /** Identifier. The resource name of the provider. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}` */
-  name: string;
   /** Required. The list of fields to update. */
   updateMask?: string;
+  /** Identifier. The resource name of the provider. Format: `locations/{location}/workforcePools/{workforce_pool_id}/providers/{provider_id}` */
+  name: string;
   /** Request body */
   body?: WorkforcePoolProvider;
 }
 export const PatchLocationsWorkforcePoolsProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(WorkforcePoolProvider.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" })),
 ).annotate({
@@ -3453,17 +3453,17 @@ export const PatchLocationsWorkforcePoolsProvidersRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<PatchLocationsWorkforcePoolsProvidersRequest>;
 
 export interface PatchLocationsWorkforcePoolsProvidersScimTenantsRequest {
-  /** Identifier. Gemini Enterprise only. The resource name of the SCIM Tenant. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}` */
-  name: string;
   /** Optional. Gemini Enterprise only. The list of fields to update. */
   updateMask?: string;
+  /** Identifier. Gemini Enterprise only. The resource name of the SCIM Tenant. Format: `locations/{location}/workforcePools/{workforce_pool}/providers/ {workforce_pool_provider}/scimTenants/{scim_tenant}` */
+  name: string;
   /** Request body */
   body?: WorkforcePoolProviderScimTenant;
 }
 export const PatchLocationsWorkforcePoolsProvidersScimTenantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(WorkforcePoolProviderScimTenant.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" })),
 ).annotate({
@@ -3490,17 +3490,17 @@ export const PatchLocationsWorkforcePoolsProvidersScimTenantsTokensRequest =
   }) as any as S.Schema<PatchLocationsWorkforcePoolsProvidersScimTenantsTokensRequest>;
 
 export interface PatchOrganizationsRolesRequest {
-  /** A mask describing which fields in the Role have changed. */
-  updateMask?: string;
   /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/patch): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/patch): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
   name: string;
+  /** A mask describing which fields in the Role have changed. */
+  updateMask?: string;
   /** Request body */
   body?: Role;
 }
 export const PatchOrganizationsRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Role.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" })),
 ).annotate({
@@ -3508,17 +3508,17 @@ export const PatchOrganizationsRolesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchOrganizationsRolesRequest>;
 
 export interface PatchProjectsLocationsOauthClientsRequest {
-  /** Immutable. Identifier. The resource name of the OauthClient. Format:`projects/{project}/locations/{location}/oauthClients/{oauth_client}`. */
-  name: string;
   /** Required. The list of fields to update. */
   updateMask?: string;
+  /** Immutable. Identifier. The resource name of the OauthClient. Format:`projects/{project}/locations/{location}/oauthClients/{oauth_client}`. */
+  name: string;
   /** Request body */
   body?: OauthClient;
 }
 export const PatchProjectsLocationsOauthClientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(OauthClient.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" })),
 ).annotate({
@@ -3562,18 +3562,18 @@ export const PatchProjectsLocationsWorkloadIdentityPoolsRequest = /*@__PURE__*/ 
 }) as any as S.Schema<PatchProjectsLocationsWorkloadIdentityPoolsRequest>;
 
 export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest {
-  /** Identifier. The resource name of the namespace. */
-  name: string;
   /** Required. The list of fields to update. */
   updateMask?: string;
+  /** Identifier. The resource name of the namespace. */
+  name: string;
   /** Request body */
   body?: WorkloadIdentityPoolNamespace;
 }
 export const PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(WorkloadIdentityPoolNamespace.pipe(T.HttpBody())),
     }).pipe(T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" })),
 ).annotate({
@@ -3581,18 +3581,18 @@ export const PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest = /*@_
 }) as any as S.Schema<PatchProjectsLocationsWorkloadIdentityPoolsNamespacesRequest>;
 
 export interface PatchProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest {
-  /** Identifier. The resource name of the managed identity. */
-  name: string;
   /** Required. The list of fields to update. */
   updateMask?: string;
+  /** Identifier. The resource name of the managed identity. */
+  name: string;
   /** Request body */
   body?: WorkloadIdentityPoolManagedIdentity;
 }
 export const PatchProjectsLocationsWorkloadIdentityPoolsNamespacesManagedIdentitiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(WorkloadIdentityPoolManagedIdentity.pipe(T.HttpBody())),
     }).pipe(T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" })),
   ).annotate({
@@ -3619,17 +3619,17 @@ export const PatchProjectsLocationsWorkloadIdentityPoolsProvidersRequest = /*@__
 }) as any as S.Schema<PatchProjectsLocationsWorkloadIdentityPoolsProvidersRequest>;
 
 export interface PatchProjectsRolesRequest {
-  /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/patch): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/patch): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
-  name: string;
   /** A mask describing which fields in the Role have changed. */
   updateMask?: string;
+  /** The `name` parameter's value depends on the target resource for the request, namely [projects](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles) or [organizations](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles). Each resource type's `name` value format is described below: * [projects.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/projects.roles/patch): `projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the project level. Example request URL: `https://iam.googleapis.com/v1/projects/{PROJECT_ID}/roles/{CUSTOM_ROLE_ID}` * [organizations.roles.patch](https://cloud.google.com/iam/docs/reference/rest/v1/organizations.roles/patch): `organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}`. This method updates only [custom roles](https://cloud.google.com/iam/docs/understanding-custom-roles) that have been created at the organization level. Example request URL: `https://iam.googleapis.com/v1/organizations/{ORGANIZATION_ID}/roles/{CUSTOM_ROLE_ID}` Note: Wildcard (*) values are invalid; you must specify a complete project ID or organization ID. */
+  name: string;
   /** Request body */
   body?: Role;
 }
 export const PatchProjectsRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Role.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iam.googleapis.com/" })),
 ).annotate({
@@ -3638,13 +3638,13 @@ export const PatchProjectsRolesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The service account patch request. You can patch only the `display_name` and `description` fields. You must use the `update_mask` field to specify which of these fields you want to patch. Only the fields specified in the request are guaranteed to be returned in the response. Other fields may be empty in the response. */
 export interface PatchServiceAccountRequest {
-  updateMask?: string;
   serviceAccount?: ServiceAccount;
+  updateMask?: string;
 }
 export const PatchServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String),
     serviceAccount: S.optional(ServiceAccount),
+    updateMask: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PatchServiceAccountRequest",
@@ -3730,19 +3730,19 @@ export const QueryGrantableRolesRequestViewEnum = S.String;
 
 /** The grantable role query request. */
 export interface QueryGrantableRolesRequest {
-  /** Optional pagination token returned in an earlier QueryGrantableRolesResponse. */
-  pageToken?: string;
+  view?: QueryGrantableRolesRequestViewEnum | (string & {});
   /** Optional limit on the number of roles to include in the response. The default is 300, and the maximum is 2,000. */
   pageSize?: number;
-  view?: QueryGrantableRolesRequestViewEnum | (string & {});
+  /** Optional pagination token returned in an earlier QueryGrantableRolesResponse. */
+  pageToken?: string;
   /** Required. Required. The full resource name to query from the list of grantable roles. The name follows the Google Cloud Platform resource format. For example, a Cloud Platform project with id `my-project` will be named `//cloudresourcemanager.googleapis.com/projects/my-project`. */
   fullResourceName?: string;
 }
 export const QueryGrantableRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String),
-    pageSize: S.optional(S.Number),
     view: S.optional(QueryGrantableRolesRequestViewEnum),
+    pageSize: S.optional(S.Number),
+    pageToken: S.optional(S.String),
     fullResourceName: S.optional(S.String),
   }),
 ).annotate({
@@ -3769,15 +3769,15 @@ export const QueryGrantableRolesRolesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The grantable role query response. */
 export interface QueryGrantableRolesResponse {
-  /** The list of matching roles. */
-  roles?: RoleList;
   /** To retrieve the next page of results, set `QueryGrantableRolesRequest.page_token` to this value. */
   nextPageToken?: string;
+  /** The list of matching roles. */
+  roles?: RoleList;
 }
 export const QueryGrantableRolesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    roles: S.optional(RoleList),
     nextPageToken: S.optional(S.String),
+    roles: S.optional(RoleList),
   }),
 ).annotate({
   identifier: "QueryGrantableRolesResponse",
@@ -3785,18 +3785,18 @@ export const QueryGrantableRolesResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** A request to get permissions which can be tested on a resource. */
 export interface QueryTestablePermissionsRequest {
-  /** Required. The full resource name to query from the list of testable permissions. The name follows the Google Cloud Platform resource format. For example, a Cloud Platform project with id `my-project` will be named `//cloudresourcemanager.googleapis.com/projects/my-project`. */
-  fullResourceName?: string;
-  /** Optional pagination token returned in an earlier QueryTestablePermissionsRequest. */
-  pageToken?: string;
   /** Optional limit on the number of permissions to include in the response. The default is 100, and the maximum is 1,000. */
   pageSize?: number;
+  /** Optional pagination token returned in an earlier QueryTestablePermissionsRequest. */
+  pageToken?: string;
+  /** Required. The full resource name to query from the list of testable permissions. The name follows the Google Cloud Platform resource format. For example, a Cloud Platform project with id `my-project` will be named `//cloudresourcemanager.googleapis.com/projects/my-project`. */
+  fullResourceName?: string;
 }
 export const QueryTestablePermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fullResourceName: S.optional(S.String),
-    pageToken: S.optional(S.String),
     pageSize: S.optional(S.Number),
+    pageToken: S.optional(S.String),
+    fullResourceName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "QueryTestablePermissionsRequest",
@@ -3828,32 +3828,32 @@ export const PermissionCustomRolesSupportLevelEnum = S.String;
 
 /** A permission which can be included by a role. */
 export interface Permission {
-  /** The current launch stage of the permission. */
-  stage?: PermissionStageEnum;
-  onlyInPredefinedRoles?: boolean;
-  /** The current custom role support level. */
-  customRolesSupportLevel?: PermissionCustomRolesSupportLevelEnum;
-  /** A brief description of what this Permission is used for. */
-  description?: string;
   /** The service API associated with the permission is not enabled. */
   apiDisabled?: boolean;
   /** The title of this Permission. */
   title?: string;
-  /** The name of this Permission. */
-  name?: string;
+  /** A brief description of what this Permission is used for. */
+  description?: string;
+  /** The current launch stage of the permission. */
+  stage?: PermissionStageEnum;
+  onlyInPredefinedRoles?: boolean;
   /** The preferred name for this permission. If present, then this permission is an alias of, and equivalent to, the listed primary_permission. */
   primaryPermission?: string;
+  /** The current custom role support level. */
+  customRolesSupportLevel?: PermissionCustomRolesSupportLevelEnum;
+  /** The name of this Permission. */
+  name?: string;
 }
 export const Permission = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stage: S.optional(PermissionStageEnum),
-    onlyInPredefinedRoles: S.optional(S.Boolean),
-    customRolesSupportLevel: S.optional(PermissionCustomRolesSupportLevelEnum),
-    description: S.optional(S.String),
     apiDisabled: S.optional(S.Boolean),
     title: S.optional(S.String),
-    name: S.optional(S.String),
+    description: S.optional(S.String),
+    stage: S.optional(PermissionStageEnum),
+    onlyInPredefinedRoles: S.optional(S.Boolean),
     primaryPermission: S.optional(S.String),
+    customRolesSupportLevel: S.optional(PermissionCustomRolesSupportLevelEnum),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Permission" }) as any as S.Schema<Permission>;
 
@@ -3862,15 +3862,15 @@ export const PermissionList = /*@__PURE__*/ S.Array(Permission) as any as S.Sche
 
 /** The response containing permissions which can be tested on a resource. */
 export interface QueryTestablePermissionsResponse {
-  /** To retrieve the next page of results, set `QueryTestableRolesRequest.page_token` to this value. */
-  nextPageToken?: string;
   /** The Permissions testable on the requested resource. */
   permissions?: PermissionList;
+  /** To retrieve the next page of results, set `QueryTestableRolesRequest.page_token` to this value. */
+  nextPageToken?: string;
 }
 export const QueryTestablePermissionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     permissions: S.optional(PermissionList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "QueryTestablePermissionsResponse",
@@ -4019,15 +4019,15 @@ export const SetAttestationRulesProjectsLocationsWorkloadIdentityPoolsNamespaces
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    policy: S.optional(Policy),
     updateMask: S.optional(S.String),
+    policy: S.optional(Policy),
   }),
 ).annotate({ identifier: "SetIamPolicyRequest" }) as any as S.Schema<SetIamPolicyRequest>;
 
@@ -4147,15 +4147,15 @@ export const SignBlobProjectsServiceAccountsRequest = /*@__PURE__*/ S.suspend(()
 
 /** Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The service account sign blob response. */
 export interface SignBlobResponse {
-  /** Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The id of the key used to sign the blob. */
-  keyId?: string;
   /** Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The signed blob. */
   signature?: string;
+  /** Deprecated. [Migrate to Service Account Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api). The id of the key used to sign the blob. */
+  keyId?: string;
 }
 export const SignBlobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    keyId: S.optional(S.String),
     signature: S.optional(S.String),
+    keyId: S.optional(S.String),
   }),
 ).annotate({ identifier: "SignBlobResponse" }) as any as S.Schema<SignBlobResponse>;
 

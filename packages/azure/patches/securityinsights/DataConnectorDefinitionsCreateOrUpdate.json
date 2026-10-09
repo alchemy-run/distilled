@@ -23,7 +23,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.securityinsights#GetDataConnectorDefinitionResponse/members/properties",
+      "path": "/shapes/com.azure.securityinsights#DataConnectorDefinitionsGetResponse/members/properties",
       "value": {
         "target": "smithy.api#Document",
         "traits": {

@@ -3895,6 +3895,12 @@
           "traits": {
             "smithy.api#documentation": "Backup state of this backup item."
           }
+        },
+        "workloadItemType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Workload item type to auto-protect, e.g. `SQLInstance` (AzureWorkloadSQLAutoProtectionIntent)."
+          }
         }
       },
       "traits": {
@@ -4251,6 +4257,60 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Source location of the container"
+          }
+        },
+        "sourceResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer)."
+          }
+        },
+        "acquireStorageAccountLock": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer)."
+          }
+        },
+        "protectedItemCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of items backed up in this container (StorageContainer)."
+          }
+        },
+        "storageAccountVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage account version (StorageContainer)."
+          }
+        },
+        "resourceGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource group of the registered resource (StorageContainer)."
+          }
+        },
+        "workloadType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Workload type for the container (VMAppContainer)."
+          }
+        },
+        "operationType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operation type, e.g. `Register` or `Reregister` (VMAppContainer)."
+          }
+        },
+        "extendedInfo": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Additional container information (VMAppContainer)."
+          }
+        },
+        "lastUpdatedTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the container was last refreshed (VMAppContainer)."
           }
         }
       },
@@ -4657,6 +4717,54 @@
           "target": "com.azure.recoveryservicesbackup#SourceSideScanInfo",
           "traits": {
             "smithy.api#documentation": "Source side threat information"
+          }
+        },
+        "friendlyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name of the protected datasource (AzureFileShare / IaaS VM items)."
+          }
+        },
+        "protectionState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`."
+          }
+        },
+        "extendedProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs)."
+          }
+        },
+        "protectionStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Backup status of the item (read-only)."
+          }
+        },
+        "lastBackupStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the last backup (read-only)."
+          }
+        },
+        "lastBackupTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the last backup (read-only)."
+          }
+        },
+        "healthStatus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Health status of the item (read-only)."
+          }
+        },
+        "virtualMachineId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the protected VM (IaaS VM items, read-only)."
           }
         }
       },
@@ -5314,6 +5422,84 @@
           "target": "com.azure.recoveryservicesbackup#ProtectionPolicyResourceGuardOperationRequestsList",
           "traits": {
             "smithy.api#documentation": "ResourceGuard Operation Requests"
+          }
+        },
+        "workLoadType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Workload type (AzureFileShare / AzureStorage and AzureWorkload policies)."
+          }
+        },
+        "schedulePolicy": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Backup schedule (polymorphic on `schedulePolicyType`: SimpleSchedulePolicy, SimpleSchedulePolicyV2, LongTermSchedulePolicy, LogSchedulePolicy)."
+          }
+        },
+        "retentionPolicy": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retention policy (polymorphic on `retentionPolicyType`: LongTermRetentionPolicy, SimpleRetentionPolicy)."
+          }
+        },
+        "vaultRetentionPolicy": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Vaulted backup retention (AzureFileShare vault-tier policies)."
+          }
+        },
+        "timeZone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time zone of the schedule, e.g. `UTC`."
+          }
+        },
+        "instantRpRetentionRangeInDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Instant recovery point retention in days (AzureIaasVM)."
+          }
+        },
+        "instantRPDetails": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Instant recovery point resource group settings (AzureIaasVM)."
+          }
+        },
+        "policyType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IaaS VM policy type: `V1` (standard) or `V2` (enhanced)."
+          }
+        },
+        "tieringPolicy": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Archive tiering policy keyed by tier (AzureIaasVM)."
+          }
+        },
+        "snapshotConsistencyType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot consistency type (AzureIaasVM)."
+          }
+        },
+        "settings": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Workload settings such as time zone and compression (AzureWorkload)."
+          }
+        },
+        "subProtectionPolicy": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Sub-policies per backup type (AzureWorkload)."
+          }
+        },
+        "makePolicyConsistent": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Fix a policy that is inconsistent with its sub-policies (AzureWorkload)."
           }
         }
       },
@@ -9092,6 +9278,24 @@
           "traits": {
             "smithy.api#documentation": "Source side threat information"
           }
+        },
+        "friendlyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name of the protected datasource (AzureFileShare / IaaS VM items)."
+          }
+        },
+        "protectionState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`."
+          }
+        },
+        "extendedProperties": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs)."
+          }
         }
       },
       "traits": {
@@ -9967,6 +10171,60 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Type of the protectable object associated with this container"
+          }
+        },
+        "sourceResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer)."
+          }
+        },
+        "acquireStorageAccountLock": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer)."
+          }
+        },
+        "protectedItemCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of items backed up in this container (StorageContainer)."
+          }
+        },
+        "storageAccountVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage account version (StorageContainer)."
+          }
+        },
+        "resourceGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource group of the registered resource (StorageContainer)."
+          }
+        },
+        "workloadType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Workload type for the container (VMAppContainer)."
+          }
+        },
+        "operationType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operation type, e.g. `Register` or `Reregister` (VMAppContainer)."
+          }
+        },
+        "extendedInfo": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Additional container information (VMAppContainer)."
+          }
+        },
+        "lastUpdatedTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the container was last refreshed (VMAppContainer)."
           }
         }
       },

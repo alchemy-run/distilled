@@ -21,6 +21,12 @@
     "com.whop.ledgers#ListFinancialActivityRequestLineTypesItem": {
       "type": "enum",
       "members": {
+        "ACCOUNT_SETTLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_settlement"
+          }
+        },
         "AD_BUDGET_RELEASE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -129,6 +135,24 @@
             "smithy.api#enumValue": "buyer_fee"
           }
         },
+        "CARD_INTERCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_interchange"
+          }
+        },
+        "CARD_LOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_load_deposit"
+          }
+        },
+        "CARD_LOAD_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_load_transfer"
+          }
+        },
         "CARD_SPEND_AUTHORIZATION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -147,10 +171,40 @@
             "smithy.api#enumValue": "card_spend_refund"
           }
         },
+        "CARD_UNLOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_unload_deposit"
+          }
+        },
+        "CARD_UNLOAD_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_unload_transfer"
+          }
+        },
+        "CASHBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback"
+          }
+        },
+        "CASHBACK_FUNDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback_funding"
+          }
+        },
         "COMPANY_REFERRAL": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "company_referral"
+          }
+        },
+        "CONNECTED_ACCOUNT_NEGATIVE_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connected_account_negative_balance"
           }
         },
         "CROSS_BORDER_PERCENTAGE_FEE": {
@@ -187,6 +241,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "dispute_representment_fee"
+          }
+        },
+        "ECONOMIC_INTELLIGENCE_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "economic_intelligence_percentage_fee"
+          }
+        },
+        "EXTERNAL_CARD_LOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_card_load_deposit"
           }
         },
         "FEES": {
@@ -237,6 +303,60 @@
             "smithy.api#enumValue": "internal_withdrawal"
           }
         },
+        "INTERNAL_WITHDRAWAL_COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_complete"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_fee"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_fee_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_IN_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_in_transit"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_IN_TRANSIT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_in_transit_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_payout"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_PAYOUT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_payout_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_reversal"
+          }
+        },
         "INTERNAL_WITHDRAWAL_REVERSAL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -279,6 +399,12 @@
             "smithy.api#enumValue": "license_sale_revenue"
           }
         },
+        "MARKETPLACE_AFFILIATE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketplace_affiliate_fee"
+          }
+        },
         "MISC_PURCHASE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -297,10 +423,22 @@
             "smithy.api#enumValue": "misc_reversal"
           }
         },
+        "ONBOARDING_REWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onboarding_reward"
+          }
+        },
         "ONCHAIN_DEPOSIT": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "onchain_deposit"
+          }
+        },
+        "ONCHAIN_SWAP_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_swap_source"
           }
         },
         "ONCHAIN_SWAP_TARGET": {
@@ -321,10 +459,22 @@
             "smithy.api#enumValue": "onchain_wallet_transfer_outgoing"
           }
         },
+        "ONCHAIN_WITHDRAWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_withdrawal"
+          }
+        },
         "ORCHESTRATION_PERCENTAGE_FEE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "orchestration_percentage_fee"
+          }
+        },
+        "PARTNER_GRANT_REWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner_grant_reward"
           }
         },
         "PASSTHROUGH_GMV": {
@@ -385,6 +535,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "payment_referral"
+          }
+        },
+        "PAYMENT_REFERRAL_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_referral_refund"
           }
         },
         "PAYMENT_REFERRAL_REVERSAL": {
@@ -459,6 +615,12 @@
             "smithy.api#enumValue": "platform_balance_payment_refund"
           }
         },
+        "PLATFORM_BALANCE_TRANSFER_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance_transfer_fee"
+          }
+        },
         "PLATFORM_BALANCE_TRANSFER_INCOMING": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -475,6 +637,42 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "platform_covered_dispute"
+          }
+        },
+        "PLATFORM_CREDITS_GRANTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_granted"
+          }
+        },
+        "PLATFORM_CREDITS_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_payment"
+          }
+        },
+        "PLATFORM_CREDITS_PAYMENT_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_payment_refund"
+          }
+        },
+        "PLATFORM_EARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_earning"
+          }
+        },
+        "PLATFORM_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup_fee"
+          }
+        },
+        "PLATFORM_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup_fee_payout"
           }
         },
         "PROMO_REVERSAL": {
@@ -543,6 +741,12 @@
             "smithy.api#enumValue": "stripe_international_processing_fee"
           }
         },
+        "SWAP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap_fee"
+          }
+        },
         "THREE_DS_FIXED_FEE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -597,6 +801,42 @@
             "smithy.api#enumValue": "withdrawal_clawback_reversal"
           }
         },
+        "WITHDRAWAL_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_fee"
+          }
+        },
+        "WITHDRAWAL_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_fee_reversal"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_payout"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_PAYOUT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_payout_reversal"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_reversal"
+          }
+        },
         "WITHDRAWAL_RECLASSIFICATION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -608,6 +848,12 @@
           "traits": {
             "smithy.api#enumValue": "withdrawal_reversal"
           }
+        },
+        "WITHDRAWAL_TOPUP_ADJUSTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_topup_adjustment"
+          }
         }
       },
       "traits": {}
@@ -616,6 +862,24 @@
       "type": "list",
       "member": {
         "target": "com.whop.ledgers#ListFinancialActivityRequestLineTypesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#ListFinancialActivityRequestDirection": {
+      "type": "enum",
+      "members": {
+        "MONEY_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_in"
+          }
+        },
+        "MONEY_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_out"
+          }
+        }
       },
       "traits": {}
     },
@@ -657,6 +921,34 @@
             "smithy.api#documentation": "Optional ledger line categories to include. Some categories (for example `onchain_deposit`, which covers inbound crypto deposits such as MoonPay onramps) are only returned when explicitly requested here."
           }
         },
+        "direction": {
+          "target": "com.whop.ledgers#ListFinancialActivityRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Optional direction filter. `money_in` returns positive activity and `money_out` returns negative activity."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource_id",
+            "smithy.api#documentation": "Optional prefixed resource ID. Returns activity associated with that resource."
+          }
+        },
+        "activity_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "activity_id",
+            "smithy.api#documentation": "Optional ledger activity ID (for example `line_3`). Returns at most that one activity."
+          }
+        },
+        "exclude_internal_movements": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "exclude_internal_movements",
+            "smithy.api#documentation": "Whether to exclude balance reservations and balanced movements between the account's own balances."
+          }
+        },
         "currency": {
           "target": "smithy.api#String",
           "traits": {
@@ -682,14 +974,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "available_after",
-            "smithy.api#documentation": "Only include rows whose funds became withdrawable on or after this `YYYY-MM-DD` settlement date (UTC), distinct from posted_at. Requires currency."
+            "smithy.api#documentation": "Only include balance credits and debits available on or after this `YYYY-MM-DD` date (UTC), distinct from posted_at. Requires currency."
           }
         },
         "available_before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "available_before",
-            "smithy.api#documentation": "Only include rows whose funds became withdrawable on or before this `YYYY-MM-DD` settlement date (UTC). Set equal to available_after for a single day. Requires currency."
+            "smithy.api#documentation": "Only include balance credits and debits available on or before this `YYYY-MM-DD` date (UTC). Set equal to available_after for a single day. Requires currency."
           }
         },
         "limit": {
@@ -730,7 +1022,7 @@
         "available_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "ISO 8601 timestamp these funds became (or are scheduled to become) withdrawable: the posted time for already-settled funds, or 00:00:00 UTC on the scheduled release date for pending funds. Present only on inflows entering the balance (payments, top-ups, incoming transfers/affiliate); null on payouts, refunds, disputes and on-chain rows. The available_after/before filters window on its UTC settlement date.",
+            "smithy.api#documentation": "ISO 8601 timestamp when this activity affects available funds: 00:00:00 UTC on the scheduled release date for credits and debits in a pending good-funds release bucket; the posted time for credits and debits to settled available funds, including refunds, disputes and payouts. Null for activity outside these paths, including on-chain rows. The available_after/before filters use its UTC date; default activity excludes some movements, including opt-in reserves.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -829,7 +1121,15 @@
         "source": {
           "target": "com.whop.ledgers#LedgerActivitySource",
           "traits": {
-            "smithy.api#documentation": "Source of this ledger activity.",
+            "smithy.api#documentation": "Source of this ledger activity. Platform markup fees use object platform_fee and the ledger activity ID.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usd_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dollar value of this movement as a decimal string, signed like `amount`. Converted from the posted amount at the rate that was live when the line posted — the same pricing the wallet balance chart and the financial reports use — so a crypto row carries its dollar value too. `null` for a currency Whop holds no exchange rate for.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1007,6 +1307,12 @@
     "com.whop.ledgers#LedgerActivityLineType": {
       "type": "enum",
       "members": {
+        "ACCOUNT_SETTLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_settlement"
+          }
+        },
         "AD_BUDGET_RELEASE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1115,6 +1421,24 @@
             "smithy.api#enumValue": "buyer_fee"
           }
         },
+        "CARD_INTERCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_interchange"
+          }
+        },
+        "CARD_LOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_load_deposit"
+          }
+        },
+        "CARD_LOAD_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_load_transfer"
+          }
+        },
         "CARD_SPEND_AUTHORIZATION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1133,10 +1457,40 @@
             "smithy.api#enumValue": "card_spend_refund"
           }
         },
+        "CARD_UNLOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_unload_deposit"
+          }
+        },
+        "CARD_UNLOAD_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_unload_transfer"
+          }
+        },
+        "CASHBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback"
+          }
+        },
+        "CASHBACK_FUNDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback_funding"
+          }
+        },
         "COMPANY_REFERRAL": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "company_referral"
+          }
+        },
+        "CONNECTED_ACCOUNT_NEGATIVE_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connected_account_negative_balance"
           }
         },
         "CROSS_BORDER_PERCENTAGE_FEE": {
@@ -1173,6 +1527,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "dispute_representment_fee"
+          }
+        },
+        "ECONOMIC_INTELLIGENCE_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "economic_intelligence_percentage_fee"
+          }
+        },
+        "EXTERNAL_CARD_LOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_card_load_deposit"
           }
         },
         "FRAUD_PREVENTION_FEE": {
@@ -1217,6 +1583,60 @@
             "smithy.api#enumValue": "internal_withdrawal"
           }
         },
+        "INTERNAL_WITHDRAWAL_COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_complete"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_fee"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_fee_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_IN_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_in_transit"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_IN_TRANSIT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_in_transit_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_payout"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_PAYOUT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_payout_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_reversal"
+          }
+        },
         "INTERNAL_WITHDRAWAL_REVERSAL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1259,6 +1679,12 @@
             "smithy.api#enumValue": "license_sale_revenue"
           }
         },
+        "MARKETPLACE_AFFILIATE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketplace_affiliate_fee"
+          }
+        },
         "MISC_PURCHASE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1277,10 +1703,22 @@
             "smithy.api#enumValue": "misc_reversal"
           }
         },
+        "ONBOARDING_REWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onboarding_reward"
+          }
+        },
         "ONCHAIN_DEPOSIT": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "onchain_deposit"
+          }
+        },
+        "ONCHAIN_SWAP_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_swap_source"
           }
         },
         "ONCHAIN_SWAP_TARGET": {
@@ -1301,10 +1739,22 @@
             "smithy.api#enumValue": "onchain_wallet_transfer_outgoing"
           }
         },
+        "ONCHAIN_WITHDRAWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_withdrawal"
+          }
+        },
         "ORCHESTRATION_PERCENTAGE_FEE": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "orchestration_percentage_fee"
+          }
+        },
+        "PARTNER_GRANT_REWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner_grant_reward"
           }
         },
         "PASSTHROUGH_GMV": {
@@ -1365,6 +1815,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "payment_referral"
+          }
+        },
+        "PAYMENT_REFERRAL_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_referral_refund"
           }
         },
         "PAYMENT_REFERRAL_REVERSAL": {
@@ -1439,6 +1895,12 @@
             "smithy.api#enumValue": "platform_balance_payment_refund"
           }
         },
+        "PLATFORM_BALANCE_TRANSFER_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance_transfer_fee"
+          }
+        },
         "PLATFORM_BALANCE_TRANSFER_INCOMING": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1455,6 +1917,42 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "platform_covered_dispute"
+          }
+        },
+        "PLATFORM_CREDITS_GRANTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_granted"
+          }
+        },
+        "PLATFORM_CREDITS_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_payment"
+          }
+        },
+        "PLATFORM_CREDITS_PAYMENT_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_payment_refund"
+          }
+        },
+        "PLATFORM_EARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_earning"
+          }
+        },
+        "PLATFORM_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup_fee"
+          }
+        },
+        "PLATFORM_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup_fee_payout"
           }
         },
         "PROMO_REVERSAL": {
@@ -1523,6 +2021,12 @@
             "smithy.api#enumValue": "stripe_international_processing_fee"
           }
         },
+        "SWAP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap_fee"
+          }
+        },
         "THREE_DS_FIXED_FEE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1577,6 +2081,42 @@
             "smithy.api#enumValue": "withdrawal_clawback_reversal"
           }
         },
+        "WITHDRAWAL_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_fee"
+          }
+        },
+        "WITHDRAWAL_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_fee_reversal"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_payout"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_PAYOUT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_payout_reversal"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_reversal"
+          }
+        },
         "WITHDRAWAL_RECLASSIFICATION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1587,6 +2127,42 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "withdrawal_reversal"
+          }
+        },
+        "WITHDRAWAL_TOPUP_ADJUSTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_topup_adjustment"
+          }
+        },
+        "DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deposit"
+          }
+        },
+        "WALLET_TRANSFER_INCOMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet_transfer_incoming"
+          }
+        },
+        "WALLET_TRANSFER_OUTGOING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet_transfer_outgoing"
+          }
+        },
+        "SWAP_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap_source"
+          }
+        },
+        "SWAP_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap_target"
           }
         }
       },
@@ -2504,6 +3080,44 @@
         "smithy.api#documentation": "Resource associated with this ledger activity."
       }
     },
+    "com.whop.ledgers#LedgerActivitySourceFeeKind": {
+      "type": "enum",
+      "members": {
+        "PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        },
+        "DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deposit"
+          }
+        },
+        "SWAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap"
+          }
+        },
+        "CARD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_spend"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Action that generated a platform markup fee: deposit, swap, transfer, card_spend, or payout. Present for platform_markup_fee and platform_markup_fee_payout, including when include_resource is false. Null when the originating action is unavailable; omitted on other source types."
+      }
+    },
     "com.whop.ledgers#LedgerActivitySourcePayoutDestination": {
       "type": "structure",
       "members": {
@@ -2551,7 +3165,7 @@
         "claim_url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Public claim URL for the airdrop link (airdrop_link sources only).",
+            "smithy.api#documentation": "The airdrop's claim URL. Null unless the caller can manage claim links on the funding company or withdraw from the funding personal balance.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2566,6 +3180,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Estimated arrival as an ISO 8601 timestamp (payout sources only; requires payout:withdrawal:read).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fee_kind": {
+          "target": "com.whop.ledgers#LedgerActivitySourceFeeKind",
+          "traits": {
+            "smithy.api#documentation": "Action that generated a platform markup fee: deposit, swap, transfer, card_spend, or payout. Present for platform_markup_fee and platform_markup_fee_payout, including when include_resource is false. Null when the originating action is unavailable; omitted on other source types.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2587,6 +3208,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Memo attached to the transfer or payout source, or null when none was provided (on payout sources requires payout:withdrawal:read).",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "object": {
@@ -2688,7 +3316,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Source of this ledger activity."
+        "smithy.api#documentation": "Source of this ledger activity. Platform markup fees use object platform_fee and the ledger activity ID."
       }
     },
     "com.whop.ledgers#ListFinancialActivityResponseDataList": {
@@ -2772,7 +3400,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/financial-activity",
+          "uri": "/financial_activity",
           "code": 200
         },
         "smithy.api#documentation": "List Financial Activity\n\nReturns an account's or user's activity feed: every movement of money in or out."
@@ -2805,6 +3433,12 @@
     "com.whop.ledgers#GetFinancialReportRequestGroupBy": {
       "type": "enum",
       "members": {
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
         "DAY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2821,6 +3455,871 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportRequestLineTypesItem": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT_SETTLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_settlement"
+          }
+        },
+        "AD_BUDGET_RELEASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_budget_release"
+          }
+        },
+        "AD_CAMPAIGN_BUDGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign_budget"
+          }
+        },
+        "AD_PUBLISHER_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_publisher_payout"
+          }
+        },
+        "AD_PUBLISHER_PAYOUT_RECEIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_publisher_payout_received"
+          }
+        },
+        "AD_SPEND_CHARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_spend_charge"
+          }
+        },
+        "AFFILIATE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate_fee"
+          }
+        },
+        "AIRDROP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "airdrop"
+          }
+        },
+        "AIRDROP_LINK_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "airdrop_link_created"
+          }
+        },
+        "AIRDROP_LINK_REDEEMED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "airdrop_link_redeemed"
+          }
+        },
+        "AIRDROP_LINK_RETURNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "airdrop_link_returned"
+          }
+        },
+        "AIRDROP_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "airdrop_reversal"
+          }
+        },
+        "APPLICATION_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application_fee"
+          }
+        },
+        "APPLICATION_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application_fee_payout"
+          }
+        },
+        "BALANCE_RESERVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "balance_reservation"
+          }
+        },
+        "BALANCE_RESERVATION_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "balance_reservation_reversal"
+          }
+        },
+        "BANK_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_transfer"
+          }
+        },
+        "BILLING_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billing_percentage_fee"
+          }
+        },
+        "BUYER_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buyer_fee"
+          }
+        },
+        "CARD_INTERCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_interchange"
+          }
+        },
+        "CARD_LOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_load_deposit"
+          }
+        },
+        "CARD_LOAD_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_load_transfer"
+          }
+        },
+        "CARD_SPEND_AUTHORIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_spend_authorization"
+          }
+        },
+        "CARD_SPEND_AUTHORIZATION_VOID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_spend_authorization_void"
+          }
+        },
+        "CARD_SPEND_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_spend_refund"
+          }
+        },
+        "CARD_UNLOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_unload_deposit"
+          }
+        },
+        "CARD_UNLOAD_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_unload_transfer"
+          }
+        },
+        "CASHBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback"
+          }
+        },
+        "CASHBACK_FUNDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback_funding"
+          }
+        },
+        "COMPANY_REFERRAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_referral"
+          }
+        },
+        "CONNECTED_ACCOUNT_NEGATIVE_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connected_account_negative_balance"
+          }
+        },
+        "CROSS_BORDER_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cross_border_percentage_fee"
+          }
+        },
+        "CURRENCY_CONVERSION_INCOMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "currency_conversion_incoming"
+          }
+        },
+        "CURRENCY_CONVERSION_OUTGOING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "currency_conversion_outgoing"
+          }
+        },
+        "DISPUTE_ALERT_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispute_alert_fee"
+          }
+        },
+        "DISPUTE_HOLD_ADJUSTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispute_hold_adjustment"
+          }
+        },
+        "DISPUTE_REPRESENTMENT_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispute_representment_fee"
+          }
+        },
+        "ECONOMIC_INTELLIGENCE_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "economic_intelligence_percentage_fee"
+          }
+        },
+        "EXTERNAL_CARD_LOAD_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_card_load_deposit"
+          }
+        },
+        "FEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fees"
+          }
+        },
+        "FRAUD_PREVENTION_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fraud_prevention_fee"
+          }
+        },
+        "FX_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fx_percentage_fee"
+          }
+        },
+        "HIGH_RISK_MERCHANT_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high_risk_merchant_fee"
+          }
+        },
+        "INSTALLMENT_DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "installment_default"
+          }
+        },
+        "INTERNAL_BALANCE_TRANSFER_INCOMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_balance_transfer_incoming"
+          }
+        },
+        "INTERNAL_BALANCE_TRANSFER_OUTGOING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_balance_transfer_outgoing"
+          }
+        },
+        "INTERNAL_WITHDRAWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_complete"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_fee"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_fee_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_IN_TRANSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_in_transit"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_IN_TRANSIT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_in_transit_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_payout"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_PAYOUT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_payout_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_MARKUP_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_markup_fee_reversal"
+          }
+        },
+        "INTERNAL_WITHDRAWAL_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_withdrawal_reversal"
+          }
+        },
+        "LEGACY_CRYPTO_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacy_crypto_payment"
+          }
+        },
+        "LEGACY_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacy_payment"
+          }
+        },
+        "LEGACY_PAYMENT_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacy_payment_refund"
+          }
+        },
+        "LICENSE_SALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "license_sale"
+          }
+        },
+        "LICENSE_SALE_COMMISSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "license_sale_commission"
+          }
+        },
+        "LICENSE_SALE_REVENUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "license_sale_revenue"
+          }
+        },
+        "MARKETPLACE_AFFILIATE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marketplace_affiliate_fee"
+          }
+        },
+        "MISC_PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "misc_purchase"
+          }
+        },
+        "MISC_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "misc_refund"
+          }
+        },
+        "MISC_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "misc_reversal"
+          }
+        },
+        "ONBOARDING_REWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onboarding_reward"
+          }
+        },
+        "ONCHAIN_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_deposit"
+          }
+        },
+        "ONCHAIN_SWAP_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_swap_source"
+          }
+        },
+        "ONCHAIN_SWAP_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_swap_target"
+          }
+        },
+        "ONCHAIN_WALLET_TRANSFER_INCOMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_wallet_transfer_incoming"
+          }
+        },
+        "ONCHAIN_WALLET_TRANSFER_OUTGOING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_wallet_transfer_outgoing"
+          }
+        },
+        "ONCHAIN_WITHDRAWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onchain_withdrawal"
+          }
+        },
+        "ORCHESTRATION_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orchestration_percentage_fee"
+          }
+        },
+        "PARTNER_GRANT_REWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner_grant_reward"
+          }
+        },
+        "PASSTHROUGH_GMV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "passthrough_gmv"
+          }
+        },
+        "PAYMENT_DISPUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_dispute"
+          }
+        },
+        "PAYMENT_DISPUTE_ADJUSTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_dispute_adjustment"
+          }
+        },
+        "PAYMENT_DISPUTE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_dispute_fee"
+          }
+        },
+        "PAYMENT_DISPUTE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_dispute_reversal"
+          }
+        },
+        "PAYMENT_GROSS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_gross"
+          }
+        },
+        "PAYMENT_GROSS_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_gross_reversal"
+          }
+        },
+        "PAYMENT_PROCESSING_FIXED_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_processing_fixed_fee"
+          }
+        },
+        "PAYMENT_PROCESSING_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_processing_percentage_fee"
+          }
+        },
+        "PAYMENT_REFERRAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_referral"
+          }
+        },
+        "PAYMENT_REFERRAL_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_referral_refund"
+          }
+        },
+        "PAYMENT_REFERRAL_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_referral_reversal"
+          }
+        },
+        "PAYMENT_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_refund"
+          }
+        },
+        "PAYMENT_REFUND_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_refund_reversal"
+          }
+        },
+        "PAYMENT_REVSHARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_revshare"
+          }
+        },
+        "PAYMENT_REVSHARE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_revshare_payout"
+          }
+        },
+        "PAYMENT_REVSHARE_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_revshare_refund"
+          }
+        },
+        "PAYMENT_REVSHARE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_revshare_reversal"
+          }
+        },
+        "PAYOUT_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_fee"
+          }
+        },
+        "PLATFORM_AFFILIATE_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_affiliate_payment"
+          }
+        },
+        "PLATFORM_AFFILIATE_PAYMENT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_affiliate_payment_reversal"
+          }
+        },
+        "PLATFORM_BALANCE_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance_payment"
+          }
+        },
+        "PLATFORM_BALANCE_PAYMENT_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance_payment_refund"
+          }
+        },
+        "PLATFORM_BALANCE_TRANSFER_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance_transfer_fee"
+          }
+        },
+        "PLATFORM_BALANCE_TRANSFER_INCOMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance_transfer_incoming"
+          }
+        },
+        "PLATFORM_BALANCE_TRANSFER_OUTGOING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_balance_transfer_outgoing"
+          }
+        },
+        "PLATFORM_COVERED_DISPUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_covered_dispute"
+          }
+        },
+        "PLATFORM_CREDITS_GRANTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_granted"
+          }
+        },
+        "PLATFORM_CREDITS_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_payment"
+          }
+        },
+        "PLATFORM_CREDITS_PAYMENT_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_payment_refund"
+          }
+        },
+        "PLATFORM_EARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_earning"
+          }
+        },
+        "PLATFORM_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup_fee"
+          }
+        },
+        "PLATFORM_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup_fee_payout"
+          }
+        },
+        "PROMO_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "promo_reversal"
+          }
+        },
+        "REFERRAL_BONUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referral_bonus"
+          }
+        },
+        "RESOLUTION_CENTER_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolution_center_refund"
+          }
+        },
+        "REVSHARE_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revshare_percentage_fee"
+          }
+        },
+        "SALES_TAX_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_tax_fee"
+          }
+        },
+        "SALES_TAX_REMITTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_tax_remittance"
+          }
+        },
+        "SALES_TAX_REMITTANCE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sales_tax_remittance_reversal"
+          }
+        },
+        "SOFTWARE_RENTAL_REVSHARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "software_rental_revshare"
+          }
+        },
+        "SOFTWARE_RENTAL_TRANSACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "software_rental_transaction"
+          }
+        },
+        "STRIPE_DOMESTIC_PROCESSING_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stripe_domestic_processing_fee"
+          }
+        },
+        "STRIPE_INTERNATIONAL_PROCESSING_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stripe_international_processing_fee"
+          }
+        },
+        "SWAP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap_fee"
+          }
+        },
+        "THREE_DS_FIXED_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "three_ds_fixed_fee"
+          }
+        },
+        "TOPUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "topup"
+          }
+        },
+        "TOPUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "topup_fee"
+          }
+        },
+        "TOPUP_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "topup_reversal"
+          }
+        },
+        "TREASURY_PAYIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "treasury_payin"
+          }
+        },
+        "WHOP_PROCESSING_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_processing_fee"
+          }
+        },
+        "WITHDRAWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal"
+          }
+        },
+        "WITHDRAWAL_CLAWBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_clawback"
+          }
+        },
+        "WITHDRAWAL_CLAWBACK_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_clawback_reversal"
+          }
+        },
+        "WITHDRAWAL_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_fee"
+          }
+        },
+        "WITHDRAWAL_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_fee_reversal"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_payout"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_PAYOUT_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_payout_reversal"
+          }
+        },
+        "WITHDRAWAL_MARKUP_FEE_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup_fee_reversal"
+          }
+        },
+        "WITHDRAWAL_RECLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_reclassification"
+          }
+        },
+        "WITHDRAWAL_REVERSAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_reversal"
+          }
+        },
+        "WITHDRAWAL_TOPUP_ADJUSTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_topup_adjustment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportRequestLineTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ledgers#GetFinancialReportRequestLineTypesItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportRequestDirection": {
+      "type": "enum",
+      "members": {
+        "MONEY_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_in"
+          }
+        },
+        "MONEY_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_out"
           }
         }
       },
@@ -2859,39 +4358,53 @@
             "smithy.api#documentation": "Aggregate all activity into this display currency via FX conversion."
           }
         },
-        "from_date": {
+        "from": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "from_date",
-            "smithy.api#documentation": "Start of the report window as an ISO 8601 timestamp (UTC). Required for platform-wide (global) reports."
+            "smithy.api#httpQuery": "from",
+            "smithy.api#documentation": "Start of the report window as an ISO 8601 timestamp. Required for platform-wide (global) reports."
           }
         },
-        "to_date": {
+        "to": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "to_date",
-            "smithy.api#documentation": "End of the report window as an ISO 8601 timestamp (UTC). Required for platform-wide (global) reports."
+            "smithy.api#httpQuery": "to",
+            "smithy.api#documentation": "Exclusive end of the report window as an ISO 8601 timestamp. Required for platform-wide (global) reports."
           }
         },
         "group_by": {
           "target": "com.whop.ledgers#GetFinancialReportRequestGroupBy",
           "traits": {
             "smithy.api#httpQuery": "group_by",
-            "smithy.api#documentation": "Grouping granularity for report rows."
+            "smithy.api#documentation": "Grouping granularity for report rows. Hourly grouping is supported for account-level balance activity reports only; hourly periods are timestamps in the requested timezone."
           }
         },
         "timezone": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "timezone",
-            "smithy.api#documentation": "IANA timezone (for example `America/New_York`) used to bucket report periods and to interpret calendar-day boundaries for balance snapshots. Defaults to UTC. from_date/to_date remain exact instants regardless of this setting."
+            "smithy.api#documentation": "IANA timezone (for example `America/New_York`) used to bucket report periods. Defaults to UTC. `from` and `to` remain exact instants."
+          }
+        },
+        "line_types": {
+          "target": "com.whop.ledgers#GetFinancialReportRequestLineTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "line_types",
+            "smithy.api#documentation": "Account-level balance activity only: ledger line categories to include."
+          }
+        },
+        "direction": {
+          "target": "com.whop.ledgers#GetFinancialReportRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Account-level balance activity only: include money moving in or money moving out."
           }
         },
         "cumulative": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "cumulative",
-            "smithy.api#documentation": "Platform-wide (global) reports only: when true, return cumulative balances as of to_date (all history, no lower bound) instead of activity within the period."
+            "smithy.api#documentation": "Platform-wide (global) reports only: when true, return cumulative balances as of to (all history, no lower bound) instead of activity within the period."
           }
         },
         "scope_account_id": {
@@ -2899,6 +4412,13 @@
           "traits": {
             "smithy.api#httpQuery": "scope_account_id",
             "smithy.api#documentation": "Platform-wide (global) reports only: narrow the report to ledger lines on the ledger account owned by this account ID (a biz_ identifier). Ignored unless account_id is `global`."
+          }
+        },
+        "include_payment_fee_breakdown": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_payment_fee_breakdown",
+            "smithy.api#documentation": "Balance activity only: include payment costs grouped by payment method and provider."
           }
         }
       },
@@ -2921,6 +4441,129 @@
         "target": "smithy.api#String"
       },
       "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportResponsePaymentFeeBreakdownItemCategory": {
+      "type": "enum",
+      "members": {
+        "APP_STORE_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_store_payments"
+          }
+        },
+        "BANK_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bank_payments"
+          }
+        },
+        "BUY_NOW_PAY_LATER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now_pay_later"
+          }
+        },
+        "CARD_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_payments"
+          }
+        },
+        "CRYPTO_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "crypto_payments"
+          }
+        },
+        "FRAUD_PREVENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fraud_prevention"
+          }
+        },
+        "LOCAL_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_payments"
+          }
+        },
+        "OTHER_PAYMENT_METHODS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other_payment_methods"
+          }
+        },
+        "SUBSCRIPTION_BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription_billing"
+          }
+        },
+        "WALLET_PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wallet_payments"
+          }
+        },
+        "WHOP_BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_balance"
+          }
+        },
+        "WHOP_ORCHESTRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whop_orchestration"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The customer-facing payment method family or standalone service."
+      }
+    },
+    "com.whop.ledgers#GetFinancialReportResponsePaymentFeeBreakdownItem": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "com.whop.ledgers#Money",
+          "traits": {
+            "smithy.api#documentation": "Payment costs attributed to this payment method.",
+            "smithy.api#required": {}
+          }
+        },
+        "category": {
+          "target": "com.whop.ledgers#GetFinancialReportResponsePaymentFeeBreakdownItemCategory",
+          "traits": {
+            "smithy.api#documentation": "The customer-facing payment method family or standalone service.",
+            "smithy.api#required": {}
+          }
+        },
+        "payment_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The card brand, payment provider, payment rail, or standalone service.",
+            "smithy.api#required": {}
+          }
+        },
+        "period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the time bucket containing these payment costs.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportResponsePaymentFeeBreakdownList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ledgers#GetFinancialReportResponsePaymentFeeBreakdownItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Payment costs grouped by customer-facing payment method and provider when requested."
+      }
     },
     "com.whop.ledgers#GetFinancialReportResponseReportType": {
       "type": "enum",
@@ -3029,6 +4672,12 @@
             "smithy.api#enumValue": "misc"
           }
         },
+        "OPERATIONAL_COSTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "operational_costs"
+          }
+        },
         "OTHER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3039,6 +4688,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "payments"
+          }
+        },
+        "PLATFORM_CREDITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits"
           }
         },
         "REFUNDS": {
@@ -3161,6 +4816,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ad_spend_margin"
+          }
+        },
+        "AD_SPEND_PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_spend_purchase"
           }
         },
         "ADS_CARD_SPREAD": {
@@ -3397,6 +5058,24 @@
             "smithy.api#enumValue": "card_unload_transfer"
           }
         },
+        "CASHBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback"
+          }
+        },
+        "CASHBACK_EXPENSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback_expense"
+          }
+        },
+        "CASHBACK_FUNDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cashback_funding"
+          }
+        },
         "CLAWBACK_FEE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3539,6 +5218,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "dispute_unreconciled_reversal"
+          }
+        },
+        "ECONOMIC_INTELLIGENCE_PERCENTAGE_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "economic_intelligence_percentage_fee"
           }
         },
         "EXTERNAL_ACCOUNT_CONNECTION_FEE": {
@@ -3757,6 +5442,12 @@
             "smithy.api#enumValue": "misc_reversal"
           }
         },
+        "ONBOARDING_REWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onboarding_reward"
+          }
+        },
         "ONCHAIN_DEPOSIT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3815,6 +5506,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "orchestration_percentage_fee"
+          }
+        },
+        "PARTNER_GRANT_REWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner_grant_reward"
           }
         },
         "PASSTHROUGH_GMV": {
@@ -4051,6 +5748,24 @@
             "smithy.api#enumValue": "platform_covered_dispute"
           }
         },
+        "PLATFORM_CREDITS_GRANTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_granted"
+          }
+        },
+        "PLATFORM_CREDITS_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_payment"
+          }
+        },
+        "PLATFORM_CREDITS_PAYMENT_REFUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_credits_payment_refund"
+          }
+        },
         "PLATFORM_EARNING": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4069,6 +5784,18 @@
             "smithy.api#enumValue": "platform_earning_unreconciled_clearing"
           }
         },
+        "PLATFORM_MARKUP_FEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup_fee"
+          }
+        },
+        "PLATFORM_MARKUP_FEE_PAYOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup_fee_payout"
+          }
+        },
         "PROMO_REVERSAL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4079,6 +5806,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "psp_accelerated_settlement_fee"
+          }
+        },
+        "PSP_ACCOUNT_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "psp_account_debit"
           }
         },
         "PSP_ACCOUNT_UPDATER_FEE": {
@@ -4219,6 +5952,12 @@
             "smithy.api#enumValue": "psp_fixed_fee"
           }
         },
+        "PSP_FX_ADJUSTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "psp_fx_adjustment"
+          }
+        },
         "PSP_GATEWAY_FEE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4343,6 +6082,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "psp_pool_dispute_settlement"
+          }
+        },
+        "PSP_POOL_REFUND_CLEARING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "psp_pool_refund_clearing"
+          }
+        },
+        "PSP_POOL_REFUND_SETTLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "psp_pool_refund_settlement"
           }
         },
         "PSP_POOL_SETTLEMENT": {
@@ -4567,6 +6318,12 @@
             "smithy.api#enumValue": "settlement_rounding_variance"
           }
         },
+        "SETTLEMENT_SHORTFALL_LOSS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "settlement_shortfall_loss"
+          }
+        },
         "SOFTWARE_RENTAL_REVSHARE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4625,6 +6382,30 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "topup_reversal"
+          }
+        },
+        "TRADING_ACCOUNT_DEPOSIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trading_account_deposit"
+          }
+        },
+        "TRADING_ACCOUNT_DEPOSIT_OFFSET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trading_account_deposit_offset"
+          }
+        },
+        "TRADING_ACCOUNT_WITHDRAWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trading_account_withdrawal"
+          }
+        },
+        "TRADING_ACCOUNT_WITHDRAWAL_OFFSET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trading_account_withdrawal_offset"
           }
         },
         "TREASURY_FEE": {
@@ -4873,6 +6654,12 @@
         "fx_excluded_currencies": {
           "target": "com.whop.ledgers#GetFinancialReportResponseFxExcludedCurrenciesList"
         },
+        "payment_fee_breakdown": {
+          "target": "com.whop.ledgers#GetFinancialReportResponsePaymentFeeBreakdownList",
+          "traits": {
+            "smithy.api#documentation": "Payment costs grouped by customer-facing payment method and provider when requested."
+          }
+        },
         "report_type": {
           "target": "com.whop.ledgers#GetFinancialReportResponseReportType",
           "traits": {
@@ -4925,6 +6712,624 @@
         "smithy.api#documentation": "Get Financial Report\n\nReturns a financial report — balance activity, income statement, or balance summary — for an account over a date range."
       }
     },
+    "com.whop.ledgers#GetFinancialReportBreakdownRequestBucket": {
+      "type": "enum",
+      "members": {
+        "TRANSFERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfers"
+          }
+        },
+        "PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments"
+          }
+        },
+        "REFUNDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "refunds"
+          }
+        },
+        "ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads"
+          }
+        },
+        "APPLICATION_FEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application_fees"
+          }
+        },
+        "CARD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_spend"
+          }
+        },
+        "CARD_AUTHORIZATION_RELEASES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_authorization_releases"
+          }
+        },
+        "WITHDRAWALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawals"
+          }
+        },
+        "WITHDRAWAL_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup"
+          }
+        },
+        "PLATFORM_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup"
+          }
+        },
+        "CLAWBACKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clawbacks"
+          }
+        },
+        "DISPUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disputes"
+          }
+        },
+        "AFFILIATE_EARNINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate_earnings"
+          }
+        },
+        "AFFILIATE_PAYOUTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate_payouts"
+          }
+        },
+        "REVENUE_SHARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revenue_share"
+          }
+        },
+        "SWAPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swaps"
+          }
+        },
+        "CARD_LOADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_loads"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownRequestDirection": {
+      "type": "enum",
+      "members": {
+        "MONEY_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_in"
+          }
+        },
+        "MONEY_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_out"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownRequestGroupBy": {
+      "type": "enum",
+      "members": {
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The owning account ID (a biz_ identifier)."
+          }
+        },
+        "bucket": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownRequestBucket",
+          "traits": {
+            "smithy.api#httpQuery": "bucket",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The high-level report bucket to explain."
+          }
+        },
+        "direction": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Whether to explain money received or money sent."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "currency",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The report currency to explain."
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start of the report window as an ISO 8601 timestamp."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exclusive end of the report window as an ISO 8601 timestamp."
+          }
+        },
+        "group_by": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownRequestGroupBy",
+          "traits": {
+            "smithy.api#httpQuery": "group_by",
+            "smithy.api#documentation": "Period grouping used by the parent report."
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "timezone",
+            "smithy.api#documentation": "IANA timezone used by the parent report to bucket periods. Defaults to UTC."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseActivityFiltersDirection": {
+      "type": "enum",
+      "members": {
+        "MONEY_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_in"
+          }
+        },
+        "MONEY_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_out"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseActivityFiltersLineTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseActivityFilters": {
+      "type": "structure",
+      "members": {
+        "direction": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseActivityFiltersDirection",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "line_types": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseActivityFiltersLineTypesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseBucket": {
+      "type": "enum",
+      "members": {
+        "TRANSFERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfers"
+          }
+        },
+        "PAYMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payments"
+          }
+        },
+        "REFUNDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "refunds"
+          }
+        },
+        "ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ads"
+          }
+        },
+        "APPLICATION_FEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application_fees"
+          }
+        },
+        "CARD_SPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_spend"
+          }
+        },
+        "CARD_AUTHORIZATION_RELEASES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_authorization_releases"
+          }
+        },
+        "WITHDRAWALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawals"
+          }
+        },
+        "WITHDRAWAL_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_markup"
+          }
+        },
+        "PLATFORM_MARKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_markup"
+          }
+        },
+        "CLAWBACKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clawbacks"
+          }
+        },
+        "DISPUTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disputes"
+          }
+        },
+        "AFFILIATE_EARNINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate_earnings"
+          }
+        },
+        "AFFILIATE_PAYOUTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "affiliate_payouts"
+          }
+        },
+        "REVENUE_SHARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revenue_share"
+          }
+        },
+        "SWAPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swaps"
+          }
+        },
+        "CARD_LOADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_loads"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseDirection": {
+      "type": "enum",
+      "members": {
+        "MONEY_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_in"
+          }
+        },
+        "MONEY_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "money_out"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsItemAvatarShape": {
+      "type": "enum",
+      "members": {
+        "CIRCLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "circle"
+          }
+        },
+        "SQUARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "square"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsItemAvatar": {
+      "type": "structure",
+      "members": {
+        "shape": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsItemAvatarShape",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The image to show, or `null` to fall back to the row's initials.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsItemObject": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "MERCHANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "merchant"
+          }
+        },
+        "PAYOUT_DESTINATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payout_destination"
+          }
+        },
+        "BALANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "balance"
+          }
+        },
+        "WITHDRAWAL_ADJUSTMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "withdrawal_adjustment"
+          }
+        },
+        "AD_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_campaign"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsItem": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "com.whop.ledgers#Money",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "avatar": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsItemAvatar",
+          "traits": {
+            "smithy.api#documentation": "How to draw the row's icon. `null` when the row has nothing to show (balances, adjustments, ad campaigns), so clients render no icon rather than a placeholder.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An opaque identifier for this grouping within the breakdown.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsItemObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The prefixed identifier of the represented Whop resource, when one exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsItem"
+      },
+      "traits": {}
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdownResponse": {
+      "type": "structure",
+      "members": {
+        "activity_filters": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseActivityFilters",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bucket": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseBucket",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseDirection",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdownResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "other_amount": {
+          "target": "com.whop.ledgers#Money",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "other_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.ledgers#GetFinancialReportBreakdown": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.ledgers#GetFinancialReportBreakdownRequest"
+      },
+      "output": {
+        "target": "com.whop.ledgers#GetFinancialReportBreakdownResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.ledgers#BadRequest"
+        },
+        {
+          "target": "com.whop.ledgers#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/financial_reports/breakdown",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Financial Report Breakdown\n\nReturns the top entities behind one high-level financial report bucket and an aggregate remainder."
+      }
+    },
     "com.whop.ledgers#BadRequest": {
       "type": "structure",
       "members": {},
@@ -4973,6 +7378,9 @@
         },
         {
           "target": "com.whop.ledgers#GetFinancialReport"
+        },
+        {
+          "target": "com.whop.ledgers#GetFinancialReportBreakdown"
         }
       ],
       "traits": {

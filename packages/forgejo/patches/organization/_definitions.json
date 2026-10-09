@@ -1,15 +1,196 @@
 {
-  "description": "Mark the always-present members of the organization-tag response definitions as required. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so an organization's `id` and `username` and a team's `id` and `name` type as optional even though they are plain struct members serialized on every response. Descriptions, visibility and the permission-unit lists stay optional.",
+  "description": "Mark the always-present members of the organization-tag response definitions as required. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so an organization's `id` and `username` and a team's `id` and `name` type as optional even though they are plain struct members serialized on every response. Descriptions, visibility and the permission-unit lists stay optional.. Also, from repository/_definitions.json: Mark the always-present members of the repository-tag response definitions as required. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so every response member types as optional and a caller has to defend against a repository without an `id` or a hook without an `url` — shapes Forgejo never produces: these fields are plain (non-pointer, non-omitempty) struct members serialized on every response. Only identity and timestamp members that every consumer needs are listed; genuinely optional data (descriptions, counters, nested trackers) and slices Go may serialize as `null` (`events`, `topics`) stay optional. Also, from user/_definitions.json: Mark the always-present members of the User definition as required. Forgejo's Swagger is generated from Go structs with no `required` lists at all, so a user's `id` and `login` type as optional even though they are plain struct members serialized on every response — including the `owner` nested in every repository.",
   "patches": [
     {
       "op": "add",
-      "path": "/definitions/Organization/required",
-      "value": ["id", "username"]
+      "path": "/shapes/com.forgejo.organization#Label/members/color/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     },
     {
       "op": "add",
-      "path": "/definitions/Team/required",
-      "value": ["id", "name"]
+      "path": "/shapes/com.forgejo.organization#Label/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Label/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Organization/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Organization/members/username/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Team/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Team/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Secret/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Secret/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#ActionVariable/members/data/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#ActionVariable/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/clone_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/default_branch/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/full_name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/html_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/owner/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/ssh_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Repository/members/updated_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Hook/members/active/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Hook/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Hook/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Hook/members/type/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Hook/members/updated_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Hook/members/url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#User/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#User/members/login/traits/smithy.api#required",
+      "value": {}
     }
   ]
 }

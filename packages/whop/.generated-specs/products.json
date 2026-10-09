@@ -166,28 +166,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of products to return (default and max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns products after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of products to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor; returns products before this position."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         },
         "created_after": {
@@ -218,6 +218,13 @@
             "smithy.api#documentation": "Account that sells this product.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "average_review_rating": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Average star rating across published reviews for this product, from `1.0` to `5.0`. Returns `0.0` when no published-review rating is available.",
+            "smithy.api#required": {}
           }
         },
         "created_at": {
@@ -319,6 +326,14 @@
           "traits": {
             "smithy.api#documentation": "When the product was last updated, as an ISO 8601 timestamp.",
             "smithy.api#required": {}
+          }
+        },
+        "variant_attributes": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The option set the product's variants span, as a map of attribute name to the values in use, e.g. `{\"color\": [\"Blue\", \"Red\"], \"size\": [\"S\", \"M\", \"L\"]}`. Derived from the visible, non-invoice plans that carry `attributes`: keys alphabetical, values in the order the plans were created. Read-only. `null` when the product has no variants.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "verified": {
@@ -715,6 +730,33 @@
         "smithy.api#documentation": "The call-to-action button label."
       }
     },
+    "com.whop.products#CreateProductRequestGalleryImagesItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed ID of a completed direct upload, as an alternative to id."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of an already-uploaded attachment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#CreateProductRequestGalleryImagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.products#CreateProductRequestGalleryImagesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery."
+      }
+    },
     "com.whop.products#CreateProductRequestGlobalAffiliateStatus": {
       "type": "enum",
       "members": {
@@ -804,7 +846,14 @@
         "description": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A written description displayed on the product page.",
+            "smithy.api#documentation": "A written description displayed on the product page. Maximum 1,500 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gallery_images": {
+          "target": "com.whop.products#CreateProductRequestGalleryImagesList",
+          "traits": {
+            "smithy.api#documentation": "Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -824,7 +873,7 @@
         "headline": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short marketing headline for the product page.",
+            "smithy.api#documentation": "A short marketing headline for the product page. Maximum 80 characters.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -917,6 +966,13 @@
             "smithy.api#documentation": "Account that sells this product.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "average_review_rating": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Average star rating across published reviews for this product, from `1.0` to `5.0`. Returns `0.0` when no published-review rating is available.",
+            "smithy.api#required": {}
           }
         },
         "created_at": {
@@ -1097,6 +1153,21 @@
           "traits": {
             "smithy.api#documentation": "When the product was last updated, as an ISO 8601 timestamp.",
             "smithy.api#required": {}
+          }
+        },
+        "variant_attributes": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The option set the product's variants span, as a map of attribute name to the values in use, e.g. `{\"color\": [\"Blue\", \"Red\"], \"size\": [\"S\", \"M\", \"L\"]}`. Derived from the visible, non-invoice plans that carry `attributes`: keys alphabetical, values in the order the plans were created. Read-only. `null` when the product has no variants.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "variants": {
+          "target": "com.whop.products#ProductVariantsList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "verified": {
@@ -1283,6 +1354,515 @@
         "smithy.api#documentation": "Enrollment status in the member affiliate program."
       }
     },
+    "com.whop.products#PlanListItem": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.whop.products#AccountSummary",
+          "traits": {
+            "smithy.api#documentation": "Account that sells this plan; `null` for standalone invoice plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "adaptive_pricing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether adaptive pricing is enabled for this plan. Raw setting — does not check processor compatibility or feature flags.",
+            "smithy.api#required": {}
+          }
+        },
+        "attributes": {
+          "target": "com.whop.products#PlanListItemAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{\"color\": \"Blue\", \"size\": \"Large\"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of days between recurring charges, such as 30 for monthly or 365 for annual. `null` for one-time plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_discount_intervals": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Billing intervals the cancellation discount applies to (`0` forever, `1` first payment, or a month count). `null` when none is offered or the actor lacks the `plan:basic:read` scope.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancel_discount_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cancellation discount as a whole-number percentage. `null` when none is offered or the actor lacks the `plan:basic:read` scope.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "checkout_styling": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Plan-level checkout styling (`background_color`, `button_color`, `font_family`, `border_style`); `null` inherits the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the plan was created, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Three-letter ISO currency code for this plan's prices.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_fields": {
+          "target": "com.whop.products#PlanListItemCustomFieldsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-visible plan description. Maximum 1000 characters. `null` if no description is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Access duration in days for expiration-based plans, such as 365 for a one-year pass. `null` for plans without an expiration.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "formatted_price": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable price for display (currency + interval), e.g. \"$10 / month\".",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan ID, prefixed `plan_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "image": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Pricing-tier image (`url`, `blurhash`) shown on the product page; `null` when no image is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Initial purchase price in plan currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "initial_price_due": {
+          "target": "com.whop.products#Money",
+          "traits": {
+            "smithy.api#documentation": "Total charged at checkout for one unit, before promo codes and tax: `initial_price` plus the first `renewal_price` for recurring plans, or `initial_price` alone while a free trial applies. The trial does not apply when the viewing user has already used one for this plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "internal_notes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private notes not shown to customers. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "invoice": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Invoice this plan was generated for; `null` unless created for an invoice.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Active memberships through this plan. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Maximum 50 keys, 100 characters per key, 500 characters per value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "offer_cancel_discount": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a cancellation discount is offered. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payment_method_configuration": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Payment method configuration (`enabled`, `disabled`, `include_platform_defaults`); `null` when plan uses default settings.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "plan_type": {
+          "target": "com.whop.products#PlanListItemPlanType",
+          "traits": {
+            "smithy.api#documentation": "Billing model for this plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "product": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Product this plan belongs to; `null` for standalone plans.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "purchase_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL where customers can purchase this plan directly.",
+            "smithy.api#required": {}
+          }
+        },
+        "release_method": {
+          "target": "com.whop.products#PlanListItemReleaseMethod",
+          "traits": {
+            "smithy.api#documentation": "Sales method for this plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Recurring price charged every billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stock keeping unit, free text set by the seller (e.g. `TSHIRT-LARGE-BLUE`). Not enforced unique. `null` when unset.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "split_pay_required_payments": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Installment payments required before the subscription pauses. Must be greater than 1. `null` if split pay is not configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stock": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Units available for purchase. `null` unless the actor has the `plan:basic:read` scope on the plan's account.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strike_through_initial_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Original initial price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strike_through_renewal_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Original renewal price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "three_ds_level": {
+          "target": "com.whop.products#PlanListItemThreeDsLevel",
+          "traits": {
+            "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan display name shown to customers. Maximum 30 characters. A variant created without one defaults to its attribute values joined with ` / `. `null` if no title has been set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trial_period_days": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Free trial days before the first renewal charge. `null` if no trial is configured or the user has already used a trial for this plan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unlimited_stock": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the plan has unlimited stock. When `true`, the `stock` field is ignored; waitlist plans always report `true`.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the plan was last updated, as an ISO 8601 timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.whop.products#PlanListItemVisibility",
+          "traits": {
+            "smithy.api#documentation": "Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#AccountSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account ID, prefixed `biz_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#PlanListItemAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{\"color\": \"Blue\", \"size\": \"Large\"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant."
+      }
+    },
+    "com.whop.products#PlanCustomField": {
+      "type": "structure",
+      "members": {
+        "field_type": {
+          "target": "com.whop.products#PlanCustomFieldFieldType",
+          "traits": {
+            "smithy.api#documentation": "Custom field input type.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom field ID, prefixed `field_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Field label shown to customer at checkout.",
+            "smithy.api#required": {}
+          }
+        },
+        "order": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Field position on checkout form.",
+            "smithy.api#required": {}
+          }
+        },
+        "placeholder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Placeholder text shown in the empty field. `null` if none is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the customer must complete this field to check out.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#PlanCustomFieldFieldType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom field input type."
+      }
+    },
+    "com.whop.products#PlanListItemCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.products#PlanCustomField"
+      },
+      "traits": {}
+    },
+    "com.whop.products#PlanListItemPlanType": {
+      "type": "enum",
+      "members": {
+        "RENEWAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewal"
+          }
+        },
+        "ONE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_time"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Billing model for this plan."
+      }
+    },
+    "com.whop.products#PlanListItemReleaseMethod": {
+      "type": "enum",
+      "members": {
+        "BUY_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "buy_now"
+          }
+        },
+        "WAITLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waitlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sales method for this plan."
+      }
+    },
+    "com.whop.products#PlanListItemThreeDsLevel": {
+      "type": "enum",
+      "members": {
+        "MANDATE_CHALLENGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_challenge"
+          }
+        },
+        "MANDATE_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mandate_if_required"
+          }
+        },
+        "FRICTIONLESS_IF_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frictionless_if_required"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default."
+      }
+    },
+    "com.whop.products#PlanListItemVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visible"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hidden"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "QUICK_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quick_link"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link."
+      }
+    },
+    "com.whop.products#ProductVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.products#PlanListItem"
+      },
+      "traits": {}
+    },
     "com.whop.products#CreateProduct": {
       "type": "operation",
       "input": {
@@ -1363,6 +1943,33 @@
         "smithy.api#documentation": "A wide image for the product, shown on the product page and on listing cards. Pass `{ id }` for an existing attachment or `{ direct_upload_id }` for a completed direct upload; `null` removes it."
       }
     },
+    "com.whop.products#UpdateProductRequestGalleryImagesItem": {
+      "type": "structure",
+      "members": {
+        "direct_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signed ID of a completed direct upload, as an alternative to id."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag of an already-uploaded attachment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.products#UpdateProductRequestGalleryImagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.products#UpdateProductRequestGalleryImagesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery."
+      }
+    },
     "com.whop.products#UpdateProductRequestLabelsList": {
       "type": "list",
       "member": {
@@ -1393,14 +2000,21 @@
         "description": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A written description displayed on the product page.",
+            "smithy.api#documentation": "A written description displayed on the product page. Maximum 1,500 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gallery_images": {
+          "target": "com.whop.products#UpdateProductRequestGalleryImagesList",
+          "traits": {
+            "smithy.api#documentation": "Images or videos displayed in the product gallery, in display order. Replaces the existing gallery. Send an empty array to clear it; omit or pass null to leave it unchanged. A banner image does not populate the gallery.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "headline": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short marketing headline for the product page.",
+            "smithy.api#documentation": "A short marketing headline for the product page. Maximum 80 characters.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1435,7 +2049,7 @@
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The display name of the product."
+            "smithy.api#documentation": "The display name of the product. Maximum 80 characters."
           }
         },
         "visibility": {
@@ -1576,7 +2190,7 @@
           "uri": "/products/{id}/publish",
           "code": 200
         },
-        "smithy.api#documentation": "Publish Product\n\nSubmits a product to the whop.com marketplace for review. The product moves to `pending_review`; a Whop reviewer approves it before it goes live."
+        "smithy.api#documentation": "Publish Product\n\nSubmits a product to the whop.com marketplace for review. The product moves to `pending_review`; a Whop reviewer approves it before it goes live. Requires a logo, a headline, and at least one gallery image or video; the request fails naming whichever is missing."
       }
     },
     "com.whop.products#UnpublishProductRequest": {

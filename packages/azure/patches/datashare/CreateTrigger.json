@@ -3,7 +3,7 @@
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.azure.datashare#CreateTriggerRequest/members/properties",
+      "path": "/shapes/com.azure.datashare#TriggersCreateRequest/members/properties",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
@@ -13,7 +13,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.datashare#CreateTriggerResponse/members/properties",
+      "path": "/shapes/com.azure.datashare#TriggersCreateResponse/members/properties",
       "value": {
         "target": "smithy.api#Document",
         "traits": {
@@ -23,7 +23,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.datashare#GetTriggerResponse/members/properties",
+      "path": "/shapes/com.azure.datashare#TriggersGetResponse/members/properties",
       "value": {
         "target": "smithy.api#Document",
         "traits": {

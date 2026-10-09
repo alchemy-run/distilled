@@ -81,23 +81,23 @@ export const ComputeFoldersContactsNotificationCategoriesEnumList = /*@__PURE__*
 ) as any as S.Schema<ComputeFoldersContactsNotificationCategoriesEnumList>;
 
 export interface ComputeFoldersContactsRequest {
-  /** Required. The name of the resource to compute contacts for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
-  parent: string;
-  /** The categories of notifications to compute contacts for. If ALL is included in this list, contacts subscribed to any notification category will be returned. */
-  notificationCategories?: ComputeFoldersContactsNotificationCategoriesEnumList;
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string;
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
+  pageSize?: number;
+  /** The categories of notifications to compute contacts for. If ALL is included in this list, contacts subscribed to any notification category will be returned. */
+  notificationCategories?: ComputeFoldersContactsNotificationCategoriesEnumList;
+  /** Required. The name of the resource to compute contacts for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
+  parent: string;
 }
 export const ComputeFoldersContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     notificationCategories: S.optional(
       ComputeFoldersContactsNotificationCategoriesEnumList.pipe(T.Query()),
     ),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -108,6 +108,12 @@ export const ComputeFoldersContactsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ComputeFoldersContactsRequest",
 }) as any as S.Schema<ComputeFoldersContactsRequest>;
+
+export type GoogleCloudEssentialcontactsV1ContactValidationStateEnum =
+  | "VALIDATION_STATE_UNSPECIFIED"
+  | "VALID"
+  | "INVALID";
+export const GoogleCloudEssentialcontactsV1ContactValidationStateEnum = S.String;
 
 export type GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnum =
   | "NOTIFICATION_CATEGORY_UNSPECIFIED"
@@ -131,37 +137,31 @@ export const GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscripti
     GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnum,
   ) as any as S.Schema<GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList>;
 
-export type GoogleCloudEssentialcontactsV1ContactValidationStateEnum =
-  | "VALIDATION_STATE_UNSPECIFIED"
-  | "VALID"
-  | "INVALID";
-export const GoogleCloudEssentialcontactsV1ContactValidationStateEnum = S.String;
-
 /** A contact that will receive notifications from Google Cloud. */
 export interface GoogleCloudEssentialcontactsV1Contact {
-  /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
-  email?: string;
-  /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
-  validateTime?: string;
-  /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
-  languageTag?: string;
-  /** Required. The categories of notifications that the contact will receive communications for. */
-  notificationCategorySubscriptions?: GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name?: string;
+  /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
+  email?: string;
   /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
   validationState?: GoogleCloudEssentialcontactsV1ContactValidationStateEnum | (string & {});
+  /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
+  validateTime?: string;
+  /** Required. The categories of notifications that the contact will receive communications for. */
+  notificationCategorySubscriptions?: GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList;
+  /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
+  languageTag?: string;
 }
 export const GoogleCloudEssentialcontactsV1Contact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     email: S.optional(S.String),
+    validationState: S.optional(GoogleCloudEssentialcontactsV1ContactValidationStateEnum),
     validateTime: S.optional(S.String),
-    languageTag: S.optional(S.String),
     notificationCategorySubscriptions: S.optional(
       GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList,
     ),
-    name: S.optional(S.String),
-    validationState: S.optional(GoogleCloudEssentialcontactsV1ContactValidationStateEnum),
+    languageTag: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudEssentialcontactsV1Contact",
@@ -175,15 +175,15 @@ export const GoogleCloudEssentialcontactsV1ContactList = /*@__PURE__*/ S.Array(
 
 /** Response message for the ComputeContacts method. */
 export interface GoogleCloudEssentialcontactsV1ComputeContactsResponse {
-  /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token` and the rest of the parameters the same as the original request. */
-  nextPageToken?: string;
   /** All contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
   contacts?: GoogleCloudEssentialcontactsV1ContactList;
+  /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token` and the rest of the parameters the same as the original request. */
+  nextPageToken?: string;
 }
 export const GoogleCloudEssentialcontactsV1ComputeContactsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     contacts: S.optional(GoogleCloudEssentialcontactsV1ContactList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudEssentialcontactsV1ComputeContactsResponse",
@@ -211,21 +211,21 @@ export const ComputeOrganizationsContactsNotificationCategoriesEnumList = /*@__P
 export interface ComputeOrganizationsContactsRequest {
   /** Required. The name of the resource to compute contacts for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
-  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
   /** The categories of notifications to compute contacts for. If ALL is included in this list, contacts subscribed to any notification category will be returned. */
   notificationCategories?: ComputeOrganizationsContactsNotificationCategoriesEnumList;
+  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
+  pageToken?: string;
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
+  pageSize?: number;
 }
 export const ComputeOrganizationsContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     notificationCategories: S.optional(
       ComputeOrganizationsContactsNotificationCategoriesEnumList.pipe(T.Query()),
     ),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -257,23 +257,23 @@ export const ComputeProjectsContactsNotificationCategoriesEnumList = /*@__PURE__
 ) as any as S.Schema<ComputeProjectsContactsNotificationCategoriesEnumList>;
 
 export interface ComputeProjectsContactsRequest {
-  /** The categories of notifications to compute contacts for. If ALL is included in this list, contacts subscribed to any notification category will be returned. */
-  notificationCategories?: ComputeProjectsContactsNotificationCategoriesEnumList;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
   pageSize?: number;
-  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
+  /** The categories of notifications to compute contacts for. If ALL is included in this list, contacts subscribed to any notification category will be returned. */
+  notificationCategories?: ComputeProjectsContactsNotificationCategoriesEnumList;
   /** Required. The name of the resource to compute contacts for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
+  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
+  pageToken?: string;
 }
 export const ComputeProjectsContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     notificationCategories: S.optional(
       ComputeProjectsContactsNotificationCategoriesEnumList.pipe(T.Query()),
     ),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -463,18 +463,18 @@ export const GetProjectsContactsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsContactsRequest>;
 
 export interface ListFoldersContactsRequest {
-  /** Required. The parent resource name. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
-  parent: string;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
   pageSize?: number;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string;
+  /** Required. The parent resource name. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
+  parent: string;
 }
 export const ListFoldersContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -505,16 +505,16 @@ export const GoogleCloudEssentialcontactsV1ListContactsResponse = /*@__PURE__*/ 
 export interface ListOrganizationsContactsRequest {
   /** Required. The parent resource name. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
-  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
   pageSize?: number;
+  /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
+  pageToken?: string;
 }
 export const ListOrganizationsContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -527,18 +527,18 @@ export const ListOrganizationsContactsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOrganizationsContactsRequest>;
 
 export interface ListProjectsContactsRequest {
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
+  pageSize?: number;
   /** Required. The parent resource name. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string;
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. If not specified, the default page_size is 100. */
-  pageSize?: number;
 }
 export const ListProjectsContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",

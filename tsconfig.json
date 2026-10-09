@@ -539,6 +539,12 @@
     },
     {
       "path": "./packages/boat-dev/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/notion/tsconfig.json"
+    },
+    {
+      "path": "./packages/notion/tsconfig.scripts.json"
     }
   ]
 }

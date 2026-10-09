@@ -7531,7 +7531,7 @@
               "type": "String!"
             }
           },
-          "errors": ["RailwayNotFound"],
+          "errors": ["RailwayNotFound", "RailwayLoginSessionNotFound"],
           "description": "Get a token for a login session if it exists"
         },
         "loginSessionCreate": {
@@ -22869,6 +22869,16 @@
         {
           "code": "INTERNAL_SERVER_ERROR",
           "message": "publicDomains supports at most 10 domains"
+        }
+      ]
+    },
+    "RailwayLoginSessionNotFound": {
+      "description": "The login session does not exist: it was cancelled, consumed, or expired. Stop polling and start a new session.",
+      "category": "notFound",
+      "matchers": [
+        {
+          "code": "BAD_USER_INPUT",
+          "messageIncludes": "does not exist"
         }
       ]
     }

@@ -3,443 +3,1699 @@
   "patches": [
     {
       "op": "remove",
-      "path": "/components/schemas/UserObject/required"
+      "path": "/shapes/com.workos.api#ApiKeysControllerValidateApiKeyRequest/members/value/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserConsentOption/required"
+      "path": "/shapes/com.workos.api#ApiKeyValidationResponse/members/api_key/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserManagementLoginRequest/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ValidateApiKeyDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/RedirectUriDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/owner/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateOAuthApplicationDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/name/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateM2MApplicationDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/obfuscated_value/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogEventActorDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/last_used_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogEventTargetDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/expires_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogEventContextDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/permissions/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogEventDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogEventIngestionDto/required"
+      "path": "/shapes/com.workos.api#ApiKey/members/updated_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogExportCreationDto/required"
+      "path": "/shapes/com.workos.api#AuditLogActionJson/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogSchemaActorDto/required"
+      "path": "/shapes/com.workos.api#AuditLogActionJson/members/name/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogSchemaTargetDto/required"
+      "path": "/shapes/com.workos.api#AuditLogActionJson/members/schema/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogSchemaDto/required"
+      "path": "/shapes/com.workos.api#AuditLogActionJson/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/SetRolePermissionsDto/required"
+      "path": "/shapes/com.workos.api#AuditLogActionJson/members/updated_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateOrganizationRoleDto/required"
+      "path": "/shapes/com.workos.api#AuditLogSchemaJson/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateAuthorizationPermissionDto/required"
+      "path": "/shapes/com.workos.api#AuditLogSchemaJson/members/version/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateRoleDto/required"
+      "path": "/shapes/com.workos.api#AuditLogSchemaJson/members/targets/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateCorsOriginDto/required"
+      "path": "/shapes/com.workos.api#AuditLogSchemaJson/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateGroupMembershipDto/required"
+      "path": "/shapes/com.workos.api#AuditLogSchemaActorDto/members/metadata/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateGroupDto/required"
+      "path": "/shapes/com.workos.api#AuditLogSchemaTargetDto/members/type/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UpdateJwtTemplateDto/required"
+      "path": "/shapes/com.workos.api#AuditLogValidatorVersionsControllerCreateRequest/members/targets/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateOrganizationDomainDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventDto/members/action/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateOrganizationApiKeyDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventDto/members/occurred_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/OrganizationDomainDataDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventDto/members/actor/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateRedirectUriDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventDto/members/targets/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/EnrollUserlandUserAuthenticationFactorDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventDto/members/context/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateUserlandMagicCodeAndReturnDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventActorDto/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateUserlandUserInviteOptionsDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventActorDto/members/type/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/VerifyEmailAddressDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventTargetDto/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreatePasswordResetTokenDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventTargetDto/members/type/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreatePasswordResetDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventContextDto/members/location/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/SendEmailChangeDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventsControllerCreateRequest/members/organization_id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ConfirmEmailChangeDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventsControllerCreateRequest/members/event/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandRevokeSessionDto/required"
+      "path": "/shapes/com.workos.api#AuditLogEventCreateResponse/members/success/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CreateWebhookEndpointDto/required"
+      "path": "/shapes/com.workos.api#AuditLogExportsControllerExportsRequest/members/organization_id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ExternalAuthCompleteResponse/required"
+      "path": "/shapes/com.workos.api#AuditLogExportsControllerExportsRequest/members/range_start/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ApiKey/required"
+      "path": "/shapes/com.workos.api#AuditLogExportsControllerExportsRequest/members/range_end/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ApiKeyValidationResponse/required"
+      "path": "/shapes/com.workos.api#AuditLogExportJson/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ConnectApplicationList/required"
+      "path": "/shapes/com.workos.api#AuditLogExportJson/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthorizedConnectApplicationList/required"
+      "path": "/shapes/com.workos.api#AuditLogExportJson/members/state/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/NewConnectApplicationSecret/required"
+      "path": "/shapes/com.workos.api#AuditLogExportJson/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogEventCreateResponse/required"
+      "path": "/shapes/com.workos.api#AuditLogExportJson/members/updated_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogExportJson/required"
+      "path": "/shapes/com.workos.api#AuthenticationChallengeVerifyResponse/members/challenge/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogsRetentionJson/required"
+      "path": "/shapes/com.workos.api#AuthenticationChallengeVerifyResponse/members/valid/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogSchemaJson/required"
+      "path": "/shapes/com.workos.api#AuthenticationChallenge/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogActionJson/required"
+      "path": "/shapes/com.workos.api#AuthenticationChallenge/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthenticationChallenge/required"
+      "path": "/shapes/com.workos.api#AuthenticationChallenge/members/authentication_factor_id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthenticationChallengeVerifyResponse/required"
+      "path": "/shapes/com.workos.api#AuthenticationChallenge/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthenticationFactorEnrolled/required"
+      "path": "/shapes/com.workos.api#AuthenticationChallenge/members/updated_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthenticationFactor/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactorEnrolled/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthorizationCheck/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactorEnrolled/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthorizationResource/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactorEnrolled/members/type/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthorizationResourceList/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactorEnrolled/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthorizationPermission/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactorEnrolled/members/updated_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuthorizationPermissionList/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactor/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/SlimRole/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactor/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/Role/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactor/members/type/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/RoleList/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactor/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandUserOrganizationMembershipBaseList/required"
+      "path": "/shapes/com.workos.api#AuthenticationFactor/members/updated_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/Connection/required"
+      "path": "/shapes/com.workos.api#UserObject/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ConnectionList/required"
+      "path": "/shapes/com.workos.api#UserObject/members/email/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/CorsOriginResponse/required"
+      "path": "/shapes/com.workos.api#UserConsentOption/members/claim/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/Directory/required"
+      "path": "/shapes/com.workos.api#UserConsentOption/members/type/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/DirectoryList/required"
+      "path": "/shapes/com.workos.api#UserConsentOption/members/label/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/DirectoryGroup/required"
+      "path": "/shapes/com.workos.api#UserConsentOption/members/choices/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/DirectoryGroupList/required"
+      "path": "/shapes/com.workos.api#ExternalAuthControllerCompleteLoginRequest/members/external_auth_id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/DirectoryUserWithGroups/required"
+      "path": "/shapes/com.workos.api#ExternalAuthControllerCompleteLoginRequest/members/user/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/DirectoryUserList/required"
+      "path": "/shapes/com.workos.api#ExternalAuthCompleteResponse/members/redirect_uri/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/Group/required"
+      "path": "/shapes/com.workos.api#SlimRole/members/slug/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/GroupList/required"
+      "path": "/shapes/com.workos.api#AuthorizationCheck/members/authorized/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandUser/required"
+      "path": "/shapes/com.workos.api#AuthorizationResourceList/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/EventList/required"
+      "path": "/shapes/com.workos.api#AuthorizationResourceList/members/data/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/OrganizationDomainStandAlone/required"
+      "path": "/shapes/com.workos.api#AuthorizationResourceList/members/list_metadata/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/Flag/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/FlagList/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/name/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/Organization/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/description/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/OrganizationList/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/organization_id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AuditLogConfiguration/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/parent_resource_id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/DataIntegrationAuthorizeUrlResponse/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ConnectedAccount/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/external_id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/DataIntegrationsListResponse/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/resource_type_slug/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/PortalLinkResponse/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/RadarStandaloneResponse/required"
+      "path": "/shapes/com.workos.api#AuthorizationResource/members/updated_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/RadarListEntryAlreadyPresentResponse/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermissionList/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/RedirectUri/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermissionList/members/data/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandUserAuthenticationFactorList/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermissionList/members/list_metadata/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandUserAuthenticationFactorEnrollResponse/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/MagicAuth/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandUserInvite/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/slug/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandUserOrganizationMembership/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/name/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandUserList/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/description/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/EmailVerification/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/system/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/SendVerificationEmailResponse/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/resource_type_slug/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/VerifyEmailResponse/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/PasswordReset/required"
+      "path": "/shapes/com.workos.api#AuthorizationPermission/members/updated_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/ResetPasswordResponse/required"
+      "path": "/shapes/com.workos.api#RoleList/members/object/traits"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/EmailChange/required"
+      "path": "/shapes/com.workos.api#RoleList/members/data/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/UserlandAuthenticateResponse/required"
+      "path": "/shapes/com.workos.api#Role/members/slug/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/DeviceAuthorizationResponse/required"
+      "path": "/shapes/com.workos.api#Role/members/object/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/WebhookEndpointJson/required"
+      "path": "/shapes/com.workos.api#Role/members/id/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/WebhookEndpointList/required"
+      "path": "/shapes/com.workos.api#Role/members/name/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/WidgetSessionTokenResponse/required"
+      "path": "/shapes/com.workos.api#Role/members/description/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/SsoAuthorizeUrlResponse/required"
+      "path": "/shapes/com.workos.api#Role/members/type/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/Profile/required"
+      "path": "/shapes/com.workos.api#Role/members/resource_type_slug/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/SsoTokenResponse/required"
+      "path": "/shapes/com.workos.api#Role/members/permissions/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/SsoLogoutAuthorizeResponse/required"
+      "path": "/shapes/com.workos.api#Role/members/created_at/traits/smithy.api#required"
     },
     {
       "op": "remove",
-      "path": "/components/schemas/JwksResponse/required"
+      "path": "/shapes/com.workos.api#Role/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizationOrganizationRolesControllerCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizationOrganizationRolePermissionsControllerSetPermissionsRequest/members/permissions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/first_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/last_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/profile_picture_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/email_verified/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/external_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/last_sign_in_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUser/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizationPermissionsControllerCreateRequest/members/slug/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizationPermissionsControllerCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizationRolesControllerCreateRequest/members/slug/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizationRolesControllerCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizationRolePermissionsControllerSetPermissionsRequest/members/permissions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectApplicationList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectApplicationList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectApplicationList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CreateOAuthApplicationDto/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CreateOAuthApplicationDto/members/application_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CreateOAuthApplicationDto/members/is_first_party/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RedirectUriDto/members/uri/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CreateM2MApplicationDto/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CreateM2MApplicationDto/members/application_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CreateM2MApplicationDto/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#NewConnectApplicationSecret/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#NewConnectApplicationSecret/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#NewConnectApplicationSecret/members/secret_hint/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#NewConnectApplicationSecret/members/last_used_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#NewConnectApplicationSecret/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#NewConnectApplicationSecret/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#NewConnectApplicationSecret/members/secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectionList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectionList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectionList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/connection_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/domains/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Connection/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DataIntegrationAuthorizeUrlResponse/members/url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/external_key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Directory/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroupList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroupList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroupList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroup/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroup/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroup/members/idp_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroup/members/directory_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroup/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroup/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroup/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryGroup/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/directory_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/idp_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/raw_attributes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/custom_attributes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/groups/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EventList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EventList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EventList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#FlagList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#FlagList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#FlagList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/slug/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/owner/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/tags/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/enabled/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/default_value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Flag/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainsControllerCreateRequest/members/domain/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainsControllerCreateRequest/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainStandAlone/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainStandAlone/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainStandAlone/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainStandAlone/members/domain/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainStandAlone/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainStandAlone/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Organization/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Organization/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Organization/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Organization/members/domains/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Organization/members/metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Organization/members/external_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Organization/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Organization/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainDataDto/members/domain/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationDomainDataDto/members/state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuditLogConfiguration/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuditLogConfiguration/members/retention_period_in_days/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuditLogConfiguration/members/state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuditLogsRetentionJson/members/retention_period_in_days/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#OrganizationApiKeysControllerCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#GroupList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#GroupList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#GroupList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Group/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Group/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Group/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Group/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Group/members/description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Group/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Group/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#GroupsControllerCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembershipBaseList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembershipBaseList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembershipBaseList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#GroupMembershipsControllerAddMemberRequest/members/organization_membership_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/connection_role/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/account_identifier/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/account_display_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/user_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/scopes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ConnectedAccount/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DataIntegrationsListResponse/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DataIntegrationsListResponse/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PortalLinkResponse/members/link/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RadarStandaloneResponse/members/verdict/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RadarStandaloneResponse/members/reason/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RadarStandaloneResponse/members/attempt_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RadarListEntryAlreadyPresentResponse/members/message/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#SsoAuthorizeUrlResponse/members/url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#JwksResponse/members/keys/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#SsoLogoutAuthorizeResponse/members/logout_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#SsoLogoutAuthorizeResponse/members/logout_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/connection_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/connection_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/idp_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/first_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/last_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#Profile/members/raw_attributes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#SsoTokenResponse/members/token_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#SsoTokenResponse/members/access_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#SsoTokenResponse/members/expires_in/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#SsoTokenResponse/members/profile/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandAuthenticateResponse/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandAuthenticateResponse/members/access_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandAuthenticateResponse/members/refresh_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DeviceAuthorizationResponse/members/device_code/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DeviceAuthorizationResponse/members/user_code/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DeviceAuthorizationResponse/members/verification_uri/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#DeviceAuthorizationResponse/members/expires_in/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CorsOriginResponse/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CorsOriginResponse/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CorsOriginResponse/members/origin/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CorsOriginResponse/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CorsOriginResponse/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#CorsOriginsControllerCreateCorsOriginRequest/members/origin/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailVerification/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailVerification/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailVerification/members/user_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailVerification/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailVerification/members/expires_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailVerification/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailVerification/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailVerification/members/code/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/accepted_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/revoked_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/expires_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/inviter_user_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/accepted_user_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/role_slug/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvite/members/accept_invitation_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserInvitesControllerCreateRequest/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#JwtTemplatesControllerUpdateJwtTemplateRequest/members/content/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequest/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse/members/user_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse/members/expires_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse/members/code/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#MagicAuth/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#MagicAuth/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#MagicAuth/members/user_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#MagicAuth/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#MagicAuth/members/expires_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#MagicAuth/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#MagicAuth/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#MagicAuth/members/code/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/user_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/organization_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/directory_managed/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/role/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/roles/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserOrganizationMembership/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreatePasswordResetTokenRequest/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PasswordReset/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PasswordReset/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PasswordReset/members/user_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PasswordReset/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PasswordReset/members/expires_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PasswordReset/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PasswordReset/members/password_reset_token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#PasswordReset/members/password_reset_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerResetPassword0Request/members/token/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerResetPassword0Request/members/new_password/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#ResetPasswordResponse/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RedirectUri/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RedirectUri/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RedirectUri/members/uri/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RedirectUri/members/default/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RedirectUri/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RedirectUri/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#RedirectUrisControllerCreateRequest/members/uri/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandSessionsControllerRevokeSessionRequest/members/session_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/first_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/last_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/profile_picture_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/email_verified/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/external_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/last_sign_in_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerCreate0Response/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerConfirmEmailChangeRequest/members/code/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerSendEmailChangeRequest/members/new_email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailChange/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailChange/members/user/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailChange/members/new_email/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailChange/members/expires_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#EmailChange/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUsersControllerEmailVerification0Request/members/code/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#VerifyEmailResponse/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#SendVerificationEmailResponse/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizedConnectApplicationList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizedConnectApplicationList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#AuthorizedConnectApplicationList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserAuthenticationFactorList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserAuthenticationFactorList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserAuthenticationFactorList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserAuthenticationFactorsControllerCreate0Request/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserAuthenticationFactorEnrollResponse/members/authentication_factor/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#UserlandUserAuthenticationFactorEnrollResponse/members/authentication_challenge/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointList/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointList/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointList/members/list_metadata/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointJson/members/object/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointJson/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointJson/members/endpoint_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointJson/members/secret/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointJson/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointJson/members/events/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointJson/members/created_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointJson/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointsControllerCreateRequest/members/endpoint_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WebhookEndpointsControllerCreateRequest/members/events/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.workos.api#WidgetSessionTokenResponse/members/token/traits/smithy.api#required"
     }
   ]
 }

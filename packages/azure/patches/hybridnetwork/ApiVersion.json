@@ -3,22 +3,22 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#AddArtifactStoreNetworkFabricControllerEndPoints/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresAddNetworkFabricControllerEndPoints/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#AddArtifactStoreNetworkFabricControllerEndPoints/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresAddNetworkFabricControllerEndPoints/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ApproveArtifactStorePrivateEndPoints/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresApprovePrivateEndPoints/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ApproveArtifactStorePrivateEndPoints/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresApprovePrivateEndPoints/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
@@ -63,512 +63,512 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteArtifactManifest/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteArtifactManifest/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteArtifactStore/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteArtifactStore/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteArtifactStoreNetworkFabricControllerEndPoints/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresDeleteNetworkFabricControllerEndPoints/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteArtifactStoreNetworkFabricControllerEndPoints/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresDeleteNetworkFabricControllerEndPoints/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteConfigurationGroupSchema/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteConfigurationGroupSchema/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteConfigurationGroupValue/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteConfigurationGroupValue/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkFunction/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkFunction/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkServiceDesignGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignGroupsDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkServiceDesignGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignGroupsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkServiceDesignVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteNetworkServiceDesignVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeletePublisher/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeletePublisher/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteSite/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteSite/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteSiteNetworkService/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesDelete/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#DeleteSiteNetworkService/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ExecuteNetworkFunctionRequest/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsExecuteRequest/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ExecuteNetworkFunctionRequest/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsExecuteRequest/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetArtifactManifest/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetArtifactManifest/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetArtifactStore/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetArtifactStore/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetComponent/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ComponentsGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetComponent/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ComponentsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetConfigurationGroupSchema/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetConfigurationGroupSchema/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetConfigurationGroupValue/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetConfigurationGroupValue/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkFunction/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkFunction/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkFunctionDefinitionGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkFunctionDefinitionGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkFunctionDefinitionVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkFunctionDefinitionVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkServiceDesignGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignGroupsGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkServiceDesignGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignGroupsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkServiceDesignVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetNetworkServiceDesignVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetProxyArtifact/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ProxyArtifactGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetProxyArtifact/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ProxyArtifactGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetPublisher/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetPublisher/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetSite/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetSite/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetSiteNetworkService/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesGet/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#GetSiteNetworkService/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactManifestByArtifactStore/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsListByArtifactStore/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactManifestByArtifactStore/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsListByArtifactStore/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactManifestCredential/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsListCredential/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactManifestCredential/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsListCredential/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactStoreByPublisher/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresListByPublisher/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactStoreByPublisher/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresListByPublisher/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactStoreNetworkFabricControllerPrivateEndPoints/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresListNetworkFabricControllerPrivateEndPoints/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactStoreNetworkFabricControllerPrivateEndPoints/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresListNetworkFabricControllerPrivateEndPoints/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactStorePrivateEndPoints/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresListPrivateEndPoints/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListArtifactStorePrivateEndPoints/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresListPrivateEndPoints/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListComponentByNetworkFunction/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ComponentsListByNetworkFunction/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListComponentByNetworkFunction/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ComponentsListByNetworkFunction/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListConfigurationGroupSchemaByPublisher/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasListByPublisher/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListConfigurationGroupSchemaByPublisher/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasListByPublisher/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListConfigurationGroupValueByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListConfigurationGroupValueByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListConfigurationGroupValueBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListConfigurationGroupValueBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkFunctionByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkFunctionByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkFunctionBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkFunctionBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkFunctionDefinitionGroupByPublisher/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsListByPublisher/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkFunctionDefinitionGroupByPublisher/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsListByPublisher/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroup/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkFunctionDefinitionVersionByNetworkFunctionDefinitionGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkServiceDesignGroupByPublisher/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignGroupsListByPublisher/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkServiceDesignGroupByPublisher/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignGroupsListByPublisher/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkServiceDesignVersionByNetworkServiceDesignGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsListByNetworkServiceDesignGroup/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListNetworkServiceDesignVersionByNetworkServiceDesignGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsListByNetworkServiceDesignGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListOperations/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#OperationsList/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListOperations/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#OperationsList/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListProxyArtifact/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ProxyArtifactList/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListProxyArtifact/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ProxyArtifactList/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListPublisherByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListPublisherByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListPublisherBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListPublisherBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListSiteByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListSiteByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListSiteBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListSiteBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListSiteNetworkServiceByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListSiteNetworkServiceByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListSiteNetworkServiceBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#ListSiteNetworkServiceBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
@@ -633,12 +633,12 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#RemoveArtifactStorePrivateEndPoints/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresRemovePrivateEndPoints/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#RemoveArtifactStorePrivateEndPoints/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresRemovePrivateEndPoints/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
@@ -663,172 +663,172 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateArtifactManifest/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateArtifactManifest/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateArtifactManifestState/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsUpdateState/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateArtifactManifestState/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactManifestsUpdateState/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateArtifactStore/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresUpdate/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateArtifactStore/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ArtifactStoresUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateConfigurationGroupSchema/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasUpdate/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateConfigurationGroupSchema/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateConfigurationGroupSchemaState/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasUpdateState/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateConfigurationGroupSchemaState/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupSchemasUpdateState/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateConfigurationGroupValueTags/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesUpdateTags/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateConfigurationGroupValueTags/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuesUpdateTags/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkFunctionDefinitionGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkFunctionDefinitionGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionGroupsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkFunctionDefinitionVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkFunctionDefinitionVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkFunctionDefinitionVersionState/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsUpdateState/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkFunctionDefinitionVersionState/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionDefinitionVersionsUpdateState/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkFunctionTags/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsUpdateTags/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkFunctionTags/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkFunctionsUpdateTags/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkServiceDesignGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignGroupsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkServiceDesignGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignGroupsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkServiceDesignVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkServiceDesignVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkServiceDesignVersionState/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsUpdateState/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateNetworkServiceDesignVersionState/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#NetworkServiceDesignVersionsUpdateState/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateProxyArtifactState/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ProxyArtifactUpdateState/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateProxyArtifactState/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#ProxyArtifactUpdateState/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdatePublisher/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersUpdate/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdatePublisher/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#PublishersUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateSiteNetworkServiceTags/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesUpdateTags/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateSiteNetworkServiceTags/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SiteNetworkServicesUpdateTags/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateSiteTags/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesUpdateTags/traits/smithy.api#http/apiVersion",
       "value": "2023-09-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.hybridnetwork#UpdateSiteTags/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.hybridnetwork#SitesUpdateTags/traits/com.distilled.openapi#apiVersion",
       "value": "2023-09-01"
     }
   ]

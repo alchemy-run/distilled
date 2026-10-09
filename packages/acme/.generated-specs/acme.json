@@ -1,0 +1,1921 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Converted from RFC 8555 by scripts/convert.ts. Shapes keep the RFC's wire member names; errors are the urn:ietf:params:acme:error:* registry (§6.7) matched on a problem document's `type`. HTTP traits are placeholders: the protocol (src/protocol.ts) resolves newNonce/newAccount/newOrder/revokeCert from the CA's directory and addresses every other resource by the absolute `url` label the CA returned; the uri only identifies the operation.",
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "org.ietf.acme#Directory": {
+      "type": "structure",
+      "members": {
+        "newNonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the new nonce resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "newAccount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the new account resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "newOrder": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the new order resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "newAuthz": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the new authorization resource."
+          }
+        },
+        "revokeCert": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the revoke certificate resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "keyChange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the key change resource."
+          }
+        },
+        "meta": {
+          "target": "org.ietf.acme#DirectoryMeta",
+          "traits": {
+            "smithy.api#documentation": "Metadata relating to the service provided by the ACME server."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RFC 8555 §7.1.1"
+      }
+    },
+    "org.ietf.acme#DirectoryMetaCaaIdentitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#DirectoryMeta": {
+      "type": "structure",
+      "members": {
+        "termsOfService": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL identifying the current terms of service."
+          }
+        },
+        "website": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An HTTP or HTTPS URL locating a website providing more information about the ACME server."
+          }
+        },
+        "caaIdentities": {
+          "target": "org.ietf.acme#DirectoryMetaCaaIdentitiesList",
+          "traits": {
+            "smithy.api#documentation": "The hostnames that the ACME server recognizes as referring to itself for the purposes of CAA record validation as defined in [RFC6844]. Each string MUST represent the same sequence of ASCII code points that the server will expect to see as the \"Issuer Domain Name\" in a CAA issue or issuewild property tag. This allows clients to determine the correct issuer domain name to use when configuring CAA records."
+          }
+        },
+        "externalAccountRequired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If this field is present and set to \"true\", then the CA requires that all newAccount requests include an \"externalAccountBinding\" field associating the new account with an external account."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#NonceResponse": {
+      "type": "structure",
+      "members": {
+        "replayNonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The `Replay-Nonce` header.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#ExternalAccountBinding": {
+      "type": "structure",
+      "members": {
+        "protected": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payload": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A JWS binding this account to an existing CA account (RFC 8555 §7.3.4). The protocol builds it from the credentials' EAB key id and HMAC key."
+      }
+    },
+    "org.ietf.acme#NewAccountRequestContactList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#NewAccountRequest": {
+      "type": "structure",
+      "members": {
+        "contact": {
+          "target": "org.ietf.acme#NewAccountRequestContactList",
+          "traits": {
+            "smithy.api#documentation": "Same meaning as the corresponding server field defined in Section 7.1.2."
+          }
+        },
+        "termsOfServiceAgreed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Same meaning as the corresponding server field defined in Section 7.1.2."
+          }
+        },
+        "onlyReturnExisting": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If this field is present with the value \"true\", then the server MUST NOT create a new account if one does not already exist. This allows a client to look up an account URL based on an account key (see Section 7.3.1)."
+          }
+        },
+        "externalAccountBinding": {
+          "target": "org.ietf.acme#ExternalAccountBinding",
+          "traits": {
+            "smithy.api#documentation": "Same meaning as the corresponding server field defined in Section 7.1.2"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#AccountResponseContactList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#AccountResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status of this account. Possible values are \"valid\", \"deactivated\", and \"revoked\". The value \"deactivated\" should be used to indicate client-initiated deactivation whereas \"revoked\" should be used to indicate server- initiated deactivation. See Section 7.1.6.",
+            "smithy.api#required": {}
+          }
+        },
+        "contact": {
+          "target": "org.ietf.acme#AccountResponseContactList",
+          "traits": {
+            "smithy.api#documentation": "An array of URLs that the server can use to contact the client for issues related to this account. For example, the server may wish to notify the client about server-initiated revocation or certificate expiration. For information on supported URL schemes, see Section 7.3."
+          }
+        },
+        "termsOfServiceAgreed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Including this field in a newAccount request, with a value of true, indicates the client's agreement with the terms of service. This field cannot be updated by the client."
+          }
+        },
+        "orders": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL from which a list of orders submitted by this account can be fetched via a POST-as-GET request, as described in Section 7.1.2.1."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account URL (`Location` header); the `kid` for every later request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RFC 8555 §7.1.2, plus the `Location` header as `location`."
+      }
+    },
+    "org.ietf.acme#UpdateAccountRequestContactList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#UpdateAccountRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Absolute URL of the resource, as returned by the CA."
+          }
+        },
+        "contact": {
+          "target": "org.ietf.acme#UpdateAccountRequestContactList",
+          "traits": {
+            "smithy.api#documentation": "An array of URLs that the server can use to contact the client for issues related to this account. For example, the server may wish to notify the client about server-initiated revocation or certificate expiration. For information on supported URL schemes, see Section 7.3."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`deactivated` to deactivate the account (RFC 8555 §7.3.6)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#Identifier": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of identifier. This document defines the \"dns\" identifier type. See the registry defined in Section 9.7.7 for any others.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier itself.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#NewOrderRequestIdentifiersList": {
+      "type": "list",
+      "member": {
+        "target": "org.ietf.acme#Identifier"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#NewOrderRequest": {
+      "type": "structure",
+      "members": {
+        "identifiers": {
+          "target": "org.ietf.acme#NewOrderRequestIdentifiersList",
+          "traits": {
+            "smithy.api#documentation": "An array of identifier objects that the client wishes to submit an order for.",
+            "smithy.api#required": {}
+          }
+        },
+        "notBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The requested value of the notBefore field in the certificate, in the date format defined in [RFC3339]."
+          }
+        },
+        "notAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The requested value of the notAfter field in the certificate, in the date format defined in [RFC3339]."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#OrderResponseIdentifiersList": {
+      "type": "list",
+      "member": {
+        "target": "org.ietf.acme#Identifier"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#OrderResponseAuthorizationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#OrderResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status of this order. Possible values are \"pending\", \"ready\", \"processing\", \"valid\", and \"invalid\". See Section 7.1.6.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp after which the server will consider this order invalid, encoded in the format specified in [RFC3339]. This field is REQUIRED for objects with \"pending\" or \"valid\" in the status field."
+          }
+        },
+        "identifiers": {
+          "target": "org.ietf.acme#OrderResponseIdentifiersList",
+          "traits": {
+            "smithy.api#documentation": "An array of identifier objects that the order pertains to.",
+            "smithy.api#required": {}
+          }
+        },
+        "notBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The requested value of the notBefore field in the certificate, in the date format defined in [RFC3339]."
+          }
+        },
+        "notAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The requested value of the notAfter field in the certificate, in the date format defined in [RFC3339]."
+          }
+        },
+        "error": {
+          "target": "org.ietf.acme#Problem",
+          "traits": {
+            "smithy.api#documentation": "The error that occurred while processing the order, if any. This field is structured as a problem document [RFC7807]."
+          }
+        },
+        "authorizations": {
+          "target": "org.ietf.acme#OrderResponseAuthorizationsList",
+          "traits": {
+            "smithy.api#documentation": "For pending orders, the authorizations that the client needs to complete before the requested certificate can be issued (see Section 7.5), including unexpired authorizations that the client has completed in the past for identifiers specified in the order. The authorizations required are dictated by server policy; there may not be a 1:1 relationship between the order identifiers and the authorizations required. For final orders (in the \"valid\" or \"invalid\" state), the authorizations that were completed. Each entry is a URL from which an authorization can be fetched with a POST-as-GET request.",
+            "smithy.api#required": {}
+          }
+        },
+        "finalize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL that a CSR must be POSTed to once all of the order's authorizations are satisfied to finalize the order. The result of a successful finalization will be the population of the certificate URL for the order.",
+            "smithy.api#required": {}
+          }
+        },
+        "certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL for the certificate that has been issued in response to this order."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The order URL (`Location` header)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RFC 8555 §7.1.3, plus the `Location` header as `location`."
+      }
+    },
+    "org.ietf.acme#Problem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error type URI, e.g. `urn:ietf:params:acme:error:malformed`."
+          }
+        },
+        "detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation."
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The HTTP status code."
+          }
+        },
+        "instance": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URI reference identifying this occurrence."
+          }
+        },
+        "identifier": {
+          "target": "org.ietf.acme#Identifier",
+          "traits": {
+            "smithy.api#documentation": "The identifier the error relates to."
+          }
+        },
+        "subproblems": {
+          "target": "org.ietf.acme#ProblemSubproblemsList",
+          "traits": {
+            "smithy.api#documentation": "Errors for individual identifiers (RFC 8555 §6.7.1)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RFC 7807 problem document (RFC 8555 §6.7)."
+      }
+    },
+    "org.ietf.acme#Subproblem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error type URI."
+          }
+        },
+        "detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation."
+          }
+        },
+        "identifier": {
+          "target": "org.ietf.acme#Identifier",
+          "traits": {
+            "smithy.api#documentation": "The identifier this subproblem is about."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#ProblemSubproblemsList": {
+      "type": "list",
+      "member": {
+        "target": "org.ietf.acme#Subproblem"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#GetOrderRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Absolute URL of the resource, as returned by the CA."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#FinalizeOrderRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Absolute URL of the resource, as returned by the CA."
+          }
+        },
+        "csr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A CSR encoding the parameters for the certificate being requested [RFC2986]. The CSR is sent in the base64url-encoded version of the DER format. (Note: Because this field uses base64url, and does not include headers, it is different from PEM.)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#GetAuthorizationRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Absolute URL of the resource, as returned by the CA."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#AuthorizationChallengesList": {
+      "type": "list",
+      "member": {
+        "target": "org.ietf.acme#Challenge"
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#Authorization": {
+      "type": "structure",
+      "members": {
+        "identifier": {
+          "target": "org.ietf.acme#Identifier",
+          "traits": {
+            "smithy.api#documentation": "The identifier that the account is authorized to represent.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status of this authorization. Possible values are \"pending\", \"valid\", \"invalid\", \"deactivated\", \"expired\", and \"revoked\". See Section 7.1.6.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp after which the server will consider this authorization invalid, encoded in the format specified in [RFC3339]. This field is REQUIRED for objects with \"valid\" in the \"status\" field."
+          }
+        },
+        "challenges": {
+          "target": "org.ietf.acme#AuthorizationChallengesList",
+          "traits": {
+            "smithy.api#documentation": "For pending authorizations, the challenges that the client can fulfill in order to prove possession of the identifier. For valid authorizations, the challenge that was validated. For invalid authorizations, the challenge that was attempted and failed. Each array entry is an object with parameters required to validate the challenge. A client should attempt to fulfill one of these challenges, and a server should consider any one of the challenges sufficient to make the authorization valid.",
+            "smithy.api#required": {}
+          }
+        },
+        "wildcard": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This field MUST be present and true for authorizations created as a result of a newOrder request containing a DNS identifier with a value that was a wildcard domain name. For other authorizations, it MUST be absent. Wildcard domain names are described in Section 7.1.3."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RFC 8555 §7.1.4"
+      }
+    },
+    "org.ietf.acme#Challenge": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of challenge encoded in the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to which a response can be posted.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status of this challenge. Possible values are \"pending\", \"processing\", \"valid\", and \"invalid\" (see Section 7.1.6).",
+            "smithy.api#required": {}
+          }
+        },
+        "validated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the server validated this challenge, encoded in the format specified in [RFC3339]. This field is REQUIRED if the \"status\" field is \"valid\"."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A random value that uniquely identifies the challenge. This value MUST have at least 128 bits of entropy. It MUST NOT contain any characters outside the base64url alphabet and MUST NOT include base64 padding characters (\"=\"). See [RFC4086] for additional information on randomness requirements."
+          }
+        },
+        "error": {
+          "target": "org.ietf.acme#Problem",
+          "traits": {
+            "smithy.api#documentation": "Error that occurred while the server was validating the challenge, if any, structured as a problem document [RFC7807]. Multiple errors can be indicated by using subproblems Section 6.7.1. A challenge object with an error MUST have status equal to \"invalid\"."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RFC 8555 §8"
+      }
+    },
+    "org.ietf.acme#DeactivateAuthorizationRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Absolute URL of the resource, as returned by the CA."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `deactivated`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#RespondChallengeRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Absolute URL of the resource, as returned by the CA."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#DownloadCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Absolute URL of the resource, as returned by the CA."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#CertificateChain": {
+      "type": "structure",
+      "members": {
+        "chain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PEM certificate chain (`application/pem-certificate-chain`), leaf first.",
+            "smithy.api#required": {}
+          }
+        },
+        "alternates": {
+          "target": "org.ietf.acme#CertificateChainAlternatesList",
+          "traits": {
+            "smithy.api#documentation": "Alternate chain URLs from `Link: <url>;rel=\"alternate\"` headers."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "org.ietf.acme#CertificateChainAlternatesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Alternate chain URLs from `Link: <url>;rel=\"alternate\"` headers."
+      }
+    },
+    "org.ietf.acme#RevokeCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate to be revoked, in the base64url-encoded version of the DER format. (Note: Because this field uses base64url, and does not include headers, it is different from PEM.)",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "One of the revocation reasonCodes defined in Section 5.3.1 of [RFC5280] to be used when generating OCSP responses and CRLs. If this field is not set, the server SHOULD omit the reasonCode CRL entry extension when generating OCSP responses and CRLs. The server MAY disallow a subset of reasonCodes from being used by the user. If a request contains a disallowed reasonCode, then the server MUST reject it with the error type \"urn:ietf:params:acme:error:badRevocationReason\". The problem document detail SHOULD indicate which reasonCodes are allowed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "org.ietf.acme#AcmeAccountDoesNotExist": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The request specified an account that does not exist.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:accountDoesNotExist$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeAlreadyRevoked": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The request specified a certificate to be revoked that has already been revoked.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:alreadyRevoked$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeBadCsr": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The CSR is unacceptable (e.g., due to a short key).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:badCSR$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeBadNonce": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The client sent an unacceptable anti-replay nonce.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:badNonce$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeBadPublicKey": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The JWS was signed by a public key the server does not support.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:badPublicKey$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeBadRevocationReason": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The revocation reason provided is not allowed by the server.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:badRevocationReason$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeBadSignatureAlgorithm": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The JWS was signed with an algorithm the server does not support.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:badSignatureAlgorithm$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeCaa": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Certification Authority Authorization (CAA) records forbid the CA from issuing a certificate.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:caa$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeCompound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Specific error conditions are indicated in the \"subproblems\" array.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:compound$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeConnection": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The server could not connect to validation target.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:connection$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeDns": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "There was a problem with a DNS query during identifier validation.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:dns$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeExternalAccountRequired": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The request must include a value for the \"externalAccountBinding\" field.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:externalAccountRequired$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeIncorrectResponse": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Response received didn't match the challenge's requirements.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:incorrectResponse$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeInvalidContact": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "A contact URL for an account was invalid.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:invalidContact$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeMalformed": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The request message was malformed.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:malformed$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeOrderNotReady": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The request attempted to finalize an order that is not ready to be finalized.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:orderNotReady$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeRateLimited": {
+      "type": "structure",
+      "members": {
+        "retryAfter": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retry-After header parsed as an Effect Duration by the protocol."
+          }
+        },
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 429,
+        "smithy.api#retryable": {
+          "throttling": true
+        },
+        "smithy.api#documentation": "The request exceeds a rate limit.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:rateLimited$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeRejectedIdentifier": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The server will not issue certificates for the identifier.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:rejectedIdentifier$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeServerInternal": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "server",
+        "smithy.api#retryable": {},
+        "smithy.api#documentation": "The server experienced an internal error.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:serverInternal$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeTls": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The server received a TLS error during validation.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:tls$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeUnauthorized": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The client lacks sufficient authorization.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:unauthorized$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeUnsupportedContact": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "A contact URL for an account used an unsupported protocol scheme.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:unsupportedContact$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeUnsupportedIdentifier": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "An identifier is of an unsupported type.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:unsupportedIdentifier$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#AcmeUserActionRequired": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "detail": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Visit the \"instance\" URL and take actions specified there.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^urn:ietf:params:acme:error:userActionRequired$"
+            }
+          }
+        ]
+      }
+    },
+    "org.ietf.acme#GetDirectory": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "org.ietf.acme#Directory"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/directory",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch the CA's directory of resource URLs"
+      }
+    },
+    "org.ietf.acme#NewNonce": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "org.ietf.acme#NonceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/newNonce",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a fresh anti-replay nonce (the `Replay-Nonce` header)"
+      }
+    },
+    "org.ietf.acme#NewAccount": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#NewAccountRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#AccountResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/newAccount",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an account, or find the existing account for this key"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadPublicKey"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadSignatureAlgorithm"
+        },
+        {
+          "target": "org.ietf.acme#AcmeExternalAccountRequired"
+        },
+        {
+          "target": "org.ietf.acme#AcmeInvalidContact"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnsupportedContact"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUserActionRequired"
+        }
+      ]
+    },
+    "org.ietf.acme#UpdateAccount": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#UpdateAccountRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#AccountResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/{url}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update (or deactivate) the account at `url`"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeInvalidContact"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnsupportedContact"
+        }
+      ]
+    },
+    "org.ietf.acme#NewOrder": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#NewOrderRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#OrderResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/newOrder",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an order for a set of identifiers"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRejectedIdentifier"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnsupportedIdentifier"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUserActionRequired"
+        }
+      ]
+    },
+    "org.ietf.acme#GetOrder": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#GetOrderRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#OrderResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/order/{url}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch the order at `url` (POST-as-GET)"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        }
+      ]
+    },
+    "org.ietf.acme#FinalizeOrder": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#FinalizeOrderRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#OrderResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/finalize/{url}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Submit the CSR to the order's finalize URL"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadCsr"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeOrderNotReady"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        }
+      ]
+    },
+    "org.ietf.acme#GetAuthorization": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#GetAuthorizationRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#Authorization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/authz/{url}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch the authorization at `url` (POST-as-GET)"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        }
+      ]
+    },
+    "org.ietf.acme#DeactivateAuthorization": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#DeactivateAuthorizationRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#Authorization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/authz/{url}/deactivate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deactivate the authorization at `url`"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        }
+      ]
+    },
+    "org.ietf.acme#RespondChallenge": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#RespondChallengeRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#Challenge"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/challenge/{url}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Tell the CA the challenge at `url` is ready to be validated"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeCaa"
+        },
+        {
+          "target": "org.ietf.acme#AcmeConnection"
+        },
+        {
+          "target": "org.ietf.acme#AcmeDns"
+        },
+        {
+          "target": "org.ietf.acme#AcmeIncorrectResponse"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeTls"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        }
+      ]
+    },
+    "org.ietf.acme#DownloadCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#DownloadCertificateRequest"
+      },
+      "output": {
+        "target": "org.ietf.acme#CertificateChain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cert/{url}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download the PEM certificate chain at `url` (POST-as-GET)"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        }
+      ]
+    },
+    "org.ietf.acme#RevokeCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "org.ietf.acme#RevokeCertificateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/revokeCert",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke a certificate"
+      },
+      "errors": [
+        {
+          "target": "org.ietf.acme#AcmeAccountDoesNotExist"
+        },
+        {
+          "target": "org.ietf.acme#AcmeAlreadyRevoked"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadNonce"
+        },
+        {
+          "target": "org.ietf.acme#AcmeBadRevocationReason"
+        },
+        {
+          "target": "org.ietf.acme#AcmeMalformed"
+        },
+        {
+          "target": "org.ietf.acme#AcmeRateLimited"
+        },
+        {
+          "target": "org.ietf.acme#AcmeServerInternal"
+        },
+        {
+          "target": "org.ietf.acme#AcmeUnauthorized"
+        }
+      ]
+    },
+    "org.ietf.acme#Acme": {
+      "type": "service",
+      "version": "v2",
+      "operations": [
+        {
+          "target": "org.ietf.acme#GetDirectory"
+        },
+        {
+          "target": "org.ietf.acme#NewNonce"
+        },
+        {
+          "target": "org.ietf.acme#NewAccount"
+        },
+        {
+          "target": "org.ietf.acme#UpdateAccount"
+        },
+        {
+          "target": "org.ietf.acme#NewOrder"
+        },
+        {
+          "target": "org.ietf.acme#GetOrder"
+        },
+        {
+          "target": "org.ietf.acme#FinalizeOrder"
+        },
+        {
+          "target": "org.ietf.acme#GetAuthorization"
+        },
+        {
+          "target": "org.ietf.acme#DeactivateAuthorization"
+        },
+        {
+          "target": "org.ietf.acme#RespondChallenge"
+        },
+        {
+          "target": "org.ietf.acme#DownloadCertificate"
+        },
+        {
+          "target": "org.ietf.acme#RevokeCertificate"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "ACME (RFC 8555)",
+        "smithy.api#documentation": "Automatic Certificate Management Environment (RFC 8555): directory, nonces, accounts, orders, authorizations, challenges, certificate download and revocation. Every request after the directory is a JWS signed by the account key; the protocol (src/protocol.ts) resolves resource URLs from the directory and the URLs the CA returns."
+      }
+    }
+  }
+}

@@ -13,32 +13,32 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#GetDaprComponentResiliencyPolicy/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.app#DaprComponentResiliencyPoliciesGet/traits/smithy.api#http/apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#GetDaprComponentResiliencyPolicy/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.app#DaprComponentResiliencyPoliciesGet/traits/com.distilled.openapi#apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#DeleteDaprComponentResiliencyPolicy/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.app#DaprComponentResiliencyPoliciesDelete/traits/smithy.api#http/apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#DeleteDaprComponentResiliencyPolicy/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.app#DaprComponentResiliencyPoliciesDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#ListDaprComponentResiliencyPolicies/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.app#DaprComponentResiliencyPoliciesList/traits/smithy.api#http/apiVersion",
       "value": "2026-03-02-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.app#ListDaprComponentResiliencyPolicies/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.app#DaprComponentResiliencyPoliciesList/traits/com.distilled.openapi#apiVersion",
       "value": "2026-03-02-preview"
     }
   ]

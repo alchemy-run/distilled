@@ -77,10 +77,10 @@ export const AdminAccessBindingOrganizationRolesItemEnumList = /*@__PURE__*/ S.A
 
 /** A resource message representing a binding to a set of roles. */
 export interface AdminAccessBinding {
-  /** Email address of the user. */
-  userEmail?: string;
   /** Resource name of the user group. */
   userGroup?: string;
+  /** Email address of the user. */
+  userEmail?: string;
   /** Optional. A list of roles granted to the parent organization. USER_ADMIN_ROLE and BILLING_ADMIN_ROLE will be automatically added if ORG_ADMIN_ROLE is assigned. No roles will be assigned if no roles are specified. */
   organizationRoles?: AdminAccessBindingOrganizationRolesItemEnumList;
   /** Identifier. The resource name of this AdminAccessBinding. Format: organizations/{org_id}/adminAccessBindings/{admin_access_binding_id} Example: "organizations/123abc/adminAccessBindings/456def" */
@@ -88,8 +88,8 @@ export interface AdminAccessBinding {
 }
 export const AdminAccessBinding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userEmail: S.optional(S.String),
     userGroup: S.optional(S.String),
+    userEmail: S.optional(S.String),
     organizationRoles: S.optional(AdminAccessBindingOrganizationRolesItemEnumList),
     name: S.optional(S.String),
   }),
@@ -124,20 +124,20 @@ export const AnalyticsAccountLinkLinkVerificationStateEnum = S.String;
 
 /** A resource message representing the link between a Google Analytics account and a Google Marketing Platform organization. */
 export interface AnalyticsAccountLink {
+  /** Output only. The verification state of the link between the Analytics account and the parent organization. */
+  linkVerificationState?: AnalyticsAccountLinkLinkVerificationStateEnum | (string & {});
   /** Identifier. Resource name of this AnalyticsAccountLink. Note the resource ID is the same as the ID of the Analtyics account. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} Example: "organizations/xyz/analyticsAccountLinks/1234" */
   name?: string;
   /** Required. Immutable. The resource name of the AnalyticsAdmin API account. The account ID will be used as the ID of this AnalyticsAccountLink resource, which will become the final component of the resource name. Format: analyticsadmin.googleapis.com/accounts/{account_id} */
   analyticsAccount?: string;
-  /** Output only. The verification state of the link between the Analytics account and the parent organization. */
-  linkVerificationState?: AnalyticsAccountLinkLinkVerificationStateEnum | (string & {});
   /** Output only. The human-readable name for the Analytics account. */
   displayName?: string;
 }
 export const AnalyticsAccountLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    linkVerificationState: S.optional(AnalyticsAccountLinkLinkVerificationStateEnum),
     name: S.optional(S.String),
     analyticsAccount: S.optional(S.String),
-    linkVerificationState: S.optional(AnalyticsAccountLinkLinkVerificationStateEnum),
     displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "AnalyticsAccountLink" }) as any as S.Schema<AnalyticsAccountLink>;
@@ -165,18 +165,18 @@ export const CreateOrganizationsAnalyticsAccountLinksRequest = /*@__PURE__*/ S.s
 
 /** A resource message representing a user group in a GMP organization. */
 export interface UserGroup {
-  /** Optional. The description of the user group. */
-  description?: string;
   /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
   name?: string;
   /** Optional. The human-readable name for the user group. */
   displayName?: string;
+  /** Optional. The description of the user group. */
+  description?: string;
 }
 export const UserGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
     name: S.optional(S.String),
     displayName: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserGroup" }) as any as S.Schema<UserGroup>;
 
@@ -209,21 +209,21 @@ export const UserGroupMemberMembershipRoleEnum = S.String;
 
 /** A resource message representing a member of a user group. */
 export interface UserGroupMember {
-  /** Optional. The role of the member in the user group. */
-  membershipRole?: UserGroupMemberMembershipRoleEnum | (string & {});
-  /** Identifier. The resource name of this UserGroupMember. Format: organizations/{org_id}/userGroups/{user_group_id}/members/{member_id} Example: "organizations/123abc/userGroups/456def/members/789ghi" */
-  name?: string;
   /** Email address of the user member. */
   userEmail?: string;
   /** User group resource name of the group member. */
   userGroup?: string;
+  /** Identifier. The resource name of this UserGroupMember. Format: organizations/{org_id}/userGroups/{user_group_id}/members/{member_id} Example: "organizations/123abc/userGroups/456def/members/789ghi" */
+  name?: string;
+  /** Optional. The role of the member in the user group. */
+  membershipRole?: UserGroupMemberMembershipRoleEnum | (string & {});
 }
 export const UserGroupMember = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    membershipRole: S.optional(UserGroupMemberMembershipRoleEnum),
-    name: S.optional(S.String),
     userEmail: S.optional(S.String),
     userGroup: S.optional(S.String),
+    name: S.optional(S.String),
+    membershipRole: S.optional(UserGroupMemberMembershipRoleEnum),
   }),
 ).annotate({ identifier: "UserGroupMember" }) as any as S.Schema<UserGroupMember>;
 
@@ -344,17 +344,17 @@ export const FindSalesPartnerManagedClientsOrganizationsRequest = /*@__PURE__*/ 
 
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Marketingplatformadmin_Date {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   year?: number;
 }
 export const Marketingplatformadmin_Date = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    day: S.optional(S.Number),
     month: S.optional(S.Number),
+    day: S.optional(S.Number),
     year: S.optional(S.Number),
   }),
 ).annotate({
@@ -363,15 +363,15 @@ export const Marketingplatformadmin_Date = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource message representing a Google Marketing Platform organization. */
 export interface Organization {
-  /** The human-readable name for the organization. */
-  displayName?: string;
   /** Identifier. The resource name of the GMP organization. Format: organizations/{org_id} */
   name?: string;
+  /** The human-readable name for the organization. */
+  displayName?: string;
 }
 export const Organization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
     name: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Organization" }) as any as S.Schema<Organization>;
 
@@ -479,15 +479,15 @@ export const GetOrganizationsUserGroupsMembersRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetOrganizationsUserGroupsMembersRequest>;
 
 export interface ListOrganizationsRequest {
-  /** Optional. The maximum number of organizations to return in one call. The service may return fewer than this value. If unspecified, at most 50 organizations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous ListOrganizations call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListOrganizations` must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. The maximum number of organizations to return in one call. The service may return fewer than this value. If unspecified, at most 50 organizations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -609,17 +609,17 @@ export const ListAnalyticsAccountLinksResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAnalyticsAccountLinksResponse>;
 
 export interface ListOrganizationsUserGroupsRequest {
-  /** Optional. The maximum number of user groups to return in one call. The service may return fewer than this value. If unspecified, at most 50 user groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous ListUserGroups call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserGroups` must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. The maximum number of user groups to return in one call. The service may return fewer than this value. If unspecified, at most 50 user groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Required. The parent org where this UserGroup will be listed. Format: organizations/{org_id} */
   parent: string;
 }
 export const ListOrganizationsUserGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -650,17 +650,17 @@ export const ListUserGroupsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListUserGroupsResponse" }) as any as S.Schema<ListUserGroupsResponse>;
 
 export interface ListOrganizationsUserGroupsMembersRequest {
-  /** Required. The parent user group where this UserGroupMember will be listed. Format: organizations/{org_id}/userGroups/{user_group_id} */
-  parent: string;
   /** Optional. A page token, received from a previous ListUserGroupMembers call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserGroupMembers` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The parent user group where this UserGroupMember will be listed. Format: organizations/{org_id}/userGroups/{user_group_id} */
+  parent: string;
   /** Optional. The maximum number of user group members to return in one call. The service may return fewer than this value. If unspecified, at most 50 user group members will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
 }
 export const ListOrganizationsUserGroupsMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -800,43 +800,6 @@ export const ReportPropertyUsageOrganizationsRequest = /*@__PURE__*/ S.suspend((
   identifier: "ReportPropertyUsageOrganizationsRequest",
 }) as any as S.Schema<ReportPropertyUsageOrganizationsRequest>;
 
-/** Represents an amount of money with its currency type. */
-export interface Money {
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
-}
-export const Money = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    units: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    nanos: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
-
-/** Contains the bill amount. */
-export interface BillInfo {
-  /** The amount of the event fee. */
-  eventFee?: Money;
-  /** The total amount of the bill. */
-  total?: Money;
-  /** The amount of the monthly base fee. */
-  baseFee?: Money;
-  /** The amount of the price protection credit, this is only available for eligible customers. */
-  priceProtectionCredit?: Money;
-}
-export const BillInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventFee: S.optional(Money),
-    total: S.optional(Money),
-    baseFee: S.optional(Money),
-    priceProtectionCredit: S.optional(Money),
-  }),
-).annotate({ identifier: "BillInfo" }) as any as S.Schema<BillInfo>;
-
 export type PropertyUsageServiceLevelEnum =
   | "ANALYTICS_SERVICE_LEVEL_UNSPECIFIED"
   | "ANALYTICS_SERVICE_LEVEL_STANDARD"
@@ -852,30 +815,30 @@ export const PropertyUsagePropertyTypeEnum = S.String;
 
 /** Contains the count of events received by the property, along with metadata that influences the volume of `billable` events. */
 export interface PropertyUsage {
-  /** The ID of the property's parent account. */
-  accountId?: string;
   /** Total event count that the property received during the requested month. */
   totalEventCount?: string;
-  /** The display name of the property. */
-  displayName?: string;
   /** The service level of the property. */
   serviceLevel?: PropertyUsageServiceLevelEnum;
-  /** The name of the Google Analytics Admin API property resource. Format: analyticsadmin.googleapis.com/properties/{property_id} */
-  property?: string;
   /** The subtype of the analytics property. This affects the billable event count. */
   propertyType?: PropertyUsagePropertyTypeEnum;
+  /** The ID of the property's parent account. */
+  accountId?: string;
   /** The number of events for which the property is billed in the requested month. */
   billableEventCount?: string;
+  /** The display name of the property. */
+  displayName?: string;
+  /** The name of the Google Analytics Admin API property resource. Format: analyticsadmin.googleapis.com/properties/{property_id} */
+  property?: string;
 }
 export const PropertyUsage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String),
     totalEventCount: S.optional(S.String),
-    displayName: S.optional(S.String),
     serviceLevel: S.optional(PropertyUsageServiceLevelEnum),
-    property: S.optional(S.String),
     propertyType: S.optional(PropertyUsagePropertyTypeEnum),
+    accountId: S.optional(S.String),
     billableEventCount: S.optional(S.String),
+    displayName: S.optional(S.String),
+    property: S.optional(S.String),
   }),
 ).annotate({ identifier: "PropertyUsage" }) as any as S.Schema<PropertyUsage>;
 
@@ -884,17 +847,54 @@ export const PropertyUsageList = /*@__PURE__*/ S.Array(
   PropertyUsage,
 ) as any as S.Schema<PropertyUsageList>;
 
+/** Represents an amount of money with its currency type. */
+export interface Money {
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string;
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    currencyCode: S.optional(S.String),
+    nanos: S.optional(S.Number),
+    units: S.optional(S.String),
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+/** Contains the bill amount. */
+export interface BillInfo {
+  /** The amount of the event fee. */
+  eventFee?: Money;
+  /** The total amount of the bill. */
+  total?: Money;
+  /** The amount of the price protection credit, this is only available for eligible customers. */
+  priceProtectionCredit?: Money;
+  /** The amount of the monthly base fee. */
+  baseFee?: Money;
+}
+export const BillInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventFee: S.optional(Money),
+    total: S.optional(Money),
+    priceProtectionCredit: S.optional(Money),
+    baseFee: S.optional(Money),
+  }),
+).annotate({ identifier: "BillInfo" }) as any as S.Schema<BillInfo>;
+
 /** Response message for ReportPropertyUsage RPC. */
 export interface ReportPropertyUsageResponse {
-  /** Bill amount in the specified organization and month. Will be empty if user only has access to usage data. */
-  billInfo?: BillInfo;
   /** Usage data for all properties in the specified organization and month. */
   propertyUsages?: PropertyUsageList;
+  /** Bill amount in the specified organization and month. Will be empty if user only has access to usage data. */
+  billInfo?: BillInfo;
 }
 export const ReportPropertyUsageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billInfo: S.optional(BillInfo),
     propertyUsages: S.optional(PropertyUsageList),
+    billInfo: S.optional(BillInfo),
   }),
 ).annotate({
   identifier: "ReportPropertyUsageResponse",

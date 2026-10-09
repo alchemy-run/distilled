@@ -3,13 +3,24 @@
   "patches": [
     {
       "op": "add",
-      "path": "/components/responses/sshKeys_new/content/application~1json/schema/required",
-      "value": ["ssh_key"]
+      "path": "/shapes/com.digitalocean.api#SshKeysCreateResponse/members/ssh_key/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     },
     {
       "op": "add",
-      "path": "/components/responses/sshKeys_existing/content/application~1json/schema/required",
-      "value": ["ssh_key"]
+      "path": "/shapes/com.digitalocean.api#SshKeysGetResponse/members/ssh_key/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SshKeysUpdateResponse/members/ssh_key/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     }
   ]
 }

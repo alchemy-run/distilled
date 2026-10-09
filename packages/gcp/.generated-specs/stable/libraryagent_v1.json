@@ -23,41 +23,21 @@
             "smithy.api#documentation": "The title of the book."
           }
         },
-        "author": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the book author."
-          }
-        },
         "read": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Value indicating whether the book has been read."
           }
+        },
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the book author."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "A single book in the library."
-      }
-    },
-    "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1Shelf": {
-      "type": "structure",
-      "members": {
-        "theme": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The theme of the shelf"
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The resource name of the shelf. Shelf names have the form `shelves/{shelf_id}`. The name is ignored when creating a shelf."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A Shelf contains a collection of books with a theme."
       }
     },
     "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1ListBooksResponse": {
@@ -86,6 +66,26 @@
         "target": "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1Book"
       }
     },
+    "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1Shelf": {
+      "type": "structure",
+      "members": {
+        "theme": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The theme of the shelf"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The resource name of the shelf. Shelf names have the form `shelves/{shelf_id}`. The name is ignored when creating a shelf."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Shelf contains a collection of books with a theme."
+      }
+    },
     "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1ListShelvesResponse": {
       "type": "structure",
       "members": {
@@ -112,21 +112,15 @@
         "target": "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1Shelf"
       }
     },
-    "com.gcp.libraryagent_v1#ListShelvesRequest": {
+    "com.gcp.libraryagent_v1#GetShelvesRequest": {
       "type": "structure",
       "members": {
-        "pageToken": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A token identifying a page of results the server should return. Typically, this is the value of ListShelvesResponse.next_page_token returned from the previous call to `ListShelves` method.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Requested page size. Server may return fewer shelves than requested. If unspecified, server will pick an appropriate default.",
-            "smithy.api#httpQuery": "pageSize"
+            "smithy.api#documentation": "Required. The name of the shelf to retrieve.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }
@@ -157,6 +151,49 @@
         ]
       }
     },
+    "com.gcp.libraryagent_v1#GetShelves": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.libraryagent_v1#GetShelvesRequest"
+      },
+      "output": {
+        "target": "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1Shelf"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.libraryagent_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.libraryagent_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets a shelf. Returns NOT_FOUND if the shelf does not exist."
+      }
+    },
+    "com.gcp.libraryagent_v1#ListShelvesRequest": {
+      "type": "structure",
+      "members": {
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying a page of results the server should return. Typically, this is the value of ListShelvesResponse.next_page_token returned from the previous call to `ListShelves` method.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Requested page size. Server may return fewer shelves than requested. If unspecified, server will pick an appropriate default.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
     "com.gcp.libraryagent_v1#ListShelves": {
       "type": "operation",
       "input": {
@@ -183,43 +220,6 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.libraryagent_v1#GetShelvesRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The name of the shelf to retrieve.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.libraryagent_v1#GetShelves": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.libraryagent_v1#GetShelvesRequest"
-      },
-      "output": {
-        "target": "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1Shelf"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.libraryagent_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.libraryagent_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Gets a shelf. Returns NOT_FOUND if the shelf does not exist."
       }
     },
     "com.gcp.libraryagent_v1#GetShelvesBooksRequest": {
@@ -259,13 +259,13 @@
         "smithy.api#documentation": "Gets a book. Returns NOT_FOUND if the book does not exist."
       }
     },
-    "com.gcp.libraryagent_v1#ReturnShelvesBooksRequest": {
+    "com.gcp.libraryagent_v1#BorrowShelvesBooksRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The name of the book to return.",
+            "smithy.api#documentation": "Required. The name of the book to borrow.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -296,6 +296,49 @@
             "status": 409
           }
         ]
+      }
+    },
+    "com.gcp.libraryagent_v1#BorrowShelvesBooks": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.libraryagent_v1#BorrowShelvesBooksRequest"
+      },
+      "output": {
+        "target": "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1Book"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.libraryagent_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.libraryagent_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.libraryagent_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.libraryagent_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:borrow"
+        },
+        "smithy.api#documentation": "Borrow a book from the library. Returns the book if it is borrowed successfully. Returns NOT_FOUND if the book does not exist in the library. Returns quota exceeded error if the amount of books borrowed exceeds allocation quota in any dimensions."
+      }
+    },
+    "com.gcp.libraryagent_v1#ReturnShelvesBooksRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the book to return.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
       }
     },
     "com.gcp.libraryagent_v1#ReturnShelvesBooks": {
@@ -331,18 +374,18 @@
     "com.gcp.libraryagent_v1#ListShelvesBooksRequest": {
       "type": "structure",
       "members": {
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Requested page size. Server may return fewer books than requested. If unspecified, server will pick an appropriate default.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
         "pageToken": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A token identifying a page of results the server should return. Typically, this is the value of ListBooksResponse.next_page_token. returned from the previous call to `ListBooks` method.",
             "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Requested page size. Server may return fewer books than requested. If unspecified, server will pick an appropriate default.",
+            "smithy.api#httpQuery": "pageSize"
           }
         },
         "parent": {
@@ -381,49 +424,6 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.libraryagent_v1#BorrowShelvesBooksRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The name of the book to borrow.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.libraryagent_v1#BorrowShelvesBooks": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.libraryagent_v1#BorrowShelvesBooksRequest"
-      },
-      "output": {
-        "target": "com.gcp.libraryagent_v1#GoogleExampleLibraryagentV1Book"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.libraryagent_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.libraryagent_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.libraryagent_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.libraryagent_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1/{+name}:borrow"
-        },
-        "smithy.api#documentation": "Borrow a book from the library. Returns the book if it is borrowed successfully. Returns NOT_FOUND if the book does not exist in the library. Returns quota exceeded error if the amount of books borrowed exceeds allocation quota in any dimensions."
       }
     }
   }

@@ -182,12 +182,6 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id"
-          }
-        },
         "direction": {
           "target": "com.whop.invoices#Direction",
           "traits": {
@@ -228,6 +222,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "created_after"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id"
           }
         }
       },
@@ -323,7 +323,7 @@
         "smithy.api#documentation": "An invoice represents an itemized bill sent by a company to a customer for a specific product and plan, tracking the amount owed, due date, and payment status."
       }
     },
-    "com.whop.invoices#Currencies": {
+    "com.whop.invoices#LegacyCurrencies": {
       "type": "enum",
       "members": {
         "USD": {
@@ -875,7 +875,7 @@
       "type": "structure",
       "members": {
         "currency": {
-          "target": "com.whop.invoices#Currencies",
+          "target": "com.whop.invoices#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The currency used for all prices on this plan (e.g., 'usd', 'eur'). All monetary amounts on the plan are denominated in this currency.",
             "smithy.api#required": {}
@@ -1949,7 +1949,7 @@
         "smithy.api#documentation": "An array of custom field objects."
       }
     },
-    "com.whop.invoices#PaymentMethodTypes": {
+    "com.whop.invoices#LegacyPaymentMethodTypes": {
       "type": "enum",
       "members": {
         "ACSS_DEBIT": {
@@ -1980,6 +1980,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "alipay"
+          }
+        },
+        "ALIPAYHK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alipayhk"
           }
         },
         "ALMA": {
@@ -2046,12 +2052,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "billie"
-          }
-        },
-        "BIZUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "bizum"
           }
         },
         "BLIK": {
@@ -2174,10 +2174,22 @@
             "smithy.api#enumValue": "fpx"
           }
         },
+        "FLEX_PAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flex_pay"
+          }
+        },
         "GB_BANK_TRANSFER": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "gb_bank_transfer"
+          }
+        },
+        "GCASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcash"
           }
         },
         "GIROPAY": {
@@ -2294,6 +2306,18 @@
             "smithy.api#enumValue": "mercado_pago"
           }
         },
+        "MERCADO_PAGO_AR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_ar"
+          }
+        },
+        "MERCADO_PAGO_MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mercado_pago_mx"
+          }
+        },
         "MOBILEPAY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2372,10 +2396,40 @@
             "smithy.api#enumValue": "ng_wallet"
           }
         },
+        "NUPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nupay"
+          }
+        },
         "NZ_BANK_ACCOUNT": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "nz_bank_account"
+          }
+        },
+        "ONEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney"
+          }
+        },
+        "ONEY_3X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_3x"
+          }
+        },
+        "ONEY_4X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oney_4x"
+          }
+        },
+        "OPAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opay"
           }
         },
         "OXXO": {
@@ -2576,10 +2630,22 @@
             "smithy.api#enumValue": "swish"
           }
         },
+        "TABBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabby"
+          }
+        },
         "TAMARA": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "tamara"
+          }
+        },
+        "TOUCH_N_GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "touch_n_go"
           }
         },
         "TWINT": {
@@ -2610,6 +2676,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "venmo"
+          }
+        },
+        "VERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verve"
           }
         },
         "VIPPS": {
@@ -2662,7 +2734,7 @@
     "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanPaymentMethodConfigurationDisabledList": {
       "type": "list",
       "member": {
-        "target": "com.whop.invoices#PaymentMethodTypes"
+        "target": "com.whop.invoices#LegacyPaymentMethodTypes"
       },
       "traits": {
         "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true."
@@ -2671,7 +2743,7 @@
     "com.whop.invoices#CreateInvoiceRequestBodyCase0PlanPaymentMethodConfigurationEnabledList": {
       "type": "list",
       "member": {
-        "target": "com.whop.invoices#PaymentMethodTypes"
+        "target": "com.whop.invoices#LegacyPaymentMethodTypes"
       },
       "traits": {
         "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods."
@@ -2796,7 +2868,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.invoices#Currencies",
+          "target": "com.whop.invoices#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The three-letter ISO currency code for the plan's pricing. Defaults to USD.",
             "com.distilled.openapi#nullable": {}
@@ -2930,6 +3002,13 @@
     "com.whop.invoices#CreateInvoiceRequestBodyCase0": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create this invoice for.",
+            "smithy.api#required": {}
+          }
+        },
         "automatically_finalizes_at": {
           "target": "smithy.api#String",
           "traits": {
@@ -2955,13 +3034,6 @@
           "target": "com.whop.invoices#InvoiceCollectionMethods",
           "traits": {
             "smithy.api#documentation": "How the invoice should be collected. Use charge_automatically to charge a stored payment method, or send_invoice to email the customer.",
-            "smithy.api#required": {}
-          }
-        },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to create this invoice for.",
             "smithy.api#required": {}
           }
         },
@@ -3230,7 +3302,7 @@
     "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanPaymentMethodConfigurationDisabledList": {
       "type": "list",
       "member": {
-        "target": "com.whop.invoices#PaymentMethodTypes"
+        "target": "com.whop.invoices#LegacyPaymentMethodTypes"
       },
       "traits": {
         "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true."
@@ -3239,7 +3311,7 @@
     "com.whop.invoices#CreateInvoiceRequestBodyCase1PlanPaymentMethodConfigurationEnabledList": {
       "type": "list",
       "member": {
-        "target": "com.whop.invoices#PaymentMethodTypes"
+        "target": "com.whop.invoices#LegacyPaymentMethodTypes"
       },
       "traits": {
         "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods."
@@ -3292,7 +3364,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.invoices#Currencies",
+          "target": "com.whop.invoices#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The three-letter ISO currency code for the plan's pricing. Defaults to USD.",
             "com.distilled.openapi#nullable": {}
@@ -3404,6 +3476,13 @@
     "com.whop.invoices#CreateInvoiceRequestBodyCase1": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create this invoice for.",
+            "smithy.api#required": {}
+          }
+        },
         "automatically_finalizes_at": {
           "target": "smithy.api#String",
           "traits": {
@@ -3429,13 +3508,6 @@
           "target": "com.whop.invoices#InvoiceCollectionMethods",
           "traits": {
             "smithy.api#documentation": "How the invoice should be collected. Use charge_automatically to charge a stored payment method, or send_invoice to email the customer.",
-            "smithy.api#required": {}
-          }
-        },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to create this invoice for.",
             "smithy.api#required": {}
           }
         },
@@ -3755,7 +3827,7 @@
       "type": "structure",
       "members": {
         "currency": {
-          "target": "com.whop.invoices#Currencies",
+          "target": "com.whop.invoices#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The currency used for all prices on this plan (e.g., 'usd', 'eur'). All monetary amounts on the plan are denominated in this currency.",
             "smithy.api#required": {}
@@ -4256,7 +4328,7 @@
     "com.whop.invoices#UpdateInvoiceRequestPlanPaymentMethodConfigurationDisabledList": {
       "type": "list",
       "member": {
-        "target": "com.whop.invoices#PaymentMethodTypes"
+        "target": "com.whop.invoices#LegacyPaymentMethodTypes"
       },
       "traits": {
         "smithy.api#documentation": "An array of payment method identifiers that are explicitly disabled. Only applies if the include_platform_defaults is true."
@@ -4265,7 +4337,7 @@
     "com.whop.invoices#UpdateInvoiceRequestPlanPaymentMethodConfigurationEnabledList": {
       "type": "list",
       "member": {
-        "target": "com.whop.invoices#PaymentMethodTypes"
+        "target": "com.whop.invoices#LegacyPaymentMethodTypes"
       },
       "traits": {
         "smithy.api#documentation": "An array of payment method identifiers that are explicitly enabled. This means these payment methods will be shown on checkout. Example use case is to only enable a specific payment method like cashapp, or extending the platform defaults with additional methods."
@@ -4318,7 +4390,7 @@
           }
         },
         "currency": {
-          "target": "com.whop.invoices#Currencies",
+          "target": "com.whop.invoices#LegacyCurrencies",
           "traits": {
             "smithy.api#documentation": "The three-letter ISO currency code for the plan's pricing. Defaults to USD.",
             "com.distilled.openapi#nullable": {}

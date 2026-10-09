@@ -75,8 +75,101 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ConversionAdUserDataConsentEnum = "GRANTED" | "DENIED";
-export const ConversionAdUserDataConsentEnum = S.String;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** Contains data of the items purchased. */
+export interface CartDataItem {
+  /** The shopping id of the item. Must be equal to the Merchant Center product identifier. This is a required field. */
+  itemId?: string;
+  /** Unit price excluding tax, shipping, and any transaction level discounts. Interpreted in CM360 Floodlight config parent advertiser's currency code. This is a required field. */
+  unitPrice?: number;
+  /** Number of items sold. This is a required field. */
+  quantity?: number;
+}
+export const CartDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    itemId: S.optional(S.String),
+    unitPrice: S.optional(S.Number),
+    quantity: S.optional(S.Number),
+  }),
+).annotate({ identifier: "CartDataItem" }) as any as S.Schema<CartDataItem>;
+
+export type CartDataItemList = Array<CartDataItem>;
+export const CartDataItemList = /*@__PURE__*/ S.Array(
+  CartDataItem,
+) as any as S.Schema<CartDataItemList>;
+
+/** Contains additional information about cart data. This field may only be used when calling batchinsert; it is not supported by batchupdate. Cart data reporting is only supported in SA360. [Learn more](https://support.google.com/sa360/topic/13425788) */
+export interface CartData {
+  /** The feed labels associated with the feed where your items are uploaded. For more information, please refer to ​​ https://support.google.com/merchants/answer/12453549. Providing the feed label reduces ambiguity in identifying the right offer details. */
+  merchantFeedLabel?: string;
+  /** The Merchant Center ID where the items are uploaded. Providing Merchant Center ID reduces ambiguity in identifying the right offer details. */
+  merchantId?: string;
+  /** The language associated with the feed where your items are uploaded. Use ISO 639-1 language codes. Providing the feed language reduces ambiguity in identifying the right offer details. */
+  merchantFeedLanguage?: string;
+  /** Data of the items purchased. */
+  items?: CartDataItemList;
+}
+export const CartData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    merchantFeedLabel: S.optional(S.String),
+    merchantId: S.optional(S.String),
+    merchantFeedLanguage: S.optional(S.String),
+    items: S.optional(CartDataItemList),
+  }),
+).annotate({ identifier: "CartData" }) as any as S.Schema<CartData>;
+
+/** Identify a user by name and address. */
+export interface OfflineUserAddressInfo {
+  /** City of the address. */
+  city?: string;
+  /** First name of the user, which is hashed as SHA-256 after normalized (Lowercase all characters; Remove any extra spaces before, after, and in between). */
+  hashedFirstName?: string;
+  /** Last name of the user, which is hashed as SHA-256 after normalized (lower case only and no punctuation). */
+  hashedLastName?: string;
+  /** State code of the address. */
+  state?: string;
+  /** Postal code of the user's address. */
+  postalCode?: string;
+  /** The street address of the user hashed using SHA-256 hash function after normalization (lower case only). */
+  hashedStreetAddress?: string;
+  /** 2-letter country code in ISO-3166-1 alpha-2 of the user's address. */
+  countryCode?: string;
+}
+export const OfflineUserAddressInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    city: S.optional(S.String),
+    hashedFirstName: S.optional(S.String),
+    hashedLastName: S.optional(S.String),
+    state: S.optional(S.String),
+    postalCode: S.optional(S.String),
+    hashedStreetAddress: S.optional(S.String),
+    countryCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "OfflineUserAddressInfo" }) as any as S.Schema<OfflineUserAddressInfo>;
+
+/** User identifying information. Exactly one type of identifier must be specified. */
+export interface UserIdentifier {
+  /** Address information. */
+  addressInfo?: OfflineUserAddressInfo;
+  /** Hashed phone number using SHA-256 hash function after normalization (E164 standard). */
+  hashedPhoneNumber?: string;
+  /** Hashed email address using SHA-256 hash function after normalization. */
+  hashedEmail?: string;
+}
+export const UserIdentifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    addressInfo: S.optional(OfflineUserAddressInfo),
+    hashedPhoneNumber: S.optional(S.String),
+    hashedEmail: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserIdentifier" }) as any as S.Schema<UserIdentifier>;
+
+export type UserIdentifierList = Array<UserIdentifier>;
+export const UserIdentifierList = /*@__PURE__*/ S.Array(
+  UserIdentifier,
+) as any as S.Schema<UserIdentifierList>;
 
 export type CustomFloodlightVariableTypeEnum =
   | "U1"
@@ -185,16 +278,16 @@ export const CustomFloodlightVariableTypeEnum = S.String;
 export interface CustomFloodlightVariable {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#customFloodlightVariable". */
   kind?: string;
-  /** The value of the custom floodlight variable. The length of string must not exceed 100 characters. */
-  value?: string;
   /** The type of custom floodlight variable to supply a value for. These map to the "u[1-100]=" in the tags. */
   type?: CustomFloodlightVariableTypeEnum | (string & {});
+  /** The value of the custom floodlight variable. The length of string must not exceed 100 characters. */
+  value?: string;
 }
 export const CustomFloodlightVariable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
-    value: S.optional(S.String),
     type: S.optional(CustomFloodlightVariableTypeEnum),
+    value: S.optional(S.String),
   }),
 ).annotate({ identifier: "CustomFloodlightVariable" }) as any as S.Schema<CustomFloodlightVariable>;
 
@@ -203,181 +296,94 @@ export const CustomFloodlightVariableList = /*@__PURE__*/ S.Array(
   CustomFloodlightVariable,
 ) as any as S.Schema<CustomFloodlightVariableList>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Identify a user by name and address. */
-export interface OfflineUserAddressInfo {
-  /** 2-letter country code in ISO-3166-1 alpha-2 of the user's address. */
-  countryCode?: string;
-  /** State code of the address. */
-  state?: string;
-  /** City of the address. */
-  city?: string;
-  /** Postal code of the user's address. */
-  postalCode?: string;
-  /** The street address of the user hashed using SHA-256 hash function after normalization (lower case only). */
-  hashedStreetAddress?: string;
-  /** First name of the user, which is hashed as SHA-256 after normalized (Lowercase all characters; Remove any extra spaces before, after, and in between). */
-  hashedFirstName?: string;
-  /** Last name of the user, which is hashed as SHA-256 after normalized (lower case only and no punctuation). */
-  hashedLastName?: string;
-}
-export const OfflineUserAddressInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    countryCode: S.optional(S.String),
-    state: S.optional(S.String),
-    city: S.optional(S.String),
-    postalCode: S.optional(S.String),
-    hashedStreetAddress: S.optional(S.String),
-    hashedFirstName: S.optional(S.String),
-    hashedLastName: S.optional(S.String),
-  }),
-).annotate({ identifier: "OfflineUserAddressInfo" }) as any as S.Schema<OfflineUserAddressInfo>;
-
-/** User identifying information. Exactly one type of identifier must be specified. */
-export interface UserIdentifier {
-  /** Hashed email address using SHA-256 hash function after normalization. */
-  hashedEmail?: string;
-  /** Address information. */
-  addressInfo?: OfflineUserAddressInfo;
-  /** Hashed phone number using SHA-256 hash function after normalization (E164 standard). */
-  hashedPhoneNumber?: string;
-}
-export const UserIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hashedEmail: S.optional(S.String),
-    addressInfo: S.optional(OfflineUserAddressInfo),
-    hashedPhoneNumber: S.optional(S.String),
-  }),
-).annotate({ identifier: "UserIdentifier" }) as any as S.Schema<UserIdentifier>;
-
-export type UserIdentifierList = Array<UserIdentifier>;
-export const UserIdentifierList = /*@__PURE__*/ S.Array(
-  UserIdentifier,
-) as any as S.Schema<UserIdentifierList>;
-
-/** Contains data of the items purchased. */
-export interface CartDataItem {
-  /** The shopping id of the item. Must be equal to the Merchant Center product identifier. This is a required field. */
-  itemId?: string;
-  /** Number of items sold. This is a required field. */
-  quantity?: number;
-  /** Unit price excluding tax, shipping, and any transaction level discounts. Interpreted in CM360 Floodlight config parent advertiser's currency code. This is a required field. */
-  unitPrice?: number;
-}
-export const CartDataItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    itemId: S.optional(S.String),
-    quantity: S.optional(S.Number),
-    unitPrice: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CartDataItem" }) as any as S.Schema<CartDataItem>;
-
-export type CartDataItemList = Array<CartDataItem>;
-export const CartDataItemList = /*@__PURE__*/ S.Array(
-  CartDataItem,
-) as any as S.Schema<CartDataItemList>;
-
-/** Contains additional information about cart data. This field may only be used when calling batchinsert; it is not supported by batchupdate. Cart data reporting is only supported in SA360. [Learn more](https://support.google.com/sa360/topic/13425788) */
-export interface CartData {
-  /** The feed labels associated with the feed where your items are uploaded. For more information, please refer to ​​ https://support.google.com/merchants/answer/12453549. Providing the feed label reduces ambiguity in identifying the right offer details. */
-  merchantFeedLabel?: string;
-  /** The language associated with the feed where your items are uploaded. Use ISO 639-1 language codes. Providing the feed language reduces ambiguity in identifying the right offer details. */
-  merchantFeedLanguage?: string;
-  /** Data of the items purchased. */
-  items?: CartDataItemList;
-  /** The Merchant Center ID where the items are uploaded. Providing Merchant Center ID reduces ambiguity in identifying the right offer details. */
-  merchantId?: string;
-}
-export const CartData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    merchantFeedLabel: S.optional(S.String),
-    merchantFeedLanguage: S.optional(S.String),
-    items: S.optional(CartDataItemList),
-    merchantId: S.optional(S.String),
-  }),
-).annotate({ identifier: "CartData" }) as any as S.Schema<CartData>;
+export type ConversionAdUserDataConsentEnum = "GRANTED" | "DENIED";
+export const ConversionAdUserDataConsentEnum = S.String;
 
 /** A Conversion represents when a user successfully performs a desired action after seeing an ad. */
 export interface Conversion {
-  /** The alphanumeric encrypted user ID. When set, encryptionInfo should also be specified. This field is mutually exclusive with encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
-  encryptedUserId?: string;
-  /** The match ID field. A match ID is your own first-party identifier that has been synced with Google using the match ID feature in Floodlight. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[],mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserId orencryptedUserIdCandidates[] or mobileDeviceId or gclid or dclid or impressionIdis a required field. */
-  matchId?: string;
-  /** The quantity of the conversion. This is a required field. */
-  quantity?: string;
-  /** Whether the conversion was for a non personalized ad. */
-  nonPersonalizedAd?: boolean;
-  /** This represents consent for ad user data. */
-  adUserDataConsent?: ConversionAdUserDataConsentEnum | (string & {});
-  /** Custom floodlight variables. */
-  customVariables?: CustomFloodlightVariableList;
-  /** Floodlight Configuration ID of this conversion. This is a required field. */
-  floodlightConfigurationId?: string;
-  /** The value of the conversion. Interpreted in CM360 Floodlight config parent advertiser's currency code. This is a required field. */
-  value?: number;
   /** Whether Limit Ad Tracking is enabled. When set to true, the conversion will be used for reporting but not targeting. This will prevent remarketing. */
   limitAdTracking?: boolean;
-  /** A list of the alphanumeric encrypted user IDs. Any user ID with exposure prior to the conversion timestamp will be used in the inserted conversion. If no such user ID is found then the conversion will be rejected with INVALID_ARGUMENT error. When set, encryptionInfo should also be specified. This field may only be used when calling batchinsert; it is not supported by batchupdate. This field is mutually exclusive with encryptedUserId, matchId, mobileDeviceId, gclid dclid, and impressionId. This or encryptedUserId or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
-  encryptedUserIdCandidates?: StringList;
-  /** The impression ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, and gclid. One of these identifiers must be set. */
-  impressionId?: string;
-  /** The Google click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or dclid or impressionId is a required field. */
-  gclid?: string;
-  /** The user identifiers to enhance the conversion. The maximum number of user identifiers for each conversion is 5. */
-  userIdentifiers?: UserIdentifierList;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversion". */
-  kind?: string;
   /** Floodlight Activity ID of this conversion. This is a required field. */
   floodlightActivityId?: string;
-  /** Session attributes for the conversion, encoded as based64 bytes. This field may only be used when calling batchinsert; it is not supported by batchupdate. */
-  sessionAttributesEncoded?: string;
-  /** Whether this particular request may come from a user under the age of 16 (may differ by country), under compliance with the European Union's General Data Protection Regulation (GDPR). */
-  treatmentForUnderage?: boolean;
-  /** Whether this particular request may come from a user under the age of 13, under COPPA compliance. */
-  childDirectedTreatment?: boolean;
-  /** The timestamp of conversion, in Unix epoch micros. This is a required field. */
-  timestampMicros?: string;
-  /** The display click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or impressionId is a required field. */
-  dclid?: string;
-  /** The mobile device ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, gclid, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or gclid or dclid or impressionId is a required field. */
-  mobileDeviceId?: string;
-  /** The cart data associated with this conversion. */
-  cartData?: CartData;
+  /** A list of the alphanumeric encrypted user IDs. Any user ID with exposure prior to the conversion timestamp will be used in the inserted conversion. If no such user ID is found then the conversion will be rejected with INVALID_ARGUMENT error. When set, encryptionInfo should also be specified. This field may only be used when calling batchinsert; it is not supported by batchupdate. This field is mutually exclusive with encryptedUserId, matchId, mobileDeviceId, gclid dclid, and impressionId. This or encryptedUserId or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
+  encryptedUserIdCandidates?: StringList;
   /** The ordinal of the conversion. Use this field to control how conversions of the same user and day are de-duplicated. This is a required field. */
   ordinal?: string;
+  /** Floodlight Configuration ID of this conversion. This is a required field. */
+  floodlightConfigurationId?: string;
+  /** The cart data associated with this conversion. */
+  cartData?: CartData;
+  /** The alphanumeric encrypted user ID. When set, encryptionInfo should also be specified. This field is mutually exclusive with encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
+  encryptedUserId?: string;
+  /** Session attributes for the conversion, encoded as based64 bytes. This field may only be used when calling batchinsert; it is not supported by batchupdate. */
+  sessionAttributesEncoded?: string;
+  /** The display click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or impressionId is a required field. */
+  dclid?: string;
+  /** The quantity of the conversion. This is a required field. */
+  quantity?: string;
+  /** The user identifiers to enhance the conversion. The maximum number of user identifiers for each conversion is 5. */
+  userIdentifiers?: UserIdentifierList;
+  /** The Google click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or dclid or impressionId is a required field. */
+  gclid?: string;
+  /** Whether this particular request may come from a user under the age of 16 (may differ by country), under compliance with the European Union's General Data Protection Regulation (GDPR). */
+  treatmentForUnderage?: boolean;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversion". */
+  kind?: string;
+  /** Whether the conversion was for a non personalized ad. */
+  nonPersonalizedAd?: boolean;
+  /** Custom floodlight variables. */
+  customVariables?: CustomFloodlightVariableList;
+  /** The mobile device ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, gclid, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or gclid or dclid or impressionId is a required field. */
+  mobileDeviceId?: string;
+  /** This represents consent for ad user data. */
+  adUserDataConsent?: ConversionAdUserDataConsentEnum | (string & {});
+  /** The value of the conversion. Interpreted in CM360 Floodlight config parent advertiser's currency code. This is a required field. */
+  value?: number;
+  /** Whether this particular request may come from a user under the age of 13, under COPPA compliance. */
+  childDirectedTreatment?: boolean;
+  /** The match ID field. A match ID is your own first-party identifier that has been synced with Google using the match ID feature in Floodlight. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[],mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserId orencryptedUserIdCandidates[] or mobileDeviceId or gclid or dclid or impressionIdis a required field. */
+  matchId?: string;
+  /** The timestamp of conversion, in Unix epoch micros. This is a required field. */
+  timestampMicros?: string;
+  /** The impression ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, and gclid. One of these identifiers must be set. */
+  impressionId?: string;
 }
 export const Conversion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryptedUserId: S.optional(S.String),
-    matchId: S.optional(S.String),
-    quantity: S.optional(S.String),
-    nonPersonalizedAd: S.optional(S.Boolean),
-    adUserDataConsent: S.optional(ConversionAdUserDataConsentEnum),
-    customVariables: S.optional(CustomFloodlightVariableList),
-    floodlightConfigurationId: S.optional(S.String),
-    value: S.optional(S.Number),
     limitAdTracking: S.optional(S.Boolean),
-    encryptedUserIdCandidates: S.optional(StringList),
-    impressionId: S.optional(S.String),
-    gclid: S.optional(S.String),
-    userIdentifiers: S.optional(UserIdentifierList),
-    kind: S.optional(S.String),
     floodlightActivityId: S.optional(S.String),
-    sessionAttributesEncoded: S.optional(S.String),
-    treatmentForUnderage: S.optional(S.Boolean),
-    childDirectedTreatment: S.optional(S.Boolean),
-    timestampMicros: S.optional(S.String),
-    dclid: S.optional(S.String),
-    mobileDeviceId: S.optional(S.String),
-    cartData: S.optional(CartData),
+    encryptedUserIdCandidates: S.optional(StringList),
     ordinal: S.optional(S.String),
+    floodlightConfigurationId: S.optional(S.String),
+    cartData: S.optional(CartData),
+    encryptedUserId: S.optional(S.String),
+    sessionAttributesEncoded: S.optional(S.String),
+    dclid: S.optional(S.String),
+    quantity: S.optional(S.String),
+    userIdentifiers: S.optional(UserIdentifierList),
+    gclid: S.optional(S.String),
+    treatmentForUnderage: S.optional(S.Boolean),
+    kind: S.optional(S.String),
+    nonPersonalizedAd: S.optional(S.Boolean),
+    customVariables: S.optional(CustomFloodlightVariableList),
+    mobileDeviceId: S.optional(S.String),
+    adUserDataConsent: S.optional(ConversionAdUserDataConsentEnum),
+    value: S.optional(S.Number),
+    childDirectedTreatment: S.optional(S.Boolean),
+    matchId: S.optional(S.String),
+    timestampMicros: S.optional(S.String),
+    impressionId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Conversion" }) as any as S.Schema<Conversion>;
 
 export type ConversionList = Array<Conversion>;
 export const ConversionList = /*@__PURE__*/ S.Array(Conversion) as any as S.Schema<ConversionList>;
+
+export type EncryptionInfoEncryptionSourceEnum =
+  | "ENCRYPTION_SCOPE_UNKNOWN"
+  | "AD_SERVING"
+  | "DATA_TRANSFER";
+export const EncryptionInfoEncryptionSourceEnum = S.String;
 
 export type EncryptionInfoEncryptionEntityTypeEnum =
   | "ENCRYPTION_ENTITY_TYPE_UNKNOWN"
@@ -389,29 +395,23 @@ export type EncryptionInfoEncryptionEntityTypeEnum =
   | "DFP_NETWORK_CODE";
 export const EncryptionInfoEncryptionEntityTypeEnum = S.String;
 
-export type EncryptionInfoEncryptionSourceEnum =
-  | "ENCRYPTION_SCOPE_UNKNOWN"
-  | "AD_SERVING"
-  | "DATA_TRANSFER";
-export const EncryptionInfoEncryptionSourceEnum = S.String;
-
 /** A description of how user IDs are encrypted. */
 export interface EncryptionInfo {
-  /** The encryption entity type. This should match the encryption configuration for ad serving or Data Transfer. */
-  encryptionEntityType?: EncryptionInfoEncryptionEntityTypeEnum | (string & {});
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#encryptionInfo". */
   kind?: string;
   /** The encryption entity ID. This should match the encryption configuration for ad serving or Data Transfer. */
   encryptionEntityId?: string;
   /** Describes whether the encrypted cookie was received from ad serving (the %m macro) or from Data Transfer. */
   encryptionSource?: EncryptionInfoEncryptionSourceEnum | (string & {});
+  /** The encryption entity type. This should match the encryption configuration for ad serving or Data Transfer. */
+  encryptionEntityType?: EncryptionInfoEncryptionEntityTypeEnum | (string & {});
 }
 export const EncryptionInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryptionEntityType: S.optional(EncryptionInfoEncryptionEntityTypeEnum),
     kind: S.optional(S.String),
     encryptionEntityId: S.optional(S.String),
     encryptionSource: S.optional(EncryptionInfoEncryptionSourceEnum),
+    encryptionEntityType: S.optional(EncryptionInfoEncryptionEntityTypeEnum),
   }),
 ).annotate({ identifier: "EncryptionInfo" }) as any as S.Schema<EncryptionInfo>;
 
@@ -466,16 +466,16 @@ export const ConversionErrorCodeEnum = S.String;
 export interface ConversionError {
   /** The error code. */
   code?: ConversionErrorCodeEnum;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionError". */
-  kind?: string;
   /** A description of the error. */
   message?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionError". */
+  kind?: string;
 }
 export const ConversionError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.optional(ConversionErrorCodeEnum),
-    kind: S.optional(S.String),
     message: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "ConversionError" }) as any as S.Schema<ConversionError>;
 
@@ -486,18 +486,18 @@ export const ConversionErrorList = /*@__PURE__*/ S.Array(
 
 /** The original conversion that was inserted or updated and whether there were any errors. */
 export interface ConversionStatus {
-  /** A list of errors related to this conversion. */
-  errors?: ConversionErrorList;
   /** The original conversion that was inserted or updated. */
   conversion?: Conversion;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionStatus". */
   kind?: string;
+  /** A list of errors related to this conversion. */
+  errors?: ConversionErrorList;
 }
 export const ConversionStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    errors: S.optional(ConversionErrorList),
     conversion: S.optional(Conversion),
     kind: S.optional(S.String),
+    errors: S.optional(ConversionErrorList),
   }),
 ).annotate({ identifier: "ConversionStatus" }) as any as S.Schema<ConversionStatus>;
 
@@ -508,18 +508,18 @@ export const ConversionStatusList = /*@__PURE__*/ S.Array(
 
 /** Insert Conversions Response. */
 export interface ConversionsBatchInsertResponse {
-  /** The insert status of each conversion. Statuses are returned in the same order that conversions are inserted. */
-  status?: ConversionStatusList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchInsertResponse". */
   kind?: string;
   /** Indicates that some or all conversions failed to insert. */
   hasFailures?: boolean;
+  /** The insert status of each conversion. Statuses are returned in the same order that conversions are inserted. */
+  status?: ConversionStatusList;
 }
 export const ConversionsBatchInsertResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(ConversionStatusList),
     kind: S.optional(S.String),
     hasFailures: S.optional(S.Boolean),
+    status: S.optional(ConversionStatusList),
   }),
 ).annotate({
   identifier: "ConversionsBatchInsertResponse",
@@ -527,17 +527,17 @@ export const ConversionsBatchInsertResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Update Conversions Request. */
 export interface ConversionsBatchUpdateRequest {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchUpdateRequest". */
-  kind?: string;
   /** The set of conversions to update. */
   conversions?: ConversionList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchUpdateRequest". */
+  kind?: string;
   /** Describes how encryptedUserId is encrypted. This is a required field if encryptedUserId is used. */
   encryptionInfo?: EncryptionInfo;
 }
 export const ConversionsBatchUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     conversions: S.optional(ConversionList),
+    kind: S.optional(S.String),
     encryptionInfo: S.optional(EncryptionInfo),
   }),
 ).annotate({
@@ -567,17 +567,17 @@ export const BatchupdateConversionsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Update Conversions Response. */
 export interface ConversionsBatchUpdateResponse {
-  /** The update status of each conversion. Statuses are returned in the same order that conversions are updated. */
-  status?: ConversionStatusList;
   /** Indicates that some or all conversions failed to update. */
   hasFailures?: boolean;
+  /** The update status of each conversion. Statuses are returned in the same order that conversions are updated. */
+  status?: ConversionStatusList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchUpdateResponse". */
   kind?: string;
 }
 export const ConversionsBatchUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(ConversionStatusList),
     hasFailures: S.optional(S.Boolean),
+    status: S.optional(ConversionStatusList),
     kind: S.optional(S.String),
   }),
 ).annotate({
@@ -637,15 +637,15 @@ export const DeleteContentCategoriesResponse = /*@__PURE__*/ S.suspend(() => S.S
 ) as any as S.Schema<DeleteContentCategoriesResponse>;
 
 export interface DeleteCreativeFieldsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Creative Field ID */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const DeleteCreativeFieldsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -663,17 +663,17 @@ export const DeleteCreativeFieldsResponse = /*@__PURE__*/ S.suspend(() => S.Stru
 }) as any as S.Schema<DeleteCreativeFieldsResponse>;
 
 export interface DeleteCreativeFieldValuesRequest {
-  /** Creative Field Value ID */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Creative Field Value ID */
+  id: string;
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
 }
 export const DeleteCreativeFieldValuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
     creativeFieldId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -701,21 +701,21 @@ export type DeleteDynamicTargetingKeysObjectTypeEnum =
 export const DeleteDynamicTargetingKeysObjectTypeEnum = S.String;
 
 export interface DeleteDynamicTargetingKeysRequest {
-  /** Required. Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
-  name: string;
-  /** ID of the object of this dynamic targeting key. This is a required field. */
-  objectId: string;
   /** Required. Type of the object of this dynamic targeting key. This is a required field. */
   objectType: DeleteDynamicTargetingKeysObjectTypeEnum | (string & {});
   /** User profile ID associated with this request. */
   profileId: string;
+  /** ID of the object of this dynamic targeting key. This is a required field. */
+  objectId: string;
+  /** Required. Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
+  name: string;
 }
 export const DeleteDynamicTargetingKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Query()),
-    objectId: S.String.pipe(T.Label()),
     objectType: DeleteDynamicTargetingKeysObjectTypeEnum.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    objectId: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Query()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -735,15 +735,15 @@ export const DeleteDynamicTargetingKeysResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteDynamicTargetingKeysResponse>;
 
 export interface DeleteEventTagsRequest {
-  /** Event tag ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Event tag ID. */
+  id: string;
 }
 export const DeleteEventTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -759,15 +759,15 @@ export const DeleteEventTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}
 }) as any as S.Schema<DeleteEventTagsResponse>;
 
 export interface DeleteFloodlightActivitiesRequest {
-  /** Floodlight activity ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Floodlight activity ID. */
+  id: string;
 }
 export const DeleteFloodlightActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -815,15 +815,15 @@ export const DeletePlacementStrategiesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeletePlacementStrategiesResponse>;
 
 export interface DeleteReportsRequest {
-  /** The Campaign Manager 360 user profile ID. */
-  profileId: string;
   /** The ID of the report. */
   reportId: string;
+  /** The Campaign Manager 360 user profile ID. */
+  profileId: string;
 }
 export const DeleteReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     reportId: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -916,18 +916,18 @@ export const GeneratetagFloodlightActivitiesRequest = /*@__PURE__*/ S.suspend(()
 
 /** Floodlight Activity GenerateTag Response */
 export interface FloodlightActivitiesGenerateTagResponse {
-  /** The global snippet section of a Google tag. The Google tag sets new cookies on your domain, which will store a unique identifier for a user or the ad click that brought the user to your site. Learn more. */
-  globalSiteTagGlobalSnippet?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesGenerateTagResponse". */
   kind?: string;
   /** Generated tag for this Floodlight activity. For Google tags, this is the event snippet. */
   floodlightActivityTag?: string;
+  /** The global snippet section of a Google tag. The Google tag sets new cookies on your domain, which will store a unique identifier for a user or the ad click that brought the user to your site. Learn more. */
+  globalSiteTagGlobalSnippet?: string;
 }
 export const FloodlightActivitiesGenerateTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    globalSiteTagGlobalSnippet: S.optional(S.String),
     kind: S.optional(S.String),
     floodlightActivityTag: S.optional(S.String),
+    globalSiteTagGlobalSnippet: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FloodlightActivitiesGenerateTagResponse",
@@ -964,30 +964,30 @@ export const GeneratetagsPlacementsTagFormatsEnumList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GeneratetagsPlacementsTagFormatsEnumList>;
 
 export interface GeneratetagsPlacementsRequest {
-  /** Optional. Indicates whether to include the GPP macro in the generated tags. [Learn more](https://support.google.com/campaignmanager/answer/10031693) about this macro. */
-  "tagProperties.gppMacrosIncluded"?: boolean;
-  /** Generate tags for these placements. */
-  placementIds?: StringList;
-  /** Generate placements belonging to this campaign. This is a required field. */
-  campaignId?: string;
   /** Tag formats to generate for these placements. *Note:* PLACEMENT_TAG_STANDARD can only be generated for 1x1 placements. */
   tagFormats?: GeneratetagsPlacementsTagFormatsEnumList;
   /** Optional. Indicates whether to include the TCF macro in the generated tags. Default true. [Learn more](https://support.google.com/campaignmanager/answer/10031693) about this macro. */
   "tagProperties.tcfGdprMacrosIncluded"?: boolean;
+  /** Generate placements belonging to this campaign. This is a required field. */
+  campaignId?: string;
+  /** Generate tags for these placements. */
+  placementIds?: StringList;
   /** Optional. Indicates whether to include the dc_dbm macro in the generated tags. [Learn more](https://support.google.com/campaignmanager/answer/9280273) about this macro. */
   "tagProperties.dcDbmMacroIncluded"?: boolean;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Optional. Indicates whether to include the GPP macro in the generated tags. [Learn more](https://support.google.com/campaignmanager/answer/10031693) about this macro. */
+  "tagProperties.gppMacrosIncluded"?: boolean;
 }
 export const GeneratetagsPlacementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "tagProperties.gppMacrosIncluded": S.optional(S.Boolean.pipe(T.Query())),
-    placementIds: S.optional(StringList.pipe(T.Query())),
-    campaignId: S.optional(S.String.pipe(T.Query())),
     tagFormats: S.optional(GeneratetagsPlacementsTagFormatsEnumList.pipe(T.Query())),
     "tagProperties.tcfGdprMacrosIncluded": S.optional(S.Boolean.pipe(T.Query())),
+    campaignId: S.optional(S.String.pipe(T.Query())),
+    placementIds: S.optional(StringList.pipe(T.Query())),
     "tagProperties.dcDbmMacroIncluded": S.optional(S.Boolean.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
+    "tagProperties.gppMacrosIncluded": S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1024,23 +1024,23 @@ export const TagDataFormatEnum = S.String;
 
 /** Placement Tag Data */
 export interface TagData {
-  /** Creative associated with this placement tag. Applicable only when format is PLACEMENT_TAG_TRACKING. */
-  creativeId?: string;
   /** Tag string to record a click. */
   clickTag?: string;
-  /** Tag string for serving an ad. */
-  impressionTag?: string;
   /** TagData tag format of this tag. */
   format?: TagDataFormatEnum;
+  /** Creative associated with this placement tag. Applicable only when format is PLACEMENT_TAG_TRACKING. */
+  creativeId?: string;
+  /** Tag string for serving an ad. */
+  impressionTag?: string;
   /** Ad associated with this placement tag. Applicable only when format is PLACEMENT_TAG_TRACKING. */
   adId?: string;
 }
 export const TagData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creativeId: S.optional(S.String),
     clickTag: S.optional(S.String),
-    impressionTag: S.optional(S.String),
     format: S.optional(TagDataFormatEnum),
+    creativeId: S.optional(S.String),
+    impressionTag: S.optional(S.String),
     adId: S.optional(S.String),
   }),
 ).annotate({ identifier: "TagData" }) as any as S.Schema<TagData>;
@@ -1069,15 +1069,15 @@ export const PlacementTagList = /*@__PURE__*/ S.Array(
 
 /** Placement GenerateTags Response */
 export interface PlacementsGenerateTagsResponse {
-  /** Set of generated tags for the specified placements. */
-  placementTags?: PlacementTagList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementsGenerateTagsResponse". */
   kind?: string;
+  /** Set of generated tags for the specified placements. */
+  placementTags?: PlacementTagList;
 }
 export const PlacementsGenerateTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    placementTags: S.optional(PlacementTagList),
     kind: S.optional(S.String),
+    placementTags: S.optional(PlacementTagList),
   }),
 ).annotate({
   identifier: "PlacementsGenerateTagsResponse",
@@ -1117,24 +1117,24 @@ export const AccountActiveAdSummaryActiveAdsLimitTierEnum = S.String;
 
 /** Gets a summary of active ads in an account. */
 export interface AccountActiveAdSummary {
-  /** Maximum number of active ads allowed for the account. */
-  activeAdsLimitTier?: AccountActiveAdSummaryActiveAdsLimitTierEnum;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountActiveAdSummary". */
   kind?: string;
   /** Ads that can be activated for the account. */
   availableAds?: string;
-  /** ID of the account. */
-  accountId?: string;
+  /** Maximum number of active ads allowed for the account. */
+  activeAdsLimitTier?: AccountActiveAdSummaryActiveAdsLimitTierEnum;
   /** Ads that have been activated for the account */
   activeAds?: string;
+  /** ID of the account. */
+  accountId?: string;
 }
 export const AccountActiveAdSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    activeAdsLimitTier: S.optional(AccountActiveAdSummaryActiveAdsLimitTierEnum),
     kind: S.optional(S.String),
     availableAds: S.optional(S.String),
-    accountId: S.optional(S.String),
+    activeAdsLimitTier: S.optional(AccountActiveAdSummaryActiveAdsLimitTierEnum),
     activeAds: S.optional(S.String),
+    accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccountActiveAdSummary" }) as any as S.Schema<AccountActiveAdSummary>;
 
@@ -1161,18 +1161,18 @@ export const GetAccountPermissionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** AccountPermissionGroups contains a mapping of permission group IDs to names. A permission group is a grouping of account permissions. */
 export interface AccountPermissionGroup {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionGroup". */
-  kind?: string;
-  /** Name of this account permission group. */
-  name?: string;
   /** ID of this account permission group. */
   id?: string;
+  /** Name of this account permission group. */
+  name?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionGroup". */
+  kind?: string;
 }
 export const AccountPermissionGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    name: S.optional(S.String),
     id: S.optional(S.String),
+    name: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccountPermissionGroup" }) as any as S.Schema<AccountPermissionGroup>;
 
@@ -1213,40 +1213,40 @@ export const AccountPermissionAccountProfilesItemEnumList = /*@__PURE__*/ S.Arra
 
 /** AccountPermissions contains information about a particular account permission. Some features of Campaign Manager require an account permission to be present in the account. */
 export interface AccountPermission {
-  /** ID of this account permission. */
-  id?: string;
-  /** Name of this account permission. */
-  name?: string;
-  /** Permission group of this account permission. */
-  permissionGroupId?: string;
   /** Administrative level required to enable this account permission. */
   level?: AccountPermissionLevelEnum;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermission". */
-  kind?: string;
+  /** Permission group of this account permission. */
+  permissionGroupId?: string;
+  /** Name of this account permission. */
+  name?: string;
   /** Account profiles associated with this account permission. Possible values are: - "ACCOUNT_PROFILE_BASIC" - "ACCOUNT_PROFILE_STANDARD" */
   accountProfiles?: AccountPermissionAccountProfilesItemEnumList;
+  /** ID of this account permission. */
+  id?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermission". */
+  kind?: string;
 }
 export const AccountPermission = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    permissionGroupId: S.optional(S.String),
     level: S.optional(AccountPermissionLevelEnum),
-    kind: S.optional(S.String),
+    permissionGroupId: S.optional(S.String),
+    name: S.optional(S.String),
     accountProfiles: S.optional(AccountPermissionAccountProfilesItemEnumList),
+    id: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccountPermission" }) as any as S.Schema<AccountPermission>;
 
 export interface GetAccountsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Account ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const GetAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1303,66 +1303,66 @@ export const AccountAccountProfileEnum = S.String;
 
 /** Contains properties of a Campaign Manager account. */
 export interface Account {
-  /** Maximum number of active ads allowed for this account. */
-  activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | (string & {});
-  /** Reporting configuration of this account. */
-  reportsConfiguration?: ReportsConfiguration;
-  /** ID of the country associated with this account. */
-  countryId?: string;
-  /** Whether campaigns created in this account will be enabled for Nielsen OCR reach ratings by default. */
-  nielsenOcrEnabled?: boolean;
-  /** Whether this account is active. */
-  active?: boolean;
-  /** Default placement dimensions for this account. */
-  defaultCreativeSizeId?: string;
   /** Maximum image size allowed for this account, in kilobytes. Value must be greater than or equal to 1. */
   maximumImageSize?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#account". */
   kind?: string;
+  /** Account permissions assigned to this account. */
+  accountPermissionIds?: StringList;
   /** ID of currency associated with this account. This is a required field. Acceptable values are: - "1" for USD - "2" for GBP - "3" for ESP - "4" for SEK - "5" for CAD - "6" for JPY - "7" for DEM - "8" for AUD - "9" for FRF - "10" for ITL - "11" for DKK - "12" for NOK - "13" for FIM - "14" for ZAR - "15" for IEP - "16" for NLG - "17" for EUR - "18" for KRW - "19" for TWD - "20" for SGD - "21" for CNY - "22" for HKD - "23" for NZD - "24" for MYR - "25" for BRL - "26" for PTE - "28" for CLP - "29" for TRY - "30" for ARS - "31" for PEN - "32" for ILS - "33" for CHF - "34" for VEF - "35" for COP - "36" for GTQ - "37" for PLN - "39" for INR - "40" for THB - "41" for IDR - "42" for CZK - "43" for RON - "44" for HUF - "45" for RUB - "46" for AED - "47" for BGN - "48" for HRK - "49" for MXN - "50" for NGN - "51" for EGP */
   currencyId?: string;
+  /** Maximum number of active ads allowed for this account. */
+  activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | (string & {});
+  /** Whether to serve creatives with Active View tags. If disabled, viewability data will not be available for any impressions. */
+  activeViewOptOut?: boolean;
   /** Locale of this account. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
   locale?: string;
+  /** Reporting configuration of this account. */
+  reportsConfiguration?: ReportsConfiguration;
+  /** Whether this account is active. */
+  active?: boolean;
+  /** User role permissions available to the user roles of this account. */
+  availablePermissionIds?: StringList;
+  /** File size limit in kilobytes of Rich Media teaser creatives. Acceptable values are 1 to 10240, inclusive. */
+  teaserSizeLimit?: string;
   /** ID of this account. This is a read-only, auto-generated field. */
   id?: string;
   /** Profile for this account. This is a read-only field that can be left blank. */
   accountProfile?: AccountAccountProfileEnum | (string & {});
-  /** File size limit in kilobytes of Rich Media teaser creatives. Acceptable values are 1 to 10240, inclusive. */
-  teaserSizeLimit?: string;
-  /** Whether to serve creatives with Active View tags. If disabled, viewability data will not be available for any impressions. */
-  activeViewOptOut?: boolean;
-  /** Account permissions assigned to this account. */
-  accountPermissionIds?: StringList;
+  /** Default placement dimensions for this account. */
+  defaultCreativeSizeId?: string;
+  /** Description of this account. */
+  description?: string;
+  /** Whether campaigns created in this account will be enabled for Nielsen OCR reach ratings by default. */
+  nielsenOcrEnabled?: boolean;
+  /** ID of the country associated with this account. */
+  countryId?: string;
   /** Name of this account. This is a required field, and must be less than 128 characters long and be globally unique. */
   name?: string;
   /** Share Path to Conversion reports with Twitter. */
   shareReportsWithTwitter?: boolean;
-  /** Description of this account. */
-  description?: string;
-  /** User role permissions available to the user roles of this account. */
-  availablePermissionIds?: StringList;
 }
 export const Account = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    activeAdsLimitTier: S.optional(AccountActiveAdsLimitTierEnum),
-    reportsConfiguration: S.optional(ReportsConfiguration),
-    countryId: S.optional(S.String),
-    nielsenOcrEnabled: S.optional(S.Boolean),
-    active: S.optional(S.Boolean),
-    defaultCreativeSizeId: S.optional(S.String),
     maximumImageSize: S.optional(S.String),
     kind: S.optional(S.String),
+    accountPermissionIds: S.optional(StringList),
     currencyId: S.optional(S.String),
+    activeAdsLimitTier: S.optional(AccountActiveAdsLimitTierEnum),
+    activeViewOptOut: S.optional(S.Boolean),
     locale: S.optional(S.String),
+    reportsConfiguration: S.optional(ReportsConfiguration),
+    active: S.optional(S.Boolean),
+    availablePermissionIds: S.optional(StringList),
+    teaserSizeLimit: S.optional(S.String),
     id: S.optional(S.String),
     accountProfile: S.optional(AccountAccountProfileEnum),
-    teaserSizeLimit: S.optional(S.String),
-    activeViewOptOut: S.optional(S.Boolean),
-    accountPermissionIds: S.optional(StringList),
+    defaultCreativeSizeId: S.optional(S.String),
+    description: S.optional(S.String),
+    nielsenOcrEnabled: S.optional(S.Boolean),
+    countryId: S.optional(S.String),
     name: S.optional(S.String),
     shareReportsWithTwitter: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    availablePermissionIds: S.optional(StringList),
   }),
 ).annotate({ identifier: "Account" }) as any as S.Schema<Account>;
 
@@ -1387,31 +1387,31 @@ export const GetAccountUserProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetAccountUserProfilesRequest",
 }) as any as S.Schema<GetAccountUserProfilesRequest>;
 
-export type AccountUserProfileTraffickerTypeEnum =
-  | "INTERNAL_NON_TRAFFICKER"
-  | "INTERNAL_TRAFFICKER"
-  | "EXTERNAL_TRAFFICKER";
-export const AccountUserProfileTraffickerTypeEnum = S.String;
-
 export type ObjectFilterStatusEnum = "NONE" | "ASSIGNED" | "ALL";
 export const ObjectFilterStatusEnum = S.String;
 
 /** Object Filter. */
 export interface ObjectFilter {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#objectFilter". */
-  kind?: string;
   /** Status of the filter. NONE means the user has access to none of the objects. ALL means the user has access to all objects. ASSIGNED means the user has access to the objects with IDs in the objectIds list. */
   status?: ObjectFilterStatusEnum | (string & {});
   /** Applicable when status is ASSIGNED. The user has access to objects with these object IDs. */
   objectIds?: StringList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#objectFilter". */
+  kind?: string;
 }
 export const ObjectFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     status: S.optional(ObjectFilterStatusEnum),
     objectIds: S.optional(StringList),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "ObjectFilter" }) as any as S.Schema<ObjectFilter>;
+
+export type AccountUserProfileTraffickerTypeEnum =
+  | "INTERNAL_NON_TRAFFICKER"
+  | "INTERNAL_TRAFFICKER"
+  | "EXTERNAL_TRAFFICKER";
+export const AccountUserProfileTraffickerTypeEnum = S.String;
 
 export type AccountUserProfileUserAccessTypeEnum =
   | "NORMAL_USER"
@@ -1422,70 +1422,70 @@ export const AccountUserProfileUserAccessTypeEnum = S.String;
 
 /** AccountUserProfiles contains properties of a Campaign Manager user profile. This resource is specifically for managing user profiles, whereas UserProfiles is for accessing the API. */
 export interface AccountUserProfile {
-  /** User role ID of the user profile. This is a required field. */
-  userRoleId?: string;
-  /** Trafficker type of this user profile. This is a read-only field. */
-  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {});
   /** Filter that describes which sites are visible to the user profile. */
   siteFilter?: ObjectFilter;
-  /** Filter that describes which campaigns are visible to the user profile. */
-  campaignFilter?: ObjectFilter;
-  /** Whether this user profile is active. This defaults to false, and must be set true on insert for the user profile to be usable. */
-  active?: boolean;
-  /** Subaccount ID of the user profile. This is a read-only field that can be left blank. */
-  subaccountId?: string;
-  /** Account ID of the user profile. This is a read-only field that can be left blank. */
-  accountId?: string;
-  /** Locale of the user profile. This is a required field. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string;
-  /** ID of the user profile. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Name of the user profile. This is a required field. Must be less than 64 characters long, must be globally unique, and cannot contain whitespace or any of the following characters: "&;<>"#%,". */
-  name?: string;
-  /** Filter that describes which user roles are visible to the user profile. */
-  userRoleFilter?: ObjectFilter;
   /** Email of the user profile. The email address must be linked to a Google Account. This field is required on insertion and is read-only after insertion. */
   email?: string;
-  /** Filter that describes which advertisers are visible to the user profile. */
-  advertiserFilter?: ObjectFilter;
-  /** User type of the user profile. This is a read-only field that can be left blank. */
-  userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {});
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfile". */
-  kind?: string;
   /** Comments for this user profile. */
   comments?: string;
+  /** Name of the user profile. This is a required field. Must be less than 64 characters long, must be globally unique, and cannot contain whitespace or any of the following characters: "&;<>"#%,". */
+  name?: string;
+  /** Locale of the user profile. This is a required field. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
+  locale?: string;
+  /** Filter that describes which advertisers are visible to the user profile. */
+  advertiserFilter?: ObjectFilter;
+  /** Whether this user profile is active. This defaults to false, and must be set true on insert for the user profile to be usable. */
+  active?: boolean;
+  /** Trafficker type of this user profile. This is a read-only field. */
+  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {});
+  /** ID of the user profile. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfile". */
+  kind?: string;
+  /** Filter that describes which campaigns are visible to the user profile. */
+  campaignFilter?: ObjectFilter;
+  /** Subaccount ID of the user profile. This is a read-only field that can be left blank. */
+  subaccountId?: string;
+  /** User role ID of the user profile. This is a required field. */
+  userRoleId?: string;
+  /** Filter that describes which user roles are visible to the user profile. */
+  userRoleFilter?: ObjectFilter;
+  /** User type of the user profile. This is a read-only field that can be left blank. */
+  userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {});
+  /** Account ID of the user profile. This is a read-only field that can be left blank. */
+  accountId?: string;
 }
 export const AccountUserProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userRoleId: S.optional(S.String),
-    traffickerType: S.optional(AccountUserProfileTraffickerTypeEnum),
     siteFilter: S.optional(ObjectFilter),
-    campaignFilter: S.optional(ObjectFilter),
-    active: S.optional(S.Boolean),
-    subaccountId: S.optional(S.String),
-    accountId: S.optional(S.String),
-    locale: S.optional(S.String),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    userRoleFilter: S.optional(ObjectFilter),
     email: S.optional(S.String),
-    advertiserFilter: S.optional(ObjectFilter),
-    userAccessType: S.optional(AccountUserProfileUserAccessTypeEnum),
-    kind: S.optional(S.String),
     comments: S.optional(S.String),
+    name: S.optional(S.String),
+    locale: S.optional(S.String),
+    advertiserFilter: S.optional(ObjectFilter),
+    active: S.optional(S.Boolean),
+    traffickerType: S.optional(AccountUserProfileTraffickerTypeEnum),
+    id: S.optional(S.String),
+    kind: S.optional(S.String),
+    campaignFilter: S.optional(ObjectFilter),
+    subaccountId: S.optional(S.String),
+    userRoleId: S.optional(S.String),
+    userRoleFilter: S.optional(ObjectFilter),
+    userAccessType: S.optional(AccountUserProfileUserAccessTypeEnum),
+    accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccountUserProfile" }) as any as S.Schema<AccountUserProfile>;
 
 export interface GetAdsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Ad ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const GetAdsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1495,29 +1495,104 @@ export const GetAdsRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetAdsRequest" }) as any as S.Schema<GetAdsRequest>;
 
-/** Modification timestamp. */
-export interface LastModifiedInfo {
-  /** Timestamp of the last change in milliseconds since epoch. */
-  time?: string;
-}
-export const LastModifiedInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    time: S.optional(S.String),
-  }),
-).annotate({ identifier: "LastModifiedInfo" }) as any as S.Schema<LastModifiedInfo>;
+export type AdCompatibilityEnum =
+  | "DISPLAY"
+  | "DISPLAY_INTERSTITIAL"
+  | "APP"
+  | "APP_INTERSTITIAL"
+  | "IN_STREAM_VIDEO"
+  | "IN_STREAM_AUDIO";
+export const AdCompatibilityEnum = S.String;
 
-/** Key Value Targeting Expression. */
-export interface KeyValueTargetingExpression {
-  /** Keyword expression being targeted by the ad. */
-  expression?: string;
+export type AdTypeEnum =
+  | "AD_SERVING_STANDARD_AD"
+  | "AD_SERVING_DEFAULT_AD"
+  | "AD_SERVING_CLICK_TRACKER"
+  | "AD_SERVING_TRACKING"
+  | "AD_SERVING_BRAND_SAFE_AD";
+export const AdTypeEnum = S.String;
+
+export type CreativeGroupAssignmentCreativeGroupNumberEnum =
+  | "CREATIVE_GROUP_ONE"
+  | "CREATIVE_GROUP_TWO";
+export const CreativeGroupAssignmentCreativeGroupNumberEnum = S.String;
+
+/** Creative Group Assignment. */
+export interface CreativeGroupAssignment {
+  /** Creative group number of the creative group assignment. */
+  creativeGroupNumber?: CreativeGroupAssignmentCreativeGroupNumberEnum | (string & {});
+  /** ID of the creative group to be assigned. */
+  creativeGroupId?: string;
 }
-export const KeyValueTargetingExpression = /*@__PURE__*/ S.suspend(() =>
+export const CreativeGroupAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expression: S.optional(S.String),
+    creativeGroupNumber: S.optional(CreativeGroupAssignmentCreativeGroupNumberEnum),
+    creativeGroupId: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreativeGroupAssignment" }) as any as S.Schema<CreativeGroupAssignment>;
+
+export type CreativeGroupAssignmentList = Array<CreativeGroupAssignment>;
+export const CreativeGroupAssignmentList = /*@__PURE__*/ S.Array(
+  CreativeGroupAssignment,
+) as any as S.Schema<CreativeGroupAssignmentList>;
+
+/** Represents the dimensions of ads, placements, creatives, or creative assets. */
+export interface Size {
+  /** Width of this size. Acceptable values are 0 to 32767, inclusive. */
+  width?: number;
+  /** IAB standard size. This is a read-only, auto-generated field. */
+  iab?: boolean;
+  /** Height of this size. Acceptable values are 0 to 32767, inclusive. */
+  height?: number;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#size". */
+  kind?: string;
+  /** ID of this size. This is a read-only, auto-generated field. */
+  id?: string;
+}
+export const Size = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    width: S.optional(S.Number),
+    iab: S.optional(S.Boolean),
+    height: S.optional(S.Number),
+    kind: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Size" }) as any as S.Schema<Size>;
+
+/** Click Through URL Suffix settings. */
+export interface ClickThroughUrlSuffixProperties {
+  /** Click-through URL suffix to apply to all ads in this entity's scope. Must be less than 128 characters long. */
+  clickThroughUrlSuffix?: string;
+  /** Whether this entity should override the inherited click-through URL suffix with its own defined value. */
+  overrideInheritedSuffix?: boolean;
+}
+export const ClickThroughUrlSuffixProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clickThroughUrlSuffix: S.optional(S.String),
+    overrideInheritedSuffix: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "KeyValueTargetingExpression",
-}) as any as S.Schema<KeyValueTargetingExpression>;
+  identifier: "ClickThroughUrlSuffixProperties",
+}) as any as S.Schema<ClickThroughUrlSuffixProperties>;
+
+/** Event tag override information. */
+export interface EventTagOverride {
+  /** ID of this event tag override. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Whether this override is enabled. */
+  enabled?: boolean;
+}
+export const EventTagOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "EventTagOverride" }) as any as S.Schema<EventTagOverride>;
+
+export type EventTagOverrideList = Array<EventTagOverride>;
+export const EventTagOverrideList = /*@__PURE__*/ S.Array(
+  EventTagOverride,
+) as any as S.Schema<EventTagOverrideList>;
 
 export type DimensionValueMatchTypeEnum =
   | "EXACT"
@@ -1528,94 +1603,296 @@ export const DimensionValueMatchTypeEnum = S.String;
 
 /** Represents a DimensionValue resource. */
 export interface DimensionValue {
+  /** The name of the dimension. */
+  dimensionName?: string;
+  /** The ID associated with the value if available. */
+  id?: string;
+  /** The value of the dimension. */
+  value?: string;
   /** The kind of resource this is, in this case dfareporting#dimensionValue. */
   kind?: string;
   /** The eTag of this response for caching purposes. */
   etag?: string;
-  /** The ID associated with the value if available. */
-  id?: string;
-  /** The name of the dimension. */
-  dimensionName?: string;
   /** Determines how the 'value' field is matched when filtering. If not specified, defaults to EXACT. If set to WILDCARD_EXPRESSION, '*' is allowed as a placeholder for variable length character sequences, and it can be escaped with a backslash. Note, only paid search dimensions ('dfa:paidSearch*') allow a matchType other than EXACT. */
   matchType?: DimensionValueMatchTypeEnum | (string & {});
-  /** The value of the dimension. */
-  value?: string;
 }
 export const DimensionValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dimensionName: S.optional(S.String),
+    id: S.optional(S.String),
+    value: S.optional(S.String),
     kind: S.optional(S.String),
     etag: S.optional(S.String),
-    id: S.optional(S.String),
-    dimensionName: S.optional(S.String),
     matchType: S.optional(DimensionValueMatchTypeEnum),
-    value: S.optional(S.String),
   }),
 ).annotate({ identifier: "DimensionValue" }) as any as S.Schema<DimensionValue>;
 
-/** Placement Assignment. */
-export interface PlacementAssignment {
-  /** Dimension value for the ID of the placement. This is a read-only, auto-generated field. */
-  placementIdDimensionValue?: DimensionValue;
-  /** Whether this placement assignment is active. When true, the placement will be included in the ad's rotation. */
-  active?: boolean;
-  /** Whether the placement to be assigned requires SSL. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean;
-  /** ID of the placement to be assigned. This is a required field. */
-  placementId?: string;
+/** Contains information about a mobile carrier that can be targeted by ads. */
+export interface MobileCarrier {
+  /** DART ID of the country to which this mobile carrier belongs. */
+  countryDartId?: string;
+  /** Country code of the country to which this mobile carrier belongs. */
+  countryCode?: string;
+  /** Name of this mobile carrier. */
+  name?: string;
+  /** ID of this mobile carrier. */
+  id?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileCarrier". */
+  kind?: string;
 }
-export const PlacementAssignment = /*@__PURE__*/ S.suspend(() =>
+export const MobileCarrier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    placementIdDimensionValue: S.optional(DimensionValue),
-    active: S.optional(S.Boolean),
-    sslRequired: S.optional(S.Boolean),
-    placementId: S.optional(S.String),
+    countryDartId: S.optional(S.String),
+    countryCode: S.optional(S.String),
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
-).annotate({ identifier: "PlacementAssignment" }) as any as S.Schema<PlacementAssignment>;
+).annotate({ identifier: "MobileCarrier" }) as any as S.Schema<MobileCarrier>;
 
-export type PlacementAssignmentList = Array<PlacementAssignment>;
-export const PlacementAssignmentList = /*@__PURE__*/ S.Array(
-  PlacementAssignment,
-) as any as S.Schema<PlacementAssignmentList>;
+export type MobileCarrierList = Array<MobileCarrier>;
+export const MobileCarrierList = /*@__PURE__*/ S.Array(
+  MobileCarrier,
+) as any as S.Schema<MobileCarrierList>;
+
+/** Contains information about a platform type that can be targeted by ads. */
+export interface PlatformType {
+  /** ID of this platform type. */
+  id?: string;
+  /** Name of this platform type. */
+  name?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#platformType". */
+  kind?: string;
+}
+export const PlatformType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    kind: S.optional(S.String),
+  }),
+).annotate({ identifier: "PlatformType" }) as any as S.Schema<PlatformType>;
+
+export type PlatformTypeList = Array<PlatformType>;
+export const PlatformTypeList = /*@__PURE__*/ S.Array(
+  PlatformType,
+) as any as S.Schema<PlatformTypeList>;
+
+/** Contains information about an internet connection type that can be targeted by ads. Clients can use the connection type to target mobile vs. broadband users. */
+export interface ConnectionType {
+  /** Name of this connection type. */
+  name?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#connectionType". */
+  kind?: string;
+  /** ID of this connection type. */
+  id?: string;
+}
+export const ConnectionType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    kind: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "ConnectionType" }) as any as S.Schema<ConnectionType>;
+
+export type ConnectionTypeList = Array<ConnectionType>;
+export const ConnectionTypeList = /*@__PURE__*/ S.Array(
+  ConnectionType,
+) as any as S.Schema<ConnectionTypeList>;
+
+/** Contains information about a browser that can be targeted by ads. */
+export interface Browser {
+  /** ID referring to this grouping of browser and version numbers. This is the ID used for targeting. */
+  browserVersionId?: string;
+  /** Minor version number (number after first dot on left) of this browser. For example, for Chrome 5.0.375.86 beta, this field should be set to 0. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
+  minorVersion?: string;
+  /** Major version number (leftmost number) of this browser. For example, for Chrome 5.0.376.86 beta, this field should be set to 5. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
+  majorVersion?: string;
+  /** Name of this browser. */
+  name?: string;
+  /** DART ID of this browser. This is the ID used when generating reports. */
+  dartId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#browser". */
+  kind?: string;
+}
+export const Browser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    browserVersionId: S.optional(S.String),
+    minorVersion: S.optional(S.String),
+    majorVersion: S.optional(S.String),
+    name: S.optional(S.String),
+    dartId: S.optional(S.String),
+    kind: S.optional(S.String),
+  }),
+).annotate({ identifier: "Browser" }) as any as S.Schema<Browser>;
+
+export type BrowserList = Array<Browser>;
+export const BrowserList = /*@__PURE__*/ S.Array(Browser) as any as S.Schema<BrowserList>;
+
+/** Contains information about an operating system that can be targeted by ads. */
+export interface OperatingSystem {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystem". */
+  kind?: string;
+  /** Name of this operating system. */
+  name?: string;
+  /** Whether this operating system is for mobile. */
+  mobile?: boolean;
+  /** Whether this operating system is for desktop. */
+  desktop?: boolean;
+  /** DART ID of this operating system. This is the ID used for targeting. */
+  dartId?: string;
+}
+export const OperatingSystem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    name: S.optional(S.String),
+    mobile: S.optional(S.Boolean),
+    desktop: S.optional(S.Boolean),
+    dartId: S.optional(S.String),
+  }),
+).annotate({ identifier: "OperatingSystem" }) as any as S.Schema<OperatingSystem>;
+
+/** Contains information about a particular version of an operating system that can be targeted by ads. */
+export interface OperatingSystemVersion {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystemVersion". */
+  kind?: string;
+  /** Operating system of this operating system version. */
+  operatingSystem?: OperatingSystem;
+  /** Name of this operating system version. */
+  name?: string;
+  /** Minor version (number after the first dot) of this operating system version. */
+  minorVersion?: string;
+  /** ID of this operating system version. */
+  id?: string;
+  /** Major version (leftmost number) of this operating system version. */
+  majorVersion?: string;
+}
+export const OperatingSystemVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    operatingSystem: S.optional(OperatingSystem),
+    name: S.optional(S.String),
+    minorVersion: S.optional(S.String),
+    id: S.optional(S.String),
+    majorVersion: S.optional(S.String),
+  }),
+).annotate({ identifier: "OperatingSystemVersion" }) as any as S.Schema<OperatingSystemVersion>;
+
+export type OperatingSystemVersionList = Array<OperatingSystemVersion>;
+export const OperatingSystemVersionList = /*@__PURE__*/ S.Array(
+  OperatingSystemVersion,
+) as any as S.Schema<OperatingSystemVersionList>;
+
+export type OperatingSystemList = Array<OperatingSystem>;
+export const OperatingSystemList = /*@__PURE__*/ S.Array(
+  OperatingSystem,
+) as any as S.Schema<OperatingSystemList>;
+
+/** Technology Targeting. */
+export interface TechnologyTargeting {
+  /** Mobile carriers that this ad targets. For each mobile carrier only id is required, and the other fields are populated automatically when the ad is inserted or updated. If targeting a mobile carrier, do not set targeting for any zip codes. */
+  mobileCarriers?: MobileCarrierList;
+  /** Platform types that this ad targets. For example, desktop, mobile, or tablet. For each platform type, only id is required, and the other fields are populated automatically when the ad is inserted or updated. */
+  platformTypes?: PlatformTypeList;
+  /** Connection types that this ad targets. For each connection type only id is required. The other fields are populated automatically when the ad is inserted or updated. */
+  connectionTypes?: ConnectionTypeList;
+  /** Browsers that this ad targets. For each browser either set browserVersionId or dartId along with the version numbers. If both are specified, only browserVersionId will be used. The other fields are populated automatically when the ad is inserted or updated. */
+  browsers?: BrowserList;
+  /** Operating system versions that this ad targets. To target all versions, use operatingSystems. For each operating system version, only id is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system version, do not set targeting for the corresponding operating system in operatingSystems. */
+  operatingSystemVersions?: OperatingSystemVersionList;
+  /** Operating systems that this ad targets. To target specific versions, use operatingSystemVersions. For each operating system only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system, do not set targeting for operating system versions for the same operating system. */
+  operatingSystems?: OperatingSystemList;
+}
+export const TechnologyTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mobileCarriers: S.optional(MobileCarrierList),
+    platformTypes: S.optional(PlatformTypeList),
+    connectionTypes: S.optional(ConnectionTypeList),
+    browsers: S.optional(BrowserList),
+    operatingSystemVersions: S.optional(OperatingSystemVersionList),
+    operatingSystems: S.optional(OperatingSystemList),
+  }),
+).annotate({ identifier: "TechnologyTargeting" }) as any as S.Schema<TechnologyTargeting>;
+
+/** Contains information about a language that can be targeted by ads. */
+export interface Language {
+  /** Name of this language. */
+  name?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#language". */
+  kind?: string;
+  /** Format of language code is an ISO 639 two-letter language code optionally followed by an underscore followed by an ISO 3166 code. Examples are "en" for English or "zh_CN" for Simplified Chinese. */
+  languageCode?: string;
+  /** Language ID of this language. This is the ID used for targeting and generating reports. */
+  id?: string;
+}
+export const Language = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    kind: S.optional(S.String),
+    languageCode: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Language" }) as any as S.Schema<Language>;
+
+export type LanguageList = Array<Language>;
+export const LanguageList = /*@__PURE__*/ S.Array(Language) as any as S.Schema<LanguageList>;
+
+/** Language Targeting. */
+export interface LanguageTargeting {
+  /** Languages that this ad targets. For each language only languageId is required. The other fields are populated automatically when the ad is inserted or updated. */
+  languages?: LanguageList;
+}
+export const LanguageTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    languages: S.optional(LanguageList),
+  }),
+).annotate({ identifier: "LanguageTargeting" }) as any as S.Schema<LanguageTargeting>;
 
 export type CreativeRotationTypeEnum =
   | "CREATIVE_ROTATION_TYPE_SEQUENTIAL"
   | "CREATIVE_ROTATION_TYPE_RANDOM";
 export const CreativeRotationTypeEnum = S.String;
 
+export type CreativeRotationWeightCalculationStrategyEnum =
+  | "WEIGHT_STRATEGY_EQUAL"
+  | "WEIGHT_STRATEGY_CUSTOM"
+  | "WEIGHT_STRATEGY_HIGHEST_CTR"
+  | "WEIGHT_STRATEGY_OPTIMIZED";
+export const CreativeRotationWeightCalculationStrategyEnum = S.String;
+
 /** Click-through URL */
 export interface ClickThroughUrl {
-  /** Custom click-through URL. Applicable if the defaultLandingPage field is set to false and the landingPageId field is left unset. */
-  customClickThroughUrl?: string;
   /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If defaultLandingPage is enabled then the campaign's default landing page URL is assigned to this field. - If defaultLandingPage is not enabled and a landingPageId is specified then that landing page's URL is assigned to this field. - If neither of the above cases apply, then the customClickThroughUrl is assigned to this field. */
   computedClickThroughUrl?: string;
-  /** Whether the campaign default landing page is used. */
-  defaultLandingPage?: boolean;
   /** ID of the landing page for the click-through URL. Applicable if the defaultLandingPage field is set to false. */
   landingPageId?: string;
+  /** Custom click-through URL. Applicable if the defaultLandingPage field is set to false and the landingPageId field is left unset. */
+  customClickThroughUrl?: string;
+  /** Whether the campaign default landing page is used. */
+  defaultLandingPage?: boolean;
 }
 export const ClickThroughUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customClickThroughUrl: S.optional(S.String),
     computedClickThroughUrl: S.optional(S.String),
-    defaultLandingPage: S.optional(S.Boolean),
     landingPageId: S.optional(S.String),
+    customClickThroughUrl: S.optional(S.String),
+    defaultLandingPage: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "ClickThroughUrl" }) as any as S.Schema<ClickThroughUrl>;
 
 /** Rich Media Exit Override. */
 export interface RichMediaExitOverride {
+  /** Whether to use the clickThroughUrl. If false, the creative-level exit will be used. */
+  enabled?: boolean;
   /** ID for the override to refer to a specific exit in the creative. */
   exitId?: string;
   /** Click-through URL of this rich media exit override. Applicable if the enabled field is set to true. */
   clickThroughUrl?: ClickThroughUrl;
-  /** Whether to use the clickThroughUrl. If false, the creative-level exit will be used. */
-  enabled?: boolean;
 }
 export const RichMediaExitOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    enabled: S.optional(S.Boolean),
     exitId: S.optional(S.String),
     clickThroughUrl: S.optional(ClickThroughUrl),
-    enabled: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "RichMediaExitOverride" }) as any as S.Schema<RichMediaExitOverride>;
 
@@ -1645,72 +1922,48 @@ export const CompanionClickThroughOverrideList = /*@__PURE__*/ S.Array(
   CompanionClickThroughOverride,
 ) as any as S.Schema<CompanionClickThroughOverrideList>;
 
-export type CreativeGroupAssignmentCreativeGroupNumberEnum =
-  | "CREATIVE_GROUP_ONE"
-  | "CREATIVE_GROUP_TWO";
-export const CreativeGroupAssignmentCreativeGroupNumberEnum = S.String;
-
-/** Creative Group Assignment. */
-export interface CreativeGroupAssignment {
-  /** Creative group number of the creative group assignment. */
-  creativeGroupNumber?: CreativeGroupAssignmentCreativeGroupNumberEnum | (string & {});
-  /** ID of the creative group to be assigned. */
-  creativeGroupId?: string;
-}
-export const CreativeGroupAssignment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creativeGroupNumber: S.optional(CreativeGroupAssignmentCreativeGroupNumberEnum),
-    creativeGroupId: S.optional(S.String),
-  }),
-).annotate({ identifier: "CreativeGroupAssignment" }) as any as S.Schema<CreativeGroupAssignment>;
-
-export type CreativeGroupAssignmentList = Array<CreativeGroupAssignment>;
-export const CreativeGroupAssignmentList = /*@__PURE__*/ S.Array(
-  CreativeGroupAssignment,
-) as any as S.Schema<CreativeGroupAssignmentList>;
-
 /** Creative Assignment. */
 export interface CreativeAssignment {
-  /** Rich media exit overrides for this creative assignment. Applicable when the creative type is any of the following: - DISPLAY - RICH_MEDIA_INPAGE - RICH_MEDIA_INPAGE_FLOATING - RICH_MEDIA_IM_EXPAND - RICH_MEDIA_EXPANDING - RICH_MEDIA_INTERSTITIAL_FLOAT - RICH_MEDIA_MOBILE_IN_APP - RICH_MEDIA_MULTI_FLOATING - RICH_MEDIA_PEEL_DOWN - VPAID_LINEAR - VPAID_NON_LINEAR */
-  richMediaExitOverrides?: RichMediaExitOverrideList;
-  /** Click-through URL of the creative assignment. */
-  clickThroughUrl?: ClickThroughUrl;
-  /** Dimension value for the ID of the creative. This is a read-only, auto-generated field. */
-  creativeIdDimensionValue?: DimensionValue;
-  /** ID of the creative to be assigned. This is a required field. */
-  creativeId?: string;
-  /** Sequence number of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_SEQUENTIAL. Acceptable values are 1 to 65535, inclusive. */
-  sequence?: number;
-  endTime?: string;
-  /** Companion creative overrides for this creative assignment. Applicable to video ads. */
-  companionCreativeOverrides?: CompanionClickThroughOverrideList;
-  /** Whether the creative to be assigned is SSL-compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean;
-  /** Whether this creative assignment is active. When true, the creative will be included in the ad's rotation. */
-  active?: boolean;
-  /** Creative group assignments for this creative assignment. Only one assignment per creative group number is allowed for a maximum of two assignments. */
-  creativeGroupAssignments?: CreativeGroupAssignmentList;
-  startTime?: string;
-  /** Weight of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_RANDOM. Value must be greater than or equal to 1. */
-  weight?: number;
   /** Whether applicable event tags should fire when this creative assignment is rendered. If this value is unset when the ad is inserted or updated, it will default to true for all creative types EXCEPT for INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO. */
   applyEventTags?: boolean;
+  /** Rich media exit overrides for this creative assignment. Applicable when the creative type is any of the following: - DISPLAY - RICH_MEDIA_INPAGE - RICH_MEDIA_INPAGE_FLOATING - RICH_MEDIA_IM_EXPAND - RICH_MEDIA_EXPANDING - RICH_MEDIA_INTERSTITIAL_FLOAT - RICH_MEDIA_MOBILE_IN_APP - RICH_MEDIA_MULTI_FLOATING - RICH_MEDIA_PEEL_DOWN - VPAID_LINEAR - VPAID_NON_LINEAR */
+  richMediaExitOverrides?: RichMediaExitOverrideList;
+  /** Creative group assignments for this creative assignment. Only one assignment per creative group number is allowed for a maximum of two assignments. */
+  creativeGroupAssignments?: CreativeGroupAssignmentList;
+  /** Weight of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_RANDOM. Value must be greater than or equal to 1. */
+  weight?: number;
+  /** Dimension value for the ID of the creative. This is a read-only, auto-generated field. */
+  creativeIdDimensionValue?: DimensionValue;
+  /** Sequence number of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_SEQUENTIAL. Acceptable values are 1 to 65535, inclusive. */
+  sequence?: number;
+  /** Whether this creative assignment is active. When true, the creative will be included in the ad's rotation. */
+  active?: boolean;
+  /** Click-through URL of the creative assignment. */
+  clickThroughUrl?: ClickThroughUrl;
+  endTime?: string;
+  /** Whether the creative to be assigned is SSL-compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
+  sslCompliant?: boolean;
+  /** Companion creative overrides for this creative assignment. Applicable to video ads. */
+  companionCreativeOverrides?: CompanionClickThroughOverrideList;
+  startTime?: string;
+  /** ID of the creative to be assigned. This is a required field. */
+  creativeId?: string;
 }
 export const CreativeAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    richMediaExitOverrides: S.optional(RichMediaExitOverrideList),
-    clickThroughUrl: S.optional(ClickThroughUrl),
-    creativeIdDimensionValue: S.optional(DimensionValue),
-    creativeId: S.optional(S.String),
-    sequence: S.optional(S.Number),
-    endTime: S.optional(S.String),
-    companionCreativeOverrides: S.optional(CompanionClickThroughOverrideList),
-    sslCompliant: S.optional(S.Boolean),
-    active: S.optional(S.Boolean),
-    creativeGroupAssignments: S.optional(CreativeGroupAssignmentList),
-    startTime: S.optional(S.String),
-    weight: S.optional(S.Number),
     applyEventTags: S.optional(S.Boolean),
+    richMediaExitOverrides: S.optional(RichMediaExitOverrideList),
+    creativeGroupAssignments: S.optional(CreativeGroupAssignmentList),
+    weight: S.optional(S.Number),
+    creativeIdDimensionValue: S.optional(DimensionValue),
+    sequence: S.optional(S.Number),
+    active: S.optional(S.Boolean),
+    clickThroughUrl: S.optional(ClickThroughUrl),
+    endTime: S.optional(S.String),
+    sslCompliant: S.optional(S.Boolean),
+    companionCreativeOverrides: S.optional(CompanionClickThroughOverrideList),
+    startTime: S.optional(S.String),
+    creativeId: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreativeAssignment" }) as any as S.Schema<CreativeAssignment>;
 
@@ -1719,169 +1972,36 @@ export const CreativeAssignmentList = /*@__PURE__*/ S.Array(
   CreativeAssignment,
 ) as any as S.Schema<CreativeAssignmentList>;
 
-export type CreativeRotationWeightCalculationStrategyEnum =
-  | "WEIGHT_STRATEGY_EQUAL"
-  | "WEIGHT_STRATEGY_CUSTOM"
-  | "WEIGHT_STRATEGY_HIGHEST_CTR"
-  | "WEIGHT_STRATEGY_OPTIMIZED";
-export const CreativeRotationWeightCalculationStrategyEnum = S.String;
-
 /** Creative Rotation. */
 export interface CreativeRotation {
   /** Type of creative rotation. Can be used to specify whether to use sequential or random rotation. */
   type?: CreativeRotationTypeEnum | (string & {});
-  /** Creative assignments in this creative rotation. */
-  creativeAssignments?: CreativeAssignmentList;
   /** Creative optimization configuration that is used by this ad. It should refer to one of the existing optimization configurations in the ad's campaign. If it is unset or set to 0, then the campaign's default optimization configuration will be used for this ad. */
   creativeOptimizationConfigurationId?: string;
   /** Strategy for calculating weights. Used with CREATIVE_ROTATION_TYPE_RANDOM. */
   weightCalculationStrategy?: CreativeRotationWeightCalculationStrategyEnum | (string & {});
+  /** Creative assignments in this creative rotation. */
+  creativeAssignments?: CreativeAssignmentList;
 }
 export const CreativeRotation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(CreativeRotationTypeEnum),
-    creativeAssignments: S.optional(CreativeAssignmentList),
     creativeOptimizationConfigurationId: S.optional(S.String),
     weightCalculationStrategy: S.optional(CreativeRotationWeightCalculationStrategyEnum),
+    creativeAssignments: S.optional(CreativeAssignmentList),
   }),
 ).annotate({ identifier: "CreativeRotation" }) as any as S.Schema<CreativeRotation>;
 
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
-export type DayPartTargetingDaysOfWeekItemEnum =
-  | "SUNDAY"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY";
-export const DayPartTargetingDaysOfWeekItemEnum = S.String;
-
-export type DayPartTargetingDaysOfWeekItemEnumList = Array<
-  DayPartTargetingDaysOfWeekItemEnum | (string & {})
->;
-export const DayPartTargetingDaysOfWeekItemEnumList = /*@__PURE__*/ S.Array(
-  DayPartTargetingDaysOfWeekItemEnum,
-) as any as S.Schema<DayPartTargetingDaysOfWeekItemEnumList>;
-
-/** Day Part Targeting. */
-export interface DayPartTargeting {
-  /** Hours of the day when the ad will serve, where 0 is midnight to 1 AM and 23 is 11 PM to midnight. Can be specified with days of week, in which case the ad would serve during these hours on the specified days. For example if Monday, Wednesday, Friday are the days of week specified and 9-10am, 3-5pm (hours 9, 15, and 16) is specified, the ad would serve Monday, Wednesdays, and Fridays at 9-10am and 3-5pm. Acceptable values are 0 to 23, inclusive. */
-  hoursOfDay?: IntegerList;
-  /** Whether or not to use the user's local time. If false, the America/New York time zone applies. */
-  userLocalTime?: boolean;
-  /** Days of the week when the ad will serve. Acceptable values are: - "SUNDAY" - "MONDAY" - "TUESDAY" - "WEDNESDAY" - "THURSDAY" - "FRIDAY" - "SATURDAY" */
-  daysOfWeek?: DayPartTargetingDaysOfWeekItemEnumList;
+/** Modification timestamp. */
+export interface LastModifiedInfo {
+  /** Timestamp of the last change in milliseconds since epoch. */
+  time?: string;
 }
-export const DayPartTargeting = /*@__PURE__*/ S.suspend(() =>
+export const LastModifiedInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hoursOfDay: S.optional(IntegerList),
-    userLocalTime: S.optional(S.Boolean),
-    daysOfWeek: S.optional(DayPartTargetingDaysOfWeekItemEnumList),
+    time: S.optional(S.String),
   }),
-).annotate({ identifier: "DayPartTargeting" }) as any as S.Schema<DayPartTargeting>;
-
-/** Contains information about a Contextual Keyword that can be targeted by ads. */
-export interface ContextualKeyword {
-  /** The keyword that can be targeted by ads. */
-  keyword?: string;
-}
-export const ContextualKeyword = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keyword: S.optional(S.String),
-  }),
-).annotate({ identifier: "ContextualKeyword" }) as any as S.Schema<ContextualKeyword>;
-
-export type ContextualKeywordList = Array<ContextualKeyword>;
-export const ContextualKeywordList = /*@__PURE__*/ S.Array(
-  ContextualKeyword,
-) as any as S.Schema<ContextualKeywordList>;
-
-/** Contextual Keyword Targeting. */
-export interface ContextualKeywordTargeting {
-  /** Contextual keywords that this ad targets */
-  keywords?: ContextualKeywordList;
-}
-export const ContextualKeywordTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keywords: S.optional(ContextualKeywordList),
-  }),
-).annotate({
-  identifier: "ContextualKeywordTargeting",
-}) as any as S.Schema<ContextualKeywordTargeting>;
-
-/** Event tag override information. */
-export interface EventTagOverride {
-  /** Whether this override is enabled. */
-  enabled?: boolean;
-  /** ID of this event tag override. This is a read-only, auto-generated field. */
-  id?: string;
-}
-export const EventTagOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "EventTagOverride" }) as any as S.Schema<EventTagOverride>;
-
-export type EventTagOverrideList = Array<EventTagOverride>;
-export const EventTagOverrideList = /*@__PURE__*/ S.Array(
-  EventTagOverride,
-) as any as S.Schema<EventTagOverrideList>;
-
-/** Properties of inheriting and overriding the default click-through event tag. A campaign may override the event tag defined at the advertiser level, and an ad may also override the campaign's setting further. */
-export interface DefaultClickThroughEventTagProperties {
-  /** Whether this entity should override the inherited default click-through event tag with its own defined value. */
-  overrideInheritedEventTag?: boolean;
-  /** ID of the click-through event tag to apply to all ads in this entity's scope. */
-  defaultClickThroughEventTagId?: string;
-}
-export const DefaultClickThroughEventTagProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    overrideInheritedEventTag: S.optional(S.Boolean),
-    defaultClickThroughEventTagId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DefaultClickThroughEventTagProperties",
-}) as any as S.Schema<DefaultClickThroughEventTagProperties>;
-
-export type AdCompatibilityEnum =
-  | "DISPLAY"
-  | "DISPLAY_INTERSTITIAL"
-  | "APP"
-  | "APP_INTERSTITIAL"
-  | "IN_STREAM_VIDEO"
-  | "IN_STREAM_AUDIO";
-export const AdCompatibilityEnum = S.String;
-
-/** Click Through URL Suffix settings. */
-export interface ClickThroughUrlSuffixProperties {
-  /** Click-through URL suffix to apply to all ads in this entity's scope. Must be less than 128 characters long. */
-  clickThroughUrlSuffix?: string;
-  /** Whether this entity should override the inherited click-through URL suffix with its own defined value. */
-  overrideInheritedSuffix?: boolean;
-}
-export const ClickThroughUrlSuffixProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clickThroughUrlSuffix: S.optional(S.String),
-    overrideInheritedSuffix: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ClickThroughUrlSuffixProperties",
-}) as any as S.Schema<ClickThroughUrlSuffixProperties>;
-
-/** Remarketing List Targeting Expression. */
-export interface ListTargetingExpression {
-  /** Expression describing which lists are being targeted by the ad. */
-  expression?: string;
-}
-export const ListTargetingExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    expression: S.optional(S.String),
-  }),
-).annotate({ identifier: "ListTargetingExpression" }) as any as S.Schema<ListTargetingExpression>;
+).annotate({ identifier: "LastModifiedInfo" }) as any as S.Schema<LastModifiedInfo>;
 
 /** Frequency Cap. */
 export interface FrequencyCap {
@@ -1918,200 +2038,219 @@ export const DeliverySchedulePriorityEnum = S.String;
 
 /** Delivery Schedule. */
 export interface DeliverySchedule {
-  /** Whether or not hard cutoff is enabled. If true, the ad will not serve after the end date and time. Otherwise the ad will continue to be served until it has reached its delivery goals. */
-  hardCutoff?: boolean;
   /** Limit on the number of times an individual user can be served the ad within a specified period of time. */
   frequencyCap?: FrequencyCap;
-  /** Serving priority of an ad, with respect to other ads. The lower the priority number, the greater the priority with which it is served. */
-  priority?: DeliverySchedulePriorityEnum | (string & {});
+  /** Whether or not hard cutoff is enabled. If true, the ad will not serve after the end date and time. Otherwise the ad will continue to be served until it has reached its delivery goals. */
+  hardCutoff?: boolean;
   /** Impression ratio for this ad. This ratio determines how often each ad is served relative to the others. For example, if ad A has an impression ratio of 1 and ad B has an impression ratio of 3, then Campaign Manager will serve ad B three times as often as ad A. Acceptable values are 1 to 10, inclusive. */
   impressionRatio?: string;
+  /** Serving priority of an ad, with respect to other ads. The lower the priority number, the greater the priority with which it is served. */
+  priority?: DeliverySchedulePriorityEnum | (string & {});
 }
 export const DeliverySchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hardCutoff: S.optional(S.Boolean),
     frequencyCap: S.optional(FrequencyCap),
-    priority: S.optional(DeliverySchedulePriorityEnum),
+    hardCutoff: S.optional(S.Boolean),
     impressionRatio: S.optional(S.String),
+    priority: S.optional(DeliverySchedulePriorityEnum),
   }),
 ).annotate({ identifier: "DeliverySchedule" }) as any as S.Schema<DeliverySchedule>;
 
-/** Represents the dimensions of ads, placements, creatives, or creative assets. */
-export interface Size {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#size". */
-  kind?: string;
-  /** IAB standard size. This is a read-only, auto-generated field. */
-  iab?: boolean;
-  /** Width of this size. Acceptable values are 0 to 32767, inclusive. */
-  width?: number;
-  /** ID of this size. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Height of this size. Acceptable values are 0 to 32767, inclusive. */
-  height?: number;
+/** Properties of inheriting and overriding the default click-through event tag. A campaign may override the event tag defined at the advertiser level, and an ad may also override the campaign's setting further. */
+export interface DefaultClickThroughEventTagProperties {
+  /** Whether this entity should override the inherited default click-through event tag with its own defined value. */
+  overrideInheritedEventTag?: boolean;
+  /** ID of the click-through event tag to apply to all ads in this entity's scope. */
+  defaultClickThroughEventTagId?: string;
 }
-export const Size = /*@__PURE__*/ S.suspend(() =>
+export const DefaultClickThroughEventTagProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    iab: S.optional(S.Boolean),
-    width: S.optional(S.Number),
-    id: S.optional(S.String),
-    height: S.optional(S.Number),
+    overrideInheritedEventTag: S.optional(S.Boolean),
+    defaultClickThroughEventTagId: S.optional(S.String),
   }),
-).annotate({ identifier: "Size" }) as any as S.Schema<Size>;
+).annotate({
+  identifier: "DefaultClickThroughEventTagProperties",
+}) as any as S.Schema<DefaultClickThroughEventTagProperties>;
 
-/** Contains information about a language that can be targeted by ads. */
-export interface Language {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#language". */
-  kind?: string;
-  /** Language ID of this language. This is the ID used for targeting and generating reports. */
-  id?: string;
-  /** Name of this language. */
-  name?: string;
-  /** Format of language code is an ISO 639 two-letter language code optionally followed by an underscore followed by an ISO 3166 code. Examples are "en" for English or "zh_CN" for Simplified Chinese. */
-  languageCode?: string;
+/** Contains information about a Contextual Keyword that can be targeted by ads. */
+export interface ContextualKeyword {
+  /** The keyword that can be targeted by ads. */
+  keyword?: string;
 }
-export const Language = /*@__PURE__*/ S.suspend(() =>
+export const ContextualKeyword = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    languageCode: S.optional(S.String),
+    keyword: S.optional(S.String),
   }),
-).annotate({ identifier: "Language" }) as any as S.Schema<Language>;
+).annotate({ identifier: "ContextualKeyword" }) as any as S.Schema<ContextualKeyword>;
 
-export type LanguageList = Array<Language>;
-export const LanguageList = /*@__PURE__*/ S.Array(Language) as any as S.Schema<LanguageList>;
+export type ContextualKeywordList = Array<ContextualKeyword>;
+export const ContextualKeywordList = /*@__PURE__*/ S.Array(
+  ContextualKeyword,
+) as any as S.Schema<ContextualKeywordList>;
 
-/** Language Targeting. */
-export interface LanguageTargeting {
-  /** Languages that this ad targets. For each language only languageId is required. The other fields are populated automatically when the ad is inserted or updated. */
-  languages?: LanguageList;
+/** Contextual Keyword Targeting. */
+export interface ContextualKeywordTargeting {
+  /** Contextual keywords that this ad targets */
+  keywords?: ContextualKeywordList;
 }
-export const LanguageTargeting = /*@__PURE__*/ S.suspend(() =>
+export const ContextualKeywordTargeting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    languages: S.optional(LanguageList),
+    keywords: S.optional(ContextualKeywordList),
   }),
-).annotate({ identifier: "LanguageTargeting" }) as any as S.Schema<LanguageTargeting>;
+).annotate({
+  identifier: "ContextualKeywordTargeting",
+}) as any as S.Schema<ContextualKeywordTargeting>;
+
+export type DayPartTargetingDaysOfWeekItemEnum =
+  | "SUNDAY"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY";
+export const DayPartTargetingDaysOfWeekItemEnum = S.String;
+
+export type DayPartTargetingDaysOfWeekItemEnumList = Array<
+  DayPartTargetingDaysOfWeekItemEnum | (string & {})
+>;
+export const DayPartTargetingDaysOfWeekItemEnumList = /*@__PURE__*/ S.Array(
+  DayPartTargetingDaysOfWeekItemEnum,
+) as any as S.Schema<DayPartTargetingDaysOfWeekItemEnumList>;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
+
+/** Day Part Targeting. */
+export interface DayPartTargeting {
+  /** Days of the week when the ad will serve. Acceptable values are: - "SUNDAY" - "MONDAY" - "TUESDAY" - "WEDNESDAY" - "THURSDAY" - "FRIDAY" - "SATURDAY" */
+  daysOfWeek?: DayPartTargetingDaysOfWeekItemEnumList;
+  /** Hours of the day when the ad will serve, where 0 is midnight to 1 AM and 23 is 11 PM to midnight. Can be specified with days of week, in which case the ad would serve during these hours on the specified days. For example if Monday, Wednesday, Friday are the days of week specified and 9-10am, 3-5pm (hours 9, 15, and 16) is specified, the ad would serve Monday, Wednesdays, and Fridays at 9-10am and 3-5pm. Acceptable values are 0 to 23, inclusive. */
+  hoursOfDay?: IntegerList;
+  /** Whether or not to use the user's local time. If false, the America/New York time zone applies. */
+  userLocalTime?: boolean;
+}
+export const DayPartTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    daysOfWeek: S.optional(DayPartTargetingDaysOfWeekItemEnumList),
+    hoursOfDay: S.optional(IntegerList),
+    userLocalTime: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "DayPartTargeting" }) as any as S.Schema<DayPartTargeting>;
+
+/** Remarketing List Targeting Expression. */
+export interface ListTargetingExpression {
+  /** Expression describing which lists are being targeted by the ad. */
+  expression?: string;
+}
+export const ListTargetingExpression = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expression: S.optional(S.String),
+  }),
+).annotate({ identifier: "ListTargetingExpression" }) as any as S.Schema<ListTargetingExpression>;
+
+/** Placement Assignment. */
+export interface PlacementAssignment {
+  /** ID of the placement to be assigned. This is a required field. */
+  placementId?: string;
+  /** Whether this placement assignment is active. When true, the placement will be included in the ad's rotation. */
+  active?: boolean;
+  /** Whether the placement to be assigned requires SSL. This is a read-only field that is auto-generated when the ad is inserted or updated. */
+  sslRequired?: boolean;
+  /** Dimension value for the ID of the placement. This is a read-only, auto-generated field. */
+  placementIdDimensionValue?: DimensionValue;
+}
+export const PlacementAssignment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    placementId: S.optional(S.String),
+    active: S.optional(S.Boolean),
+    sslRequired: S.optional(S.Boolean),
+    placementIdDimensionValue: S.optional(DimensionValue),
+  }),
+).annotate({ identifier: "PlacementAssignment" }) as any as S.Schema<PlacementAssignment>;
+
+export type PlacementAssignmentList = Array<PlacementAssignment>;
+export const PlacementAssignmentList = /*@__PURE__*/ S.Array(
+  PlacementAssignment,
+) as any as S.Schema<PlacementAssignmentList>;
+
+/** Key Value Targeting Expression. */
+export interface KeyValueTargetingExpression {
+  /** Keyword expression being targeted by the ad. */
+  expression?: string;
+}
+export const KeyValueTargetingExpression = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expression: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "KeyValueTargetingExpression",
+}) as any as S.Schema<KeyValueTargetingExpression>;
 
 /** Contains information about a city that can be targeted by ads. */
 export interface City {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#city". */
-  kind?: string;
-  /** DART ID of the country to which this city belongs. */
-  countryDartId?: string;
-  /** Region code of the region to which this city belongs. */
-  regionCode?: string;
-  /** DART ID of this city. This is the ID used for targeting and generating reports. */
-  dartId?: string;
-  /** ID of the metro region (DMA) to which this city belongs. */
-  metroDmaId?: string;
   /** Country code of the country to which this city belongs. */
   countryCode?: string;
+  /** Name of this city. */
+  name?: string;
+  /** Region code of the region to which this city belongs. */
+  regionCode?: string;
   /** DART ID of the region to which this city belongs. */
   regionDartId?: string;
   /** Metro region code of the metro region (DMA) to which this city belongs. */
   metroCode?: string;
-  /** Name of this city. */
-  name?: string;
+  /** DART ID of this city. This is the ID used for targeting and generating reports. */
+  dartId?: string;
+  /** ID of the metro region (DMA) to which this city belongs. */
+  metroDmaId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#city". */
+  kind?: string;
+  /** DART ID of the country to which this city belongs. */
+  countryDartId?: string;
 }
 export const City = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    countryDartId: S.optional(S.String),
-    regionCode: S.optional(S.String),
-    dartId: S.optional(S.String),
-    metroDmaId: S.optional(S.String),
     countryCode: S.optional(S.String),
+    name: S.optional(S.String),
+    regionCode: S.optional(S.String),
     regionDartId: S.optional(S.String),
     metroCode: S.optional(S.String),
-    name: S.optional(S.String),
+    dartId: S.optional(S.String),
+    metroDmaId: S.optional(S.String),
+    kind: S.optional(S.String),
+    countryDartId: S.optional(S.String),
   }),
 ).annotate({ identifier: "City" }) as any as S.Schema<City>;
 
 export type CityList = Array<City>;
 export const CityList = /*@__PURE__*/ S.Array(City) as any as S.Schema<CityList>;
 
-/** Contains information about a region that can be targeted by ads. */
-export interface Region {
-  /** Region code. */
-  regionCode?: string;
-  /** Name of this region. */
-  name?: string;
-  /** DART ID of this region. */
-  dartId?: string;
-  /** Country code of the country to which this region belongs. */
-  countryCode?: string;
-  /** DART ID of the country to which this region belongs. */
-  countryDartId?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#region". */
-  kind?: string;
-}
-export const Region = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regionCode: S.optional(S.String),
-    name: S.optional(S.String),
-    dartId: S.optional(S.String),
-    countryCode: S.optional(S.String),
-    countryDartId: S.optional(S.String),
-    kind: S.optional(S.String),
-  }),
-).annotate({ identifier: "Region" }) as any as S.Schema<Region>;
-
-export type RegionList = Array<Region>;
-export const RegionList = /*@__PURE__*/ S.Array(Region) as any as S.Schema<RegionList>;
-
-/** Contains information about a postal code that can be targeted by ads. */
-export interface PostalCode {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#postalCode". */
-  kind?: string;
-  /** Postal code. This is equivalent to the id field. */
-  code?: string;
-  /** DART ID of the country to which this postal code belongs. */
-  countryDartId?: string;
-  /** Country code of the country to which this postal code belongs. */
-  countryCode?: string;
-  /** ID of this postal code. */
-  id?: string;
-}
-export const PostalCode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    code: S.optional(S.String),
-    countryDartId: S.optional(S.String),
-    countryCode: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "PostalCode" }) as any as S.Schema<PostalCode>;
-
-export type PostalCodeList = Array<PostalCode>;
-export const PostalCodeList = /*@__PURE__*/ S.Array(PostalCode) as any as S.Schema<PostalCodeList>;
-
 /** Contains information about a metro region that can be targeted by ads. */
 export interface Metro {
-  /** DMA ID of this metro region. This is the ID used for targeting and generating reports, and is equivalent to metro_code. */
-  dmaId?: string;
-  /** DART ID of the country to which this metro region belongs. */
-  countryDartId?: string;
-  /** Country code of the country to which this metro region belongs. */
-  countryCode?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#metro". */
-  kind?: string;
   /** Metro code of this metro region. This is equivalent to dma_id. */
   metroCode?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#metro". */
+  kind?: string;
   /** Name of this metro region. */
   name?: string;
+  /** DART ID of the country to which this metro region belongs. */
+  countryDartId?: string;
+  /** DMA ID of this metro region. This is the ID used for targeting and generating reports, and is equivalent to metro_code. */
+  dmaId?: string;
   /** DART ID of this metro region. */
   dartId?: string;
+  /** Country code of the country to which this metro region belongs. */
+  countryCode?: string;
 }
 export const Metro = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dmaId: S.optional(S.String),
-    countryDartId: S.optional(S.String),
-    countryCode: S.optional(S.String),
-    kind: S.optional(S.String),
     metroCode: S.optional(S.String),
+    kind: S.optional(S.String),
     name: S.optional(S.String),
+    countryDartId: S.optional(S.String),
+    dmaId: S.optional(S.String),
     dartId: S.optional(S.String),
+    countryCode: S.optional(S.String),
   }),
 ).annotate({ identifier: "Metro" }) as any as S.Schema<Metro>;
 
@@ -2140,389 +2279,250 @@ export const CountryTvDataProvidersItemEnumList = /*@__PURE__*/ S.Array(
 
 /** Contains information about a country that can be targeted by ads. */
 export interface Country {
-  /** Country code. */
-  countryCode?: string;
-  /** Output only. The TV data providers supported in this country. */
-  tvDataProviders?: CountryTvDataProvidersItemEnumList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#country". */
   kind?: string;
-  /** DART ID of this country. This is the ID used for targeting and generating reports. */
-  dartId?: string;
-  /** Whether ad serving supports secure servers in this country. */
-  sslEnabled?: boolean;
   /** Name of this country. */
   name?: string;
+  /** Whether ad serving supports secure servers in this country. */
+  sslEnabled?: boolean;
+  /** DART ID of this country. This is the ID used for targeting and generating reports. */
+  dartId?: string;
+  /** Output only. The TV data providers supported in this country. */
+  tvDataProviders?: CountryTvDataProvidersItemEnumList;
+  /** Country code. */
+  countryCode?: string;
 }
 export const Country = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    countryCode: S.optional(S.String),
-    tvDataProviders: S.optional(CountryTvDataProvidersItemEnumList),
     kind: S.optional(S.String),
-    dartId: S.optional(S.String),
-    sslEnabled: S.optional(S.Boolean),
     name: S.optional(S.String),
+    sslEnabled: S.optional(S.Boolean),
+    dartId: S.optional(S.String),
+    tvDataProviders: S.optional(CountryTvDataProvidersItemEnumList),
+    countryCode: S.optional(S.String),
   }),
 ).annotate({ identifier: "Country" }) as any as S.Schema<Country>;
 
 export type CountryList = Array<Country>;
 export const CountryList = /*@__PURE__*/ S.Array(Country) as any as S.Schema<CountryList>;
 
+/** Contains information about a postal code that can be targeted by ads. */
+export interface PostalCode {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#postalCode". */
+  kind?: string;
+  /** Postal code. This is equivalent to the id field. */
+  code?: string;
+  /** ID of this postal code. */
+  id?: string;
+  /** DART ID of the country to which this postal code belongs. */
+  countryDartId?: string;
+  /** Country code of the country to which this postal code belongs. */
+  countryCode?: string;
+}
+export const PostalCode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    code: S.optional(S.String),
+    id: S.optional(S.String),
+    countryDartId: S.optional(S.String),
+    countryCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "PostalCode" }) as any as S.Schema<PostalCode>;
+
+export type PostalCodeList = Array<PostalCode>;
+export const PostalCodeList = /*@__PURE__*/ S.Array(PostalCode) as any as S.Schema<PostalCodeList>;
+
+/** Contains information about a region that can be targeted by ads. */
+export interface Region {
+  /** DART ID of this region. */
+  dartId?: string;
+  /** DART ID of the country to which this region belongs. */
+  countryDartId?: string;
+  /** Region code. */
+  regionCode?: string;
+  /** Name of this region. */
+  name?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#region". */
+  kind?: string;
+  /** Country code of the country to which this region belongs. */
+  countryCode?: string;
+}
+export const Region = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dartId: S.optional(S.String),
+    countryDartId: S.optional(S.String),
+    regionCode: S.optional(S.String),
+    name: S.optional(S.String),
+    kind: S.optional(S.String),
+    countryCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "Region" }) as any as S.Schema<Region>;
+
+export type RegionList = Array<Region>;
+export const RegionList = /*@__PURE__*/ S.Array(Region) as any as S.Schema<RegionList>;
+
 /** Geographical Targeting. */
 export interface GeoTargeting {
   /** Cities to be targeted. For each city only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a city, do not target or exclude the country of the city, and do not target the metro or region of the city. */
   cities?: CityList;
-  /** Regions to be targeted. For each region only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a region, do not target or exclude the country of the region. */
-  regions?: RegionList;
-  /** Postal codes to be targeted. For each postal code only id is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a postal code, do not target or exclude the country of the postal code. */
-  postalCodes?: PostalCodeList;
-  /** Whether or not to exclude the countries in the countries field from targeting. If false, the countries field refers to countries which will be targeted by the ad. */
-  excludeCountries?: boolean;
   /** Metros to be targeted. For each metro only dmaId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a metro, do not target or exclude the country of the metro. */
   metros?: MetroList;
   /** Countries to be targeted or excluded from targeting, depending on the setting of the excludeCountries field. For each country only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting or excluding a country, do not target regions, cities, metros, or postal codes in the same country. */
   countries?: CountryList;
+  /** Postal codes to be targeted. For each postal code only id is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a postal code, do not target or exclude the country of the postal code. */
+  postalCodes?: PostalCodeList;
+  /** Whether or not to exclude the countries in the countries field from targeting. If false, the countries field refers to countries which will be targeted by the ad. */
+  excludeCountries?: boolean;
+  /** Regions to be targeted. For each region only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a region, do not target or exclude the country of the region. */
+  regions?: RegionList;
 }
 export const GeoTargeting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cities: S.optional(CityList),
-    regions: S.optional(RegionList),
-    postalCodes: S.optional(PostalCodeList),
-    excludeCountries: S.optional(S.Boolean),
     metros: S.optional(MetroList),
     countries: S.optional(CountryList),
+    postalCodes: S.optional(PostalCodeList),
+    excludeCountries: S.optional(S.Boolean),
+    regions: S.optional(RegionList),
   }),
 ).annotate({ identifier: "GeoTargeting" }) as any as S.Schema<GeoTargeting>;
 
-/** Contains information about a browser that can be targeted by ads. */
-export interface Browser {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#browser". */
-  kind?: string;
-  /** DART ID of this browser. This is the ID used when generating reports. */
-  dartId?: string;
-  /** Minor version number (number after first dot on left) of this browser. For example, for Chrome 5.0.375.86 beta, this field should be set to 0. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
-  minorVersion?: string;
-  /** Name of this browser. */
-  name?: string;
-  /** Major version number (leftmost number) of this browser. For example, for Chrome 5.0.376.86 beta, this field should be set to 5. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
-  majorVersion?: string;
-  /** ID referring to this grouping of browser and version numbers. This is the ID used for targeting. */
-  browserVersionId?: string;
-}
-export const Browser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    dartId: S.optional(S.String),
-    minorVersion: S.optional(S.String),
-    name: S.optional(S.String),
-    majorVersion: S.optional(S.String),
-    browserVersionId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Browser" }) as any as S.Schema<Browser>;
-
-export type BrowserList = Array<Browser>;
-export const BrowserList = /*@__PURE__*/ S.Array(Browser) as any as S.Schema<BrowserList>;
-
-/** Contains information about a mobile carrier that can be targeted by ads. */
-export interface MobileCarrier {
-  /** DART ID of the country to which this mobile carrier belongs. */
-  countryDartId?: string;
-  /** Name of this mobile carrier. */
-  name?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileCarrier". */
-  kind?: string;
-  /** Country code of the country to which this mobile carrier belongs. */
-  countryCode?: string;
-  /** ID of this mobile carrier. */
-  id?: string;
-}
-export const MobileCarrier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    countryDartId: S.optional(S.String),
-    name: S.optional(S.String),
-    kind: S.optional(S.String),
-    countryCode: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "MobileCarrier" }) as any as S.Schema<MobileCarrier>;
-
-export type MobileCarrierList = Array<MobileCarrier>;
-export const MobileCarrierList = /*@__PURE__*/ S.Array(
-  MobileCarrier,
-) as any as S.Schema<MobileCarrierList>;
-
-/** Contains information about an operating system that can be targeted by ads. */
-export interface OperatingSystem {
-  /** Whether this operating system is for desktop. */
-  desktop?: boolean;
-  /** DART ID of this operating system. This is the ID used for targeting. */
-  dartId?: string;
-  /** Name of this operating system. */
-  name?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystem". */
-  kind?: string;
-  /** Whether this operating system is for mobile. */
-  mobile?: boolean;
-}
-export const OperatingSystem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    desktop: S.optional(S.Boolean),
-    dartId: S.optional(S.String),
-    name: S.optional(S.String),
-    kind: S.optional(S.String),
-    mobile: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "OperatingSystem" }) as any as S.Schema<OperatingSystem>;
-
-export type OperatingSystemList = Array<OperatingSystem>;
-export const OperatingSystemList = /*@__PURE__*/ S.Array(
-  OperatingSystem,
-) as any as S.Schema<OperatingSystemList>;
-
-/** Contains information about a platform type that can be targeted by ads. */
-export interface PlatformType {
-  /** Name of this platform type. */
-  name?: string;
-  /** ID of this platform type. */
-  id?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#platformType". */
-  kind?: string;
-}
-export const PlatformType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-    kind: S.optional(S.String),
-  }),
-).annotate({ identifier: "PlatformType" }) as any as S.Schema<PlatformType>;
-
-export type PlatformTypeList = Array<PlatformType>;
-export const PlatformTypeList = /*@__PURE__*/ S.Array(
-  PlatformType,
-) as any as S.Schema<PlatformTypeList>;
-
-/** Contains information about an internet connection type that can be targeted by ads. Clients can use the connection type to target mobile vs. broadband users. */
-export interface ConnectionType {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#connectionType". */
-  kind?: string;
-  /** Name of this connection type. */
-  name?: string;
-  /** ID of this connection type. */
-  id?: string;
-}
-export const ConnectionType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "ConnectionType" }) as any as S.Schema<ConnectionType>;
-
-export type ConnectionTypeList = Array<ConnectionType>;
-export const ConnectionTypeList = /*@__PURE__*/ S.Array(
-  ConnectionType,
-) as any as S.Schema<ConnectionTypeList>;
-
-/** Contains information about a particular version of an operating system that can be targeted by ads. */
-export interface OperatingSystemVersion {
-  /** Major version (leftmost number) of this operating system version. */
-  majorVersion?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystemVersion". */
-  kind?: string;
-  /** ID of this operating system version. */
-  id?: string;
-  /** Name of this operating system version. */
-  name?: string;
-  /** Operating system of this operating system version. */
-  operatingSystem?: OperatingSystem;
-  /** Minor version (number after the first dot) of this operating system version. */
-  minorVersion?: string;
-}
-export const OperatingSystemVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    majorVersion: S.optional(S.String),
-    kind: S.optional(S.String),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    operatingSystem: S.optional(OperatingSystem),
-    minorVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "OperatingSystemVersion" }) as any as S.Schema<OperatingSystemVersion>;
-
-export type OperatingSystemVersionList = Array<OperatingSystemVersion>;
-export const OperatingSystemVersionList = /*@__PURE__*/ S.Array(
-  OperatingSystemVersion,
-) as any as S.Schema<OperatingSystemVersionList>;
-
-/** Technology Targeting. */
-export interface TechnologyTargeting {
-  /** Browsers that this ad targets. For each browser either set browserVersionId or dartId along with the version numbers. If both are specified, only browserVersionId will be used. The other fields are populated automatically when the ad is inserted or updated. */
-  browsers?: BrowserList;
-  /** Mobile carriers that this ad targets. For each mobile carrier only id is required, and the other fields are populated automatically when the ad is inserted or updated. If targeting a mobile carrier, do not set targeting for any zip codes. */
-  mobileCarriers?: MobileCarrierList;
-  /** Operating systems that this ad targets. To target specific versions, use operatingSystemVersions. For each operating system only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system, do not set targeting for operating system versions for the same operating system. */
-  operatingSystems?: OperatingSystemList;
-  /** Platform types that this ad targets. For example, desktop, mobile, or tablet. For each platform type, only id is required, and the other fields are populated automatically when the ad is inserted or updated. */
-  platformTypes?: PlatformTypeList;
-  /** Connection types that this ad targets. For each connection type only id is required. The other fields are populated automatically when the ad is inserted or updated. */
-  connectionTypes?: ConnectionTypeList;
-  /** Operating system versions that this ad targets. To target all versions, use operatingSystems. For each operating system version, only id is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system version, do not set targeting for the corresponding operating system in operatingSystems. */
-  operatingSystemVersions?: OperatingSystemVersionList;
-}
-export const TechnologyTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    browsers: S.optional(BrowserList),
-    mobileCarriers: S.optional(MobileCarrierList),
-    operatingSystems: S.optional(OperatingSystemList),
-    platformTypes: S.optional(PlatformTypeList),
-    connectionTypes: S.optional(ConnectionTypeList),
-    operatingSystemVersions: S.optional(OperatingSystemVersionList),
-  }),
-).annotate({ identifier: "TechnologyTargeting" }) as any as S.Schema<TechnologyTargeting>;
-
-export type AdTypeEnum =
-  | "AD_SERVING_STANDARD_AD"
-  | "AD_SERVING_DEFAULT_AD"
-  | "AD_SERVING_CLICK_TRACKER"
-  | "AD_SERVING_TRACKING"
-  | "AD_SERVING_BRAND_SAFE_AD";
-export const AdTypeEnum = S.String;
-
 /** Contains properties of a Campaign Manager ad. */
 export interface Ad {
-  /** Information about the most recent modification of this ad. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
-  /** Key-value targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression;
-  /** Whether this ad is ssl compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean;
-  /** Placement assignments for this ad. */
-  placementAssignments?: PlacementAssignmentList;
-  /** ID of this ad. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Comments for this ad. */
-  comments?: string;
-  /** Creative rotation for this ad. Applicable when type is AD_SERVING_DEFAULT_AD, AD_SERVING_STANDARD_AD, or AD_SERVING_TRACKING. When type is AD_SERVING_DEFAULT_AD, this field should have exactly one creativeAssignment . */
-  creativeRotation?: CreativeRotation;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#ad". */
-  kind?: string;
-  /** Time and day targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  dayPartTargeting?: DayPartTargeting;
-  /** Optional. Contextual keyword targeting information for this ad. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting;
-  /** Dimension value for the ID of this ad. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
-  /** Advertiser ID of this ad. This is a required field on insertion. */
-  advertiserId?: string;
-  /** Event tag overrides for this ad. */
-  eventTagOverrides?: EventTagOverrideList;
-  /** Default click-through event tag properties for this ad. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties;
-  endTime?: string;
-  /** Campaign ID of this ad. This is a required field on insertion. */
-  campaignId?: string;
   /** Compatibility of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to either rendering on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are only used for existing default ads. New mobile placements must be assigned DISPLAY or DISPLAY_INTERSTITIAL and default ads created for those placements will be limited to those compatibility types. IN_STREAM_VIDEO refers to rendering in-stream video ads developed with the VAST standard. */
   compatibility?: AdCompatibilityEnum | (string & {});
-  /** Whether this ad is archived. When true, active must be false. */
-  archived?: boolean;
-  /** Click-through URL suffix properties for this ad. Applies to the URL in the ad or (if overriding ad properties) the URL in the creative. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties;
-  /** Click-through URL for this ad. This is a required field on insertion. Applicable when type is AD_SERVING_CLICK_TRACKER. */
-  clickThroughUrl?: ClickThroughUrl;
-  /** Whether this ad is a dynamic click tracker. Applicable when type is AD_SERVING_CLICK_TRACKER. This is a required field on insert, and is read-only after insert. */
-  dynamicClickTracker?: boolean;
-  /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  remarketingListExpression?: ListTargetingExpression;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
-  /** Delivery schedule information for this ad. Applicable when type is AD_SERVING_STANDARD_AD or AD_SERVING_TRACKING. This field along with subfields priority and impressionRatio are required on insertion when type is AD_SERVING_STANDARD_AD. */
-  deliverySchedule?: DeliverySchedule;
-  /** Name of this ad. This is a required field and must be less than 256 characters long. */
-  name?: string;
-  startTime?: string;
-  /** Information about the creation of this ad. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  /** Type of ad. This is a required field on insertion. Note that default ads ( AD_SERVING_DEFAULT_AD) cannot be created directly (see Creative resource). */
+  type?: AdTypeEnum | (string & {});
+  /** Subaccount ID of this ad. This is a read-only field that can be left blank. */
+  subaccountId?: string;
   /** Creative group assignments for this ad. Applicable when type is AD_SERVING_CLICK_TRACKER. Only one assignment per creative group number is allowed for a maximum of two assignments. */
   creativeGroupAssignments?: CreativeGroupAssignmentList;
-  /** Targeting template ID, used to apply preconfigured targeting information to this ad. This cannot be set while any of dayPartTargeting, geoTargeting, keyValueTargetingExpression, languageTargeting, remarketingListExpression, or technologyTargeting are set. Applicable when type is AD_SERVING_STANDARD_AD. */
-  targetingTemplateId?: string;
   /** Size of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. */
   size?: Size;
-  /** Language targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  languageTargeting?: LanguageTargeting;
-  /** Geographical targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  geoTargeting?: GeoTargeting;
   /** Audience segment ID that is being targeted for this ad. Applicable when type is AD_SERVING_STANDARD_AD. */
   audienceSegmentId?: string;
+  /** Click-through URL suffix properties for this ad. Applies to the URL in the ad or (if overriding ad properties) the URL in the creative. */
+  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties;
+  /** Event tag overrides for this ad. */
+  eventTagOverrides?: EventTagOverrideList;
+  /** Campaign ID of this ad. This is a required field on insertion. */
+  campaignId?: string;
+  /** Dimension value for the ID of this ad. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue;
+  /** Whether this ad requires ssl. This is a read-only field that is auto-generated when the ad is inserted or updated. */
+  sslRequired?: boolean;
+  /** ID of this ad. This is a read-only, auto-generated field. */
+  id?: string;
   /** Technology platform targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
   technologyTargeting?: TechnologyTargeting;
   /** Account ID of this ad. This is a read-only field that can be left blank. */
   accountId?: string;
-  /** Whether this ad requires ssl. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean;
+  /** Language targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  languageTargeting?: LanguageTargeting;
+  /** Creative rotation for this ad. Applicable when type is AD_SERVING_DEFAULT_AD, AD_SERVING_STANDARD_AD, or AD_SERVING_TRACKING. When type is AD_SERVING_DEFAULT_AD, this field should have exactly one creativeAssignment . */
+  creativeRotation?: CreativeRotation;
+  endTime?: string;
+  /** Information about the creation of this ad. This is a read-only field. */
+  createInfo?: LastModifiedInfo;
+  /** Delivery schedule information for this ad. Applicable when type is AD_SERVING_STANDARD_AD or AD_SERVING_TRACKING. This field along with subfields priority and impressionRatio are required on insertion when type is AD_SERVING_STANDARD_AD. */
+  deliverySchedule?: DeliverySchedule;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue;
+  /** Default click-through event tag properties for this ad. */
+  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties;
+  /** Click-through URL for this ad. This is a required field on insertion. Applicable when type is AD_SERVING_CLICK_TRACKER. */
+  clickThroughUrl?: ClickThroughUrl;
+  /** Name of this ad. This is a required field and must be less than 256 characters long. */
+  name?: string;
+  /** Optional. Contextual keyword targeting information for this ad. */
+  contextualKeywordTargeting?: ContextualKeywordTargeting;
+  /** Time and day targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  dayPartTargeting?: DayPartTargeting;
+  /** Whether this ad is a dynamic click tracker. Applicable when type is AD_SERVING_CLICK_TRACKER. This is a required field on insert, and is read-only after insert. */
+  dynamicClickTracker?: boolean;
+  /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  remarketingListExpression?: ListTargetingExpression;
+  /** Placement assignments for this ad. */
+  placementAssignments?: PlacementAssignmentList;
+  /** Targeting template ID, used to apply preconfigured targeting information to this ad. This cannot be set while any of dayPartTargeting, geoTargeting, keyValueTargetingExpression, languageTargeting, remarketingListExpression, or technologyTargeting are set. Applicable when type is AD_SERVING_STANDARD_AD. */
+  targetingTemplateId?: string;
+  startTime?: string;
+  /** Whether this ad is ssl compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
+  sslCompliant?: boolean;
+  /** Comments for this ad. */
+  comments?: string;
+  /** Key-value targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  keyValueTargetingExpression?: KeyValueTargetingExpression;
   /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
   campaignIdDimensionValue?: DimensionValue;
-  /** Type of ad. This is a required field on insertion. Note that default ads ( AD_SERVING_DEFAULT_AD) cannot be created directly (see Creative resource). */
-  type?: AdTypeEnum | (string & {});
+  /** Whether this ad is archived. When true, active must be false. */
+  archived?: boolean;
+  /** Geographical targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  geoTargeting?: GeoTargeting;
+  /** Information about the most recent modification of this ad. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#ad". */
+  kind?: string;
+  /** Advertiser ID of this ad. This is a required field on insertion. */
+  advertiserId?: string;
   /** Whether this ad is active. When true, archived must be false. */
   active?: boolean;
-  /** Subaccount ID of this ad. This is a read-only field that can be left blank. */
-  subaccountId?: string;
 }
 export const Ad = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastModifiedInfo: S.optional(LastModifiedInfo),
-    keyValueTargetingExpression: S.optional(KeyValueTargetingExpression),
-    sslCompliant: S.optional(S.Boolean),
-    placementAssignments: S.optional(PlacementAssignmentList),
-    id: S.optional(S.String),
-    comments: S.optional(S.String),
-    creativeRotation: S.optional(CreativeRotation),
-    kind: S.optional(S.String),
-    dayPartTargeting: S.optional(DayPartTargeting),
-    contextualKeywordTargeting: S.optional(ContextualKeywordTargeting),
-    idDimensionValue: S.optional(DimensionValue),
-    advertiserId: S.optional(S.String),
-    eventTagOverrides: S.optional(EventTagOverrideList),
-    defaultClickThroughEventTagProperties: S.optional(DefaultClickThroughEventTagProperties),
-    endTime: S.optional(S.String),
-    campaignId: S.optional(S.String),
     compatibility: S.optional(AdCompatibilityEnum),
-    archived: S.optional(S.Boolean),
-    clickThroughUrlSuffixProperties: S.optional(ClickThroughUrlSuffixProperties),
-    clickThroughUrl: S.optional(ClickThroughUrl),
-    dynamicClickTracker: S.optional(S.Boolean),
-    remarketingListExpression: S.optional(ListTargetingExpression),
-    advertiserIdDimensionValue: S.optional(DimensionValue),
-    deliverySchedule: S.optional(DeliverySchedule),
-    name: S.optional(S.String),
-    startTime: S.optional(S.String),
-    createInfo: S.optional(LastModifiedInfo),
+    type: S.optional(AdTypeEnum),
+    subaccountId: S.optional(S.String),
     creativeGroupAssignments: S.optional(CreativeGroupAssignmentList),
-    targetingTemplateId: S.optional(S.String),
     size: S.optional(Size),
-    languageTargeting: S.optional(LanguageTargeting),
-    geoTargeting: S.optional(GeoTargeting),
     audienceSegmentId: S.optional(S.String),
+    clickThroughUrlSuffixProperties: S.optional(ClickThroughUrlSuffixProperties),
+    eventTagOverrides: S.optional(EventTagOverrideList),
+    campaignId: S.optional(S.String),
+    idDimensionValue: S.optional(DimensionValue),
+    sslRequired: S.optional(S.Boolean),
+    id: S.optional(S.String),
     technologyTargeting: S.optional(TechnologyTargeting),
     accountId: S.optional(S.String),
-    sslRequired: S.optional(S.Boolean),
+    languageTargeting: S.optional(LanguageTargeting),
+    creativeRotation: S.optional(CreativeRotation),
+    endTime: S.optional(S.String),
+    createInfo: S.optional(LastModifiedInfo),
+    deliverySchedule: S.optional(DeliverySchedule),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
+    defaultClickThroughEventTagProperties: S.optional(DefaultClickThroughEventTagProperties),
+    clickThroughUrl: S.optional(ClickThroughUrl),
+    name: S.optional(S.String),
+    contextualKeywordTargeting: S.optional(ContextualKeywordTargeting),
+    dayPartTargeting: S.optional(DayPartTargeting),
+    dynamicClickTracker: S.optional(S.Boolean),
+    remarketingListExpression: S.optional(ListTargetingExpression),
+    placementAssignments: S.optional(PlacementAssignmentList),
+    targetingTemplateId: S.optional(S.String),
+    startTime: S.optional(S.String),
+    sslCompliant: S.optional(S.Boolean),
+    comments: S.optional(S.String),
+    keyValueTargetingExpression: S.optional(KeyValueTargetingExpression),
     campaignIdDimensionValue: S.optional(DimensionValue),
-    type: S.optional(AdTypeEnum),
+    archived: S.optional(S.Boolean),
+    geoTargeting: S.optional(GeoTargeting),
+    lastModifiedInfo: S.optional(LastModifiedInfo),
+    kind: S.optional(S.String),
+    advertiserId: S.optional(S.String),
     active: S.optional(S.Boolean),
-    subaccountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Ad" }) as any as S.Schema<Ad>;
 
 export interface GetAdvertiserGroupsRequest {
-  /** Advertiser group ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Advertiser group ID. */
+  id: string;
 }
 export const GetAdvertiserGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2536,21 +2536,21 @@ export const GetAdvertiserGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Groups advertisers together so that reports can be generated for the entire group at once. */
 export interface AdvertiserGroup {
-  /** Account ID of this advertiser group. This is a read-only field that can be left blank. */
-  accountId?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroup". */
-  kind?: string;
   /** ID of this advertiser group. This is a read-only, auto-generated field. */
   id?: string;
   /** Name of this advertiser group. This is a required field and must be less than 256 characters long and unique among advertiser groups of the same account. */
   name?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroup". */
+  kind?: string;
+  /** Account ID of this advertiser group. This is a read-only field that can be left blank. */
+  accountId?: string;
 }
 export const AdvertiserGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String),
-    kind: S.optional(S.String),
     id: S.optional(S.String),
     name: S.optional(S.String),
+    kind: S.optional(S.String),
+    accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AdvertiserGroup" }) as any as S.Schema<AdvertiserGroup>;
 
@@ -2591,6 +2591,8 @@ export const MobileAppDirectoryEnum = S.String;
 
 /** Contains information about a mobile app. Used as a landing page deep link. */
 export interface MobileApp {
+  /** Title of this mobile app. */
+  title?: string;
   /** Publisher name. */
   publisherName?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileApp". */
@@ -2599,39 +2601,37 @@ export interface MobileApp {
   directory?: MobileAppDirectoryEnum | (string & {});
   /** ID of this mobile app. */
   id?: string;
-  /** Title of this mobile app. */
-  title?: string;
 }
 export const MobileApp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    title: S.optional(S.String),
     publisherName: S.optional(S.String),
     kind: S.optional(S.String),
     directory: S.optional(MobileAppDirectoryEnum),
     id: S.optional(S.String),
-    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "MobileApp" }) as any as S.Schema<MobileApp>;
 
 /** Contains information about a landing page deep link. */
 export interface DeepLink {
-  /** The fallback URL. This URL will be served to users who do not have the mobile app installed. */
-  fallbackUrl?: string;
-  /** Ads served to users on these remarketing lists will use this deep link. Applicable when mobileApp.directory is APPLE_APP_STORE. */
-  remarketingListIds?: StringList;
-  /** The mobile app targeted by this deep link. */
-  mobileApp?: MobileApp;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#deepLink". */
-  kind?: string;
   /** The URL of the mobile app being linked to. */
   appUrl?: string;
+  /** The mobile app targeted by this deep link. */
+  mobileApp?: MobileApp;
+  /** Ads served to users on these remarketing lists will use this deep link. Applicable when mobileApp.directory is APPLE_APP_STORE. */
+  remarketingListIds?: StringList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#deepLink". */
+  kind?: string;
+  /** The fallback URL. This URL will be served to users who do not have the mobile app installed. */
+  fallbackUrl?: string;
 }
 export const DeepLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fallbackUrl: S.optional(S.String),
-    remarketingListIds: S.optional(StringList),
-    mobileApp: S.optional(MobileApp),
-    kind: S.optional(S.String),
     appUrl: S.optional(S.String),
+    mobileApp: S.optional(MobileApp),
+    remarketingListIds: S.optional(StringList),
+    kind: S.optional(S.String),
+    fallbackUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "DeepLink" }) as any as S.Schema<DeepLink>;
 
@@ -2640,29 +2640,29 @@ export const DeepLinkList = /*@__PURE__*/ S.Array(DeepLink) as any as S.Schema<D
 
 /** Contains information about where a user's browser is taken after the user clicks an ad. */
 export interface LandingPage {
-  /** Name of this landing page. This is a required field. It must be less than 256 characters long. */
-  name?: string;
-  /** Whether this landing page has been archived. */
-  archived?: boolean;
-  /** Links that will direct the user to a mobile app, if installed. */
-  deepLinks?: DeepLinkList;
   /** URL of this landing page. This is a required field. */
   url?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#landingPage". */
   kind?: string;
+  /** Whether this landing page has been archived. */
+  archived?: boolean;
+  /** Name of this landing page. This is a required field. It must be less than 256 characters long. */
+  name?: string;
   /** ID of this landing page. This is a read-only, auto-generated field. */
   id?: string;
+  /** Links that will direct the user to a mobile app, if installed. */
+  deepLinks?: DeepLinkList;
   /** Advertiser ID of this landing page. This is a required field. */
   advertiserId?: string;
 }
 export const LandingPage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    archived: S.optional(S.Boolean),
-    deepLinks: S.optional(DeepLinkList),
     url: S.optional(S.String),
     kind: S.optional(S.String),
+    archived: S.optional(S.Boolean),
+    name: S.optional(S.String),
     id: S.optional(S.String),
+    deepLinks: S.optional(DeepLinkList),
     advertiserId: S.optional(S.String),
   }),
 ).annotate({ identifier: "LandingPage" }) as any as S.Schema<LandingPage>;
@@ -2689,6 +2689,17 @@ export const GetAdvertisersRequest = /*@__PURE__*/ S.suspend(() =>
 export type AdvertiserStatusEnum = "APPROVED" | "ON_HOLD";
 export const AdvertiserStatusEnum = S.String;
 
+export type AdvertiserEuPoliticalAdsDeclarationEnum =
+  | "ADVERTISER_PLANS_TO_SERVE_EU_POLITICAL_ADS"
+  | "ADVERTISER_DOES_NOT_PLAN_TO_SERVE_EU_POLITICAL_ADS";
+export const AdvertiserEuPoliticalAdsDeclarationEnum = S.String;
+
+export type MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum =
+  | "NONE"
+  | "INTEGRAL_AD_SCIENCE"
+  | "DOUBLE_VERIFY";
+export const MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum = S.String;
+
 export type MeasurementPartnerAdvertiserLinkLinkStatusEnum =
   | "MEASUREMENT_PARTNER_UNLINKED"
   | "MEASUREMENT_PARTNER_LINKED"
@@ -2701,104 +2712,93 @@ export type MeasurementPartnerAdvertiserLinkLinkStatusEnum =
   | "MEASUREMENT_PARTNER_UNLINK_PENDING";
 export const MeasurementPartnerAdvertiserLinkLinkStatusEnum = S.String;
 
-export type MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum =
-  | "NONE"
-  | "INTEGRAL_AD_SCIENCE"
-  | "DOUBLE_VERIFY";
-export const MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum = S.String;
-
 export interface MeasurementPartnerAdvertiserLink {
-  /** Status of the partner link. */
-  linkStatus?: MeasurementPartnerAdvertiserLinkLinkStatusEnum | (string & {});
   /** partner Advertiser Id. */
   partnerAdvertiserId?: string;
   /** Measurement partner used for tag wrapping. */
   measurementPartner?: MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum | (string & {});
+  /** Status of the partner link. */
+  linkStatus?: MeasurementPartnerAdvertiserLinkLinkStatusEnum | (string & {});
 }
 export const MeasurementPartnerAdvertiserLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    linkStatus: S.optional(MeasurementPartnerAdvertiserLinkLinkStatusEnum),
     partnerAdvertiserId: S.optional(S.String),
     measurementPartner: S.optional(MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum),
+    linkStatus: S.optional(MeasurementPartnerAdvertiserLinkLinkStatusEnum),
   }),
 ).annotate({
   identifier: "MeasurementPartnerAdvertiserLink",
 }) as any as S.Schema<MeasurementPartnerAdvertiserLink>;
 
-export type AdvertiserEuPoliticalAdsDeclarationEnum =
-  | "ADVERTISER_PLANS_TO_SERVE_EU_POLITICAL_ADS"
-  | "ADVERTISER_DOES_NOT_PLAN_TO_SERVE_EU_POLITICAL_ADS";
-export const AdvertiserEuPoliticalAdsDeclarationEnum = S.String;
-
 /** Contains properties of a Campaign Manager advertiser. */
 export interface Advertiser {
-  /** Suffix added to click-through URL of ad creative associations under this advertiser. Must be less than 129 characters long. */
-  clickThroughUrlSuffix?: string;
+  /** Suspension status of this advertiser. */
+  suspended?: boolean;
+  /** Account ID of this advertiser.This is a read-only field that can be left blank. */
+  accountId?: string;
+  /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
+  name?: string;
   /** Dimension value for the ID of this advertiser. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue;
   /** ID of this advertiser. This is a read-only, auto-generated field. */
   id?: string;
+  /** Status of this advertiser. */
+  status?: AdvertiserStatusEnum | (string & {});
   /** Floodlight configuration ID of this advertiser. The floodlight configuration ID will be created automatically, so on insert this field should be left blank. This field can be set to another advertiser's floodlight configuration ID in order to share that advertiser's floodlight configuration with this advertiser, so long as: - This advertiser's original floodlight configuration is not already associated with floodlight activities or floodlight activity groups. - This advertiser's original floodlight configuration is not already shared with another advertiser. */
   floodlightConfigurationId?: string;
+  /** Suffix added to click-through URL of ad creative associations under this advertiser. Must be less than 129 characters long. */
+  clickThroughUrlSuffix?: string;
+  /** Optional. Whether the advertiser plans to serve EU political ads. */
+  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {});
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
+  kind?: string;
+  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
+  floodlightConfigurationIdDimensionValue?: DimensionValue;
+  /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
+  advertiserGroupId?: string;
+  /** ID of the click-through event tag to apply by default to the landing pages of this advertiser's campaigns. */
+  defaultClickThroughEventTagId?: string;
   /** Default email address used in sender field for tag emails. */
   defaultEmail?: string;
   /** Original floodlight configuration before any sharing occurred. Set the floodlightConfigurationId of this advertiser to originalFloodlightConfigurationId to unshare the advertiser's current floodlight configuration. You cannot unshare an advertiser's floodlight configuration if the shared configuration has activities associated with any campaign or placement. */
   originalFloodlightConfigurationId?: string;
-  /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
-  name?: string;
-  /** Suspension status of this advertiser. */
-  suspended?: boolean;
-  /** ID of the click-through event tag to apply by default to the landing pages of this advertiser's campaigns. */
-  defaultClickThroughEventTagId?: string;
-  /** Status of this advertiser. */
-  status?: AdvertiserStatusEnum | (string & {});
-  /** Account ID of this advertiser.This is a read-only field that can be left blank. */
-  accountId?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
-  kind?: string;
   /** Subaccount ID of this advertiser.This is a read-only field that can be left blank. */
   subaccountId?: string;
-  /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
-  advertiserGroupId?: string;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue;
   /** Measurement partner advertiser link for tag wrapping. */
   measurementPartnerLink?: MeasurementPartnerAdvertiserLink;
-  /** Optional. Whether the advertiser plans to serve EU political ads. */
-  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {});
 }
 export const Advertiser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clickThroughUrlSuffix: S.optional(S.String),
+    suspended: S.optional(S.Boolean),
+    accountId: S.optional(S.String),
+    name: S.optional(S.String),
     idDimensionValue: S.optional(DimensionValue),
     id: S.optional(S.String),
+    status: S.optional(AdvertiserStatusEnum),
     floodlightConfigurationId: S.optional(S.String),
+    clickThroughUrlSuffix: S.optional(S.String),
+    euPoliticalAdsDeclaration: S.optional(AdvertiserEuPoliticalAdsDeclarationEnum),
+    kind: S.optional(S.String),
+    floodlightConfigurationIdDimensionValue: S.optional(DimensionValue),
+    advertiserGroupId: S.optional(S.String),
+    defaultClickThroughEventTagId: S.optional(S.String),
     defaultEmail: S.optional(S.String),
     originalFloodlightConfigurationId: S.optional(S.String),
-    name: S.optional(S.String),
-    suspended: S.optional(S.Boolean),
-    defaultClickThroughEventTagId: S.optional(S.String),
-    status: S.optional(AdvertiserStatusEnum),
-    accountId: S.optional(S.String),
-    kind: S.optional(S.String),
     subaccountId: S.optional(S.String),
-    advertiserGroupId: S.optional(S.String),
-    floodlightConfigurationIdDimensionValue: S.optional(DimensionValue),
     measurementPartnerLink: S.optional(MeasurementPartnerAdvertiserLink),
-    euPoliticalAdsDeclaration: S.optional(AdvertiserEuPoliticalAdsDeclarationEnum),
   }),
 ).annotate({ identifier: "Advertiser" }) as any as S.Schema<Advertiser>;
 
 export interface GetBillingProfilesRequest {
-  /** Billing Profile ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Billing Profile ID. */
+  id: string;
 }
 export const GetBillingProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2823,46 +2823,46 @@ export const BillingProfileStatusEnum = S.String;
 export interface BillingProfile {
   /** The ID of the payment customer the billing profile belongs to. This is a read-only field. */
   paymentsCustomerId?: string;
+  /** Consolidated invoice option for this billing profile. Used to get a single, consolidated invoice across the chosen invoice level. */
+  consolidatedInvoice?: boolean;
+  /** Invoice level for this billing profile. Used to group fees into separate invoices by account, advertiser, or campaign. */
+  invoiceLevel?: BillingProfileInvoiceLevelEnum | (string & {});
+  /** Purchase order (PO) for this billing profile. This PO number is used in the invoices for all of the advertisers in this billing profile. */
+  purchaseOrder?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingProfile". */
+  kind?: string;
   /** Billing currency code in ISO 4217 format.This is a read-only field. */
   currencyCode?: string;
   /** The ID of the secondary payment customer the billing profile belongs to. This is a read-only field. */
   secondaryPaymentsCustomerId?: string;
-  /** Invoice level for this billing profile. Used to group fees into separate invoices by account, advertiser, or campaign. */
-  invoiceLevel?: BillingProfileInvoiceLevelEnum | (string & {});
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingProfile". */
-  kind?: string;
-  /** Name of this billing profile. This is a required field and must be less than 256 characters long and must be unique among billing profile in the same account. */
-  name?: string;
-  /** Consolidated invoice option for this billing profile. Used to get a single, consolidated invoice across the chosen invoice level. */
-  consolidatedInvoice?: boolean;
-  /** ID of this billing profile. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Status of this billing profile.This is a read-only field. */
-  status?: BillingProfileStatusEnum | (string & {});
-  /** True if the billing profile is the account default profile. This is a read-only field. */
-  isDefault?: boolean;
-  /** Purchase order (PO) for this billing profile. This PO number is used in the invoices for all of the advertisers in this billing profile. */
-  purchaseOrder?: string;
   /** Country code of this billing profile.This is a read-only field. */
   countryCode?: string;
+  /** True if the billing profile is the account default profile. This is a read-only field. */
+  isDefault?: boolean;
+  /** ID of this billing profile. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Name of this billing profile. This is a required field and must be less than 256 characters long and must be unique among billing profile in the same account. */
+  name?: string;
   /** The ID of the payment account the billing profile belongs to. This is a read-only field. */
   paymentsAccountId?: string;
+  /** Status of this billing profile.This is a read-only field. */
+  status?: BillingProfileStatusEnum | (string & {});
 }
 export const BillingProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     paymentsCustomerId: S.optional(S.String),
+    consolidatedInvoice: S.optional(S.Boolean),
+    invoiceLevel: S.optional(BillingProfileInvoiceLevelEnum),
+    purchaseOrder: S.optional(S.String),
+    kind: S.optional(S.String),
     currencyCode: S.optional(S.String),
     secondaryPaymentsCustomerId: S.optional(S.String),
-    invoiceLevel: S.optional(BillingProfileInvoiceLevelEnum),
-    kind: S.optional(S.String),
-    name: S.optional(S.String),
-    consolidatedInvoice: S.optional(S.Boolean),
-    id: S.optional(S.String),
-    status: S.optional(BillingProfileStatusEnum),
-    isDefault: S.optional(S.Boolean),
-    purchaseOrder: S.optional(S.String),
     countryCode: S.optional(S.String),
+    isDefault: S.optional(S.Boolean),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
     paymentsAccountId: S.optional(S.String),
+    status: S.optional(BillingProfileStatusEnum),
   }),
 ).annotate({ identifier: "BillingProfile" }) as any as S.Schema<BillingProfile>;
 
@@ -2885,31 +2885,82 @@ export const GetCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetCampaignsRequest" }) as any as S.Schema<GetCampaignsRequest>;
 
-/** Campaign ad blocking settings. */
-export interface AdBlockingConfiguration {
-  /** Whether this campaign has enabled ad blocking. When true, ad blocking is enabled for placements in the campaign, but this may be overridden by site and placement settings. When false, ad blocking is disabled for all placements under the campaign, regardless of site and placement settings. */
-  enabled?: boolean;
+export type CreativeOptimizationConfigurationOptimizationModelEnum =
+  | "CLICK"
+  | "POST_CLICK"
+  | "POST_IMPRESSION"
+  | "POST_CLICK_AND_IMPRESSION"
+  | "VIDEO_COMPLETION";
+export const CreativeOptimizationConfigurationOptimizationModelEnum = S.String;
+
+/** Creative optimization activity. */
+export interface OptimizationActivity {
+  /** Floodlight activity ID of this optimization activity. This is a required field. */
+  floodlightActivityId?: string;
+  /** Dimension value for the ID of the floodlight activity. This is a read-only, auto-generated field. */
+  floodlightActivityIdDimensionValue?: DimensionValue;
+  /** Weight associated with this optimization. The weight assigned will be understood in proportion to the weights assigned to the other optimization activities. Value must be greater than or equal to 1. */
+  weight?: number;
 }
-export const AdBlockingConfiguration = /*@__PURE__*/ S.suspend(() =>
+export const OptimizationActivity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.Boolean),
+    floodlightActivityId: S.optional(S.String),
+    floodlightActivityIdDimensionValue: S.optional(DimensionValue),
+    weight: S.optional(S.Number),
   }),
-).annotate({ identifier: "AdBlockingConfiguration" }) as any as S.Schema<AdBlockingConfiguration>;
+).annotate({ identifier: "OptimizationActivity" }) as any as S.Schema<OptimizationActivity>;
+
+export type OptimizationActivityList = Array<OptimizationActivity>;
+export const OptimizationActivityList = /*@__PURE__*/ S.Array(
+  OptimizationActivity,
+) as any as S.Schema<OptimizationActivityList>;
+
+/** Creative optimization settings. */
+export interface CreativeOptimizationConfiguration {
+  /** Name of this creative optimization config. This is a required field and must be less than 129 characters long. */
+  name?: string;
+  /** Optimization model for this configuration. */
+  optimizationModel?: CreativeOptimizationConfigurationOptimizationModelEnum | (string & {});
+  /** List of optimization activities associated with this configuration. */
+  optimizationActivitys?: OptimizationActivityList;
+  /** ID of this creative optimization config. This field is auto-generated when the campaign is inserted or updated. It can be null for existing campaigns. */
+  id?: string;
+}
+export const CreativeOptimizationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    optimizationModel: S.optional(CreativeOptimizationConfigurationOptimizationModelEnum),
+    optimizationActivitys: S.optional(OptimizationActivityList),
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreativeOptimizationConfiguration",
+}) as any as S.Schema<CreativeOptimizationConfiguration>;
+
+export type CreativeOptimizationConfigurationList = Array<CreativeOptimizationConfiguration>;
+export const CreativeOptimizationConfigurationList = /*@__PURE__*/ S.Array(
+  CreativeOptimizationConfiguration,
+) as any as S.Schema<CreativeOptimizationConfigurationList>;
+
+export type CampaignEuPoliticalAdsDeclarationEnum =
+  | "CONTAINS_EU_POLITICAL_ADS"
+  | "DOES_NOT_CONTAIN_EU_POLITICAL_ADS";
+export const CampaignEuPoliticalAdsDeclarationEnum = S.String;
 
 /** Audience Segment. */
 export interface AudienceSegment {
-  /** Name of this audience segment. This is a required field and must be less than 65 characters long. */
-  name?: string;
   /** ID of this audience segment. This is a read-only, auto-generated field. */
   id?: string;
   /** Weight allocated to this segment. The weight assigned will be understood in proportion to the weights assigned to other segments in the same segment group. Acceptable values are 1 to 1000, inclusive. */
   allocation?: number;
+  /** Name of this audience segment. This is a required field and must be less than 65 characters long. */
+  name?: string;
 }
 export const AudienceSegment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     id: S.optional(S.String),
     allocation: S.optional(S.Number),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "AudienceSegment" }) as any as S.Schema<AudienceSegment>;
 
@@ -2920,17 +2971,17 @@ export const AudienceSegmentList = /*@__PURE__*/ S.Array(
 
 /** Audience Segment Group. */
 export interface AudienceSegmentGroup {
-  /** Audience segments assigned to this group. The number of segments must be between 2 and 100. */
-  audienceSegments?: AudienceSegmentList;
   /** ID of this audience segment group. This is a read-only, auto-generated field. */
   id?: string;
+  /** Audience segments assigned to this group. The number of segments must be between 2 and 100. */
+  audienceSegments?: AudienceSegmentList;
   /** Name of this audience segment group. This is a required field and must be less than 65 characters long. */
   name?: string;
 }
 export const AudienceSegmentGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    audienceSegments: S.optional(AudienceSegmentList),
     id: S.optional(S.String),
+    audienceSegments: S.optional(AudienceSegmentList),
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "AudienceSegmentGroup" }) as any as S.Schema<AudienceSegmentGroup>;
@@ -2939,68 +2990,6 @@ export type AudienceSegmentGroupList = Array<AudienceSegmentGroup>;
 export const AudienceSegmentGroupList = /*@__PURE__*/ S.Array(
   AudienceSegmentGroup,
 ) as any as S.Schema<AudienceSegmentGroupList>;
-
-export type CampaignEuPoliticalAdsDeclarationEnum =
-  | "CONTAINS_EU_POLITICAL_ADS"
-  | "DOES_NOT_CONTAIN_EU_POLITICAL_ADS";
-export const CampaignEuPoliticalAdsDeclarationEnum = S.String;
-
-/** Creative optimization activity. */
-export interface OptimizationActivity {
-  /** Weight associated with this optimization. The weight assigned will be understood in proportion to the weights assigned to the other optimization activities. Value must be greater than or equal to 1. */
-  weight?: number;
-  /** Dimension value for the ID of the floodlight activity. This is a read-only, auto-generated field. */
-  floodlightActivityIdDimensionValue?: DimensionValue;
-  /** Floodlight activity ID of this optimization activity. This is a required field. */
-  floodlightActivityId?: string;
-}
-export const OptimizationActivity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    weight: S.optional(S.Number),
-    floodlightActivityIdDimensionValue: S.optional(DimensionValue),
-    floodlightActivityId: S.optional(S.String),
-  }),
-).annotate({ identifier: "OptimizationActivity" }) as any as S.Schema<OptimizationActivity>;
-
-export type OptimizationActivityList = Array<OptimizationActivity>;
-export const OptimizationActivityList = /*@__PURE__*/ S.Array(
-  OptimizationActivity,
-) as any as S.Schema<OptimizationActivityList>;
-
-export type CreativeOptimizationConfigurationOptimizationModelEnum =
-  | "CLICK"
-  | "POST_CLICK"
-  | "POST_IMPRESSION"
-  | "POST_CLICK_AND_IMPRESSION"
-  | "VIDEO_COMPLETION";
-export const CreativeOptimizationConfigurationOptimizationModelEnum = S.String;
-
-/** Creative optimization settings. */
-export interface CreativeOptimizationConfiguration {
-  /** List of optimization activities associated with this configuration. */
-  optimizationActivitys?: OptimizationActivityList;
-  /** ID of this creative optimization config. This field is auto-generated when the campaign is inserted or updated. It can be null for existing campaigns. */
-  id?: string;
-  /** Name of this creative optimization config. This is a required field and must be less than 129 characters long. */
-  name?: string;
-  /** Optimization model for this configuration. */
-  optimizationModel?: CreativeOptimizationConfigurationOptimizationModelEnum | (string & {});
-}
-export const CreativeOptimizationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    optimizationActivitys: S.optional(OptimizationActivityList),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    optimizationModel: S.optional(CreativeOptimizationConfigurationOptimizationModelEnum),
-  }),
-).annotate({
-  identifier: "CreativeOptimizationConfiguration",
-}) as any as S.Schema<CreativeOptimizationConfiguration>;
-
-export type CreativeOptimizationConfigurationList = Array<CreativeOptimizationConfiguration>;
-export const CreativeOptimizationConfigurationList = /*@__PURE__*/ S.Array(
-  CreativeOptimizationConfiguration,
-) as any as S.Schema<CreativeOptimizationConfigurationList>;
 
 export type MeasurementPartnerCampaignLinkMeasurementPartnerEnum =
   | "NONE"
@@ -3021,123 +3010,134 @@ export type MeasurementPartnerCampaignLinkLinkStatusEnum =
 export const MeasurementPartnerCampaignLinkLinkStatusEnum = S.String;
 
 export interface MeasurementPartnerCampaignLink {
-  /** Partner campaign ID needed for establishing linking with Measurement partner. */
-  partnerCampaignId?: string;
   /** Measurement partner used for tag wrapping. */
   measurementPartner?: MeasurementPartnerCampaignLinkMeasurementPartnerEnum | (string & {});
   /** . */
   linkStatus?: MeasurementPartnerCampaignLinkLinkStatusEnum | (string & {});
+  /** Partner campaign ID needed for establishing linking with Measurement partner. */
+  partnerCampaignId?: string;
 }
 export const MeasurementPartnerCampaignLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partnerCampaignId: S.optional(S.String),
     measurementPartner: S.optional(MeasurementPartnerCampaignLinkMeasurementPartnerEnum),
     linkStatus: S.optional(MeasurementPartnerCampaignLinkLinkStatusEnum),
+    partnerCampaignId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MeasurementPartnerCampaignLink",
 }) as any as S.Schema<MeasurementPartnerCampaignLink>;
 
+/** Campaign ad blocking settings. */
+export interface AdBlockingConfiguration {
+  /** Whether this campaign has enabled ad blocking. When true, ad blocking is enabled for placements in the campaign, but this may be overridden by site and placement settings. When false, ad blocking is disabled for all placements under the campaign, regardless of site and placement settings. */
+  enabled?: boolean;
+}
+export const AdBlockingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "AdBlockingConfiguration" }) as any as S.Schema<AdBlockingConfiguration>;
+
 /** Contains properties of a Campaign Manager campaign. */
 export interface Campaign {
-  /** Dimension value for the advertiser ID of this campaign. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaign". */
-  kind?: string;
-  /** Arbitrary comments about this campaign. Must be less than 256 characters long. */
-  comment?: string;
-  /** Ad blocking settings for this campaign. */
-  adBlockingConfiguration?: AdBlockingConfiguration;
-  /** Subaccount ID of this campaign. This is a read-only field that can be left blank. */
-  subaccountId?: string;
-  /** Whether this campaign has been archived. */
-  archived?: boolean;
-  /** Audience segment groups assigned to this campaign. Cannot have more than 300 segment groups. */
-  audienceSegmentGroups?: AudienceSegmentGroupList;
-  /** Overrides that can be used to activate or deactivate advertiser event tags. */
-  eventTagOverrides?: EventTagOverrideList;
   startDate?: string;
-  /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
-  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {});
-  endDate?: string;
-  /** Additional creative optimization configurations for the campaign. */
-  additionalCreativeOptimizationConfigurations?: CreativeOptimizationConfigurationList;
   /** Information about the most recent modification of this campaign. This is a read-only field. */
   lastModifiedInfo?: LastModifiedInfo;
-  /** Advertiser ID of this campaign. This is a required field. */
-  advertiserId?: string;
-  /** ID of this campaign. This is a read-only auto-generated field. */
-  id?: string;
-  /** Name of this campaign. This is a required field and must be less than 512 characters long and unique among campaigns of the same advertiser. */
-  name?: string;
-  /** Advertiser group ID of the associated advertiser. */
-  advertiserGroupId?: string;
-  /** External ID for this campaign. */
-  externalId?: string;
-  /** The default landing page ID for this campaign. */
-  defaultLandingPageId?: string;
   /** Account ID of this campaign. This is a read-only field that can be left blank. */
   accountId?: string;
-  /** Dimension value for the ID of this campaign. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
-  /** Click-through event tag ID override properties for this campaign. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties;
-  /** Measurement partner campaign link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerCampaignLink;
+  /** Dimension value for the advertiser ID of this campaign. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue;
+  /** Subaccount ID of this campaign. This is a read-only field that can be left blank. */
+  subaccountId?: string;
   /** Click-through URL suffix override properties for this campaign. */
   clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties;
-  /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
-  billingInvoiceCode?: string;
-  /** List of creative group IDs that are assigned to the campaign. */
-  creativeGroupIds?: StringList;
+  /** Arbitrary comments about this campaign. Must be less than 256 characters long. */
+  comment?: string;
   /** Information about the creation of this campaign. This is a read-only field. */
   createInfo?: LastModifiedInfo;
+  endDate?: string;
+  /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
+  billingInvoiceCode?: string;
+  /** Additional creative optimization configurations for the campaign. */
+  additionalCreativeOptimizationConfigurations?: CreativeOptimizationConfigurationList;
+  /** Click-through event tag ID override properties for this campaign. */
+  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties;
+  /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
+  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {});
+  /** Audience segment groups assigned to this campaign. Cannot have more than 300 segment groups. */
+  audienceSegmentGroups?: AudienceSegmentGroupList;
+  /** List of creative group IDs that are assigned to the campaign. */
+  creativeGroupIds?: StringList;
+  /** Measurement partner campaign link for tag wrapping. */
+  measurementPartnerLink?: MeasurementPartnerCampaignLink;
+  /** External ID for this campaign. */
+  externalId?: string;
+  /** Overrides that can be used to activate or deactivate advertiser event tags. */
+  eventTagOverrides?: EventTagOverrideList;
+  /** Name of this campaign. This is a required field and must be less than 512 characters long and unique among campaigns of the same advertiser. */
+  name?: string;
   /** Creative optimization configuration for the campaign. */
   creativeOptimizationConfiguration?: CreativeOptimizationConfiguration;
+  /** ID of this campaign. This is a read-only auto-generated field. */
+  id?: string;
+  /** Dimension value for the ID of this campaign. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue;
+  /** Ad blocking settings for this campaign. */
+  adBlockingConfiguration?: AdBlockingConfiguration;
+  /** Advertiser ID of this campaign. This is a required field. */
+  advertiserId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaign". */
+  kind?: string;
+  /** Advertiser group ID of the associated advertiser. */
+  advertiserGroupId?: string;
+  /** The default landing page ID for this campaign. */
+  defaultLandingPageId?: string;
+  /** Whether this campaign has been archived. */
+  archived?: boolean;
 }
 export const Campaign = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    advertiserIdDimensionValue: S.optional(DimensionValue),
-    kind: S.optional(S.String),
-    comment: S.optional(S.String),
-    adBlockingConfiguration: S.optional(AdBlockingConfiguration),
-    subaccountId: S.optional(S.String),
-    archived: S.optional(S.Boolean),
-    audienceSegmentGroups: S.optional(AudienceSegmentGroupList),
-    eventTagOverrides: S.optional(EventTagOverrideList),
     startDate: S.optional(S.String),
-    euPoliticalAdsDeclaration: S.optional(CampaignEuPoliticalAdsDeclarationEnum),
-    endDate: S.optional(S.String),
-    additionalCreativeOptimizationConfigurations: S.optional(CreativeOptimizationConfigurationList),
     lastModifiedInfo: S.optional(LastModifiedInfo),
-    advertiserId: S.optional(S.String),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    advertiserGroupId: S.optional(S.String),
-    externalId: S.optional(S.String),
-    defaultLandingPageId: S.optional(S.String),
     accountId: S.optional(S.String),
-    idDimensionValue: S.optional(DimensionValue),
-    defaultClickThroughEventTagProperties: S.optional(DefaultClickThroughEventTagProperties),
-    measurementPartnerLink: S.optional(MeasurementPartnerCampaignLink),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
+    subaccountId: S.optional(S.String),
     clickThroughUrlSuffixProperties: S.optional(ClickThroughUrlSuffixProperties),
-    billingInvoiceCode: S.optional(S.String),
-    creativeGroupIds: S.optional(StringList),
+    comment: S.optional(S.String),
     createInfo: S.optional(LastModifiedInfo),
+    endDate: S.optional(S.String),
+    billingInvoiceCode: S.optional(S.String),
+    additionalCreativeOptimizationConfigurations: S.optional(CreativeOptimizationConfigurationList),
+    defaultClickThroughEventTagProperties: S.optional(DefaultClickThroughEventTagProperties),
+    euPoliticalAdsDeclaration: S.optional(CampaignEuPoliticalAdsDeclarationEnum),
+    audienceSegmentGroups: S.optional(AudienceSegmentGroupList),
+    creativeGroupIds: S.optional(StringList),
+    measurementPartnerLink: S.optional(MeasurementPartnerCampaignLink),
+    externalId: S.optional(S.String),
+    eventTagOverrides: S.optional(EventTagOverrideList),
+    name: S.optional(S.String),
     creativeOptimizationConfiguration: S.optional(CreativeOptimizationConfiguration),
+    id: S.optional(S.String),
+    idDimensionValue: S.optional(DimensionValue),
+    adBlockingConfiguration: S.optional(AdBlockingConfiguration),
+    advertiserId: S.optional(S.String),
+    kind: S.optional(S.String),
+    advertiserGroupId: S.optional(S.String),
+    defaultLandingPageId: S.optional(S.String),
+    archived: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Campaign" }) as any as S.Schema<Campaign>;
 
 export interface GetChangeLogsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Change log ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const GetChangeLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3149,50 +3149,50 @@ export const GetChangeLogsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Describes a change that a user has made to a resource. */
 export interface ChangeLog {
-  /** Account ID of the modified object. */
-  accountId?: string;
   /** ID of the user who modified the object. */
   userProfileId?: string;
+  /** Object type of the change log. */
+  objectType?: string;
   changeTime?: string;
-  /** Field name of the object which changed. */
-  fieldName?: string;
-  /** Action which caused the change. */
-  action?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#changeLog". */
-  kind?: string;
+  /** Account ID of the modified object. */
+  accountId?: string;
   /** Transaction ID of this change log. When a single API call results in many changes, each change will have a separate ID in the change log but will share the same transactionId. */
   transactionId?: string;
-  /** New value of the object field. */
-  newValue?: string;
-  /** ID of this change log. */
-  id?: string;
+  /** Action which caused the change. */
+  action?: string;
   /** User profile name of the user who modified the object. */
   userProfileName?: string;
   /** Old value of the object field. */
   oldValue?: string;
+  /** ID of this change log. */
+  id?: string;
   /** Subaccount ID of the modified object. */
   subaccountId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#changeLog". */
+  kind?: string;
   /** ID of the object of this change log. The object could be a campaign, placement, ad, or other type. */
   objectId?: string;
-  /** Object type of the change log. */
-  objectType?: string;
+  /** Field name of the object which changed. */
+  fieldName?: string;
+  /** New value of the object field. */
+  newValue?: string;
 }
 export const ChangeLog = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String),
     userProfileId: S.optional(S.String),
+    objectType: S.optional(S.String),
     changeTime: S.optional(S.String),
-    fieldName: S.optional(S.String),
-    action: S.optional(S.String),
-    kind: S.optional(S.String),
+    accountId: S.optional(S.String),
     transactionId: S.optional(S.String),
-    newValue: S.optional(S.String),
-    id: S.optional(S.String),
+    action: S.optional(S.String),
     userProfileName: S.optional(S.String),
     oldValue: S.optional(S.String),
+    id: S.optional(S.String),
     subaccountId: S.optional(S.String),
+    kind: S.optional(S.String),
     objectId: S.optional(S.String),
-    objectType: S.optional(S.String),
+    fieldName: S.optional(S.String),
+    newValue: S.optional(S.String),
   }),
 ).annotate({ identifier: "ChangeLog" }) as any as S.Schema<ChangeLog>;
 
@@ -3218,15 +3218,15 @@ export const GetConnectionTypesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConnectionTypesRequest>;
 
 export interface GetContentCategoriesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Content category ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const GetContentCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3239,21 +3239,21 @@ export const GetContentCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetContentCategoriesRequest>;
 
 export interface ContentCategory {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategory". */
-  kind?: string;
-  /** Account ID of this content category. This is a read-only field that can be left blank. */
-  accountId?: string;
-  /** ID of this content category. This is a read-only, auto-generated field. */
-  id?: string;
   /** Name of this content category. This is a required field and must be less than 256 characters long and unique among content categories of the same account. */
   name?: string;
+  /** Account ID of this content category. This is a read-only field that can be left blank. */
+  accountId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategory". */
+  kind?: string;
+  /** ID of this content category. This is a read-only, auto-generated field. */
+  id?: string;
 }
 export const ContentCategory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    accountId: S.optional(S.String),
-    id: S.optional(S.String),
     name: S.optional(S.String),
+    accountId: S.optional(S.String),
+    kind: S.optional(S.String),
+    id: S.optional(S.String),
   }),
 ).annotate({ identifier: "ContentCategory" }) as any as S.Schema<ContentCategory>;
 
@@ -3277,15 +3277,15 @@ export const GetCountriesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetCountriesRequest" }) as any as S.Schema<GetCountriesRequest>;
 
 export interface GetCreativeFieldsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Creative Field ID */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const GetCreativeFieldsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3297,46 +3297,46 @@ export const GetCreativeFieldsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Contains properties of a creative field. */
 export interface CreativeField {
-  /** Account ID of this creative field. This is a read-only field that can be left blank. */
-  accountId?: string;
-  /** Subaccount ID of this creative field. This is a read-only field that can be left blank. */
-  subaccountId?: string;
-  /** ID of this creative field. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Name of this creative field. This is a required field and must be less than 256 characters long and unique among creative fields of the same advertiser. */
-  name?: string;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue;
+  /** ID of this creative field. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Subaccount ID of this creative field. This is a read-only field that can be left blank. */
+  subaccountId?: string;
   /** Advertiser ID of this creative field. This is a required field on insertion. */
   advertiserId?: string;
+  /** Account ID of this creative field. This is a read-only field that can be left blank. */
+  accountId?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeField". */
   kind?: string;
+  /** Name of this creative field. This is a required field and must be less than 256 characters long and unique among creative fields of the same advertiser. */
+  name?: string;
 }
 export const CreativeField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String),
-    subaccountId: S.optional(S.String),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
     advertiserIdDimensionValue: S.optional(DimensionValue),
+    id: S.optional(S.String),
+    subaccountId: S.optional(S.String),
     advertiserId: S.optional(S.String),
+    accountId: S.optional(S.String),
     kind: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreativeField" }) as any as S.Schema<CreativeField>;
 
 export interface GetCreativeFieldValuesRequest {
-  /** Creative field ID for this creative field value. */
-  creativeFieldId: string;
-  /** Creative Field Value ID */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Creative Field Value ID */
+  id: string;
+  /** Creative field ID for this creative field value. */
+  creativeFieldId: string;
 }
 export const GetCreativeFieldValuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creativeFieldId: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    creativeFieldId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3352,29 +3352,29 @@ export const GetCreativeFieldValuesRequest = /*@__PURE__*/ S.suspend(() =>
 export interface CreativeFieldValue {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValue". */
   kind?: string;
-  /** Value of this creative field value. It needs to be less than 256 characters in length and unique per creative field. */
-  value?: string;
   /** ID of this creative field value. This is a read-only, auto-generated field. */
   id?: string;
+  /** Value of this creative field value. It needs to be less than 256 characters in length and unique per creative field. */
+  value?: string;
 }
 export const CreativeFieldValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
-    value: S.optional(S.String),
     id: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreativeFieldValue" }) as any as S.Schema<CreativeFieldValue>;
 
 export interface GetCreativeGroupsRequest {
-  /** Creative group ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Creative group ID. */
+  id: string;
 }
 export const GetCreativeGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3386,46 +3386,46 @@ export const GetCreativeGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Contains properties of a creative group. */
 export interface CreativeGroup {
-  /** ID of this creative group. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Subaccount ID of this creative group. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  /** Advertiser ID of this creative group. This is a required field on insertion. */
+  advertiserId?: string;
   /** Subgroup of the creative group. Assign your creative groups to a subgroup in order to filter or manage them more easily. This field is required on insertion and is read-only after insertion. Acceptable values are 1 to 2, inclusive. */
   groupNumber?: number;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue;
+  /** ID of this creative group. This is a read-only, auto-generated field. */
+  id?: string;
   /** Name of this creative group. This is a required field and must be less than 256 characters long and unique among creative groups of the same advertiser. */
   name?: string;
   /** Account ID of this creative group. This is a read-only field that can be left blank. */
   accountId?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeGroup". */
   kind?: string;
-  /** Advertiser ID of this creative group. This is a required field on insertion. */
-  advertiserId?: string;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  /** Subaccount ID of this creative group. This is a read-only field that can be left blank. */
+  subaccountId?: string;
 }
 export const CreativeGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    subaccountId: S.optional(S.String),
+    advertiserId: S.optional(S.String),
     groupNumber: S.optional(S.Number),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
+    id: S.optional(S.String),
     name: S.optional(S.String),
     accountId: S.optional(S.String),
     kind: S.optional(S.String),
-    advertiserId: S.optional(S.String),
-    advertiserIdDimensionValue: S.optional(DimensionValue),
+    subaccountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreativeGroup" }) as any as S.Schema<CreativeGroup>;
 
 export interface GetCreativesRequest {
-  /** Creative ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Creative ID. */
+  id: string;
 }
 export const GetCreativesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3437,69 +3437,120 @@ export const GetCreativesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Video Offset */
 export interface VideoOffset {
-  /** Duration, in seconds. Do not set when offsetPercentage is set. Acceptable values are 0 to 86399, inclusive. */
-  offsetSeconds?: number;
   /** Duration, as a percentage of video duration. Do not set when offsetSeconds is set. Acceptable values are 0 to 100, inclusive. */
   offsetPercentage?: number;
+  /** Duration, in seconds. Do not set when offsetPercentage is set. Acceptable values are 0 to 86399, inclusive. */
+  offsetSeconds?: number;
 }
 export const VideoOffset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    offsetSeconds: S.optional(S.Number),
     offsetPercentage: S.optional(S.Number),
+    offsetSeconds: S.optional(S.Number),
   }),
 ).annotate({ identifier: "VideoOffset" }) as any as S.Schema<VideoOffset>;
 
-/** Offset Position. */
-export interface OffsetPosition {
-  /** Offset distance from top side of an asset or a window. */
-  top?: number;
-  /** Offset distance from left side of an asset or a window. */
-  left?: number;
-}
-export const OffsetPosition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    top: S.optional(S.Number),
-    left: S.optional(S.Number),
-  }),
-).annotate({ identifier: "OffsetPosition" }) as any as S.Schema<OffsetPosition>;
+export type CreativeCompatibilityItemEnum =
+  | "DISPLAY"
+  | "DISPLAY_INTERSTITIAL"
+  | "APP"
+  | "APP_INTERSTITIAL"
+  | "IN_STREAM_VIDEO"
+  | "IN_STREAM_AUDIO";
+export const CreativeCompatibilityItemEnum = S.String;
 
-export type PopupWindowPropertiesPositionTypeEnum = "CENTER" | "COORDINATES";
-export const PopupWindowPropertiesPositionTypeEnum = S.String;
+export type CreativeCompatibilityItemEnumList = Array<
+  CreativeCompatibilityItemEnum | (string & {})
+>;
+export const CreativeCompatibilityItemEnumList = /*@__PURE__*/ S.Array(
+  CreativeCompatibilityItemEnum,
+) as any as S.Schema<CreativeCompatibilityItemEnumList>;
 
-/** Popup Window Properties. */
-export interface PopupWindowProperties {
-  /** Popup dimension for a creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID */
-  dimension?: Size;
-  /** Whether to display the browser tool bar. */
-  showToolBar?: boolean;
-  /** Whether to display the browser address bar. */
-  showAddressBar?: boolean;
-  /** Whether to display the browser status bar. */
-  showStatusBar?: boolean;
-  /** Whether to display the browser menu bar. */
-  showMenuBar?: boolean;
-  /** Whether to display the browser scroll bar. */
-  showScrollBar?: boolean;
-  /** Title of popup window. */
-  title?: string;
-  /** Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES. */
-  offset?: OffsetPosition;
-  /** Popup window position either centered or at specific coordinate. */
-  positionType?: PopupWindowPropertiesPositionTypeEnum | (string & {});
+export type ThirdPartyTrackingUrlThirdPartyUrlTypeEnum =
+  | "IMPRESSION"
+  | "CLICK_TRACKING"
+  | "VIDEO_START"
+  | "VIDEO_FIRST_QUARTILE"
+  | "VIDEO_MIDPOINT"
+  | "VIDEO_THIRD_QUARTILE"
+  | "VIDEO_COMPLETE"
+  | "VIDEO_MUTE"
+  | "VIDEO_PAUSE"
+  | "VIDEO_REWIND"
+  | "VIDEO_FULLSCREEN"
+  | "VIDEO_STOP"
+  | "VIDEO_CUSTOM"
+  | "SURVEY"
+  | "RICH_MEDIA_IMPRESSION"
+  | "RICH_MEDIA_RM_IMPRESSION"
+  | "RICH_MEDIA_BACKUP_IMPRESSION"
+  | "VIDEO_SKIP"
+  | "VIDEO_PROGRESS";
+export const ThirdPartyTrackingUrlThirdPartyUrlTypeEnum = S.String;
+
+/** Third-party Tracking URL. */
+export interface ThirdPartyTrackingUrl {
+  /** Third-party URL type for in-stream video and in-stream audio creatives. */
+  thirdPartyUrlType?: ThirdPartyTrackingUrlThirdPartyUrlTypeEnum | (string & {});
+  /** URL for the specified third-party URL type. */
+  url?: string;
 }
-export const PopupWindowProperties = /*@__PURE__*/ S.suspend(() =>
+export const ThirdPartyTrackingUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dimension: S.optional(Size),
-    showToolBar: S.optional(S.Boolean),
-    showAddressBar: S.optional(S.Boolean),
-    showStatusBar: S.optional(S.Boolean),
-    showMenuBar: S.optional(S.Boolean),
-    showScrollBar: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    offset: S.optional(OffsetPosition),
-    positionType: S.optional(PopupWindowPropertiesPositionTypeEnum),
+    thirdPartyUrlType: S.optional(ThirdPartyTrackingUrlThirdPartyUrlTypeEnum),
+    url: S.optional(S.String),
   }),
-).annotate({ identifier: "PopupWindowProperties" }) as any as S.Schema<PopupWindowProperties>;
+).annotate({ identifier: "ThirdPartyTrackingUrl" }) as any as S.Schema<ThirdPartyTrackingUrl>;
+
+export type ThirdPartyTrackingUrlList = Array<ThirdPartyTrackingUrl>;
+export const ThirdPartyTrackingUrlList = /*@__PURE__*/ S.Array(
+  ThirdPartyTrackingUrl,
+) as any as S.Schema<ThirdPartyTrackingUrlList>;
+
+export type UniversalAdIdRegistryEnum =
+  | "OTHER"
+  | "AD_ID_OFFICIAL"
+  | "CLEARCAST"
+  | "DCM"
+  | "ARPP"
+  | "CUSV";
+export const UniversalAdIdRegistryEnum = S.String;
+
+/** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID. */
+export interface UniversalAdId {
+  /** ID value for this creative. Only alphanumeric characters and the following symbols are valid: "_/\-". Maximum length is 64 characters. Read only when registry is DCM. */
+  value?: string;
+  /** Registry used for the Ad ID value. */
+  registry?: UniversalAdIdRegistryEnum | (string & {});
+}
+export const UniversalAdId = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    registry: S.optional(UniversalAdIdRegistryEnum),
+  }),
+).annotate({ identifier: "UniversalAdId" }) as any as S.Schema<UniversalAdId>;
+
+/** Click-through URL */
+export interface CreativeClickThroughUrl {
+  /** Custom click-through URL. Applicable if the landingPageId field is left unset. */
+  customClickThroughUrl?: string;
+  /** ID of the landing page for the click-through URL. */
+  landingPageId?: string;
+  /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If landingPageId is specified then that landing page's URL is assigned to this field. - Otherwise, the customClickThroughUrl is assigned to this field. */
+  computedClickThroughUrl?: string;
+}
+export const CreativeClickThroughUrl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customClickThroughUrl: S.optional(S.String),
+    landingPageId: S.optional(S.String),
+    computedClickThroughUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreativeClickThroughUrl" }) as any as S.Schema<CreativeClickThroughUrl>;
+
+export type CreativeCustomEventAdvertiserCustomEventTypeEnum =
+  | "ADVERTISER_EVENT_TIMER"
+  | "ADVERTISER_EVENT_EXIT"
+  | "ADVERTISER_EVENT_COUNTER";
+export const CreativeCustomEventAdvertiserCustomEventTypeEnum = S.String;
 
 export type CreativeCustomEventArtworkTypeEnum =
   | "ARTWORK_TYPE_FLASH"
@@ -3508,22 +3559,57 @@ export type CreativeCustomEventArtworkTypeEnum =
   | "ARTWORK_TYPE_IMAGE";
 export const CreativeCustomEventArtworkTypeEnum = S.String;
 
-/** Click-through URL */
-export interface CreativeClickThroughUrl {
-  /** Custom click-through URL. Applicable if the landingPageId field is left unset. */
-  customClickThroughUrl?: string;
-  /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If landingPageId is specified then that landing page's URL is assigned to this field. - Otherwise, the customClickThroughUrl is assigned to this field. */
-  computedClickThroughUrl?: string;
-  /** ID of the landing page for the click-through URL. */
-  landingPageId?: string;
+export type PopupWindowPropertiesPositionTypeEnum = "CENTER" | "COORDINATES";
+export const PopupWindowPropertiesPositionTypeEnum = S.String;
+
+/** Offset Position. */
+export interface OffsetPosition {
+  /** Offset distance from left side of an asset or a window. */
+  left?: number;
+  /** Offset distance from top side of an asset or a window. */
+  top?: number;
 }
-export const CreativeClickThroughUrl = /*@__PURE__*/ S.suspend(() =>
+export const OffsetPosition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customClickThroughUrl: S.optional(S.String),
-    computedClickThroughUrl: S.optional(S.String),
-    landingPageId: S.optional(S.String),
+    left: S.optional(S.Number),
+    top: S.optional(S.Number),
   }),
-).annotate({ identifier: "CreativeClickThroughUrl" }) as any as S.Schema<CreativeClickThroughUrl>;
+).annotate({ identifier: "OffsetPosition" }) as any as S.Schema<OffsetPosition>;
+
+/** Popup Window Properties. */
+export interface PopupWindowProperties {
+  /** Whether to display the browser address bar. */
+  showAddressBar?: boolean;
+  /** Popup dimension for a creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID */
+  dimension?: Size;
+  /** Whether to display the browser menu bar. */
+  showMenuBar?: boolean;
+  /** Whether to display the browser scroll bar. */
+  showScrollBar?: boolean;
+  /** Popup window position either centered or at specific coordinate. */
+  positionType?: PopupWindowPropertiesPositionTypeEnum | (string & {});
+  /** Whether to display the browser tool bar. */
+  showToolBar?: boolean;
+  /** Title of popup window. */
+  title?: string;
+  /** Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES. */
+  offset?: OffsetPosition;
+  /** Whether to display the browser status bar. */
+  showStatusBar?: boolean;
+}
+export const PopupWindowProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    showAddressBar: S.optional(S.Boolean),
+    dimension: S.optional(Size),
+    showMenuBar: S.optional(S.Boolean),
+    showScrollBar: S.optional(S.Boolean),
+    positionType: S.optional(PopupWindowPropertiesPositionTypeEnum),
+    showToolBar: S.optional(S.Boolean),
+    title: S.optional(S.String),
+    offset: S.optional(OffsetPosition),
+    showStatusBar: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "PopupWindowProperties" }) as any as S.Schema<PopupWindowProperties>;
 
 export type CreativeCustomEventTargetTypeEnum =
   | "TARGET_BLANK"
@@ -3533,47 +3619,41 @@ export type CreativeCustomEventTargetTypeEnum =
   | "TARGET_POPUP";
 export const CreativeCustomEventTargetTypeEnum = S.String;
 
-export type CreativeCustomEventAdvertiserCustomEventTypeEnum =
-  | "ADVERTISER_EVENT_TIMER"
-  | "ADVERTISER_EVENT_EXIT"
-  | "ADVERTISER_EVENT_COUNTER";
-export const CreativeCustomEventAdvertiserCustomEventTypeEnum = S.String;
-
 /** Creative Custom Event. */
 export interface CreativeCustomEvent {
-  /** ID of this event. This is a required field and should not be modified after insertion. */
-  id?: string;
-  /** Video reporting ID, used to differentiate multiple videos in a single creative. This is a read-only field. */
-  videoReportingId?: string;
-  /** Properties for rich media popup windows. This field is used only for exit events. */
-  popupWindowProperties?: PopupWindowProperties;
-  /** Artwork type used by the creative.This is a read-only field. */
-  artworkType?: CreativeCustomEventArtworkTypeEnum | (string & {});
-  /** Exit click-through URL for the event. This field is used only for exit events. */
-  exitClickThroughUrl?: CreativeClickThroughUrl;
-  /** User-entered name for the event. */
-  advertiserCustomEventName?: string;
-  /** Unique ID of this event used by Reporting and Data Transfer. This is a read-only field. */
-  advertiserCustomEventId?: string;
-  /** Target type used by the event. */
-  targetType?: CreativeCustomEventTargetTypeEnum | (string & {});
   /** Artwork label column, used to link events in Campaign Manager back to events in Studio. This is a required field and should not be modified after insertion. */
   artworkLabel?: string;
+  /** Exit click-through URL for the event. This field is used only for exit events. */
+  exitClickThroughUrl?: CreativeClickThroughUrl;
   /** Type of the event. This is a read-only field. */
   advertiserCustomEventType?: CreativeCustomEventAdvertiserCustomEventTypeEnum | (string & {});
+  /** User-entered name for the event. */
+  advertiserCustomEventName?: string;
+  /** Artwork type used by the creative.This is a read-only field. */
+  artworkType?: CreativeCustomEventArtworkTypeEnum | (string & {});
+  /** Properties for rich media popup windows. This field is used only for exit events. */
+  popupWindowProperties?: PopupWindowProperties;
+  /** Unique ID of this event used by Reporting and Data Transfer. This is a read-only field. */
+  advertiserCustomEventId?: string;
+  /** Video reporting ID, used to differentiate multiple videos in a single creative. This is a read-only field. */
+  videoReportingId?: string;
+  /** Target type used by the event. */
+  targetType?: CreativeCustomEventTargetTypeEnum | (string & {});
+  /** ID of this event. This is a required field and should not be modified after insertion. */
+  id?: string;
 }
 export const CreativeCustomEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    videoReportingId: S.optional(S.String),
-    popupWindowProperties: S.optional(PopupWindowProperties),
-    artworkType: S.optional(CreativeCustomEventArtworkTypeEnum),
-    exitClickThroughUrl: S.optional(CreativeClickThroughUrl),
-    advertiserCustomEventName: S.optional(S.String),
-    advertiserCustomEventId: S.optional(S.String),
-    targetType: S.optional(CreativeCustomEventTargetTypeEnum),
     artworkLabel: S.optional(S.String),
+    exitClickThroughUrl: S.optional(CreativeClickThroughUrl),
     advertiserCustomEventType: S.optional(CreativeCustomEventAdvertiserCustomEventTypeEnum),
+    advertiserCustomEventName: S.optional(S.String),
+    artworkType: S.optional(CreativeCustomEventArtworkTypeEnum),
+    popupWindowProperties: S.optional(PopupWindowProperties),
+    advertiserCustomEventId: S.optional(S.String),
+    videoReportingId: S.optional(S.String),
+    targetType: S.optional(CreativeCustomEventTargetTypeEnum),
+    id: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreativeCustomEvent" }) as any as S.Schema<CreativeCustomEvent>;
 
@@ -3582,37 +3662,57 @@ export const CreativeCustomEventList = /*@__PURE__*/ S.Array(
   CreativeCustomEvent,
 ) as any as S.Schema<CreativeCustomEventList>;
 
-/** Online Behavioral Advertiser icon. */
-export interface ObaIcon {
-  /** URL to track view when an OBA icon is clicked. */
-  iconViewTrackingUrl?: string;
-  /** OBA icon x coordinate position. Accepted values are left or right. */
-  xPosition?: string;
-  /** Identifies the industry initiative that the icon supports. For example, AdChoices. */
-  program?: string;
-  /** OBA icon size. */
-  size?: Size;
-  /** OBA icon resource URL. Campaign Manager only supports image and JavaScript icons. Learn more */
-  resourceUrl?: string;
-  /** OBA icon y coordinate position. Accepted values are top or bottom. */
-  yPosition?: string;
-  /** URL to track click when an OBA icon is clicked. */
-  iconClickTrackingUrl?: string;
-  /** URL to redirect to when an OBA icon is clicked. */
-  iconClickThroughUrl?: string;
+export type CreativeArtworkTypeEnum =
+  | "ARTWORK_TYPE_FLASH"
+  | "ARTWORK_TYPE_HTML5"
+  | "ARTWORK_TYPE_MIXED"
+  | "ARTWORK_TYPE_IMAGE";
+export const CreativeArtworkTypeEnum = S.String;
+
+/** Creative Click Tag. */
+export interface ClickTag {
+  /** Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field. */
+  name?: string;
+  /** Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  eventName?: string;
+  /** Parameter value for the specified click tag. This field contains a click-through url. */
+  clickThroughUrl?: CreativeClickThroughUrl;
 }
-export const ObaIcon = /*@__PURE__*/ S.suspend(() =>
+export const ClickTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    iconViewTrackingUrl: S.optional(S.String),
-    xPosition: S.optional(S.String),
-    program: S.optional(S.String),
-    size: S.optional(Size),
-    resourceUrl: S.optional(S.String),
-    yPosition: S.optional(S.String),
-    iconClickTrackingUrl: S.optional(S.String),
-    iconClickThroughUrl: S.optional(S.String),
+    name: S.optional(S.String),
+    eventName: S.optional(S.String),
+    clickThroughUrl: S.optional(CreativeClickThroughUrl),
   }),
-).annotate({ identifier: "ObaIcon" }) as any as S.Schema<ObaIcon>;
+).annotate({ identifier: "ClickTag" }) as any as S.Schema<ClickTag>;
+
+export type ClickTagList = Array<ClickTag>;
+export const ClickTagList = /*@__PURE__*/ S.Array(ClickTag) as any as S.Schema<ClickTagList>;
+
+export type CreativeSyntheticContentAttestationStatusEnum =
+  | "SYNTHETIC_CONTENT_ATTESTATION_STATUS_UNSPECIFIED"
+  | "IS_SYNTHETIC"
+  | "NOT_SYNTHETIC";
+export const CreativeSyntheticContentAttestationStatusEnum = S.String;
+
+/** Creative Field Assignment. */
+export interface CreativeFieldAssignment {
+  /** ID of the creative field value. */
+  creativeFieldValueId?: string;
+  /** ID of the creative field. */
+  creativeFieldId?: string;
+}
+export const CreativeFieldAssignment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    creativeFieldValueId: S.optional(S.String),
+    creativeFieldId: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreativeFieldAssignment" }) as any as S.Schema<CreativeFieldAssignment>;
+
+export type CreativeFieldAssignmentList = Array<CreativeFieldAssignment>;
+export const CreativeFieldAssignmentList = /*@__PURE__*/ S.Array(
+  CreativeFieldAssignment,
+) as any as S.Schema<CreativeFieldAssignmentList>;
 
 export type CreativeBackupImageFeaturesItemEnum =
   | "CSS_FONT_FACE"
@@ -3690,6 +3790,86 @@ export const CreativeBackupImageFeaturesItemEnumList = /*@__PURE__*/ S.Array(
   CreativeBackupImageFeaturesItemEnum,
 ) as any as S.Schema<CreativeBackupImageFeaturesItemEnumList>;
 
+export type TargetWindowTargetWindowOptionEnum = "NEW_WINDOW" | "CURRENT_WINDOW" | "CUSTOM";
+export const TargetWindowTargetWindowOptionEnum = S.String;
+
+/** Target Window. */
+export interface TargetWindow {
+  /** Type of browser window for which the backup image of the flash creative can be displayed. */
+  targetWindowOption?: TargetWindowTargetWindowOptionEnum | (string & {});
+  /** User-entered value. */
+  customHtml?: string;
+}
+export const TargetWindow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetWindowOption: S.optional(TargetWindowTargetWindowOptionEnum),
+    customHtml: S.optional(S.String),
+  }),
+).annotate({ identifier: "TargetWindow" }) as any as S.Schema<TargetWindow>;
+
+export type SizeList = Array<Size>;
+export const SizeList = /*@__PURE__*/ S.Array(Size) as any as S.Schema<SizeList>;
+
+/** Online Behavioral Advertiser icon. */
+export interface ObaIcon {
+  /** OBA icon x coordinate position. Accepted values are left or right. */
+  xPosition?: string;
+  /** URL to track view when an OBA icon is clicked. */
+  iconViewTrackingUrl?: string;
+  /** OBA icon y coordinate position. Accepted values are top or bottom. */
+  yPosition?: string;
+  /** URL to redirect to when an OBA icon is clicked. */
+  iconClickThroughUrl?: string;
+  /** OBA icon size. */
+  size?: Size;
+  /** OBA icon resource URL. Campaign Manager only supports image and JavaScript icons. Learn more */
+  resourceUrl?: string;
+  /** Identifies the industry initiative that the icon supports. For example, AdChoices. */
+  program?: string;
+  /** URL to track click when an OBA icon is clicked. */
+  iconClickTrackingUrl?: string;
+}
+export const ObaIcon = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    xPosition: S.optional(S.String),
+    iconViewTrackingUrl: S.optional(S.String),
+    yPosition: S.optional(S.String),
+    iconClickThroughUrl: S.optional(S.String),
+    size: S.optional(Size),
+    resourceUrl: S.optional(S.String),
+    program: S.optional(S.String),
+    iconClickTrackingUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "ObaIcon" }) as any as S.Schema<ObaIcon>;
+
+export type CreativeTypeEnum =
+  | "IMAGE"
+  | "DISPLAY_REDIRECT"
+  | "CUSTOM_DISPLAY"
+  | "INTERNAL_REDIRECT"
+  | "CUSTOM_DISPLAY_INTERSTITIAL"
+  | "INTERSTITIAL_INTERNAL_REDIRECT"
+  | "TRACKING_TEXT"
+  | "RICH_MEDIA_DISPLAY_BANNER"
+  | "RICH_MEDIA_INPAGE_FLOATING"
+  | "RICH_MEDIA_IM_EXPAND"
+  | "RICH_MEDIA_DISPLAY_EXPANDING"
+  | "RICH_MEDIA_DISPLAY_INTERSTITIAL"
+  | "RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL"
+  | "RICH_MEDIA_MOBILE_IN_APP"
+  | "FLASH_INPAGE"
+  | "INSTREAM_VIDEO"
+  | "VPAID_LINEAR_VIDEO"
+  | "VPAID_NON_LINEAR_VIDEO"
+  | "INSTREAM_VIDEO_REDIRECT"
+  | "RICH_MEDIA_PEEL_DOWN"
+  | "HTML5_BANNER"
+  | "DISPLAY"
+  | "DISPLAY_IMAGE_GALLERY"
+  | "BRAND_SAFE_DEFAULT_INSTREAM_VIDEO"
+  | "INSTREAM_AUDIO";
+export const CreativeTypeEnum = S.String;
+
 export type CreativeAuthoringSourceEnum =
   | "CREATIVE_AUTHORING_SOURCE_DCM"
   | "CREATIVE_AUTHORING_SOURCE_DBM"
@@ -3707,144 +3887,74 @@ export const CreativeAuthoringSourceEnum = S.String;
 export type CreativeAuthoringToolEnum = "NINJA" | "SWIFFY";
 export const CreativeAuthoringToolEnum = S.String;
 
-export type CreativeSyntheticContentAttestationStatusEnum =
-  | "SYNTHETIC_CONTENT_ATTESTATION_STATUS_UNSPECIFIED"
-  | "IS_SYNTHETIC"
-  | "NOT_SYNTHETIC";
-export const CreativeSyntheticContentAttestationStatusEnum = S.String;
-
 export type FsCommandPositionOptionEnum = "CENTERED" | "DISTANCE_FROM_TOP_LEFT_CORNER";
 export const FsCommandPositionOptionEnum = S.String;
 
 /** FsCommand. */
 export interface FsCommand {
+  /** Distance from the top of the browser. Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
+  top?: number;
   /** Distance from the left of the browser.Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
   left?: number;
+  /** Position in the browser where the window will open. */
+  positionOption?: FsCommandPositionOptionEnum | (string & {});
   /** Width of the window. */
   windowWidth?: number;
   /** Height of the window. */
   windowHeight?: number;
-  /** Position in the browser where the window will open. */
-  positionOption?: FsCommandPositionOptionEnum | (string & {});
-  /** Distance from the top of the browser. Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
-  top?: number;
 }
 export const FsCommand = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    top: S.optional(S.Number),
     left: S.optional(S.Number),
+    positionOption: S.optional(FsCommandPositionOptionEnum),
     windowWidth: S.optional(S.Number),
     windowHeight: S.optional(S.Number),
-    positionOption: S.optional(FsCommandPositionOptionEnum),
-    top: S.optional(S.Number),
   }),
 ).annotate({ identifier: "FsCommand" }) as any as S.Schema<FsCommand>;
 
-/** Creative Field Assignment. */
-export interface CreativeFieldAssignment {
-  /** ID of the creative field value. */
-  creativeFieldValueId?: string;
-  /** ID of the creative field. */
-  creativeFieldId?: string;
+export type CreativeAssetOrientationEnum = "LANDSCAPE" | "PORTRAIT" | "SQUARE";
+export const CreativeAssetOrientationEnum = S.String;
+
+export type CreativeAssetAlignmentEnum =
+  | "ALIGNMENT_TOP"
+  | "ALIGNMENT_RIGHT"
+  | "ALIGNMENT_BOTTOM"
+  | "ALIGNMENT_LEFT";
+export const CreativeAssetAlignmentEnum = S.String;
+
+export type CreativeAssetWindowModeEnum = "OPAQUE" | "WINDOW" | "TRANSPARENT";
+export const CreativeAssetWindowModeEnum = S.String;
+
+export type CreativeAssetChildAssetTypeEnum =
+  | "CHILD_ASSET_TYPE_FLASH"
+  | "CHILD_ASSET_TYPE_VIDEO"
+  | "CHILD_ASSET_TYPE_IMAGE"
+  | "CHILD_ASSET_TYPE_DATA";
+export const CreativeAssetChildAssetTypeEnum = S.String;
+
+export type CreativeAssetPositionTopUnitEnum =
+  | "OFFSET_UNIT_PIXEL"
+  | "OFFSET_UNIT_PERCENT"
+  | "OFFSET_UNIT_PIXEL_FROM_CENTER";
+export const CreativeAssetPositionTopUnitEnum = S.String;
+
+export type CreativeAssetIdTypeEnum = "IMAGE" | "FLASH" | "VIDEO" | "HTML" | "HTML_IMAGE" | "AUDIO";
+export const CreativeAssetIdTypeEnum = S.String;
+
+/** Creative Asset ID. */
+export interface CreativeAssetId {
+  /** Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE. */
+  type?: CreativeAssetIdTypeEnum | (string & {});
+  /** Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: ".-_ ". Spaces are allowed. */
+  name?: string;
 }
-export const CreativeFieldAssignment = /*@__PURE__*/ S.suspend(() =>
+export const CreativeAssetId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creativeFieldValueId: S.optional(S.String),
-    creativeFieldId: S.optional(S.String),
+    type: S.optional(CreativeAssetIdTypeEnum),
+    name: S.optional(S.String),
   }),
-).annotate({ identifier: "CreativeFieldAssignment" }) as any as S.Schema<CreativeFieldAssignment>;
-
-export type CreativeFieldAssignmentList = Array<CreativeFieldAssignment>;
-export const CreativeFieldAssignmentList = /*@__PURE__*/ S.Array(
-  CreativeFieldAssignment,
-) as any as S.Schema<CreativeFieldAssignmentList>;
-
-export type ThirdPartyTrackingUrlThirdPartyUrlTypeEnum =
-  | "IMPRESSION"
-  | "CLICK_TRACKING"
-  | "VIDEO_START"
-  | "VIDEO_FIRST_QUARTILE"
-  | "VIDEO_MIDPOINT"
-  | "VIDEO_THIRD_QUARTILE"
-  | "VIDEO_COMPLETE"
-  | "VIDEO_MUTE"
-  | "VIDEO_PAUSE"
-  | "VIDEO_REWIND"
-  | "VIDEO_FULLSCREEN"
-  | "VIDEO_STOP"
-  | "VIDEO_CUSTOM"
-  | "SURVEY"
-  | "RICH_MEDIA_IMPRESSION"
-  | "RICH_MEDIA_RM_IMPRESSION"
-  | "RICH_MEDIA_BACKUP_IMPRESSION"
-  | "VIDEO_SKIP"
-  | "VIDEO_PROGRESS";
-export const ThirdPartyTrackingUrlThirdPartyUrlTypeEnum = S.String;
-
-/** Third-party Tracking URL. */
-export interface ThirdPartyTrackingUrl {
-  /** URL for the specified third-party URL type. */
-  url?: string;
-  /** Third-party URL type for in-stream video and in-stream audio creatives. */
-  thirdPartyUrlType?: ThirdPartyTrackingUrlThirdPartyUrlTypeEnum | (string & {});
-}
-export const ThirdPartyTrackingUrl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    thirdPartyUrlType: S.optional(ThirdPartyTrackingUrlThirdPartyUrlTypeEnum),
-  }),
-).annotate({ identifier: "ThirdPartyTrackingUrl" }) as any as S.Schema<ThirdPartyTrackingUrl>;
-
-export type ThirdPartyTrackingUrlList = Array<ThirdPartyTrackingUrl>;
-export const ThirdPartyTrackingUrlList = /*@__PURE__*/ S.Array(
-  ThirdPartyTrackingUrl,
-) as any as S.Schema<ThirdPartyTrackingUrlList>;
-
-export type TargetWindowTargetWindowOptionEnum = "NEW_WINDOW" | "CURRENT_WINDOW" | "CUSTOM";
-export const TargetWindowTargetWindowOptionEnum = S.String;
-
-/** Target Window. */
-export interface TargetWindow {
-  /** User-entered value. */
-  customHtml?: string;
-  /** Type of browser window for which the backup image of the flash creative can be displayed. */
-  targetWindowOption?: TargetWindowTargetWindowOptionEnum | (string & {});
-}
-export const TargetWindow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customHtml: S.optional(S.String),
-    targetWindowOption: S.optional(TargetWindowTargetWindowOptionEnum),
-  }),
-).annotate({ identifier: "TargetWindow" }) as any as S.Schema<TargetWindow>;
-
-export type CreativeArtworkTypeEnum =
-  | "ARTWORK_TYPE_FLASH"
-  | "ARTWORK_TYPE_HTML5"
-  | "ARTWORK_TYPE_MIXED"
-  | "ARTWORK_TYPE_IMAGE";
-export const CreativeArtworkTypeEnum = S.String;
-
-export type UniversalAdIdRegistryEnum =
-  | "OTHER"
-  | "AD_ID_OFFICIAL"
-  | "CLEARCAST"
-  | "DCM"
-  | "ARPP"
-  | "CUSV";
-export const UniversalAdIdRegistryEnum = S.String;
-
-/** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID. */
-export interface UniversalAdId {
-  /** ID value for this creative. Only alphanumeric characters and the following symbols are valid: "_/\-". Maximum length is 64 characters. Read only when registry is DCM. */
-  value?: string;
-  /** Registry used for the Ad ID value. */
-  registry?: UniversalAdIdRegistryEnum | (string & {});
-}
-export const UniversalAdId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    registry: S.optional(UniversalAdIdRegistryEnum),
-  }),
-).annotate({ identifier: "UniversalAdId" }) as any as S.Schema<UniversalAdId>;
+).annotate({ identifier: "CreativeAssetId" }) as any as S.Schema<CreativeAssetId>;
 
 export type CreativeAssetDetectedFeaturesItemEnum =
   | "CSS_FONT_FACE"
@@ -3922,32 +4032,30 @@ export const CreativeAssetDetectedFeaturesItemEnumList = /*@__PURE__*/ S.Array(
   CreativeAssetDetectedFeaturesItemEnum,
 ) as any as S.Schema<CreativeAssetDetectedFeaturesItemEnumList>;
 
-export type CreativeAssetPositionLeftUnitEnum =
-  | "OFFSET_UNIT_PIXEL"
-  | "OFFSET_UNIT_PERCENT"
-  | "OFFSET_UNIT_PIXEL_FROM_CENTER";
-export const CreativeAssetPositionLeftUnitEnum = S.String;
+export type CreativeAssetDisplayTypeEnum =
+  | "ASSET_DISPLAY_TYPE_INPAGE"
+  | "ASSET_DISPLAY_TYPE_FLOATING"
+  | "ASSET_DISPLAY_TYPE_OVERLAY"
+  | "ASSET_DISPLAY_TYPE_EXPANDING"
+  | "ASSET_DISPLAY_TYPE_FLASH_IN_FLASH"
+  | "ASSET_DISPLAY_TYPE_FLASH_IN_FLASH_EXPANDING"
+  | "ASSET_DISPLAY_TYPE_PEEL_DOWN"
+  | "ASSET_DISPLAY_TYPE_VPAID_LINEAR"
+  | "ASSET_DISPLAY_TYPE_VPAID_NON_LINEAR"
+  | "ASSET_DISPLAY_TYPE_BACKDROP";
+export const CreativeAssetDisplayTypeEnum = S.String;
 
-export type CreativeAssetChildAssetTypeEnum =
-  | "CHILD_ASSET_TYPE_FLASH"
-  | "CHILD_ASSET_TYPE_VIDEO"
-  | "CHILD_ASSET_TYPE_IMAGE"
-  | "CHILD_ASSET_TYPE_DATA";
-export const CreativeAssetChildAssetTypeEnum = S.String;
+export type CreativeAssetArtworkTypeEnum =
+  | "ARTWORK_TYPE_FLASH"
+  | "ARTWORK_TYPE_HTML5"
+  | "ARTWORK_TYPE_MIXED"
+  | "ARTWORK_TYPE_IMAGE";
+export const CreativeAssetArtworkTypeEnum = S.String;
 
 export type CreativeAssetStartTimeTypeEnum =
   | "ASSET_START_TIME_TYPE_NONE"
   | "ASSET_START_TIME_TYPE_CUSTOM";
 export const CreativeAssetStartTimeTypeEnum = S.String;
-
-export type CreativeAssetDurationTypeEnum =
-  | "ASSET_DURATION_TYPE_AUTO"
-  | "ASSET_DURATION_TYPE_NONE"
-  | "ASSET_DURATION_TYPE_CUSTOM";
-export const CreativeAssetDurationTypeEnum = S.String;
-
-export type SizeList = Array<Size>;
-export const SizeList = /*@__PURE__*/ S.Array(Size) as any as S.Schema<SizeList>;
 
 export type CreativeAssetRoleEnum =
   | "PRIMARY"
@@ -3962,217 +4070,173 @@ export type CreativeAssetRoleEnum =
   | "TRANSCODED_AUDIO";
 export const CreativeAssetRoleEnum = S.String;
 
-export type CreativeAssetOrientationEnum = "LANDSCAPE" | "PORTRAIT" | "SQUARE";
-export const CreativeAssetOrientationEnum = S.String;
-
-export type CreativeAssetAlignmentEnum =
-  | "ALIGNMENT_TOP"
-  | "ALIGNMENT_RIGHT"
-  | "ALIGNMENT_BOTTOM"
-  | "ALIGNMENT_LEFT";
-export const CreativeAssetAlignmentEnum = S.String;
-
-export type CreativeAssetDisplayTypeEnum =
-  | "ASSET_DISPLAY_TYPE_INPAGE"
-  | "ASSET_DISPLAY_TYPE_FLOATING"
-  | "ASSET_DISPLAY_TYPE_OVERLAY"
-  | "ASSET_DISPLAY_TYPE_EXPANDING"
-  | "ASSET_DISPLAY_TYPE_FLASH_IN_FLASH"
-  | "ASSET_DISPLAY_TYPE_FLASH_IN_FLASH_EXPANDING"
-  | "ASSET_DISPLAY_TYPE_PEEL_DOWN"
-  | "ASSET_DISPLAY_TYPE_VPAID_LINEAR"
-  | "ASSET_DISPLAY_TYPE_VPAID_NON_LINEAR"
-  | "ASSET_DISPLAY_TYPE_BACKDROP";
-export const CreativeAssetDisplayTypeEnum = S.String;
-
-export type CreativeAssetIdTypeEnum = "IMAGE" | "FLASH" | "VIDEO" | "HTML" | "HTML_IMAGE" | "AUDIO";
-export const CreativeAssetIdTypeEnum = S.String;
-
-/** Creative Asset ID. */
-export interface CreativeAssetId {
-  /** Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE. */
-  type?: CreativeAssetIdTypeEnum | (string & {});
-  /** Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: ".-_ ". Spaces are allowed. */
-  name?: string;
-}
-export const CreativeAssetId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(CreativeAssetIdTypeEnum),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "CreativeAssetId" }) as any as S.Schema<CreativeAssetId>;
-
-export type CreativeAssetWindowModeEnum = "OPAQUE" | "WINDOW" | "TRANSPARENT";
-export const CreativeAssetWindowModeEnum = S.String;
-
-export type CreativeAssetArtworkTypeEnum =
-  | "ARTWORK_TYPE_FLASH"
-  | "ARTWORK_TYPE_HTML5"
-  | "ARTWORK_TYPE_MIXED"
-  | "ARTWORK_TYPE_IMAGE";
-export const CreativeAssetArtworkTypeEnum = S.String;
-
-export type CreativeAssetPositionTopUnitEnum =
+export type CreativeAssetPositionLeftUnitEnum =
   | "OFFSET_UNIT_PIXEL"
   | "OFFSET_UNIT_PERCENT"
   | "OFFSET_UNIT_PIXEL_FROM_CENTER";
-export const CreativeAssetPositionTopUnitEnum = S.String;
+export const CreativeAssetPositionLeftUnitEnum = S.String;
+
+export type CreativeAssetDurationTypeEnum =
+  | "ASSET_DURATION_TYPE_AUTO"
+  | "ASSET_DURATION_TYPE_NONE"
+  | "ASSET_DURATION_TYPE_CUSTOM";
+export const CreativeAssetDurationTypeEnum = S.String;
 
 /** Creative Asset. */
 export interface CreativeAsset {
-  /** Offset position for an asset in collapsed mode. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, only applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
-  offset?: OffsetPosition;
-  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  detectedFeatures?: CreativeAssetDetectedFeaturesItemEnumList;
-  /** File size associated with this creative asset. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  fileSize?: string;
-  /** Video frame rate for video asset in frames per second. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  frameRate?: number;
-  /** List of companion creatives assigned to an in-stream video creative asset. Acceptable values include IDs of existing flash and image creatives. Applicable to INSTREAM_VIDEO creative type with dynamicAssetSelection set to true. */
-  companionCreativeIds?: StringList;
-  /** Offset left unit for an asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  positionLeftUnit?: CreativeAssetPositionLeftUnitEnum | (string & {});
-  /** Detected MIME type for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  mimeType?: string;
-  /** Rich media child asset type. This is a read-only field. Applicable to the following creative types: all VPAID. */
-  childAssetType?: CreativeAssetChildAssetTypeEnum | (string & {});
-  /** Whether the asset is transparent. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable to HTML5 assets. */
-  transparency?: boolean;
-  /** Detected duration for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  mediaDuration?: number;
-  /** Initial wait time type before making the asset visible. Applicable to the following creative types: all RICH_MEDIA. */
-  startTimeType?: CreativeAssetStartTimeTypeEnum | (string & {});
-  /** Duration type for which an asset will be displayed. Applicable to the following creative types: all RICH_MEDIA. */
-  durationType?: CreativeAssetDurationTypeEnum | (string & {});
-  /** Audio stream bit rate in kbps. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  audioBitRate?: number;
-  /** Additional sizes associated with this creative asset. HTML5 asset generated by compatible software such as GWD will be able to support more sizes this creative asset can render. */
-  additionalSizes?: SizeList;
-  /** Whether the backup asset is original or changed by the user in Campaign Manager. Applicable to the following creative types: all RICH_MEDIA. */
-  originalBackup?: boolean;
-  /** Size of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  zipFilesize?: string;
-  /** Duration in seconds for which an asset will be displayed. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID_LINEAR_VIDEO. Value must be greater than or equal to 1. */
-  duration?: number;
-  /** Exit event configured for the backup image. Applicable to the following creative types: all RICH_MEDIA. */
-  backupImageExit?: CreativeCustomEvent;
-  /** Streaming URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  streamingServingUrl?: string;
-  /** Role of the asset in relation to creative. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. This is a required field. PRIMARY applies to DISPLAY, FLASH_INPAGE, HTML5_BANNER, IMAGE, DISPLAY_IMAGE_GALLERY, all RICH_MEDIA (which may contain multiple primary assets), and all VPAID creatives. BACKUP_IMAGE applies to FLASH_INPAGE, HTML5_BANNER, all RICH_MEDIA, and all VPAID creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. ADDITIONAL_IMAGE and ADDITIONAL_FLASH apply to FLASH_INPAGE creatives. OTHER refers to assets from sources other than Campaign Manager, such as Studio uploaded assets, applicable to all RICH_MEDIA and all VPAID creatives. PARENT_VIDEO refers to videos uploaded by the user in Campaign Manager and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. TRANSCODED_VIDEO refers to videos transcoded by Campaign Manager from PARENT_VIDEO assets and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. ALTERNATE_VIDEO refers to the Campaign Manager representation of child asset videos from Studio, and is applicable to VPAID_LINEAR_VIDEO creatives. These cannot be added or removed within Campaign Manager. For VPAID_LINEAR_VIDEO creatives, PARENT_VIDEO, TRANSCODED_VIDEO and ALTERNATE_VIDEO assets that are marked active serve as backup in case the VPAID creative cannot be served. Only PARENT_VIDEO assets can be added or removed for an INSTREAM_VIDEO or VPAID_LINEAR_VIDEO creative. PARENT_AUDIO refers to audios uploaded by the user in Campaign Manager and is applicable to INSTREAM_AUDIO creatives. TRANSCODED_AUDIO refers to audios transcoded by Campaign Manager from PARENT_AUDIO assets and is applicable to INSTREAM_AUDIO creatives. */
-  role?: CreativeAssetRoleEnum | (string & {});
-  /** Orientation of video asset. This is a read-only, auto-generated field. */
-  orientation?: CreativeAssetOrientationEnum | (string & {});
-  /** zIndex value of an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable to assets whose displayType is NOT one of the following types: ASSET_DISPLAY_TYPE_INPAGE or ASSET_DISPLAY_TYPE_OVERLAY. Acceptable values are -999999999 to 999999999, inclusive. */
-  zIndex?: number;
-  /** Size of an asset when collapsed. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
-  collapsedSize?: Size;
   /** Whether the asset is horizontally locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
   horizontallyLocked?: boolean;
-  /** Audio sample bit rate in hertz. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  audioSampleRate?: number;
-  /** Whether this asset is used as a polite load asset. */
-  politeLoad?: boolean;
-  /** File name of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  zipFilename?: string;
-  /** Possible alignments for an asset. This is a read-only field. Applicable to the following creative types: RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL . */
-  alignment?: CreativeAssetAlignmentEnum | (string & {});
-  /** Whether the asset pushes down other content. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable when the asset offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. */
-  pushdown?: boolean;
-  /** Offset position for an asset. Applicable to the following creative types: all RICH_MEDIA. */
-  position?: OffsetPosition;
-  /** Detected expanded dimension for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  expandedDimension?: Size;
-  /** Type of rich media asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  displayType?: CreativeAssetDisplayTypeEnum | (string & {});
-  /** Numeric ID of this creative asset. This is a required field and should not be modified. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  id?: string;
   /** Whether ActionScript3 is enabled for the flash asset. This is a read-only field. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
   actionScript3?: boolean;
-  /** Pushdown duration in seconds for an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable when the asset pushdown field is true, the offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. Acceptable values are 0 to 9.99, inclusive. */
-  pushdownDuration?: number;
-  /** Whether the video or audio asset is active. This is a read-only field for VPAID_NON_LINEAR_VIDEO assets. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  active?: boolean;
-  /** Whether the asset is vertically locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  verticallyLocked?: boolean;
-  /** Flash version of the asset. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  flashVersion?: number;
-  /** Identifier of this asset. This is the same identifier returned during creative asset insert operation. This is a required field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  assetIdentifier?: CreativeAssetId;
-  /** Detected bit-rate for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  bitRate?: number;
-  /** Window mode options for flash assets. Applicable to the following creative types: FLASH_INPAGE, RICH_MEDIA_DISPLAY_EXPANDING, RICH_MEDIA_IM_EXPAND, RICH_MEDIA_DISPLAY_BANNER, and RICH_MEDIA_INPAGE_FLOATING. */
-  windowMode?: CreativeAssetWindowModeEnum | (string & {});
-  /** Whether to hide selection boxes flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
-  hideSelectionBoxes?: boolean;
+  /** Duration in seconds for which an asset will be displayed. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID_LINEAR_VIDEO. Value must be greater than or equal to 1. */
+  duration?: number;
+  /** Size of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
+  zipFilesize?: string;
   /** Whether to hide Flash objects flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
   hideFlashObjects?: boolean;
+  /** Whether the asset pushes down other content. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable when the asset offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. */
+  pushdown?: boolean;
+  /** Orientation of video asset. This is a read-only, auto-generated field. */
+  orientation?: CreativeAssetOrientationEnum | (string & {});
+  /** Whether the backup asset is original or changed by the user in Campaign Manager. Applicable to the following creative types: all RICH_MEDIA. */
+  originalBackup?: boolean;
+  /** Possible alignments for an asset. This is a read-only field. Applicable to the following creative types: RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL . */
+  alignment?: CreativeAssetAlignmentEnum | (string & {});
+  /** zIndex value of an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable to assets whose displayType is NOT one of the following types: ASSET_DISPLAY_TYPE_INPAGE or ASSET_DISPLAY_TYPE_OVERLAY. Acceptable values are -999999999 to 999999999, inclusive. */
+  zIndex?: number;
+  /** Window mode options for flash assets. Applicable to the following creative types: FLASH_INPAGE, RICH_MEDIA_DISPLAY_EXPANDING, RICH_MEDIA_IM_EXPAND, RICH_MEDIA_DISPLAY_BANNER, and RICH_MEDIA_INPAGE_FLOATING. */
+  windowMode?: CreativeAssetWindowModeEnum | (string & {});
+  /** Audio sample bit rate in hertz. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  audioSampleRate?: number;
   /** Size associated with this creative asset. This is a required field when applicable; however for IMAGE and FLASH_INPAGE, creatives if left blank, this field will be automatically set using the actual size of the associated image asset. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
   size?: Size;
-  /** Artwork type of rich media creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  artworkType?: CreativeAssetArtworkTypeEnum | (string & {});
-  /** Progressive URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  progressiveServingUrl?: string;
+  /** Flash version of the asset. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  flashVersion?: number;
   /** Dimension value for the ID of the asset. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue;
-  /** Custom start time in seconds for making the asset visible. Applicable to the following creative types: all RICH_MEDIA. Value must be greater than or equal to 0. */
-  customStartTimeValue?: number;
-  /** Whether the asset is SSL-compliant. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  sslCompliant?: boolean;
+  /** Offset position for an asset. Applicable to the following creative types: all RICH_MEDIA. */
+  position?: OffsetPosition;
+  /** Detected bit-rate for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  bitRate?: number;
+  /** Video frame rate for video asset in frames per second. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
+  frameRate?: number;
+  /** Whether the asset is vertically locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
+  verticallyLocked?: boolean;
+  /** Whether the video or audio asset is active. This is a read-only field for VPAID_NON_LINEAR_VIDEO assets. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  active?: boolean;
+  /** Exit event configured for the backup image. Applicable to the following creative types: all RICH_MEDIA. */
+  backupImageExit?: CreativeCustomEvent;
+  /** Rich media child asset type. This is a read-only field. Applicable to the following creative types: all VPAID. */
+  childAssetType?: CreativeAssetChildAssetTypeEnum | (string & {});
   /** Offset top unit for an asset. This is a read-only field if the asset displayType is ASSET_DISPLAY_TYPE_OVERLAY. Applicable to the following creative types: all RICH_MEDIA. */
   positionTopUnit?: CreativeAssetPositionTopUnitEnum | (string & {});
+  /** File size associated with this creative asset. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
+  fileSize?: string;
+  /** Whether the asset is SSL-compliant. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
+  sslCompliant?: boolean;
+  /** Identifier of this asset. This is the same identifier returned during creative asset insert operation. This is a required field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
+  assetIdentifier?: CreativeAssetId;
+  /** Audio stream bit rate in kbps. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  audioBitRate?: number;
+  /** List of companion creatives assigned to an in-stream video creative asset. Acceptable values include IDs of existing flash and image creatives. Applicable to INSTREAM_VIDEO creative type with dynamicAssetSelection set to true. */
+  companionCreativeIds?: StringList;
+  /** Numeric ID of this creative asset. This is a required field and should not be modified. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
+  id?: string;
+  /** Detected duration for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  mediaDuration?: number;
+  /** Detected MIME type for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  mimeType?: string;
+  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  detectedFeatures?: CreativeAssetDetectedFeaturesItemEnumList;
+  /** Type of rich media asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
+  displayType?: CreativeAssetDisplayTypeEnum | (string & {});
+  /** Offset position for an asset in collapsed mode. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, only applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
+  offset?: OffsetPosition;
+  /** Custom start time in seconds for making the asset visible. Applicable to the following creative types: all RICH_MEDIA. Value must be greater than or equal to 0. */
+  customStartTimeValue?: number;
+  /** Streaming URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
+  streamingServingUrl?: string;
+  /** File name of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
+  zipFilename?: string;
+  /** Progressive URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
+  progressiveServingUrl?: string;
+  /** Detected expanded dimension for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
+  expandedDimension?: Size;
+  /** Artwork type of rich media creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
+  artworkType?: CreativeAssetArtworkTypeEnum | (string & {});
+  /** Initial wait time type before making the asset visible. Applicable to the following creative types: all RICH_MEDIA. */
+  startTimeType?: CreativeAssetStartTimeTypeEnum | (string & {});
+  /** Role of the asset in relation to creative. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. This is a required field. PRIMARY applies to DISPLAY, FLASH_INPAGE, HTML5_BANNER, IMAGE, DISPLAY_IMAGE_GALLERY, all RICH_MEDIA (which may contain multiple primary assets), and all VPAID creatives. BACKUP_IMAGE applies to FLASH_INPAGE, HTML5_BANNER, all RICH_MEDIA, and all VPAID creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. ADDITIONAL_IMAGE and ADDITIONAL_FLASH apply to FLASH_INPAGE creatives. OTHER refers to assets from sources other than Campaign Manager, such as Studio uploaded assets, applicable to all RICH_MEDIA and all VPAID creatives. PARENT_VIDEO refers to videos uploaded by the user in Campaign Manager and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. TRANSCODED_VIDEO refers to videos transcoded by Campaign Manager from PARENT_VIDEO assets and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. ALTERNATE_VIDEO refers to the Campaign Manager representation of child asset videos from Studio, and is applicable to VPAID_LINEAR_VIDEO creatives. These cannot be added or removed within Campaign Manager. For VPAID_LINEAR_VIDEO creatives, PARENT_VIDEO, TRANSCODED_VIDEO and ALTERNATE_VIDEO assets that are marked active serve as backup in case the VPAID creative cannot be served. Only PARENT_VIDEO assets can be added or removed for an INSTREAM_VIDEO or VPAID_LINEAR_VIDEO creative. PARENT_AUDIO refers to audios uploaded by the user in Campaign Manager and is applicable to INSTREAM_AUDIO creatives. TRANSCODED_AUDIO refers to audios transcoded by Campaign Manager from PARENT_AUDIO assets and is applicable to INSTREAM_AUDIO creatives. */
+  role?: CreativeAssetRoleEnum | (string & {});
+  /** Offset left unit for an asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
+  positionLeftUnit?: CreativeAssetPositionLeftUnitEnum | (string & {});
+  /** Pushdown duration in seconds for an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable when the asset pushdown field is true, the offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. Acceptable values are 0 to 9.99, inclusive. */
+  pushdownDuration?: number;
+  /** Whether this asset is used as a polite load asset. */
+  politeLoad?: boolean;
+  /** Additional sizes associated with this creative asset. HTML5 asset generated by compatible software such as GWD will be able to support more sizes this creative asset can render. */
+  additionalSizes?: SizeList;
+  /** Whether to hide selection boxes flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
+  hideSelectionBoxes?: boolean;
+  /** Whether the asset is transparent. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable to HTML5 assets. */
+  transparency?: boolean;
+  /** Duration type for which an asset will be displayed. Applicable to the following creative types: all RICH_MEDIA. */
+  durationType?: CreativeAssetDurationTypeEnum | (string & {});
+  /** Size of an asset when collapsed. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
+  collapsedSize?: Size;
 }
 export const CreativeAsset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    offset: S.optional(OffsetPosition),
-    detectedFeatures: S.optional(CreativeAssetDetectedFeaturesItemEnumList),
-    fileSize: S.optional(S.String),
-    frameRate: S.optional(S.Number),
-    companionCreativeIds: S.optional(StringList),
-    positionLeftUnit: S.optional(CreativeAssetPositionLeftUnitEnum),
-    mimeType: S.optional(S.String),
-    childAssetType: S.optional(CreativeAssetChildAssetTypeEnum),
-    transparency: S.optional(S.Boolean),
-    mediaDuration: S.optional(S.Number),
-    startTimeType: S.optional(CreativeAssetStartTimeTypeEnum),
-    durationType: S.optional(CreativeAssetDurationTypeEnum),
-    audioBitRate: S.optional(S.Number),
-    additionalSizes: S.optional(SizeList),
-    originalBackup: S.optional(S.Boolean),
-    zipFilesize: S.optional(S.String),
-    duration: S.optional(S.Number),
-    backupImageExit: S.optional(CreativeCustomEvent),
-    streamingServingUrl: S.optional(S.String),
-    role: S.optional(CreativeAssetRoleEnum),
-    orientation: S.optional(CreativeAssetOrientationEnum),
-    zIndex: S.optional(S.Number),
-    collapsedSize: S.optional(Size),
     horizontallyLocked: S.optional(S.Boolean),
-    audioSampleRate: S.optional(S.Number),
-    politeLoad: S.optional(S.Boolean),
-    zipFilename: S.optional(S.String),
-    alignment: S.optional(CreativeAssetAlignmentEnum),
-    pushdown: S.optional(S.Boolean),
-    position: S.optional(OffsetPosition),
-    expandedDimension: S.optional(Size),
-    displayType: S.optional(CreativeAssetDisplayTypeEnum),
-    id: S.optional(S.String),
     actionScript3: S.optional(S.Boolean),
-    pushdownDuration: S.optional(S.Number),
-    active: S.optional(S.Boolean),
-    verticallyLocked: S.optional(S.Boolean),
-    flashVersion: S.optional(S.Number),
-    assetIdentifier: S.optional(CreativeAssetId),
-    bitRate: S.optional(S.Number),
-    windowMode: S.optional(CreativeAssetWindowModeEnum),
-    hideSelectionBoxes: S.optional(S.Boolean),
+    duration: S.optional(S.Number),
+    zipFilesize: S.optional(S.String),
     hideFlashObjects: S.optional(S.Boolean),
+    pushdown: S.optional(S.Boolean),
+    orientation: S.optional(CreativeAssetOrientationEnum),
+    originalBackup: S.optional(S.Boolean),
+    alignment: S.optional(CreativeAssetAlignmentEnum),
+    zIndex: S.optional(S.Number),
+    windowMode: S.optional(CreativeAssetWindowModeEnum),
+    audioSampleRate: S.optional(S.Number),
     size: S.optional(Size),
-    artworkType: S.optional(CreativeAssetArtworkTypeEnum),
-    progressiveServingUrl: S.optional(S.String),
+    flashVersion: S.optional(S.Number),
     idDimensionValue: S.optional(DimensionValue),
-    customStartTimeValue: S.optional(S.Number),
-    sslCompliant: S.optional(S.Boolean),
+    position: S.optional(OffsetPosition),
+    bitRate: S.optional(S.Number),
+    frameRate: S.optional(S.Number),
+    verticallyLocked: S.optional(S.Boolean),
+    active: S.optional(S.Boolean),
+    backupImageExit: S.optional(CreativeCustomEvent),
+    childAssetType: S.optional(CreativeAssetChildAssetTypeEnum),
     positionTopUnit: S.optional(CreativeAssetPositionTopUnitEnum),
+    fileSize: S.optional(S.String),
+    sslCompliant: S.optional(S.Boolean),
+    assetIdentifier: S.optional(CreativeAssetId),
+    audioBitRate: S.optional(S.Number),
+    companionCreativeIds: S.optional(StringList),
+    id: S.optional(S.String),
+    mediaDuration: S.optional(S.Number),
+    mimeType: S.optional(S.String),
+    detectedFeatures: S.optional(CreativeAssetDetectedFeaturesItemEnumList),
+    displayType: S.optional(CreativeAssetDisplayTypeEnum),
+    offset: S.optional(OffsetPosition),
+    customStartTimeValue: S.optional(S.Number),
+    streamingServingUrl: S.optional(S.String),
+    zipFilename: S.optional(S.String),
+    progressiveServingUrl: S.optional(S.String),
+    expandedDimension: S.optional(Size),
+    artworkType: S.optional(CreativeAssetArtworkTypeEnum),
+    startTimeType: S.optional(CreativeAssetStartTimeTypeEnum),
+    role: S.optional(CreativeAssetRoleEnum),
+    positionLeftUnit: S.optional(CreativeAssetPositionLeftUnitEnum),
+    pushdownDuration: S.optional(S.Number),
+    politeLoad: S.optional(S.Boolean),
+    additionalSizes: S.optional(SizeList),
+    hideSelectionBoxes: S.optional(S.Boolean),
+    transparency: S.optional(S.Boolean),
+    durationType: S.optional(CreativeAssetDurationTypeEnum),
+    collapsedSize: S.optional(Size),
   }),
 ).annotate({ identifier: "CreativeAsset" }) as any as S.Schema<CreativeAsset>;
 
@@ -4181,280 +4245,216 @@ export const CreativeAssetList = /*@__PURE__*/ S.Array(
   CreativeAsset,
 ) as any as S.Schema<CreativeAssetList>;
 
-export type CreativeCompatibilityItemEnum =
-  | "DISPLAY"
-  | "DISPLAY_INTERSTITIAL"
-  | "APP"
-  | "APP_INTERSTITIAL"
-  | "IN_STREAM_VIDEO"
-  | "IN_STREAM_AUDIO";
-export const CreativeCompatibilityItemEnum = S.String;
-
-export type CreativeCompatibilityItemEnumList = Array<
-  CreativeCompatibilityItemEnum | (string & {})
->;
-export const CreativeCompatibilityItemEnumList = /*@__PURE__*/ S.Array(
-  CreativeCompatibilityItemEnum,
-) as any as S.Schema<CreativeCompatibilityItemEnumList>;
-
-export type CreativeTypeEnum =
-  | "IMAGE"
-  | "DISPLAY_REDIRECT"
-  | "CUSTOM_DISPLAY"
-  | "INTERNAL_REDIRECT"
-  | "CUSTOM_DISPLAY_INTERSTITIAL"
-  | "INTERSTITIAL_INTERNAL_REDIRECT"
-  | "TRACKING_TEXT"
-  | "RICH_MEDIA_DISPLAY_BANNER"
-  | "RICH_MEDIA_INPAGE_FLOATING"
-  | "RICH_MEDIA_IM_EXPAND"
-  | "RICH_MEDIA_DISPLAY_EXPANDING"
-  | "RICH_MEDIA_DISPLAY_INTERSTITIAL"
-  | "RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL"
-  | "RICH_MEDIA_MOBILE_IN_APP"
-  | "FLASH_INPAGE"
-  | "INSTREAM_VIDEO"
-  | "VPAID_LINEAR_VIDEO"
-  | "VPAID_NON_LINEAR_VIDEO"
-  | "INSTREAM_VIDEO_REDIRECT"
-  | "RICH_MEDIA_PEEL_DOWN"
-  | "HTML5_BANNER"
-  | "DISPLAY"
-  | "DISPLAY_IMAGE_GALLERY"
-  | "BRAND_SAFE_DEFAULT_INSTREAM_VIDEO"
-  | "INSTREAM_AUDIO";
-export const CreativeTypeEnum = S.String;
-
-/** Creative Click Tag. */
-export interface ClickTag {
-  /** Parameter value for the specified click tag. This field contains a click-through url. */
-  clickThroughUrl?: CreativeClickThroughUrl;
-  /** Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field. */
-  name?: string;
-  /** Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  eventName?: string;
-}
-export const ClickTag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clickThroughUrl: S.optional(CreativeClickThroughUrl),
-    name: S.optional(S.String),
-    eventName: S.optional(S.String),
-  }),
-).annotate({ identifier: "ClickTag" }) as any as S.Schema<ClickTag>;
-
-export type ClickTagList = Array<ClickTag>;
-export const ClickTagList = /*@__PURE__*/ S.Array(ClickTag) as any as S.Schema<ClickTagList>;
-
 /** Contains properties of a Creative. */
 export interface Creative {
-  /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
-  overrideCss?: string;
-  /** The internal Flash version for this creative as calculated by Studio. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  requiredFlashVersion?: number;
-  /** Dimension value for the ID of this creative. This is a read-only field. Applicable to all creative types. */
-  idDimensionValue?: DimensionValue;
-  /** Custom key-values for a Rich Media creative. Key-values let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use key-values to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  customKeyValues?: StringList;
-  /** ID of this creative. This is a read-only, auto-generated field. Applicable to all creative types. */
-  id?: string;
-  /** Amount of time to play the video before counting a view. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  progressOffset?: VideoOffset;
-  /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  accountId?: string;
-  /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  requiredFlashPluginVersion?: string;
-  /** Whether HTML code is generated by Campaign Manager or manually entered. Set to true to ignore changes to htmlCode. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. */
-  htmlCodeLocked?: boolean;
-  /** List of exit events configured for the creative. For DISPLAY and DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags, For DISPLAY, an event is also created from the backupImageReportingLabel. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  exitCustomEvents?: CreativeCustomEventList;
-  /** Studio advertiser ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioAdvertiserId?: string;
-  /** Online behavioral advertising icon to be added to the creative. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  obaIcon?: ObaIcon;
-  /** Click-through URL for backup image. Applicable to ENHANCED_BANNER when the primary asset type is not HTML_IMAGE. */
-  backupImageClickThroughUrl?: CreativeClickThroughUrl;
-  /** Description of the audio or video ad. Applicable to the following creative types: all INSTREAM_VIDEO, INSTREAM_AUDIO, and all VPAID. */
-  mediaDescription?: string;
-  /** List of timer events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset is not HTML_IMAGE. */
-  timerCustomEvents?: CreativeCustomEventList;
   /** Subaccount ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
   subaccountId?: string;
-  /** ID of current rendering version. This is a read-only field. Applicable to all creative types. */
-  renderingId?: string;
-  /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  convertFlashToHtml5?: boolean;
-  /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
-  version?: number;
-  /** List of feature dependencies that will cause a backup image to be served if the browser that serves the ad does not support them. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative asset correctly. This field is initially auto-generated to contain all features detected by Campaign Manager for all the assets of this creative and can then be modified by the client. To reset this field, copy over all the creativeAssets' detected features. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList;
-  /** Whether the creative is SSL-compliant. This is a read-only field. Applicable to all creative types. */
-  sslCompliant?: boolean;
+  /** Amount of time to play the video before counting a view. Applicable to the following creative types: all INSTREAM_VIDEO. */
+  progressOffset?: VideoOffset;
+  /** Compatibilities associated with this creative. This is a read-only field. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. Only pre-existing creatives may have these compatibilities since new creatives will either be assigned DISPLAY or DISPLAY_INTERSTITIAL instead. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. IN_STREAM_AUDIO refers to rendering in in-stream audio ads developed with the VAST standard. Applicable to all creative types. Acceptable values are: - "APP" - "APP_INTERSTITIAL" - "IN_STREAM_VIDEO" - "IN_STREAM_AUDIO" - "DISPLAY" - "DISPLAY_INTERSTITIAL" */
+  compatibility?: CreativeCompatibilityItemEnumList;
   /** Industry standard ID assigned to creative for reach and frequency. Applicable to INSTREAM_VIDEO_REDIRECT creatives. */
   commercialId?: string;
-  /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
-  authoringSource?: CreativeAuthoringSourceEnum | (string & {});
-  /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageReportingLabel?: string;
+  /** ID of current rendering version. This is a read-only field. Applicable to all creative types. */
+  renderingId?: string;
+  /** Whether the creative is archived. Applicable to all creative types. */
+  archived?: boolean;
+  /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
+  backgroundColor?: string;
+  /** Whether images are automatically advanced for image gallery creatives. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY. */
+  autoAdvanceImages?: boolean;
   /** Whether the user can choose to skip the creative. Applicable to the following creative types: all INSTREAM_VIDEO and all VPAID. */
   skippable?: boolean;
+  /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
+  thirdPartyUrls?: ThirdPartyTrackingUrlList;
+  /** Whether creative should be treated as SSL compliant even if the system scan shows it's not. Applicable to all creative types. */
+  sslOverride?: boolean;
+  /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
+  universalAdId?: UniversalAdId;
+  /** ID of this creative. This is a read-only, auto-generated field. Applicable to all creative types. */
+  id?: string;
+  /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
+  size?: Size;
+  /** List of timer events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset is not HTML_IMAGE. */
+  timerCustomEvents?: CreativeCustomEventList;
   /** Ad parameters user for VPAID creative. This is a read-only field. Applicable to the following creative types: all VPAID. */
   adParameters?: string;
-  /** URL of hosted image or hosted video or another ad tag. For INSTREAM_VIDEO_REDIRECT creatives this is the in-stream video redirect URL. The standard for a VAST (Video Ad Serving Template) ad response allows for a redirect link to another VAST 2.0 or 3.0 call. This is a required field when applicable. Applicable to the following creative types: DISPLAY_REDIRECT, INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO_REDIRECT */
-  redirectUrl?: string;
-  /** Creative audio or video duration in seconds. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO, INSTREAM_AUDIO, all RICH_MEDIA, and all VPAID. */
-  mediaDuration?: number;
-  /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  authoringTool?: CreativeAuthoringToolEnum | (string & {});
-  /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
-  advertiserId?: string;
+  /** Type of artwork used for the creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  artworkType?: CreativeArtworkTypeEnum | (string & {});
+  /** Click tags of the creative. For DISPLAY, FLASH_INPAGE, and HTML5_BANNER creatives, this is a subset of detected click tags for the assets associated with this creative. After creating a flash asset, detected click tags will be returned in the creativeAssetMetadata. When inserting the creative, populate the creative clickTags field using the creativeAssetMetadata.clickTags field. For DISPLAY_IMAGE_GALLERY creatives, there should be exactly one entry in this list for each image creative asset. A click tag is matched with a corresponding creative asset by matching the clickTag.name field with the creativeAsset.assetIdentifier.name field. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  clickTags?: ClickTagList;
   /** Optional. Whether to add a label to the creative as created or edited using AI when served in regions with local AI labeling regulations. [Learn more about labeling requirements in AI regulations.](https://support.google.com/campaignmanager/answer/17232030) */
   syntheticContentAttestationStatus?: CreativeSyntheticContentAttestationStatusEnum | (string & {});
   /** Studio creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
   studioCreativeId?: string;
-  /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
-  counterCustomEvents?: CreativeCustomEventList;
-  /** OpenWindow FSCommand of this creative. This lets the SWF file communicate with either Flash Player or the program hosting Flash Player, such as a web browser. This is only triggered if allowScriptAccess field is true. Applicable to the following creative types: FLASH_INPAGE. */
-  fsCommand?: FsCommand;
-  /** Third-party URL used to record rich media impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyRichMediaImpressionsUrl?: string;
-  /** Creative field assignments for this creative. Applicable to all creative types. */
-  creativeFieldAssignments?: CreativeFieldAssignmentList;
-  /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
-  thirdPartyUrls?: ThirdPartyTrackingUrlList;
-  /** Target window for backup image. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageTargetWindow?: TargetWindow;
-  /** HTML code for the creative. This is a required field when applicable. This field is ignored if htmlCodeLocked is true. Applicable to the following creative types: all CUSTOM, FLASH_INPAGE, and HTML5_BANNER, and all RICH_MEDIA. */
-  htmlCode?: string;
-  /** Whether images are automatically advanced for image gallery creatives. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY. */
-  autoAdvanceImages?: boolean;
-  /** Type of artwork used for the creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  artworkType?: CreativeArtworkTypeEnum | (string & {});
-  /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
-  universalAdId?: UniversalAdId;
-  /** Assets associated with a creative. Applicable to all but the following creative types: INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and REDIRECT */
-  creativeAssets?: CreativeAssetList;
-  /** Creative last modification information. This is a read-only field. Applicable to all creative types. */
-  lastModifiedInfo?: LastModifiedInfo;
-  /** Whether the creative is archived. Applicable to all creative types. */
-  archived?: boolean;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creative". */
-  kind?: string;
-  /** Amount of time to play the video before the skip button appears. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  skipOffset?: VideoOffset;
-  /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
-  backgroundColor?: string;
-  /** Compatibilities associated with this creative. This is a read-only field. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. Only pre-existing creatives may have these compatibilities since new creatives will either be assigned DISPLAY or DISPLAY_INTERSTITIAL instead. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. IN_STREAM_AUDIO refers to rendering in in-stream audio ads developed with the VAST standard. Applicable to all creative types. Acceptable values are: - "APP" - "APP_INTERSTITIAL" - "IN_STREAM_VIDEO" - "IN_STREAM_AUDIO" - "DISPLAY" - "DISPLAY_INTERSTITIAL" */
-  compatibility?: CreativeCompatibilityItemEnumList;
-  /** Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioTraffickedCreativeId?: string;
-  /** Whether script access is allowed for this creative. This is a read-only and deprecated field which will automatically be set to true on update. Applicable to the following creative types: FLASH_INPAGE. */
-  allowScriptAccess?: boolean;
-  /** List of companion creatives assigned to an in-Stream video creative. Acceptable values include IDs of existing flash and image creatives. Applicable to the following creative types: all VPAID, all INSTREAM_AUDIO and all INSTREAM_VIDEO with dynamicAssetSelection set to false. */
-  companionCreatives?: StringList;
-  /** Dimension value for the rendering ID of this creative. This is a read-only field. Applicable to all creative types. */
-  renderingIdDimensionValue?: DimensionValue;
-  /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  latestTraffickedCreativeId?: string;
-  /** Keywords for a Rich Media creative. Keywords let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use keywords to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  adTagKeys?: StringList;
-  /** Combined size of all creative assets. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  totalFileSize?: string;
-  /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
-  type?: CreativeTypeEnum | (string & {});
-  /** Whether the creative is active. Applicable to all creative types. */
-  active?: boolean;
-  /** Additional sizes associated with a responsive creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. Applicable to DISPLAY creatives when the primary asset type is HTML_IMAGE. */
-  additionalSizes?: SizeList;
-  /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
-  size?: Size;
-  /** Whether creative should be treated as SSL compliant even if the system scan shows it's not. Applicable to all creative types. */
-  sslOverride?: boolean;
-  /** Required. Name of the creative. This must be less than 256 characters long. Applicable to all creative types. */
-  name?: string;
-  /** Click tags of the creative. For DISPLAY, FLASH_INPAGE, and HTML5_BANNER creatives, this is a subset of detected click tags for the assets associated with this creative. After creating a flash asset, detected click tags will be returned in the creativeAssetMetadata. When inserting the creative, populate the creative clickTags field using the creativeAssetMetadata.clickTags field. For DISPLAY_IMAGE_GALLERY creatives, there should be exactly one entry in this list for each image creative asset. A click tag is matched with a corresponding creative asset by matching the clickTag.name field with the creativeAsset.assetIdentifier.name field. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  clickTags?: ClickTagList;
   /** Third-party URL used to record backup image impressions. Applicable to the following creative types: all RICH_MEDIA. */
   thirdPartyBackupImageImpressionsUrl?: string;
+  /** URL of hosted image or hosted video or another ad tag. For INSTREAM_VIDEO_REDIRECT creatives this is the in-stream video redirect URL. The standard for a VAST (Video Ad Serving Template) ad response allows for a redirect link to another VAST 2.0 or 3.0 call. This is a required field when applicable. Applicable to the following creative types: DISPLAY_REDIRECT, INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO_REDIRECT */
+  redirectUrl?: string;
+  /** Custom key-values for a Rich Media creative. Key-values let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use key-values to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  customKeyValues?: StringList;
+  /** Required. Name of the creative. This must be less than 256 characters long. Applicable to all creative types. */
+  name?: string;
+  /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
+  version?: number;
+  /** Third-party URL used to record rich media impressions. Applicable to the following creative types: all RICH_MEDIA. */
+  thirdPartyRichMediaImpressionsUrl?: string;
+  /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  latestTraffickedCreativeId?: string;
+  /** Creative field assignments for this creative. Applicable to all creative types. */
+  creativeFieldAssignments?: CreativeFieldAssignmentList;
+  /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  requiredFlashPluginVersion?: string;
+  /** Dimension value for the rendering ID of this creative. This is a read-only field. Applicable to all creative types. */
+  renderingIdDimensionValue?: DimensionValue;
+  /** HTML code for the creative. This is a required field when applicable. This field is ignored if htmlCodeLocked is true. Applicable to the following creative types: all CUSTOM, FLASH_INPAGE, and HTML5_BANNER, and all RICH_MEDIA. */
+  htmlCode?: string;
+  /** Whether the creative is active. Applicable to all creative types. */
+  active?: boolean;
+  /** List of feature dependencies that will cause a backup image to be served if the browser that serves the ad does not support them. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative asset correctly. This field is initially auto-generated to contain all features detected by Campaign Manager for all the assets of this creative and can then be modified by the client. To reset this field, copy over all the creativeAssets' detected features. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList;
+  /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
+  overrideCss?: string;
+  /** Target window for backup image. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  backupImageTargetWindow?: TargetWindow;
+  /** Additional sizes associated with a responsive creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. Applicable to DISPLAY creatives when the primary asset type is HTML_IMAGE. */
+  additionalSizes?: SizeList;
+  /** Dimension value for the ID of this creative. This is a read-only field. Applicable to all creative types. */
+  idDimensionValue?: DimensionValue;
+  /** List of companion creatives assigned to an in-Stream video creative. Acceptable values include IDs of existing flash and image creatives. Applicable to the following creative types: all VPAID, all INSTREAM_AUDIO and all INSTREAM_VIDEO with dynamicAssetSelection set to false. */
+  companionCreatives?: StringList;
+  /** Description of the audio or video ad. Applicable to the following creative types: all INSTREAM_VIDEO, INSTREAM_AUDIO, and all VPAID. */
+  mediaDescription?: string;
+  /** Online behavioral advertising icon to be added to the creative. Applicable to the following creative types: all INSTREAM_VIDEO. */
+  obaIcon?: ObaIcon;
+  /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
+  type?: CreativeTypeEnum | (string & {});
+  /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
+  authoringSource?: CreativeAuthoringSourceEnum | (string & {});
+  /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
+  authoringTool?: CreativeAuthoringToolEnum | (string & {});
+  /** Keywords for a Rich Media creative. Keywords let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use keywords to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  adTagKeys?: StringList;
+  /** Click-through URL for backup image. Applicable to ENHANCED_BANNER when the primary asset type is not HTML_IMAGE. */
+  backupImageClickThroughUrl?: CreativeClickThroughUrl;
+  /** Combined size of all creative assets. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  totalFileSize?: string;
+  /** OpenWindow FSCommand of this creative. This lets the SWF file communicate with either Flash Player or the program hosting Flash Player, such as a web browser. This is only triggered if allowScriptAccess field is true. Applicable to the following creative types: FLASH_INPAGE. */
+  fsCommand?: FsCommand;
+  /** Studio advertiser ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  studioAdvertiserId?: string;
+  /** Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  studioTraffickedCreativeId?: string;
+  /** Whether HTML code is generated by Campaign Manager or manually entered. Set to true to ignore changes to htmlCode. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. */
+  htmlCodeLocked?: boolean;
+  /** Amount of time to play the video before the skip button appears. Applicable to the following creative types: all INSTREAM_VIDEO. */
+  skipOffset?: VideoOffset;
+  /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
+  backupImageReportingLabel?: string;
+  /** Creative audio or video duration in seconds. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO, INSTREAM_AUDIO, all RICH_MEDIA, and all VPAID. */
+  mediaDuration?: number;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creative". */
+  kind?: string;
+  /** Assets associated with a creative. Applicable to all but the following creative types: INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and REDIRECT */
+  creativeAssets?: CreativeAssetList;
+  /** List of exit events configured for the creative. For DISPLAY and DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags, For DISPLAY, an event is also created from the backupImageReportingLabel. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  exitCustomEvents?: CreativeCustomEventList;
+  /** Whether the creative is SSL-compliant. This is a read-only field. Applicable to all creative types. */
+  sslCompliant?: boolean;
+  /** Creative last modification information. This is a read-only field. Applicable to all creative types. */
+  lastModifiedInfo?: LastModifiedInfo;
+  /** The internal Flash version for this creative as calculated by Studio. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  requiredFlashVersion?: number;
+  /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
+  counterCustomEvents?: CreativeCustomEventList;
+  /** Whether script access is allowed for this creative. This is a read-only and deprecated field which will automatically be set to true on update. Applicable to the following creative types: FLASH_INPAGE. */
+  allowScriptAccess?: boolean;
+  /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  convertFlashToHtml5?: boolean;
+  /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
+  advertiserId?: string;
+  /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
+  accountId?: string;
 }
 export const Creative = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    overrideCss: S.optional(S.String),
-    requiredFlashVersion: S.optional(S.Number),
-    idDimensionValue: S.optional(DimensionValue),
-    customKeyValues: S.optional(StringList),
-    id: S.optional(S.String),
-    progressOffset: S.optional(VideoOffset),
-    accountId: S.optional(S.String),
-    requiredFlashPluginVersion: S.optional(S.String),
-    htmlCodeLocked: S.optional(S.Boolean),
-    exitCustomEvents: S.optional(CreativeCustomEventList),
-    studioAdvertiserId: S.optional(S.String),
-    obaIcon: S.optional(ObaIcon),
-    backupImageClickThroughUrl: S.optional(CreativeClickThroughUrl),
-    mediaDescription: S.optional(S.String),
-    timerCustomEvents: S.optional(CreativeCustomEventList),
     subaccountId: S.optional(S.String),
-    renderingId: S.optional(S.String),
-    convertFlashToHtml5: S.optional(S.Boolean),
-    version: S.optional(S.Number),
-    backupImageFeatures: S.optional(CreativeBackupImageFeaturesItemEnumList),
-    sslCompliant: S.optional(S.Boolean),
+    progressOffset: S.optional(VideoOffset),
+    compatibility: S.optional(CreativeCompatibilityItemEnumList),
     commercialId: S.optional(S.String),
-    authoringSource: S.optional(CreativeAuthoringSourceEnum),
-    backupImageReportingLabel: S.optional(S.String),
+    renderingId: S.optional(S.String),
+    archived: S.optional(S.Boolean),
+    backgroundColor: S.optional(S.String),
+    autoAdvanceImages: S.optional(S.Boolean),
     skippable: S.optional(S.Boolean),
+    thirdPartyUrls: S.optional(ThirdPartyTrackingUrlList),
+    sslOverride: S.optional(S.Boolean),
+    universalAdId: S.optional(UniversalAdId),
+    id: S.optional(S.String),
+    size: S.optional(Size),
+    timerCustomEvents: S.optional(CreativeCustomEventList),
     adParameters: S.optional(S.String),
-    redirectUrl: S.optional(S.String),
-    mediaDuration: S.optional(S.Number),
-    authoringTool: S.optional(CreativeAuthoringToolEnum),
-    advertiserId: S.optional(S.String),
+    artworkType: S.optional(CreativeArtworkTypeEnum),
+    clickTags: S.optional(ClickTagList),
     syntheticContentAttestationStatus: S.optional(CreativeSyntheticContentAttestationStatusEnum),
     studioCreativeId: S.optional(S.String),
-    counterCustomEvents: S.optional(CreativeCustomEventList),
-    fsCommand: S.optional(FsCommand),
-    thirdPartyRichMediaImpressionsUrl: S.optional(S.String),
-    creativeFieldAssignments: S.optional(CreativeFieldAssignmentList),
-    thirdPartyUrls: S.optional(ThirdPartyTrackingUrlList),
-    backupImageTargetWindow: S.optional(TargetWindow),
-    htmlCode: S.optional(S.String),
-    autoAdvanceImages: S.optional(S.Boolean),
-    artworkType: S.optional(CreativeArtworkTypeEnum),
-    universalAdId: S.optional(UniversalAdId),
-    creativeAssets: S.optional(CreativeAssetList),
-    lastModifiedInfo: S.optional(LastModifiedInfo),
-    archived: S.optional(S.Boolean),
-    kind: S.optional(S.String),
-    skipOffset: S.optional(VideoOffset),
-    backgroundColor: S.optional(S.String),
-    compatibility: S.optional(CreativeCompatibilityItemEnumList),
-    studioTraffickedCreativeId: S.optional(S.String),
-    allowScriptAccess: S.optional(S.Boolean),
-    companionCreatives: S.optional(StringList),
-    renderingIdDimensionValue: S.optional(DimensionValue),
-    latestTraffickedCreativeId: S.optional(S.String),
-    adTagKeys: S.optional(StringList),
-    totalFileSize: S.optional(S.String),
-    type: S.optional(CreativeTypeEnum),
-    active: S.optional(S.Boolean),
-    additionalSizes: S.optional(SizeList),
-    size: S.optional(Size),
-    sslOverride: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    clickTags: S.optional(ClickTagList),
     thirdPartyBackupImageImpressionsUrl: S.optional(S.String),
+    redirectUrl: S.optional(S.String),
+    customKeyValues: S.optional(StringList),
+    name: S.optional(S.String),
+    version: S.optional(S.Number),
+    thirdPartyRichMediaImpressionsUrl: S.optional(S.String),
+    latestTraffickedCreativeId: S.optional(S.String),
+    creativeFieldAssignments: S.optional(CreativeFieldAssignmentList),
+    requiredFlashPluginVersion: S.optional(S.String),
+    renderingIdDimensionValue: S.optional(DimensionValue),
+    htmlCode: S.optional(S.String),
+    active: S.optional(S.Boolean),
+    backupImageFeatures: S.optional(CreativeBackupImageFeaturesItemEnumList),
+    overrideCss: S.optional(S.String),
+    backupImageTargetWindow: S.optional(TargetWindow),
+    additionalSizes: S.optional(SizeList),
+    idDimensionValue: S.optional(DimensionValue),
+    companionCreatives: S.optional(StringList),
+    mediaDescription: S.optional(S.String),
+    obaIcon: S.optional(ObaIcon),
+    type: S.optional(CreativeTypeEnum),
+    authoringSource: S.optional(CreativeAuthoringSourceEnum),
+    authoringTool: S.optional(CreativeAuthoringToolEnum),
+    adTagKeys: S.optional(StringList),
+    backupImageClickThroughUrl: S.optional(CreativeClickThroughUrl),
+    totalFileSize: S.optional(S.String),
+    fsCommand: S.optional(FsCommand),
+    studioAdvertiserId: S.optional(S.String),
+    studioTraffickedCreativeId: S.optional(S.String),
+    htmlCodeLocked: S.optional(S.Boolean),
+    skipOffset: S.optional(VideoOffset),
+    backupImageReportingLabel: S.optional(S.String),
+    mediaDuration: S.optional(S.Number),
+    kind: S.optional(S.String),
+    creativeAssets: S.optional(CreativeAssetList),
+    exitCustomEvents: S.optional(CreativeCustomEventList),
+    sslCompliant: S.optional(S.Boolean),
+    lastModifiedInfo: S.optional(LastModifiedInfo),
+    requiredFlashVersion: S.optional(S.Number),
+    counterCustomEvents: S.optional(CreativeCustomEventList),
+    allowScriptAccess: S.optional(S.Boolean),
+    convertFlashToHtml5: S.optional(S.Boolean),
+    advertiserId: S.optional(S.String),
+    accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Creative" }) as any as S.Schema<Creative>;
 
 export interface GetDirectorySitesRequest {
-  /** Directory site ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Directory site ID. */
+  id: string;
 }
 export const GetDirectorySitesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4468,57 +4468,44 @@ export const GetDirectorySitesRequest = /*@__PURE__*/ S.suspend(() =>
 export interface DfpSettings {
   /** Whether this directory site accepts programmatic placements. */
   programmaticPlacementAccepted?: boolean;
-  /** Whether this directory site accepts publisher-paid tags. */
-  pubPaidPlacementAccepted?: boolean;
   /** Ad Manager network code for this directory site. */
   dfpNetworkCode?: string;
   /** Ad Manager network name for this directory site. */
   dfpNetworkName?: string;
   /** Whether this directory site is available only via Publisher Portal. */
   publisherPortalOnly?: boolean;
+  /** Whether this directory site accepts publisher-paid tags. */
+  pubPaidPlacementAccepted?: boolean;
 }
 export const DfpSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     programmaticPlacementAccepted: S.optional(S.Boolean),
-    pubPaidPlacementAccepted: S.optional(S.Boolean),
     dfpNetworkCode: S.optional(S.String),
     dfpNetworkName: S.optional(S.String),
     publisherPortalOnly: S.optional(S.Boolean),
+    pubPaidPlacementAccepted: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "DfpSettings" }) as any as S.Schema<DfpSettings>;
 
 /** Directory Site Settings */
 export interface DirectorySiteSettings {
-  /** Whether this site accepts interstitial ads. */
-  interstitialPlacementAccepted?: boolean;
-  /** Whether this directory site has disabled active view creatives. */
-  activeViewOptOut?: boolean;
   /** Directory site Ad Manager settings. */
   dfpSettings?: DfpSettings;
+  /** Whether this site accepts interstitial ads. */
+  interstitialPlacementAccepted?: boolean;
   /** Whether this site accepts in-stream video ads. */
   instreamVideoPlacementAccepted?: boolean;
+  /** Whether this directory site has disabled active view creatives. */
+  activeViewOptOut?: boolean;
 }
 export const DirectorySiteSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    interstitialPlacementAccepted: S.optional(S.Boolean),
-    activeViewOptOut: S.optional(S.Boolean),
     dfpSettings: S.optional(DfpSettings),
+    interstitialPlacementAccepted: S.optional(S.Boolean),
     instreamVideoPlacementAccepted: S.optional(S.Boolean),
+    activeViewOptOut: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "DirectorySiteSettings" }) as any as S.Schema<DirectorySiteSettings>;
-
-export type DirectorySiteInterstitialTagFormatsItemEnum =
-  | "IFRAME_JAVASCRIPT_INTERSTITIAL"
-  | "INTERNAL_REDIRECT_INTERSTITIAL"
-  | "JAVASCRIPT_INTERSTITIAL";
-export const DirectorySiteInterstitialTagFormatsItemEnum = S.String;
-
-export type DirectorySiteInterstitialTagFormatsItemEnumList = Array<
-  DirectorySiteInterstitialTagFormatsItemEnum | (string & {})
->;
-export const DirectorySiteInterstitialTagFormatsItemEnumList = /*@__PURE__*/ S.Array(
-  DirectorySiteInterstitialTagFormatsItemEnum,
-) as any as S.Schema<DirectorySiteInterstitialTagFormatsItemEnumList>;
 
 export type DirectorySiteInpageTagFormatsItemEnum =
   | "STANDARD"
@@ -4534,38 +4521,51 @@ export const DirectorySiteInpageTagFormatsItemEnumList = /*@__PURE__*/ S.Array(
   DirectorySiteInpageTagFormatsItemEnum,
 ) as any as S.Schema<DirectorySiteInpageTagFormatsItemEnumList>;
 
+export type DirectorySiteInterstitialTagFormatsItemEnum =
+  | "IFRAME_JAVASCRIPT_INTERSTITIAL"
+  | "INTERNAL_REDIRECT_INTERSTITIAL"
+  | "JAVASCRIPT_INTERSTITIAL";
+export const DirectorySiteInterstitialTagFormatsItemEnum = S.String;
+
+export type DirectorySiteInterstitialTagFormatsItemEnumList = Array<
+  DirectorySiteInterstitialTagFormatsItemEnum | (string & {})
+>;
+export const DirectorySiteInterstitialTagFormatsItemEnumList = /*@__PURE__*/ S.Array(
+  DirectorySiteInterstitialTagFormatsItemEnum,
+) as any as S.Schema<DirectorySiteInterstitialTagFormatsItemEnumList>;
+
 /** DirectorySites contains properties of a website from the Site Directory. Sites need to be added to an account via the Sites resource before they can be assigned to a placement. */
 export interface DirectorySite {
-  /** Name of this directory site. */
-  name?: string;
-  /** Directory site settings. */
-  settings?: DirectorySiteSettings;
-  /** Dimension value for the ID of this directory site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
-  /** Output only. Default publisher specification ID of video placements under this directory site. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string;
-  /** Tag types for interstitial placements. Acceptable values are: - "IFRAME_JAVASCRIPT_INTERSTITIAL" - "INTERNAL_REDIRECT_INTERSTITIAL" - "JAVASCRIPT_INTERSTITIAL" */
-  interstitialTagFormats?: DirectorySiteInterstitialTagFormatsItemEnumList;
-  /** Tag types for regular placements. Acceptable values are: - "STANDARD" - "IFRAME_JAVASCRIPT_INPAGE" - "INTERNAL_REDIRECT_INPAGE" - "JAVASCRIPT_INPAGE" */
-  inpageTagFormats?: DirectorySiteInpageTagFormatsItemEnumList;
-  /** URL of this directory site. */
-  url?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySite". */
-  kind?: string;
   /** ID of this directory site. This is a read-only, auto-generated field. */
   id?: string;
+  /** URL of this directory site. */
+  url?: string;
+  /** Directory site settings. */
+  settings?: DirectorySiteSettings;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySite". */
+  kind?: string;
+  /** Tag types for regular placements. Acceptable values are: - "STANDARD" - "IFRAME_JAVASCRIPT_INPAGE" - "INTERNAL_REDIRECT_INPAGE" - "JAVASCRIPT_INPAGE" */
+  inpageTagFormats?: DirectorySiteInpageTagFormatsItemEnumList;
+  /** Output only. Default publisher specification ID of video placements under this directory site. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
+  publisherSpecificationId?: string;
+  /** Dimension value for the ID of this directory site. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue;
+  /** Tag types for interstitial placements. Acceptable values are: - "IFRAME_JAVASCRIPT_INTERSTITIAL" - "INTERNAL_REDIRECT_INTERSTITIAL" - "JAVASCRIPT_INTERSTITIAL" */
+  interstitialTagFormats?: DirectorySiteInterstitialTagFormatsItemEnumList;
+  /** Name of this directory site. */
+  name?: string;
 }
 export const DirectorySite = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    settings: S.optional(DirectorySiteSettings),
-    idDimensionValue: S.optional(DimensionValue),
-    publisherSpecificationId: S.optional(S.String),
-    interstitialTagFormats: S.optional(DirectorySiteInterstitialTagFormatsItemEnumList),
-    inpageTagFormats: S.optional(DirectorySiteInpageTagFormatsItemEnumList),
-    url: S.optional(S.String),
-    kind: S.optional(S.String),
     id: S.optional(S.String),
+    url: S.optional(S.String),
+    settings: S.optional(DirectorySiteSettings),
+    kind: S.optional(S.String),
+    inpageTagFormats: S.optional(DirectorySiteInpageTagFormatsItemEnumList),
+    publisherSpecificationId: S.optional(S.String),
+    idDimensionValue: S.optional(DimensionValue),
+    interstitialTagFormats: S.optional(DirectorySiteInterstitialTagFormatsItemEnumList),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "DirectorySite" }) as any as S.Schema<DirectorySite>;
 
@@ -4587,21 +4587,21 @@ export const GetDynamicFeedsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Contains the meta data of the content source. This is a read-only field. */
 export interface ContentSourceMetaData {
-  /** Output only. The charset of the content source. */
-  charset?: string;
   /** Output only. The number of rows in the content source. */
   rowNumber?: number;
   /** Output only. The list of column names in the content source. */
   fieldNames?: StringList;
   /** Output only. The separator of the content source. */
   separator?: string;
+  /** Output only. The charset of the content source. */
+  charset?: string;
 }
 export const ContentSourceMetaData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    charset: S.optional(S.String),
     rowNumber: S.optional(S.Number),
     fieldNames: S.optional(StringList),
     separator: S.optional(S.String),
+    charset: S.optional(S.String),
   }),
 ).annotate({ identifier: "ContentSourceMetaData" }) as any as S.Schema<ContentSourceMetaData>;
 
@@ -4613,188 +4613,29 @@ export const ContentSourceResourceTypeEnum = S.String;
 
 /** Contains the content source of the dynamic feed. */
 export interface ContentSource {
-  /** Output only. The creation timestamp of the content source. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
   /** Output only. Metadata of the content source. It contains the number of rows and the column names from resource link. This is a read-only field. */
   metaData?: ContentSourceMetaData;
   /** Required. The link to the file of the content source. */
   resourceLink?: string;
-  /** Output only. The last modified timestamp of the content source. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
   /** Optional. The name of the content source. It is defaulted to content source file name if not provided. */
   contentSourceName?: string;
   /** Required. The resource type of the content source. */
   resourceType?: ContentSourceResourceTypeEnum | (string & {});
+  /** Output only. The creation timestamp of the content source. This is a read-only field. */
+  createInfo?: LastModifiedInfo;
+  /** Output only. The last modified timestamp of the content source. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo;
 }
 export const ContentSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createInfo: S.optional(LastModifiedInfo),
     metaData: S.optional(ContentSourceMetaData),
     resourceLink: S.optional(S.String),
-    lastModifiedInfo: S.optional(LastModifiedInfo),
     contentSourceName: S.optional(S.String),
     resourceType: S.optional(ContentSourceResourceTypeEnum),
+    createInfo: S.optional(LastModifiedInfo),
+    lastModifiedInfo: S.optional(LastModifiedInfo),
   }),
 ).annotate({ identifier: "ContentSource" }) as any as S.Schema<ContentSource>;
-
-/** Contains the schedule of the dynamic feed. */
-export interface FeedSchedule {
-  /** Optional. The hour of the day to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
-  startHour?: string;
-  /** Optional. The minute of the hour to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
-  startMinute?: string;
-  /** Optional. Whether the schedule is enabled. */
-  scheduleEnabled?: boolean;
-  /** Optional. The time zone to schedule the feed. It is applicable if the repeat value is equal to 1. Default value is "America/Los_Angeles". */
-  timeZone?: string;
-  /** Optional. The number of times the feed retransforms within one day. This is a required field if the schedule is enabled. Acceptable values are between 1 to 6, inclusive. */
-  repeatValue?: string;
-}
-export const FeedSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startHour: S.optional(S.String),
-    startMinute: S.optional(S.String),
-    scheduleEnabled: S.optional(S.Boolean),
-    timeZone: S.optional(S.String),
-    repeatValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "FeedSchedule" }) as any as S.Schema<FeedSchedule>;
-
-export type FeedFieldTypeEnum =
-  | "TYPE_UNKNOWN"
-  | "STRING"
-  | "LONG"
-  | "GPA_SERVED_IMAGE_URL"
-  | "GPA_SERVED_ASSET_URL"
-  | "COUNTRY_CODE_ISO"
-  | "FLOAT"
-  | "CM360_KEYWORD"
-  | "CM360_SITE_ID"
-  | "BOOL"
-  | "EXIT_URL"
-  | "DATETIME"
-  | "CM360_CREATIVE_ID"
-  | "CM360_PLACEMENT_ID"
-  | "CM360_AD_ID"
-  | "CM360_ADVERTISER_ID"
-  | "CM360_CAMPAIGN_ID"
-  | "CITY"
-  | "REGION"
-  | "POSTAL_CODE"
-  | "METRO"
-  | "CUSTOM_VALUE"
-  | "REMARKETING_VALUE"
-  | "GEO_CANONICAL"
-  | "WEIGHT"
-  | "STRING_LIST"
-  | "CREATIVE_DIMENSION"
-  | "USERLIST_ID"
-  | "ASSET_LIBRARY_DIRECTORY_HANDLE"
-  | "ASSET_LIBRARY_VIDEO_HANDLE"
-  | "ASSET_LIBRARY_HANDLE"
-  | "THIRD_PARTY_SERVED_URL"
-  | "CM360_DYNAMIC_TARGETING_KEY"
-  | "DV360_LINE_ITEM_ID";
-export const FeedFieldTypeEnum = S.String;
-
-/** Each field of the element. This is a required field. */
-export interface FeedField {
-  /** Required. The type of the field. */
-  type?: FeedFieldTypeEnum | (string & {});
-  /** Optional. Whether the field is required and should not be empty in the feed. Could be set as true when the field type is any of the following: - GPA_SERVED_IMAGE_URL - GPA_SERVED_ASSET_URL - ASSET_LIBRARY_HANDLE - ASSET_LIBRARY_VIDEO_HANDLE - ASSET_LIBRARY_DIRECTORY_HANDLE */
-  required?: boolean;
-  /** Optional. The default value of the field. */
-  defaultValue?: string;
-  /** Required. The ID of the field. The ID is based on the column index starting from 0, and it should match the column index in the resource link. */
-  id?: number;
-  /** Optional. Whether the field is filterable. Could be set as true when the field type is any of the following and is not renderable: - STRING - BOOL - COUNTRY_CODE_ISO - CM360_SITE_ID - CM360_KEYWORD - CM360_CREATIVE_ID - CM360_PLACEMENT_ID - CM360_AD_ID - CM360_ADVERTISER_ID - CM360_CAMPAIGN_ID - CITY - REGION - POSTAL_CODE - METRO - CUSTOM_VALUE - REMARKETING_VALUE - GEO_CANONICAL - STRING_LIST - CREATIVE_DIMENSION - USERLIST_ID - CM360_DYNAMIC_TARGETING_KEY - DV360_LINE_ITEM_ID */
-  filterable?: boolean;
-  /** Optional. Whether the field is able to display. Could be set as true when the field type is not in any of the following and the field is not filterable: - COUNTRY_CODE_ISO - CITY - REGION - POSTAL_CODE - METRO - GEO_CANONICAL - USERLIST_ID - CONTEXTUAL_KEYWORD - CM360_DYNAMIC_TARGETING_KEY - WEIGHT */
-  renderable?: boolean;
-  /** Required. The name of the field. */
-  name?: string;
-}
-export const FeedField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(FeedFieldTypeEnum),
-    required: S.optional(S.Boolean),
-    defaultValue: S.optional(S.String),
-    id: S.optional(S.Number),
-    filterable: S.optional(S.Boolean),
-    renderable: S.optional(S.Boolean),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "FeedField" }) as any as S.Schema<FeedField>;
-
-export type FeedFieldList = Array<FeedField>;
-export const FeedFieldList = /*@__PURE__*/ S.Array(FeedField) as any as S.Schema<FeedFieldList>;
-
-/** Contains the element of the dynamic feed. */
-export interface Element {
-  /** Optional. Whether the start and end timestamp is local timestamp. The default value is false which means start and end timestamp is in UTC. */
-  isLocalTimestamp?: boolean;
-  /** Output only. The last modified timestamp of the element. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
-  /** Optional. The name of the element. It is defaulted to resource file name if not provided. */
-  elementName?: string;
-  /** Optional. The field ID to specify the active field in the feed. */
-  activeFieldId?: number;
-  /** Output only. The creation timestamp of the element. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
-  /** Required. The list of fields of the element. The field order and name should match the meta data in the content source source. */
-  feedFields?: FeedFieldList;
-  /** Optional. The field ID to specify the field that represents the end timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
-  endTimestampFieldId?: number;
-  /** Required. The field ID to specify the field used for uniquely identifying the feed row. This is a required field. */
-  externalIdFieldId?: number;
-  /** Required. The field ID to specify the field used for dynamic reporting in Campaign Manager 360. */
-  reportingLabelFieldId?: number;
-  /** Optional. The field ID that specify field used for proximity targeting. */
-  proximityTargetingFieldId?: number;
-  /** Optional. The field ID to specify the field that represents the default field in the feed. */
-  defaultFieldId?: number;
-  /** Optional. The field ID to specify the field that represents the start timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
-  startTimestampFieldId?: number;
-}
-export const Element = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isLocalTimestamp: S.optional(S.Boolean),
-    lastModifiedInfo: S.optional(LastModifiedInfo),
-    elementName: S.optional(S.String),
-    activeFieldId: S.optional(S.Number),
-    createInfo: S.optional(LastModifiedInfo),
-    feedFields: S.optional(FeedFieldList),
-    endTimestampFieldId: S.optional(S.Number),
-    externalIdFieldId: S.optional(S.Number),
-    reportingLabelFieldId: S.optional(S.Number),
-    proximityTargetingFieldId: S.optional(S.Number),
-    defaultFieldId: S.optional(S.Number),
-    startTimestampFieldId: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Element" }) as any as S.Schema<Element>;
-
-/** Contains the ingestion status of the dynamic feed. */
-export interface IngestionStatus {
-  /** Output only. The total number of warnings in the feed. */
-  numWarningsTotal?: string;
-  /** Output only. The number of active rows in the feed. */
-  numActiveRows?: string;
-  /** Output only. The number of rows with errors in the feed. */
-  numRowsWithErrors?: string;
-  /** Output only. The number of rows processed in the feed. */
-  numRowsProcessed?: string;
-  /** Output only. The total number of rows in the feed. */
-  numRowsTotal?: string;
-}
-export const IngestionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    numWarningsTotal: S.optional(S.String),
-    numActiveRows: S.optional(S.String),
-    numRowsWithErrors: S.optional(S.String),
-    numRowsProcessed: S.optional(S.String),
-    numRowsTotal: S.optional(S.String),
-  }),
-).annotate({ identifier: "IngestionStatus" }) as any as S.Schema<IngestionStatus>;
 
 export type FieldErrorIngestionErrorEnum =
   | "UNKNOWN_PARSING_ERROR"
@@ -4843,24 +4684,24 @@ export const FieldErrorIngestionErrorEnum = S.String;
 
 /** Contains the field error of the dynamic feed. */
 export interface FieldError {
-  /** Output only. The name of the field. */
-  fieldName?: string;
+  /** Output only. The ID of the field. */
+  fieldId?: number;
+  /** Output only. The ingestion error of the field. */
+  ingestionError?: FieldErrorIngestionErrorEnum | (string & {});
   /** Output only. The list of values of the field. */
   fieldValues?: StringList;
   /** Output only. Incidcates whether the field has error or warning. */
   isError?: boolean;
-  /** Output only. The ingestion error of the field. */
-  ingestionError?: FieldErrorIngestionErrorEnum | (string & {});
-  /** Output only. The ID of the field. */
-  fieldId?: number;
+  /** Output only. The name of the field. */
+  fieldName?: string;
 }
 export const FieldError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fieldName: S.optional(S.String),
+    fieldId: S.optional(S.Number),
+    ingestionError: S.optional(FieldErrorIngestionErrorEnum),
     fieldValues: S.optional(StringList),
     isError: S.optional(S.Boolean),
-    ingestionError: S.optional(FieldErrorIngestionErrorEnum),
-    fieldId: S.optional(S.Number),
+    fieldName: S.optional(S.String),
   }),
 ).annotate({ identifier: "FieldError" }) as any as S.Schema<FieldError>;
 
@@ -4899,64 +4740,223 @@ export type FeedIngestionStatusStateEnum =
   | "PUBLISHED_FAILURE";
 export const FeedIngestionStatusStateEnum = S.String;
 
+/** Contains the ingestion status of the dynamic feed. */
+export interface IngestionStatus {
+  /** Output only. The number of active rows in the feed. */
+  numActiveRows?: string;
+  /** Output only. The number of rows processed in the feed. */
+  numRowsProcessed?: string;
+  /** Output only. The total number of rows in the feed. */
+  numRowsTotal?: string;
+  /** Output only. The number of rows with errors in the feed. */
+  numRowsWithErrors?: string;
+  /** Output only. The total number of warnings in the feed. */
+  numWarningsTotal?: string;
+}
+export const IngestionStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    numActiveRows: S.optional(S.String),
+    numRowsProcessed: S.optional(S.String),
+    numRowsTotal: S.optional(S.String),
+    numRowsWithErrors: S.optional(S.String),
+    numWarningsTotal: S.optional(S.String),
+  }),
+).annotate({ identifier: "IngestionStatus" }) as any as S.Schema<IngestionStatus>;
+
 /** Contains the ingestion status of the dynamic feed. Feed ingestion is an asynchronous process. If the feed create request is successful, feed ingestion will be processed in the background, including validation, assets retrieval, and saving the data from the resource link. The processing time is dependent on the data size in the resource link. This read-only status field contains the current stage of that processing and its ingestion state. */
 export interface FeedIngestionStatus {
-  /** Output only. The ingestion status of the feed. */
-  ingestionStatus?: IngestionStatus;
   /** Output only. The ingestion error records of the feed. */
   ingestionErrorRecords?: IngestionErrorRecordList;
   /** Output only. The processing state of the feed. */
   state?: FeedIngestionStatusStateEnum | (string & {});
+  /** Output only. The ingestion status of the feed. */
+  ingestionStatus?: IngestionStatus;
 }
 export const FeedIngestionStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ingestionStatus: S.optional(IngestionStatus),
     ingestionErrorRecords: S.optional(IngestionErrorRecordList),
     state: S.optional(FeedIngestionStatusStateEnum),
+    ingestionStatus: S.optional(IngestionStatus),
   }),
 ).annotate({ identifier: "FeedIngestionStatus" }) as any as S.Schema<FeedIngestionStatus>;
 
 export type DynamicFeedStatusEnum = "STATUS_UNKNOWN" | "ACTIVE" | "INACTIVE" | "DELETED";
 export const DynamicFeedStatusEnum = S.String;
 
+export type FeedFieldTypeEnum =
+  | "TYPE_UNKNOWN"
+  | "STRING"
+  | "LONG"
+  | "GPA_SERVED_IMAGE_URL"
+  | "GPA_SERVED_ASSET_URL"
+  | "COUNTRY_CODE_ISO"
+  | "FLOAT"
+  | "CM360_KEYWORD"
+  | "CM360_SITE_ID"
+  | "BOOL"
+  | "EXIT_URL"
+  | "DATETIME"
+  | "CM360_CREATIVE_ID"
+  | "CM360_PLACEMENT_ID"
+  | "CM360_AD_ID"
+  | "CM360_ADVERTISER_ID"
+  | "CM360_CAMPAIGN_ID"
+  | "CITY"
+  | "REGION"
+  | "POSTAL_CODE"
+  | "METRO"
+  | "CUSTOM_VALUE"
+  | "REMARKETING_VALUE"
+  | "GEO_CANONICAL"
+  | "WEIGHT"
+  | "STRING_LIST"
+  | "CREATIVE_DIMENSION"
+  | "USERLIST_ID"
+  | "ASSET_LIBRARY_DIRECTORY_HANDLE"
+  | "ASSET_LIBRARY_VIDEO_HANDLE"
+  | "ASSET_LIBRARY_HANDLE"
+  | "THIRD_PARTY_SERVED_URL"
+  | "CM360_DYNAMIC_TARGETING_KEY"
+  | "DV360_LINE_ITEM_ID";
+export const FeedFieldTypeEnum = S.String;
+
+/** Each field of the element. This is a required field. */
+export interface FeedField {
+  /** Optional. Whether the field is able to display. Could be set as true when the field type is not in any of the following and the field is not filterable: - COUNTRY_CODE_ISO - CITY - REGION - POSTAL_CODE - METRO - GEO_CANONICAL - USERLIST_ID - CONTEXTUAL_KEYWORD - CM360_DYNAMIC_TARGETING_KEY - WEIGHT */
+  renderable?: boolean;
+  /** Optional. The default value of the field. */
+  defaultValue?: string;
+  /** Optional. Whether the field is filterable. Could be set as true when the field type is any of the following and is not renderable: - STRING - BOOL - COUNTRY_CODE_ISO - CM360_SITE_ID - CM360_KEYWORD - CM360_CREATIVE_ID - CM360_PLACEMENT_ID - CM360_AD_ID - CM360_ADVERTISER_ID - CM360_CAMPAIGN_ID - CITY - REGION - POSTAL_CODE - METRO - CUSTOM_VALUE - REMARKETING_VALUE - GEO_CANONICAL - STRING_LIST - CREATIVE_DIMENSION - USERLIST_ID - CM360_DYNAMIC_TARGETING_KEY - DV360_LINE_ITEM_ID */
+  filterable?: boolean;
+  /** Required. The type of the field. */
+  type?: FeedFieldTypeEnum | (string & {});
+  /** Required. The ID of the field. The ID is based on the column index starting from 0, and it should match the column index in the resource link. */
+  id?: number;
+  /** Required. The name of the field. */
+  name?: string;
+  /** Optional. Whether the field is required and should not be empty in the feed. Could be set as true when the field type is any of the following: - GPA_SERVED_IMAGE_URL - GPA_SERVED_ASSET_URL - ASSET_LIBRARY_HANDLE - ASSET_LIBRARY_VIDEO_HANDLE - ASSET_LIBRARY_DIRECTORY_HANDLE */
+  required?: boolean;
+}
+export const FeedField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    renderable: S.optional(S.Boolean),
+    defaultValue: S.optional(S.String),
+    filterable: S.optional(S.Boolean),
+    type: S.optional(FeedFieldTypeEnum),
+    id: S.optional(S.Number),
+    name: S.optional(S.String),
+    required: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "FeedField" }) as any as S.Schema<FeedField>;
+
+export type FeedFieldList = Array<FeedField>;
+export const FeedFieldList = /*@__PURE__*/ S.Array(FeedField) as any as S.Schema<FeedFieldList>;
+
+/** Contains the element of the dynamic feed. */
+export interface Element {
+  /** Required. The field ID to specify the field used for uniquely identifying the feed row. This is a required field. */
+  externalIdFieldId?: number;
+  /** Optional. The name of the element. It is defaulted to resource file name if not provided. */
+  elementName?: string;
+  /** Output only. The last modified timestamp of the element. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo;
+  /** Optional. The field ID to specify the field that represents the end timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
+  endTimestampFieldId?: number;
+  /** Required. The field ID to specify the field used for dynamic reporting in Campaign Manager 360. */
+  reportingLabelFieldId?: number;
+  /** Required. The list of fields of the element. The field order and name should match the meta data in the content source source. */
+  feedFields?: FeedFieldList;
+  /** Optional. The field ID to specify the field that represents the start timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
+  startTimestampFieldId?: number;
+  /** Output only. The creation timestamp of the element. This is a read-only field. */
+  createInfo?: LastModifiedInfo;
+  /** Optional. The field ID to specify the active field in the feed. */
+  activeFieldId?: number;
+  /** Optional. The field ID that specify field used for proximity targeting. */
+  proximityTargetingFieldId?: number;
+  /** Optional. Whether the start and end timestamp is local timestamp. The default value is false which means start and end timestamp is in UTC. */
+  isLocalTimestamp?: boolean;
+  /** Optional. The field ID to specify the field that represents the default field in the feed. */
+  defaultFieldId?: number;
+}
+export const Element = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    externalIdFieldId: S.optional(S.Number),
+    elementName: S.optional(S.String),
+    lastModifiedInfo: S.optional(LastModifiedInfo),
+    endTimestampFieldId: S.optional(S.Number),
+    reportingLabelFieldId: S.optional(S.Number),
+    feedFields: S.optional(FeedFieldList),
+    startTimestampFieldId: S.optional(S.Number),
+    createInfo: S.optional(LastModifiedInfo),
+    activeFieldId: S.optional(S.Number),
+    proximityTargetingFieldId: S.optional(S.Number),
+    isLocalTimestamp: S.optional(S.Boolean),
+    defaultFieldId: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Element" }) as any as S.Schema<Element>;
+
+/** Contains the schedule of the dynamic feed. */
+export interface FeedSchedule {
+  /** Optional. The hour of the day to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
+  startHour?: string;
+  /** Optional. The time zone to schedule the feed. It is applicable if the repeat value is equal to 1. Default value is "America/Los_Angeles". */
+  timeZone?: string;
+  /** Optional. The number of times the feed retransforms within one day. This is a required field if the schedule is enabled. Acceptable values are between 1 to 6, inclusive. */
+  repeatValue?: string;
+  /** Optional. The minute of the hour to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
+  startMinute?: string;
+  /** Optional. Whether the schedule is enabled. */
+  scheduleEnabled?: boolean;
+}
+export const FeedSchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startHour: S.optional(S.String),
+    timeZone: S.optional(S.String),
+    repeatValue: S.optional(S.String),
+    startMinute: S.optional(S.String),
+    scheduleEnabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "FeedSchedule" }) as any as S.Schema<FeedSchedule>;
+
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains dynamic feed information. */
 export interface DynamicFeed {
-  /** Optional. Name of this dynamic feed. It is defaulted to content source file name if not provided. */
-  dynamicFeedName?: string;
-  /** Required. Advertiser ID of this dynamic feed. This is a required field. */
-  studioAdvertiserId?: string;
-  /** Output only. Indicates whether the dynamic feed has a published version. This is a read-only field. */
-  hasPublished?: boolean;
   /** Required. The content source of the dynamic feed. This is a required field. */
   contentSource?: ContentSource;
-  /** Optional. The schedule of the dynamic feed. It can be set if the feed is published. */
-  feedSchedule?: FeedSchedule;
-  /** Output only. Unique ID of this dynamic feed. This is a read-only, auto-generated field. */
-  dynamicFeedId?: string;
-  /** Output only. The creation timestamp of the dynamic feed. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
-  /** Required. The element of the dynamic feed that is to specify the schema of the feed. This is a required field. */
-  element?: Element;
   /** Output only. The ingestion status of the dynamic feed. This is a read-only field. */
   feedIngestionStatus?: FeedIngestionStatus;
+  /** Output only. Indicates whether the dynamic feed has a published version. This is a read-only field. */
+  hasPublished?: boolean;
   /** Output only. The last modified timestamp of the dynamic feed. This is a read-only field. */
   lastModifiedInfo?: LastModifiedInfo;
+  /** Output only. Unique ID of this dynamic feed. This is a read-only, auto-generated field. */
+  dynamicFeedId?: string;
+  /** Required. Advertiser ID of this dynamic feed. This is a required field. */
+  studioAdvertiserId?: string;
+  /** Optional. Name of this dynamic feed. It is defaulted to content source file name if not provided. */
+  dynamicFeedName?: string;
+  /** Output only. The creation timestamp of the dynamic feed. This is a read-only field. */
+  createInfo?: LastModifiedInfo;
   /** Output only. The status of the feed. It is a read-only field that depends on the the feed ingestion status. The default value is INACTIVE, and it will be updated to ACTIVE once the feed is ingested successfully. */
   status?: DynamicFeedStatusEnum | (string & {});
+  /** Required. The element of the dynamic feed that is to specify the schema of the feed. This is a required field. */
+  element?: Element;
+  /** Optional. The schedule of the dynamic feed. It can be set if the feed is published. */
+  feedSchedule?: FeedSchedule;
 }
 export const DynamicFeed = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dynamicFeedName: S.optional(S.String),
-    studioAdvertiserId: S.optional(S.String),
-    hasPublished: S.optional(S.Boolean),
     contentSource: S.optional(ContentSource),
-    feedSchedule: S.optional(FeedSchedule),
-    dynamicFeedId: S.optional(S.String),
-    createInfo: S.optional(LastModifiedInfo),
-    element: S.optional(Element),
     feedIngestionStatus: S.optional(FeedIngestionStatus),
+    hasPublished: S.optional(S.Boolean),
     lastModifiedInfo: S.optional(LastModifiedInfo),
+    dynamicFeedId: S.optional(S.String),
+    studioAdvertiserId: S.optional(S.String),
+    dynamicFeedName: S.optional(S.String),
+    createInfo: S.optional(LastModifiedInfo),
     status: S.optional(DynamicFeedStatusEnum),
+    element: S.optional(Element),
+    feedSchedule: S.optional(FeedSchedule),
   }),
 ).annotate({ identifier: "DynamicFeed" }) as any as S.Schema<DynamicFeed>;
 
@@ -4984,6 +4984,65 @@ export const DynamicProfileArchiveStatusEnum = S.String;
 export type DynamicProfileStatusEnum = "STATUS_UNKNOWN" | "ACTIVE" | "INACTIVE" | "DELETED";
 export const DynamicProfileStatusEnum = S.String;
 
+export type ProximityFilterRadiusUnitTypeEnum = "RADIUS_UNIT_TYPE_UNKNOWN" | "KILOMETERS" | "MILES";
+export const ProximityFilterRadiusUnitTypeEnum = S.String;
+
+export type ProximityFilterRadiusBucketTypeEnum =
+  | "RADIUS_BUCKET_TYPE_UNKNOWN"
+  | "SMALL"
+  | "MEDIUM"
+  | "LARGE"
+  | "MULTI_REGIONAL"
+  | "NATIONAL";
+export const ProximityFilterRadiusBucketTypeEnum = S.String;
+
+/** Contains proximity filter information. */
+export interface ProximityFilter {
+  /** Optional. Radius length in units defined by radius_units. */
+  radiusValue?: number;
+  /** Optional. Field ID in the element. */
+  fieldId?: number;
+  /** Optional. The units of the radius value */
+  radiusUnitType?: ProximityFilterRadiusUnitTypeEnum | (string & {});
+  /** Optional. The radius bucket type of the proximity filter */
+  radiusBucketType?: ProximityFilterRadiusBucketTypeEnum | (string & {});
+}
+export const ProximityFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    radiusValue: S.optional(S.Number),
+    fieldId: S.optional(S.Number),
+    radiusUnitType: S.optional(ProximityFilterRadiusUnitTypeEnum),
+    radiusBucketType: S.optional(ProximityFilterRadiusBucketTypeEnum),
+  }),
+).annotate({ identifier: "ProximityFilter" }) as any as S.Schema<ProximityFilter>;
+
+/** Contains custom value field information. */
+export interface CustomValueField {
+  /** Optional. Field ID in the element. */
+  fieldId?: number;
+  /** Optional. Custom key used to match for auto filtering. */
+  requestKey?: string;
+}
+export const CustomValueField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fieldId: S.optional(S.Number),
+    requestKey: S.optional(S.String),
+  }),
+).annotate({ identifier: "CustomValueField" }) as any as S.Schema<CustomValueField>;
+
+export type CustomValueFieldList = Array<CustomValueField>;
+export const CustomValueFieldList = /*@__PURE__*/ S.Array(
+  CustomValueField,
+) as any as S.Schema<CustomValueFieldList>;
+
+export type DynamicRulesRuleTypeEnum =
+  | "RULE_SET_TYPE_UNKNOWN"
+  | "OPEN"
+  | "AUTO"
+  | "CUSTOM"
+  | "PROXIMITY_TARGETING";
+export const DynamicRulesRuleTypeEnum = S.String;
+
 /** Contains remarketing value attribute information. */
 export interface RemarketingValueAttribute {
   /** Optional. Field ID in the element. */
@@ -5005,72 +5064,22 @@ export const RemarketingValueAttributeList = /*@__PURE__*/ S.Array(
   RemarketingValueAttribute,
 ) as any as S.Schema<RemarketingValueAttributeList>;
 
-/** Contains custom value field information. */
-export interface CustomValueField {
-  /** Optional. Field ID in the element. */
+/** Contains dependent field value information. */
+export interface DependentFieldValue {
+  /** Optional. The ID of the element that value's field will match against. */
+  elementId?: string;
+  /** Optional. The field id of the dependent field. */
   fieldId?: number;
-  /** Optional. Custom key used to match for auto filtering. */
-  requestKey?: string;
+  /** Optional. The ID of the dynamic feed that value's field will match against. */
+  dynamicFeedId?: string;
 }
-export const CustomValueField = /*@__PURE__*/ S.suspend(() =>
+export const DependentFieldValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    elementId: S.optional(S.String),
     fieldId: S.optional(S.Number),
-    requestKey: S.optional(S.String),
+    dynamicFeedId: S.optional(S.String),
   }),
-).annotate({ identifier: "CustomValueField" }) as any as S.Schema<CustomValueField>;
-
-export type CustomValueFieldList = Array<CustomValueField>;
-export const CustomValueFieldList = /*@__PURE__*/ S.Array(
-  CustomValueField,
-) as any as S.Schema<CustomValueFieldList>;
-
-export type ProximityFilterRadiusBucketTypeEnum =
-  | "RADIUS_BUCKET_TYPE_UNKNOWN"
-  | "SMALL"
-  | "MEDIUM"
-  | "LARGE"
-  | "MULTI_REGIONAL"
-  | "NATIONAL";
-export const ProximityFilterRadiusBucketTypeEnum = S.String;
-
-export type ProximityFilterRadiusUnitTypeEnum = "RADIUS_UNIT_TYPE_UNKNOWN" | "KILOMETERS" | "MILES";
-export const ProximityFilterRadiusUnitTypeEnum = S.String;
-
-/** Contains proximity filter information. */
-export interface ProximityFilter {
-  /** Optional. Radius length in units defined by radius_units. */
-  radiusValue?: number;
-  /** Optional. The radius bucket type of the proximity filter */
-  radiusBucketType?: ProximityFilterRadiusBucketTypeEnum | (string & {});
-  /** Optional. Field ID in the element. */
-  fieldId?: number;
-  /** Optional. The units of the radius value */
-  radiusUnitType?: ProximityFilterRadiusUnitTypeEnum | (string & {});
-}
-export const ProximityFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    radiusValue: S.optional(S.Number),
-    radiusBucketType: S.optional(ProximityFilterRadiusBucketTypeEnum),
-    fieldId: S.optional(S.Number),
-    radiusUnitType: S.optional(ProximityFilterRadiusUnitTypeEnum),
-  }),
-).annotate({ identifier: "ProximityFilter" }) as any as S.Schema<ProximityFilter>;
-
-export type DynamicRulesRuleTypeEnum =
-  | "RULE_SET_TYPE_UNKNOWN"
-  | "OPEN"
-  | "AUTO"
-  | "CUSTOM"
-  | "PROXIMITY_TARGETING";
-export const DynamicRulesRuleTypeEnum = S.String;
-
-export type FieldFilterValueTypeEnum =
-  | "RHS_VALUE_TYPE_UNKNOWN"
-  | "STRING"
-  | "REQUEST"
-  | "BOOL"
-  | "DEPENDENT";
-export const FieldFilterValueTypeEnum = S.String;
+).annotate({ identifier: "DependentFieldValue" }) as any as S.Schema<DependentFieldValue>;
 
 export type FieldFilterMatchTypeEnum =
   | "LHS_MATCH_TYPE_UNKNOWN"
@@ -5080,37 +5089,28 @@ export type FieldFilterMatchTypeEnum =
   | "NOT_EQUALS";
 export const FieldFilterMatchTypeEnum = S.String;
 
-/** Contains dependent field value information. */
-export interface DependentFieldValue {
-  /** Optional. The ID of the dynamic feed that value's field will match against. */
-  dynamicFeedId?: string;
-  /** Optional. The field id of the dependent field. */
-  fieldId?: number;
-  /** Optional. The ID of the element that value's field will match against. */
-  elementId?: string;
-}
-export const DependentFieldValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dynamicFeedId: S.optional(S.String),
-    fieldId: S.optional(S.Number),
-    elementId: S.optional(S.String),
-  }),
-).annotate({ identifier: "DependentFieldValue" }) as any as S.Schema<DependentFieldValue>;
+export type FieldFilterValueTypeEnum =
+  | "RHS_VALUE_TYPE_UNKNOWN"
+  | "STRING"
+  | "REQUEST"
+  | "BOOL"
+  | "DEPENDENT";
+export const FieldFilterValueTypeEnum = S.String;
 
 /** Contains request value information. */
 export interface RequestValue {
-  /** Optional. Custom key in the request. Used only when the field type is CUSTOM_VALUE. */
-  key?: string;
   /** Optional. User attribute IDs in the request. Used only when the field type is REMARKETING_VALUE or USER_ATTRIBUTE_ID. */
   userAttributeIds?: StringList;
   /** Optional. User attribute IDs in the request that should be excluded. Used only when the field type is REMARKETING_VALUE or USER_ATTRIBUTE_ID. */
   excludeFromUserAttributeIds?: StringList;
+  /** Optional. Custom key in the request. Used only when the field type is CUSTOM_VALUE. */
+  key?: string;
 }
 export const RequestValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.optional(S.String),
     userAttributeIds: S.optional(StringList),
     excludeFromUserAttributeIds: S.optional(StringList),
+    key: S.optional(S.String),
   }),
 ).annotate({ identifier: "RequestValue" }) as any as S.Schema<RequestValue>;
 
@@ -5118,28 +5118,28 @@ export const RequestValue = /*@__PURE__*/ S.suspend(() =>
 export interface FieldFilter {
   /** Optional. The boolean values, only applicable when rhs_value_type is BOOL. */
   boolValue?: boolean;
-  /** Optional. Right hand side of the expression. */
-  valueType?: FieldFilterValueTypeEnum | (string & {});
+  /** Optional. The field ID on the left hand side of the expression. */
+  fieldId?: number;
+  /** Optional. The dependent values, only applicable when rhs_value_type is DEPENDENT. */
+  dependentFieldValue?: DependentFieldValue;
   /** Optional. Left hand side of the expression match type. */
   matchType?: FieldFilterMatchTypeEnum | (string & {});
   /** Optional. The string value, only applicable when rhs_value_type is STRING. */
   stringValue?: string;
-  /** Optional. The dependent values, only applicable when rhs_value_type is DEPENDENT. */
-  dependentFieldValue?: DependentFieldValue;
+  /** Optional. Right hand side of the expression. */
+  valueType?: FieldFilterValueTypeEnum | (string & {});
   /** Optional. The request value, only applicable when rhs_value_type is REQUEST. */
   requestValue?: RequestValue;
-  /** Optional. The field ID on the left hand side of the expression. */
-  fieldId?: number;
 }
 export const FieldFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     boolValue: S.optional(S.Boolean),
-    valueType: S.optional(FieldFilterValueTypeEnum),
+    fieldId: S.optional(S.Number),
+    dependentFieldValue: S.optional(DependentFieldValue),
     matchType: S.optional(FieldFilterMatchTypeEnum),
     stringValue: S.optional(S.String),
-    dependentFieldValue: S.optional(DependentFieldValue),
+    valueType: S.optional(FieldFilterValueTypeEnum),
     requestValue: S.optional(RequestValue),
-    fieldId: S.optional(S.Number),
   }),
 ).annotate({ identifier: "FieldFilter" }) as any as S.Schema<FieldFilter>;
 
@@ -5164,17 +5164,17 @@ export const RuleBlockList = /*@__PURE__*/ S.Array(RuleBlock) as any as S.Schema
 
 /** Contains custom rule information. */
 export interface CustomRule {
-  /** Optional. A list of field filter, the custom rule will apply. */
-  ruleBlocks?: RuleBlockList;
   /** Optional. Priority of the custom rule. */
   priority?: number;
+  /** Optional. A list of field filter, the custom rule will apply. */
+  ruleBlocks?: RuleBlockList;
   /** Optional. Name of this custom rule. */
   name?: string;
 }
 export const CustomRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ruleBlocks: S.optional(RuleBlockList),
     priority: S.optional(S.Number),
+    ruleBlocks: S.optional(RuleBlockList),
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "CustomRule" }) as any as S.Schema<CustomRule>;
@@ -5191,33 +5191,33 @@ export const DynamicRulesRotationTypeEnum = S.String;
 
 /** Contains dynamic rules information. */
 export interface DynamicRules {
-  /** Optional. The field ID for the feed that will be used for weighted rotation, only applicable when rotation type is WEIGHTED. */
-  weightFieldId?: number;
-  /** Optional. The link between an element field ID and a list of user attribute IDs. */
-  remarketingValueAttributes?: RemarketingValueAttributeList;
-  /** Optional. Mapping between field ID and custom key that are used to match for auto filtering. */
-  customValueFields?: CustomValueFieldList;
   /** Optional. The proximity targeting rules of the dynamic feed, only applicable when rule type is PROXIMITY_TARGETING. */
   proximityFilter?: ProximityFilter;
+  /** Optional. Mapping between field ID and custom key that are used to match for auto filtering. */
+  customValueFields?: CustomValueFieldList;
   /** Optional. List of field IDs in this element that should be auto-targeted. Applicable when rule type is AUTO. */
   autoTargetedFieldIds?: IntegerList;
   /** Optional. The type of the rule, the default value is OPEN. */
   ruleType?: DynamicRulesRuleTypeEnum | (string & {});
+  /** Optional. The link between an element field ID and a list of user attribute IDs. */
+  remarketingValueAttributes?: RemarketingValueAttributeList;
   /** Optional. The custom rules of the dynamic feed, only applicable when rule type is CUSTOM. */
   customRules?: CustomRuleList;
   /** Optional. The rotation type to select from eligible rows. Rotation type only apply when the filtering rule results in more than one eligible rows. */
   rotationType?: DynamicRulesRotationTypeEnum | (string & {});
+  /** Optional. The field ID for the feed that will be used for weighted rotation, only applicable when rotation type is WEIGHTED. */
+  weightFieldId?: number;
 }
 export const DynamicRules = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    weightFieldId: S.optional(S.Number),
-    remarketingValueAttributes: S.optional(RemarketingValueAttributeList),
-    customValueFields: S.optional(CustomValueFieldList),
     proximityFilter: S.optional(ProximityFilter),
+    customValueFields: S.optional(CustomValueFieldList),
     autoTargetedFieldIds: S.optional(IntegerList),
     ruleType: S.optional(DynamicRulesRuleTypeEnum),
+    remarketingValueAttributes: S.optional(RemarketingValueAttributeList),
     customRules: S.optional(CustomRuleList),
     rotationType: S.optional(DynamicRulesRotationTypeEnum),
+    weightFieldId: S.optional(S.Number),
   }),
 ).annotate({ identifier: "DynamicRules" }) as any as S.Schema<DynamicRules>;
 
@@ -5225,16 +5225,16 @@ export const DynamicRules = /*@__PURE__*/ S.suspend(() =>
 export interface DynamicProfileFeedSettings {
   /** Optional. Dynamic rules for row selection for the given dynamic feed in the given dynamic profile. */
   dynamicRules?: DynamicRules;
-  /** Optional. Dynamic feed ID associated with dynamic profile version. */
-  dynamicFeedId?: string;
   /** Optional. The number of this dynamic feed rows needed by the dynamic profile, default value is 1. Acceptable values are between 1 to 99, inclusive. */
   quantity?: number;
+  /** Optional. Dynamic feed ID associated with dynamic profile version. */
+  dynamicFeedId?: string;
 }
 export const DynamicProfileFeedSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dynamicRules: S.optional(DynamicRules),
-    dynamicFeedId: S.optional(S.String),
     quantity: S.optional(S.Number),
+    dynamicFeedId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DynamicProfileFeedSettings",
@@ -5261,55 +5261,55 @@ export const DynamicProfileVersion = /*@__PURE__*/ S.suspend(() =>
 
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains dynamic profile information. */
 export interface DynamicProfile {
-  /** Output only. The creation timestamp of the dynamic profile. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  /** Output only. Unique ID of this dynamic profile. This is a read-only, auto-generated field. */
+  dynamicProfileId?: string;
   /** Optional. Archive status of this dynamic profile. */
   archiveStatus?: DynamicProfileArchiveStatusEnum | (string & {});
   /** Required. Identifier. Name of this dynamic profile. This is a required field and must be less than 256 characters long. */
   name?: string;
-  /** Required. Advertiser ID of this dynamic profile. This is a required field on insertion. */
-  studioAdvertiserId?: string;
+  /** Output only. The last modified timestamp of the dynamic profile. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo;
+  /** Optional. Description of this dynamic profile. */
+  description?: string;
+  /** Output only. The creation timestamp of the dynamic profile. This is a read-only field. */
+  createInfo?: LastModifiedInfo;
+  /** Output only. Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicProfile". */
+  kind?: string;
   /** Optional. Status of this dynamic profile. */
   status?: DynamicProfileStatusEnum | (string & {});
   /** Optional. Active version of the dynamic profile. */
   active?: DynamicProfileVersion;
-  /** Output only. The last modified timestamp of the dynamic profile. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
-  /** Output only. Unique ID of this dynamic profile. This is a read-only, auto-generated field. */
-  dynamicProfileId?: string;
+  /** Required. Advertiser ID of this dynamic profile. This is a required field on insertion. */
+  studioAdvertiserId?: string;
   /** Optional. Draft version of the dynamic profile. */
   draft?: DynamicProfileVersion;
-  /** Optional. Description of this dynamic profile. */
-  description?: string;
-  /** Output only. Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicProfile". */
-  kind?: string;
 }
 export const DynamicProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createInfo: S.optional(LastModifiedInfo),
+    dynamicProfileId: S.optional(S.String),
     archiveStatus: S.optional(DynamicProfileArchiveStatusEnum),
     name: S.optional(S.String),
-    studioAdvertiserId: S.optional(S.String),
+    lastModifiedInfo: S.optional(LastModifiedInfo),
+    description: S.optional(S.String),
+    createInfo: S.optional(LastModifiedInfo),
+    kind: S.optional(S.String),
     status: S.optional(DynamicProfileStatusEnum),
     active: S.optional(DynamicProfileVersion),
-    lastModifiedInfo: S.optional(LastModifiedInfo),
-    dynamicProfileId: S.optional(S.String),
+    studioAdvertiserId: S.optional(S.String),
     draft: S.optional(DynamicProfileVersion),
-    description: S.optional(S.String),
-    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "DynamicProfile" }) as any as S.Schema<DynamicProfile>;
 
 export interface GetEventTagsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Event tag ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const GetEventTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5319,90 +5319,90 @@ export const GetEventTagsRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetEventTagsRequest" }) as any as S.Schema<GetEventTagsRequest>;
 
-export type EventTagStatusEnum = "ENABLED" | "DISABLED";
-export const EventTagStatusEnum = S.String;
-
 export type EventTagTypeEnum =
   | "IMPRESSION_IMAGE_EVENT_TAG"
   | "IMPRESSION_JAVASCRIPT_EVENT_TAG"
   | "CLICK_THROUGH_EVENT_TAG";
 export const EventTagTypeEnum = S.String;
 
+export type EventTagStatusEnum = "ENABLED" | "DISABLED";
+export const EventTagStatusEnum = S.String;
+
 export type EventTagSiteFilterTypeEnum = "ALLOWLIST" | "BLOCKLIST";
 export const EventTagSiteFilterTypeEnum = S.String;
 
 /** Contains properties of an event tag. */
 export interface EventTag {
+  /** Whether to remove this event tag from ads that are trafficked through Display & Video 360 to Ad Exchange. This may be useful if the event tag uses a pixel that is unapproved for Ad Exchange bids on one or more networks, such as the Google Display Network. */
+  excludeFromAdxRequests?: boolean;
+  /** Payload URL for this event tag. The URL on a click-through event tag should have a landing page URL appended to the end of it. This field is required on insertion. */
+  url?: string;
+  /** Advertiser ID of this event tag. This field or the campaignId field is required on insertion. */
+  advertiserId?: string;
   /** Whether this tag is SSL-compliant or not. This is a read-only field. */
   sslCompliant?: boolean;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue;
-  /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
-  status?: EventTagStatusEnum | (string & {});
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTag". */
+  kind?: string;
+  /** Account ID of this event tag. This is a read-only field that can be left blank. */
+  accountId?: string;
+  /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
+  siteIds?: StringList;
+  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
+  campaignIdDimensionValue?: DimensionValue;
+  /** ID of this event tag. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
+  type?: EventTagTypeEnum | (string & {});
+  /** Name of this event tag. This is a required field and must be less than 256 characters long. */
+  name?: string;
   /** Campaign ID of this event tag. This field or the advertiserId field is required on insertion. */
   campaignId?: string;
   /** Number of times the landing page URL should be URL-escaped before being appended to the click-through event tag URL. Only applies to click-through event tags as specified by the event tag type. */
   urlEscapeLevels?: number;
-  /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
-  type?: EventTagTypeEnum | (string & {});
-  /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
-  siteIds?: StringList;
-  /** Whether to remove this event tag from ads that are trafficked through Display & Video 360 to Ad Exchange. This may be useful if the event tag uses a pixel that is unapproved for Ad Exchange bids on one or more networks, such as the Google Display Network. */
-  excludeFromAdxRequests?: boolean;
-  /** Advertiser ID of this event tag. This field or the campaignId field is required on insertion. */
-  advertiserId?: string;
-  /** Account ID of this event tag. This is a read-only field that can be left blank. */
-  accountId?: string;
-  /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
-  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {});
-  /** Name of this event tag. This is a required field and must be less than 256 characters long. */
-  name?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTag". */
-  kind?: string;
-  /** Payload URL for this event tag. The URL on a click-through event tag should have a landing page URL appended to the end of it. This field is required on insertion. */
-  url?: string;
-  /** Whether this event tag should be automatically enabled for all of the advertiser's campaigns and ads. */
-  enabledByDefault?: boolean;
-  /** ID of this event tag. This is a read-only, auto-generated field. */
-  id?: string;
   /** Subaccount ID of this event tag. This is a read-only field that can be left blank. */
   subaccountId?: string;
+  /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
+  status?: EventTagStatusEnum | (string & {});
+  /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
+  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {});
+  /** Whether this event tag should be automatically enabled for all of the advertiser's campaigns and ads. */
+  enabledByDefault?: boolean;
 }
 export const EventTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    excludeFromAdxRequests: S.optional(S.Boolean),
+    url: S.optional(S.String),
+    advertiserId: S.optional(S.String),
     sslCompliant: S.optional(S.Boolean),
-    campaignIdDimensionValue: S.optional(DimensionValue),
-    status: S.optional(EventTagStatusEnum),
     advertiserIdDimensionValue: S.optional(DimensionValue),
+    kind: S.optional(S.String),
+    accountId: S.optional(S.String),
+    siteIds: S.optional(StringList),
+    campaignIdDimensionValue: S.optional(DimensionValue),
+    id: S.optional(S.String),
+    type: S.optional(EventTagTypeEnum),
+    name: S.optional(S.String),
     campaignId: S.optional(S.String),
     urlEscapeLevels: S.optional(S.Number),
-    type: S.optional(EventTagTypeEnum),
-    siteIds: S.optional(StringList),
-    excludeFromAdxRequests: S.optional(S.Boolean),
-    advertiserId: S.optional(S.String),
-    accountId: S.optional(S.String),
-    siteFilterType: S.optional(EventTagSiteFilterTypeEnum),
-    name: S.optional(S.String),
-    kind: S.optional(S.String),
-    url: S.optional(S.String),
-    enabledByDefault: S.optional(S.Boolean),
-    id: S.optional(S.String),
     subaccountId: S.optional(S.String),
+    status: S.optional(EventTagStatusEnum),
+    siteFilterType: S.optional(EventTagSiteFilterTypeEnum),
+    enabledByDefault: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "EventTag" }) as any as S.Schema<EventTag>;
 
 export interface GetFilesRequest {
-  /** The ID of the report file. */
-  fileId: string;
   /** The ID of the report. */
   reportId: string;
+  /** The ID of the report file. */
+  fileId: string;
 }
 export const GetFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileId: S.String.pipe(T.Label()),
     reportId: S.String.pipe(T.Label()),
+    fileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5412,8 +5412,24 @@ export const GetFilesRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetFilesRequest" }) as any as S.Schema<GetFilesRequest>;
 
+export type FileFormatEnum = "CSV" | "EXCEL";
+export const FileFormatEnum = S.String;
+
 export type FileStatusEnum = "PROCESSING" | "REPORT_AVAILABLE" | "FAILED" | "CANCELLED" | "QUEUED";
 export const FileStatusEnum = S.String;
+
+export interface FileUrls {
+  /** The URL for downloading the report data through a browser. */
+  browserUrl?: string;
+  /** The URL for downloading the report data through the API. */
+  apiUrl?: string;
+}
+export const FileUrls = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    browserUrl: S.optional(S.String),
+    apiUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "FileUrls" }) as any as S.Schema<FileUrls>;
 
 export type DateRangeRelativeDateRangeEnum =
   | "TODAY"
@@ -5438,85 +5454,69 @@ export const DateRangeRelativeDateRangeEnum = S.String;
 /** Represents a date range. */
 export interface DateRange {
   startDate?: string;
-  endDate?: string;
   /** The kind of resource this is, in this case dfareporting#dateRange. */
   kind?: string;
   /** The date range relative to the date of when the report is run. */
   relativeDateRange?: DateRangeRelativeDateRangeEnum | (string & {});
+  endDate?: string;
 }
 export const DateRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     startDate: S.optional(S.String),
-    endDate: S.optional(S.String),
     kind: S.optional(S.String),
     relativeDateRange: S.optional(DateRangeRelativeDateRangeEnum),
+    endDate: S.optional(S.String),
   }),
 ).annotate({ identifier: "DateRange" }) as any as S.Schema<DateRange>;
 
-export type FileFormatEnum = "CSV" | "EXCEL";
-export const FileFormatEnum = S.String;
-
-export interface FileUrls {
-  /** The URL for downloading the report data through a browser. */
-  browserUrl?: string;
-  /** The URL for downloading the report data through the API. */
-  apiUrl?: string;
-}
-export const FileUrls = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    browserUrl: S.optional(S.String),
-    apiUrl: S.optional(S.String),
-  }),
-).annotate({ identifier: "FileUrls" }) as any as S.Schema<FileUrls>;
-
 /** Represents a File resource. A file contains the metadata for a report run. It shows the status of the run and holds the URLs to the generated report data if the run is finished and the status is "REPORT_AVAILABLE". */
 export interface File {
-  /** The status of the report file. */
-  status?: FileStatusEnum;
-  /** The filename of the file. */
-  fileName?: string;
-  /** The unique ID of this report file. */
-  id?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#file". */
-  kind?: string;
   /** Etag of this resource. */
   etag?: string;
-  /** The date range for which the file has report data. The date range will always be the absolute date range for which the report is run. */
-  dateRange?: DateRange;
   /** The output format of the report. Only available once the file is available. */
   format?: FileFormatEnum;
-  /** The URLs where the completed report file can be downloaded. */
-  urls?: FileUrls;
+  /** The status of the report file. */
+  status?: FileStatusEnum;
+  /** The unique ID of this report file. */
+  id?: string;
   /** The timestamp in milliseconds since epoch when this file was last modified. */
   lastModifiedTime?: string;
+  /** The filename of the file. */
+  fileName?: string;
+  /** The URLs where the completed report file can be downloaded. */
+  urls?: FileUrls;
+  /** The date range for which the file has report data. The date range will always be the absolute date range for which the report is run. */
+  dateRange?: DateRange;
   /** The ID of the report this file was generated from. */
   reportId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#file". */
+  kind?: string;
 }
 export const File = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(FileStatusEnum),
-    fileName: S.optional(S.String),
-    id: S.optional(S.String),
-    kind: S.optional(S.String),
     etag: S.optional(S.String),
-    dateRange: S.optional(DateRange),
     format: S.optional(FileFormatEnum),
-    urls: S.optional(FileUrls),
+    status: S.optional(FileStatusEnum),
+    id: S.optional(S.String),
     lastModifiedTime: S.optional(S.String),
+    fileName: S.optional(S.String),
+    urls: S.optional(FileUrls),
+    dateRange: S.optional(DateRange),
     reportId: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "File" }) as any as S.Schema<File>;
 
 export interface GetFloodlightActivitiesRequest {
-  /** Floodlight activity ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Floodlight activity ID. */
+  id: string;
 }
 export const GetFloodlightActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5528,20 +5528,23 @@ export const GetFloodlightActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetFloodlightActivitiesRequest",
 }) as any as S.Schema<GetFloodlightActivitiesRequest>;
 
+export type FloodlightActivityTagFormatEnum = "HTML" | "XHTML";
+export const FloodlightActivityTagFormatEnum = S.String;
+
 /** Dynamic Tag */
 export interface FloodlightActivityDynamicTag {
-  /** ID of this dynamic tag. This is a read-only, auto-generated field. */
-  id?: string;
   /** Name of this tag. */
   name?: string;
   /** Tag code. */
   tag?: string;
+  /** ID of this dynamic tag. This is a read-only, auto-generated field. */
+  id?: string;
 }
 export const FloodlightActivityDynamicTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
     name: S.optional(S.String),
     tag: S.optional(S.String),
+    id: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FloodlightActivityDynamicTag",
@@ -5551,72 +5554,6 @@ export type FloodlightActivityDynamicTagList = Array<FloodlightActivityDynamicTa
 export const FloodlightActivityDynamicTagList = /*@__PURE__*/ S.Array(
   FloodlightActivityDynamicTag,
 ) as any as S.Schema<FloodlightActivityDynamicTagList>;
-
-/** Publisher Dynamic Tag */
-export interface FloodlightActivityPublisherDynamicTag {
-  /** Dynamic floodlight tag. */
-  dynamicTag?: FloodlightActivityDynamicTag;
-  /** Directory site ID of this dynamic tag. This is a write-only field that can be used as an alternative to the siteId field. When this resource is retrieved, only the siteId field will be populated. */
-  directorySiteId?: string;
-  /** Site ID of this dynamic tag. */
-  siteId?: string;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue;
-  /** Whether this tag is applicable only for view-throughs. */
-  viewThrough?: boolean;
-  /** Whether this tag is applicable only for click-throughs. */
-  clickThrough?: boolean;
-}
-export const FloodlightActivityPublisherDynamicTag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dynamicTag: S.optional(FloodlightActivityDynamicTag),
-    directorySiteId: S.optional(S.String),
-    siteId: S.optional(S.String),
-    siteIdDimensionValue: S.optional(DimensionValue),
-    viewThrough: S.optional(S.Boolean),
-    clickThrough: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "FloodlightActivityPublisherDynamicTag",
-}) as any as S.Schema<FloodlightActivityPublisherDynamicTag>;
-
-export type FloodlightActivityPublisherDynamicTagList =
-  Array<FloodlightActivityPublisherDynamicTag>;
-export const FloodlightActivityPublisherDynamicTagList = /*@__PURE__*/ S.Array(
-  FloodlightActivityPublisherDynamicTag,
-) as any as S.Schema<FloodlightActivityPublisherDynamicTagList>;
-
-export type FloodlightActivityTagFormatEnum = "HTML" | "XHTML";
-export const FloodlightActivityTagFormatEnum = S.String;
-
-export type FloodlightActivityFloodlightTagTypeEnum = "IFRAME" | "IMAGE" | "GLOBAL_SITE_TAG";
-export const FloodlightActivityFloodlightTagTypeEnum = S.String;
-
-export type FloodlightActivityFloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
-export const FloodlightActivityFloodlightActivityGroupTypeEnum = S.String;
-
-export type FloodlightActivityCountingMethodEnum =
-  | "STANDARD_COUNTING"
-  | "UNIQUE_COUNTING"
-  | "SESSION_COUNTING"
-  | "TRANSACTIONS_COUNTING"
-  | "ITEMS_SOLD_COUNTING";
-export const FloodlightActivityCountingMethodEnum = S.String;
-
-export type FloodlightActivityStatusEnum =
-  | "ACTIVE"
-  | "ARCHIVED_AND_DISABLED"
-  | "ARCHIVED"
-  | "DISABLED_POLICY";
-export const FloodlightActivityStatusEnum = S.String;
-
-export type FloodlightActivityCacheBustingTypeEnum =
-  | "JAVASCRIPT"
-  | "ACTIVE_SERVER_PAGE"
-  | "JSP"
-  | "PHP"
-  | "COLD_FUSION";
-export const FloodlightActivityCacheBustingTypeEnum = S.String;
 
 export type FloodlightActivityConversionCategoryEnum =
   | "CONVERSION_CATEGORY_DEFAULT"
@@ -5637,6 +5574,40 @@ export type FloodlightActivityConversionCategoryEnum =
   | "CONVERSION_CATEGORY_CONVERTED_LEAD"
   | "CONVERSION_CATEGORY_IN_APP_AD_REVENUE";
 export const FloodlightActivityConversionCategoryEnum = S.String;
+
+/** Publisher Dynamic Tag */
+export interface FloodlightActivityPublisherDynamicTag {
+  /** Whether this tag is applicable only for click-throughs. */
+  clickThrough?: boolean;
+  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
+  siteIdDimensionValue?: DimensionValue;
+  /** Dynamic floodlight tag. */
+  dynamicTag?: FloodlightActivityDynamicTag;
+  /** Whether this tag is applicable only for view-throughs. */
+  viewThrough?: boolean;
+  /** Site ID of this dynamic tag. */
+  siteId?: string;
+  /** Directory site ID of this dynamic tag. This is a write-only field that can be used as an alternative to the siteId field. When this resource is retrieved, only the siteId field will be populated. */
+  directorySiteId?: string;
+}
+export const FloodlightActivityPublisherDynamicTag = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clickThrough: S.optional(S.Boolean),
+    siteIdDimensionValue: S.optional(DimensionValue),
+    dynamicTag: S.optional(FloodlightActivityDynamicTag),
+    viewThrough: S.optional(S.Boolean),
+    siteId: S.optional(S.String),
+    directorySiteId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FloodlightActivityPublisherDynamicTag",
+}) as any as S.Schema<FloodlightActivityPublisherDynamicTag>;
+
+export type FloodlightActivityPublisherDynamicTagList =
+  Array<FloodlightActivityPublisherDynamicTag>;
+export const FloodlightActivityPublisherDynamicTagList = /*@__PURE__*/ S.Array(
+  FloodlightActivityPublisherDynamicTag,
+) as any as S.Schema<FloodlightActivityPublisherDynamicTagList>;
 
 export type FloodlightActivityUserDefinedVariableTypesItemEnum =
   | "U1"
@@ -5748,114 +5719,143 @@ export const FloodlightActivityUserDefinedVariableTypesItemEnumList = /*@__PURE_
   FloodlightActivityUserDefinedVariableTypesItemEnum,
 ) as any as S.Schema<FloodlightActivityUserDefinedVariableTypesItemEnumList>;
 
+export type FloodlightActivityCacheBustingTypeEnum =
+  | "JAVASCRIPT"
+  | "ACTIVE_SERVER_PAGE"
+  | "JSP"
+  | "PHP"
+  | "COLD_FUSION";
+export const FloodlightActivityCacheBustingTypeEnum = S.String;
+
+export type FloodlightActivityStatusEnum =
+  | "ACTIVE"
+  | "ARCHIVED_AND_DISABLED"
+  | "ARCHIVED"
+  | "DISABLED_POLICY";
+export const FloodlightActivityStatusEnum = S.String;
+
+export type FloodlightActivityFloodlightTagTypeEnum = "IFRAME" | "IMAGE" | "GLOBAL_SITE_TAG";
+export const FloodlightActivityFloodlightTagTypeEnum = S.String;
+
+export type FloodlightActivityFloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
+export const FloodlightActivityFloodlightActivityGroupTypeEnum = S.String;
+
+export type FloodlightActivityCountingMethodEnum =
+  | "STANDARD_COUNTING"
+  | "UNIQUE_COUNTING"
+  | "SESSION_COUNTING"
+  | "TRANSACTIONS_COUNTING"
+  | "ITEMS_SOLD_COUNTING";
+export const FloodlightActivityCountingMethodEnum = S.String;
+
 /** Contains properties of a Floodlight activity. */
 export interface FloodlightActivity {
-  /** ID of this floodlight activity. This is a read-only, auto-generated field. */
-  id?: string;
-  /** URL where this tag will be deployed. If specified, must be less than 256 characters long. */
-  expectedUrl?: string;
-  /** Whether this tag should use SSL. */
-  secure?: boolean;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivity". */
-  kind?: string;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
-  /** Dynamic floodlight tags. */
-  defaultTags?: FloodlightActivityDynamicTagList;
+  /** Account ID of this floodlight activity. This is a read-only field that can be left blank. */
+  accountId?: string;
   /** Floodlight activity group ID of this floodlight activity. This is a required field. */
   floodlightActivityGroupId?: string;
-  /** Publisher dynamic floodlight tags. */
-  publisherTags?: FloodlightActivityPublisherDynamicTagList;
   /** Tag format type for the floodlight activity. If left blank, the tag format will default to HTML. */
   tagFormat?: FloodlightActivityTagFormatEnum | (string & {});
+  /** Dynamic floodlight tags. */
+  defaultTags?: FloodlightActivityDynamicTagList;
+  /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
+  floodlightConfigurationId?: string;
+  /** Required. The conversion category of the activity. */
+  conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {});
+  /** Value of the cat= parameter in the floodlight tag, which the ad servers use to identify the activity. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activities of the same activity group. This field is read-only after insertion. */
+  tagString?: string;
+  /** Dimension value for the ID of this floodlight activity. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue;
+  /** Publisher dynamic floodlight tags. */
+  publisherTags?: FloodlightActivityPublisherDynamicTagList;
+  /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
+  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivity". */
+  kind?: string;
+  /** General notes or implementation instructions for the tag. */
+  notes?: string;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue;
+  /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
+  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {});
+  /** Whether this floodlight activity must be SSL-compliant. */
+  sslRequired?: boolean;
+  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
+  floodlightConfigurationIdDimensionValue?: DimensionValue;
+  /** Name of this floodlight activity. This is a required field. Must be less than 129 characters long and cannot contain quotes. */
+  name?: string;
+  /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
+  status?: FloodlightActivityStatusEnum | (string & {});
+  /** Subaccount ID of this floodlight activity. This is a read-only field that can be left blank. */
+  subaccountId?: string;
   /** The type of Floodlight tag this activity will generate. This is a required field. */
   floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | (string & {});
+  /** Whether the activity is enabled for attribution. */
+  attributionEnabled?: boolean;
+  /** Whether this tag should use SSL. */
+  secure?: boolean;
+  /** Name of the associated floodlight activity group. This is a read-only field. */
+  floodlightActivityGroupName?: string;
+  /** Advertiser ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's advertiser or the existing activity's advertiser. */
+  advertiserId?: string;
+  /** Whether the floodlight activity is SSL-compliant. This is a read-only field, its value detected by the system from the floodlight tags. */
+  sslCompliant?: boolean;
   /** Type of the associated floodlight activity group. This is a read-only field. */
   floodlightActivityGroupType?: FloodlightActivityFloodlightActivityGroupTypeEnum | (string & {});
   /** Counting method for conversions for this floodlight activity. This is a required field. */
   countingMethod?: FloodlightActivityCountingMethodEnum | (string & {});
-  /** Subaccount ID of this floodlight activity. This is a read-only field that can be left blank. */
-  subaccountId?: string;
-  /** Dimension value for the ID of this floodlight activity. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
-  /** General notes or implementation instructions for the tag. */
-  notes?: string;
-  /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
-  status?: FloodlightActivityStatusEnum | (string & {});
-  /** Name of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupName?: string;
-  /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
-  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {});
-  /** Required. The conversion category of the activity. */
-  conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {});
-  /** Whether the activity is enabled for attribution. */
-  attributionEnabled?: boolean;
-  /** Whether this floodlight activity must be SSL-compliant. */
-  sslRequired?: boolean;
-  /** Name of this floodlight activity. This is a required field. Must be less than 129 characters long and cannot contain quotes. */
-  name?: string;
-  /** Whether the floodlight activity is SSL-compliant. This is a read-only field, its value detected by the system from the floodlight tags. */
-  sslCompliant?: boolean;
-  /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
-  floodlightConfigurationId?: string;
-  /** Value of the cat= parameter in the floodlight tag, which the ad servers use to identify the activity. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activities of the same activity group. This field is read-only after insertion. */
-  tagString?: string;
   /** Tag string of the associated floodlight activity group. This is a read-only field. */
   floodlightActivityGroupTagString?: string;
-  /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
-  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue;
-  /** Advertiser ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's advertiser or the existing activity's advertiser. */
-  advertiserId?: string;
-  /** Account ID of this floodlight activity. This is a read-only field that can be left blank. */
-  accountId?: string;
+  /** ID of this floodlight activity. This is a read-only, auto-generated field. */
+  id?: string;
+  /** URL where this tag will be deployed. If specified, must be less than 256 characters long. */
+  expectedUrl?: string;
 }
 export const FloodlightActivity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    expectedUrl: S.optional(S.String),
-    secure: S.optional(S.Boolean),
-    kind: S.optional(S.String),
-    advertiserIdDimensionValue: S.optional(DimensionValue),
-    defaultTags: S.optional(FloodlightActivityDynamicTagList),
+    accountId: S.optional(S.String),
     floodlightActivityGroupId: S.optional(S.String),
-    publisherTags: S.optional(FloodlightActivityPublisherDynamicTagList),
     tagFormat: S.optional(FloodlightActivityTagFormatEnum),
+    defaultTags: S.optional(FloodlightActivityDynamicTagList),
+    floodlightConfigurationId: S.optional(S.String),
+    conversionCategory: S.optional(FloodlightActivityConversionCategoryEnum),
+    tagString: S.optional(S.String),
+    idDimensionValue: S.optional(DimensionValue),
+    publisherTags: S.optional(FloodlightActivityPublisherDynamicTagList),
+    userDefinedVariableTypes: S.optional(FloodlightActivityUserDefinedVariableTypesItemEnumList),
+    kind: S.optional(S.String),
+    notes: S.optional(S.String),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
+    cacheBustingType: S.optional(FloodlightActivityCacheBustingTypeEnum),
+    sslRequired: S.optional(S.Boolean),
+    floodlightConfigurationIdDimensionValue: S.optional(DimensionValue),
+    name: S.optional(S.String),
+    status: S.optional(FloodlightActivityStatusEnum),
+    subaccountId: S.optional(S.String),
     floodlightTagType: S.optional(FloodlightActivityFloodlightTagTypeEnum),
+    attributionEnabled: S.optional(S.Boolean),
+    secure: S.optional(S.Boolean),
+    floodlightActivityGroupName: S.optional(S.String),
+    advertiserId: S.optional(S.String),
+    sslCompliant: S.optional(S.Boolean),
     floodlightActivityGroupType: S.optional(FloodlightActivityFloodlightActivityGroupTypeEnum),
     countingMethod: S.optional(FloodlightActivityCountingMethodEnum),
-    subaccountId: S.optional(S.String),
-    idDimensionValue: S.optional(DimensionValue),
-    notes: S.optional(S.String),
-    status: S.optional(FloodlightActivityStatusEnum),
-    floodlightActivityGroupName: S.optional(S.String),
-    cacheBustingType: S.optional(FloodlightActivityCacheBustingTypeEnum),
-    conversionCategory: S.optional(FloodlightActivityConversionCategoryEnum),
-    attributionEnabled: S.optional(S.Boolean),
-    sslRequired: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    sslCompliant: S.optional(S.Boolean),
-    floodlightConfigurationId: S.optional(S.String),
-    tagString: S.optional(S.String),
     floodlightActivityGroupTagString: S.optional(S.String),
-    userDefinedVariableTypes: S.optional(FloodlightActivityUserDefinedVariableTypesItemEnumList),
-    floodlightConfigurationIdDimensionValue: S.optional(DimensionValue),
-    advertiserId: S.optional(S.String),
-    accountId: S.optional(S.String),
+    id: S.optional(S.String),
+    expectedUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "FloodlightActivity" }) as any as S.Schema<FloodlightActivity>;
 
 export interface GetFloodlightActivityGroupsRequest {
-  /** Floodlight activity Group ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Floodlight activity Group ID. */
+  id: string;
 }
 export const GetFloodlightActivityGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5872,58 +5872,58 @@ export const FloodlightActivityGroupTypeEnum = S.String;
 
 /** Contains properties of a Floodlight activity group. */
 export interface FloodlightActivityGroup {
-  /** Name of this floodlight activity group. This is a required field. Must be less than 65 characters long and cannot contain quotes. */
-  name?: string;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue;
-  /** Advertiser ID of this floodlight activity group. If this field is left blank, the value will be copied over either from the floodlight configuration's advertiser or from the existing activity group's advertiser. */
-  advertiserId?: string;
-  /** Value of the type= parameter in the floodlight tag, which the ad servers use to identify the activity group that the activity belongs to. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activity groups of the same floodlight configuration. This field is read-only after insertion. */
-  tagString?: string;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue;
-  /** Account ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  accountId?: string;
-  /** ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Floodlight configuration ID of this floodlight activity group. This is a required field. */
-  floodlightConfigurationId?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroup". */
-  kind?: string;
+  /** Advertiser ID of this floodlight activity group. If this field is left blank, the value will be copied over either from the floodlight configuration's advertiser or from the existing activity group's advertiser. */
+  advertiserId?: string;
   /** Dimension value for the ID of this floodlight activity group. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue;
-  /** Subaccount ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  /** Value of the type= parameter in the floodlight tag, which the ad servers use to identify the activity group that the activity belongs to. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activity groups of the same floodlight configuration. This field is read-only after insertion. */
+  tagString?: string;
+  /** Name of this floodlight activity group. This is a required field. Must be less than 65 characters long and cannot contain quotes. */
+  name?: string;
+  /** Floodlight configuration ID of this floodlight activity group. This is a required field. */
+  floodlightConfigurationId?: string;
   /** Type of the floodlight activity group. This is a required field that is read-only after insertion. */
   type?: FloodlightActivityGroupTypeEnum | (string & {});
+  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
+  floodlightConfigurationIdDimensionValue?: DimensionValue;
+  /** Account ID of this floodlight activity group. This is a read-only field that can be left blank. */
+  accountId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroup". */
+  kind?: string;
+  /** ID of this floodlight activity group. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Subaccount ID of this floodlight activity group. This is a read-only field that can be left blank. */
+  subaccountId?: string;
 }
 export const FloodlightActivityGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    floodlightConfigurationIdDimensionValue: S.optional(DimensionValue),
-    advertiserId: S.optional(S.String),
-    tagString: S.optional(S.String),
     advertiserIdDimensionValue: S.optional(DimensionValue),
-    accountId: S.optional(S.String),
-    id: S.optional(S.String),
-    floodlightConfigurationId: S.optional(S.String),
-    kind: S.optional(S.String),
+    advertiserId: S.optional(S.String),
     idDimensionValue: S.optional(DimensionValue),
-    subaccountId: S.optional(S.String),
+    tagString: S.optional(S.String),
+    name: S.optional(S.String),
+    floodlightConfigurationId: S.optional(S.String),
     type: S.optional(FloodlightActivityGroupTypeEnum),
+    floodlightConfigurationIdDimensionValue: S.optional(DimensionValue),
+    accountId: S.optional(S.String),
+    kind: S.optional(S.String),
+    id: S.optional(S.String),
+    subaccountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "FloodlightActivityGroup" }) as any as S.Schema<FloodlightActivityGroup>;
 
 export interface GetFloodlightConfigurationsRequest {
-  /** Floodlight configuration ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Floodlight configuration ID. */
+  id: string;
 }
 export const GetFloodlightConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5935,28 +5935,8 @@ export const GetFloodlightConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetFloodlightConfigurationsRequest",
 }) as any as S.Schema<GetFloodlightConfigurationsRequest>;
 
-export type FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum =
-  | "EXCLUDE_NATURAL_SEARCH_CONVERSION_ATTRIBUTION"
-  | "INCLUDE_NATURAL_SEARCH_CONVERSION_ATTRIBUTION"
-  | "INCLUDE_NATURAL_SEARCH_TIERED_CONVERSION_ATTRIBUTION";
-export const FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum = S.String;
-
 export type FloodlightConfigurationFirstDayOfWeekEnum = "SUNDAY" | "MONDAY";
 export const FloodlightConfigurationFirstDayOfWeekEnum = S.String;
-
-/** Omniture Integration Settings. */
-export interface OmnitureSettings {
-  /** Whether placement cost data will be sent to Omniture. This property can be enabled only if omnitureIntegrationEnabled is true. */
-  omnitureCostDataEnabled?: boolean;
-  /** Whether Omniture integration is enabled. This property can be enabled only when the "Advanced Ad Serving" account setting is enabled. */
-  omnitureIntegrationEnabled?: boolean;
-}
-export const OmnitureSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    omnitureCostDataEnabled: S.optional(S.Boolean),
-    omnitureIntegrationEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "OmnitureSettings" }) as any as S.Schema<OmnitureSettings>;
 
 /** Third Party Authentication Token */
 export interface ThirdPartyAuthenticationToken {
@@ -5978,6 +5958,12 @@ export type ThirdPartyAuthenticationTokenList = Array<ThirdPartyAuthenticationTo
 export const ThirdPartyAuthenticationTokenList = /*@__PURE__*/ S.Array(
   ThirdPartyAuthenticationToken,
 ) as any as S.Schema<ThirdPartyAuthenticationTokenList>;
+
+export type FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum =
+  | "EXCLUDE_NATURAL_SEARCH_CONVERSION_ATTRIBUTION"
+  | "INCLUDE_NATURAL_SEARCH_CONVERSION_ATTRIBUTION"
+  | "INCLUDE_NATURAL_SEARCH_TIERED_CONVERSION_ATTRIBUTION";
+export const FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum = S.String;
 
 /** The attributes, like playtime and percent onscreen, that define the Custom Viewability Metric. */
 export interface CustomViewabilityMetricConfiguration {
@@ -6003,20 +5989,34 @@ export const CustomViewabilityMetricConfiguration = /*@__PURE__*/ S.suspend(() =
 
 /** Custom Viewability Metric */
 export interface CustomViewabilityMetric {
-  /** Name of the custom viewability metric. */
-  name?: string;
-  /** Configuration of the custom viewability metric. */
-  configuration?: CustomViewabilityMetricConfiguration;
   /** ID of the custom viewability metric. */
   id?: string;
+  /** Configuration of the custom viewability metric. */
+  configuration?: CustomViewabilityMetricConfiguration;
+  /** Name of the custom viewability metric. */
+  name?: string;
 }
 export const CustomViewabilityMetric = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    configuration: S.optional(CustomViewabilityMetricConfiguration),
     id: S.optional(S.String),
+    configuration: S.optional(CustomViewabilityMetricConfiguration),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "CustomViewabilityMetric" }) as any as S.Schema<CustomViewabilityMetric>;
+
+/** Dynamic and Image Tag Settings. */
+export interface TagSettings {
+  /** Whether image tags are enabled. */
+  imageTagEnabled?: boolean;
+  /** Whether dynamic floodlight tags are enabled. */
+  dynamicTagEnabled?: boolean;
+}
+export const TagSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageTagEnabled: S.optional(S.Boolean),
+    dynamicTagEnabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "TagSettings" }) as any as S.Schema<TagSettings>;
 
 export type UserDefinedVariableConfigurationVariableTypeEnum =
   | "U1"
@@ -6128,16 +6128,16 @@ export const UserDefinedVariableConfigurationDataTypeEnum = S.String;
 export interface UserDefinedVariableConfiguration {
   /** Variable name in the tag. This is a required field. */
   variableType?: UserDefinedVariableConfigurationVariableTypeEnum | (string & {});
-  /** Data type for the variable. This is a required field. */
-  dataType?: UserDefinedVariableConfigurationDataTypeEnum | (string & {});
   /** User-friendly name for the variable which will appear in reports. This is a required field, must be less than 64 characters long, and cannot contain the following characters: ""<>". */
   reportName?: string;
+  /** Data type for the variable. This is a required field. */
+  dataType?: UserDefinedVariableConfigurationDataTypeEnum | (string & {});
 }
 export const UserDefinedVariableConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variableType: S.optional(UserDefinedVariableConfigurationVariableTypeEnum),
-    dataType: S.optional(UserDefinedVariableConfigurationDataTypeEnum),
     reportName: S.optional(S.String),
+    dataType: S.optional(UserDefinedVariableConfigurationDataTypeEnum),
   }),
 ).annotate({
   identifier: "UserDefinedVariableConfiguration",
@@ -6148,82 +6148,82 @@ export const UserDefinedVariableConfigurationList = /*@__PURE__*/ S.Array(
   UserDefinedVariableConfiguration,
 ) as any as S.Schema<UserDefinedVariableConfigurationList>;
 
-/** Dynamic and Image Tag Settings. */
-export interface TagSettings {
-  /** Whether image tags are enabled. */
-  imageTagEnabled?: boolean;
-  /** Whether dynamic floodlight tags are enabled. */
-  dynamicTagEnabled?: boolean;
+/** Omniture Integration Settings. */
+export interface OmnitureSettings {
+  /** Whether Omniture integration is enabled. This property can be enabled only when the "Advanced Ad Serving" account setting is enabled. */
+  omnitureIntegrationEnabled?: boolean;
+  /** Whether placement cost data will be sent to Omniture. This property can be enabled only if omnitureIntegrationEnabled is true. */
+  omnitureCostDataEnabled?: boolean;
 }
-export const TagSettings = /*@__PURE__*/ S.suspend(() =>
+export const OmnitureSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageTagEnabled: S.optional(S.Boolean),
-    dynamicTagEnabled: S.optional(S.Boolean),
+    omnitureIntegrationEnabled: S.optional(S.Boolean),
+    omnitureCostDataEnabled: S.optional(S.Boolean),
   }),
-).annotate({ identifier: "TagSettings" }) as any as S.Schema<TagSettings>;
+).annotate({ identifier: "OmnitureSettings" }) as any as S.Schema<OmnitureSettings>;
 
 /** Contains properties of a Floodlight configuration. */
 export interface FloodlightConfiguration {
+  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {});
+  /** Account ID of this floodlight configuration. This is a read-only field that can be left blank. */
+  accountId?: string;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue;
+  /** Subaccount ID of this floodlight configuration. This is a read-only field that can be left blank. */
+  subaccountId?: string;
+  /** List of third-party authentication tokens enabled for this configuration. */
+  thirdPartyAuthenticationTokens?: ThirdPartyAuthenticationTokenList;
   /** Types of attribution options for natural search conversions. */
   naturalSearchConversionAttributionOption?:
     | FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum
     | (string & {});
-  /** Lookback window settings for this floodlight configuration. */
-  lookbackConfiguration?: LookbackConfiguration;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
-  /** Account ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  accountId?: string;
-  /** Dimension value for the ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
-  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {});
-  /** Settings for Campaign Manager Omniture integration. */
-  omnitureSettings?: OmnitureSettings;
-  /** Whether the exposure-to-conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
-  exposureToConversionEnabled?: boolean;
-  /** Whether in-app attribution tracking is enabled. */
-  inAppAttributionTrackingEnabled?: boolean;
-  /** ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  id?: string;
-  /** List of third-party authentication tokens enabled for this configuration. */
-  thirdPartyAuthenticationTokens?: ThirdPartyAuthenticationTokenList;
   /** Custom Viewability metric for the floodlight configuration. */
   customViewabilityMetric?: CustomViewabilityMetric;
-  /** Subaccount ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  subaccountId?: string;
-  /** List of user defined variables enabled for this configuration. */
-  userDefinedVariableConfigurations?: UserDefinedVariableConfigurationList;
+  /** Whether the exposure-to-conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
+  exposureToConversionEnabled?: boolean;
   /** Configuration settings for dynamic and image floodlight tags. */
   tagSettings?: TagSettings;
-  /** Advertiser ID of the parent advertiser of this floodlight configuration. */
-  advertiserId?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfiguration". */
   kind?: string;
+  /** List of user defined variables enabled for this configuration. */
+  userDefinedVariableConfigurations?: UserDefinedVariableConfigurationList;
+  /** Dimension value for the ID of this floodlight configuration. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue;
+  /** Settings for Campaign Manager Omniture integration. */
+  omnitureSettings?: OmnitureSettings;
+  /** Whether in-app attribution tracking is enabled. */
+  inAppAttributionTrackingEnabled?: boolean;
+  /** Advertiser ID of the parent advertiser of this floodlight configuration. */
+  advertiserId?: string;
+  /** ID of this floodlight configuration. This is a read-only, auto-generated field. */
+  id?: string;
   /** Whether advertiser data is shared with Google Analytics. */
   analyticsDataSharingEnabled?: boolean;
+  /** Lookback window settings for this floodlight configuration. */
+  lookbackConfiguration?: LookbackConfiguration;
 }
 export const FloodlightConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    firstDayOfWeek: S.optional(FloodlightConfigurationFirstDayOfWeekEnum),
+    accountId: S.optional(S.String),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
+    subaccountId: S.optional(S.String),
+    thirdPartyAuthenticationTokens: S.optional(ThirdPartyAuthenticationTokenList),
     naturalSearchConversionAttributionOption: S.optional(
       FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum,
     ),
-    lookbackConfiguration: S.optional(LookbackConfiguration),
-    advertiserIdDimensionValue: S.optional(DimensionValue),
-    accountId: S.optional(S.String),
-    idDimensionValue: S.optional(DimensionValue),
-    firstDayOfWeek: S.optional(FloodlightConfigurationFirstDayOfWeekEnum),
-    omnitureSettings: S.optional(OmnitureSettings),
-    exposureToConversionEnabled: S.optional(S.Boolean),
-    inAppAttributionTrackingEnabled: S.optional(S.Boolean),
-    id: S.optional(S.String),
-    thirdPartyAuthenticationTokens: S.optional(ThirdPartyAuthenticationTokenList),
     customViewabilityMetric: S.optional(CustomViewabilityMetric),
-    subaccountId: S.optional(S.String),
-    userDefinedVariableConfigurations: S.optional(UserDefinedVariableConfigurationList),
+    exposureToConversionEnabled: S.optional(S.Boolean),
     tagSettings: S.optional(TagSettings),
-    advertiserId: S.optional(S.String),
     kind: S.optional(S.String),
+    userDefinedVariableConfigurations: S.optional(UserDefinedVariableConfigurationList),
+    idDimensionValue: S.optional(DimensionValue),
+    omnitureSettings: S.optional(OmnitureSettings),
+    inAppAttributionTrackingEnabled: S.optional(S.Boolean),
+    advertiserId: S.optional(S.String),
+    id: S.optional(S.String),
     analyticsDataSharingEnabled: S.optional(S.Boolean),
+    lookbackConfiguration: S.optional(LookbackConfiguration),
   }),
 ).annotate({ identifier: "FloodlightConfiguration" }) as any as S.Schema<FloodlightConfiguration>;
 
@@ -6331,14 +6331,6 @@ export const GetPlacementGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 export type PlacementGroupPlacementGroupTypeEnum = "PLACEMENT_PACKAGE" | "PLACEMENT_ROADBLOCK";
 export const PlacementGroupPlacementGroupTypeEnum = S.String;
 
-export type PlacementGroupActiveStatusEnum =
-  | "PLACEMENT_STATUS_UNKNOWN"
-  | "PLACEMENT_STATUS_ACTIVE"
-  | "PLACEMENT_STATUS_INACTIVE"
-  | "PLACEMENT_STATUS_ARCHIVED"
-  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
-export const PlacementGroupActiveStatusEnum = S.String;
-
 export type PricingSchedulePricingTypeEnum =
   | "PRICING_TYPE_CPM"
   | "PRICING_TYPE_CPC"
@@ -6348,30 +6340,24 @@ export type PricingSchedulePricingTypeEnum =
   | "PRICING_TYPE_CPM_ACTIVEVIEW";
 export const PricingSchedulePricingTypeEnum = S.String;
 
-export type PricingScheduleCapCostOptionEnum =
-  | "CAP_COST_NONE"
-  | "CAP_COST_MONTHLY"
-  | "CAP_COST_CUMULATIVE";
-export const PricingScheduleCapCostOptionEnum = S.String;
-
 /** Pricing Period */
 export interface PricingSchedulePricingPeriod {
   /** Rate or cost of this pricing period in nanos (i.e., multiplied by 1000000000). Acceptable values are 0 to 1000000000000000000, inclusive. */
   rateOrCostNanos?: string;
-  /** Units of this pricing period. Acceptable values are 0 to 10000000000, inclusive. */
-  units?: string;
-  startDate?: string;
-  endDate?: string;
   /** Comments for this pricing period. */
   pricingComment?: string;
+  endDate?: string;
+  startDate?: string;
+  /** Units of this pricing period. Acceptable values are 0 to 10000000000, inclusive. */
+  units?: string;
 }
 export const PricingSchedulePricingPeriod = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rateOrCostNanos: S.optional(S.String),
-    units: S.optional(S.String),
-    startDate: S.optional(S.String),
-    endDate: S.optional(S.String),
     pricingComment: S.optional(S.String),
+    endDate: S.optional(S.String),
+    startDate: S.optional(S.String),
+    units: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PricingSchedulePricingPeriod",
@@ -6382,131 +6368,145 @@ export const PricingSchedulePricingPeriodList = /*@__PURE__*/ S.Array(
   PricingSchedulePricingPeriod,
 ) as any as S.Schema<PricingSchedulePricingPeriodList>;
 
+export type PricingScheduleCapCostOptionEnum =
+  | "CAP_COST_NONE"
+  | "CAP_COST_MONTHLY"
+  | "CAP_COST_CUMULATIVE";
+export const PricingScheduleCapCostOptionEnum = S.String;
+
 /** Pricing Schedule */
 export interface PricingSchedule {
   startDate?: string;
   /** Placement pricing type. This field is required on insertion. */
   pricingType?: PricingSchedulePricingTypeEnum | (string & {});
-  /** Whether this placement is flighted. If true, pricing periods will be computed automatically. */
-  flighted?: boolean;
-  /** Placement cap cost option. */
-  capCostOption?: PricingScheduleCapCostOptionEnum | (string & {});
-  /** Floodlight activity ID associated with this placement. This field should be set when placement pricing type is set to PRICING_TYPE_CPA. */
-  floodlightActivityId?: string;
   /** Pricing periods for this placement. */
   pricingPeriods?: PricingSchedulePricingPeriodList;
+  /** Floodlight activity ID associated with this placement. This field should be set when placement pricing type is set to PRICING_TYPE_CPA. */
+  floodlightActivityId?: string;
+  /** Whether this placement is flighted. If true, pricing periods will be computed automatically. */
+  flighted?: boolean;
   testingStartDate?: string;
   endDate?: string;
+  /** Placement cap cost option. */
+  capCostOption?: PricingScheduleCapCostOptionEnum | (string & {});
 }
 export const PricingSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     startDate: S.optional(S.String),
     pricingType: S.optional(PricingSchedulePricingTypeEnum),
-    flighted: S.optional(S.Boolean),
-    capCostOption: S.optional(PricingScheduleCapCostOptionEnum),
-    floodlightActivityId: S.optional(S.String),
     pricingPeriods: S.optional(PricingSchedulePricingPeriodList),
+    floodlightActivityId: S.optional(S.String),
+    flighted: S.optional(S.Boolean),
     testingStartDate: S.optional(S.String),
     endDate: S.optional(S.String),
+    capCostOption: S.optional(PricingScheduleCapCostOptionEnum),
   }),
 ).annotate({ identifier: "PricingSchedule" }) as any as S.Schema<PricingSchedule>;
 
+export type PlacementGroupActiveStatusEnum =
+  | "PLACEMENT_STATUS_UNKNOWN"
+  | "PLACEMENT_STATUS_ACTIVE"
+  | "PLACEMENT_STATUS_INACTIVE"
+  | "PLACEMENT_STATUS_ARCHIVED"
+  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
+export const PlacementGroupActiveStatusEnum = S.String;
+
 /** Contains properties of a package or roadblock. */
 export interface PlacementGroup {
-  /** Advertiser ID of this placement group. This is a required field on insertion. */
-  advertiserId?: string;
-  /** Type of this placement group. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point, but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. This field is required on insertion. */
-  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {});
-  /** ID of this placement group. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Comments for this placement group. */
-  comment?: string;
-  /** Whether this placement group is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementGroupActiveStatusEnum | (string & {});
-  /** Campaign ID of this placement group. This field is required on insertion. */
-  campaignId?: string;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue;
-  /** Dimension value for the ID of the primary placement. This is a read-only, auto-generated field. */
-  primaryPlacementIdDimensionValue?: DimensionValue;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroup". */
   kind?: string;
-  /** ID of the placement strategy assigned to this placement group. */
-  placementStrategyId?: string;
-  /** ID of the primary placement, used to calculate the media cost of a roadblock (placement group). Modifying this field will automatically modify the primary field on all affected roadblock child placements. */
-  primaryPlacementId?: string;
-  /** External ID for this placement. */
-  externalId?: string;
-  /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
-  subaccountId?: string;
-  /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
-  /** Pricing schedule of this placement group. This field is required on insertion. */
-  pricingSchedule?: PricingSchedule;
+  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
+  campaignIdDimensionValue?: DimensionValue;
+  /** Dimension value for the ID of the primary placement. This is a read-only, auto-generated field. */
+  primaryPlacementIdDimensionValue?: DimensionValue;
   /** Information about the creation of this placement group. This is a read-only field. */
   createInfo?: LastModifiedInfo;
-  /** Name of this placement group. This is a required field and must be less than 256 characters long. */
-  name?: string;
-  /** Directory site ID associated with this placement group. On insert, you must set either this field or the site_id field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  directorySiteId?: string;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue;
-  /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  siteId?: string;
   /** Account ID of this placement group. This is a read-only field that can be left blank. */
   accountId?: string;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  /** ID of the placement strategy assigned to this placement group. */
+  placementStrategyId?: string;
+  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
+  directorySiteIdDimensionValue?: DimensionValue;
+  /** Campaign ID of this placement group. This field is required on insertion. */
+  campaignId?: string;
+  /** Advertiser ID of this placement group. This is a required field on insertion. */
+  advertiserId?: string;
   /** Information about the most recent modification of this placement group. This is a read-only field. */
   lastModifiedInfo?: LastModifiedInfo;
-  /** ID of the content category assigned to this placement group. */
-  contentCategoryId?: string;
+  /** Name of this placement group. This is a required field and must be less than 256 characters long. */
+  name?: string;
+  /** Comments for this placement group. */
+  comment?: string;
+  /** Type of this placement group. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point, but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. This field is required on insertion. */
+  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {});
+  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
+  siteIdDimensionValue?: DimensionValue;
   /** IDs of placements which are assigned to this placement group. This is a read-only, auto-generated field. */
   childPlacementIds?: StringList;
+  /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue;
+  /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
+  siteId?: string;
+  /** ID of this placement group. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
+  subaccountId?: string;
+  /** ID of the primary placement, used to calculate the media cost of a roadblock (placement group). Modifying this field will automatically modify the primary field on all affected roadblock child placements. */
+  primaryPlacementId?: string;
+  /** Pricing schedule of this placement group. This field is required on insertion. */
+  pricingSchedule?: PricingSchedule;
+  /** ID of the content category assigned to this placement group. */
+  contentCategoryId?: string;
+  /** Directory site ID associated with this placement group. On insert, you must set either this field or the site_id field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
+  directorySiteId?: string;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue;
+  /** External ID for this placement. */
+  externalId?: string;
+  /** Whether this placement group is active, inactive, archived or permanently archived. */
+  activeStatus?: PlacementGroupActiveStatusEnum | (string & {});
 }
 export const PlacementGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    advertiserId: S.optional(S.String),
-    placementGroupType: S.optional(PlacementGroupPlacementGroupTypeEnum),
-    id: S.optional(S.String),
-    comment: S.optional(S.String),
-    activeStatus: S.optional(PlacementGroupActiveStatusEnum),
-    campaignId: S.optional(S.String),
-    campaignIdDimensionValue: S.optional(DimensionValue),
-    directorySiteIdDimensionValue: S.optional(DimensionValue),
-    primaryPlacementIdDimensionValue: S.optional(DimensionValue),
     kind: S.optional(S.String),
-    placementStrategyId: S.optional(S.String),
-    primaryPlacementId: S.optional(S.String),
-    externalId: S.optional(S.String),
-    subaccountId: S.optional(S.String),
-    idDimensionValue: S.optional(DimensionValue),
-    pricingSchedule: S.optional(PricingSchedule),
+    campaignIdDimensionValue: S.optional(DimensionValue),
+    primaryPlacementIdDimensionValue: S.optional(DimensionValue),
     createInfo: S.optional(LastModifiedInfo),
-    name: S.optional(S.String),
-    directorySiteId: S.optional(S.String),
-    siteIdDimensionValue: S.optional(DimensionValue),
-    siteId: S.optional(S.String),
     accountId: S.optional(S.String),
-    advertiserIdDimensionValue: S.optional(DimensionValue),
+    placementStrategyId: S.optional(S.String),
+    directorySiteIdDimensionValue: S.optional(DimensionValue),
+    campaignId: S.optional(S.String),
+    advertiserId: S.optional(S.String),
     lastModifiedInfo: S.optional(LastModifiedInfo),
-    contentCategoryId: S.optional(S.String),
+    name: S.optional(S.String),
+    comment: S.optional(S.String),
+    placementGroupType: S.optional(PlacementGroupPlacementGroupTypeEnum),
+    siteIdDimensionValue: S.optional(DimensionValue),
     childPlacementIds: S.optional(StringList),
+    idDimensionValue: S.optional(DimensionValue),
+    siteId: S.optional(S.String),
+    id: S.optional(S.String),
+    subaccountId: S.optional(S.String),
+    primaryPlacementId: S.optional(S.String),
+    pricingSchedule: S.optional(PricingSchedule),
+    contentCategoryId: S.optional(S.String),
+    directorySiteId: S.optional(S.String),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
+    externalId: S.optional(S.String),
+    activeStatus: S.optional(PlacementGroupActiveStatusEnum),
   }),
 ).annotate({ identifier: "PlacementGroup" }) as any as S.Schema<PlacementGroup>;
 
 export interface GetPlacementsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Placement ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const GetPlacementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6516,133 +6516,20 @@ export const GetPlacementsRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetPlacementsRequest" }) as any as S.Schema<GetPlacementsRequest>;
 
-export type PlacementTagFormatsItemEnum =
-  | "PLACEMENT_TAG_STANDARD"
-  | "PLACEMENT_TAG_IFRAME_JAVASCRIPT"
-  | "PLACEMENT_TAG_IFRAME_ILAYER"
-  | "PLACEMENT_TAG_INTERNAL_REDIRECT"
-  | "PLACEMENT_TAG_JAVASCRIPT"
-  | "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT"
-  | "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT"
-  | "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT"
-  | "PLACEMENT_TAG_CLICK_COMMANDS"
-  | "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH"
-  | "PLACEMENT_TAG_TRACKING"
-  | "PLACEMENT_TAG_TRACKING_IFRAME"
-  | "PLACEMENT_TAG_TRACKING_JAVASCRIPT"
-  | "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3"
-  | "PLACEMENT_TAG_IFRAME_JAVASCRIPT_LEGACY"
-  | "PLACEMENT_TAG_JAVASCRIPT_LEGACY"
-  | "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT_LEGACY"
-  | "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT_LEGACY"
-  | "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4"
-  | "PLACEMENT_TAG_TRACKING_THIRD_PARTY_MEASUREMENT";
-export const PlacementTagFormatsItemEnum = S.String;
+export type PlacementStatusEnum =
+  | "PENDING_REVIEW"
+  | "PAYMENT_ACCEPTED"
+  | "PAYMENT_REJECTED"
+  | "ACKNOWLEDGE_REJECTION"
+  | "ACKNOWLEDGE_ACCEPTANCE"
+  | "DRAFT";
+export const PlacementStatusEnum = S.String;
 
-export type PlacementTagFormatsItemEnumList = Array<PlacementTagFormatsItemEnum | (string & {})>;
-export const PlacementTagFormatsItemEnumList = /*@__PURE__*/ S.Array(
-  PlacementTagFormatsItemEnum,
-) as any as S.Schema<PlacementTagFormatsItemEnumList>;
+export type PlacementVpaidAdapterChoiceEnum = "DEFAULT" | "FLASH" | "HTML5" | "BOTH";
+export const PlacementVpaidAdapterChoiceEnum = S.String;
 
-export type VideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
-export const VideoSettingsOrientationEnum = S.String;
-
-/** Transcode Settings */
-export interface TranscodeSetting {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#transcodeSetting". */
-  kind?: string;
-  /** Allowlist of video formats to be served to this placement. Set this list to null or empty to serve all video formats. */
-  enabledVideoFormats?: IntegerList;
-}
-export const TranscodeSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    enabledVideoFormats: S.optional(IntegerList),
-  }),
-).annotate({ identifier: "TranscodeSetting" }) as any as S.Schema<TranscodeSetting>;
-
-/** Companion Settings */
-export interface CompanionSetting {
-  /** Allowlist of companion sizes to be served to this placement. Set this list to null or empty to serve all companion sizes. */
-  enabledSizes?: SizeList;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#companionSetting". */
-  kind?: string;
-  /** Whether to serve only static images as companions. */
-  imageOnly?: boolean;
-  /** Whether companions are disabled for this placement. */
-  companionsDisabled?: boolean;
-}
-export const CompanionSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabledSizes: S.optional(SizeList),
-    kind: S.optional(S.String),
-    imageOnly: S.optional(S.Boolean),
-    companionsDisabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "CompanionSetting" }) as any as S.Schema<CompanionSetting>;
-
-/** Skippable Settings */
-export interface SkippableSetting {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#skippableSetting". */
-  kind?: string;
-  /** Amount of time to play videos served to this placement before the skip button should appear. Applicable when skippable is true. */
-  skipOffset?: VideoOffset;
-  /** Whether the user can skip creatives served to this placement. */
-  skippable?: boolean;
-  /** Amount of time to play videos served to this placement before counting a view. Applicable when skippable is true. */
-  progressOffset?: VideoOffset;
-}
-export const SkippableSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    skipOffset: S.optional(VideoOffset),
-    skippable: S.optional(S.Boolean),
-    progressOffset: S.optional(VideoOffset),
-  }),
-).annotate({ identifier: "SkippableSetting" }) as any as S.Schema<SkippableSetting>;
-
-/** Video Settings */
-export interface VideoSettings {
-  /** Orientation of a video placement. If this value is set, placement will return assets matching the specified orientation. */
-  orientation?: VideoSettingsOrientationEnum | (string & {});
-  /** Settings for the OBA icon of video creatives served to this placement. If this object is provided, the creative-level OBA settings will be overridden. */
-  obaSettings?: ObaIcon;
-  /** Settings for the transcodes of video creatives served to this placement. If this object is provided, the creative-level transcode settings will be overridden. */
-  transcodeSettings?: TranscodeSetting;
-  /** Publisher specification ID of a video placement. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string;
-  /** Settings for the companion creatives of video creatives served to this placement. */
-  companionSettings?: CompanionSetting;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoSettings". */
-  kind?: string;
-  /** Duration of a video placement in seconds. */
-  durationSeconds?: number;
-  /** Whether OBA icons are enabled for this placement. */
-  obaEnabled?: boolean;
-  /** Settings for the skippability of video creatives served to this placement. If this object is provided, the creative-level skippable settings will be overridden. */
-  skippableSettings?: SkippableSetting;
-}
-export const VideoSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    orientation: S.optional(VideoSettingsOrientationEnum),
-    obaSettings: S.optional(ObaIcon),
-    transcodeSettings: S.optional(TranscodeSetting),
-    publisherSpecificationId: S.optional(S.String),
-    companionSettings: S.optional(CompanionSetting),
-    kind: S.optional(S.String),
-    durationSeconds: S.optional(S.Number),
-    obaEnabled: S.optional(S.Boolean),
-    skippableSettings: S.optional(SkippableSetting),
-  }),
-).annotate({ identifier: "VideoSettings" }) as any as S.Schema<VideoSettings>;
-
-export type PlacementActiveStatusEnum =
-  | "PLACEMENT_STATUS_UNKNOWN"
-  | "PLACEMENT_STATUS_ACTIVE"
-  | "PLACEMENT_STATUS_INACTIVE"
-  | "PLACEMENT_STATUS_ARCHIVED"
-  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
-export const PlacementActiveStatusEnum = S.String;
+export type PlacementPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
+export const PlacementPaymentSourceEnum = S.String;
 
 export type MeasurementPartnerWrappingDataTagWrappingModeEnum =
   | "NONE"
@@ -6685,26 +6572,52 @@ export const MeasurementPartnerWrappingDataLinkStatusEnum = S.String;
 export interface MeasurementPartnerWrappingData {
   /** Measurement mode for the wrapped placement. */
   tagWrappingMode?: MeasurementPartnerWrappingDataTagWrappingModeEnum | (string & {});
-  /** Tag provided by the measurement partner during wrapping. */
-  wrappedTag?: string;
   /** Measurement partner used for wrapping the placement. */
   measurementPartner?: MeasurementPartnerWrappingDataMeasurementPartnerEnum | (string & {});
   /** Placement wrapping status. */
   linkStatus?: MeasurementPartnerWrappingDataLinkStatusEnum | (string & {});
+  /** Tag provided by the measurement partner during wrapping. */
+  wrappedTag?: string;
 }
 export const MeasurementPartnerWrappingData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tagWrappingMode: S.optional(MeasurementPartnerWrappingDataTagWrappingModeEnum),
-    wrappedTag: S.optional(S.String),
     measurementPartner: S.optional(MeasurementPartnerWrappingDataMeasurementPartnerEnum),
     linkStatus: S.optional(MeasurementPartnerWrappingDataLinkStatusEnum),
+    wrappedTag: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MeasurementPartnerWrappingData",
 }) as any as S.Schema<MeasurementPartnerWrappingData>;
 
-export type PlacementVpaidAdapterChoiceEnum = "DEFAULT" | "FLASH" | "HTML5" | "BOTH";
-export const PlacementVpaidAdapterChoiceEnum = S.String;
+export type TagSettingKeywordOptionEnum =
+  | "PLACEHOLDER_WITH_LIST_OF_KEYWORDS"
+  | "IGNORE"
+  | "GENERATE_SEPARATE_TAG_FOR_EACH_KEYWORD";
+export const TagSettingKeywordOptionEnum = S.String;
+
+/** Tag Settings */
+export interface TagSetting {
+  /** Optional. Indicates that the unescapedlpurl macro should be included in the tag for the static landing page. New placements will default to the value set on their site. */
+  includeUnescapedlpurlMacro?: boolean;
+  /** Whether click-tracking string should be included in the tags. */
+  includeClickTracking?: boolean;
+  /** Option specifying how keywords are embedded in ad tags. This setting can be used to specify whether keyword placeholders are inserted in placement tags for this site. Publishers can then add keywords to those placeholders. */
+  keywordOption?: TagSettingKeywordOptionEnum | (string & {});
+  /** Additional key-values to be included in tags. Each key-value pair must be of the form key=value, and pairs must be separated by a semicolon (;). Keys and values must not contain commas. For example, id=2;color=red is a valid value for this field. */
+  additionalKeyValues?: string;
+  /** Whether static landing page URLs should be included in the tags. New placements will default to the value set on their site. */
+  includeClickThroughUrls?: boolean;
+}
+export const TagSetting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    includeUnescapedlpurlMacro: S.optional(S.Boolean),
+    includeClickTracking: S.optional(S.Boolean),
+    keywordOption: S.optional(TagSettingKeywordOptionEnum),
+    additionalKeyValues: S.optional(S.String),
+    includeClickThroughUrls: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "TagSetting" }) as any as S.Schema<TagSetting>;
 
 export type PlacementCompatibilityEnum =
   | "DISPLAY"
@@ -6715,43 +6628,162 @@ export type PlacementCompatibilityEnum =
   | "IN_STREAM_AUDIO";
 export const PlacementCompatibilityEnum = S.String;
 
-export type TagSettingKeywordOptionEnum =
-  | "PLACEHOLDER_WITH_LIST_OF_KEYWORDS"
-  | "IGNORE"
-  | "GENERATE_SEPARATE_TAG_FOR_EACH_KEYWORD";
-export const TagSettingKeywordOptionEnum = S.String;
+export type PlacementActiveStatusEnum =
+  | "PLACEMENT_STATUS_UNKNOWN"
+  | "PLACEMENT_STATUS_ACTIVE"
+  | "PLACEMENT_STATUS_INACTIVE"
+  | "PLACEMENT_STATUS_ARCHIVED"
+  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
+export const PlacementActiveStatusEnum = S.String;
 
-/** Tag Settings */
-export interface TagSetting {
-  /** Whether click-tracking string should be included in the tags. */
-  includeClickTracking?: boolean;
-  /** Option specifying how keywords are embedded in ad tags. This setting can be used to specify whether keyword placeholders are inserted in placement tags for this site. Publishers can then add keywords to those placeholders. */
-  keywordOption?: TagSettingKeywordOptionEnum | (string & {});
-  /** Whether static landing page URLs should be included in the tags. New placements will default to the value set on their site. */
-  includeClickThroughUrls?: boolean;
-  /** Additional key-values to be included in tags. Each key-value pair must be of the form key=value, and pairs must be separated by a semicolon (;). Keys and values must not contain commas. For example, id=2;color=red is a valid value for this field. */
-  additionalKeyValues?: string;
-  /** Optional. Indicates that the unescapedlpurl macro should be included in the tag for the static landing page. New placements will default to the value set on their site. */
-  includeUnescapedlpurlMacro?: boolean;
+export type VideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
+export const VideoSettingsOrientationEnum = S.String;
+
+/** Companion Settings */
+export interface CompanionSetting {
+  /** Allowlist of companion sizes to be served to this placement. Set this list to null or empty to serve all companion sizes. */
+  enabledSizes?: SizeList;
+  /** Whether companions are disabled for this placement. */
+  companionsDisabled?: boolean;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#companionSetting". */
+  kind?: string;
+  /** Whether to serve only static images as companions. */
+  imageOnly?: boolean;
 }
-export const TagSetting = /*@__PURE__*/ S.suspend(() =>
+export const CompanionSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    includeClickTracking: S.optional(S.Boolean),
-    keywordOption: S.optional(TagSettingKeywordOptionEnum),
-    includeClickThroughUrls: S.optional(S.Boolean),
-    additionalKeyValues: S.optional(S.String),
-    includeUnescapedlpurlMacro: S.optional(S.Boolean),
+    enabledSizes: S.optional(SizeList),
+    companionsDisabled: S.optional(S.Boolean),
+    kind: S.optional(S.String),
+    imageOnly: S.optional(S.Boolean),
   }),
-).annotate({ identifier: "TagSetting" }) as any as S.Schema<TagSetting>;
+).annotate({ identifier: "CompanionSetting" }) as any as S.Schema<CompanionSetting>;
 
-export type PlacementStatusEnum =
-  | "PENDING_REVIEW"
-  | "PAYMENT_ACCEPTED"
-  | "PAYMENT_REJECTED"
-  | "ACKNOWLEDGE_REJECTION"
-  | "ACKNOWLEDGE_ACCEPTANCE"
-  | "DRAFT";
-export const PlacementStatusEnum = S.String;
+/** Transcode Settings */
+export interface TranscodeSetting {
+  /** Allowlist of video formats to be served to this placement. Set this list to null or empty to serve all video formats. */
+  enabledVideoFormats?: IntegerList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#transcodeSetting". */
+  kind?: string;
+}
+export const TranscodeSetting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabledVideoFormats: S.optional(IntegerList),
+    kind: S.optional(S.String),
+  }),
+).annotate({ identifier: "TranscodeSetting" }) as any as S.Schema<TranscodeSetting>;
+
+/** Skippable Settings */
+export interface SkippableSetting {
+  /** Amount of time to play videos served to this placement before the skip button should appear. Applicable when skippable is true. */
+  skipOffset?: VideoOffset;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#skippableSetting". */
+  kind?: string;
+  /** Amount of time to play videos served to this placement before counting a view. Applicable when skippable is true. */
+  progressOffset?: VideoOffset;
+  /** Whether the user can skip creatives served to this placement. */
+  skippable?: boolean;
+}
+export const SkippableSetting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    skipOffset: S.optional(VideoOffset),
+    kind: S.optional(S.String),
+    progressOffset: S.optional(VideoOffset),
+    skippable: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "SkippableSetting" }) as any as S.Schema<SkippableSetting>;
+
+/** Video Settings */
+export interface VideoSettings {
+  /** Whether OBA icons are enabled for this placement. */
+  obaEnabled?: boolean;
+  /** Orientation of a video placement. If this value is set, placement will return assets matching the specified orientation. */
+  orientation?: VideoSettingsOrientationEnum | (string & {});
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoSettings". */
+  kind?: string;
+  /** Publisher specification ID of a video placement. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
+  publisherSpecificationId?: string;
+  /** Duration of a video placement in seconds. */
+  durationSeconds?: number;
+  /** Settings for the companion creatives of video creatives served to this placement. */
+  companionSettings?: CompanionSetting;
+  /** Settings for the transcodes of video creatives served to this placement. If this object is provided, the creative-level transcode settings will be overridden. */
+  transcodeSettings?: TranscodeSetting;
+  /** Settings for the skippability of video creatives served to this placement. If this object is provided, the creative-level skippable settings will be overridden. */
+  skippableSettings?: SkippableSetting;
+  /** Settings for the OBA icon of video creatives served to this placement. If this object is provided, the creative-level OBA settings will be overridden. */
+  obaSettings?: ObaIcon;
+}
+export const VideoSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    obaEnabled: S.optional(S.Boolean),
+    orientation: S.optional(VideoSettingsOrientationEnum),
+    kind: S.optional(S.String),
+    publisherSpecificationId: S.optional(S.String),
+    durationSeconds: S.optional(S.Number),
+    companionSettings: S.optional(CompanionSetting),
+    transcodeSettings: S.optional(TranscodeSetting),
+    skippableSettings: S.optional(SkippableSetting),
+    obaSettings: S.optional(ObaIcon),
+  }),
+).annotate({ identifier: "VideoSettings" }) as any as S.Schema<VideoSettings>;
+
+export type PlacementTagFormatsItemEnum =
+  | "PLACEMENT_TAG_STANDARD"
+  | "PLACEMENT_TAG_IFRAME_JAVASCRIPT"
+  | "PLACEMENT_TAG_IFRAME_ILAYER"
+  | "PLACEMENT_TAG_INTERNAL_REDIRECT"
+  | "PLACEMENT_TAG_JAVASCRIPT"
+  | "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT"
+  | "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT"
+  | "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT"
+  | "PLACEMENT_TAG_CLICK_COMMANDS"
+  | "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH"
+  | "PLACEMENT_TAG_TRACKING"
+  | "PLACEMENT_TAG_TRACKING_IFRAME"
+  | "PLACEMENT_TAG_TRACKING_JAVASCRIPT"
+  | "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3"
+  | "PLACEMENT_TAG_IFRAME_JAVASCRIPT_LEGACY"
+  | "PLACEMENT_TAG_JAVASCRIPT_LEGACY"
+  | "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT_LEGACY"
+  | "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT_LEGACY"
+  | "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4"
+  | "PLACEMENT_TAG_TRACKING_THIRD_PARTY_MEASUREMENT";
+export const PlacementTagFormatsItemEnum = S.String;
+
+export type PlacementTagFormatsItemEnumList = Array<PlacementTagFormatsItemEnum | (string & {})>;
+export const PlacementTagFormatsItemEnumList = /*@__PURE__*/ S.Array(
+  PlacementTagFormatsItemEnum,
+) as any as S.Schema<PlacementTagFormatsItemEnumList>;
+
+export interface PlacementSingleConversionDomain {
+  conversionDomainId?: string;
+  conversionDomainValue?: string;
+}
+export const PlacementSingleConversionDomain = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversionDomainId: S.optional(S.String),
+    conversionDomainValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PlacementSingleConversionDomain",
+}) as any as S.Schema<PlacementSingleConversionDomain>;
+
+export type PlacementSingleConversionDomainList = Array<PlacementSingleConversionDomain>;
+export const PlacementSingleConversionDomainList = /*@__PURE__*/ S.Array(
+  PlacementSingleConversionDomain,
+) as any as S.Schema<PlacementSingleConversionDomainList>;
+
+export interface PlacementConversionDomainOverride {
+  conversionDomains?: PlacementSingleConversionDomainList;
+}
+export const PlacementConversionDomainOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversionDomains: S.optional(PlacementSingleConversionDomainList),
+  }),
+).annotate({
+  identifier: "PlacementConversionDomainOverride",
+}) as any as S.Schema<PlacementConversionDomainOverride>;
 
 export type YoutubeSettingsCallToActionsItemEnum =
   | "CALL_TO_ACTION_UNKNOWN"
@@ -6789,224 +6821,192 @@ export const YoutubeSettingsCallToActionsItemEnumList = /*@__PURE__*/ S.Array(
 
 /** Contains the YouTube settings. */
 export interface YoutubeSettings {
-  /** Optional. The headlines associated with the call to actions. Currently only one headline is supported. */
-  headlines?: StringList;
   /** Optional. The long headlines. Currently only one long headline is supported. */
   longHeadlines?: StringList;
-  /** Optional. The business name. */
-  businessName?: string;
-  /** Optional. The IDs of the creatives to use for the business logo. Currently only one creative is supported. */
-  businessLogoCreativeIds?: StringList;
   /** Optional. The descriptions. Currently only one description is supported. */
   descriptions?: StringList;
   /** Optional. The call to actions. Currently only one call to action is supported. */
   callToActions?: YoutubeSettingsCallToActionsItemEnumList;
+  /** Optional. The headlines associated with the call to actions. Currently only one headline is supported. */
+  headlines?: StringList;
+  /** Optional. The business name. */
+  businessName?: string;
+  /** Optional. The IDs of the creatives to use for the business logo. Currently only one creative is supported. */
+  businessLogoCreativeIds?: StringList;
 }
 export const YoutubeSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    headlines: S.optional(StringList),
     longHeadlines: S.optional(StringList),
-    businessName: S.optional(S.String),
-    businessLogoCreativeIds: S.optional(StringList),
     descriptions: S.optional(StringList),
     callToActions: S.optional(YoutubeSettingsCallToActionsItemEnumList),
+    headlines: S.optional(StringList),
+    businessName: S.optional(S.String),
+    businessLogoCreativeIds: S.optional(StringList),
   }),
 ).annotate({ identifier: "YoutubeSettings" }) as any as S.Schema<YoutubeSettings>;
 
-export interface PlacementSingleConversionDomain {
-  conversionDomainId?: string;
-  conversionDomainValue?: string;
-}
-export const PlacementSingleConversionDomain = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    conversionDomainId: S.optional(S.String),
-    conversionDomainValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PlacementSingleConversionDomain",
-}) as any as S.Schema<PlacementSingleConversionDomain>;
-
-export type PlacementSingleConversionDomainList = Array<PlacementSingleConversionDomain>;
-export const PlacementSingleConversionDomainList = /*@__PURE__*/ S.Array(
-  PlacementSingleConversionDomain,
-) as any as S.Schema<PlacementSingleConversionDomainList>;
-
-export interface PlacementConversionDomainOverride {
-  conversionDomains?: PlacementSingleConversionDomainList;
-}
-export const PlacementConversionDomainOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    conversionDomains: S.optional(PlacementSingleConversionDomainList),
-  }),
-).annotate({
-  identifier: "PlacementConversionDomainOverride",
-}) as any as S.Schema<PlacementConversionDomainOverride>;
-
-export type PlacementPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
-export const PlacementPaymentSourceEnum = S.String;
-
 /** Contains properties of a placement. */
 export interface Placement {
-  /** Information about the most recent modification of this placement. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
-  /** Tag formats to generate for this placement. This field is required on insertion. Acceptable values are: - "PLACEMENT_TAG_STANDARD" - "PLACEMENT_TAG_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_IFRAME_ILAYER" - "PLACEMENT_TAG_INTERNAL_REDIRECT" - "PLACEMENT_TAG_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT" - "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT" - "PLACEMENT_TAG_CLICK_COMMANDS" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4" - "PLACEMENT_TAG_TRACKING" - "PLACEMENT_TAG_TRACKING_IFRAME" - "PLACEMENT_TAG_TRACKING_JAVASCRIPT" */
-  tagFormats?: PlacementTagFormatsItemEnumList;
-  /** A collection of settings which affect video creatives served through this placement. Applicable to placements with IN_STREAM_VIDEO compatibility. */
-  videoSettings?: VideoSettings;
-  /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
-  paymentApproved?: boolean;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue;
-  /** Information about the creation of this placement. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the placement. Measurement partners can use this field to add ad-server specific macros. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue;
-  /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
-  siteServed?: boolean;
-  /** Additional sizes associated with this placement. When inserting or updating a placement, only the size ID field is used. */
-  additionalSizes?: SizeList;
-  /** ID of this placement. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placement". */
-  kind?: string;
-  /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
-  /** External ID for this placement. */
-  externalId?: string;
-  /** Whether this placement is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementActiveStatusEnum | (string & {});
-  /** Whether this placement is the primary placement of a roadblock (placement group). You cannot change this field from true to false. Setting this field to true will automatically set the primary field on the original primary placement of the roadblock to false, and it will automatically set the roadblock's primaryPlacementId field to the ID of this placement. */
-  primary?: boolean;
-  /** Whether Verification and ActiveView are disabled for in-stream video creatives for this placement. The same setting videoActiveViewOptOut exists on the site level -- the opt out occurs if either of these settings are true. These settings are distinct from DirectorySites.settings.activeViewOptOut or Sites.siteSettings.activeViewOptOut which only apply to display ads. However, Accounts.activeViewOptOut opts out both video traffic, as well as display ads, from Verification and ActiveView. */
-  videoActiveViewOptOut?: boolean;
-  /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
-  placementGroupIdDimensionValue?: DimensionValue;
-  /** Information about the last publisher update. This is a read-only field. */
-  publisherUpdateInfo?: LastModifiedInfo;
-  /** Whether this placement opts out of tag wrapping. */
-  wrappingOptOut?: boolean;
-  /** Account ID of this placement. This field can be left blank. */
-  accountId?: string;
-  /** Whether creatives assigned to this placement must be SSL-compliant. */
-  sslRequired?: boolean;
-  /** Advertiser ID of this placement. This field can be left blank. */
-  advertiserId?: string;
-  /** Measurement partner provided settings for a wrapped placement. */
-  partnerWrappingData?: MeasurementPartnerWrappingData;
-  /** VPAID adapter setting for this placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to this placement. *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {});
-  /** ID of the placement strategy assigned to this placement. */
-  placementStrategyId?: string;
-  /** Directory site ID of this placement. On insert, you must set either this field or the siteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  directorySiteId?: string;
   /** Comments for this placement. */
   comment?: string;
-  /** Optional. Whether the placement is enabled for YouTube integration. */
-  allowOnYoutube?: boolean;
-  /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
-  compatibility?: PlacementCompatibilityEnum | (string & {});
-  /** Whether this placement opts out of ad blocking. When true, ad blocking is disabled for this placement. When false, the campaign and site settings take effect. */
-  adBlockingOptOut?: boolean;
-  /** Site ID associated with this placement. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  siteId?: string;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue;
-  /** Subaccount ID of this placement. This field can be left blank. */
-  subaccountId?: string;
-  /** Tag settings for this placement. */
-  tagSetting?: TagSetting;
-  /** Lookback window settings for this placement. */
-  lookbackConfiguration?: LookbackConfiguration;
+  /** Information about the last publisher update. This is a read-only field. */
+  publisherUpdateInfo?: LastModifiedInfo;
   /** Third-party placement status. */
   status?: PlacementStatusEnum | (string & {});
+  /** ID of the placement strategy assigned to this placement. */
+  placementStrategyId?: string;
+  /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue;
+  /** VPAID adapter setting for this placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to this placement. *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
+  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {});
+  /** Subaccount ID of this placement. This field can be left blank. */
+  subaccountId?: string;
+  /** Payment source for this placement. This is a required field that is read-only after insertion. */
+  paymentSource?: PlacementPaymentSourceEnum | (string & {});
+  /** Measurement partner provided settings for a wrapped placement. */
+  partnerWrappingData?: MeasurementPartnerWrappingData;
+  /** Directory site ID of this placement. On insert, you must set either this field or the siteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
+  directorySiteId?: string;
+  /** External ID for this placement. */
+  externalId?: string;
+  /** Name of this placement.This is a required field and must be less than or equal to 512 characters long. */
+  name?: string;
+  /** Tag settings for this placement. */
+  tagSetting?: TagSetting;
+  /** Whether creatives assigned to this placement must be SSL-compliant. */
+  sslRequired?: boolean;
+  /** Whether Verification and ActiveView are disabled for in-stream video creatives for this placement. The same setting videoActiveViewOptOut exists on the site level -- the opt out occurs if either of these settings are true. These settings are distinct from DirectorySites.settings.activeViewOptOut or Sites.siteSettings.activeViewOptOut which only apply to display ads. However, Accounts.activeViewOptOut opts out both video traffic, as well as display ads, from Verification and ActiveView. */
+  videoActiveViewOptOut?: boolean;
+  /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
+  compatibility?: PlacementCompatibilityEnum | (string & {});
+  /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
+  placementGroupIdDimensionValue?: DimensionValue;
+  /** Whether this placement opts out of ad blocking. When true, ad blocking is disabled for this placement. When false, the campaign and site settings take effect. */
+  adBlockingOptOut?: boolean;
+  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
+  directorySiteIdDimensionValue?: DimensionValue;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placement". */
+  kind?: string;
+  /** Pricing schedule of this placement. This field is required on insertion, specifically subfields startDate, endDate and pricingType. */
+  pricingSchedule?: PricingSchedule;
+  /** Whether this placement is active, inactive, archived or permanently archived. */
+  activeStatus?: PlacementActiveStatusEnum | (string & {});
+  /** Lookback window settings for this placement. */
+  lookbackConfiguration?: LookbackConfiguration;
+  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
+  campaignIdDimensionValue?: DimensionValue;
+  /** Key name of this placement. This is a read-only, auto-generated field. */
+  keyName?: string;
+  /** Additional sizes associated with this placement. When inserting or updating a placement, only the size ID field is used. */
+  additionalSizes?: SizeList;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue;
+  /** Account ID of this placement. This field can be left blank. */
+  accountId?: string;
+  /** A collection of settings which affect video creatives served through this placement. Applicable to placements with IN_STREAM_VIDEO compatibility. */
+  videoSettings?: VideoSettings;
   /** ID of the content category assigned to this placement. */
   contentCategoryId?: string;
+  /** Site ID associated with this placement. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
+  siteId?: string;
+  /** Tag formats to generate for this placement. This field is required on insertion. Acceptable values are: - "PLACEMENT_TAG_STANDARD" - "PLACEMENT_TAG_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_IFRAME_ILAYER" - "PLACEMENT_TAG_INTERNAL_REDIRECT" - "PLACEMENT_TAG_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT" - "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT" - "PLACEMENT_TAG_CLICK_COMMANDS" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4" - "PLACEMENT_TAG_TRACKING" - "PLACEMENT_TAG_TRACKING_IFRAME" - "PLACEMENT_TAG_TRACKING_JAVASCRIPT" */
+  tagFormats?: PlacementTagFormatsItemEnumList;
+  /** Optional. Conversion domain overrides for a placement. */
+  conversionDomainOverride?: PlacementConversionDomainOverride;
   /** Campaign ID of this placement. This field is a required field on insertion. */
   campaignId?: string;
   /** Size associated with this placement. When inserting or updating a placement, only the size ID field is used. This field is required on insertion. */
   size?: Size;
-  /** Key name of this placement. This is a read-only, auto-generated field. */
-  keyName?: string;
-  /** Pricing schedule of this placement. This field is required on insertion, specifically subfields startDate, endDate and pricingType. */
-  pricingSchedule?: PricingSchedule;
-  /** Optional. YouTube settings for the placement. The placement must be enabled for YouTube to use this field. */
-  youtubeSettings?: YoutubeSettings;
-  /** Optional. Conversion domain overrides for a placement. */
-  conversionDomainOverride?: PlacementConversionDomainOverride;
+  /** Whether this placement opts out of tag wrapping. */
+  wrappingOptOut?: boolean;
+  /** Whether this placement is the primary placement of a roadblock (placement group). You cannot change this field from true to false. Setting this field to true will automatically set the primary field on the original primary placement of the roadblock to false, and it will automatically set the roadblock's primaryPlacementId field to the ID of this placement. */
+  primary?: boolean;
+  /** Optional. Whether the placement is enabled for YouTube integration. */
+  allowOnYoutube?: boolean;
+  /** Advertiser ID of this placement. This field can be left blank. */
+  advertiserId?: string;
+  /** ID of this placement. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Optional. Ad serving platform ID to identify the ad serving platform used by the placement. Measurement partners can use this field to add ad-server specific macros. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
+  adServingPlatformId?: string;
+  /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
+  paymentApproved?: boolean;
+  /** Information about the creation of this placement. This is a read-only field. */
+  createInfo?: LastModifiedInfo;
   /** ID of this placement's group, if applicable. */
   placementGroupId?: string;
-  /** Payment source for this placement. This is a required field that is read-only after insertion. */
-  paymentSource?: PlacementPaymentSourceEnum | (string & {});
-  /** Name of this placement.This is a required field and must be less than or equal to 512 characters long. */
-  name?: string;
+  /** Optional. YouTube settings for the placement. The placement must be enabled for YouTube to use this field. */
+  youtubeSettings?: YoutubeSettings;
+  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
+  siteIdDimensionValue?: DimensionValue;
+  /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
+  siteServed?: boolean;
+  /** Information about the most recent modification of this placement. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo;
 }
 export const Placement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastModifiedInfo: S.optional(LastModifiedInfo),
-    tagFormats: S.optional(PlacementTagFormatsItemEnumList),
-    videoSettings: S.optional(VideoSettings),
-    paymentApproved: S.optional(S.Boolean),
-    campaignIdDimensionValue: S.optional(DimensionValue),
-    createInfo: S.optional(LastModifiedInfo),
-    advertiserIdDimensionValue: S.optional(DimensionValue),
-    adServingPlatformId: S.optional(S.String),
-    directorySiteIdDimensionValue: S.optional(DimensionValue),
-    siteServed: S.optional(S.Boolean),
-    additionalSizes: S.optional(SizeList),
-    id: S.optional(S.String),
-    kind: S.optional(S.String),
-    idDimensionValue: S.optional(DimensionValue),
-    externalId: S.optional(S.String),
-    activeStatus: S.optional(PlacementActiveStatusEnum),
-    primary: S.optional(S.Boolean),
-    videoActiveViewOptOut: S.optional(S.Boolean),
-    placementGroupIdDimensionValue: S.optional(DimensionValue),
-    publisherUpdateInfo: S.optional(LastModifiedInfo),
-    wrappingOptOut: S.optional(S.Boolean),
-    accountId: S.optional(S.String),
-    sslRequired: S.optional(S.Boolean),
-    advertiserId: S.optional(S.String),
-    partnerWrappingData: S.optional(MeasurementPartnerWrappingData),
-    vpaidAdapterChoice: S.optional(PlacementVpaidAdapterChoiceEnum),
-    placementStrategyId: S.optional(S.String),
-    directorySiteId: S.optional(S.String),
     comment: S.optional(S.String),
-    allowOnYoutube: S.optional(S.Boolean),
-    compatibility: S.optional(PlacementCompatibilityEnum),
-    adBlockingOptOut: S.optional(S.Boolean),
-    siteId: S.optional(S.String),
-    siteIdDimensionValue: S.optional(DimensionValue),
-    subaccountId: S.optional(S.String),
-    tagSetting: S.optional(TagSetting),
-    lookbackConfiguration: S.optional(LookbackConfiguration),
+    publisherUpdateInfo: S.optional(LastModifiedInfo),
     status: S.optional(PlacementStatusEnum),
+    placementStrategyId: S.optional(S.String),
+    idDimensionValue: S.optional(DimensionValue),
+    vpaidAdapterChoice: S.optional(PlacementVpaidAdapterChoiceEnum),
+    subaccountId: S.optional(S.String),
+    paymentSource: S.optional(PlacementPaymentSourceEnum),
+    partnerWrappingData: S.optional(MeasurementPartnerWrappingData),
+    directorySiteId: S.optional(S.String),
+    externalId: S.optional(S.String),
+    name: S.optional(S.String),
+    tagSetting: S.optional(TagSetting),
+    sslRequired: S.optional(S.Boolean),
+    videoActiveViewOptOut: S.optional(S.Boolean),
+    compatibility: S.optional(PlacementCompatibilityEnum),
+    placementGroupIdDimensionValue: S.optional(DimensionValue),
+    adBlockingOptOut: S.optional(S.Boolean),
+    directorySiteIdDimensionValue: S.optional(DimensionValue),
+    kind: S.optional(S.String),
+    pricingSchedule: S.optional(PricingSchedule),
+    activeStatus: S.optional(PlacementActiveStatusEnum),
+    lookbackConfiguration: S.optional(LookbackConfiguration),
+    campaignIdDimensionValue: S.optional(DimensionValue),
+    keyName: S.optional(S.String),
+    additionalSizes: S.optional(SizeList),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
+    accountId: S.optional(S.String),
+    videoSettings: S.optional(VideoSettings),
     contentCategoryId: S.optional(S.String),
+    siteId: S.optional(S.String),
+    tagFormats: S.optional(PlacementTagFormatsItemEnumList),
+    conversionDomainOverride: S.optional(PlacementConversionDomainOverride),
     campaignId: S.optional(S.String),
     size: S.optional(Size),
-    keyName: S.optional(S.String),
-    pricingSchedule: S.optional(PricingSchedule),
-    youtubeSettings: S.optional(YoutubeSettings),
-    conversionDomainOverride: S.optional(PlacementConversionDomainOverride),
+    wrappingOptOut: S.optional(S.Boolean),
+    primary: S.optional(S.Boolean),
+    allowOnYoutube: S.optional(S.Boolean),
+    advertiserId: S.optional(S.String),
+    id: S.optional(S.String),
+    adServingPlatformId: S.optional(S.String),
+    paymentApproved: S.optional(S.Boolean),
+    createInfo: S.optional(LastModifiedInfo),
     placementGroupId: S.optional(S.String),
-    paymentSource: S.optional(PlacementPaymentSourceEnum),
-    name: S.optional(S.String),
+    youtubeSettings: S.optional(YoutubeSettings),
+    siteIdDimensionValue: S.optional(DimensionValue),
+    siteServed: S.optional(S.Boolean),
+    lastModifiedInfo: S.optional(LastModifiedInfo),
   }),
 ).annotate({ identifier: "Placement" }) as any as S.Schema<Placement>;
 
 export interface GetPlacementStrategiesRequest {
-  /** Placement strategy ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Placement strategy ID. */
+  id: string;
 }
 export const GetPlacementStrategiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7020,34 +7020,34 @@ export const GetPlacementStrategiesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Contains properties of a placement strategy. */
 export interface PlacementStrategy {
-  /** Name of this placement strategy. This is a required field. It must be less than 256 characters long and unique among placement strategies of the same account. */
-  name?: string;
-  /** ID of this placement strategy. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategy". */
-  kind?: string;
   /** Account ID of this placement strategy.This is a read-only field that can be left blank. */
   accountId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategy". */
+  kind?: string;
+  /** ID of this placement strategy. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Name of this placement strategy. This is a required field. It must be less than 256 characters long and unique among placement strategies of the same account. */
+  name?: string;
 }
 export const PlacementStrategy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-    kind: S.optional(S.String),
     accountId: S.optional(S.String),
+    kind: S.optional(S.String),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "PlacementStrategy" }) as any as S.Schema<PlacementStrategy>;
 
 export interface GetPlatformTypesRequest {
-  /** Platform type ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Platform type ID. */
+  id: string;
 }
 export const GetPlatformTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7129,33 +7129,33 @@ export const ListPopulationTermTypeEnum = S.String;
 
 /** Remarketing List Population Rule Term. */
 export interface ListPopulationTerm {
-  /** Comparison operator of this term. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  operator?: ListPopulationTermOperatorEnum | (string & {});
-  /** Name of the variable (U1, U2, etc.) being compared in this term. This field is only relevant when type is set to null, CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  variableName?: string;
-  /** Will be true if the term should check if the user is in the list and false if the term should check if the user is not in the list. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. False by default. */
-  contains?: boolean;
-  /** ID of the list in question. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. */
-  remarketingListId?: string;
-  /** Whether to negate the comparison result of this term during rule evaluation. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  negation?: boolean;
-  /** Literal to compare the variable to. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  value?: string;
   /** Friendly name of this term's variable. This is a read-only, auto-generated field. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM. */
   variableFriendlyName?: string;
+  /** ID of the list in question. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. */
+  remarketingListId?: string;
+  /** Will be true if the term should check if the user is in the list and false if the term should check if the user is not in the list. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. False by default. */
+  contains?: boolean;
+  /** Name of the variable (U1, U2, etc.) being compared in this term. This field is only relevant when type is set to null, CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
+  variableName?: string;
+  /** Literal to compare the variable to. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
+  value?: string;
+  /** Comparison operator of this term. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
+  operator?: ListPopulationTermOperatorEnum | (string & {});
   /** List population term type determines the applicable fields in this object. If left unset or set to CUSTOM_VARIABLE_TERM, then variableName, variableFriendlyName, operator, value, and negation are applicable. If set to LIST_MEMBERSHIP_TERM then remarketingListId and contains are applicable. If set to REFERRER_TERM then operator, value, and negation are applicable. */
   type?: ListPopulationTermTypeEnum | (string & {});
+  /** Whether to negate the comparison result of this term during rule evaluation. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
+  negation?: boolean;
 }
 export const ListPopulationTerm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operator: S.optional(ListPopulationTermOperatorEnum),
-    variableName: S.optional(S.String),
-    contains: S.optional(S.Boolean),
-    remarketingListId: S.optional(S.String),
-    negation: S.optional(S.Boolean),
-    value: S.optional(S.String),
     variableFriendlyName: S.optional(S.String),
+    remarketingListId: S.optional(S.String),
+    contains: S.optional(S.Boolean),
+    variableName: S.optional(S.String),
+    value: S.optional(S.String),
+    operator: S.optional(ListPopulationTermOperatorEnum),
     type: S.optional(ListPopulationTermTypeEnum),
+    negation: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "ListPopulationTerm" }) as any as S.Schema<ListPopulationTerm>;
 
@@ -7182,78 +7182,78 @@ export const ListPopulationClauseList = /*@__PURE__*/ S.Array(
 
 /** Remarketing List Population Rule. */
 export interface ListPopulationRule {
-  /** Floodlight activity ID associated with this rule. This field can be left blank. */
-  floodlightActivityId?: string;
   /** Clauses that make up this list population rule. Clauses are joined by ANDs, and the clauses themselves are made up of list population terms which are joined by ORs. */
   listPopulationClauses?: ListPopulationClauseList;
+  /** Floodlight activity ID associated with this rule. This field can be left blank. */
+  floodlightActivityId?: string;
   /** Name of floodlight activity associated with this rule. This is a read-only, auto-generated field. */
   floodlightActivityName?: string;
 }
 export const ListPopulationRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    floodlightActivityId: S.optional(S.String),
     listPopulationClauses: S.optional(ListPopulationClauseList),
+    floodlightActivityId: S.optional(S.String),
     floodlightActivityName: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListPopulationRule" }) as any as S.Schema<ListPopulationRule>;
 
 /** Contains properties of a remarketing list. Remarketing enables you to create lists of users who have performed specific actions on a site, then target ads to members of those lists. This resource can be used to manage remarketing lists that are owned by your advertisers. To see all remarketing lists that are visible to your advertisers, including those that are shared to your advertiser or account, use the TargetableRemarketingLists resource. */
 export interface RemarketingList {
-  /** Dimension value for the advertiser ID that owns this remarketing list. This is a required field. */
-  advertiserId?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
-  kind?: string;
-  /** Remarketing list ID. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Remarketing list description. */
-  description?: string;
-  /** Product from which this remarketing list was originated. */
-  listSource?: RemarketingListListSourceEnum | (string & {});
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
-  /** Name of the remarketing list. This is a required field. Must be no greater than 128 characters long. */
-  name?: string;
-  /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  subaccountId?: string;
   /** Whether this remarketing list is active. */
   active?: boolean;
   /** Number of users currently in the list. This is a read-only field. */
   listSize?: string;
-  /** Rule used to populate the remarketing list with users. */
-  listPopulationRule?: ListPopulationRule;
+  /** Dimension value for the advertiser ID that owns this remarketing list. This is a required field. */
+  advertiserId?: string;
+  /** Remarketing list description. */
+  description?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
+  kind?: string;
   /** Number of days that a user should remain in the remarketing list without an impression. Acceptable values are 1 to 540, inclusive. */
   lifeSpan?: string;
+  /** Product from which this remarketing list was originated. */
+  listSource?: RemarketingListListSourceEnum | (string & {});
+  /** Remarketing list ID. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue;
   /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
   accountId?: string;
+  /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
+  subaccountId?: string;
+  /** Name of the remarketing list. This is a required field. Must be no greater than 128 characters long. */
+  name?: string;
+  /** Rule used to populate the remarketing list with users. */
+  listPopulationRule?: ListPopulationRule;
 }
 export const RemarketingList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    advertiserId: S.optional(S.String),
-    kind: S.optional(S.String),
-    id: S.optional(S.String),
-    description: S.optional(S.String),
-    listSource: S.optional(RemarketingListListSourceEnum),
-    advertiserIdDimensionValue: S.optional(DimensionValue),
-    name: S.optional(S.String),
-    subaccountId: S.optional(S.String),
     active: S.optional(S.Boolean),
     listSize: S.optional(S.String),
-    listPopulationRule: S.optional(ListPopulationRule),
+    advertiserId: S.optional(S.String),
+    description: S.optional(S.String),
+    kind: S.optional(S.String),
     lifeSpan: S.optional(S.String),
+    listSource: S.optional(RemarketingListListSourceEnum),
+    id: S.optional(S.String),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
     accountId: S.optional(S.String),
+    subaccountId: S.optional(S.String),
+    name: S.optional(S.String),
+    listPopulationRule: S.optional(ListPopulationRule),
   }),
 ).annotate({ identifier: "RemarketingList" }) as any as S.Schema<RemarketingList>;
 
 export interface GetRemarketingListSharesRequest {
-  /** Remarketing list ID. */
-  remarketingListId: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Remarketing list ID. */
+  remarketingListId: string;
 }
 export const GetRemarketingListSharesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    remarketingListId: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    remarketingListId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7267,34 +7267,34 @@ export const GetRemarketingListSharesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Contains properties of a remarketing list's sharing information. Sharing allows other accounts or advertisers to target to your remarketing lists. This resource can be used to manage remarketing list sharing to other accounts and advertisers. */
 export interface RemarketingListShare {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListShare". */
+  kind?: string;
+  /** Remarketing list ID. This is a read-only, auto-generated field. */
+  remarketingListId?: string;
   /** Advertisers that the remarketing list is shared with. */
   sharedAdvertiserIds?: StringList;
   /** Accounts that the remarketing list is shared with. */
   sharedAccountIds?: StringList;
-  /** Remarketing list ID. This is a read-only, auto-generated field. */
-  remarketingListId?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListShare". */
-  kind?: string;
 }
 export const RemarketingListShare = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    kind: S.optional(S.String),
+    remarketingListId: S.optional(S.String),
     sharedAdvertiserIds: S.optional(StringList),
     sharedAccountIds: S.optional(StringList),
-    remarketingListId: S.optional(S.String),
-    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "RemarketingListShare" }) as any as S.Schema<RemarketingListShare>;
 
 export interface GetReportsRequest {
-  /** The Campaign Manager 360 user profile ID. */
-  profileId: string;
   /** The ID of the report. */
   reportId: string;
+  /** The Campaign Manager 360 user profile ID. */
+  profileId: string;
 }
 export const GetReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     reportId: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7303,14 +7303,6 @@ export const GetReportsRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "GetReportsRequest" }) as any as S.Schema<GetReportsRequest>;
-
-export type ReportTypeEnum =
-  | "STANDARD"
-  | "REACH"
-  | "PATH_TO_CONVERSION"
-  | "FLOODLIGHT"
-  | "CROSS_MEDIA_REACH";
-export const ReportTypeEnum = S.String;
 
 export type DimensionValueList_ = Array<DimensionValue>;
 export const DimensionValueList_ = /*@__PURE__*/ S.Array(
@@ -7322,17 +7314,17 @@ export const SortedDimensionSortOrderEnum = S.String;
 
 /** Represents a sorted dimension. */
 export interface SortedDimension {
-  /** An optional sort order for the dimension column. */
-  sortOrder?: SortedDimensionSortOrderEnum | (string & {});
   /** The kind of resource this is, in this case dfareporting#sortedDimension. */
   kind?: string;
+  /** An optional sort order for the dimension column. */
+  sortOrder?: SortedDimensionSortOrderEnum | (string & {});
   /** The name of the dimension. */
   name?: string;
 }
 export const SortedDimension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sortOrder: S.optional(SortedDimensionSortOrderEnum),
     kind: S.optional(S.String),
+    sortOrder: S.optional(SortedDimensionSortOrderEnum),
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "SortedDimension" }) as any as S.Schema<SortedDimension>;
@@ -7342,57 +7334,77 @@ export const SortedDimensionList = /*@__PURE__*/ S.Array(
   SortedDimension,
 ) as any as S.Schema<SortedDimensionList>;
 
-export interface ReportFloodlightCriteriaReportProperties {
+export interface ReportPathToConversionCriteriaReportProperties {
+  /** Deprecated: has no effect. */
+  includeAttributedIPConversions?: boolean;
+  /** CM360 checks to see if an impression interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
+  impressionsLookbackWindow?: number;
+  /** CM360 checks to see if a click interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
+  clicksLookbackWindow?: number;
+  /** The maximum amount of time that can take place between interactions (clicks or impressions) by the same user. Valid values: 1-90. */
+  maximumInteractionGap?: number;
+  /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
+  maximumImpressionInteractions?: number;
+  /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
+  maximumClickInteractions?: number;
+  /** Enable pivoting on interaction path. */
+  pivotOnInteractionPath?: boolean;
   /** Include conversions of users with a DoubleClick cookie but without an exposure. That means the user did not click or see an ad from the advertiser within the Floodlight group, or that the interaction happened outside the lookback window. */
   includeUnattributedCookieConversions?: boolean;
   /** Include conversions that have no associated cookies and no exposures. It’s therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
   includeUnattributedIPConversions?: boolean;
-  /** Include conversions that have no cookie, but do have an exposure path. */
-  includeAttributedIPConversions?: boolean;
 }
-export const ReportFloodlightCriteriaReportProperties = /*@__PURE__*/ S.suspend(() =>
+export const ReportPathToConversionCriteriaReportProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    includeAttributedIPConversions: S.optional(S.Boolean),
+    impressionsLookbackWindow: S.optional(S.Number),
+    clicksLookbackWindow: S.optional(S.Number),
+    maximumInteractionGap: S.optional(S.Number),
+    maximumImpressionInteractions: S.optional(S.Number),
+    maximumClickInteractions: S.optional(S.Number),
+    pivotOnInteractionPath: S.optional(S.Boolean),
     includeUnattributedCookieConversions: S.optional(S.Boolean),
     includeUnattributedIPConversions: S.optional(S.Boolean),
-    includeAttributedIPConversions: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "ReportFloodlightCriteriaReportProperties",
-}) as any as S.Schema<ReportFloodlightCriteriaReportProperties>;
+  identifier: "ReportPathToConversionCriteriaReportProperties",
+}) as any as S.Schema<ReportPathToConversionCriteriaReportProperties>;
 
-export interface ReportFloodlightCriteria {
-  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_;
-  /** The date range this report should be run for. */
-  dateRange?: DateRange;
+export interface ReportPathToConversionCriteria {
+  /** The list of 'dfa:activity' values to filter on. */
+  activityFilters?: DimensionValueList_;
   /** The list of names of metrics the report should include. */
   metricNames?: StringList;
   /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
   floodlightConfigId?: DimensionValue;
-  /** The list of dimensions the report should include. */
-  dimensions?: SortedDimensionList;
+  /** The list of conversion dimensions the report should include. */
+  conversionDimensions?: SortedDimensionList;
+  /** The properties of the report. */
+  reportProperties?: ReportPathToConversionCriteriaReportProperties;
+  /** The list of custom floodlight variables the report should include. */
+  customFloodlightVariables?: SortedDimensionList;
+  /** The list of per interaction dimensions the report should include. */
+  perInteractionDimensions?: SortedDimensionList;
   /** The list of custom rich media events to include. */
   customRichMediaEvents?: DimensionValueList_;
-  /** The properties of the report. */
-  reportProperties?: ReportFloodlightCriteriaReportProperties;
+  /** The date range this report should be run for. */
+  dateRange?: DateRange;
 }
-export const ReportFloodlightCriteria = /*@__PURE__*/ S.suspend(() =>
+export const ReportPathToConversionCriteria = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dimensionFilters: S.optional(DimensionValueList_),
-    dateRange: S.optional(DateRange),
+    activityFilters: S.optional(DimensionValueList_),
     metricNames: S.optional(StringList),
     floodlightConfigId: S.optional(DimensionValue),
-    dimensions: S.optional(SortedDimensionList),
+    conversionDimensions: S.optional(SortedDimensionList),
+    reportProperties: S.optional(ReportPathToConversionCriteriaReportProperties),
+    customFloodlightVariables: S.optional(SortedDimensionList),
+    perInteractionDimensions: S.optional(SortedDimensionList),
     customRichMediaEvents: S.optional(DimensionValueList_),
-    reportProperties: S.optional(ReportFloodlightCriteriaReportProperties),
+    dateRange: S.optional(DateRange),
   }),
-).annotate({ identifier: "ReportFloodlightCriteria" }) as any as S.Schema<ReportFloodlightCriteria>;
-
-export type ReportFormatEnum = "CSV" | "EXCEL";
-export const ReportFormatEnum = S.String;
-
-export type ReportScheduleRunsOnDayOfMonthEnum = "DAY_OF_MONTH" | "WEEK_OF_MONTH";
-export const ReportScheduleRunsOnDayOfMonthEnum = S.String;
+).annotate({
+  identifier: "ReportPathToConversionCriteria",
+}) as any as S.Schema<ReportPathToConversionCriteria>;
 
 export type ReportScheduleRepeatsOnWeekDaysItemEnum =
   | "SUNDAY"
@@ -7411,34 +7423,93 @@ export const ReportScheduleRepeatsOnWeekDaysItemEnumList = /*@__PURE__*/ S.Array
   ReportScheduleRepeatsOnWeekDaysItemEnum,
 ) as any as S.Schema<ReportScheduleRepeatsOnWeekDaysItemEnumList>;
 
+export type ReportScheduleRunsOnDayOfMonthEnum = "DAY_OF_MONTH" | "WEEK_OF_MONTH";
+export const ReportScheduleRunsOnDayOfMonthEnum = S.String;
+
 export interface ReportSchedule {
   /** The timezone when the report will run. */
   timezone?: string;
-  /** Enum to define for "MONTHLY" scheduled reports whether reports should be repeated on the same day of the month as "startDate" or the same day of the week of the month. Example: If 'startDate' is Monday, April 2nd 2012 (2012-04-02), "DAY_OF_MONTH" would run subsequent reports on the 2nd of every Month, and "WEEK_OF_MONTH" would run subsequent reports on the first Monday of the month. */
-  runsOnDayOfMonth?: ReportScheduleRunsOnDayOfMonthEnum | (string & {});
   /** List of week days "WEEKLY" on which scheduled reports should run. */
   repeatsOnWeekDays?: ReportScheduleRepeatsOnWeekDaysItemEnumList;
-  startDate?: string;
-  expirationDate?: string;
   /** Whether the schedule is active or not. Must be set to either true or false. */
   active?: boolean;
+  expirationDate?: string;
   /** Defines every how many days, weeks or months the report should be run. Needs to be set when "repeats" is either "DAILY", "WEEKLY" or "MONTHLY". */
   every?: number;
+  /** Enum to define for "MONTHLY" scheduled reports whether reports should be repeated on the same day of the month as "startDate" or the same day of the week of the month. Example: If 'startDate' is Monday, April 2nd 2012 (2012-04-02), "DAY_OF_MONTH" would run subsequent reports on the 2nd of every Month, and "WEEK_OF_MONTH" would run subsequent reports on the first Monday of the month. */
+  runsOnDayOfMonth?: ReportScheduleRunsOnDayOfMonthEnum | (string & {});
   /** The interval for which the report is repeated. Note: - "DAILY" also requires field "every" to be set. - "WEEKLY" also requires fields "every" and "repeatsOnWeekDays" to be set. - "MONTHLY" also requires fields "every" and "runsOnDayOfMonth" to be set. */
   repeats?: string;
+  startDate?: string;
 }
 export const ReportSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timezone: S.optional(S.String),
-    runsOnDayOfMonth: S.optional(ReportScheduleRunsOnDayOfMonthEnum),
     repeatsOnWeekDays: S.optional(ReportScheduleRepeatsOnWeekDaysItemEnumList),
-    startDate: S.optional(S.String),
-    expirationDate: S.optional(S.String),
     active: S.optional(S.Boolean),
+    expirationDate: S.optional(S.String),
     every: S.optional(S.Number),
+    runsOnDayOfMonth: S.optional(ReportScheduleRunsOnDayOfMonthEnum),
     repeats: S.optional(S.String),
+    startDate: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportSchedule" }) as any as S.Schema<ReportSchedule>;
+
+/** Represents an activity group. */
+export interface Activities {
+  /** List of names of floodlight activity metrics. */
+  metricNames?: StringList;
+  /** List of activity filters. The dimension values need to be all either of type "dfa:activity" or "dfa:activityGroup". */
+  filters?: DimensionValueList_;
+  /** The kind of resource this is, in this case dfareporting#activities. */
+  kind?: string;
+}
+export const Activities = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metricNames: S.optional(StringList),
+    filters: S.optional(DimensionValueList_),
+    kind: S.optional(S.String),
+  }),
+).annotate({ identifier: "Activities" }) as any as S.Schema<Activities>;
+
+/** Represents a Custom Rich Media Events group. */
+export interface CustomRichMediaEvents {
+  /** The kind of resource this is, in this case dfareporting#customRichMediaEvents. */
+  kind?: string;
+  /** List of custom rich media event IDs. Dimension values must be all of type dfa:richMediaEventTypeIdAndName. */
+  filteredEventIds?: DimensionValueList_;
+}
+export const CustomRichMediaEvents = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    filteredEventIds: S.optional(DimensionValueList_),
+  }),
+).annotate({ identifier: "CustomRichMediaEvents" }) as any as S.Schema<CustomRichMediaEvents>;
+
+export interface ReportCriteria {
+  /** Activity group. */
+  activities?: Activities;
+  /** Custom Rich Media Events group. */
+  customRichMediaEvents?: CustomRichMediaEvents;
+  /** The list of names of metrics the report should include. */
+  metricNames?: StringList;
+  /** The date range for which this report should be run. */
+  dateRange?: DateRange;
+  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
+  dimensionFilters?: DimensionValueList_;
+  /** The list of standard dimensions the report should include. */
+  dimensions?: SortedDimensionList;
+}
+export const ReportCriteria = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    activities: S.optional(Activities),
+    customRichMediaEvents: S.optional(CustomRichMediaEvents),
+    metricNames: S.optional(StringList),
+    dateRange: S.optional(DateRange),
+    dimensionFilters: S.optional(DimensionValueList_),
+    dimensions: S.optional(SortedDimensionList),
+  }),
+).annotate({ identifier: "ReportCriteria" }) as any as S.Schema<ReportCriteria>;
 
 export interface ReportCrossMediaReachCriteria {
   /** Required. The date range this report should be run for. */
@@ -7461,23 +7532,62 @@ export const ReportCrossMediaReachCriteria = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReportCrossMediaReachCriteria",
 }) as any as S.Schema<ReportCrossMediaReachCriteria>;
 
+export type ReportTypeEnum =
+  | "STANDARD"
+  | "REACH"
+  | "PATH_TO_CONVERSION"
+  | "FLOODLIGHT"
+  | "CROSS_MEDIA_REACH";
+export const ReportTypeEnum = S.String;
+
+export type ReportFormatEnum = "CSV" | "EXCEL";
+export const ReportFormatEnum = S.String;
+
+export interface ReportReachCriteria {
+  /** The list of dimensions the report should include. */
+  dimensions?: SortedDimensionList;
+  /** The date range this report should be run for. */
+  dateRange?: DateRange;
+  /** The list of names of metrics the report should include. */
+  metricNames?: StringList;
+  /** Custom Rich Media Events group. */
+  customRichMediaEvents?: CustomRichMediaEvents;
+  /** Activity group. */
+  activities?: Activities;
+  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
+  dimensionFilters?: DimensionValueList_;
+  /** The list of names of Reach By Frequency metrics the report should include. */
+  reachByFrequencyMetricNames?: StringList;
+}
+export const ReportReachCriteria = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dimensions: S.optional(SortedDimensionList),
+    dateRange: S.optional(DateRange),
+    metricNames: S.optional(StringList),
+    customRichMediaEvents: S.optional(CustomRichMediaEvents),
+    activities: S.optional(Activities),
+    dimensionFilters: S.optional(DimensionValueList_),
+    reachByFrequencyMetricNames: S.optional(StringList),
+  }),
+).annotate({ identifier: "ReportReachCriteria" }) as any as S.Schema<ReportReachCriteria>;
+
 export type RecipientDeliveryTypeEnum = "LINK" | "ATTACHMENT";
 export const RecipientDeliveryTypeEnum = S.String;
 
 /** Represents a recipient. */
 export interface Recipient {
-  /** The delivery type for the recipient. */
-  deliveryType?: RecipientDeliveryTypeEnum | (string & {});
   /** The email address of the recipient. */
   email?: string;
   /** The kind of resource this is, in this case dfareporting#recipient. */
   kind?: string;
+  /** The delivery type for the recipient. */
+  deliveryType?: RecipientDeliveryTypeEnum | (string & {});
 }
 export const Recipient = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deliveryType: S.optional(RecipientDeliveryTypeEnum),
     email: S.optional(S.String),
     kind: S.optional(S.String),
+    deliveryType: S.optional(RecipientDeliveryTypeEnum),
   }),
 ).annotate({ identifier: "Recipient" }) as any as S.Schema<Recipient>;
 
@@ -7488,254 +7598,144 @@ export type ReportDeliveryEmailOwnerDeliveryTypeEnum = "LINK" | "ATTACHMENT";
 export const ReportDeliveryEmailOwnerDeliveryTypeEnum = S.String;
 
 export interface ReportDelivery {
-  /** The list of recipients to which to email the report. */
-  recipients?: RecipientList;
-  /** The message to be sent with each email. */
-  message?: string;
   /** Whether the report should be emailed to the report owner. */
   emailOwner?: boolean;
+  /** The message to be sent with each email. */
+  message?: string;
+  /** The list of recipients to which to email the report. */
+  recipients?: RecipientList;
   /** The type of delivery for the owner to receive, if enabled. */
   emailOwnerDeliveryType?: ReportDeliveryEmailOwnerDeliveryTypeEnum | (string & {});
 }
 export const ReportDelivery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    recipients: S.optional(RecipientList),
-    message: S.optional(S.String),
     emailOwner: S.optional(S.Boolean),
+    message: S.optional(S.String),
+    recipients: S.optional(RecipientList),
     emailOwnerDeliveryType: S.optional(ReportDeliveryEmailOwnerDeliveryTypeEnum),
   }),
 ).annotate({ identifier: "ReportDelivery" }) as any as S.Schema<ReportDelivery>;
 
-/** Represents a Custom Rich Media Events group. */
-export interface CustomRichMediaEvents {
-  /** List of custom rich media event IDs. Dimension values must be all of type dfa:richMediaEventTypeIdAndName. */
-  filteredEventIds?: DimensionValueList_;
-  /** The kind of resource this is, in this case dfareporting#customRichMediaEvents. */
-  kind?: string;
-}
-export const CustomRichMediaEvents = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filteredEventIds: S.optional(DimensionValueList_),
-    kind: S.optional(S.String),
-  }),
-).annotate({ identifier: "CustomRichMediaEvents" }) as any as S.Schema<CustomRichMediaEvents>;
-
-/** Represents an activity group. */
-export interface Activities {
-  /** List of activity filters. The dimension values need to be all either of type "dfa:activity" or "dfa:activityGroup". */
-  filters?: DimensionValueList_;
-  /** List of names of floodlight activity metrics. */
-  metricNames?: StringList;
-  /** The kind of resource this is, in this case dfareporting#activities. */
-  kind?: string;
-}
-export const Activities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(DimensionValueList_),
-    metricNames: S.optional(StringList),
-    kind: S.optional(S.String),
-  }),
-).annotate({ identifier: "Activities" }) as any as S.Schema<Activities>;
-
-export interface ReportCriteria {
-  /** The list of standard dimensions the report should include. */
-  dimensions?: SortedDimensionList;
-  /** The date range for which this report should be run. */
-  dateRange?: DateRange;
-  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_;
-  /** The list of names of metrics the report should include. */
-  metricNames?: StringList;
-  /** Custom Rich Media Events group. */
-  customRichMediaEvents?: CustomRichMediaEvents;
-  /** Activity group. */
-  activities?: Activities;
-}
-export const ReportCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dimensions: S.optional(SortedDimensionList),
-    dateRange: S.optional(DateRange),
-    dimensionFilters: S.optional(DimensionValueList_),
-    metricNames: S.optional(StringList),
-    customRichMediaEvents: S.optional(CustomRichMediaEvents),
-    activities: S.optional(Activities),
-  }),
-).annotate({ identifier: "ReportCriteria" }) as any as S.Schema<ReportCriteria>;
-
-export interface ReportReachCriteria {
-  /** Activity group. */
-  activities?: Activities;
-  /** Custom Rich Media Events group. */
-  customRichMediaEvents?: CustomRichMediaEvents;
-  /** The list of names of metrics the report should include. */
-  metricNames?: StringList;
-  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_;
-  /** The list of names of Reach By Frequency metrics the report should include. */
-  reachByFrequencyMetricNames?: StringList;
-  /** The date range this report should be run for. */
-  dateRange?: DateRange;
-  /** The list of dimensions the report should include. */
-  dimensions?: SortedDimensionList;
-}
-export const ReportReachCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    activities: S.optional(Activities),
-    customRichMediaEvents: S.optional(CustomRichMediaEvents),
-    metricNames: S.optional(StringList),
-    dimensionFilters: S.optional(DimensionValueList_),
-    reachByFrequencyMetricNames: S.optional(StringList),
-    dateRange: S.optional(DateRange),
-    dimensions: S.optional(SortedDimensionList),
-  }),
-).annotate({ identifier: "ReportReachCriteria" }) as any as S.Schema<ReportReachCriteria>;
-
-export interface ReportPathToConversionCriteriaReportProperties {
-  /** Enable pivoting on interaction path. */
-  pivotOnInteractionPath?: boolean;
-  /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
-  maximumClickInteractions?: number;
-  /** Include conversions that have no associated cookies and no exposures. It’s therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
-  includeUnattributedIPConversions?: boolean;
-  /** Deprecated: has no effect. */
+export interface ReportFloodlightCriteriaReportProperties {
+  /** Include conversions that have no cookie, but do have an exposure path. */
   includeAttributedIPConversions?: boolean;
-  /** CM360 checks to see if an impression interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
-  impressionsLookbackWindow?: number;
   /** Include conversions of users with a DoubleClick cookie but without an exposure. That means the user did not click or see an ad from the advertiser within the Floodlight group, or that the interaction happened outside the lookback window. */
   includeUnattributedCookieConversions?: boolean;
-  /** The maximum amount of time that can take place between interactions (clicks or impressions) by the same user. Valid values: 1-90. */
-  maximumInteractionGap?: number;
-  /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
-  maximumImpressionInteractions?: number;
-  /** CM360 checks to see if a click interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
-  clicksLookbackWindow?: number;
+  /** Include conversions that have no associated cookies and no exposures. It’s therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
+  includeUnattributedIPConversions?: boolean;
 }
-export const ReportPathToConversionCriteriaReportProperties = /*@__PURE__*/ S.suspend(() =>
+export const ReportFloodlightCriteriaReportProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pivotOnInteractionPath: S.optional(S.Boolean),
-    maximumClickInteractions: S.optional(S.Number),
-    includeUnattributedIPConversions: S.optional(S.Boolean),
     includeAttributedIPConversions: S.optional(S.Boolean),
-    impressionsLookbackWindow: S.optional(S.Number),
     includeUnattributedCookieConversions: S.optional(S.Boolean),
-    maximumInteractionGap: S.optional(S.Number),
-    maximumImpressionInteractions: S.optional(S.Number),
-    clicksLookbackWindow: S.optional(S.Number),
+    includeUnattributedIPConversions: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "ReportPathToConversionCriteriaReportProperties",
-}) as any as S.Schema<ReportPathToConversionCriteriaReportProperties>;
+  identifier: "ReportFloodlightCriteriaReportProperties",
+}) as any as S.Schema<ReportFloodlightCriteriaReportProperties>;
 
-export interface ReportPathToConversionCriteria {
-  /** The list of 'dfa:activity' values to filter on. */
-  activityFilters?: DimensionValueList_;
-  /** The list of conversion dimensions the report should include. */
-  conversionDimensions?: SortedDimensionList;
-  /** The properties of the report. */
-  reportProperties?: ReportPathToConversionCriteriaReportProperties;
-  /** The date range this report should be run for. */
-  dateRange?: DateRange;
-  /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
-  floodlightConfigId?: DimensionValue;
+export interface ReportFloodlightCriteria {
+  /** The list of dimensions the report should include. */
+  dimensions?: SortedDimensionList;
   /** The list of names of metrics the report should include. */
   metricNames?: StringList;
-  /** The list of custom floodlight variables the report should include. */
-  customFloodlightVariables?: SortedDimensionList;
+  /** The properties of the report. */
+  reportProperties?: ReportFloodlightCriteriaReportProperties;
+  /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
+  floodlightConfigId?: DimensionValue;
+  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
+  dimensionFilters?: DimensionValueList_;
   /** The list of custom rich media events to include. */
   customRichMediaEvents?: DimensionValueList_;
-  /** The list of per interaction dimensions the report should include. */
-  perInteractionDimensions?: SortedDimensionList;
+  /** The date range this report should be run for. */
+  dateRange?: DateRange;
 }
-export const ReportPathToConversionCriteria = /*@__PURE__*/ S.suspend(() =>
+export const ReportFloodlightCriteria = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    activityFilters: S.optional(DimensionValueList_),
-    conversionDimensions: S.optional(SortedDimensionList),
-    reportProperties: S.optional(ReportPathToConversionCriteriaReportProperties),
-    dateRange: S.optional(DateRange),
-    floodlightConfigId: S.optional(DimensionValue),
+    dimensions: S.optional(SortedDimensionList),
     metricNames: S.optional(StringList),
-    customFloodlightVariables: S.optional(SortedDimensionList),
+    reportProperties: S.optional(ReportFloodlightCriteriaReportProperties),
+    floodlightConfigId: S.optional(DimensionValue),
+    dimensionFilters: S.optional(DimensionValueList_),
     customRichMediaEvents: S.optional(DimensionValueList_),
-    perInteractionDimensions: S.optional(SortedDimensionList),
+    dateRange: S.optional(DateRange),
   }),
-).annotate({
-  identifier: "ReportPathToConversionCriteria",
-}) as any as S.Schema<ReportPathToConversionCriteria>;
+).annotate({ identifier: "ReportFloodlightCriteria" }) as any as S.Schema<ReportFloodlightCriteria>;
 
 /** Represents a Report resource. */
 export interface Report {
-  /** The user profile id of the owner of this report. */
-  ownerProfileId?: string;
-  /** The type of the report. */
-  type?: ReportTypeEnum | (string & {});
-  /** The report criteria for a report of type "FLOODLIGHT". */
-  floodlightCriteria?: ReportFloodlightCriteria;
-  /** The unique ID identifying this report resource. */
-  id?: string;
-  /** The output format of the report. If not specified, default format is "CSV". Note that the actual format in the completed report file might differ if for instance the report's size exceeds the format's capabilities. "CSV" will then be the fallback format. */
-  format?: ReportFormatEnum | (string & {});
+  /** The kind of resource this is, in this case dfareporting#report. */
+  kind?: string;
+  /** The report criteria for a report of type "PATH_TO_CONVERSION". */
+  pathToConversionCriteria?: ReportPathToConversionCriteria;
   /** The report's schedule. Can only be set if the report's 'dateRange' is a relative date range and the relative date range is not "TODAY". */
   schedule?: ReportSchedule;
-  /** Optional. The report criteria for a report of type "CROSS_MEDIA_REACH". */
-  crossMediaReachCriteria?: ReportCrossMediaReachCriteria;
-  /** The report's email delivery settings. */
-  delivery?: ReportDelivery;
-  /** The account ID to which this report belongs. */
-  accountId?: string;
   /** The timestamp (in milliseconds since epoch) of when this report was last modified. */
   lastModifiedTime?: string;
   /** The report criteria for a report of type "STANDARD". */
   criteria?: ReportCriteria;
-  /** The eTag of this response for caching purposes. */
-  etag?: string;
-  /** The report criteria for a report of type "REACH". */
-  reachCriteria?: ReportReachCriteria;
-  /** The kind of resource this is, in this case dfareporting#report. */
-  kind?: string;
-  /** The name of the report. */
-  name?: string;
   /** The filename used when generating report files for this report. */
   fileName?: string;
-  /** The report criteria for a report of type "PATH_TO_CONVERSION". */
-  pathToConversionCriteria?: ReportPathToConversionCriteria;
+  /** The unique ID identifying this report resource. */
+  id?: string;
+  /** Optional. The report criteria for a report of type "CROSS_MEDIA_REACH". */
+  crossMediaReachCriteria?: ReportCrossMediaReachCriteria;
+  /** The account ID to which this report belongs. */
+  accountId?: string;
   /** The subaccount ID to which this report belongs if applicable. */
   subAccountId?: string;
+  /** The type of the report. */
+  type?: ReportTypeEnum | (string & {});
+  /** The output format of the report. If not specified, default format is "CSV". Note that the actual format in the completed report file might differ if for instance the report's size exceeds the format's capabilities. "CSV" will then be the fallback format. */
+  format?: ReportFormatEnum | (string & {});
+  /** The name of the report. */
+  name?: string;
+  /** The report criteria for a report of type "REACH". */
+  reachCriteria?: ReportReachCriteria;
+  /** The report's email delivery settings. */
+  delivery?: ReportDelivery;
+  /** The report criteria for a report of type "FLOODLIGHT". */
+  floodlightCriteria?: ReportFloodlightCriteria;
+  /** The eTag of this response for caching purposes. */
+  etag?: string;
+  /** The user profile id of the owner of this report. */
+  ownerProfileId?: string;
 }
 export const Report = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ownerProfileId: S.optional(S.String),
-    type: S.optional(ReportTypeEnum),
-    floodlightCriteria: S.optional(ReportFloodlightCriteria),
-    id: S.optional(S.String),
-    format: S.optional(ReportFormatEnum),
+    kind: S.optional(S.String),
+    pathToConversionCriteria: S.optional(ReportPathToConversionCriteria),
     schedule: S.optional(ReportSchedule),
-    crossMediaReachCriteria: S.optional(ReportCrossMediaReachCriteria),
-    delivery: S.optional(ReportDelivery),
-    accountId: S.optional(S.String),
     lastModifiedTime: S.optional(S.String),
     criteria: S.optional(ReportCriteria),
-    etag: S.optional(S.String),
-    reachCriteria: S.optional(ReportReachCriteria),
-    kind: S.optional(S.String),
-    name: S.optional(S.String),
     fileName: S.optional(S.String),
-    pathToConversionCriteria: S.optional(ReportPathToConversionCriteria),
+    id: S.optional(S.String),
+    crossMediaReachCriteria: S.optional(ReportCrossMediaReachCriteria),
+    accountId: S.optional(S.String),
     subAccountId: S.optional(S.String),
+    type: S.optional(ReportTypeEnum),
+    format: S.optional(ReportFormatEnum),
+    name: S.optional(S.String),
+    reachCriteria: S.optional(ReportReachCriteria),
+    delivery: S.optional(ReportDelivery),
+    floodlightCriteria: S.optional(ReportFloodlightCriteria),
+    etag: S.optional(S.String),
+    ownerProfileId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Report" }) as any as S.Schema<Report>;
 
 export interface GetReportsFilesRequest {
-  /** The ID of the report. */
-  reportId: string;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
+  /** The ID of the report. */
+  reportId: string;
   /** The ID of the report file. */
   fileId: string;
 }
 export const GetReportsFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportId: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    reportId: S.String.pipe(T.Label()),
     fileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -7747,15 +7747,15 @@ export const GetReportsFilesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetReportsFilesRequest" }) as any as S.Schema<GetReportsFilesRequest>;
 
 export interface GetSitesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Site ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const GetSitesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7770,69 +7770,72 @@ export const SiteSettingsVpaidAdapterChoiceTemplateEnum = S.String;
 
 /** Site Settings */
 export interface SiteSettings {
+  /** Configuration settings for dynamic and image floodlight tags. */
+  tagSetting?: TagSetting;
+  /** Default VPAID adapter setting for new placements created under this site. This value will be used to populate the placements.vpaidAdapterChoice field, when no value is specified for the new placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to the placement. The publisher's specifications will typically determine this setting. For VPAID creatives, the adapter format will match the VPAID format (HTML5 VPAID creatives use the HTML5 adapter). *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
+  vpaidAdapterChoiceTemplate?: SiteSettingsVpaidAdapterChoiceTemplateEnum | (string & {});
   /** Whether Verification and ActiveView for in-stream video creatives are disabled by default for new placements created under this site. This value will be used to populate the placement.videoActiveViewOptOut field, when no value is specified for the new placement. */
   videoActiveViewOptOutTemplate?: boolean;
+  /** Whether this site opts out of ad blocking. When true, ad blocking is disabled for all placements under the site, regardless of the individual placement settings. When false, the campaign and placement settings take effect. */
+  adBlockingOptOut?: boolean;
   /** Whether new cookies are disabled for this site. */
   disableNewCookie?: boolean;
   /** Whether active view creatives are disabled for this site. */
   activeViewOptOut?: boolean;
-  /** Whether this site opts out of ad blocking. When true, ad blocking is disabled for all placements under the site, regardless of the individual placement settings. When false, the campaign and placement settings take effect. */
-  adBlockingOptOut?: boolean;
-  /** Default VPAID adapter setting for new placements created under this site. This value will be used to populate the placements.vpaidAdapterChoice field, when no value is specified for the new placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to the placement. The publisher's specifications will typically determine this setting. For VPAID creatives, the adapter format will match the VPAID format (HTML5 VPAID creatives use the HTML5 adapter). *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoiceTemplate?: SiteSettingsVpaidAdapterChoiceTemplateEnum | (string & {});
-  /** Configuration settings for dynamic and image floodlight tags. */
-  tagSetting?: TagSetting;
 }
 export const SiteSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    tagSetting: S.optional(TagSetting),
+    vpaidAdapterChoiceTemplate: S.optional(SiteSettingsVpaidAdapterChoiceTemplateEnum),
     videoActiveViewOptOutTemplate: S.optional(S.Boolean),
+    adBlockingOptOut: S.optional(S.Boolean),
     disableNewCookie: S.optional(S.Boolean),
     activeViewOptOut: S.optional(S.Boolean),
-    adBlockingOptOut: S.optional(S.Boolean),
-    vpaidAdapterChoiceTemplate: S.optional(SiteSettingsVpaidAdapterChoiceTemplateEnum),
-    tagSetting: S.optional(TagSetting),
   }),
 ).annotate({ identifier: "SiteSettings" }) as any as S.Schema<SiteSettings>;
 
-export type SiteContactContactTypeEnum = "SALES_PERSON" | "TRAFFICKER";
-export const SiteContactContactTypeEnum = S.String;
+export type SiteVideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
+export const SiteVideoSettingsOrientationEnum = S.String;
 
-/** Site Contact */
-export interface SiteContact {
-  /** Last name of this site contact. */
-  lastName?: string;
-  /** Address of this site contact. */
-  address?: string;
-  /** Site contact type. */
-  contactType?: SiteContactContactTypeEnum | (string & {});
-  /** Title or designation of this site contact. */
-  title?: string;
-  /** ID of this site contact. This is a read-only, auto-generated field. */
-  id?: string;
-  /** First name of this site contact. */
-  firstName?: string;
-  /** Email address of this site contact. This is a required field. */
-  email?: string;
-  /** Primary phone number of this site contact. */
-  phone?: string;
+/** Skippable Settings */
+export interface SiteSkippableSetting {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteSkippableSetting". */
+  kind?: string;
+  /** Whether the user can skip creatives served to this site. This will act as default for new placements created under this site. */
+  skippable?: boolean;
+  /** Amount of time to play videos served to this site before the skip button should appear. Applicable when skippable is true. */
+  skipOffset?: VideoOffset;
+  /** Amount of time to play videos served to this site template before counting a view. Applicable when skippable is true. */
+  progressOffset?: VideoOffset;
 }
-export const SiteContact = /*@__PURE__*/ S.suspend(() =>
+export const SiteSkippableSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastName: S.optional(S.String),
-    address: S.optional(S.String),
-    contactType: S.optional(SiteContactContactTypeEnum),
-    title: S.optional(S.String),
-    id: S.optional(S.String),
-    firstName: S.optional(S.String),
-    email: S.optional(S.String),
-    phone: S.optional(S.String),
+    kind: S.optional(S.String),
+    skippable: S.optional(S.Boolean),
+    skipOffset: S.optional(VideoOffset),
+    progressOffset: S.optional(VideoOffset),
   }),
-).annotate({ identifier: "SiteContact" }) as any as S.Schema<SiteContact>;
+).annotate({ identifier: "SiteSkippableSetting" }) as any as S.Schema<SiteSkippableSetting>;
 
-export type SiteContactList = Array<SiteContact>;
-export const SiteContactList = /*@__PURE__*/ S.Array(
-  SiteContact,
-) as any as S.Schema<SiteContactList>;
+/** Companion Settings */
+export interface SiteCompanionSetting {
+  /** Whether to serve only static images as companions. */
+  imageOnly?: boolean;
+  /** Whether companions are disabled for this site template. */
+  companionsDisabled?: boolean;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteCompanionSetting". */
+  kind?: string;
+  /** Allowlist of companion sizes to be served via this site template. Set this list to null or empty to serve all companion sizes. */
+  enabledSizes?: SizeList;
+}
+export const SiteCompanionSetting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageOnly: S.optional(S.Boolean),
+    companionsDisabled: S.optional(S.Boolean),
+    kind: S.optional(S.String),
+    enabledSizes: S.optional(SizeList),
+  }),
+).annotate({ identifier: "SiteCompanionSetting" }) as any as S.Schema<SiteCompanionSetting>;
 
 /** Transcode Settings */
 export interface SiteTranscodeSetting {
@@ -7848,141 +7851,138 @@ export const SiteTranscodeSetting = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SiteTranscodeSetting" }) as any as S.Schema<SiteTranscodeSetting>;
 
-export type SiteVideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
-export const SiteVideoSettingsOrientationEnum = S.String;
-
-/** Companion Settings */
-export interface SiteCompanionSetting {
-  /** Whether to serve only static images as companions. */
-  imageOnly?: boolean;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteCompanionSetting". */
-  kind?: string;
-  /** Whether companions are disabled for this site template. */
-  companionsDisabled?: boolean;
-  /** Allowlist of companion sizes to be served via this site template. Set this list to null or empty to serve all companion sizes. */
-  enabledSizes?: SizeList;
-}
-export const SiteCompanionSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageOnly: S.optional(S.Boolean),
-    kind: S.optional(S.String),
-    companionsDisabled: S.optional(S.Boolean),
-    enabledSizes: S.optional(SizeList),
-  }),
-).annotate({ identifier: "SiteCompanionSetting" }) as any as S.Schema<SiteCompanionSetting>;
-
-/** Skippable Settings */
-export interface SiteSkippableSetting {
-  /** Amount of time to play videos served to this site template before counting a view. Applicable when skippable is true. */
-  progressOffset?: VideoOffset;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteSkippableSetting". */
-  kind?: string;
-  /** Amount of time to play videos served to this site before the skip button should appear. Applicable when skippable is true. */
-  skipOffset?: VideoOffset;
-  /** Whether the user can skip creatives served to this site. This will act as default for new placements created under this site. */
-  skippable?: boolean;
-}
-export const SiteSkippableSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    progressOffset: S.optional(VideoOffset),
-    kind: S.optional(S.String),
-    skipOffset: S.optional(VideoOffset),
-    skippable: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SiteSkippableSetting" }) as any as S.Schema<SiteSkippableSetting>;
-
 /** Video Settings */
 export interface SiteVideoSettings {
-  /** Settings for the transcodes of video creatives served to this site. This will act as default for new placements created under this site. */
-  transcodeSettings?: SiteTranscodeSetting;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteVideoSettings". */
-  kind?: string;
+  /** Whether OBA icons are enabled for this placement. */
+  obaEnabled?: boolean;
   /** Orientation of a site template used for video. This will act as default for new placements created under this site. */
   orientation?: SiteVideoSettingsOrientationEnum | (string & {});
   /** Settings for the OBA icon of video creatives served to this site. This will act as default for new placements created under this site. */
   obaSettings?: ObaIcon;
-  /** Settings for the companion creatives of video creatives served to this site. */
-  companionSettings?: SiteCompanionSetting;
   /** Settings for the skippability of video creatives served to this site. This will act as default for new placements created under this site. */
   skippableSettings?: SiteSkippableSetting;
+  /** Settings for the companion creatives of video creatives served to this site. */
+  companionSettings?: SiteCompanionSetting;
   /** Publisher specification ID used to identify site-associated publisher requirements and automatically populate transcode settings. If publisher specification ID is specified, it will take precedence over transcode settings. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
   publisherSpecificationId?: string;
-  /** Whether OBA icons are enabled for this placement. */
-  obaEnabled?: boolean;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteVideoSettings". */
+  kind?: string;
+  /** Settings for the transcodes of video creatives served to this site. This will act as default for new placements created under this site. */
+  transcodeSettings?: SiteTranscodeSetting;
 }
 export const SiteVideoSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    transcodeSettings: S.optional(SiteTranscodeSetting),
-    kind: S.optional(S.String),
+    obaEnabled: S.optional(S.Boolean),
     orientation: S.optional(SiteVideoSettingsOrientationEnum),
     obaSettings: S.optional(ObaIcon),
-    companionSettings: S.optional(SiteCompanionSetting),
     skippableSettings: S.optional(SiteSkippableSetting),
+    companionSettings: S.optional(SiteCompanionSetting),
     publisherSpecificationId: S.optional(S.String),
-    obaEnabled: S.optional(S.Boolean),
+    kind: S.optional(S.String),
+    transcodeSettings: S.optional(SiteTranscodeSetting),
   }),
 ).annotate({ identifier: "SiteVideoSettings" }) as any as S.Schema<SiteVideoSettings>;
 
+export type SiteContactContactTypeEnum = "SALES_PERSON" | "TRAFFICKER";
+export const SiteContactContactTypeEnum = S.String;
+
+/** Site Contact */
+export interface SiteContact {
+  /** Address of this site contact. */
+  address?: string;
+  /** Last name of this site contact. */
+  lastName?: string;
+  /** First name of this site contact. */
+  firstName?: string;
+  /** Site contact type. */
+  contactType?: SiteContactContactTypeEnum | (string & {});
+  /** Title or designation of this site contact. */
+  title?: string;
+  /** Email address of this site contact. This is a required field. */
+  email?: string;
+  /** Primary phone number of this site contact. */
+  phone?: string;
+  /** ID of this site contact. This is a read-only, auto-generated field. */
+  id?: string;
+}
+export const SiteContact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    address: S.optional(S.String),
+    lastName: S.optional(S.String),
+    firstName: S.optional(S.String),
+    contactType: S.optional(SiteContactContactTypeEnum),
+    title: S.optional(S.String),
+    email: S.optional(S.String),
+    phone: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "SiteContact" }) as any as S.Schema<SiteContact>;
+
+export type SiteContactList = Array<SiteContact>;
+export const SiteContactList = /*@__PURE__*/ S.Array(
+  SiteContact,
+) as any as S.Schema<SiteContactList>;
+
 /** Contains properties of a site. */
 export interface Site {
-  /** Site-wide settings. */
-  siteSettings?: SiteSettings;
-  /** ID of this site. This is a read-only, auto-generated field. */
-  id?: string;
   /** Directory site associated with this site. This is a required field that is read-only after insertion. */
   directorySiteId?: string;
-  /** Site contacts. */
-  siteContacts?: SiteContactList;
+  /** Site-wide settings. */
+  siteSettings?: SiteSettings;
   /** Dimension value for the ID of this site. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue;
+  /** Name of this site.This is a required field. Must be less than 128 characters long. If this site is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this site is a top-level site, and the name must be unique among top-level sites of the same account. */
+  name?: string;
+  /** ID of this site. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Optional. Ad serving platform ID to identify the ad serving platform used by the site. Measurement partners can use this field to add ad-server specific macros. If set, this value acts as the default during placement creation. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
+  adServingPlatformId?: string;
+  /** Default video settings for new placements created under this site. This value will be used to populate the placements.videoSettings field, when no value is specified for the new placement. */
+  videoSettings?: SiteVideoSettings;
+  /** Subaccount ID of this site. This is a read-only field that can be left blank. */
+  subaccountId?: string;
+  /** Site contacts. */
+  siteContacts?: SiteContactList;
+  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
+  directorySiteIdDimensionValue?: DimensionValue;
   /** Key name of this site. This is a read-only, auto-generated field. */
   keyName?: string;
   /** Whether this site is approved. */
   approved?: boolean;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#site". */
   kind?: string;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue;
-  /** Name of this site.This is a required field. Must be less than 128 characters long. If this site is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this site is a top-level site, and the name must be unique among top-level sites of the same account. */
-  name?: string;
-  /** Subaccount ID of this site. This is a read-only field that can be left blank. */
-  subaccountId?: string;
-  /** Default video settings for new placements created under this site. This value will be used to populate the placements.videoSettings field, when no value is specified for the new placement. */
-  videoSettings?: SiteVideoSettings;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the site. Measurement partners can use this field to add ad-server specific macros. If set, this value acts as the default during placement creation. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string;
   /** Account ID of this site. This is a read-only field that can be left blank. */
   accountId?: string;
 }
 export const Site = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    siteSettings: S.optional(SiteSettings),
-    id: S.optional(S.String),
     directorySiteId: S.optional(S.String),
-    siteContacts: S.optional(SiteContactList),
+    siteSettings: S.optional(SiteSettings),
     idDimensionValue: S.optional(DimensionValue),
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    adServingPlatformId: S.optional(S.String),
+    videoSettings: S.optional(SiteVideoSettings),
+    subaccountId: S.optional(S.String),
+    siteContacts: S.optional(SiteContactList),
+    directorySiteIdDimensionValue: S.optional(DimensionValue),
     keyName: S.optional(S.String),
     approved: S.optional(S.Boolean),
     kind: S.optional(S.String),
-    directorySiteIdDimensionValue: S.optional(DimensionValue),
-    name: S.optional(S.String),
-    subaccountId: S.optional(S.String),
-    videoSettings: S.optional(SiteVideoSettings),
-    adServingPlatformId: S.optional(S.String),
     accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Site" }) as any as S.Schema<Site>;
 
 export interface GetSizesRequest {
-  /** Size ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Size ID. */
+  id: string;
 }
 export const GetSizesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8010,14 +8010,6 @@ export const GetStudioCreativesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetStudioCreativesRequest",
 }) as any as S.Schema<GetStudioCreativesRequest>;
 
-export type StudioCreativeFormatEnum =
-  | "UNKNOWN"
-  | "BANNER"
-  | "EXPANDING"
-  | "INTERSTITIAL"
-  | "VPAID_LINEAR_VIDEO";
-export const StudioCreativeFormatEnum = S.String;
-
 export type StudioCreativeStatusEnum =
   | "UNKNOWN_STATUS"
   | "IN_DEVELOPMENT"
@@ -8041,50 +8033,58 @@ export const StudioCreativeDimension = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "StudioCreativeDimension" }) as any as S.Schema<StudioCreativeDimension>;
 
+export type StudioCreativeFormatEnum =
+  | "UNKNOWN"
+  | "BANNER"
+  | "EXPANDING"
+  | "INTERSTITIAL"
+  | "VPAID_LINEAR_VIDEO";
+export const StudioCreativeFormatEnum = S.String;
+
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains studio creative information. */
 export interface StudioCreative {
+  /** Output only. Status of this studio creative. It is a read-only field. */
+  status?: StudioCreativeStatusEnum | (string & {});
+  /** Dimension of this studio creative. This is a required field on insertion if format is BANNER or EXPANDING. */
+  dimension?: StudioCreativeDimension;
+  /** List of assets associated with this studio creative. It is a required field on insertion. */
+  assetIds?: StringList;
+  /** Studio advertiser ID of this studio creative. This is a required field on insertion. */
+  studioAdvertiserId?: string;
+  /** Studio account ID of this creative. This field, if left unset, will be auto-populated. */
+  studioAccountId?: string;
+  /** Studio campaign ID of this studio creative. This is a required field on insertion. */
+  studioCampaignId?: string;
   /** The timestamp when the studio creative was created. This is a read-only, auto-generated field. */
   createdInfo?: LastModifiedInfo;
   /** The timestamp when the studio creative was last modified. This is a read-only, auto-generated field. */
   lastModifiedInfo?: LastModifiedInfo;
-  /** Studio advertiser ID of this studio creative. This is a required field on insertion. */
-  studioAdvertiserId?: string;
-  /** Format of this studio creative. This is a required field on insertion. */
-  format?: StudioCreativeFormatEnum | (string & {});
-  /** Output only. Status of this studio creative. It is a read-only field. */
-  status?: StudioCreativeStatusEnum | (string & {});
-  /** Identifier. Name of this studio creative. This is a required field on insertion. */
-  name?: string;
   /** Dynamic profile ID of this studio creative. */
   dynamicProfileId?: string;
-  /** Backup image asset ID of this studio creative. It is a required field on insertion. */
-  backupImageAssetId?: string;
+  /** Format of this studio creative. This is a required field on insertion. */
+  format?: StudioCreativeFormatEnum | (string & {});
   /** Output only. Unique ID of this studio creative. This is a read-only, auto-generated field. */
   id?: string;
-  /** Studio campaign ID of this studio creative. This is a required field on insertion. */
-  studioCampaignId?: string;
-  /** Dimension of this studio creative. This is a required field on insertion if format is BANNER or EXPANDING. */
-  dimension?: StudioCreativeDimension;
-  /** Studio account ID of this creative. This field, if left unset, will be auto-populated. */
-  studioAccountId?: string;
-  /** List of assets associated with this studio creative. It is a required field on insertion. */
-  assetIds?: StringList;
+  /** Backup image asset ID of this studio creative. It is a required field on insertion. */
+  backupImageAssetId?: string;
+  /** Identifier. Name of this studio creative. This is a required field on insertion. */
+  name?: string;
 }
 export const StudioCreative = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    status: S.optional(StudioCreativeStatusEnum),
+    dimension: S.optional(StudioCreativeDimension),
+    assetIds: S.optional(StringList),
+    studioAdvertiserId: S.optional(S.String),
+    studioAccountId: S.optional(S.String),
+    studioCampaignId: S.optional(S.String),
     createdInfo: S.optional(LastModifiedInfo),
     lastModifiedInfo: S.optional(LastModifiedInfo),
-    studioAdvertiserId: S.optional(S.String),
-    format: S.optional(StudioCreativeFormatEnum),
-    status: S.optional(StudioCreativeStatusEnum),
-    name: S.optional(S.String),
     dynamicProfileId: S.optional(S.String),
-    backupImageAssetId: S.optional(S.String),
+    format: S.optional(StudioCreativeFormatEnum),
     id: S.optional(S.String),
-    studioCampaignId: S.optional(S.String),
-    dimension: S.optional(StudioCreativeDimension),
-    studioAccountId: S.optional(S.String),
-    assetIds: S.optional(StringList),
+    backupImageAssetId: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "StudioCreative" }) as any as S.Schema<StudioCreative>;
 
@@ -8111,22 +8111,22 @@ export const GetSubaccountsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface Subaccount {
   /** Name of this subaccount. This is a required field. Must be less than 128 characters long and be unique among subaccounts of the same account. */
   name?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccount". */
+  kind?: string;
   /** IDs of the available user role permissions for this subaccount. */
   availablePermissionIds?: StringList;
   /** ID of the account that contains this subaccount. This is a read-only field that can be left blank. */
   accountId?: string;
   /** ID of this subaccount. This is a read-only, auto-generated field. */
   id?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccount". */
-  kind?: string;
 }
 export const Subaccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
+    kind: S.optional(S.String),
     availablePermissionIds: S.optional(StringList),
     accountId: S.optional(S.String),
     id: S.optional(S.String),
-    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "Subaccount" }) as any as S.Schema<Subaccount>;
 
@@ -8167,45 +8167,45 @@ export const TargetableRemarketingListListSourceEnum = S.String;
 
 /** Contains properties of a targetable remarketing list. Remarketing enables you to create lists of users who have performed specific actions on a site, then target ads to members of those lists. This resource is a read-only view of a remarketing list to be used to facilitate targeting ads to specific lists. Remarketing lists that are owned by your advertisers and those that are shared to your advertisers or account are accessible via this resource. To manage remarketing lists that are owned by your advertisers, use the RemarketingLists resource. */
 export interface TargetableRemarketingList {
-  /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  subaccountId?: string;
-  /** Number of days that a user should remain in the targetable remarketing list without an impression. */
-  lifeSpan?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetableRemarketingList". */
-  kind?: string;
-  /** Targetable remarketing list description. */
-  description?: string;
-  /** Number of users currently in the list. This is a read-only field. */
-  listSize?: string;
-  /** Name of the targetable remarketing list. Is no greater than 128 characters long. */
-  name?: string;
-  /** Dimension value for the ID of the advertiser. */
-  advertiserIdDimensionValue?: DimensionValue;
   /** Whether this targetable remarketing list is active. */
   active?: boolean;
-  /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  accountId?: string;
-  /** Product from which this targetable remarketing list was originated. */
-  listSource?: TargetableRemarketingListListSourceEnum;
   /** Targetable remarketing list ID. */
   id?: string;
+  /** Name of the targetable remarketing list. Is no greater than 128 characters long. */
+  name?: string;
+  /** Targetable remarketing list description. */
+  description?: string;
   /** Dimension value for the advertiser ID that owns this targetable remarketing list. */
   advertiserId?: string;
+  /** Number of days that a user should remain in the targetable remarketing list without an impression. */
+  lifeSpan?: string;
+  /** Dimension value for the ID of the advertiser. */
+  advertiserIdDimensionValue?: DimensionValue;
+  /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
+  subaccountId?: string;
+  /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
+  accountId?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetableRemarketingList". */
+  kind?: string;
+  /** Product from which this targetable remarketing list was originated. */
+  listSource?: TargetableRemarketingListListSourceEnum;
+  /** Number of users currently in the list. This is a read-only field. */
+  listSize?: string;
 }
 export const TargetableRemarketingList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subaccountId: S.optional(S.String),
-    lifeSpan: S.optional(S.String),
-    kind: S.optional(S.String),
-    description: S.optional(S.String),
-    listSize: S.optional(S.String),
-    name: S.optional(S.String),
-    advertiserIdDimensionValue: S.optional(DimensionValue),
     active: S.optional(S.Boolean),
-    accountId: S.optional(S.String),
-    listSource: S.optional(TargetableRemarketingListListSourceEnum),
     id: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
     advertiserId: S.optional(S.String),
+    lifeSpan: S.optional(S.String),
+    advertiserIdDimensionValue: S.optional(DimensionValue),
+    subaccountId: S.optional(S.String),
+    accountId: S.optional(S.String),
+    kind: S.optional(S.String),
+    listSource: S.optional(TargetableRemarketingListListSourceEnum),
+    listSize: S.optional(S.String),
   }),
 ).annotate({
   identifier: "TargetableRemarketingList",
@@ -8234,51 +8234,51 @@ export const GetTargetingTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Contains properties of a targeting template. A targeting template encapsulates targeting information which can be reused across multiple ads. */
 export interface TargetingTemplate {
-  /** Time and day targeting criteria. */
-  dayPartTargeting?: DayPartTargeting;
   /** Account ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
   accountId?: string;
   /** Geographical targeting criteria. */
   geoTargeting?: GeoTargeting;
-  /** Technology platform targeting criteria. */
-  technologyTargeting?: TechnologyTargeting;
-  /** ID of this targeting template. This is a read-only, auto-generated field. */
-  id?: string;
-  /** Key-value targeting criteria. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression;
-  /** Advertiser ID of this targeting template. This is a required field on insert and is read-only after insert. */
-  advertiserId?: string;
+  /** Time and day targeting criteria. */
+  dayPartTargeting?: DayPartTargeting;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplate". */
   kind?: string;
+  /** Advertiser ID of this targeting template. This is a required field on insert and is read-only after insert. */
+  advertiserId?: string;
   /** Optional. Contextual keyword targeting criteria. */
   contextualKeywordTargeting?: ContextualKeywordTargeting;
+  /** Subaccount ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
+  subaccountId?: string;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue;
   /** Name of this targeting template. This field is required. It must be less than 256 characters long and unique within an advertiser. */
   name?: string;
+  /** ID of this targeting template. This is a read-only, auto-generated field. */
+  id?: string;
+  /** Technology platform targeting criteria. */
+  technologyTargeting?: TechnologyTargeting;
   /** Language targeting criteria. */
   languageTargeting?: LanguageTargeting;
+  /** Key-value targeting criteria. */
+  keyValueTargetingExpression?: KeyValueTargetingExpression;
   /** Remarketing list targeting criteria. */
   listTargetingExpression?: ListTargetingExpression;
-  /** Subaccount ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  subaccountId?: string;
 }
 export const TargetingTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dayPartTargeting: S.optional(DayPartTargeting),
     accountId: S.optional(S.String),
     geoTargeting: S.optional(GeoTargeting),
-    technologyTargeting: S.optional(TechnologyTargeting),
-    id: S.optional(S.String),
-    keyValueTargetingExpression: S.optional(KeyValueTargetingExpression),
-    advertiserId: S.optional(S.String),
+    dayPartTargeting: S.optional(DayPartTargeting),
     kind: S.optional(S.String),
+    advertiserId: S.optional(S.String),
     contextualKeywordTargeting: S.optional(ContextualKeywordTargeting),
+    subaccountId: S.optional(S.String),
     advertiserIdDimensionValue: S.optional(DimensionValue),
     name: S.optional(S.String),
+    id: S.optional(S.String),
+    technologyTargeting: S.optional(TechnologyTargeting),
     languageTargeting: S.optional(LanguageTargeting),
+    keyValueTargetingExpression: S.optional(KeyValueTargetingExpression),
     listTargetingExpression: S.optional(ListTargetingExpression),
-    subaccountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "TargetingTemplate" }) as any as S.Schema<TargetingTemplate>;
 
@@ -8300,20 +8300,20 @@ export interface GetTvCampaignDetailsRequest {
   tvDataProvider?: GetTvCampaignDetailsTvDataProviderEnum | (string & {});
   /** Required. Account ID associated with this request. */
   accountId?: string;
-  /** Required. TV Campaign ID. */
-  id: string;
-  /** Optional. Country Dart ID. If not specified, defaults to 256 (US). */
-  countryDartId?: string;
   /** Required. User profile ID associated with this request. */
   profileId: string;
+  /** Optional. Country Dart ID. If not specified, defaults to 256 (US). */
+  countryDartId?: string;
+  /** Required. TV Campaign ID. */
+  id: string;
 }
 export const GetTvCampaignDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tvDataProvider: S.optional(GetTvCampaignDetailsTvDataProviderEnum.pipe(T.Query())),
     accountId: S.optional(S.String.pipe(T.Query())),
-    id: S.String.pipe(T.Label()),
-    countryDartId: S.optional(S.String.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
+    countryDartId: S.optional(S.String.pipe(T.Query())),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8336,18 +8336,18 @@ export const TvCampaignTimepointDateWindowEnum = S.String;
 
 /** A single data point for TvCampaignDetail, which holds information about the TV campaign for a specific start date and date window. */
 export interface TvCampaignTimepoint {
-  /** The spend within the time range of the timepoint. */
-  spend?: number;
   /** The date window of the timepoint. */
   dateWindow?: TvCampaignTimepointDateWindowEnum;
   /** The start date of the timepoint. A string in the format of "yyyy-MM-dd". */
   startDate?: string;
+  /** The spend within the time range of the timepoint. */
+  spend?: number;
 }
 export const TvCampaignTimepoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    spend: S.optional(S.Number),
     dateWindow: S.optional(TvCampaignTimepointDateWindowEnum),
     startDate: S.optional(S.String),
+    spend: S.optional(S.Number),
   }),
 ).annotate({ identifier: "TvCampaignTimepoint" }) as any as S.Schema<TvCampaignTimepoint>;
 
@@ -8358,18 +8358,18 @@ export const TvCampaignTimepointList = /*@__PURE__*/ S.Array(
 
 /** TvCampaignDetail contains data from a TV campaign for specific start dates and date windows. */
 export interface TvCampaignDetail {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummary". */
-  kind?: string;
   /** ID of this TV campaign. */
   id?: string;
   /** The timepoints of the TV campaign. */
   timepoints?: TvCampaignTimepointList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummary". */
+  kind?: string;
 }
 export const TvCampaignDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     id: S.optional(S.String),
     timepoints: S.optional(TvCampaignTimepointList),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "TvCampaignDetail" }) as any as S.Schema<TvCampaignDetail>;
 
@@ -8391,32 +8391,32 @@ export const GetUserProfilesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A UserProfile resource lets you list all DFA user profiles that are associated with a Google user account. The profile_id needs to be specified in other API requests. */
 export interface UserProfile {
-  /** The unique ID of the user profile. */
-  profileId?: string;
-  /** The sub account name this profile belongs to if applicable. */
-  subAccountName?: string;
-  /** The sub account ID this profile belongs to if applicable. */
-  subAccountId?: string;
-  /** The user name. */
-  userName?: string;
-  /** Etag of this resource. */
-  etag?: string;
-  /** The account name this profile belongs to. */
-  accountName?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userProfile". */
   kind?: string;
+  /** The sub account name this profile belongs to if applicable. */
+  subAccountName?: string;
+  /** The user name. */
+  userName?: string;
+  /** The sub account ID this profile belongs to if applicable. */
+  subAccountId?: string;
+  /** The unique ID of the user profile. */
+  profileId?: string;
+  /** The account name this profile belongs to. */
+  accountName?: string;
+  /** Etag of this resource. */
+  etag?: string;
   /** The account ID to which this profile belongs. */
   accountId?: string;
 }
 export const UserProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.optional(S.String),
-    subAccountName: S.optional(S.String),
-    subAccountId: S.optional(S.String),
-    userName: S.optional(S.String),
-    etag: S.optional(S.String),
-    accountName: S.optional(S.String),
     kind: S.optional(S.String),
+    subAccountName: S.optional(S.String),
+    userName: S.optional(S.String),
+    subAccountId: S.optional(S.String),
+    profileId: S.optional(S.String),
+    accountName: S.optional(S.String),
+    etag: S.optional(S.String),
     accountId: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserProfile" }) as any as S.Schema<UserProfile>;
@@ -8444,31 +8444,31 @@ export const GetUserRolePermissionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a grouping of related user role permissions. */
 export interface UserRolePermissionGroup {
-  /** Name of this user role permission group. */
-  name?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermissionGroup". */
   kind?: string;
+  /** Name of this user role permission group. */
+  name?: string;
   /** ID of this user role permission. */
   id?: string;
 }
 export const UserRolePermissionGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     kind: S.optional(S.String),
+    name: S.optional(S.String),
     id: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserRolePermissionGroup" }) as any as S.Schema<UserRolePermissionGroup>;
 
 export interface GetUserRolePermissionsRequest {
-  /** User role permission ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** User role permission ID. */
+  id: string;
 }
 export const GetUserRolePermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8495,33 +8495,33 @@ export interface UserRolePermission {
   id?: string;
   /** Levels of availability for a user role permission. */
   availability?: UserRolePermissionAvailabilityEnum | (string & {});
-  /** Name of this user role permission. */
-  name?: string;
   /** ID of the permission group that this user role permission belongs to. */
   permissionGroupId?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermission". */
   kind?: string;
+  /** Name of this user role permission. */
+  name?: string;
 }
 export const UserRolePermission = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     availability: S.optional(UserRolePermissionAvailabilityEnum),
-    name: S.optional(S.String),
     permissionGroupId: S.optional(S.String),
     kind: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserRolePermission" }) as any as S.Schema<UserRolePermission>;
 
 export interface GetUserRolesRequest {
-  /** User role ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** User role ID. */
+  id: string;
 }
 export const GetUserRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8538,33 +8538,33 @@ export const UserRolePermissionList = /*@__PURE__*/ S.Array(
 
 /** Contains properties of auser role, which is used to manage user access. */
 export interface UserRole {
+  /** Whether this is a default user role. Default user roles are created by the system for the account/subaccount and cannot be modified or deleted. Each default user role comes with a basic set of preassigned permissions. */
+  defaultUserRole?: boolean;
+  /** Name of this user role. This is a required field. Must be less than 256 characters long. If this user role is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this user role is a top-level user role, and the name must be unique among top-level user roles of the same account. */
+  name?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRole". */
   kind?: string;
+  /** Subaccount ID of this user role. This is a read-only field that can be left blank. */
+  subaccountId?: string;
+  /** List of permissions associated with this user role. */
+  permissions?: UserRolePermissionList;
+  /** ID of the user role that this user role is based on or copied from. This is a required field. */
+  parentUserRoleId?: string;
   /** ID of this user role. This is a read-only, auto-generated field. */
   id?: string;
   /** Account ID of this user role. This is a read-only field that can be left blank. */
   accountId?: string;
-  /** ID of the user role that this user role is based on or copied from. This is a required field. */
-  parentUserRoleId?: string;
-  /** Name of this user role. This is a required field. Must be less than 256 characters long. If this user role is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this user role is a top-level user role, and the name must be unique among top-level user roles of the same account. */
-  name?: string;
-  /** List of permissions associated with this user role. */
-  permissions?: UserRolePermissionList;
-  /** Subaccount ID of this user role. This is a read-only field that can be left blank. */
-  subaccountId?: string;
-  /** Whether this is a default user role. Default user roles are created by the system for the account/subaccount and cannot be modified or deleted. Each default user role comes with a basic set of preassigned permissions. */
-  defaultUserRole?: boolean;
 }
 export const UserRole = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    defaultUserRole: S.optional(S.Boolean),
+    name: S.optional(S.String),
     kind: S.optional(S.String),
+    subaccountId: S.optional(S.String),
+    permissions: S.optional(UserRolePermissionList),
+    parentUserRoleId: S.optional(S.String),
     id: S.optional(S.String),
     accountId: S.optional(S.String),
-    parentUserRoleId: S.optional(S.String),
-    name: S.optional(S.String),
-    permissions: S.optional(UserRolePermissionList),
-    subaccountId: S.optional(S.String),
-    defaultUserRole: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "UserRole" }) as any as S.Schema<UserRole>;
 
@@ -8592,24 +8592,24 @@ export const VideoFormatFileTypeEnum = S.String;
 
 /** Contains information about supported video formats. */
 export interface VideoFormat {
-  /** The target bit rate of this video format. */
-  targetBitRate?: number;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoFormat". */
-  kind?: string;
-  /** File type of the video format. */
-  fileType?: VideoFormatFileTypeEnum;
-  /** The resolution of this video format. */
-  resolution?: Size;
   /** ID of the video format. */
   id?: number;
+  /** The target bit rate of this video format. */
+  targetBitRate?: number;
+  /** File type of the video format. */
+  fileType?: VideoFormatFileTypeEnum;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoFormat". */
+  kind?: string;
+  /** The resolution of this video format. */
+  resolution?: Size;
 }
 export const VideoFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    targetBitRate: S.optional(S.Number),
-    kind: S.optional(S.String),
-    fileType: S.optional(VideoFormatFileTypeEnum),
-    resolution: S.optional(Size),
     id: S.optional(S.Number),
+    targetBitRate: S.optional(S.Number),
+    fileType: S.optional(VideoFormatFileTypeEnum),
+    kind: S.optional(S.String),
+    resolution: S.optional(Size),
   }),
 ).annotate({ identifier: "VideoFormat" }) as any as S.Schema<VideoFormat>;
 
@@ -8716,23 +8716,23 @@ export const InsertAdvertisersRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** List account, subaccount, advertiser, and campaign associated with a given Billing Profile. */
 export interface BillingAssignment {
-  /** ID of the account associated with the billing assignment.This is a read-only, auto-generated field. */
-  accountId?: string;
   /** ID of the subaccount associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single subaccountThis is a read-only, auto-generated field. */
   subaccountId?: string;
-  /** ID of the campaign associated with the billing assignment. Wildcard (*) means this assignment is not limited to a single campaign */
-  campaignId?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignment". */
   kind?: string;
+  /** ID of the account associated with the billing assignment.This is a read-only, auto-generated field. */
+  accountId?: string;
+  /** ID of the campaign associated with the billing assignment. Wildcard (*) means this assignment is not limited to a single campaign */
+  campaignId?: string;
   /** ID of the advertiser associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single advertiser */
   advertiserId?: string;
 }
 export const BillingAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String),
     subaccountId: S.optional(S.String),
-    campaignId: S.optional(S.String),
     kind: S.optional(S.String),
+    accountId: S.optional(S.String),
+    campaignId: S.optional(S.String),
     advertiserId: S.optional(S.String),
   }),
 ).annotate({ identifier: "BillingAssignment" }) as any as S.Schema<BillingAssignment>;
@@ -8778,17 +8778,17 @@ export const CampaignCreativeAssociation = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CampaignCreativeAssociation>;
 
 export interface InsertCampaignCreativeAssociationsRequest {
-  /** Campaign ID in this association. */
-  campaignId: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Campaign ID in this association. */
+  campaignId: string;
   /** Request body */
   body?: CampaignCreativeAssociation;
 }
 export const InsertCampaignCreativeAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    campaignId: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    campaignId: S.String.pipe(T.Label()),
     body: S.optional(CampaignCreativeAssociation.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -8840,42 +8840,6 @@ export const InsertContentCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "InsertContentCategoriesRequest",
 }) as any as S.Schema<InsertContentCategoriesRequest>;
-
-export type CreativeAssetMetadataWarnedValidationRulesItemEnum =
-  | "CLICK_TAG_NON_TOP_LEVEL"
-  | "CLICK_TAG_MISSING"
-  | "CLICK_TAG_MORE_THAN_ONE"
-  | "CLICK_TAG_INVALID"
-  | "ORPHANED_ASSET"
-  | "PRIMARY_HTML_MISSING"
-  | "EXTERNAL_FILE_REFERENCED"
-  | "MRAID_REFERENCED"
-  | "ADMOB_REFERENCED"
-  | "FILE_TYPE_INVALID"
-  | "ZIP_INVALID"
-  | "LINKED_FILE_NOT_FOUND"
-  | "MAX_FLASH_VERSION_11"
-  | "NOT_SSL_COMPLIANT"
-  | "FILE_DETAIL_EMPTY"
-  | "ASSET_INVALID"
-  | "GWD_PROPERTIES_INVALID"
-  | "ENABLER_UNSUPPORTED_METHOD_DCM"
-  | "ASSET_FORMAT_UNSUPPORTED_DCM"
-  | "COMPONENT_UNSUPPORTED_DCM"
-  | "HTML5_FEATURE_UNSUPPORTED"
-  | "CLICK_TAG_IN_GWD"
-  | "CLICK_TAG_HARD_CODED"
-  | "SVG_INVALID"
-  | "CLICK_TAG_IN_RICH_MEDIA"
-  | "MISSING_ENABLER_REFERENCE";
-export const CreativeAssetMetadataWarnedValidationRulesItemEnum = S.String;
-
-export type CreativeAssetMetadataWarnedValidationRulesItemEnumList = Array<
-  CreativeAssetMetadataWarnedValidationRulesItemEnum | (string & {})
->;
-export const CreativeAssetMetadataWarnedValidationRulesItemEnumList = /*@__PURE__*/ S.Array(
-  CreativeAssetMetadataWarnedValidationRulesItemEnum,
-) as any as S.Schema<CreativeAssetMetadataWarnedValidationRulesItemEnumList>;
 
 export type CreativeAssetMetadataDetectedFeaturesItemEnum =
   | "CSS_FONT_FACE"
@@ -8953,44 +8917,80 @@ export const CreativeAssetMetadataDetectedFeaturesItemEnumList = /*@__PURE__*/ S
   CreativeAssetMetadataDetectedFeaturesItemEnum,
 ) as any as S.Schema<CreativeAssetMetadataDetectedFeaturesItemEnumList>;
 
+export type CreativeAssetMetadataWarnedValidationRulesItemEnum =
+  | "CLICK_TAG_NON_TOP_LEVEL"
+  | "CLICK_TAG_MISSING"
+  | "CLICK_TAG_MORE_THAN_ONE"
+  | "CLICK_TAG_INVALID"
+  | "ORPHANED_ASSET"
+  | "PRIMARY_HTML_MISSING"
+  | "EXTERNAL_FILE_REFERENCED"
+  | "MRAID_REFERENCED"
+  | "ADMOB_REFERENCED"
+  | "FILE_TYPE_INVALID"
+  | "ZIP_INVALID"
+  | "LINKED_FILE_NOT_FOUND"
+  | "MAX_FLASH_VERSION_11"
+  | "NOT_SSL_COMPLIANT"
+  | "FILE_DETAIL_EMPTY"
+  | "ASSET_INVALID"
+  | "GWD_PROPERTIES_INVALID"
+  | "ENABLER_UNSUPPORTED_METHOD_DCM"
+  | "ASSET_FORMAT_UNSUPPORTED_DCM"
+  | "COMPONENT_UNSUPPORTED_DCM"
+  | "HTML5_FEATURE_UNSUPPORTED"
+  | "CLICK_TAG_IN_GWD"
+  | "CLICK_TAG_HARD_CODED"
+  | "SVG_INVALID"
+  | "CLICK_TAG_IN_RICH_MEDIA"
+  | "MISSING_ENABLER_REFERENCE";
+export const CreativeAssetMetadataWarnedValidationRulesItemEnum = S.String;
+
+export type CreativeAssetMetadataWarnedValidationRulesItemEnumList = Array<
+  CreativeAssetMetadataWarnedValidationRulesItemEnum | (string & {})
+>;
+export const CreativeAssetMetadataWarnedValidationRulesItemEnumList = /*@__PURE__*/ S.Array(
+  CreativeAssetMetadataWarnedValidationRulesItemEnum,
+) as any as S.Schema<CreativeAssetMetadataWarnedValidationRulesItemEnumList>;
+
 /** CreativeAssets contains properties of a creative asset file which will be uploaded or has already been uploaded. Refer to the creative sample code for how to upload assets and insert a creative. */
 export interface CreativeAssetMetadata {
-  /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  timerCustomEvents?: CreativeCustomEventList;
-  /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
-  warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList;
-  /** Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
-  /** True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field. */
-  richMedia?: boolean;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeAssetMetadata". */
-  kind?: string;
+  /** ID of the creative asset. This is a required field. */
+  assetIdentifier?: CreativeAssetId;
   /** List of exit events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
   exitCustomEvents?: CreativeCustomEventList;
   /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. */
   detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList;
-  /** List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset. */
-  clickTags?: ClickTagList;
+  /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
+  timerCustomEvents?: CreativeCustomEventList;
   /** List of counter events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
   counterCustomEvents?: CreativeCustomEventList;
+  /** Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue;
+  /** List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset. */
+  clickTags?: ClickTagList;
+  /** True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field. */
+  richMedia?: boolean;
+  /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
+  warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList;
   /** Numeric ID of the asset. This is a read-only, auto-generated field. */
   id?: string;
-  /** ID of the creative asset. This is a required field. */
-  assetIdentifier?: CreativeAssetId;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeAssetMetadata". */
+  kind?: string;
 }
 export const CreativeAssetMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    timerCustomEvents: S.optional(CreativeCustomEventList),
-    warnedValidationRules: S.optional(CreativeAssetMetadataWarnedValidationRulesItemEnumList),
-    idDimensionValue: S.optional(DimensionValue),
-    richMedia: S.optional(S.Boolean),
-    kind: S.optional(S.String),
+    assetIdentifier: S.optional(CreativeAssetId),
     exitCustomEvents: S.optional(CreativeCustomEventList),
     detectedFeatures: S.optional(CreativeAssetMetadataDetectedFeaturesItemEnumList),
-    clickTags: S.optional(ClickTagList),
+    timerCustomEvents: S.optional(CreativeCustomEventList),
     counterCustomEvents: S.optional(CreativeCustomEventList),
+    idDimensionValue: S.optional(DimensionValue),
+    clickTags: S.optional(ClickTagList),
+    richMedia: S.optional(S.Boolean),
+    warnedValidationRules: S.optional(CreativeAssetMetadataWarnedValidationRulesItemEnumList),
     id: S.optional(S.String),
-    assetIdentifier: S.optional(CreativeAssetId),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreativeAssetMetadata" }) as any as S.Schema<CreativeAssetMetadata>;
 
@@ -9185,21 +9185,21 @@ export const DynamicTargetingKeyObjectTypeEnum = S.String;
 
 /** Contains properties of a dynamic targeting key. Dynamic targeting keys are unique, user-friendly labels, created at the advertiser level in DCM, that can be assigned to ads, creatives, and placements and used for targeting with Studio dynamic creatives. Use these labels instead of numeric Campaign Manager IDs (such as placement IDs) to save time and avoid errors in your dynamic feeds. */
 export interface DynamicTargetingKey {
-  /** Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
-  name?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKey". */
-  kind?: string;
   /** ID of the object of this dynamic targeting key. This is a required field. */
   objectId?: string;
   /** Type of the object of this dynamic targeting key. This is a required field. */
   objectType?: DynamicTargetingKeyObjectTypeEnum | (string & {});
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKey". */
+  kind?: string;
+  /** Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
+  name?: string;
 }
 export const DynamicTargetingKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    kind: S.optional(S.String),
     objectId: S.optional(S.String),
     objectType: S.optional(DynamicTargetingKeyObjectTypeEnum),
+    kind: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "DynamicTargetingKey" }) as any as S.Schema<DynamicTargetingKey>;
 
@@ -9426,18 +9426,18 @@ export const InsertSizesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for DfareportingStudioCreativeAssets.Insert. */
 export interface DfareportingStudioCreativeAssetsInsertRequest {
-  /** Optional. Studio creative ID of the studio creative asset. It is a optional field. If it is set, the asset will be associated to the creative. */
-  studioCreativeId?: string;
-  /** Required. Studio advertiser ID of the studio creative asset. It is a required field on insertion. */
-  studioAdvertiserId?: string;
   /** Optional. Studio account ID of the studio creative asset. It is a optional. */
   studioAccountId?: string;
+  /** Required. Studio advertiser ID of the studio creative asset. It is a required field on insertion. */
+  studioAdvertiserId?: string;
+  /** Optional. Studio creative ID of the studio creative asset. It is a optional field. If it is set, the asset will be associated to the creative. */
+  studioCreativeId?: string;
 }
 export const DfareportingStudioCreativeAssetsInsertRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    studioCreativeId: S.optional(S.String),
-    studioAdvertiserId: S.optional(S.String),
     studioAccountId: S.optional(S.String),
+    studioAdvertiserId: S.optional(S.String),
+    studioCreativeId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DfareportingStudioCreativeAssetsInsertRequest",
@@ -9461,9 +9461,6 @@ export const InsertStudioCreativeAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "InsertStudioCreativeAssetsRequest",
 }) as any as S.Schema<InsertStudioCreativeAssetsRequest>;
 
-export type StudioCreativeAssetTypeEnum = "UNKNOWN_TYPE" | "HTML" | "VIDEO" | "IMAGE" | "FONT";
-export const StudioCreativeAssetTypeEnum = S.String;
-
 export type VideoProcessingDataProcessingStateEnum =
   | "UNKNOWN"
   | "PROCESSING"
@@ -9485,41 +9482,44 @@ export const VideoProcessingData = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "VideoProcessingData" }) as any as S.Schema<VideoProcessingData>;
 
+export type StudioCreativeAssetTypeEnum = "UNKNOWN_TYPE" | "HTML" | "VIDEO" | "IMAGE" | "FONT";
+export const StudioCreativeAssetTypeEnum = S.String;
+
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains studio creative asset information. */
 export interface StudioCreativeAsset {
-  /** Output only. The last modified timestamp of the studio creative asset. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
-  /** Studio advertiser ID of this studio creative asset. This is a required field on insertion. */
-  studioAdvertiserId?: string;
-  /** The filename of the studio creative asset. It is default to the original filename of the asset. */
-  filename?: string;
-  /** Studio account ID of this studio creative asset. This field, if left unset, will be auto-populated.. */
-  studioAccountId?: string;
-  /** Output only. The creation timestamp of the studio creative asset. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
   /** The filesize of the studio creative asset. This is a read-only field. */
   filesize?: string;
-  /** The type of the studio creative asset. It is a auto-generated, read-only field. */
-  type?: StudioCreativeAssetTypeEnum;
-  /** Studio creative ID of this studio creative asset. The asset will be associated to the creative if creative id is set. */
-  studioCreativeId?: string;
+  /** Output only. The creation timestamp of the studio creative asset. This is a read-only field. */
+  createInfo?: LastModifiedInfo;
+  /** Studio advertiser ID of this studio creative asset. This is a required field on insertion. */
+  studioAdvertiserId?: string;
+  /** Output only. The last modified timestamp of the studio creative asset. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo;
+  /** The filename of the studio creative asset. It is default to the original filename of the asset. */
+  filename?: string;
   /** Output only. Unique ID of this studio creative asset. This is a read-only, auto-generated field. */
   id?: string;
+  /** Studio creative ID of this studio creative asset. The asset will be associated to the creative if creative id is set. */
+  studioCreativeId?: string;
   /** The processing data of the studio creative asset. This is a read-only field. */
   videoProcessingData?: VideoProcessingData;
+  /** Studio account ID of this studio creative asset. This field, if left unset, will be auto-populated.. */
+  studioAccountId?: string;
+  /** The type of the studio creative asset. It is a auto-generated, read-only field. */
+  type?: StudioCreativeAssetTypeEnum;
 }
 export const StudioCreativeAsset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastModifiedInfo: S.optional(LastModifiedInfo),
-    studioAdvertiserId: S.optional(S.String),
-    filename: S.optional(S.String),
-    studioAccountId: S.optional(S.String),
-    createInfo: S.optional(LastModifiedInfo),
     filesize: S.optional(S.String),
-    type: S.optional(StudioCreativeAssetTypeEnum),
-    studioCreativeId: S.optional(S.String),
+    createInfo: S.optional(LastModifiedInfo),
+    studioAdvertiserId: S.optional(S.String),
+    lastModifiedInfo: S.optional(LastModifiedInfo),
+    filename: S.optional(S.String),
     id: S.optional(S.String),
+    studioCreativeId: S.optional(S.String),
     videoProcessingData: S.optional(VideoProcessingData),
+    studioAccountId: S.optional(S.String),
+    type: S.optional(StudioCreativeAssetTypeEnum),
   }),
 ).annotate({ identifier: "StudioCreativeAsset" }) as any as S.Schema<StudioCreativeAsset>;
 
@@ -9643,15 +9643,15 @@ export const AccountPermissionGroupList = /*@__PURE__*/ S.Array(
 
 /** Account Permission Group List Response */
 export interface AccountPermissionGroupsListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionGroupGroupsListResponse". */
-  kind?: string;
   /** Account permission group collection. */
   accountPermissionGroups?: AccountPermissionGroupList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionGroupGroupsListResponse". */
+  kind?: string;
 }
 export const AccountPermissionGroupsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     accountPermissionGroups: S.optional(AccountPermissionGroupList),
+    kind: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccountPermissionGroupsListResponse",
@@ -9703,32 +9703,32 @@ export type ListAccountsSortFieldEnum = "ID" | "NAME";
 export const ListAccountsSortFieldEnum = S.String;
 
 export interface ListAccountsRequest {
-  /** Order of sorted results. */
-  sortOrder?: ListAccountsSortOrderEnum | (string & {});
-  /** Field by which to sort the list. */
-  sortField?: ListAccountsSortFieldEnum | (string & {});
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "account*2015" will return objects with names like "account June 2015", "account April 2015", or simply "account 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "account" will match objects with name "my account", "account 2015", or simply "account". */
   searchString?: string;
-  /** Select only active accounts. Don't set this field to select both active and non-active accounts. */
-  active?: boolean;
+  /** Order of sorted results. */
+  sortOrder?: ListAccountsSortOrderEnum | (string & {});
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
   /** Select only accounts with these IDs. */
   ids?: StringList;
+  /** Field by which to sort the list. */
+  sortField?: ListAccountsSortFieldEnum | (string & {});
+  /** Select only active accounts. Don't set this field to select both active and non-active accounts. */
+  active?: boolean;
   /** User profile ID associated with this request. */
   profileId: string;
 }
 export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sortOrder: S.optional(ListAccountsSortOrderEnum.pipe(T.Query())),
-    sortField: S.optional(ListAccountsSortFieldEnum.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     searchString: S.optional(S.String.pipe(T.Query())),
-    active: S.optional(S.Boolean.pipe(T.Query())),
+    sortOrder: S.optional(ListAccountsSortOrderEnum.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     ids: S.optional(StringList.pipe(T.Query())),
+    sortField: S.optional(ListAccountsSortFieldEnum.pipe(T.Query())),
+    active: S.optional(S.Boolean.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -9744,17 +9744,17 @@ export const AccountList = /*@__PURE__*/ S.Array(Account) as any as S.Schema<Acc
 
 /** Account List Response */
 export interface AccountsListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountsListResponse". */
-  kind?: string;
   /** Account collection. */
   accounts?: AccountList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountsListResponse". */
+  kind?: string;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
 }
 export const AccountsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     accounts: S.optional(AccountList),
+    kind: S.optional(S.String),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccountsListResponse" }) as any as S.Schema<AccountsListResponse>;
@@ -9766,39 +9766,39 @@ export type ListAccountUserProfilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListAccountUserProfilesSortOrderEnum = S.String;
 
 export interface ListAccountUserProfilesRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Select only user profiles with the specified user role ID. */
-  userRoleId?: string;
-  /** Select only user profiles with these IDs. */
-  ids?: StringList;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Select only active user profiles. */
-  active?: boolean;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Allows searching for objects by name, ID or email. Wildcards (*) are allowed. For example, "user profile*2015" will return objects with names like "user profile June 2015", "user profile April 2015", or simply "user profile 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "user profile" will match objects with name "my user profile", "user profile 2015", or simply "user profile". */
-  searchString?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Field by which to sort the list. */
   sortField?: ListAccountUserProfilesSortFieldEnum | (string & {});
-  /** Order of sorted results. */
-  sortOrder?: ListAccountUserProfilesSortOrderEnum | (string & {});
+  /** Allows searching for objects by name, ID or email. Wildcards (*) are allowed. For example, "user profile*2015" will return objects with names like "user profile June 2015", "user profile April 2015", or simply "user profile 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "user profile" will match objects with name "my user profile", "user profile 2015", or simply "user profile". */
+  searchString?: string;
+  /** Select only user profiles with these IDs. */
+  ids?: StringList;
   /** Select only user profiles with the specified subaccount ID. */
   subaccountId?: string;
+  /** Order of sorted results. */
+  sortOrder?: ListAccountUserProfilesSortOrderEnum | (string & {});
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Select only user profiles with the specified user role ID. */
+  userRoleId?: string;
+  /** Select only active user profiles. */
+  active?: boolean;
 }
 export const ListAccountUserProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    userRoleId: S.optional(S.String.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    active: S.optional(S.Boolean.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
-    searchString: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     sortField: S.optional(ListAccountUserProfilesSortFieldEnum.pipe(T.Query())),
-    sortOrder: S.optional(ListAccountUserProfilesSortOrderEnum.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
     subaccountId: S.optional(S.String.pipe(T.Query())),
+    sortOrder: S.optional(ListAccountUserProfilesSortOrderEnum.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    userRoleId: S.optional(S.String.pipe(T.Query())),
+    active: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9847,6 +9847,9 @@ export const ListAdsTypeEnumList = /*@__PURE__*/ S.Array(
   ListAdsTypeEnum,
 ) as any as S.Schema<ListAdsTypeEnumList>;
 
+export type ListAdsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListAdsSortOrderEnum = S.String;
+
 export type ListAdsCompatibilityEnum =
   | "DISPLAY"
   | "DISPLAY_INTERSTITIAL"
@@ -9859,85 +9862,82 @@ export const ListAdsCompatibilityEnum = S.String;
 export type ListAdsSortFieldEnum = "ID" | "NAME";
 export const ListAdsSortFieldEnum = S.String;
 
-export type ListAdsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListAdsSortOrderEnum = S.String;
-
 export interface ListAdsRequest {
   /** Select only ads with these types. */
   type?: ListAdsTypeEnumList;
-  /** Select only ads that are SSL-compliant. */
-  sslCompliant?: boolean;
-  /** Select only ads with these placement IDs assigned. */
-  placementIds?: StringList;
-  /** Select default ads with the specified compatibility. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering an in-stream video ads developed with the VAST standard. */
-  compatibility?: ListAdsCompatibilityEnum | (string & {});
   /** Select only ads with these landing page IDs. */
   landingPageIds?: StringList;
-  /** Select only ads with this event tag override ID. */
-  overriddenEventTagId?: string;
-  /** Select only ads with these creative optimization configuration IDs. */
-  creativeOptimizationConfigurationIds?: StringList;
-  /** Select only ads with these campaign IDs. */
-  campaignIds?: StringList;
-  /** Field by which to sort the list. */
-  sortField?: ListAdsSortFieldEnum | (string & {});
-  /** Select only dynamic click trackers. Applicable when type is AD_SERVING_CLICK_TRACKER. If true, select dynamic click trackers. If false, select static click trackers. Leave unset to select both. */
-  dynamicClickTracker?: boolean;
-  /** Select only archived ads. */
-  archived?: boolean;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only ads with these size IDs. */
-  sizeIds?: StringList;
-  /** Select only ads with these creative IDs assigned. */
-  creativeIds?: StringList;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Select only ads with this advertiser ID. */
-  advertiserId?: string;
-  /** Select only ads that require SSL. */
-  sslRequired?: boolean;
   /** Select only ads with these IDs. */
   ids?: StringList;
-  /** Select only ads with these audience segment IDs. */
-  audienceSegmentIds?: StringList;
-  /** Select only active ads. */
-  active?: boolean;
-  /** Select only ads whose list targeting expression use these remarketing list IDs. */
-  remarketingListIds?: StringList;
   /** Order of sorted results. */
   sortOrder?: ListAdsSortOrderEnum | (string & {});
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "ad*2015" will return objects with names like "ad June 2015", "ad April 2015", or simply "ad 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "ad" will match objects with name "my ad", "ad 2015", or simply "ad". */
   searchString?: string;
+  /** Select only active ads. */
+  active?: boolean;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only ads that are SSL-compliant. */
+  sslCompliant?: boolean;
+  /** Select only ads whose list targeting expression use these remarketing list IDs. */
+  remarketingListIds?: StringList;
+  /** Select only dynamic click trackers. Applicable when type is AD_SERVING_CLICK_TRACKER. If true, select dynamic click trackers. If false, select static click trackers. Leave unset to select both. */
+  dynamicClickTracker?: boolean;
+  /** Select only ads with this advertiser ID. */
+  advertiserId?: string;
+  /** Select only ads with these audience segment IDs. */
+  audienceSegmentIds?: StringList;
+  /** Select only ads with these creative optimization configuration IDs. */
+  creativeOptimizationConfigurationIds?: StringList;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Select default ads with the specified compatibility. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering an in-stream video ads developed with the VAST standard. */
+  compatibility?: ListAdsCompatibilityEnum | (string & {});
+  /** Select only ads with these placement IDs assigned. */
+  placementIds?: StringList;
   /** Maximum number of results to return. */
   maxResults?: number;
+  /** Select only ads with these size IDs. */
+  sizeIds?: StringList;
+  /** Select only ads with these campaign IDs. */
+  campaignIds?: StringList;
+  /** Field by which to sort the list. */
+  sortField?: ListAdsSortFieldEnum | (string & {});
+  /** Select only ads that require SSL. */
+  sslRequired?: boolean;
+  /** Select only ads with these creative IDs assigned. */
+  creativeIds?: StringList;
+  /** Select only archived ads. */
+  archived?: boolean;
+  /** Select only ads with this event tag override ID. */
+  overriddenEventTagId?: string;
 }
 export const ListAdsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(ListAdsTypeEnumList.pipe(T.Query())),
-    sslCompliant: S.optional(S.Boolean.pipe(T.Query())),
-    placementIds: S.optional(StringList.pipe(T.Query())),
-    compatibility: S.optional(ListAdsCompatibilityEnum.pipe(T.Query())),
     landingPageIds: S.optional(StringList.pipe(T.Query())),
-    overriddenEventTagId: S.optional(S.String.pipe(T.Query())),
-    creativeOptimizationConfigurationIds: S.optional(StringList.pipe(T.Query())),
-    campaignIds: S.optional(StringList.pipe(T.Query())),
-    sortField: S.optional(ListAdsSortFieldEnum.pipe(T.Query())),
-    dynamicClickTracker: S.optional(S.Boolean.pipe(T.Query())),
-    archived: S.optional(S.Boolean.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    sizeIds: S.optional(StringList.pipe(T.Query())),
-    creativeIds: S.optional(StringList.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    advertiserId: S.optional(S.String.pipe(T.Query())),
-    sslRequired: S.optional(S.Boolean.pipe(T.Query())),
     ids: S.optional(StringList.pipe(T.Query())),
-    audienceSegmentIds: S.optional(StringList.pipe(T.Query())),
-    active: S.optional(S.Boolean.pipe(T.Query())),
-    remarketingListIds: S.optional(StringList.pipe(T.Query())),
     sortOrder: S.optional(ListAdsSortOrderEnum.pipe(T.Query())),
     searchString: S.optional(S.String.pipe(T.Query())),
+    active: S.optional(S.Boolean.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    sslCompliant: S.optional(S.Boolean.pipe(T.Query())),
+    remarketingListIds: S.optional(StringList.pipe(T.Query())),
+    dynamicClickTracker: S.optional(S.Boolean.pipe(T.Query())),
+    advertiserId: S.optional(S.String.pipe(T.Query())),
+    audienceSegmentIds: S.optional(StringList.pipe(T.Query())),
+    creativeOptimizationConfigurationIds: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    compatibility: S.optional(ListAdsCompatibilityEnum.pipe(T.Query())),
+    placementIds: S.optional(StringList.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    sizeIds: S.optional(StringList.pipe(T.Query())),
+    campaignIds: S.optional(StringList.pipe(T.Query())),
+    sortField: S.optional(ListAdsSortFieldEnum.pipe(T.Query())),
+    sslRequired: S.optional(S.Boolean.pipe(T.Query())),
+    creativeIds: S.optional(StringList.pipe(T.Query())),
+    archived: S.optional(S.Boolean.pipe(T.Query())),
+    overriddenEventTagId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9952,18 +9952,18 @@ export const AdList = /*@__PURE__*/ S.Array(Ad) as any as S.Schema<AdList>;
 
 /** Ad List Response */
 export interface AdsListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
-  /** Ad collection. */
-  ads?: AdList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#adsListResponse". */
   kind?: string;
+  /** Ad collection. */
+  ads?: AdList;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
 }
 export const AdsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    ads: S.optional(AdList),
     kind: S.optional(S.String),
+    ads: S.optional(AdList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "AdsListResponse" }) as any as S.Schema<AdsListResponse>;
 
@@ -9976,28 +9976,28 @@ export const ListAdvertiserGroupsSortFieldEnum = S.String;
 export interface ListAdvertiserGroupsRequest {
   /** Select only advertiser groups with these IDs. */
   ids?: StringList;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Order of sorted results. */
-  sortOrder?: ListAdvertiserGroupsSortOrderEnum | (string & {});
-  /** Field by which to sort the list. */
-  sortField?: ListAdvertiserGroupsSortFieldEnum | (string & {});
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "advertiser*2015" will return objects with names like "advertiser group June 2015", "advertiser group April 2015", or simply "advertiser group 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "advertisergroup" will match objects with name "my advertisergroup", "advertisergroup 2015", or simply "advertisergroup". */
   searchString?: string;
+  /** Order of sorted results. */
+  sortOrder?: ListAdvertiserGroupsSortOrderEnum | (string & {});
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Field by which to sort the list. */
+  sortField?: ListAdvertiserGroupsSortFieldEnum | (string & {});
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
 }
 export const ListAdvertiserGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.optional(StringList.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    sortOrder: S.optional(ListAdvertiserGroupsSortOrderEnum.pipe(T.Query())),
-    sortField: S.optional(ListAdvertiserGroupsSortFieldEnum.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     searchString: S.optional(S.String.pipe(T.Query())),
+    sortOrder: S.optional(ListAdvertiserGroupsSortOrderEnum.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    sortField: S.optional(ListAdvertiserGroupsSortFieldEnum.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10018,40 +10018,40 @@ export const AdvertiserGroupList = /*@__PURE__*/ S.Array(
 export interface AdvertiserGroupsListResponse {
   /** Advertiser group collection. */
   advertiserGroups?: AdvertiserGroupList;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroupsListResponse". */
   kind?: string;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
 }
 export const AdvertiserGroupsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     advertiserGroups: S.optional(AdvertiserGroupList),
-    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AdvertiserGroupsListResponse",
 }) as any as S.Schema<AdvertiserGroupsListResponse>;
 
 export interface ListAdvertiserInvoicesRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Advertiser ID of this invoice. */
-  advertiserId: string;
-  /** Month for which invoices are needed in the format YYYYMM. Required field */
-  issueMonth?: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Advertiser ID of this invoice. */
+  advertiserId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Month for which invoices are needed in the format YYYYMM. Required field */
+  issueMonth?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
 }
 export const ListAdvertiserInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    advertiserId: S.String.pipe(T.Label()),
-    issueMonth: S.optional(S.String.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
+    advertiserId: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    issueMonth: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10063,32 +10063,26 @@ export const ListAdvertiserInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAdvertiserInvoicesRequest",
 }) as any as S.Schema<ListAdvertiserInvoicesRequest>;
 
-export type InvoiceInvoiceTypeEnum =
-  | "INVOICE_TYPE_UNSPECIFIED"
-  | "INVOICE_TYPE_CREDIT"
-  | "INVOICE_TYPE_INVOICE";
-export const InvoiceInvoiceTypeEnum = S.String;
-
 /** Represents a summarized campaign information associated with this invoice. */
 export interface CampaignSummary {
-  /** The total amount of charges for this campaign, in micros of the invoice's currency. */
-  totalAmountMicros?: string;
   /** The tax amount for this campaign, in micros of the invoice's currency. */
   taxAmountMicros?: string;
-  /** The pre-tax amount for this campaign, in micros of the invoice's currency. */
-  preTaxAmountMicros?: string;
-  /** Campaign ID. */
-  campaignId?: string;
   /** Campaign billing invoice code. */
   billingInvoiceCode?: string;
+  /** The pre-tax amount for this campaign, in micros of the invoice's currency. */
+  preTaxAmountMicros?: string;
+  /** The total amount of charges for this campaign, in micros of the invoice's currency. */
+  totalAmountMicros?: string;
+  /** Campaign ID. */
+  campaignId?: string;
 }
 export const CampaignSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    totalAmountMicros: S.optional(S.String),
     taxAmountMicros: S.optional(S.String),
-    preTaxAmountMicros: S.optional(S.String),
-    campaignId: S.optional(S.String),
     billingInvoiceCode: S.optional(S.String),
+    preTaxAmountMicros: S.optional(S.String),
+    totalAmountMicros: S.optional(S.String),
+    campaignId: S.optional(S.String),
   }),
 ).annotate({ identifier: "CampaignSummary" }) as any as S.Schema<CampaignSummary>;
 
@@ -10097,65 +10091,71 @@ export const CampaignSummaryList = /*@__PURE__*/ S.Array(
   CampaignSummary,
 ) as any as S.Schema<CampaignSummaryList>;
 
+export type InvoiceInvoiceTypeEnum =
+  | "INVOICE_TYPE_UNSPECIFIED"
+  | "INVOICE_TYPE_CREDIT"
+  | "INVOICE_TYPE_INVOICE";
+export const InvoiceInvoiceTypeEnum = S.String;
+
 /** Contains information about a single invoice */
 export interface Invoice {
-  /** The sum of all taxes in invoice, in micros of the invoice's currency. */
-  totalTaxAmountMicros?: string;
-  /** The pre-tax subtotal amount, in micros of the invoice's currency. */
-  subtotalAmountMicros?: string;
-  /** The originally issued invoice(s) that is being cancelled by this invoice, if applicable. May appear on invoice PDF as *Replaced invoice numbers*. Note: There may be multiple replaced invoices due to consolidation of multiple invoices into a single invoice. */
-  replacedInvoiceIds?: StringList;
-  /** The invoice service end date. */
-  serviceEndDate?: string;
-  /** Invoice currency code in ISO 4217 format. */
-  currencyCode?: string;
-  /** The type of invoice document. */
-  invoiceType?: InvoiceInvoiceTypeEnum;
-  /** The invoice total amount, in micros of the invoice's currency. */
-  totalAmountMicros?: string;
-  /** The originally issued invoice that is being adjusted by this invoice, if applicable. May appear on invoice PDF as *Reference invoice number*. */
-  correctedInvoiceId?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#invoice". */
-  kind?: string;
-  /** The invoice service start date. */
-  serviceStartDate?: string;
-  /** The invoice due date. */
-  dueDate?: string;
-  /** The date when the invoice was issued. */
-  issueDate?: string;
-  /** Purchase order number associated with the invoice. */
-  purchaseOrderNumber?: string;
-  /** The ID of the payments account the invoice belongs to. Appears on the invoice PDF as *Billing Account Number*. */
-  paymentsAccountId?: string;
-  /** The list of summarized campaign information associated with this invoice. */
-  campaign_summaries?: CampaignSummaryList;
-  /** ID of this invoice. */
-  id?: string;
-  /** The URL to download a PDF copy of the invoice. Note that this URL is user specific and requires a valid OAuth 2.0 access token to access. The access token must be provided in an *Authorization: Bearer* HTTP header. The URL will only be usable for 7 days from when the api is called. */
-  pdfUrl?: string;
   /** The ID of the payments profile the invoice belongs to. Appears on the invoice PDF as *Billing ID*. */
   paymentsProfileId?: string;
+  /** The invoice due date. */
+  dueDate?: string;
+  /** The sum of all taxes in invoice, in micros of the invoice's currency. */
+  totalTaxAmountMicros?: string;
+  /** The ID of the payments account the invoice belongs to. Appears on the invoice PDF as *Billing Account Number*. */
+  paymentsAccountId?: string;
+  /** Invoice currency code in ISO 4217 format. */
+  currencyCode?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#invoice". */
+  kind?: string;
+  /** ID of this invoice. */
+  id?: string;
+  /** The originally issued invoice that is being adjusted by this invoice, if applicable. May appear on invoice PDF as *Reference invoice number*. */
+  correctedInvoiceId?: string;
+  /** The pre-tax subtotal amount, in micros of the invoice's currency. */
+  subtotalAmountMicros?: string;
+  /** The list of summarized campaign information associated with this invoice. */
+  campaign_summaries?: CampaignSummaryList;
+  /** The date when the invoice was issued. */
+  issueDate?: string;
+  /** The invoice total amount, in micros of the invoice's currency. */
+  totalAmountMicros?: string;
+  /** The originally issued invoice(s) that is being cancelled by this invoice, if applicable. May appear on invoice PDF as *Replaced invoice numbers*. Note: There may be multiple replaced invoices due to consolidation of multiple invoices into a single invoice. */
+  replacedInvoiceIds?: StringList;
+  /** The URL to download a PDF copy of the invoice. Note that this URL is user specific and requires a valid OAuth 2.0 access token to access. The access token must be provided in an *Authorization: Bearer* HTTP header. The URL will only be usable for 7 days from when the api is called. */
+  pdfUrl?: string;
+  /** Purchase order number associated with the invoice. */
+  purchaseOrderNumber?: string;
+  /** The type of invoice document. */
+  invoiceType?: InvoiceInvoiceTypeEnum;
+  /** The invoice service end date. */
+  serviceEndDate?: string;
+  /** The invoice service start date. */
+  serviceStartDate?: string;
 }
 export const Invoice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    totalTaxAmountMicros: S.optional(S.String),
-    subtotalAmountMicros: S.optional(S.String),
-    replacedInvoiceIds: S.optional(StringList),
-    serviceEndDate: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    invoiceType: S.optional(InvoiceInvoiceTypeEnum),
-    totalAmountMicros: S.optional(S.String),
-    correctedInvoiceId: S.optional(S.String),
-    kind: S.optional(S.String),
-    serviceStartDate: S.optional(S.String),
-    dueDate: S.optional(S.String),
-    issueDate: S.optional(S.String),
-    purchaseOrderNumber: S.optional(S.String),
-    paymentsAccountId: S.optional(S.String),
-    campaign_summaries: S.optional(CampaignSummaryList),
-    id: S.optional(S.String),
-    pdfUrl: S.optional(S.String),
     paymentsProfileId: S.optional(S.String),
+    dueDate: S.optional(S.String),
+    totalTaxAmountMicros: S.optional(S.String),
+    paymentsAccountId: S.optional(S.String),
+    currencyCode: S.optional(S.String),
+    kind: S.optional(S.String),
+    id: S.optional(S.String),
+    correctedInvoiceId: S.optional(S.String),
+    subtotalAmountMicros: S.optional(S.String),
+    campaign_summaries: S.optional(CampaignSummaryList),
+    issueDate: S.optional(S.String),
+    totalAmountMicros: S.optional(S.String),
+    replacedInvoiceIds: S.optional(StringList),
+    pdfUrl: S.optional(S.String),
+    purchaseOrderNumber: S.optional(S.String),
+    invoiceType: S.optional(InvoiceInvoiceTypeEnum),
+    serviceEndDate: S.optional(S.String),
+    serviceStartDate: S.optional(S.String),
   }),
 ).annotate({ identifier: "Invoice" }) as any as S.Schema<Invoice>;
 
@@ -10164,66 +10164,66 @@ export const InvoiceList = /*@__PURE__*/ S.Array(Invoice) as any as S.Schema<Inv
 
 /** Invoice List Response */
 export interface AdvertiserInvoicesListResponse {
-  /** Invoice collection */
-  invoices?: InvoiceList;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserInvoicesListResponse". */
   kind?: string;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
+  /** Invoice collection */
+  invoices?: InvoiceList;
 }
 export const AdvertiserInvoicesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    invoices: S.optional(InvoiceList),
-    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
+    invoices: S.optional(InvoiceList),
   }),
 ).annotate({
   identifier: "AdvertiserInvoicesListResponse",
 }) as any as S.Schema<AdvertiserInvoicesListResponse>;
 
-export type ListAdvertiserLandingPagesSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListAdvertiserLandingPagesSortOrderEnum = S.String;
-
 export type ListAdvertiserLandingPagesSortFieldEnum = "ID" | "NAME";
 export const ListAdvertiserLandingPagesSortFieldEnum = S.String;
 
+export type ListAdvertiserLandingPagesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListAdvertiserLandingPagesSortOrderEnum = S.String;
+
 export interface ListAdvertiserLandingPagesRequest {
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
   /** Select only archived landing pages. Don't set this field to select both archived and non-archived landing pages. */
   archived?: boolean;
-  /** Select only landing pages with these IDs. */
-  ids?: StringList;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Select only landing pages that belong to these advertisers. */
   advertiserIds?: StringList;
-  /** Order of sorted results. */
-  sortOrder?: ListAdvertiserLandingPagesSortOrderEnum | (string & {});
+  /** Select only landing pages that belong to this subaccount. */
+  subaccountId?: string;
   /** Allows searching for landing pages by name or ID. Wildcards (*) are allowed. For example, "landingpage*2017" will return landing pages with names like "landingpage July 2017", "landingpage March 2017", or simply "landingpage 2017". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "landingpage" will match campaigns with name "my landingpage", "landingpage 2015", or simply "landingpage". */
   searchString?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Field by which to sort the list. */
   sortField?: ListAdvertiserLandingPagesSortFieldEnum | (string & {});
   /** Select only landing pages that are associated with these campaigns. */
   campaignIds?: StringList;
-  /** Select only landing pages that belong to this subaccount. */
-  subaccountId?: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Order of sorted results. */
+  sortOrder?: ListAdvertiserLandingPagesSortOrderEnum | (string & {});
+  /** Select only landing pages with these IDs. */
+  ids?: StringList;
 }
 export const ListAdvertiserLandingPagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     archived: S.optional(S.Boolean.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
     advertiserIds: S.optional(StringList.pipe(T.Query())),
-    sortOrder: S.optional(ListAdvertiserLandingPagesSortOrderEnum.pipe(T.Query())),
+    subaccountId: S.optional(S.String.pipe(T.Query())),
     searchString: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
     sortField: S.optional(ListAdvertiserLandingPagesSortFieldEnum.pipe(T.Query())),
     campaignIds: S.optional(StringList.pipe(T.Query())),
-    subaccountId: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    sortOrder: S.optional(ListAdvertiserLandingPagesSortOrderEnum.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10242,75 +10242,75 @@ export const LandingPageList = /*@__PURE__*/ S.Array(
 
 /** Landing Page List Response */
 export interface AdvertiserLandingPagesListResponse {
-  /** Landing page collection */
-  landingPages?: LandingPageList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserLandingPagesListResponse". */
   kind?: string;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
+  /** Landing page collection */
+  landingPages?: LandingPageList;
 }
 export const AdvertiserLandingPagesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    landingPages: S.optional(LandingPageList),
     kind: S.optional(S.String),
     nextPageToken: S.optional(S.String),
+    landingPages: S.optional(LandingPageList),
   }),
 ).annotate({
   identifier: "AdvertiserLandingPagesListResponse",
 }) as any as S.Schema<AdvertiserLandingPagesListResponse>;
 
-export type ListAdvertisersStatusEnum = "APPROVED" | "ON_HOLD";
-export const ListAdvertisersStatusEnum = S.String;
-
 export type ListAdvertisersSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListAdvertisersSortOrderEnum = S.String;
+
+export type ListAdvertisersStatusEnum = "APPROVED" | "ON_HOLD";
+export const ListAdvertisersStatusEnum = S.String;
 
 export type ListAdvertisersSortFieldEnum = "ID" | "NAME";
 export const ListAdvertisersSortFieldEnum = S.String;
 
 export interface ListAdvertisersRequest {
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  /** Select only advertisers with these IDs. */
+  ids?: StringList;
   /** Select only advertisers with these subaccount IDs. */
   subaccountId?: string;
-  /** Select only advertisers which use another advertiser's floodlight configuration. */
-  onlyParent?: boolean;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "advertiser*2015" will return objects with names like "advertiser June 2015", "advertiser April 2015", or simply "advertiser 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "advertiser" will match objects with name "my advertiser", "advertiser 2015", or simply "advertiser" . */
-  searchString?: string;
-  /** Select only advertisers with the specified status. */
-  status?: ListAdvertisersStatusEnum | (string & {});
+  /** Select only advertisers with these advertiser group IDs. */
+  advertiserGroupIds?: StringList;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Select only advertisers which do not belong to any advertiser group. */
   includeAdvertisersWithoutGroupsOnly?: boolean;
   /** Order of sorted results. */
   sortOrder?: ListAdvertisersSortOrderEnum | (string & {});
-  /** Select only advertisers with these floodlight configuration IDs. */
-  floodlightConfigurationIds?: StringList;
-  /** Select only advertisers with these IDs. */
-  ids?: StringList;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Select only advertisers with these advertiser group IDs. */
-  advertiserGroupIds?: StringList;
-  /** Field by which to sort the list. */
-  sortField?: ListAdvertisersSortFieldEnum | (string & {});
+  /** Select only advertisers with the specified status. */
+  status?: ListAdvertisersStatusEnum | (string & {});
+  /** Select only advertisers which use another advertiser's floodlight configuration. */
+  onlyParent?: boolean;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "advertiser*2015" will return objects with names like "advertiser June 2015", "advertiser April 2015", or simply "advertiser 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "advertiser" will match objects with name "my advertiser", "advertiser 2015", or simply "advertiser" . */
+  searchString?: string;
+  /** Field by which to sort the list. */
+  sortField?: ListAdvertisersSortFieldEnum | (string & {});
+  /** Select only advertisers with these floodlight configuration IDs. */
+  floodlightConfigurationIds?: StringList;
 }
 export const ListAdvertisersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
     subaccountId: S.optional(S.String.pipe(T.Query())),
-    onlyParent: S.optional(S.Boolean.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    status: S.optional(ListAdvertisersStatusEnum.pipe(T.Query())),
+    advertiserGroupIds: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     includeAdvertisersWithoutGroupsOnly: S.optional(S.Boolean.pipe(T.Query())),
     sortOrder: S.optional(ListAdvertisersSortOrderEnum.pipe(T.Query())),
-    floodlightConfigurationIds: S.optional(StringList.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    advertiserGroupIds: S.optional(StringList.pipe(T.Query())),
-    sortField: S.optional(ListAdvertisersSortFieldEnum.pipe(T.Query())),
+    status: S.optional(ListAdvertisersStatusEnum.pipe(T.Query())),
+    onlyParent: S.optional(S.Boolean.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    sortField: S.optional(ListAdvertisersSortFieldEnum.pipe(T.Query())),
+    floodlightConfigurationIds: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10325,31 +10325,31 @@ export const AdvertiserList = /*@__PURE__*/ S.Array(Advertiser) as any as S.Sche
 
 /** Advertiser List Response */
 export interface AdvertisersListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
-  /** Advertiser collection. */
-  advertisers?: AdvertiserList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertisersListResponse". */
   kind?: string;
+  /** Advertiser collection. */
+  advertisers?: AdvertiserList;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
 }
 export const AdvertisersListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    advertisers: S.optional(AdvertiserList),
     kind: S.optional(S.String),
+    advertisers: S.optional(AdvertiserList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "AdvertisersListResponse" }) as any as S.Schema<AdvertisersListResponse>;
 
 export interface ListBillingAssignmentsRequest {
-  /** Billing profile ID of this billing assignment. */
-  billingProfileId: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Billing profile ID of this billing assignment. */
+  billingProfileId: string;
 }
 export const ListBillingAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billingProfileId: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    billingProfileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10368,25 +10368,19 @@ export const BillingAssignmentList = /*@__PURE__*/ S.Array(
 
 /** Billing assignment List Response */
 export interface BillingAssignmentsListResponse {
-  /** Billing assignments collection. */
-  billingAssignments?: BillingAssignmentList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignmentsListResponse". */
   kind?: string;
+  /** Billing assignments collection. */
+  billingAssignments?: BillingAssignmentList;
 }
 export const BillingAssignmentsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billingAssignments: S.optional(BillingAssignmentList),
     kind: S.optional(S.String),
+    billingAssignments: S.optional(BillingAssignmentList),
   }),
 ).annotate({
   identifier: "BillingAssignmentsListResponse",
 }) as any as S.Schema<BillingAssignmentsListResponse>;
-
-export type ListBillingProfilesSortFieldEnum = "ID" | "NAME";
-export const ListBillingProfilesSortFieldEnum = S.String;
-
-export type ListBillingProfilesSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListBillingProfilesSortOrderEnum = S.String;
 
 export type ListBillingProfilesStatusEnum = "UNDER_REVIEW" | "ACTIVE" | "ARCHIVED";
 export const ListBillingProfilesStatusEnum = S.String;
@@ -10398,43 +10392,49 @@ export const ListBillingProfilesStatusEnumList = /*@__PURE__*/ S.Array(
   ListBillingProfilesStatusEnum,
 ) as any as S.Schema<ListBillingProfilesStatusEnumList>;
 
+export type ListBillingProfilesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListBillingProfilesSortOrderEnum = S.String;
+
+export type ListBillingProfilesSortFieldEnum = "ID" | "NAME";
+export const ListBillingProfilesSortFieldEnum = S.String;
+
 export interface ListBillingProfilesRequest {
-  /** Select only billing profile which is suggested for the currency_code & subaccount_id using the Billing Suggestion API. */
-  onlySuggestion?: boolean;
-  /** Field by which to sort the list. */
-  sortField?: ListBillingProfilesSortFieldEnum | (string & {});
-  /** Select only billing profile with these IDs. */
-  ids?: StringList;
-  /** Order of sorted results. */
-  sortOrder?: ListBillingProfilesSortOrderEnum | (string & {});
-  /** Select only billing profile with currency. */
-  currency_code?: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Select only billing profile with the specified status. */
   status?: ListBillingProfilesStatusEnumList;
-  /** Select only billing profile with the specified subaccount.When only_suggestion is true, only a single subaccount_id is supported. */
-  subaccountIds?: StringList;
+  /** Select only billing profile with currency. */
+  currency_code?: string;
+  /** Select only billing profile with these IDs. */
+  ids?: StringList;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
+  /** Select only billing profile with the specified subaccount.When only_suggestion is true, only a single subaccount_id is supported. */
+  subaccountIds?: StringList;
+  /** Order of sorted results. */
+  sortOrder?: ListBillingProfilesSortOrderEnum | (string & {});
   /** Allows searching for billing profiles by name. Wildcards (*) are allowed. For example, "profile*2020" will return objects with names like "profile June 2020", "profile April 2020", or simply "profile 2020". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "profile" will match objects with name "my profile", "profile 2021", or simply "profile". */
   name?: string;
+  /** Select only billing profile which is suggested for the currency_code & subaccount_id using the Billing Suggestion API. */
+  onlySuggestion?: boolean;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Field by which to sort the list. */
+  sortField?: ListBillingProfilesSortFieldEnum | (string & {});
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const ListBillingProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    onlySuggestion: S.optional(S.Boolean.pipe(T.Query())),
-    sortField: S.optional(ListBillingProfilesSortFieldEnum.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    sortOrder: S.optional(ListBillingProfilesSortOrderEnum.pipe(T.Query())),
-    currency_code: S.optional(S.String.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
     status: S.optional(ListBillingProfilesStatusEnumList.pipe(T.Query())),
-    subaccountIds: S.optional(StringList.pipe(T.Query())),
+    currency_code: S.optional(S.String.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
+    subaccountIds: S.optional(StringList.pipe(T.Query())),
+    sortOrder: S.optional(ListBillingProfilesSortOrderEnum.pipe(T.Query())),
     name: S.optional(S.String.pipe(T.Query())),
+    onlySuggestion: S.optional(S.Boolean.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    sortField: S.optional(ListBillingProfilesSortFieldEnum.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10489,6 +10489,30 @@ export const ListBillingRatesRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "ListBillingRatesRequest" }) as any as S.Schema<ListBillingRatesRequest>;
 
+export interface BillingRateTieredRate {
+  /** The maximum for this tier range. */
+  highValue?: string;
+  /** Rate in micros for this tier. */
+  rateInMicros?: string;
+  /** The minimum for this tier range. */
+  lowValue?: string;
+}
+export const BillingRateTieredRate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    highValue: S.optional(S.String),
+    rateInMicros: S.optional(S.String),
+    lowValue: S.optional(S.String),
+  }),
+).annotate({ identifier: "BillingRateTieredRate" }) as any as S.Schema<BillingRateTieredRate>;
+
+export type BillingRateTieredRateList = Array<BillingRateTieredRate>;
+export const BillingRateTieredRateList = /*@__PURE__*/ S.Array(
+  BillingRateTieredRate,
+) as any as S.Schema<BillingRateTieredRateList>;
+
+export type BillingRateUnitOfMeasureEnum = "CPM" | "CPC" | "EA" | "P2C";
+export const BillingRateUnitOfMeasureEnum = S.String;
+
 export type BillingRateTypeEnum =
   | "AD_SERVING"
   | "CLICKS"
@@ -10524,61 +10548,37 @@ export type BillingRateTypeEnum =
   | "ADVANCED_DISPLAY_AD_SERVING";
 export const BillingRateTypeEnum = S.String;
 
-export interface BillingRateTieredRate {
-  /** Rate in micros for this tier. */
-  rateInMicros?: string;
-  /** The maximum for this tier range. */
-  highValue?: string;
-  /** The minimum for this tier range. */
-  lowValue?: string;
-}
-export const BillingRateTieredRate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rateInMicros: S.optional(S.String),
-    highValue: S.optional(S.String),
-    lowValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "BillingRateTieredRate" }) as any as S.Schema<BillingRateTieredRate>;
-
-export type BillingRateTieredRateList = Array<BillingRateTieredRate>;
-export const BillingRateTieredRateList = /*@__PURE__*/ S.Array(
-  BillingRateTieredRate,
-) as any as S.Schema<BillingRateTieredRateList>;
-
-export type BillingRateUnitOfMeasureEnum = "CPM" | "CPC" | "EA" | "P2C";
-export const BillingRateUnitOfMeasureEnum = S.String;
-
 export interface BillingRate {
-  /** End date of this billing rate. */
-  endDate?: string;
-  /** Type of this billing rate. */
-  type?: BillingRateTypeEnum;
-  /** Billing currency code in ISO 4217 format. */
-  currencyCode?: string;
   /** Tiered rate of this billing rate. This cannot co-exist with flat rate. */
   tieredRates?: BillingRateTieredRateList;
+  /** End date of this billing rate. */
+  endDate?: string;
+  /** Flat rate in micros of this billing rate. This cannot co-exist with tiered rate. */
+  rateInMicros?: string;
   /** Unit of measure for this billing rate. */
   unitOfMeasure?: BillingRateUnitOfMeasureEnum;
+  /** Billing currency code in ISO 4217 format. */
+  currencyCode?: string;
   /** Name of this billing rate. This must be less than 256 characters long. */
   name?: string;
   /** ID of this billing rate. */
   id?: string;
-  /** Flat rate in micros of this billing rate. This cannot co-exist with tiered rate. */
-  rateInMicros?: string;
   /** Start date of this billing rate. */
   startDate?: string;
+  /** Type of this billing rate. */
+  type?: BillingRateTypeEnum;
 }
 export const BillingRate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endDate: S.optional(S.String),
-    type: S.optional(BillingRateTypeEnum),
-    currencyCode: S.optional(S.String),
     tieredRates: S.optional(BillingRateTieredRateList),
+    endDate: S.optional(S.String),
+    rateInMicros: S.optional(S.String),
     unitOfMeasure: S.optional(BillingRateUnitOfMeasureEnum),
+    currencyCode: S.optional(S.String),
     name: S.optional(S.String),
     id: S.optional(S.String),
-    rateInMicros: S.optional(S.String),
     startDate: S.optional(S.String),
+    type: S.optional(BillingRateTypeEnum),
   }),
 ).annotate({ identifier: "BillingRate" }) as any as S.Schema<BillingRate>;
 
@@ -10589,17 +10589,17 @@ export const BillingRateList = /*@__PURE__*/ S.Array(
 
 /** Billing Rate List Response */
 export interface BillingRatesListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
   /** Billing rates collection. */
   billingRates?: BillingRateList;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingRatesListResponse". */
   kind?: string;
 }
 export const BillingRatesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     billingRates: S.optional(BillingRateList),
+    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "BillingRatesListResponse" }) as any as S.Schema<BillingRatesListResponse>;
@@ -10622,15 +10622,15 @@ export const ListBrowsersRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Browser List Response */
 export interface BrowsersListResponse {
-  /** Browser collection. */
-  browsers?: BrowserList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#browsersListResponse". */
   kind?: string;
+  /** Browser collection. */
+  browsers?: BrowserList;
 }
 export const BrowsersListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    browsers: S.optional(BrowserList),
     kind: S.optional(S.String),
+    browsers: S.optional(BrowserList),
   }),
 ).annotate({ identifier: "BrowsersListResponse" }) as any as S.Schema<BrowsersListResponse>;
 
@@ -10644,18 +10644,18 @@ export interface ListCampaignCreativeAssociationsRequest {
   campaignId: string;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Maximum number of results to return. */
   maxResults?: number;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const ListCampaignCreativeAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sortOrder: S.optional(ListCampaignCreativeAssociationsSortOrderEnum.pipe(T.Query())),
     campaignId: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10674,75 +10674,75 @@ export const CampaignCreativeAssociationList = /*@__PURE__*/ S.Array(
 
 /** Campaign Creative Association List Response */
 export interface CampaignCreativeAssociationsListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociationsListResponse". */
   kind?: string;
   /** Campaign creative association collection */
   campaignCreativeAssociations?: CampaignCreativeAssociationList;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
 }
 export const CampaignCreativeAssociationsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
     campaignCreativeAssociations: S.optional(CampaignCreativeAssociationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CampaignCreativeAssociationsListResponse",
 }) as any as S.Schema<CampaignCreativeAssociationsListResponse>;
 
-export type ListCampaignsSortFieldEnum = "ID" | "NAME";
-export const ListCampaignsSortFieldEnum = S.String;
-
 export type ListCampaignsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListCampaignsSortOrderEnum = S.String;
 
+export type ListCampaignsSortFieldEnum = "ID" | "NAME";
+export const ListCampaignsSortFieldEnum = S.String;
+
 export interface ListCampaignsRequest {
-  /** Select only campaigns that belong to these advertisers. */
-  advertiserIds?: StringList;
-  /** Select only campaigns whose advertisers belong to these advertiser groups. */
-  advertiserGroupIds?: StringList;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Field by which to sort the list. */
-  sortField?: ListCampaignsSortFieldEnum | (string & {});
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only campaigns that have overridden this event tag ID. */
-  overriddenEventTagId?: string;
-  /** Exclude campaigns with these IDs. */
-  excludedIds?: StringList;
-  /** Select only campaigns with these IDs. */
-  ids?: StringList;
   /** Order of sorted results. */
   sortOrder?: ListCampaignsSortOrderEnum | (string & {});
-  /** Select only campaigns that belong to this subaccount. */
-  subaccountId?: string;
-  /** Allows searching for campaigns by name or ID. Wildcards (*) are allowed. For example, "campaign*2015" will return campaigns with names like "campaign June 2015", "campaign April 2015", or simply "campaign 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "campaign" will match campaigns with name "my campaign", "campaign 2015", or simply "campaign". */
-  searchString?: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  /** Select only campaigns with these IDs. */
+  ids?: StringList;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Select only campaigns that have at least one optimization activity. */
   atLeastOneOptimizationActivity?: boolean;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Select only campaigns that belong to these advertisers. */
+  advertiserIds?: StringList;
   /** Select only archived campaigns. Don't set this field to select both archived and non-archived campaigns. */
   archived?: boolean;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Allows searching for campaigns by name or ID. Wildcards (*) are allowed. For example, "campaign*2015" will return campaigns with names like "campaign June 2015", "campaign April 2015", or simply "campaign 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "campaign" will match campaigns with name "my campaign", "campaign 2015", or simply "campaign". */
+  searchString?: string;
+  /** Exclude campaigns with these IDs. */
+  excludedIds?: StringList;
+  /** Field by which to sort the list. */
+  sortField?: ListCampaignsSortFieldEnum | (string & {});
+  /** Select only campaigns whose advertisers belong to these advertiser groups. */
+  advertiserGroupIds?: StringList;
+  /** Select only campaigns that have overridden this event tag ID. */
+  overriddenEventTagId?: string;
+  /** Select only campaigns that belong to this subaccount. */
+  subaccountId?: string;
 }
 export const ListCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    advertiserIds: S.optional(StringList.pipe(T.Query())),
-    advertiserGroupIds: S.optional(StringList.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    sortField: S.optional(ListCampaignsSortFieldEnum.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    overriddenEventTagId: S.optional(S.String.pipe(T.Query())),
-    excludedIds: S.optional(StringList.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
     sortOrder: S.optional(ListCampaignsSortOrderEnum.pipe(T.Query())),
-    subaccountId: S.optional(S.String.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
     atLeastOneOptimizationActivity: S.optional(S.Boolean.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    advertiserIds: S.optional(StringList.pipe(T.Query())),
     archived: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    excludedIds: S.optional(StringList.pipe(T.Query())),
+    sortField: S.optional(ListCampaignsSortFieldEnum.pipe(T.Query())),
+    advertiserGroupIds: S.optional(StringList.pipe(T.Query())),
+    overriddenEventTagId: S.optional(S.String.pipe(T.Query())),
+    subaccountId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10759,38 +10759,18 @@ export const CampaignList = /*@__PURE__*/ S.Array(Campaign) as any as S.Schema<C
 export interface CampaignsListResponse {
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignsListResponse". */
-  kind?: string;
   /** Campaign collection. */
   campaigns?: CampaignList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignsListResponse". */
+  kind?: string;
 }
 export const CampaignsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    kind: S.optional(S.String),
     campaigns: S.optional(CampaignList),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "CampaignsListResponse" }) as any as S.Schema<CampaignsListResponse>;
-
-export type ListChangeLogsActionEnum =
-  | "ACTION_CREATE"
-  | "ACTION_UPDATE"
-  | "ACTION_DELETE"
-  | "ACTION_ENABLE"
-  | "ACTION_DISABLE"
-  | "ACTION_ADD"
-  | "ACTION_REMOVE"
-  | "ACTION_MARK_AS_DEFAULT"
-  | "ACTION_ASSOCIATE"
-  | "ACTION_ASSIGN"
-  | "ACTION_UNASSIGN"
-  | "ACTION_SEND"
-  | "ACTION_LINK"
-  | "ACTION_UNLINK"
-  | "ACTION_PUSH"
-  | "ACTION_EMAIL_TAGS"
-  | "ACTION_SHARE";
-export const ListChangeLogsActionEnum = S.String;
 
 export type ListChangeLogsObjectTypeEnum =
   | "OBJECT_ADVERTISER"
@@ -10838,43 +10818,63 @@ export type ListChangeLogsObjectTypeEnum =
   | "OBJECT_ACCOUNT_CONVERSION_DOMAIN";
 export const ListChangeLogsObjectTypeEnum = S.String;
 
+export type ListChangeLogsActionEnum =
+  | "ACTION_CREATE"
+  | "ACTION_UPDATE"
+  | "ACTION_DELETE"
+  | "ACTION_ENABLE"
+  | "ACTION_DISABLE"
+  | "ACTION_ADD"
+  | "ACTION_REMOVE"
+  | "ACTION_MARK_AS_DEFAULT"
+  | "ACTION_ASSOCIATE"
+  | "ACTION_ASSIGN"
+  | "ACTION_UNASSIGN"
+  | "ACTION_SEND"
+  | "ACTION_LINK"
+  | "ACTION_UNLINK"
+  | "ACTION_PUSH"
+  | "ACTION_EMAIL_TAGS"
+  | "ACTION_SHARE";
+export const ListChangeLogsActionEnum = S.String;
+
 export interface ListChangeLogsRequest {
+  /** Select only change logs whose change time is after the specified minChangeTime.The time should be formatted as an RFC3339 date/time string. For example, for 10:54 PM on July 18th, 2015, in the America/New York time zone, the format is "2015-07-18T22:54:00-04:00". In other words, the year, month, day, the letter T, the hour (24-hour clock system), minute, second, and then the time zone offset. */
+  minChangeTime?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only change logs whose object ID, user name, old or new values match the search string. */
+  searchString?: string;
+  /** Select only change logs with these user profile IDs. */
+  userProfileIds?: StringList;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
+  /** Select only change logs with the specified object type. */
+  objectType?: ListChangeLogsObjectTypeEnum | (string & {});
+  /** Select only change logs with these object IDs. */
+  objectIds?: StringList;
   /** Select only change logs with the specified action. */
   action?: ListChangeLogsActionEnum | (string & {});
   /** Select only change logs whose change time is before the specified maxChangeTime.The time should be formatted as an RFC3339 date/time string. For example, for 10:54 PM on July 18th, 2015, in the America/New York time zone, the format is "2015-07-18T22:54:00-04:00". In other words, the year, month, day, the letter T, the hour (24-hour clock system), minute, second, and then the time zone offset. */
   maxChangeTime?: string;
   /** Select only change logs with these IDs. */
   ids?: StringList;
-  /** Select only change logs with the specified object type. */
-  objectType?: ListChangeLogsObjectTypeEnum | (string & {});
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only change logs with these object IDs. */
-  objectIds?: StringList;
-  /** Select only change logs with these user profile IDs. */
-  userProfileIds?: StringList;
-  /** Select only change logs whose object ID, user name, old or new values match the search string. */
-  searchString?: string;
-  /** Select only change logs whose change time is after the specified minChangeTime.The time should be formatted as an RFC3339 date/time string. For example, for 10:54 PM on July 18th, 2015, in the America/New York time zone, the format is "2015-07-18T22:54:00-04:00". In other words, the year, month, day, the letter T, the hour (24-hour clock system), minute, second, and then the time zone offset. */
-  minChangeTime?: string;
 }
 export const ListChangeLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    minChangeTime: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    userProfileIds: S.optional(StringList.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    objectType: S.optional(ListChangeLogsObjectTypeEnum.pipe(T.Query())),
+    objectIds: S.optional(StringList.pipe(T.Query())),
     action: S.optional(ListChangeLogsActionEnum.pipe(T.Query())),
     maxChangeTime: S.optional(S.String.pipe(T.Query())),
     ids: S.optional(StringList.pipe(T.Query())),
-    objectType: S.optional(ListChangeLogsObjectTypeEnum.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    objectIds: S.optional(StringList.pipe(T.Query())),
-    userProfileIds: S.optional(StringList.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    minChangeTime: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10891,38 +10891,38 @@ export const ChangeLogList = /*@__PURE__*/ S.Array(ChangeLog) as any as S.Schema
 export interface ChangeLogsListResponse {
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
-  /** Change log collection. */
-  changeLogs?: ChangeLogList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#changeLogsListResponse". */
   kind?: string;
+  /** Change log collection. */
+  changeLogs?: ChangeLogList;
 }
 export const ChangeLogsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    changeLogs: S.optional(ChangeLogList),
     kind: S.optional(S.String),
+    changeLogs: S.optional(ChangeLogList),
   }),
 ).annotate({ identifier: "ChangeLogsListResponse" }) as any as S.Schema<ChangeLogsListResponse>;
 
 export interface ListCitiesRequest {
   /** Select only cities from these regions. */
   regionDartIds?: StringList;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only cities with names starting with this prefix. */
-  namePrefix?: string;
-  /** Select only cities with these DART IDs. */
-  dartIds?: StringList;
   /** Select only cities from these countries. */
   countryDartIds?: StringList;
+  /** Select only cities with names starting with this prefix. */
+  namePrefix?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only cities with these DART IDs. */
+  dartIds?: StringList;
 }
 export const ListCitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     regionDartIds: S.optional(StringList.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    namePrefix: S.optional(S.String.pipe(T.Query())),
-    dartIds: S.optional(StringList.pipe(T.Query())),
     countryDartIds: S.optional(StringList.pipe(T.Query())),
+    namePrefix: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    dartIds: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10934,15 +10934,15 @@ export const ListCitiesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** City List Response */
 export interface CitiesListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#citiesListResponse". */
-  kind?: string;
   /** City collection. */
   cities?: CityList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#citiesListResponse". */
+  kind?: string;
 }
 export const CitiesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     cities: S.optional(CityList),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "CitiesListResponse" }) as any as S.Schema<CitiesListResponse>;
 
@@ -10966,15 +10966,15 @@ export const ListConnectionTypesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Connection Type List Response */
 export interface ConnectionTypesListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#connectionTypesListResponse". */
-  kind?: string;
   /** Collection of connection types such as broadband and mobile. */
   connectionTypes?: ConnectionTypeList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#connectionTypesListResponse". */
+  kind?: string;
 }
 export const ConnectionTypesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     connectionTypes: S.optional(ConnectionTypeList),
+    kind: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConnectionTypesListResponse",
@@ -10987,30 +10987,30 @@ export type ListContentCategoriesSortFieldEnum = "ID" | "NAME";
 export const ListContentCategoriesSortFieldEnum = S.String;
 
 export interface ListContentCategoriesRequest {
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "contentcategory*2015" will return objects with names like "contentcategory June 2015", "contentcategory April 2015", or simply "contentcategory 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "contentcategory" will match objects with name "my contentcategory", "contentcategory 2015", or simply "contentcategory". */
+  searchString?: string;
   /** Order of sorted results. */
   sortOrder?: ListContentCategoriesSortOrderEnum | (string & {});
-  /** Field by which to sort the list. */
-  sortField?: ListContentCategoriesSortFieldEnum | (string & {});
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Select only content categories with these IDs. */
   ids?: StringList;
   /** Maximum number of results to return. */
   maxResults?: number;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "contentcategory*2015" will return objects with names like "contentcategory June 2015", "contentcategory April 2015", or simply "contentcategory 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "contentcategory" will match objects with name "my contentcategory", "contentcategory 2015", or simply "contentcategory". */
-  searchString?: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Field by which to sort the list. */
+  sortField?: ListContentCategoriesSortFieldEnum | (string & {});
 }
 export const ListContentCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(ListContentCategoriesSortOrderEnum.pipe(T.Query())),
-    sortField: S.optional(ListContentCategoriesSortFieldEnum.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
     ids: S.optional(StringList.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    sortField: S.optional(ListContentCategoriesSortFieldEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11031,16 +11031,16 @@ export const ContentCategoryList = /*@__PURE__*/ S.Array(
 export interface ContentCategoriesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategoriesListResponse". */
   kind?: string;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
   /** Content category collection. */
   contentCategories?: ContentCategoryList;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
 }
 export const ContentCategoriesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
-    nextPageToken: S.optional(S.String),
     contentCategories: S.optional(ContentCategoryList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ContentCategoriesListResponse",
@@ -11085,31 +11085,31 @@ export const ListCreativeFieldsSortFieldEnum = S.String;
 export interface ListCreativeFieldsRequest {
   /** Order of sorted results. */
   sortOrder?: ListCreativeFieldsSortOrderEnum | (string & {});
-  /** Field by which to sort the list. */
-  sortField?: ListCreativeFieldsSortFieldEnum | (string & {});
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Select only creative fields with these IDs. */
-  ids?: StringList;
-  /** Select only creative fields that belong to these advertisers. */
-  advertiserIds?: StringList;
-  /** Allows searching for creative fields by name or ID. Wildcards (*) are allowed. For example, "creativefield*2015" will return creative fields with names like "creativefield June 2015", "creativefield April 2015", or simply "creativefield 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativefield" will match creative fields with the name "my creativefield", "creativefield 2015", or simply "creativefield". */
-  searchString?: string;
   /** Maximum number of results to return. */
   maxResults?: number;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Select only creative fields that belong to these advertisers. */
+  advertiserIds?: StringList;
+  /** Select only creative fields with these IDs. */
+  ids?: StringList;
+  /** Allows searching for creative fields by name or ID. Wildcards (*) are allowed. For example, "creativefield*2015" will return creative fields with names like "creativefield June 2015", "creativefield April 2015", or simply "creativefield 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativefield" will match creative fields with the name "my creativefield", "creativefield 2015", or simply "creativefield". */
+  searchString?: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Field by which to sort the list. */
+  sortField?: ListCreativeFieldsSortFieldEnum | (string & {});
 }
 export const ListCreativeFieldsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sortOrder: S.optional(ListCreativeFieldsSortOrderEnum.pipe(T.Query())),
-    sortField: S.optional(ListCreativeFieldsSortFieldEnum.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    advertiserIds: S.optional(StringList.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    advertiserIds: S.optional(StringList.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
+    sortField: S.optional(ListCreativeFieldsSortFieldEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11128,57 +11128,57 @@ export const CreativeFieldList = /*@__PURE__*/ S.Array(
 
 /** Creative Field List Response */
 export interface CreativeFieldsListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
   /** Creative field collection. */
   creativeFields?: CreativeFieldList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldsListResponse". */
   kind?: string;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
 }
 export const CreativeFieldsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     creativeFields: S.optional(CreativeFieldList),
     kind: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreativeFieldsListResponse",
 }) as any as S.Schema<CreativeFieldsListResponse>;
 
-export type ListCreativeFieldValuesSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListCreativeFieldValuesSortOrderEnum = S.String;
-
 export type ListCreativeFieldValuesSortFieldEnum = "ID" | "VALUE";
 export const ListCreativeFieldValuesSortFieldEnum = S.String;
+
+export type ListCreativeFieldValuesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListCreativeFieldValuesSortOrderEnum = S.String;
 
 export interface ListCreativeFieldValuesRequest {
   /** Maximum number of results to return. */
   maxResults?: number;
-  /** Allows searching for creative field values by their values. Wildcards (e.g. *) are not allowed. */
-  searchString?: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Creative field ID for this creative field value. */
-  creativeFieldId: string;
-  /** Select only creative field values with these IDs. */
-  ids?: StringList;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
-  /** Order of sorted results. */
-  sortOrder?: ListCreativeFieldValuesSortOrderEnum | (string & {});
   /** Field by which to sort the list. */
   sortField?: ListCreativeFieldValuesSortFieldEnum | (string & {});
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Allows searching for creative field values by their values. Wildcards (e.g. *) are not allowed. */
+  searchString?: string;
+  /** Creative field ID for this creative field value. */
+  creativeFieldId: string;
+  /** Order of sorted results. */
+  sortOrder?: ListCreativeFieldValuesSortOrderEnum | (string & {});
+  /** Select only creative field values with these IDs. */
+  ids?: StringList;
 }
 export const ListCreativeFieldValuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    creativeFieldId: S.String.pipe(T.Label()),
-    ids: S.optional(StringList.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    sortOrder: S.optional(ListCreativeFieldValuesSortOrderEnum.pipe(T.Query())),
     sortField: S.optional(ListCreativeFieldValuesSortFieldEnum.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    creativeFieldId: S.String.pipe(T.Label()),
+    sortOrder: S.optional(ListCreativeFieldValuesSortOrderEnum.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11197,60 +11197,60 @@ export const CreativeFieldValueList = /*@__PURE__*/ S.Array(
 
 /** Creative Field Value List Response */
 export interface CreativeFieldValuesListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
-  /** Creative field value collection. */
-  creativeFieldValues?: CreativeFieldValueList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValuesListResponse". */
   kind?: string;
+  /** Creative field value collection. */
+  creativeFieldValues?: CreativeFieldValueList;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
 }
 export const CreativeFieldValuesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    creativeFieldValues: S.optional(CreativeFieldValueList),
     kind: S.optional(S.String),
+    creativeFieldValues: S.optional(CreativeFieldValueList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreativeFieldValuesListResponse",
 }) as any as S.Schema<CreativeFieldValuesListResponse>;
 
-export type ListCreativeGroupsSortFieldEnum = "ID" | "NAME";
-export const ListCreativeGroupsSortFieldEnum = S.String;
-
 export type ListCreativeGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListCreativeGroupsSortOrderEnum = S.String;
 
+export type ListCreativeGroupsSortFieldEnum = "ID" | "NAME";
+export const ListCreativeGroupsSortFieldEnum = S.String;
+
 export interface ListCreativeGroupsRequest {
-  /** Select only creative groups that belong to this subgroup. */
-  groupNumber?: number;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
   /** Select only creative groups that belong to these advertisers. */
   advertiserIds?: StringList;
+  /** Order of sorted results. */
+  sortOrder?: ListCreativeGroupsSortOrderEnum | (string & {});
+  /** Field by which to sort the list. */
+  sortField?: ListCreativeGroupsSortFieldEnum | (string & {});
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Select only creative groups with these IDs. */
   ids?: StringList;
   /** Maximum number of results to return. */
   maxResults?: number;
-  /** Field by which to sort the list. */
-  sortField?: ListCreativeGroupsSortFieldEnum | (string & {});
-  /** Order of sorted results. */
-  sortOrder?: ListCreativeGroupsSortOrderEnum | (string & {});
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Allows searching for creative groups by name or ID. Wildcards (*) are allowed. For example, "creativegroup*2015" will return creative groups with names like "creativegroup June 2015", "creativegroup April 2015", or simply "creativegroup 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativegroup" will match creative groups with the name "my creativegroup", "creativegroup 2015", or simply "creativegroup". */
   searchString?: string;
+  /** Select only creative groups that belong to this subgroup. */
+  groupNumber?: number;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
 }
 export const ListCreativeGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    groupNumber: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     advertiserIds: S.optional(StringList.pipe(T.Query())),
+    sortOrder: S.optional(ListCreativeGroupsSortOrderEnum.pipe(T.Query())),
+    sortField: S.optional(ListCreativeGroupsSortFieldEnum.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
     ids: S.optional(StringList.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    sortField: S.optional(ListCreativeGroupsSortFieldEnum.pipe(T.Query())),
-    sortOrder: S.optional(ListCreativeGroupsSortOrderEnum.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
     searchString: S.optional(S.String.pipe(T.Query())),
+    groupNumber: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11289,6 +11289,9 @@ export const CreativeGroupsListResponse = /*@__PURE__*/ S.suspend(() =>
 export type ListCreativesSortFieldEnum = "ID" | "NAME";
 export const ListCreativesSortFieldEnum = S.String;
 
+export type ListCreativesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListCreativesSortOrderEnum = S.String;
+
 export type ListCreativesTypesEnum =
   | "IMAGE"
   | "DISPLAY_REDIRECT"
@@ -11322,63 +11325,60 @@ export const ListCreativesTypesEnumList = /*@__PURE__*/ S.Array(
   ListCreativesTypesEnum,
 ) as any as S.Schema<ListCreativesTypesEnumList>;
 
-export type ListCreativesSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListCreativesSortOrderEnum = S.String;
-
 export interface ListCreativesRequest {
-  /** Select only creatives with these creative field IDs. */
-  creativeFieldIds?: StringList;
   /** Select only creatives corresponding to this Studio creative ID. */
   studioCreativeId?: string;
-  /** Select only creatives with these IDs. */
-  ids?: StringList;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only creatives with this campaign ID. */
-  campaignId?: string;
+  /** Select only creatives with these size IDs. */
+  sizeIds?: StringList;
+  /** Select only creatives with these rendering IDs. */
+  renderingIds?: StringList;
   /** Field by which to sort the list. */
   sortField?: ListCreativesSortFieldEnum | (string & {});
   /** Select only in-stream video creatives with these companion IDs. */
   companionCreativeIds?: StringList;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Select only creatives with these creative types. */
-  types?: ListCreativesTypesEnumList;
   /** Select only active creatives. Leave blank to select active and inactive creatives. */
   active?: boolean;
-  /** Select only archived creatives. Leave blank to select archived and unarchived creatives. */
-  archived?: boolean;
-  /** Select only creatives with these rendering IDs. */
-  renderingIds?: StringList;
-  /** Select only creatives with this advertiser ID. */
-  advertiserId?: string;
+  /** Select only creatives with this campaign ID. */
+  campaignId?: string;
+  /** Select only creatives with these creative field IDs. */
+  creativeFieldIds?: StringList;
   /** Order of sorted results. */
   sortOrder?: ListCreativesSortOrderEnum | (string & {});
-  /** Select only creatives with these size IDs. */
-  sizeIds?: StringList;
+  /** Select only creatives with this advertiser ID. */
+  advertiserId?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only creatives with these creative types. */
+  types?: ListCreativesTypesEnumList;
+  /** Select only creatives with these IDs. */
+  ids?: StringList;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "creative*2015" will return objects with names like "creative June 2015", "creative April 2015", or simply "creative 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "creative" will match objects with name "my creative", "creative 2015", or simply "creative". */
   searchString?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Select only archived creatives. Leave blank to select archived and unarchived creatives. */
+  archived?: boolean;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
 }
 export const ListCreativesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creativeFieldIds: S.optional(StringList.pipe(T.Query())),
     studioCreativeId: S.optional(S.String.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    campaignId: S.optional(S.String.pipe(T.Query())),
+    sizeIds: S.optional(StringList.pipe(T.Query())),
+    renderingIds: S.optional(StringList.pipe(T.Query())),
     sortField: S.optional(ListCreativesSortFieldEnum.pipe(T.Query())),
     companionCreativeIds: S.optional(StringList.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    types: S.optional(ListCreativesTypesEnumList.pipe(T.Query())),
     active: S.optional(S.Boolean.pipe(T.Query())),
-    archived: S.optional(S.Boolean.pipe(T.Query())),
-    renderingIds: S.optional(StringList.pipe(T.Query())),
-    advertiserId: S.optional(S.String.pipe(T.Query())),
+    campaignId: S.optional(S.String.pipe(T.Query())),
+    creativeFieldIds: S.optional(StringList.pipe(T.Query())),
     sortOrder: S.optional(ListCreativesSortOrderEnum.pipe(T.Query())),
-    sizeIds: S.optional(StringList.pipe(T.Query())),
+    advertiserId: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    types: S.optional(ListCreativesTypesEnumList.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
     searchString: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    archived: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -11394,67 +11394,67 @@ export const CreativeList = /*@__PURE__*/ S.Array(Creative) as any as S.Schema<C
 
 /** Creative List Response */
 export interface CreativesListResponse {
-  /** Creative collection. */
-  creatives?: CreativeList;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
+  /** Creative collection. */
+  creatives?: CreativeList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativesListResponse". */
   kind?: string;
 }
 export const CreativesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creatives: S.optional(CreativeList),
     nextPageToken: S.optional(S.String),
+    creatives: S.optional(CreativeList),
     kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "CreativesListResponse" }) as any as S.Schema<CreativesListResponse>;
 
-export type ListDirectorySitesSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListDirectorySitesSortOrderEnum = S.String;
-
 export type ListDirectorySitesSortFieldEnum = "ID" | "NAME";
 export const ListDirectorySitesSortFieldEnum = S.String;
 
+export type ListDirectorySitesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListDirectorySitesSortOrderEnum = S.String;
+
 export interface ListDirectorySitesRequest {
-  /** Select only directory sites with this Ad Manager network code. */
-  dfpNetworkCode?: string;
-  /** Order of sorted results. */
-  sortOrder?: ListDirectorySitesSortOrderEnum | (string & {});
-  /** Field by which to sort the list. */
-  sortField?: ListDirectorySitesSortFieldEnum | (string & {});
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Select only active directory sites. Leave blank to retrieve both active and inactive directory sites. */
-  active?: boolean;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
   /** This search filter is no longer supported and will have no effect on the results returned. */
   acceptsInStreamVideoPlacements?: boolean;
-  /** This search filter is no longer supported and will have no effect on the results returned. */
-  acceptsInterstitialPlacements?: boolean;
+  /** Field by which to sort the list. */
+  sortField?: ListDirectorySitesSortFieldEnum | (string & {});
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Select only directory sites that accept publisher paid placements. This field can be left blank. */
   acceptsPublisherPaidPlacements?: boolean;
-  /** Allows searching for objects by name, ID or URL. Wildcards (*) are allowed. For example, "directory site*2015" will return objects with names like "directory site June 2015", "directory site April 2015", or simply "directory site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "directory site" will match objects with name "my directory site", "directory site 2015" or simply, "directory site". */
-  searchString?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Select only directory sites with these IDs. */
   ids?: StringList;
+  /** Allows searching for objects by name, ID or URL. Wildcards (*) are allowed. For example, "directory site*2015" will return objects with names like "directory site June 2015", "directory site April 2015", or simply "directory site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "directory site" will match objects with name "my directory site", "directory site 2015" or simply, "directory site". */
+  searchString?: string;
+  /** Select only active directory sites. Leave blank to retrieve both active and inactive directory sites. */
+  active?: boolean;
+  /** Order of sorted results. */
+  sortOrder?: ListDirectorySitesSortOrderEnum | (string & {});
+  /** This search filter is no longer supported and will have no effect on the results returned. */
+  acceptsInterstitialPlacements?: boolean;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Select only directory sites with this Ad Manager network code. */
+  dfpNetworkCode?: string;
 }
 export const ListDirectorySitesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dfpNetworkCode: S.optional(S.String.pipe(T.Query())),
-    sortOrder: S.optional(ListDirectorySitesSortOrderEnum.pipe(T.Query())),
-    sortField: S.optional(ListDirectorySitesSortFieldEnum.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    active: S.optional(S.Boolean.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     acceptsInStreamVideoPlacements: S.optional(S.Boolean.pipe(T.Query())),
-    acceptsInterstitialPlacements: S.optional(S.Boolean.pipe(T.Query())),
+    sortField: S.optional(ListDirectorySitesSortFieldEnum.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     acceptsPublisherPaidPlacements: S.optional(S.Boolean.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
     ids: S.optional(StringList.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    active: S.optional(S.Boolean.pipe(T.Query())),
+    sortOrder: S.optional(ListDirectorySitesSortOrderEnum.pipe(T.Query())),
+    acceptsInterstitialPlacements: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    dfpNetworkCode: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11473,17 +11473,17 @@ export const DirectorySiteList = /*@__PURE__*/ S.Array(
 
 /** Directory Site List Response */
 export interface DirectorySitesListResponse {
-  /** Directory site collection. */
-  directorySites?: DirectorySiteList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySitesListResponse". */
   kind?: string;
+  /** Directory site collection. */
+  directorySites?: DirectorySiteList;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
 }
 export const DirectorySitesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    directorySites: S.optional(DirectorySiteList),
     kind: S.optional(S.String),
+    directorySites: S.optional(DirectorySiteList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -11498,24 +11498,24 @@ export type ListDynamicTargetingKeysObjectTypeEnum =
 export const ListDynamicTargetingKeysObjectTypeEnum = S.String;
 
 export interface ListDynamicTargetingKeysRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only dynamic targeting keys exactly matching these names. */
-  names?: StringList;
-  /** Select only dynamic targeting keys whose object has this advertiser ID. */
-  advertiserId?: string;
   /** Select only dynamic targeting keys with this object ID. */
   objectId?: string;
   /** Select only dynamic targeting keys with this object type. */
   objectType?: ListDynamicTargetingKeysObjectTypeEnum | (string & {});
+  /** Select only dynamic targeting keys exactly matching these names. */
+  names?: StringList;
+  /** Select only dynamic targeting keys whose object has this advertiser ID. */
+  advertiserId?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export const ListDynamicTargetingKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
-    names: S.optional(StringList.pipe(T.Query())),
-    advertiserId: S.optional(S.String.pipe(T.Query())),
     objectId: S.optional(S.String.pipe(T.Query())),
     objectType: S.optional(ListDynamicTargetingKeysObjectTypeEnum.pipe(T.Query())),
+    names: S.optional(StringList.pipe(T.Query())),
+    advertiserId: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11534,19 +11534,25 @@ export const DynamicTargetingKeyList = /*@__PURE__*/ S.Array(
 
 /** Dynamic Targeting Key List Response */
 export interface DynamicTargetingKeysListResponse {
-  /** Dynamic targeting key collection. */
-  dynamicTargetingKeys?: DynamicTargetingKeyList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKeysListResponse". */
   kind?: string;
+  /** Dynamic targeting key collection. */
+  dynamicTargetingKeys?: DynamicTargetingKeyList;
 }
 export const DynamicTargetingKeysListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dynamicTargetingKeys: S.optional(DynamicTargetingKeyList),
     kind: S.optional(S.String),
+    dynamicTargetingKeys: S.optional(DynamicTargetingKeyList),
   }),
 ).annotate({
   identifier: "DynamicTargetingKeysListResponse",
 }) as any as S.Schema<DynamicTargetingKeysListResponse>;
+
+export type ListEventTagsSortFieldEnum = "ID" | "NAME";
+export const ListEventTagsSortFieldEnum = S.String;
+
+export type ListEventTagsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListEventTagsSortOrderEnum = S.String;
 
 export type ListEventTagsEventTagTypesEnum =
   | "IMPRESSION_IMAGE_EVENT_TAG"
@@ -11561,49 +11567,43 @@ export const ListEventTagsEventTagTypesEnumList = /*@__PURE__*/ S.Array(
   ListEventTagsEventTagTypesEnum,
 ) as any as S.Schema<ListEventTagsEventTagTypesEnumList>;
 
-export type ListEventTagsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListEventTagsSortOrderEnum = S.String;
-
-export type ListEventTagsSortFieldEnum = "ID" | "NAME";
-export const ListEventTagsSortFieldEnum = S.String;
-
 export interface ListEventTagsRequest {
-  /** Select only event tags with the specified event tag types. Event tag types can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. */
-  eventTagTypes?: ListEventTagsEventTagTypesEnumList;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "eventtag*2015" will return objects with names like "eventtag June 2015", "eventtag April 2015", or simply "eventtag 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "eventtag" will match objects with name "my eventtag", "eventtag 2015", or simply "eventtag". */
-  searchString?: string;
-  /** Select only event tags that belong to this ad. */
-  adId?: string;
-  /** Select only enabled event tags. What is considered enabled or disabled depends on the definitionsOnly parameter. When definitionsOnly is set to true, only the specified advertiser or campaign's event tags' enabledByDefault field is examined. When definitionsOnly is set to false, the specified ad or specified campaign's parent advertiser's or parent campaign's event tags' enabledByDefault and status fields are examined as well. */
-  enabled?: boolean;
-  /** Select only event tags that belong to this campaign. */
-  campaignId?: string;
-  /** Order of sorted results. */
-  sortOrder?: ListEventTagsSortOrderEnum | (string & {});
-  /** Field by which to sort the list. */
-  sortField?: ListEventTagsSortFieldEnum | (string & {});
-  /** Select only event tags that belong to this advertiser. */
-  advertiserId?: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Examine only the specified campaign or advertiser's event tags for matching selector criteria. When set to false, the parent advertiser and parent campaign of the specified ad or campaign is examined as well. In addition, when set to false, the status field is examined as well, along with the enabledByDefault field. This parameter can not be set to true when adId is specified as ads do not define their own even tags. */
   definitionsOnly?: boolean;
+  /** Select only event tags that belong to this advertiser. */
+  advertiserId?: string;
+  /** Select only event tags that belong to this ad. */
+  adId?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Field by which to sort the list. */
+  sortField?: ListEventTagsSortFieldEnum | (string & {});
+  /** Order of sorted results. */
+  sortOrder?: ListEventTagsSortOrderEnum | (string & {});
   /** Select only event tags with these IDs. */
   ids?: StringList;
+  /** Select only event tags with the specified event tag types. Event tag types can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. */
+  eventTagTypes?: ListEventTagsEventTagTypesEnumList;
+  /** Select only event tags that belong to this campaign. */
+  campaignId?: string;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "eventtag*2015" will return objects with names like "eventtag June 2015", "eventtag April 2015", or simply "eventtag 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "eventtag" will match objects with name "my eventtag", "eventtag 2015", or simply "eventtag". */
+  searchString?: string;
+  /** Select only enabled event tags. What is considered enabled or disabled depends on the definitionsOnly parameter. When definitionsOnly is set to true, only the specified advertiser or campaign's event tags' enabledByDefault field is examined. When definitionsOnly is set to false, the specified ad or specified campaign's parent advertiser's or parent campaign's event tags' enabledByDefault and status fields are examined as well. */
+  enabled?: boolean;
 }
 export const ListEventTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    eventTagTypes: S.optional(ListEventTagsEventTagTypesEnumList.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    adId: S.optional(S.String.pipe(T.Query())),
-    enabled: S.optional(S.Boolean.pipe(T.Query())),
-    campaignId: S.optional(S.String.pipe(T.Query())),
-    sortOrder: S.optional(ListEventTagsSortOrderEnum.pipe(T.Query())),
-    sortField: S.optional(ListEventTagsSortFieldEnum.pipe(T.Query())),
-    advertiserId: S.optional(S.String.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
     definitionsOnly: S.optional(S.Boolean.pipe(T.Query())),
+    advertiserId: S.optional(S.String.pipe(T.Query())),
+    adId: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    sortField: S.optional(ListEventTagsSortFieldEnum.pipe(T.Query())),
+    sortOrder: S.optional(ListEventTagsSortOrderEnum.pipe(T.Query())),
     ids: S.optional(StringList.pipe(T.Query())),
+    eventTagTypes: S.optional(ListEventTagsEventTagTypesEnumList.pipe(T.Query())),
+    campaignId: S.optional(S.String.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    enabled: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11630,11 +11630,11 @@ export const EventTagsListResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "EventTagsListResponse" }) as any as S.Schema<EventTagsListResponse>;
 
-export type ListFilesSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListFilesSortOrderEnum = S.String;
-
 export type ListFilesSortFieldEnum = "ID" | "LAST_MODIFIED_TIME";
 export const ListFilesSortFieldEnum = S.String;
+
+export type ListFilesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListFilesSortOrderEnum = S.String;
 
 export type ListFilesScopeEnum = "ALL" | "MINE" | "SHARED_WITH_ME";
 export const ListFilesScopeEnum = S.String;
@@ -11642,25 +11642,25 @@ export const ListFilesScopeEnum = S.String;
 export interface ListFilesRequest {
   /** The value of the nextToken from the previous result page. */
   pageToken?: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Order of sorted results. */
-  sortOrder?: ListFilesSortOrderEnum | (string & {});
-  /** The field by which to sort the list. */
-  sortField?: ListFilesSortFieldEnum | (string & {});
-  /** The scope that defines which results are returned. */
-  scope?: ListFilesScopeEnum | (string & {});
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** The field by which to sort the list. */
+  sortField?: ListFilesSortFieldEnum | (string & {});
+  /** Order of sorted results. */
+  sortOrder?: ListFilesSortOrderEnum | (string & {});
+  /** The scope that defines which results are returned. */
+  scope?: ListFilesScopeEnum | (string & {});
 }
 export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    sortOrder: S.optional(ListFilesSortOrderEnum.pipe(T.Query())),
-    sortField: S.optional(ListFilesSortFieldEnum.pipe(T.Query())),
-    scope: S.optional(ListFilesScopeEnum.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    sortField: S.optional(ListFilesSortFieldEnum.pipe(T.Query())),
+    sortOrder: S.optional(ListFilesSortOrderEnum.pipe(T.Query())),
+    scope: S.optional(ListFilesScopeEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11696,62 +11696,62 @@ export const FileList = /*@__PURE__*/ S.suspend(() =>
 export type ListFloodlightActivitiesSortFieldEnum = "ID" | "NAME";
 export const ListFloodlightActivitiesSortFieldEnum = S.String;
 
-export type ListFloodlightActivitiesFloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
-export const ListFloodlightActivitiesFloodlightActivityGroupTypeEnum = S.String;
-
 export type ListFloodlightActivitiesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListFloodlightActivitiesSortOrderEnum = S.String;
 
+export type ListFloodlightActivitiesFloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
+export const ListFloodlightActivitiesFloodlightActivityGroupTypeEnum = S.String;
+
 export interface ListFloodlightActivitiesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only floodlight activities for the specified floodlight configuration ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  floodlightConfigurationId?: string;
-  /** Select only floodlight activities with the specified floodlight activity group name. */
-  floodlightActivityGroupName?: string;
   /** Field by which to sort the list. */
   sortField?: ListFloodlightActivitiesSortFieldEnum | (string & {});
-  /** Select only floodlight activities with the specified floodlight activity group IDs. */
-  floodlightActivityGroupIds?: StringList;
-  /** Select only floodlight activities with the specified floodlight activity group tag string. */
-  floodlightActivityGroupTagString?: string;
-  /** Select only floodlight activities for the specified advertiser ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  advertiserId?: string;
   /** Maximum number of results to return. */
   maxResults?: number;
+  /** Select only floodlight activities with the specified floodlight activity group name. */
+  floodlightActivityGroupName?: string;
+  /** Select only floodlight activities with the specified tag string. */
+  tagString?: string;
+  /** Select only floodlight activities with the specified IDs. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
+  ids?: StringList;
+  /** Select only floodlight activities with the specified floodlight activity group IDs. */
+  floodlightActivityGroupIds?: StringList;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivity*2015" will return objects with names like "floodlightactivity June 2015", "floodlightactivity April 2015", or simply "floodlightactivity 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivity" will match objects with name "my floodlightactivity activity", "floodlightactivity 2015", or simply "floodlightactivity". */
+  searchString?: string;
+  /** Order of sorted results. */
+  sortOrder?: ListFloodlightActivitiesSortOrderEnum | (string & {});
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
   /** Select only floodlight activities with the specified floodlight activity group type. */
   floodlightActivityGroupType?:
     | ListFloodlightActivitiesFloodlightActivityGroupTypeEnum
     | (string & {});
-  /** Order of sorted results. */
-  sortOrder?: ListFloodlightActivitiesSortOrderEnum | (string & {});
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivity*2015" will return objects with names like "floodlightactivity June 2015", "floodlightactivity April 2015", or simply "floodlightactivity 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivity" will match objects with name "my floodlightactivity activity", "floodlightactivity 2015", or simply "floodlightactivity". */
-  searchString?: string;
-  /** Select only floodlight activities with the specified IDs. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  ids?: StringList;
-  /** Select only floodlight activities with the specified tag string. */
-  tagString?: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  /** Select only floodlight activities for the specified advertiser ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
+  advertiserId?: string;
+  /** Select only floodlight activities with the specified floodlight activity group tag string. */
+  floodlightActivityGroupTagString?: string;
+  /** Select only floodlight activities for the specified floodlight configuration ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
+  floodlightConfigurationId?: string;
 }
 export const ListFloodlightActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
-    floodlightConfigurationId: S.optional(S.String.pipe(T.Query())),
-    floodlightActivityGroupName: S.optional(S.String.pipe(T.Query())),
     sortField: S.optional(ListFloodlightActivitiesSortFieldEnum.pipe(T.Query())),
-    floodlightActivityGroupIds: S.optional(StringList.pipe(T.Query())),
-    floodlightActivityGroupTagString: S.optional(S.String.pipe(T.Query())),
-    advertiserId: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    floodlightActivityGroupName: S.optional(S.String.pipe(T.Query())),
+    tagString: S.optional(S.String.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
+    floodlightActivityGroupIds: S.optional(StringList.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    sortOrder: S.optional(ListFloodlightActivitiesSortOrderEnum.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     floodlightActivityGroupType: S.optional(
       ListFloodlightActivitiesFloodlightActivityGroupTypeEnum.pipe(T.Query()),
     ),
-    sortOrder: S.optional(ListFloodlightActivitiesSortOrderEnum.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    tagString: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    advertiserId: S.optional(S.String.pipe(T.Query())),
+    floodlightActivityGroupTagString: S.optional(S.String.pipe(T.Query())),
+    floodlightConfigurationId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11770,18 +11770,18 @@ export const FloodlightActivityList = /*@__PURE__*/ S.Array(
 
 /** Floodlight Activity List Response */
 export interface FloodlightActivitiesListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesListResponse". */
-  kind?: string;
-  /** Floodlight activity collection. */
-  floodlightActivities?: FloodlightActivityList;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
+  /** Floodlight activity collection. */
+  floodlightActivities?: FloodlightActivityList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesListResponse". */
+  kind?: string;
 }
 export const FloodlightActivitiesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    floodlightActivities: S.optional(FloodlightActivityList),
     nextPageToken: S.optional(S.String),
+    floodlightActivities: S.optional(FloodlightActivityList),
+    kind: S.optional(S.String),
   }),
 ).annotate({
   identifier: "FloodlightActivitiesListResponse",
@@ -11797,39 +11797,39 @@ export type ListFloodlightActivityGroupsSortFieldEnum = "ID" | "NAME";
 export const ListFloodlightActivityGroupsSortFieldEnum = S.String;
 
 export interface ListFloodlightActivityGroupsRequest {
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivitygroup*2015" will return objects with names like "floodlightactivitygroup June 2015", "floodlightactivitygroup April 2015", or simply "floodlightactivitygroup 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivitygroup" will match objects with name "my floodlightactivitygroup activity", "floodlightactivitygroup 2015", or simply "floodlightactivitygroup". */
-  searchString?: string;
-  /** Select only floodlight activity groups with the specified advertiser ID. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
-  advertiserId?: string;
-  /** Select only floodlight activity groups with the specified IDs. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
-  ids?: StringList;
   /** Select only floodlight activity groups with the specified floodlight configuration ID. Must specify either advertiserId, or floodlightConfigurationId for a non-empty result. */
   floodlightConfigurationId?: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
   /** Select only floodlight activity groups with the specified floodlight activity group type. */
   type?: ListFloodlightActivityGroupsTypeEnum | (string & {});
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivitygroup*2015" will return objects with names like "floodlightactivitygroup June 2015", "floodlightactivitygroup April 2015", or simply "floodlightactivitygroup 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivitygroup" will match objects with name "my floodlightactivitygroup activity", "floodlightactivitygroup 2015", or simply "floodlightactivitygroup". */
+  searchString?: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
   /** Order of sorted results. */
   sortOrder?: ListFloodlightActivityGroupsSortOrderEnum | (string & {});
+  /** Select only floodlight activity groups with the specified IDs. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
+  ids?: StringList;
+  /** Select only floodlight activity groups with the specified advertiser ID. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
+  advertiserId?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Field by which to sort the list. */
   sortField?: ListFloodlightActivityGroupsSortFieldEnum | (string & {});
+  /** Maximum number of results to return. */
+  maxResults?: number;
 }
 export const ListFloodlightActivityGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    advertiserId: S.optional(S.String.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
     floodlightConfigurationId: S.optional(S.String.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     type: S.optional(ListFloodlightActivityGroupsTypeEnum.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(ListFloodlightActivityGroupsSortOrderEnum.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
+    advertiserId: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
     sortField: S.optional(ListFloodlightActivityGroupsSortFieldEnum.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -11848,18 +11848,18 @@ export const FloodlightActivityGroupList = /*@__PURE__*/ S.Array(
 
 /** Floodlight Activity Group List Response */
 export interface FloodlightActivityGroupsListResponse {
-  /** Floodlight activity group collection. */
-  floodlightActivityGroups?: FloodlightActivityGroupList;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroupsListResponse". */
   kind?: string;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
+  /** Floodlight activity group collection. */
+  floodlightActivityGroups?: FloodlightActivityGroupList;
 }
 export const FloodlightActivityGroupsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    floodlightActivityGroups: S.optional(FloodlightActivityGroupList),
-    nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
+    floodlightActivityGroups: S.optional(FloodlightActivityGroupList),
   }),
 ).annotate({
   identifier: "FloodlightActivityGroupsListResponse",
@@ -11989,27 +11989,27 @@ export const ListMobileAppsDirectoriesEnumList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListMobileAppsDirectoriesEnumList>;
 
 export interface ListMobileAppsRequest {
+  /** Select only apps from these directories. */
+  directories?: ListMobileAppsDirectoriesEnumList;
   /** Maximum number of results to return. */
   maxResults?: number;
   /** Select only apps with these IDs. */
   ids?: StringList;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "app*2015" will return objects with names like "app Jan 2018", "app Jan 2018", or simply "app 2018". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "app" will match objects with name "my app", "app 2018", or simply "app". */
-  searchString?: string;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
-  /** Select only apps from these directories. */
-  directories?: ListMobileAppsDirectoriesEnumList;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "app*2015" will return objects with names like "app Jan 2018", "app Jan 2018", or simply "app 2018". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "app" will match objects with name "my app", "app 2018", or simply "app". */
+  searchString?: string;
 }
 export const ListMobileAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    directories: S.optional(ListMobileAppsDirectoriesEnumList.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
     ids: S.optional(StringList.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
-    searchString: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    directories: S.optional(ListMobileAppsDirectoriesEnumList.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -12024,18 +12024,18 @@ export const MobileAppList = /*@__PURE__*/ S.Array(MobileApp) as any as S.Schema
 
 /** Mobile app List Response */
 export interface MobileAppsListResponse {
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
   /** Mobile apps collection. */
   mobileApps?: MobileAppList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileAppsListResponse". */
   kind?: string;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
 }
 export const MobileAppsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     mobileApps: S.optional(MobileAppList),
     kind: S.optional(S.String),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "MobileAppsListResponse" }) as any as S.Schema<MobileAppsListResponse>;
 
@@ -12141,6 +12141,30 @@ export const OperatingSystemVersionsListResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "OperatingSystemVersionsListResponse",
 }) as any as S.Schema<OperatingSystemVersionsListResponse>;
 
+export type ListPlacementGroupsActiveStatusEnum =
+  | "PLACEMENT_STATUS_UNKNOWN"
+  | "PLACEMENT_STATUS_ACTIVE"
+  | "PLACEMENT_STATUS_INACTIVE"
+  | "PLACEMENT_STATUS_ARCHIVED"
+  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
+export const ListPlacementGroupsActiveStatusEnum = S.String;
+
+export type ListPlacementGroupsActiveStatusEnumList = Array<
+  ListPlacementGroupsActiveStatusEnum | (string & {})
+>;
+export const ListPlacementGroupsActiveStatusEnumList = /*@__PURE__*/ S.Array(
+  ListPlacementGroupsActiveStatusEnum,
+) as any as S.Schema<ListPlacementGroupsActiveStatusEnumList>;
+
+export type ListPlacementGroupsSortFieldEnum = "ID" | "NAME";
+export const ListPlacementGroupsSortFieldEnum = S.String;
+
+export type ListPlacementGroupsPlacementGroupTypeEnum = "PLACEMENT_PACKAGE" | "PLACEMENT_ROADBLOCK";
+export const ListPlacementGroupsPlacementGroupTypeEnum = S.String;
+
+export type ListPlacementGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListPlacementGroupsSortOrderEnum = S.String;
+
 export type ListPlacementGroupsPricingTypesEnum =
   | "PRICING_TYPE_CPM"
   | "PRICING_TYPE_CPC"
@@ -12157,94 +12181,70 @@ export const ListPlacementGroupsPricingTypesEnumList = /*@__PURE__*/ S.Array(
   ListPlacementGroupsPricingTypesEnum,
 ) as any as S.Schema<ListPlacementGroupsPricingTypesEnumList>;
 
-export type ListPlacementGroupsActiveStatusEnum =
-  | "PLACEMENT_STATUS_UNKNOWN"
-  | "PLACEMENT_STATUS_ACTIVE"
-  | "PLACEMENT_STATUS_INACTIVE"
-  | "PLACEMENT_STATUS_ARCHIVED"
-  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
-export const ListPlacementGroupsActiveStatusEnum = S.String;
-
-export type ListPlacementGroupsActiveStatusEnumList = Array<
-  ListPlacementGroupsActiveStatusEnum | (string & {})
->;
-export const ListPlacementGroupsActiveStatusEnumList = /*@__PURE__*/ S.Array(
-  ListPlacementGroupsActiveStatusEnum,
-) as any as S.Schema<ListPlacementGroupsActiveStatusEnumList>;
-
-export type ListPlacementGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListPlacementGroupsSortOrderEnum = S.String;
-
-export type ListPlacementGroupsPlacementGroupTypeEnum = "PLACEMENT_PACKAGE" | "PLACEMENT_ROADBLOCK";
-export const ListPlacementGroupsPlacementGroupTypeEnum = S.String;
-
-export type ListPlacementGroupsSortFieldEnum = "ID" | "NAME";
-export const ListPlacementGroupsSortFieldEnum = S.String;
-
 export interface ListPlacementGroupsRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Allows searching for placement groups by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placement groups with names like "placement group June 2015", "placement group May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementgroup" will match placement groups with name "my placementgroup", "placementgroup 2015", or simply "placementgroup". */
-  searchString?: string;
-  /** Select only placement groups with these pricing types. */
-  pricingTypes?: ListPlacementGroupsPricingTypesEnumList;
-  /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
-  maxEndDate?: string;
   /** Select only placements with these active statuses. */
   activeStatus?: ListPlacementGroupsActiveStatusEnumList;
-  /** Select only placement groups that are associated with these content categories. */
-  contentCategoryIds?: StringList;
-  /** Order of sorted results. */
-  sortOrder?: ListPlacementGroupsSortOrderEnum | (string & {});
-  /** Select only placement groups that are associated with these sites. */
-  siteIds?: StringList;
-  /** Select only placement groups that are associated with these placement strategies. */
-  placementStrategyIds?: StringList;
-  /** Select only placement groups belonging with this group type. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. */
-  placementGroupType?: ListPlacementGroupsPlacementGroupTypeEnum | (string & {});
-  /** Select only placement groups that belong to these campaigns. */
-  campaignIds?: StringList;
-  /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
-  minEndDate?: string;
-  /** Select only placement groups with these IDs. */
-  ids?: StringList;
-  /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
-  minStartDate?: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Field by which to sort the list. */
   sortField?: ListPlacementGroupsSortFieldEnum | (string & {});
-  /** Select only placement groups that are associated with these directory sites. */
-  directorySiteIds?: StringList;
-  /** Select only placement groups that belong to these advertisers. */
-  advertiserIds?: StringList;
   /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
   maxStartDate?: string;
+  /** Allows searching for placement groups by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placement groups with names like "placement group June 2015", "placement group May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementgroup" will match placement groups with name "my placementgroup", "placementgroup 2015", or simply "placementgroup". */
+  searchString?: string;
+  /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
+  minStartDate?: string;
+  /** Select only placement groups that are associated with these sites. */
+  siteIds?: StringList;
+  /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
+  maxEndDate?: string;
+  /** Select only placement groups that belong to these advertisers. */
+  advertiserIds?: StringList;
+  /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
+  minEndDate?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Select only placement groups that are associated with these directory sites. */
+  directorySiteIds?: StringList;
+  /** Select only placement groups with these IDs. */
+  ids?: StringList;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only placement groups belonging with this group type. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. */
+  placementGroupType?: ListPlacementGroupsPlacementGroupTypeEnum | (string & {});
+  /** Order of sorted results. */
+  sortOrder?: ListPlacementGroupsSortOrderEnum | (string & {});
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Select only placement groups that belong to these campaigns. */
+  campaignIds?: StringList;
+  /** Select only placement groups that are associated with these content categories. */
+  contentCategoryIds?: StringList;
+  /** Select only placement groups that are associated with these placement strategies. */
+  placementStrategyIds?: StringList;
+  /** Select only placement groups with these pricing types. */
+  pricingTypes?: ListPlacementGroupsPricingTypesEnumList;
 }
 export const ListPlacementGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    pricingTypes: S.optional(ListPlacementGroupsPricingTypesEnumList.pipe(T.Query())),
-    maxEndDate: S.optional(S.String.pipe(T.Query())),
     activeStatus: S.optional(ListPlacementGroupsActiveStatusEnumList.pipe(T.Query())),
-    contentCategoryIds: S.optional(StringList.pipe(T.Query())),
-    sortOrder: S.optional(ListPlacementGroupsSortOrderEnum.pipe(T.Query())),
-    siteIds: S.optional(StringList.pipe(T.Query())),
-    placementStrategyIds: S.optional(StringList.pipe(T.Query())),
-    placementGroupType: S.optional(ListPlacementGroupsPlacementGroupTypeEnum.pipe(T.Query())),
-    campaignIds: S.optional(StringList.pipe(T.Query())),
-    minEndDate: S.optional(S.String.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    minStartDate: S.optional(S.String.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
     sortField: S.optional(ListPlacementGroupsSortFieldEnum.pipe(T.Query())),
-    directorySiteIds: S.optional(StringList.pipe(T.Query())),
-    advertiserIds: S.optional(StringList.pipe(T.Query())),
     maxStartDate: S.optional(S.String.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    minStartDate: S.optional(S.String.pipe(T.Query())),
+    siteIds: S.optional(StringList.pipe(T.Query())),
+    maxEndDate: S.optional(S.String.pipe(T.Query())),
+    advertiserIds: S.optional(StringList.pipe(T.Query())),
+    minEndDate: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    directorySiteIds: S.optional(StringList.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    placementGroupType: S.optional(ListPlacementGroupsPlacementGroupTypeEnum.pipe(T.Query())),
+    sortOrder: S.optional(ListPlacementGroupsSortOrderEnum.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    campaignIds: S.optional(StringList.pipe(T.Query())),
+    contentCategoryIds: S.optional(StringList.pipe(T.Query())),
+    placementStrategyIds: S.optional(StringList.pipe(T.Query())),
+    pricingTypes: S.optional(ListPlacementGroupsPricingTypesEnumList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -12263,25 +12263,43 @@ export const PlacementGroupList = /*@__PURE__*/ S.Array(
 
 /** Placement Group List Response */
 export interface PlacementGroupsListResponse {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroupsListResponse". */
+  kind?: string;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
   /** Placement group collection. */
   placementGroups?: PlacementGroupList;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroupsListResponse". */
-  kind?: string;
 }
 export const PlacementGroupsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    kind: S.optional(S.String),
     nextPageToken: S.optional(S.String),
     placementGroups: S.optional(PlacementGroupList),
-    kind: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PlacementGroupsListResponse",
 }) as any as S.Schema<PlacementGroupsListResponse>;
 
-export type ListPlacementsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListPlacementsSortOrderEnum = S.String;
+export type ListPlacementsSortFieldEnum = "ID" | "NAME";
+export const ListPlacementsSortFieldEnum = S.String;
+
+export type ListPlacementsPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
+export const ListPlacementsPaymentSourceEnum = S.String;
+
+export type ListPlacementsActiveStatusEnum =
+  | "PLACEMENT_STATUS_UNKNOWN"
+  | "PLACEMENT_STATUS_ACTIVE"
+  | "PLACEMENT_STATUS_INACTIVE"
+  | "PLACEMENT_STATUS_ARCHIVED"
+  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
+export const ListPlacementsActiveStatusEnum = S.String;
+
+export type ListPlacementsActiveStatusEnumList = Array<
+  ListPlacementsActiveStatusEnum | (string & {})
+>;
+export const ListPlacementsActiveStatusEnumList = /*@__PURE__*/ S.Array(
+  ListPlacementsActiveStatusEnum,
+) as any as S.Schema<ListPlacementsActiveStatusEnumList>;
 
 export type ListPlacementsPricingTypesEnum =
   | "PRICING_TYPE_CPM"
@@ -12299,27 +12317,6 @@ export const ListPlacementsPricingTypesEnumList = /*@__PURE__*/ S.Array(
   ListPlacementsPricingTypesEnum,
 ) as any as S.Schema<ListPlacementsPricingTypesEnumList>;
 
-export type ListPlacementsActiveStatusEnum =
-  | "PLACEMENT_STATUS_UNKNOWN"
-  | "PLACEMENT_STATUS_ACTIVE"
-  | "PLACEMENT_STATUS_INACTIVE"
-  | "PLACEMENT_STATUS_ARCHIVED"
-  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
-export const ListPlacementsActiveStatusEnum = S.String;
-
-export type ListPlacementsActiveStatusEnumList = Array<
-  ListPlacementsActiveStatusEnum | (string & {})
->;
-export const ListPlacementsActiveStatusEnumList = /*@__PURE__*/ S.Array(
-  ListPlacementsActiveStatusEnum,
-) as any as S.Schema<ListPlacementsActiveStatusEnumList>;
-
-export type ListPlacementsSortFieldEnum = "ID" | "NAME";
-export const ListPlacementsSortFieldEnum = S.String;
-
-export type ListPlacementsPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
-export const ListPlacementsPaymentSourceEnum = S.String;
-
 export type ListPlacementsCompatibilitiesEnum =
   | "DISPLAY"
   | "DISPLAY_INTERSTITIAL"
@@ -12336,79 +12333,82 @@ export const ListPlacementsCompatibilitiesEnumList = /*@__PURE__*/ S.Array(
   ListPlacementsCompatibilitiesEnum,
 ) as any as S.Schema<ListPlacementsCompatibilitiesEnumList>;
 
+export type ListPlacementsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListPlacementsSortOrderEnum = S.String;
+
 export interface ListPlacementsRequest {
-  /** Order of sorted results. */
-  sortOrder?: ListPlacementsSortOrderEnum | (string & {});
-  /** Select only placements with these IDs. */
-  ids?: StringList;
-  /** Select only placements with these pricing types. */
-  pricingTypes?: ListPlacementsPricingTypesEnumList;
-  /** Select only placements that are associated with these directory sites. */
-  directorySiteIds?: StringList;
-  /** Allows searching for placements by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placements with names like "placement June 2015", "placement May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placement" will match placements with name "my placement", "placement 2015", or simply "placement" . */
-  searchString?: string;
-  /** Select only placements that belong to these placement groups. */
-  groupIds?: StringList;
-  /** Select only placements with these active statuses. */
-  activeStatus?: ListPlacementsActiveStatusEnumList;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  /** Field by which to sort the list. */
+  sortField?: ListPlacementsSortFieldEnum | (string & {});
   /** Select only placements that belong to these campaigns. */
   campaignIds?: StringList;
   /** Select only placements that are associated with these sites. */
   siteIds?: StringList;
-  /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
-  maxEndDate?: string;
-  /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
-  minEndDate?: string;
-  /** Select only placements that are associated with these content categories. */
-  contentCategoryIds?: StringList;
-  /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
-  maxStartDate?: string;
-  /** Field by which to sort the list. */
-  sortField?: ListPlacementsSortFieldEnum | (string & {});
-  /** Select only placements that are associated with these placement strategies. */
-  placementStrategyIds?: StringList;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only placements with this payment source. */
-  paymentSource?: ListPlacementsPaymentSourceEnum | (string & {});
+  /** Select only placements that belong to these placement groups. */
+  groupIds?: StringList;
+  /** Allows searching for placements by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placements with names like "placement June 2015", "placement May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placement" will match placements with name "my placement", "placement 2015", or simply "placement" . */
+  searchString?: string;
   /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
   minStartDate?: string;
-  /** Select only placements that are associated with these sizes. */
-  sizeIds?: StringList;
   /** Select only placements that belong to these advertisers. */
   advertiserIds?: StringList;
+  /** Select only placements that are associated with these sizes. */
+  sizeIds?: StringList;
+  /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
+  maxEndDate?: string;
+  /** Select only placements with this payment source. */
+  paymentSource?: ListPlacementsPaymentSourceEnum | (string & {});
+  /** Select only placements with these active statuses. */
+  activeStatus?: ListPlacementsActiveStatusEnumList;
+  /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
+  minEndDate?: string;
+  /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
+  maxStartDate?: string;
+  /** Select only placements with these pricing types. */
+  pricingTypes?: ListPlacementsPricingTypesEnumList;
+  /** Select only placements that are associated with these placement strategies. */
+  placementStrategyIds?: StringList;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Select only placements that are associated with these compatibilities. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. */
   compatibilities?: ListPlacementsCompatibilitiesEnumList;
+  /** Select only placements that are associated with these directory sites. */
+  directorySiteIds?: StringList;
+  /** Order of sorted results. */
+  sortOrder?: ListPlacementsSortOrderEnum | (string & {});
+  /** Select only placements that are associated with these content categories. */
+  contentCategoryIds?: StringList;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Select only placements with these IDs. */
+  ids?: StringList;
 }
 export const ListPlacementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sortOrder: S.optional(ListPlacementsSortOrderEnum.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    pricingTypes: S.optional(ListPlacementsPricingTypesEnumList.pipe(T.Query())),
-    directorySiteIds: S.optional(StringList.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    groupIds: S.optional(StringList.pipe(T.Query())),
-    activeStatus: S.optional(ListPlacementsActiveStatusEnumList.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    sortField: S.optional(ListPlacementsSortFieldEnum.pipe(T.Query())),
     campaignIds: S.optional(StringList.pipe(T.Query())),
     siteIds: S.optional(StringList.pipe(T.Query())),
-    maxEndDate: S.optional(S.String.pipe(T.Query())),
-    minEndDate: S.optional(S.String.pipe(T.Query())),
-    contentCategoryIds: S.optional(StringList.pipe(T.Query())),
-    maxStartDate: S.optional(S.String.pipe(T.Query())),
-    sortField: S.optional(ListPlacementsSortFieldEnum.pipe(T.Query())),
-    placementStrategyIds: S.optional(StringList.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    paymentSource: S.optional(ListPlacementsPaymentSourceEnum.pipe(T.Query())),
+    groupIds: S.optional(StringList.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
     minStartDate: S.optional(S.String.pipe(T.Query())),
-    sizeIds: S.optional(StringList.pipe(T.Query())),
     advertiserIds: S.optional(StringList.pipe(T.Query())),
+    sizeIds: S.optional(StringList.pipe(T.Query())),
+    maxEndDate: S.optional(S.String.pipe(T.Query())),
+    paymentSource: S.optional(ListPlacementsPaymentSourceEnum.pipe(T.Query())),
+    activeStatus: S.optional(ListPlacementsActiveStatusEnumList.pipe(T.Query())),
+    minEndDate: S.optional(S.String.pipe(T.Query())),
+    maxStartDate: S.optional(S.String.pipe(T.Query())),
+    pricingTypes: S.optional(ListPlacementsPricingTypesEnumList.pipe(T.Query())),
+    placementStrategyIds: S.optional(StringList.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
     compatibilities: S.optional(ListPlacementsCompatibilitiesEnumList.pipe(T.Query())),
+    directorySiteIds: S.optional(StringList.pipe(T.Query())),
+    sortOrder: S.optional(ListPlacementsSortOrderEnum.pipe(T.Query())),
+    contentCategoryIds: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -12445,30 +12445,30 @@ export type ListPlacementStrategiesSortFieldEnum = "ID" | "NAME";
 export const ListPlacementStrategiesSortFieldEnum = S.String;
 
 export interface ListPlacementStrategiesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only placement strategies with these IDs. */
-  ids?: StringList;
+  /** Order of sorted results. */
+  sortOrder?: ListPlacementStrategiesSortOrderEnum | (string & {});
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "placementstrategy*2015" will return objects with names like "placementstrategy June 2015", "placementstrategy April 2015", or simply "placementstrategy 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementstrategy" will match objects with name "my placementstrategy", "placementstrategy 2015", or simply "placementstrategy". */
+  searchString?: string;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
   /** Maximum number of results to return. */
   maxResults?: number;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "placementstrategy*2015" will return objects with names like "placementstrategy June 2015", "placementstrategy April 2015", or simply "placementstrategy 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementstrategy" will match objects with name "my placementstrategy", "placementstrategy 2015", or simply "placementstrategy". */
-  searchString?: string;
-  /** Order of sorted results. */
-  sortOrder?: ListPlacementStrategiesSortOrderEnum | (string & {});
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Field by which to sort the list. */
   sortField?: ListPlacementStrategiesSortFieldEnum | (string & {});
+  /** Select only placement strategies with these IDs. */
+  ids?: StringList;
 }
 export const ListPlacementStrategiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
-    ids: S.optional(StringList.pipe(T.Query())),
+    sortOrder: S.optional(ListPlacementStrategiesSortOrderEnum.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    sortOrder: S.optional(ListPlacementStrategiesSortOrderEnum.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
     sortField: S.optional(ListPlacementStrategiesSortFieldEnum.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -12487,17 +12487,17 @@ export const PlacementStrategyList = /*@__PURE__*/ S.Array(
 
 /** Placement Strategy List Response */
 export interface PlacementStrategiesListResponse {
-  /** Placement strategy collection. */
-  placementStrategies?: PlacementStrategyList;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
+  /** Placement strategy collection. */
+  placementStrategies?: PlacementStrategyList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategiesListResponse". */
   kind?: string;
 }
 export const PlacementStrategiesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    placementStrategies: S.optional(PlacementStrategyList),
     nextPageToken: S.optional(S.String),
+    placementStrategies: S.optional(PlacementStrategyList),
     kind: S.optional(S.String),
   }),
 ).annotate({
@@ -12522,15 +12522,15 @@ export const ListPlatformTypesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Platform Type List Response */
 export interface PlatformTypesListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#platformTypesListResponse". */
-  kind?: string;
   /** Platform type collection. */
   platformTypes?: PlatformTypeList;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#platformTypesListResponse". */
+  kind?: string;
 }
 export const PlatformTypesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     platformTypes: S.optional(PlatformTypeList),
+    kind: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PlatformTypesListResponse",
@@ -12584,15 +12584,15 @@ export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Region List Response */
 export interface RegionsListResponse {
-  /** Region collection. */
-  regions?: RegionList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#regionsListResponse". */
   kind?: string;
+  /** Region collection. */
+  regions?: RegionList;
 }
 export const RegionsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    regions: S.optional(RegionList),
     kind: S.optional(S.String),
+    regions: S.optional(RegionList),
   }),
 ).annotate({ identifier: "RegionsListResponse" }) as any as S.Schema<RegionsListResponse>;
 
@@ -12603,36 +12603,36 @@ export type ListRemarketingListsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListRemarketingListsSortOrderEnum = S.String;
 
 export interface ListRemarketingListsRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Field by which to sort the list. */
-  sortField?: ListRemarketingListsSortFieldEnum | (string & {});
-  /** Order of sorted results. */
-  sortOrder?: ListRemarketingListsSortOrderEnum | (string & {});
-  /** Select only remarketing lists that have this floodlight activity ID. */
-  floodlightActivityId?: string;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
-  name?: string;
   /** Required. Select only remarketing lists owned by this advertiser. */
   advertiserId: string;
-  /** Select only active or only inactive remarketing lists. */
-  active?: boolean;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
+  /** Select only remarketing lists that have this floodlight activity ID. */
+  floodlightActivityId?: string;
+  /** Select only active or only inactive remarketing lists. */
+  active?: boolean;
+  /** Field by which to sort the list. */
+  sortField?: ListRemarketingListsSortFieldEnum | (string & {});
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
+  name?: string;
+  /** Order of sorted results. */
+  sortOrder?: ListRemarketingListsSortOrderEnum | (string & {});
 }
 export const ListRemarketingListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    sortField: S.optional(ListRemarketingListsSortFieldEnum.pipe(T.Query())),
-    sortOrder: S.optional(ListRemarketingListsSortOrderEnum.pipe(T.Query())),
-    floodlightActivityId: S.optional(S.String.pipe(T.Query())),
-    name: S.optional(S.String.pipe(T.Query())),
     advertiserId: S.String.pipe(T.Query()),
-    active: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    floodlightActivityId: S.optional(S.String.pipe(T.Query())),
+    active: S.optional(S.Boolean.pipe(T.Query())),
+    sortField: S.optional(ListRemarketingListsSortFieldEnum.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    name: S.optional(S.String.pipe(T.Query())),
+    sortOrder: S.optional(ListRemarketingListsSortOrderEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -12651,53 +12651,53 @@ export const RemarketingListList = /*@__PURE__*/ S.Array(
 
 /** Remarketing list response */
 export interface RemarketingListsListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
-  /** Remarketing list collection. */
-  remarketingLists?: RemarketingListList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListsListResponse". */
   kind?: string;
+  /** Remarketing list collection. */
+  remarketingLists?: RemarketingListList;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string;
 }
 export const RemarketingListsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    remarketingLists: S.optional(RemarketingListList),
     kind: S.optional(S.String),
+    remarketingLists: S.optional(RemarketingListList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RemarketingListsListResponse",
 }) as any as S.Schema<RemarketingListsListResponse>;
 
-export type ListReportsScopeEnum = "ALL" | "MINE";
-export const ListReportsScopeEnum = S.String;
-
 export type ListReportsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListReportsSortOrderEnum = S.String;
+
+export type ListReportsScopeEnum = "ALL" | "MINE";
+export const ListReportsScopeEnum = S.String;
 
 export type ListReportsSortFieldEnum = "ID" | "LAST_MODIFIED_TIME" | "NAME";
 export const ListReportsSortFieldEnum = S.String;
 
 export interface ListReportsRequest {
-  /** The Campaign Manager 360 user profile ID. */
-  profileId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** The scope that defines which results are returned. */
-  scope?: ListReportsScopeEnum | (string & {});
-  /** The value of the nextToken from the previous result page. */
-  pageToken?: string;
   /** Order of sorted results. */
   sortOrder?: ListReportsSortOrderEnum | (string & {});
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** The value of the nextToken from the previous result page. */
+  pageToken?: string;
+  /** The scope that defines which results are returned. */
+  scope?: ListReportsScopeEnum | (string & {});
+  /** The Campaign Manager 360 user profile ID. */
+  profileId: string;
   /** The field by which to sort the list. */
   sortField?: ListReportsSortFieldEnum | (string & {});
 }
 export const ListReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    scope: S.optional(ListReportsScopeEnum.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(ListReportsSortOrderEnum.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    scope: S.optional(ListReportsScopeEnum.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
     sortField: S.optional(ListReportsSortFieldEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -12715,19 +12715,19 @@ export const ReportList_ = /*@__PURE__*/ S.Array(Report) as any as S.Schema<Repo
 export interface ReportList {
   /** The eTag of this response for caching purposes. */
   etag?: string;
+  /** Continuation token used to page through reports. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
+  nextPageToken?: string;
   /** The reports returned in this response. */
   items: ReportList_;
   /** The kind of list this is, in this case dfareporting#reportList. */
   kind?: string;
-  /** Continuation token used to page through reports. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
-  nextPageToken?: string;
 }
 export const ReportList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     etag: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
     items: ReportList_,
     kind: S.optional(S.String),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportList" }) as any as S.Schema<ReportList>;
 
@@ -12738,14 +12738,14 @@ export type ListReportsFilesSortFieldEnum = "ID" | "LAST_MODIFIED_TIME";
 export const ListReportsFilesSortFieldEnum = S.String;
 
 export interface ListReportsFilesRequest {
-  /** The value of the nextToken from the previous result page. */
-  pageToken?: string;
-  /** The ID of the parent report. */
-  reportId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
   /** Order of sorted results. */
   sortOrder?: ListReportsFilesSortOrderEnum | (string & {});
+  /** The ID of the parent report. */
+  reportId: string;
+  /** The value of the nextToken from the previous result page. */
+  pageToken?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** The field by which to sort the list. */
   sortField?: ListReportsFilesSortFieldEnum | (string & {});
   /** The Campaign Manager 360 user profile ID. */
@@ -12753,10 +12753,10 @@ export interface ListReportsFilesRequest {
 }
 export const ListReportsFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    reportId: S.String.pipe(T.Label()),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     sortOrder: S.optional(ListReportsFilesSortOrderEnum.pipe(T.Query())),
+    reportId: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     sortField: S.optional(ListReportsFilesSortFieldEnum.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
   }).pipe(
@@ -12768,64 +12768,64 @@ export const ListReportsFilesRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "ListReportsFilesRequest" }) as any as S.Schema<ListReportsFilesRequest>;
 
-export type ListSitesSortFieldEnum = "ID" | "NAME";
-export const ListSitesSortFieldEnum = S.String;
-
 export type ListSitesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListSitesSortOrderEnum = S.String;
 
+export type ListSitesSortFieldEnum = "ID" | "NAME";
+export const ListSitesSortFieldEnum = S.String;
+
 export interface ListSitesRequest {
-  /** Select only sites with these directory site IDs. */
-  directorySiteIds?: StringList;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** This search filter is no longer supported and will have no effect on the results returned. */
-  acceptsInStreamVideoPlacements?: boolean;
-  /** Select only AdWords sites. */
-  adWordsSite?: boolean;
-  /** Select only approved sites. */
-  approved?: boolean;
-  /** Field by which to sort the list. */
-  sortField?: ListSitesSortFieldEnum | (string & {});
-  /** Select only sites with these IDs. */
-  ids?: StringList;
-  /** Select only sites with this subaccount ID. */
-  subaccountId?: string;
-  /** Allows searching for objects by name, ID or keyName. Wildcards (*) are allowed. For example, "site*2015" will return objects with names like "site June 2015", "site April 2015", or simply "site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "site" will match objects with name "my site", "site 2015", or simply "site". */
-  searchString?: string;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Select only sites that have not been mapped to a directory site. */
-  unmappedSite?: boolean;
-  /** Select only sites with these campaign IDs. */
-  campaignIds?: StringList;
+  /** Select only sites that accept publisher paid placements. */
+  acceptsPublisherPaidPlacements?: boolean;
+  /** This search filter is no longer supported and will have no effect on the results returned. */
+  acceptsInStreamVideoPlacements?: boolean;
+  /** Select only sites with this subaccount ID. */
+  subaccountId?: string;
+  /** Select only approved sites. */
+  approved?: boolean;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only sites with these IDs. */
+  ids?: StringList;
   /** This search filter is no longer supported and will have no effect on the results returned. */
   acceptsInterstitialPlacements?: boolean;
   /** Order of sorted results. */
   sortOrder?: ListSitesSortOrderEnum | (string & {});
-  /** Select only sites that accept publisher paid placements. */
-  acceptsPublisherPaidPlacements?: boolean;
+  /** Select only sites that have not been mapped to a directory site. */
+  unmappedSite?: boolean;
+  /** Select only sites with these directory site IDs. */
+  directorySiteIds?: StringList;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Allows searching for objects by name, ID or keyName. Wildcards (*) are allowed. For example, "site*2015" will return objects with names like "site June 2015", "site April 2015", or simply "site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "site" will match objects with name "my site", "site 2015", or simply "site". */
+  searchString?: string;
+  /** Select only AdWords sites. */
+  adWordsSite?: boolean;
+  /** Select only sites with these campaign IDs. */
+  campaignIds?: StringList;
+  /** Field by which to sort the list. */
+  sortField?: ListSitesSortFieldEnum | (string & {});
 }
 export const ListSitesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    directorySiteIds: S.optional(StringList.pipe(T.Query())),
-    profileId: S.String.pipe(T.Label()),
-    acceptsInStreamVideoPlacements: S.optional(S.Boolean.pipe(T.Query())),
-    adWordsSite: S.optional(S.Boolean.pipe(T.Query())),
-    approved: S.optional(S.Boolean.pipe(T.Query())),
-    sortField: S.optional(ListSitesSortFieldEnum.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    subaccountId: S.optional(S.String.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    unmappedSite: S.optional(S.Boolean.pipe(T.Query())),
-    campaignIds: S.optional(StringList.pipe(T.Query())),
+    acceptsPublisherPaidPlacements: S.optional(S.Boolean.pipe(T.Query())),
+    acceptsInStreamVideoPlacements: S.optional(S.Boolean.pipe(T.Query())),
+    subaccountId: S.optional(S.String.pipe(T.Query())),
+    approved: S.optional(S.Boolean.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    ids: S.optional(StringList.pipe(T.Query())),
     acceptsInterstitialPlacements: S.optional(S.Boolean.pipe(T.Query())),
     sortOrder: S.optional(ListSitesSortOrderEnum.pipe(T.Query())),
-    acceptsPublisherPaidPlacements: S.optional(S.Boolean.pipe(T.Query())),
+    unmappedSite: S.optional(S.Boolean.pipe(T.Query())),
+    directorySiteIds: S.optional(StringList.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    adWordsSite: S.optional(S.Boolean.pipe(T.Query())),
+    campaignIds: S.optional(StringList.pipe(T.Query())),
+    sortField: S.optional(ListSitesSortFieldEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -12840,17 +12840,17 @@ export const SiteList = /*@__PURE__*/ S.Array(Site) as any as S.Schema<SiteList>
 
 /** Site List Response */
 export interface SitesListResponse {
-  /** Site collection. */
-  sites?: SiteList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#sitesListResponse". */
   kind?: string;
+  /** Site collection. */
+  sites?: SiteList;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
 }
 export const SitesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sites: S.optional(SiteList),
     kind: S.optional(S.String),
+    sites: S.optional(SiteList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "SitesListResponse" }) as any as S.Schema<SitesListResponse>;
@@ -12858,22 +12858,22 @@ export const SitesListResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListSizesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Select only sizes with this height. */
+  height?: number;
   /** Select only sizes with this width. */
   width?: number;
   /** Select only IAB standard sizes. */
   iabStandard?: boolean;
   /** Select only sizes with these IDs. */
   ids?: StringList;
-  /** Select only sizes with this height. */
-  height?: number;
 }
 export const ListSizesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profileId: S.String.pipe(T.Label()),
+    height: S.optional(S.Number.pipe(T.Query())),
     width: S.optional(S.Number.pipe(T.Query())),
     iabStandard: S.optional(S.Boolean.pipe(T.Query())),
     ids: S.optional(StringList.pipe(T.Query())),
-    height: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -12906,27 +12906,27 @@ export const ListSubaccountsSortOrderEnum = S.String;
 export interface ListSubaccountsRequest {
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "subaccount*2015" will return objects with names like "subaccount June 2015", "subaccount April 2015", or simply "subaccount 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "subaccount" will match objects with name "my subaccount", "subaccount 2015", or simply "subaccount" . */
   searchString?: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Field by which to sort the list. */
-  sortField?: ListSubaccountsSortFieldEnum | (string & {});
-  /** Order of sorted results. */
-  sortOrder?: ListSubaccountsSortOrderEnum | (string & {});
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Field by which to sort the list. */
+  sortField?: ListSubaccountsSortFieldEnum | (string & {});
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
   /** Maximum number of results to return. */
   maxResults?: number;
+  /** Order of sorted results. */
+  sortOrder?: ListSubaccountsSortOrderEnum | (string & {});
   /** Select only subaccounts with these IDs. */
   ids?: StringList;
 }
 export const ListSubaccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     searchString: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    sortField: S.optional(ListSubaccountsSortFieldEnum.pipe(T.Query())),
-    sortOrder: S.optional(ListSubaccountsSortOrderEnum.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
+    sortField: S.optional(ListSubaccountsSortFieldEnum.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    sortOrder: S.optional(ListSubaccountsSortOrderEnum.pipe(T.Query())),
     ids: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -12942,55 +12942,55 @@ export const SubaccountList = /*@__PURE__*/ S.Array(Subaccount) as any as S.Sche
 
 /** Subaccount List Response */
 export interface SubaccountsListResponse {
+  /** Subaccount collection. */
+  subaccounts?: SubaccountList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccountsListResponse". */
   kind?: string;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
-  /** Subaccount collection. */
-  subaccounts?: SubaccountList;
 }
 export const SubaccountsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    subaccounts: S.optional(SubaccountList),
     kind: S.optional(S.String),
     nextPageToken: S.optional(S.String),
-    subaccounts: S.optional(SubaccountList),
   }),
 ).annotate({ identifier: "SubaccountsListResponse" }) as any as S.Schema<SubaccountsListResponse>;
-
-export type ListTargetableRemarketingListsSortFieldEnum = "ID" | "NAME";
-export const ListTargetableRemarketingListsSortFieldEnum = S.String;
 
 export type ListTargetableRemarketingListsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListTargetableRemarketingListsSortOrderEnum = S.String;
 
+export type ListTargetableRemarketingListsSortFieldEnum = "ID" | "NAME";
+export const ListTargetableRemarketingListsSortFieldEnum = S.String;
+
 export interface ListTargetableRemarketingListsRequest {
+  /** Order of sorted results. */
+  sortOrder?: ListTargetableRemarketingListsSortOrderEnum | (string & {});
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
   /** Select only active or only inactive targetable remarketing lists. */
   active?: boolean;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
+  name?: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Field by which to sort the list. */
   sortField?: ListTargetableRemarketingListsSortFieldEnum | (string & {});
   /** Required. Select only targetable remarketing lists targetable by these advertisers. */
   advertiserId: string;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
-  name?: string;
-  /** Order of sorted results. */
-  sortOrder?: ListTargetableRemarketingListsSortOrderEnum | (string & {});
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
 }
 export const ListTargetableRemarketingListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    sortOrder: S.optional(ListTargetableRemarketingListsSortOrderEnum.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     active: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.optional(S.String.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     sortField: S.optional(ListTargetableRemarketingListsSortFieldEnum.pipe(T.Query())),
     advertiserId: S.String.pipe(T.Query()),
-    name: S.optional(S.String.pipe(T.Query())),
-    sortOrder: S.optional(ListTargetableRemarketingListsSortOrderEnum.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -13009,57 +13009,57 @@ export const TargetableRemarketingListList = /*@__PURE__*/ S.Array(
 
 /** Targetable remarketing list response */
 export interface TargetableRemarketingListsListResponse {
+  /** Targetable remarketing list collection. */
+  targetableRemarketingLists?: TargetableRemarketingListList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetableRemarketingListsListResponse". */
   kind?: string;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
-  /** Targetable remarketing list collection. */
-  targetableRemarketingLists?: TargetableRemarketingListList;
 }
 export const TargetableRemarketingListsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    targetableRemarketingLists: S.optional(TargetableRemarketingListList),
     kind: S.optional(S.String),
     nextPageToken: S.optional(S.String),
-    targetableRemarketingLists: S.optional(TargetableRemarketingListList),
   }),
 ).annotate({
   identifier: "TargetableRemarketingListsListResponse",
 }) as any as S.Schema<TargetableRemarketingListsListResponse>;
 
-export type ListTargetingTemplatesSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListTargetingTemplatesSortOrderEnum = S.String;
-
 export type ListTargetingTemplatesSortFieldEnum = "ID" | "NAME";
 export const ListTargetingTemplatesSortFieldEnum = S.String;
 
+export type ListTargetingTemplatesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListTargetingTemplatesSortOrderEnum = S.String;
+
 export interface ListTargetingTemplatesRequest {
-  /** Select only targeting templates with these IDs. */
-  ids?: StringList;
-  /** Order of sorted results. */
-  sortOrder?: ListTargetingTemplatesSortOrderEnum | (string & {});
   /** Field by which to sort the list. */
   sortField?: ListTargetingTemplatesSortFieldEnum | (string & {});
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
   /** Select only targeting templates with this advertiser ID. */
   advertiserId?: string;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "template*2015" will return objects with names like "template June 2015", "template April 2015", or simply "template 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "template" will match objects with name "my template", "template 2015", or simply "template". */
-  searchString?: string;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Maximum number of results to return. */
   maxResults?: number;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Select only targeting templates with these IDs. */
+  ids?: StringList;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "template*2015" will return objects with names like "template June 2015", "template April 2015", or simply "template 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "template" will match objects with name "my template", "template 2015", or simply "template". */
+  searchString?: string;
+  /** Order of sorted results. */
+  sortOrder?: ListTargetingTemplatesSortOrderEnum | (string & {});
 }
 export const ListTargetingTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ids: S.optional(StringList.pipe(T.Query())),
-    sortOrder: S.optional(ListTargetingTemplatesSortOrderEnum.pipe(T.Query())),
     sortField: S.optional(ListTargetingTemplatesSortFieldEnum.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     advertiserId: S.optional(S.String.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    sortOrder: S.optional(ListTargetingTemplatesSortOrderEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -13078,18 +13078,18 @@ export const TargetingTemplateList = /*@__PURE__*/ S.Array(
 
 /** Targeting Template List Response */
 export interface TargetingTemplatesListResponse {
+  /** Targeting template collection. */
+  targetingTemplates?: TargetingTemplateList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplatesListResponse". */
   kind?: string;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
-  /** Targeting template collection. */
-  targetingTemplates?: TargetingTemplateList;
 }
 export const TargetingTemplatesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    targetingTemplates: S.optional(TargetingTemplateList),
     kind: S.optional(S.String),
     nextPageToken: S.optional(S.String),
-    targetingTemplates: S.optional(TargetingTemplateList),
   }),
 ).annotate({
   identifier: "TargetingTemplatesListResponse",
@@ -13109,24 +13109,24 @@ export type ListTvCampaignSummariesTvDataProviderEnum =
 export const ListTvCampaignSummariesTvDataProviderEnum = S.String;
 
 export interface ListTvCampaignSummariesRequest {
-  /** Required. Account ID associated with this request. */
-  accountId?: string;
   /** Optional. Country Dart ID. If not specified, defaults to 256 (US). */
   countryDartId?: string;
-  /** Optional. TV data provider. If not specified, defaults to `COMSCORE_NATIONAL_US`. */
-  tvDataProvider?: ListTvCampaignSummariesTvDataProviderEnum | (string & {});
   /** Required. User profile ID associated with this request. */
   profileId: string;
   /** Required. Search string to filter the list of TV campaign summaries. Matches any substring. Required field. */
   name?: string;
+  /** Required. Account ID associated with this request. */
+  accountId?: string;
+  /** Optional. TV data provider. If not specified, defaults to `COMSCORE_NATIONAL_US`. */
+  tvDataProvider?: ListTvCampaignSummariesTvDataProviderEnum | (string & {});
 }
 export const ListTvCampaignSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountId: S.optional(S.String.pipe(T.Query())),
     countryDartId: S.optional(S.String.pipe(T.Query())),
-    tvDataProvider: S.optional(ListTvCampaignSummariesTvDataProviderEnum.pipe(T.Query())),
     profileId: S.String.pipe(T.Label()),
     name: S.optional(S.String.pipe(T.Query())),
+    accountId: S.optional(S.String.pipe(T.Query())),
+    tvDataProvider: S.optional(ListTvCampaignSummariesTvDataProviderEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -13148,35 +13148,35 @@ export const TvCampaignSummaryTypeEnum = S.String;
 
 /** TvCampaignSummary contains aggregate data from a TV campaign. */
 export interface TvCampaignSummary {
-  /** The start date of the TV campaign, inclusive. A string of the format: "yyyy-MM-dd". */
-  startDate?: string;
+  /** GRP of this TV campaign. */
+  grp?: string;
   /** The end date of the TV campaign, inclusive. A string of the format: "yyyy-MM-dd". */
   endDate?: string;
   /** Identifier. Name of this TV campaign. */
   name?: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummary". */
-  kind?: string;
-  /** ID of this TV campaign. */
-  id?: string;
-  /** GRP of this TV campaign. */
-  grp?: string;
   /** "CampaignComponentType" of this TV campaign. */
   type?: TvCampaignSummaryTypeEnum;
   /** Impressions across the entire TV campaign. */
   impressions?: string;
+  /** ID of this TV campaign. */
+  id?: string;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummary". */
+  kind?: string;
+  /** The start date of the TV campaign, inclusive. A string of the format: "yyyy-MM-dd". */
+  startDate?: string;
   /** Spend across the entire TV campaign. */
   spend?: number;
 }
 export const TvCampaignSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startDate: S.optional(S.String),
+    grp: S.optional(S.String),
     endDate: S.optional(S.String),
     name: S.optional(S.String),
-    kind: S.optional(S.String),
-    id: S.optional(S.String),
-    grp: S.optional(S.String),
     type: S.optional(TvCampaignSummaryTypeEnum),
     impressions: S.optional(S.String),
+    id: S.optional(S.String),
+    kind: S.optional(S.String),
+    startDate: S.optional(S.String),
     spend: S.optional(S.Number),
   }),
 ).annotate({ identifier: "TvCampaignSummary" }) as any as S.Schema<TvCampaignSummary>;
@@ -13222,16 +13222,16 @@ export const UserProfileList_ = /*@__PURE__*/ S.Array(
 export interface UserProfileList {
   /** The user profiles returned in this response. */
   items?: UserProfileList_;
-  /** Etag of this resource. */
-  etag?: string;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userProfileList". */
   kind?: string;
+  /** Etag of this resource. */
+  etag?: string;
 }
 export const UserProfileList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(UserProfileList_),
-    etag: S.optional(S.String),
     kind: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserProfileList" }) as any as S.Schema<UserProfileList>;
 
@@ -13311,43 +13311,43 @@ export const UserRolePermissionsListResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UserRolePermissionsListResponse",
 }) as any as S.Schema<UserRolePermissionsListResponse>;
 
-export type ListUserRolesSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListUserRolesSortOrderEnum = S.String;
-
 export type ListUserRolesSortFieldEnum = "ID" | "NAME";
 export const ListUserRolesSortFieldEnum = S.String;
 
+export type ListUserRolesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListUserRolesSortOrderEnum = S.String;
+
 export interface ListUserRolesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** Order of sorted results. */
-  sortOrder?: ListUserRolesSortOrderEnum | (string & {});
-  /** Field by which to sort the list. */
-  sortField?: ListUserRolesSortFieldEnum | (string & {});
-  /** Select only user roles with the specified IDs. */
-  ids?: StringList;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "userrole*2015" will return objects with names like "userrole June 2015", "userrole April 2015", or simply "userrole 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "userrole" will match objects with name "my userrole", "userrole 2015", or simply "userrole". */
-  searchString?: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
-  /** Select only account level user roles not associated with any specific subaccount. */
-  accountUserRoleOnly?: boolean;
   /** Select only user roles that belong to this subaccount. */
   subaccountId?: string;
+  /** Field by which to sort the list. */
+  sortField?: ListUserRolesSortFieldEnum | (string & {});
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "userrole*2015" will return objects with names like "userrole June 2015", "userrole April 2015", or simply "userrole 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "userrole" will match objects with name "my userrole", "userrole 2015", or simply "userrole". */
+  searchString?: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only account level user roles not associated with any specific subaccount. */
+  accountUserRoleOnly?: boolean;
+  /** Order of sorted results. */
+  sortOrder?: ListUserRolesSortOrderEnum | (string & {});
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string;
+  /** Select only user roles with the specified IDs. */
+  ids?: StringList;
+  /** Maximum number of results to return. */
+  maxResults?: number;
 }
 export const ListUserRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    sortOrder: S.optional(ListUserRolesSortOrderEnum.pipe(T.Query())),
-    sortField: S.optional(ListUserRolesSortFieldEnum.pipe(T.Query())),
-    ids: S.optional(StringList.pipe(T.Query())),
-    searchString: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    accountUserRoleOnly: S.optional(S.Boolean.pipe(T.Query())),
     subaccountId: S.optional(S.String.pipe(T.Query())),
+    sortField: S.optional(ListUserRolesSortFieldEnum.pipe(T.Query())),
+    searchString: S.optional(S.String.pipe(T.Query())),
+    profileId: S.String.pipe(T.Label()),
+    accountUserRoleOnly: S.optional(S.Boolean.pipe(T.Query())),
+    sortOrder: S.optional(ListUserRolesSortOrderEnum.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    ids: S.optional(StringList.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -13362,17 +13362,17 @@ export const UserRoleList = /*@__PURE__*/ S.Array(UserRole) as any as S.Schema<U
 
 /** User Role List Response */
 export interface UserRolesListResponse {
-  /** User role collection. */
-  userRoles?: UserRoleList;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string;
+  /** User role collection. */
+  userRoles?: UserRoleList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolesListResponse". */
   kind?: string;
 }
 export const UserRolesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userRoles: S.optional(UserRoleList),
     nextPageToken: S.optional(S.String),
+    userRoles: S.optional(UserRoleList),
     kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserRolesListResponse" }) as any as S.Schema<UserRolesListResponse>;
@@ -13400,15 +13400,15 @@ export const VideoFormatList = /*@__PURE__*/ S.Array(
 
 /** Video Format List Response */
 export interface VideoFormatsListResponse {
-  /** Video format collection. */
-  videoFormats?: VideoFormatList;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoFormatsListResponse". */
   kind?: string;
+  /** Video format collection. */
+  videoFormats?: VideoFormatList;
 }
 export const VideoFormatsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    videoFormats: S.optional(VideoFormatList),
     kind: S.optional(S.String),
+    videoFormats: S.optional(VideoFormatList),
   }),
 ).annotate({ identifier: "VideoFormatsListResponse" }) as any as S.Schema<VideoFormatsListResponse>;
 
@@ -13435,17 +13435,17 @@ export const PatchAccountsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PatchAccountsRequest" }) as any as S.Schema<PatchAccountsRequest>;
 
 export interface PatchAccountUserProfilesRequest {
-  /** Required. AccountUserProfile ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. AccountUserProfile ID. */
+  id: string;
   /** Request body */
   body?: AccountUserProfile;
 }
 export const PatchAccountUserProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(AccountUserProfile.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13459,17 +13459,17 @@ export const PatchAccountUserProfilesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchAccountUserProfilesRequest>;
 
 export interface PatchAdsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Request body */
   body?: Ad;
 }
 export const PatchAdsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Query()),
+    profileId: S.String.pipe(T.Label()),
     body: S.optional(Ad.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13505,17 +13505,17 @@ export const PatchAdvertiserGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchAdvertiserGroupsRequest>;
 
 export interface PatchAdvertiserLandingPagesRequest {
-  /** Required. Landing Page ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. Landing Page ID. */
+  id: string;
   /** Request body */
   body?: LandingPage;
 }
 export const PatchAdvertiserLandingPagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(LandingPage.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13529,17 +13529,17 @@ export const PatchAdvertiserLandingPagesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchAdvertiserLandingPagesRequest>;
 
 export interface PatchAdvertisersRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. Advertiser ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Request body */
   body?: Advertiser;
 }
 export const PatchAdvertisersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Query()),
+    profileId: S.String.pipe(T.Label()),
     body: S.optional(Advertiser.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13573,17 +13573,17 @@ export const PatchCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PatchCampaignsRequest" }) as any as S.Schema<PatchCampaignsRequest>;
 
 export interface PatchContentCategoriesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. ContentCategory ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Request body */
   body?: ContentCategory;
 }
 export const PatchContentCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Query()),
+    profileId: S.String.pipe(T.Label()),
     body: S.optional(ContentCategory.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13621,20 +13621,20 @@ export const PatchCreativeFieldsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchCreativeFieldsRequest>;
 
 export interface PatchCreativeFieldValuesRequest {
-  /** CreativeFieldValue ID. */
-  id: string;
   /** CreativeField ID. */
   creativeFieldId: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** CreativeFieldValue ID. */
+  id: string;
   /** Request body */
   body?: CreativeFieldValue;
 }
 export const PatchCreativeFieldValuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     creativeFieldId: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(CreativeFieldValue.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13672,17 +13672,17 @@ export const PatchCreativeGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchCreativeGroupsRequest>;
 
 export interface PatchCreativesRequest {
-  /** Required. Creative ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. Creative ID. */
+  id: string;
   /** Request body */
   body?: Creative;
 }
 export const PatchCreativesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(Creative.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13694,17 +13694,17 @@ export const PatchCreativesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PatchCreativesRequest" }) as any as S.Schema<PatchCreativesRequest>;
 
 export interface PatchEventTagsRequest {
-  /** Required. EventTag ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. EventTag ID. */
+  id: string;
   /** Request body */
   body?: EventTag;
 }
 export const PatchEventTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(EventTag.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13716,17 +13716,17 @@ export const PatchEventTagsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PatchEventTagsRequest" }) as any as S.Schema<PatchEventTagsRequest>;
 
 export interface PatchFloodlightActivitiesRequest {
-  /** Required. EventTag ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. EventTag ID. */
+  id: string;
   /** Request body */
   body?: FloodlightActivity;
 }
 export const PatchFloodlightActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(FloodlightActivity.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13740,17 +13740,17 @@ export const PatchFloodlightActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchFloodlightActivitiesRequest>;
 
 export interface PatchFloodlightActivityGroupsRequest {
-  /** Required. EventTag ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. EventTag ID. */
+  id: string;
   /** Request body */
   body?: FloodlightActivityGroup;
 }
 export const PatchFloodlightActivityGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(FloodlightActivityGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13788,17 +13788,17 @@ export const PatchFloodlightConfigurationsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PatchFloodlightConfigurationsRequest>;
 
 export interface PatchPlacementGroupsRequest {
-  /** Required. Placement ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. Placement ID. */
+  id: string;
   /** Request body */
   body?: PlacementGroup;
 }
 export const PatchPlacementGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(PlacementGroup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13812,17 +13812,17 @@ export const PatchPlacementGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchPlacementGroupsRequest>;
 
 export interface PatchPlacementsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. Placement ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Request body */
   body?: Placement;
 }
 export const PatchPlacementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    profileId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Query()),
+    profileId: S.String.pipe(T.Label()),
     body: S.optional(Placement.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -13858,17 +13858,17 @@ export const PatchPlacementStrategiesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchPlacementStrategiesRequest>;
 
 export interface PatchRemarketingListsRequest {
-  /** Required. RemarketingList ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. RemarketingList ID. */
+  id: string;
   /** Request body */
   body?: RemarketingList;
 }
 export const PatchRemarketingListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String.pipe(T.Query()),
     profileId: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Query()),
     body: S.optional(RemarketingList.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -14043,18 +14043,18 @@ export const PublishStudioCreativesResponse = /*@__PURE__*/ S.suspend(() => S.St
 
 /** Represents a dimension filter. */
 export interface DimensionFilter {
-  /** The kind of resource this is, in this case dfareporting#dimensionFilter. */
-  kind?: string;
-  /** The value of the dimension to filter. */
-  value?: string;
   /** The name of the dimension to filter. */
   dimensionName?: string;
+  /** The value of the dimension to filter. */
+  value?: string;
+  /** The kind of resource this is, in this case dfareporting#dimensionFilter. */
+  kind?: string;
 }
 export const DimensionFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    value: S.optional(S.String),
     dimensionName: S.optional(S.String),
+    value: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "DimensionFilter" }) as any as S.Schema<DimensionFilter>;
 
@@ -14065,22 +14065,22 @@ export const DimensionFilterList = /*@__PURE__*/ S.Array(
 
 /** Represents a DimensionValuesRequest. */
 export interface DimensionValueRequest {
-  endDate?: string;
+  /** The kind of request this is, in this case dfareporting#dimensionValueRequest . */
+  kind?: string;
   startDate?: string;
   /** The name of the dimension for which values should be requested. */
   dimensionName?: string;
   /** The list of filters by which to filter values. The filters are ANDed. */
   filters?: DimensionFilterList;
-  /** The kind of request this is, in this case dfareporting#dimensionValueRequest . */
-  kind?: string;
+  endDate?: string;
 }
 export const DimensionValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endDate: S.optional(S.String),
+    kind: S.optional(S.String),
     startDate: S.optional(S.String),
     dimensionName: S.optional(S.String),
     filters: S.optional(DimensionFilterList),
-    kind: S.optional(S.String),
+    endDate: S.optional(S.String),
   }),
 ).annotate({ identifier: "DimensionValueRequest" }) as any as S.Schema<DimensionValueRequest>;
 
@@ -14113,21 +14113,21 @@ export const QueryDimensionValuesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents the list of DimensionValue resources. */
 export interface DimensionValueList {
-  /** Continuation token used to page through dimension values. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
-  nextPageToken?: string;
-  /** The dimension values returned in this response. */
-  items: DimensionValueList_;
-  /** The kind of list this is, in this case dfareporting#dimensionValueList. */
-  kind?: string;
   /** The eTag of this response for caching purposes. */
   etag?: string;
+  /** The kind of list this is, in this case dfareporting#dimensionValueList. */
+  kind?: string;
+  /** The dimension values returned in this response. */
+  items: DimensionValueList_;
+  /** Continuation token used to page through dimension values. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
+  nextPageToken?: string;
 }
 export const DimensionValueList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    items: DimensionValueList_,
-    kind: S.optional(S.String),
     etag: S.optional(S.String),
+    kind: S.optional(S.String),
+    items: DimensionValueList_,
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "DimensionValueList" }) as any as S.Schema<DimensionValueList>;
 
@@ -14153,30 +14153,30 @@ export const SortByList = /*@__PURE__*/ S.Array(SortBy) as any as S.Schema<SortB
 
 /** The request body containing ad-hoc query parameters. */
 export interface ReportDataQueryRequest {
-  /** Required. The list of metric names to include. */
-  metricNames?: StringList;
-  /** Optional. Continuation token for paginating results. */
-  pageToken?: string;
-  /** Optional. The list of dimension names to group by. */
-  dimensionNames?: StringList;
-  /** Optional. Sort options across either requested dimensions or metrics. */
-  sortBys?: SortByList;
-  /** Optional. Maximum number of result rows to return per page. The default value is 100. The maximum allowed value is 1000. Values above 1000 will be coerced (clamped) down to 1000. Negative values will be rejected. */
-  maxResults?: number;
   /** Optional. The list of dimension values on which report lines are filtered. Utilizes the existing legacy filter message `DimensionValue`. */
   dimensionFilters?: DimensionValueList_;
   /** Optional. The requested date range covering the report duration. */
   dateRange?: DateRange;
+  /** Optional. Sort options across either requested dimensions or metrics. */
+  sortBys?: SortByList;
+  /** Required. The list of metric names to include. */
+  metricNames?: StringList;
+  /** Optional. The list of dimension names to group by. */
+  dimensionNames?: StringList;
+  /** Optional. Continuation token for paginating results. */
+  pageToken?: string;
+  /** Optional. Maximum number of result rows to return per page. The default value is 100. The maximum allowed value is 1000. Values above 1000 will be coerced (clamped) down to 1000. Negative values will be rejected. */
+  maxResults?: number;
 }
 export const ReportDataQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metricNames: S.optional(StringList),
-    pageToken: S.optional(S.String),
-    dimensionNames: S.optional(StringList),
-    sortBys: S.optional(SortByList),
-    maxResults: S.optional(S.Number),
     dimensionFilters: S.optional(DimensionValueList_),
     dateRange: S.optional(DateRange),
+    sortBys: S.optional(SortByList),
+    metricNames: S.optional(StringList),
+    dimensionNames: S.optional(StringList),
+    pageToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ReportDataQueryRequest" }) as any as S.Schema<ReportDataQueryRequest>;
 
@@ -14239,10 +14239,10 @@ export const ReportDataRowList = /*@__PURE__*/ S.Array(
 
 /** Represents a response to report data request. */
 export interface ReportDataResponse {
-  /** Output only. Token to retrieve the next page of rows, or empty if end of results. */
-  nextPageToken?: string;
   /** Output only. Ordered descriptors of the requested column fields. */
   columnHeaders?: ColumnHeaderList;
+  /** Output only. Token to retrieve the next page of rows, or empty if end of results. */
+  nextPageToken?: string;
   /** Output only. The resulting set of matching data rows. */
   rows?: ReportDataRowList;
   /** Output only. Singular aggregate total row for the entire query matching the criteria. Column headers apply in the exact same order as data rows. In the total_row: - All dimension columns contain an empty string (""), as aggregation does not apply. - Non-summable metric columns (e.g. Reach metrics) contain an empty string (""), as grand total aggregation cannot be mathematically/logically computed for them. */
@@ -14250,8 +14250,8 @@ export interface ReportDataResponse {
 }
 export const ReportDataResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     columnHeaders: S.optional(ColumnHeaderList),
+    nextPageToken: S.optional(S.String),
     rows: S.optional(ReportDataRowList),
     totalRow: S.optional(ReportDataRow),
   }),
@@ -14278,23 +14278,6 @@ export const QueryReportsCompatibleFieldsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryReportsCompatibleFieldsRequest",
 }) as any as S.Schema<QueryReportsCompatibleFieldsRequest>;
 
-/** Represents a metric. */
-export interface Metric {
-  /** The metric name, e.g. impressions */
-  name?: string;
-  /** The kind of resource this is, in this case dfareporting#metric. */
-  kind?: string;
-}
-export const Metric = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    kind: S.optional(S.String),
-  }),
-).annotate({ identifier: "Metric" }) as any as S.Schema<Metric>;
-
-export type MetricList = Array<Metric>;
-export const MetricList = /*@__PURE__*/ S.Array(Metric) as any as S.Schema<MetricList>;
-
 /** Represents a dimension. */
 export interface Dimension {
   /** The dimension name, e.g. advertiser */
@@ -14312,35 +14295,107 @@ export const Dimension = /*@__PURE__*/ S.suspend(() =>
 export type DimensionList = Array<Dimension>;
 export const DimensionList = /*@__PURE__*/ S.Array(Dimension) as any as S.Schema<DimensionList>;
 
-/** Represents fields that are compatible to be selected for a report of type "STANDARD". */
-export interface ReportCompatibleFields {
+/** Represents a metric. */
+export interface Metric {
+  /** The metric name, e.g. impressions */
+  name?: string;
+  /** The kind of resource this is, in this case dfareporting#metric. */
+  kind?: string;
+}
+export const Metric = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    kind: S.optional(S.String),
+  }),
+).annotate({ identifier: "Metric" }) as any as S.Schema<Metric>;
+
+export type MetricList = Array<Metric>;
+export const MetricList = /*@__PURE__*/ S.Array(Metric) as any as S.Schema<MetricList>;
+
+/** Represents fields that are compatible to be selected for a report of type "REACH". */
+export interface ReachReportCompatibleFields {
+  /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
+  dimensions?: DimensionList;
+  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
+  dimensionFilters?: DimensionList;
   /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
   pivotedActivityMetrics?: MetricList;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
   metrics?: MetricList;
-  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
-  /** The kind of resource this is, in this case dfareporting#reportCompatibleFields. */
+  /** The kind of resource this is, in this case dfareporting#reachReportCompatibleFields. */
   kind?: string;
-  /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
-  dimensions?: DimensionList;
+  /** Metrics which are compatible to be selected in the "reachByFrequencyMetricNames" section of the report. */
+  reachByFrequencyMetrics?: MetricList;
 }
-export const ReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
+export const ReachReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dimensions: S.optional(DimensionList),
+    dimensionFilters: S.optional(DimensionList),
     pivotedActivityMetrics: S.optional(MetricList),
     metrics: S.optional(MetricList),
-    dimensionFilters: S.optional(DimensionList),
     kind: S.optional(S.String),
-    dimensions: S.optional(DimensionList),
+    reachByFrequencyMetrics: S.optional(MetricList),
   }),
-).annotate({ identifier: "ReportCompatibleFields" }) as any as S.Schema<ReportCompatibleFields>;
+).annotate({
+  identifier: "ReachReportCompatibleFields",
+}) as any as S.Schema<ReachReportCompatibleFields>;
+
+/** Represents fields that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
+export interface CrossDimensionReachReportCompatibleFields {
+  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
+  metrics?: MetricList;
+  /** The kind of resource this is, in this case dfareporting#crossDimensionReachReportCompatibleFields. */
+  kind?: string;
+  /** Dimensions which are compatible to be selected in the "breakdown" section of the report. */
+  breakdown?: DimensionList;
+  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
+  dimensionFilters?: DimensionList;
+  /** Metrics which are compatible to be selected in the "overlapMetricNames" section of the report. */
+  overlapMetrics?: MetricList;
+}
+export const CrossDimensionReachReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metrics: S.optional(MetricList),
+    kind: S.optional(S.String),
+    breakdown: S.optional(DimensionList),
+    dimensionFilters: S.optional(DimensionList),
+    overlapMetrics: S.optional(MetricList),
+  }),
+).annotate({
+  identifier: "CrossDimensionReachReportCompatibleFields",
+}) as any as S.Schema<CrossDimensionReachReportCompatibleFields>;
+
+/** Represents fields that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
+export interface PathToConversionReportCompatibleFields {
+  /** Per-interaction dimensions which are compatible to be selected in the "perInteractionDimensions" section of the report. */
+  perInteractionDimensions?: DimensionList;
+  /** The kind of resource this is, in this case dfareporting#pathToConversionReportCompatibleFields. */
+  kind?: string;
+  /** Custom floodlight variables which are compatible to be selected in the "customFloodlightVariables" section of the report. */
+  customFloodlightVariables?: DimensionList;
+  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
+  metrics?: MetricList;
+  /** Conversion dimensions which are compatible to be selected in the "conversionDimensions" section of the report. */
+  conversionDimensions?: DimensionList;
+}
+export const PathToConversionReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    perInteractionDimensions: S.optional(DimensionList),
+    kind: S.optional(S.String),
+    customFloodlightVariables: S.optional(DimensionList),
+    metrics: S.optional(MetricList),
+    conversionDimensions: S.optional(DimensionList),
+  }),
+).annotate({
+  identifier: "PathToConversionReportCompatibleFields",
+}) as any as S.Schema<PathToConversionReportCompatibleFields>;
 
 /** Represents fields that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
 export interface CrossMediaReachReportCompatibleFields {
-  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
   dimensionFilters?: DimensionList;
+  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
+  metrics?: MetricList;
   /** The kind of resource this is, in this case dfareporting#crossMediaReachReportCompatibleFields. */
   kind?: string;
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
@@ -14348,8 +14403,8 @@ export interface CrossMediaReachReportCompatibleFields {
 }
 export const CrossMediaReachReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metrics: S.optional(MetricList),
     dimensionFilters: S.optional(DimensionList),
+    metrics: S.optional(MetricList),
     kind: S.optional(S.String),
     dimensions: S.optional(DimensionList),
   }),
@@ -14357,134 +14412,79 @@ export const CrossMediaReachReportCompatibleFields = /*@__PURE__*/ S.suspend(() 
   identifier: "CrossMediaReachReportCompatibleFields",
 }) as any as S.Schema<CrossMediaReachReportCompatibleFields>;
 
-/** Represents fields that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
-export interface CrossDimensionReachReportCompatibleFields {
-  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
-  /** The kind of resource this is, in this case dfareporting#crossDimensionReachReportCompatibleFields. */
-  kind?: string;
-  /** Dimensions which are compatible to be selected in the "breakdown" section of the report. */
-  breakdown?: DimensionList;
-  /** Metrics which are compatible to be selected in the "overlapMetricNames" section of the report. */
-  overlapMetrics?: MetricList;
-  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
-}
-export const CrossDimensionReachReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dimensionFilters: S.optional(DimensionList),
-    kind: S.optional(S.String),
-    breakdown: S.optional(DimensionList),
-    overlapMetrics: S.optional(MetricList),
-    metrics: S.optional(MetricList),
-  }),
-).annotate({
-  identifier: "CrossDimensionReachReportCompatibleFields",
-}) as any as S.Schema<CrossDimensionReachReportCompatibleFields>;
-
-/** Represents fields that are compatible to be selected for a report of type "REACH". */
-export interface ReachReportCompatibleFields {
-  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
-  /** The kind of resource this is, in this case dfareporting#reachReportCompatibleFields. */
-  kind?: string;
-  /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
-  dimensions?: DimensionList;
-  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
-  /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
-  pivotedActivityMetrics?: MetricList;
-  /** Metrics which are compatible to be selected in the "reachByFrequencyMetricNames" section of the report. */
-  reachByFrequencyMetrics?: MetricList;
-}
-export const ReachReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dimensionFilters: S.optional(DimensionList),
-    kind: S.optional(S.String),
-    dimensions: S.optional(DimensionList),
-    metrics: S.optional(MetricList),
-    pivotedActivityMetrics: S.optional(MetricList),
-    reachByFrequencyMetrics: S.optional(MetricList),
-  }),
-).annotate({
-  identifier: "ReachReportCompatibleFields",
-}) as any as S.Schema<ReachReportCompatibleFields>;
-
-/** Represents fields that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
-export interface PathToConversionReportCompatibleFields {
-  /** Per-interaction dimensions which are compatible to be selected in the "perInteractionDimensions" section of the report. */
-  perInteractionDimensions?: DimensionList;
-  /** Conversion dimensions which are compatible to be selected in the "conversionDimensions" section of the report. */
-  conversionDimensions?: DimensionList;
-  /** Custom floodlight variables which are compatible to be selected in the "customFloodlightVariables" section of the report. */
-  customFloodlightVariables?: DimensionList;
-  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
-  /** The kind of resource this is, in this case dfareporting#pathToConversionReportCompatibleFields. */
-  kind?: string;
-}
-export const PathToConversionReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    perInteractionDimensions: S.optional(DimensionList),
-    conversionDimensions: S.optional(DimensionList),
-    customFloodlightVariables: S.optional(DimensionList),
-    metrics: S.optional(MetricList),
-    kind: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PathToConversionReportCompatibleFields",
-}) as any as S.Schema<PathToConversionReportCompatibleFields>;
-
 /** Represents fields that are compatible to be selected for a report of type "FlOODLIGHT". */
 export interface FloodlightReportCompatibleFields {
-  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
   dimensions?: DimensionList;
-  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
+  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
+  metrics?: MetricList;
   /** The kind of resource this is, in this case dfareporting#floodlightReportCompatibleFields. */
   kind?: string;
+  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
+  dimensionFilters?: DimensionList;
 }
 export const FloodlightReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metrics: S.optional(MetricList),
     dimensions: S.optional(DimensionList),
-    dimensionFilters: S.optional(DimensionList),
+    metrics: S.optional(MetricList),
     kind: S.optional(S.String),
+    dimensionFilters: S.optional(DimensionList),
   }),
 ).annotate({
   identifier: "FloodlightReportCompatibleFields",
 }) as any as S.Schema<FloodlightReportCompatibleFields>;
 
+/** Represents fields that are compatible to be selected for a report of type "STANDARD". */
+export interface ReportCompatibleFields {
+  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
+  dimensionFilters?: DimensionList;
+  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
+  metrics?: MetricList;
+  /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
+  dimensions?: DimensionList;
+  /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
+  pivotedActivityMetrics?: MetricList;
+  /** The kind of resource this is, in this case dfareporting#reportCompatibleFields. */
+  kind?: string;
+}
+export const ReportCompatibleFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dimensionFilters: S.optional(DimensionList),
+    metrics: S.optional(MetricList),
+    dimensions: S.optional(DimensionList),
+    pivotedActivityMetrics: S.optional(MetricList),
+    kind: S.optional(S.String),
+  }),
+).annotate({ identifier: "ReportCompatibleFields" }) as any as S.Schema<ReportCompatibleFields>;
+
 /** Represents a response to the queryCompatibleFields method. Next ID: 10 */
 export interface CompatibleFields {
-  /** Contains items that are compatible to be selected for a report of type "STANDARD". */
-  reportCompatibleFields?: ReportCompatibleFields;
-  /** Contains items that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
-  crossMediaReachReportCompatibleFields?: CrossMediaReachReportCompatibleFields;
-  /** Contains items that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
-  crossDimensionReachReportCompatibleFields?: CrossDimensionReachReportCompatibleFields;
-  /** Contains items that are compatible to be selected for a report of type "REACH". */
-  reachReportCompatibleFields?: ReachReportCompatibleFields;
-  /** Contains items that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
-  pathToConversionReportCompatibleFields?: PathToConversionReportCompatibleFields;
   /** The kind of resource this is, in this case dfareporting#compatibleFields. */
   kind?: string;
+  /** Contains items that are compatible to be selected for a report of type "REACH". */
+  reachReportCompatibleFields?: ReachReportCompatibleFields;
+  /** Contains items that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
+  crossDimensionReachReportCompatibleFields?: CrossDimensionReachReportCompatibleFields;
+  /** Contains items that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
+  pathToConversionReportCompatibleFields?: PathToConversionReportCompatibleFields;
+  /** Contains items that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
+  crossMediaReachReportCompatibleFields?: CrossMediaReachReportCompatibleFields;
   /** Contains items that are compatible to be selected for a report of type "FLOODLIGHT". */
   floodlightReportCompatibleFields?: FloodlightReportCompatibleFields;
+  /** Contains items that are compatible to be selected for a report of type "STANDARD". */
+  reportCompatibleFields?: ReportCompatibleFields;
 }
 export const CompatibleFields = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportCompatibleFields: S.optional(ReportCompatibleFields),
-    crossMediaReachReportCompatibleFields: S.optional(CrossMediaReachReportCompatibleFields),
+    kind: S.optional(S.String),
+    reachReportCompatibleFields: S.optional(ReachReportCompatibleFields),
     crossDimensionReachReportCompatibleFields: S.optional(
       CrossDimensionReachReportCompatibleFields,
     ),
-    reachReportCompatibleFields: S.optional(ReachReportCompatibleFields),
     pathToConversionReportCompatibleFields: S.optional(PathToConversionReportCompatibleFields),
-    kind: S.optional(S.String),
+    crossMediaReachReportCompatibleFields: S.optional(CrossMediaReachReportCompatibleFields),
     floodlightReportCompatibleFields: S.optional(FloodlightReportCompatibleFields),
+    reportCompatibleFields: S.optional(ReportCompatibleFields),
   }),
 ).annotate({ identifier: "CompatibleFields" }) as any as S.Schema<CompatibleFields>;
 
@@ -14507,18 +14507,18 @@ export const RetransformDynamicFeedsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RetransformDynamicFeedsRequest>;
 
 export interface RunReportsRequest {
+  /** If set and true, tries to run the report synchronously. */
+  synchronous?: boolean;
   /** The ID of the report. */
   reportId: string;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
-  /** If set and true, tries to run the report synchronously. */
-  synchronous?: boolean;
 }
 export const RunReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    synchronous: S.optional(S.Boolean.pipe(T.Query())),
     reportId: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
-    synchronous: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -15016,17 +15016,17 @@ export const UpdateRemarketingListSharesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateRemarketingListSharesRequest>;
 
 export interface UpdateReportsRequest {
-  /** The ID of the report. */
-  reportId: string;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
+  /** The ID of the report. */
+  reportId: string;
   /** Request body */
   body?: Report;
 }
 export const UpdateReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportId: S.String.pipe(T.Label()),
     profileId: S.String.pipe(T.Label()),
+    reportId: S.String.pipe(T.Label()),
     body: S.optional(Report.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

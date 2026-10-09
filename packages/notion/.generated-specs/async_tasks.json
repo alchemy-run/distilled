@@ -1,0 +1,1924 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.async_tasks#GetAsyncTaskRequest": {
+      "type": "structure",
+      "members": {
+        "task_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase0OperationSurface": {
+      "type": "enum",
+      "members": {
+        "REST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rest"
+          }
+        },
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase0Operation": {
+      "type": "structure",
+      "members": {
+        "surface": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase0OperationSurface",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase0Status": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "RETRYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retrying"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase0": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operation": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase0Operation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase0Status",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "poll_after_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase1OperationSurface": {
+      "type": "enum",
+      "members": {
+        "REST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rest"
+          }
+        },
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase1Operation": {
+      "type": "structure",
+      "members": {
+        "surface": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase1OperationSurface",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#PublicApiAsyncTaskStatusResultJsonValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case3": {
+          "target": "com.notion.async_tasks#PublicApiAsyncTaskStatusResultJsonValueCase3List"
+        },
+        "Case4": {
+          "target": "com.notion.async_tasks#PublicApiAsyncTaskStatusResultJsonValueCase4Map"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#PublicApiAsyncTaskStatusResultJsonValueCase3List": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.async_tasks#PublicApiAsyncTaskStatusResultJsonValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#PublicApiAsyncTaskStatusResultJsonValueCase4Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#PublicApiAsyncTaskStatusResultJsonValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase1ResultMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#PublicApiAsyncTaskStatusResultJsonValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase1": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operation": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase1Operation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "result": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase1ResultMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2OperationSurface": {
+      "type": "enum",
+      "members": {
+        "REST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rest"
+          }
+        },
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2Operation": {
+      "type": "structure",
+      "members": {
+        "surface": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2OperationSurface",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase0AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase0AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase0AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase0AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase0AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase0": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase0AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase1": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase2": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase3": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase4": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase5": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase6": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase7": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase8": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase9": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase10": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase11": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase12": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase13": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase14": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase15": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase16": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase17": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase18": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase19": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase20": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase21": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataValue"
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase22": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "additional_data": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2Error": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase0"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase1"
+        },
+        "Case2": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase2"
+        },
+        "Case3": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase3"
+        },
+        "Case4": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase4"
+        },
+        "Case5": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase5"
+        },
+        "Case6": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase6"
+        },
+        "Case7": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase7"
+        },
+        "Case8": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase8"
+        },
+        "Case9": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase9"
+        },
+        "Case10": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase10"
+        },
+        "Case11": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase11"
+        },
+        "Case12": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase12"
+        },
+        "Case13": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase13"
+        },
+        "Case14": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase14"
+        },
+        "Case15": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase15"
+        },
+        "Case16": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase16"
+        },
+        "Case17": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase17"
+        },
+        "Case18": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase18"
+        },
+        "Case19": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase19"
+        },
+        "Case20": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase20"
+        },
+        "Case21": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase21"
+        },
+        "Case22": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2ErrorCase22"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operation": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2Operation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2Error",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponseBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase0"
+        },
+        "Case1": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase1"
+        },
+        "Case2": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBodyCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.async_tasks#GetAsyncTaskResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.async_tasks#GetAsyncTaskResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.async_tasks#GetAsyncTask": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.async_tasks#GetAsyncTaskRequest"
+      },
+      "output": {
+        "target": "com.notion.async_tasks#GetAsyncTaskResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/async_tasks/{task_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve an async task"
+      }
+    },
+    "com.notion.async_tasks#AsyncTasks": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.async_tasks#GetAsyncTask"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}

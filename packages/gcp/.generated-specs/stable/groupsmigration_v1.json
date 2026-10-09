@@ -11,16 +11,16 @@
     "com.gcp.groupsmigration_v1#Groups": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The kind of insert resource this is."
-          }
-        },
         "responseCode": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The status of the insert request."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The kind of insert resource this is."
           }
         }
       },

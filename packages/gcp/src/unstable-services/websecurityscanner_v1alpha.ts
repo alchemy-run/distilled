@@ -61,32 +61,38 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ScanConfigTargetPlatformsItemEnum =
-  | "TARGET_PLATFORM_UNSPECIFIED"
-  | "APP_ENGINE"
-  | "COMPUTE"
-  | "CLOUD_RUN"
-  | "CLOUD_FUNCTIONS";
-export const ScanConfigTargetPlatformsItemEnum = S.String;
+/** Scan schedule configuration. */
+export interface Schedule {
+  /** Required. The duration of time between executions in days. */
+  intervalDurationDays?: number;
+  /** A timestamp indicates when the next run will be scheduled. The value is refreshed by the server after each run. If unspecified, it will default to current server time, which means the scan will be scheduled to start immediately. */
+  scheduleTime?: string;
+}
+export const Schedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intervalDurationDays: S.optional(S.Number),
+    scheduleTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
 
-export type ScanConfigTargetPlatformsItemEnumList = Array<
-  ScanConfigTargetPlatformsItemEnum | (string & {})
->;
-export const ScanConfigTargetPlatformsItemEnumList = /*@__PURE__*/ S.Array(
-  ScanConfigTargetPlatformsItemEnum,
-) as any as S.Schema<ScanConfigTargetPlatformsItemEnumList>;
+export type ScanConfigUserAgentEnum =
+  | "USER_AGENT_UNSPECIFIED"
+  | "CHROME_LINUX"
+  | "CHROME_ANDROID"
+  | "SAFARI_IPHONE";
+export const ScanConfigUserAgentEnum = S.String;
 
 /** Describes authentication configuration that uses a Google account. */
 export interface GoogleAccount {
-  /** Required. Input only. The password of the Google account. The credential is stored encrypted and not returned in any response nor included in audit logs. */
-  password?: string;
   /** Required. The user name of the Google account. */
   username?: string;
+  /** Required. Input only. The password of the Google account. The credential is stored encrypted and not returned in any response nor included in audit logs. */
+  password?: string;
 }
 export const GoogleAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    password: S.optional(S.String),
     username: S.optional(S.String),
+    password: S.optional(S.String),
   }),
 ).annotate({ identifier: "GoogleAccount" }) as any as S.Schema<GoogleAccount>;
 
@@ -94,16 +100,16 @@ export const GoogleAccount = /*@__PURE__*/ S.suspend(() =>
 export interface CustomAccount {
   /** Required. Input only. The password of the custom account. The credential is stored encrypted and not returned in any response nor included in audit logs. */
   password?: string;
-  /** Required. The login form URL of the website. */
-  loginUrl?: string;
   /** Required. The user name of the custom account. */
   username?: string;
+  /** Required. The login form URL of the website. */
+  loginUrl?: string;
 }
 export const CustomAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     password: S.optional(S.String),
-    loginUrl: S.optional(S.String),
     username: S.optional(S.String),
+    loginUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "CustomAccount" }) as any as S.Schema<CustomAccount>;
 
@@ -121,29 +127,23 @@ export const Authentication = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Authentication" }) as any as S.Schema<Authentication>;
 
-export type ScanConfigUserAgentEnum =
-  | "USER_AGENT_UNSPECIFIED"
-  | "CHROME_LINUX"
-  | "CHROME_ANDROID"
-  | "SAFARI_IPHONE";
-export const ScanConfigUserAgentEnum = S.String;
-
-/** Scan schedule configuration. */
-export interface Schedule {
-  /** A timestamp indicates when the next run will be scheduled. The value is refreshed by the server after each run. If unspecified, it will default to current server time, which means the scan will be scheduled to start immediately. */
-  scheduleTime?: string;
-  /** Required. The duration of time between executions in days. */
-  intervalDurationDays?: number;
-}
-export const Schedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scheduleTime: S.optional(S.String),
-    intervalDurationDays: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+export type ScanConfigTargetPlatformsItemEnum =
+  | "TARGET_PLATFORM_UNSPECIFIED"
+  | "APP_ENGINE"
+  | "COMPUTE"
+  | "CLOUD_RUN"
+  | "CLOUD_FUNCTIONS";
+export const ScanConfigTargetPlatformsItemEnum = S.String;
+
+export type ScanConfigTargetPlatformsItemEnumList = Array<
+  ScanConfigTargetPlatformsItemEnum | (string & {})
+>;
+export const ScanConfigTargetPlatformsItemEnumList = /*@__PURE__*/ S.Array(
+  ScanConfigTargetPlatformsItemEnum,
+) as any as S.Schema<ScanConfigTargetPlatformsItemEnumList>;
 
 export type ScanRunExecutionStateEnum =
   | "EXECUTION_STATE_UNSPECIFIED"
@@ -157,74 +157,74 @@ export const ScanRunResultStateEnum = S.String;
 
 /** A ScanRun is a output-only resource representing an actual run of the scan. */
 export interface ScanRun {
-  /** The time at which the ScanRun started. */
-  startTime?: string;
-  /** The execution state of the ScanRun. */
-  executionState?: ScanRunExecutionStateEnum | (string & {});
-  /** The number of URLs tested during this ScanRun. If the scan is in progress, the value represents the number of URLs tested up to now. The number of URLs tested is usually larger than the number URLS crawled because typically a crawled URL is tested with multiple test payloads. */
-  urlsTestedCount?: string;
   /** The percentage of total completion ranging from 0 to 100. If the scan is in queue, the value is 0. If the scan is running, the value ranges from 0 to 100. If the scan is finished, the value is 100. */
   progressPercent?: number;
+  /** The execution state of the ScanRun. */
+  executionState?: ScanRunExecutionStateEnum | (string & {});
+  /** Whether the scan run has found any vulnerabilities. */
+  hasVulnerabilities?: boolean;
+  /** The time at which the ScanRun started. */
+  startTime?: string;
+  /** The number of URLs crawled during this ScanRun. If the scan is in progress, the value represents the number of URLs crawled up to now. */
+  urlsCrawledCount?: string;
+  /** The time at which the ScanRun reached termination state - that the ScanRun is either finished or stopped by user. */
+  endTime?: string;
   /** The resource name of the ScanRun. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. The ScanRun IDs are generated by the system. */
   name?: string;
   /** The result state of the ScanRun. This field is only available after the execution state reaches "FINISHED". */
   resultState?: ScanRunResultStateEnum | (string & {});
-  /** The time at which the ScanRun reached termination state - that the ScanRun is either finished or stopped by user. */
-  endTime?: string;
-  /** The number of URLs crawled during this ScanRun. If the scan is in progress, the value represents the number of URLs crawled up to now. */
-  urlsCrawledCount?: string;
-  /** Whether the scan run has found any vulnerabilities. */
-  hasVulnerabilities?: boolean;
+  /** The number of URLs tested during this ScanRun. If the scan is in progress, the value represents the number of URLs tested up to now. The number of URLs tested is usually larger than the number URLS crawled because typically a crawled URL is tested with multiple test payloads. */
+  urlsTestedCount?: string;
 }
 export const ScanRun = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.String),
-    executionState: S.optional(ScanRunExecutionStateEnum),
-    urlsTestedCount: S.optional(S.String),
     progressPercent: S.optional(S.Number),
+    executionState: S.optional(ScanRunExecutionStateEnum),
+    hasVulnerabilities: S.optional(S.Boolean),
+    startTime: S.optional(S.String),
+    urlsCrawledCount: S.optional(S.String),
+    endTime: S.optional(S.String),
     name: S.optional(S.String),
     resultState: S.optional(ScanRunResultStateEnum),
-    endTime: S.optional(S.String),
-    urlsCrawledCount: S.optional(S.String),
-    hasVulnerabilities: S.optional(S.Boolean),
+    urlsTestedCount: S.optional(S.String),
   }),
 ).annotate({ identifier: "ScanRun" }) as any as S.Schema<ScanRun>;
 
 /** A ScanConfig resource contains the configurations to launch a scan. next id: 12 */
 export interface ScanConfig {
-  /** Set of Google Cloud platforms targeted by the scan. If empty, APP_ENGINE will be used as a default. */
-  targetPlatforms?: ScanConfigTargetPlatformsItemEnumList;
-  /** The authentication configuration. If specified, service will use the authentication configuration during scanning. */
-  authentication?: Authentication;
-  /** The user agent used during scanning. */
-  userAgent?: ScanConfigUserAgentEnum | (string & {});
   /** The schedule of the ScanConfig. */
   schedule?: Schedule;
-  /** The excluded URL patterns as described in https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls */
-  blacklistPatterns?: StringList;
+  /** The user agent used during scanning. */
+  userAgent?: ScanConfigUserAgentEnum | (string & {});
+  /** The authentication configuration. If specified, service will use the authentication configuration during scanning. */
+  authentication?: Authentication;
+  /** The resource name of the ScanConfig. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are generated by the system. */
+  name?: string;
   /** The maximum QPS during scanning. A valid value ranges from 5 to 20 inclusively. If the field is unspecified or its value is set 0, server will default to 15. Other values outside of [5, 20] range will be rejected with INVALID_ARGUMENT error. */
   maxQps?: number;
   /** Required. The starting URLs from which the scanner finds site pages. */
   startingUrls?: StringList;
-  /** The resource name of the ScanConfig. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are generated by the system. */
-  name?: string;
-  /** Latest ScanRun if available. */
-  latestRun?: ScanRun;
+  /** The excluded URL patterns as described in https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls */
+  blacklistPatterns?: StringList;
+  /** Set of Google Cloud platforms targeted by the scan. If empty, APP_ENGINE will be used as a default. */
+  targetPlatforms?: ScanConfigTargetPlatformsItemEnumList;
   /** Required. The user provided display name of the ScanConfig. */
   displayName?: string;
+  /** Latest ScanRun if available. */
+  latestRun?: ScanRun;
 }
 export const ScanConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    targetPlatforms: S.optional(ScanConfigTargetPlatformsItemEnumList),
-    authentication: S.optional(Authentication),
-    userAgent: S.optional(ScanConfigUserAgentEnum),
     schedule: S.optional(Schedule),
-    blacklistPatterns: S.optional(StringList),
+    userAgent: S.optional(ScanConfigUserAgentEnum),
+    authentication: S.optional(Authentication),
+    name: S.optional(S.String),
     maxQps: S.optional(S.Number),
     startingUrls: S.optional(StringList),
-    name: S.optional(S.String),
-    latestRun: S.optional(ScanRun),
+    blacklistPatterns: S.optional(StringList),
+    targetPlatforms: S.optional(ScanConfigTargetPlatformsItemEnumList),
     displayName: S.optional(S.String),
+    latestRun: S.optional(ScanRun),
   }),
 ).annotate({ identifier: "ScanConfig" }) as any as S.Schema<ScanConfig>;
 
@@ -327,34 +327,6 @@ export const GetProjectsScanConfigsScanRunsFindingsRequest = /*@__PURE__*/ S.sus
   identifier: "GetProjectsScanConfigsScanRunsFindingsRequest",
 }) as any as S.Schema<GetProjectsScanConfigsScanRunsFindingsRequest>;
 
-/** Information reported for an outdated library. */
-export interface OutdatedLibrary {
-  /** URLs to learn more information about the vulnerabilities in the library. */
-  learnMoreUrls?: StringList;
-  /** The name of the outdated library. */
-  libraryName?: string;
-  /** The version number. */
-  version?: string;
-}
-export const OutdatedLibrary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    learnMoreUrls: S.optional(StringList),
-    libraryName: S.optional(S.String),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "OutdatedLibrary" }) as any as S.Schema<OutdatedLibrary>;
-
-/** Information about vulnerable request parameters. */
-export interface VulnerableParameters {
-  /** The vulnerable parameter names. */
-  parameterNames?: StringList;
-}
-export const VulnerableParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parameterNames: S.optional(StringList),
-  }),
-).annotate({ identifier: "VulnerableParameters" }) as any as S.Schema<VulnerableParameters>;
-
 /** Describes a HTTP Header. */
 export interface Header {
   /** Header name. */
@@ -386,6 +358,34 @@ export const VulnerableHeaders = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "VulnerableHeaders" }) as any as S.Schema<VulnerableHeaders>;
 
+/** Information about vulnerable request parameters. */
+export interface VulnerableParameters {
+  /** The vulnerable parameter names. */
+  parameterNames?: StringList;
+}
+export const VulnerableParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parameterNames: S.optional(StringList),
+  }),
+).annotate({ identifier: "VulnerableParameters" }) as any as S.Schema<VulnerableParameters>;
+
+/** Information reported for an outdated library. */
+export interface OutdatedLibrary {
+  /** The name of the outdated library. */
+  libraryName?: string;
+  /** The version number. */
+  version?: string;
+  /** URLs to learn more information about the vulnerabilities in the library. */
+  learnMoreUrls?: StringList;
+}
+export const OutdatedLibrary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    libraryName: S.optional(S.String),
+    version: S.optional(S.String),
+    learnMoreUrls: S.optional(StringList),
+  }),
+).annotate({ identifier: "OutdatedLibrary" }) as any as S.Schema<OutdatedLibrary>;
+
 /** Information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc. */
 export interface ViolatingResource {
   /** The MIME type of this resource. */
@@ -399,20 +399,6 @@ export const ViolatingResource = /*@__PURE__*/ S.suspend(() =>
     resourceUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "ViolatingResource" }) as any as S.Schema<ViolatingResource>;
-
-/** Information reported for an XSS. */
-export interface Xss {
-  /** Stack traces leading to the point where the XSS occurred. */
-  stackTraces?: StringList;
-  /** An error message generated by a javascript breakage. */
-  errorMessage?: string;
-}
-export const Xss = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stackTraces: S.optional(StringList),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "Xss" }) as any as S.Schema<Xss>;
 
 export type FindingFindingTypeEnum =
   | "FINDING_TYPE_UNSPECIFIED"
@@ -432,72 +418,86 @@ export type FindingFindingTypeEnum =
   | "ACCESSIBLE_ENV_FILE";
 export const FindingFindingTypeEnum = S.String;
 
+/** Information reported for an XSS. */
+export interface Xss {
+  /** Stack traces leading to the point where the XSS occurred. */
+  stackTraces?: StringList;
+  /** An error message generated by a javascript breakage. */
+  errorMessage?: string;
+}
+export const Xss = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    stackTraces: S.optional(StringList),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({ identifier: "Xss" }) as any as S.Schema<Xss>;
+
 /** A Finding resource represents a vulnerability instance identified during a ScanRun. */
 export interface Finding {
-  /** An addon containing information about outdated libraries. */
-  outdatedLibrary?: OutdatedLibrary;
-  /** The URL produced by the server-side fuzzer and used in the request that triggered the vulnerability. */
-  fuzzedUrl?: string;
-  /** The URL containing human-readable payload that user can leverage to reproduce the vulnerability. */
-  reproductionUrl?: string;
-  /** The tracking ID uniquely identifies a vulnerability instance across multiple ScanRuns. */
-  trackingId?: string;
-  /** An addon containing information about request parameters which were found to be vulnerable. */
-  vulnerableParameters?: VulnerableParameters;
-  /** An addon containing information about vulnerable or missing HTTP headers. */
-  vulnerableHeaders?: VulnerableHeaders;
   /** If the vulnerability was originated from nested IFrame, the immediate parent IFrame is reported. */
   frameUrl?: string;
-  /** The resource name of the Finding. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanruns/{scanRunId}/findings/{findingId}'. The finding IDs are generated by the system. */
-  name?: string;
+  /** The tracking ID uniquely identifies a vulnerability instance across multiple ScanRuns. */
+  trackingId?: string;
+  /** An addon containing information about vulnerable or missing HTTP headers. */
+  vulnerableHeaders?: VulnerableHeaders;
+  /** An addon containing information about request parameters which were found to be vulnerable. */
+  vulnerableParameters?: VulnerableParameters;
+  /** The URL produced by the server-side fuzzer and used in the request that triggered the vulnerability. */
+  fuzzedUrl?: string;
   /** The URL where the browser lands when the vulnerability is detected. */
   finalUrl?: string;
-  /** An addon containing detailed information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc. */
-  violatingResource?: ViolatingResource;
-  /** The http method of the request that triggered the vulnerability, in uppercase. */
-  httpMethod?: string;
-  /** An addon containing information reported for an XSS, if any. */
-  xss?: Xss;
-  /** The body of the request that triggered the vulnerability. */
-  body?: string;
   /** The description of the vulnerability. */
   description?: string;
+  /** An addon containing information about outdated libraries. */
+  outdatedLibrary?: OutdatedLibrary;
+  /** An addon containing detailed information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc. */
+  violatingResource?: ViolatingResource;
+  /** The body of the request that triggered the vulnerability. */
+  body?: string;
+  /** The URL containing human-readable payload that user can leverage to reproduce the vulnerability. */
+  reproductionUrl?: string;
   /** The type of the Finding. */
   findingType?: FindingFindingTypeEnum;
+  /** The http method of the request that triggered the vulnerability, in uppercase. */
+  httpMethod?: string;
+  /** The resource name of the Finding. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanruns/{scanRunId}/findings/{findingId}'. The finding IDs are generated by the system. */
+  name?: string;
+  /** An addon containing information reported for an XSS, if any. */
+  xss?: Xss;
 }
 export const Finding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    outdatedLibrary: S.optional(OutdatedLibrary),
-    fuzzedUrl: S.optional(S.String),
-    reproductionUrl: S.optional(S.String),
-    trackingId: S.optional(S.String),
-    vulnerableParameters: S.optional(VulnerableParameters),
-    vulnerableHeaders: S.optional(VulnerableHeaders),
     frameUrl: S.optional(S.String),
-    name: S.optional(S.String),
+    trackingId: S.optional(S.String),
+    vulnerableHeaders: S.optional(VulnerableHeaders),
+    vulnerableParameters: S.optional(VulnerableParameters),
+    fuzzedUrl: S.optional(S.String),
     finalUrl: S.optional(S.String),
-    violatingResource: S.optional(ViolatingResource),
-    httpMethod: S.optional(S.String),
-    xss: S.optional(Xss),
-    body: S.optional(S.String),
     description: S.optional(S.String),
+    outdatedLibrary: S.optional(OutdatedLibrary),
+    violatingResource: S.optional(ViolatingResource),
+    body: S.optional(S.String),
+    reproductionUrl: S.optional(S.String),
     findingType: S.optional(FindingFindingTypeEnum),
+    httpMethod: S.optional(S.String),
+    name: S.optional(S.String),
+    xss: S.optional(Xss),
   }),
 ).annotate({ identifier: "Finding" }) as any as S.Schema<Finding>;
 
 export interface ListProjectsScanConfigsRequest {
-  /** The maximum number of ScanConfigs to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
-  pageSize?: number;
   /** Required. The parent resource name, which should be a project resource name in the format 'projects/{projectId}'. */
   parent: string;
   /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
   pageToken?: string;
+  /** The maximum number of ScanConfigs to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
+  pageSize?: number;
 }
 export const ListProjectsScanConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -514,15 +514,15 @@ export const ScanConfigList = /*@__PURE__*/ S.Array(ScanConfig) as any as S.Sche
 
 /** Response for the `ListScanConfigs` method. */
 export interface ListScanConfigsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** The list of ScanConfigs returned. */
   scanConfigs?: ScanConfigList;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const ListScanConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     scanConfigs: S.optional(ScanConfigList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListScanConfigsResponse" }) as any as S.Schema<ListScanConfigsResponse>;
 
@@ -568,18 +568,18 @@ export const ListScanRunsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListScanRunsResponse" }) as any as S.Schema<ListScanRunsResponse>;
 
 export interface ListProjectsScanConfigsScanRunsCrawledUrlsRequest {
-  /** The maximum number of CrawledUrls to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
-  pageSize?: number;
   /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
   parent: string;
   /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
   pageToken?: string;
+  /** The maximum number of CrawledUrls to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
+  pageSize?: number;
 }
 export const ListProjectsScanConfigsScanRunsCrawledUrlsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -595,16 +595,16 @@ export const ListProjectsScanConfigsScanRunsCrawledUrlsRequest = /*@__PURE__*/ S
 export interface CrawledUrl {
   /** Output only. The URL that was crawled. */
   url?: string;
-  /** Output only. The body of the request that was used to visit the URL. */
-  body?: string;
   /** Output only. The http method of the request that was used to visit the URL, in uppercase. */
   httpMethod?: string;
+  /** Output only. The body of the request that was used to visit the URL. */
+  body?: string;
 }
 export const CrawledUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
-    body: S.optional(S.String),
     httpMethod: S.optional(S.String),
+    body: S.optional(S.String),
   }),
 ).annotate({ identifier: "CrawledUrl" }) as any as S.Schema<CrawledUrl>;
 
@@ -613,33 +613,33 @@ export const CrawledUrlList = /*@__PURE__*/ S.Array(CrawledUrl) as any as S.Sche
 
 /** Response for the `ListCrawledUrls` method. */
 export interface ListCrawledUrlsResponse {
-  /** The list of CrawledUrls returned. */
-  crawledUrls?: CrawledUrlList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The list of CrawledUrls returned. */
+  crawledUrls?: CrawledUrlList;
 }
 export const ListCrawledUrlsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    crawledUrls: S.optional(CrawledUrlList),
     nextPageToken: S.optional(S.String),
+    crawledUrls: S.optional(CrawledUrlList),
   }),
 ).annotate({ identifier: "ListCrawledUrlsResponse" }) as any as S.Schema<ListCrawledUrlsResponse>;
 
 export interface ListProjectsScanConfigsScanRunsFindingsRequest {
   /** Required. The filter expression. The expression must be in the format: . Supported field: 'finding_type'. Supported operator: '='. */
   filter?: string;
-  /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
-  pageToken?: string;
   /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
   parent: string;
+  /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
+  pageToken?: string;
   /** The maximum number of Findings to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value. */
   pageSize?: number;
 }
 export const ListProjectsScanConfigsScanRunsFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -657,15 +657,15 @@ export const FindingList = /*@__PURE__*/ S.Array(Finding) as any as S.Schema<Fin
 
 /** Response for the `ListFindings` method. */
 export interface ListFindingsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** The list of Findings returned. */
   findings?: FindingList;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const ListFindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     findings: S.optional(FindingList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListFindingsResponse" }) as any as S.Schema<ListFindingsResponse>;
 
@@ -707,15 +707,15 @@ export const FindingTypeStatsFindingTypeEnum = S.String;
 
 /** A FindingTypeStats resource represents stats regarding a specific FindingType of Findings under a given ScanRun. */
 export interface FindingTypeStats {
-  /** The finding type associated with the stats. */
-  findingType?: FindingTypeStatsFindingTypeEnum;
   /** The count of findings belonging to this finding type. */
   findingCount?: number;
+  /** The finding type associated with the stats. */
+  findingType?: FindingTypeStatsFindingTypeEnum;
 }
 export const FindingTypeStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    findingType: S.optional(FindingTypeStatsFindingTypeEnum),
     findingCount: S.optional(S.Number),
+    findingType: S.optional(FindingTypeStatsFindingTypeEnum),
   }),
 ).annotate({ identifier: "FindingTypeStats" }) as any as S.Schema<FindingTypeStats>;
 

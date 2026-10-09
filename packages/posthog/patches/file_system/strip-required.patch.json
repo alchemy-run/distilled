@@ -1,0 +1,69 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#PaginatedFileSystemList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#PaginatedFileSystemList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystem2/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystem2/members/path/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystem2/members/depth/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystem2/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystem2/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystem2/members/last_viewed_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystem2/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemCreateRequest/members/path/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemUpdateRequest/members/path/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemUndoDeleteCreateRequest/members/path/traits"
+    }
+  ]
+}

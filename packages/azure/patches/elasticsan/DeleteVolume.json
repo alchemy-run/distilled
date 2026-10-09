@@ -3,7 +3,7 @@
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.azure.elasticsan#DeleteVolumeRequest/members/xMsDeleteSnapshots",
+      "path": "/shapes/com.azure.elasticsan#VolumesDeleteRequest/members/xMsDeleteSnapshots",
       "value": {
         "target": "smithy.api#String",
         "traits": {
@@ -14,7 +14,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.azure.elasticsan#DeleteVolumeRequest/members/xMsForceDelete",
+      "path": "/shapes/com.azure.elasticsan#VolumesDeleteRequest/members/xMsForceDelete",
       "value": {
         "target": "smithy.api#String",
         "traits": {

@@ -18,6 +18,26 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.whop.ai_chats#AiChatAgentIdentifiers": {
+      "type": "enum",
+      "members": {
+        "GENERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "general"
+          }
+        },
+        "SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The AI agent that handles an AI chat."
+      }
+    },
     "com.whop.ai_chats#ListAiChatRequest": {
       "type": "structure",
       "members": {
@@ -45,6 +65,12 @@
             "smithy.api#httpQuery": "last"
           }
         },
+        "agent_identifier": {
+          "target": "com.whop.ai_chats#AiChatAgentIdentifiers",
+          "traits": {
+            "smithy.api#httpQuery": "agent_identifier"
+          }
+        },
         "only_active_crons": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -59,6 +85,13 @@
     "com.whop.ai_chats#AiChatListItem": {
       "type": "structure",
       "members": {
+        "agent_identifier": {
+          "target": "com.whop.ai_chats#AiChatAgentIdentifiers",
+          "traits": {
+            "smithy.api#documentation": "The AI agent that handles this chat. Set when the chat is created and fixed for its lifetime.",
+            "smithy.api#required": {}
+          }
+        },
         "blended_token_usage": {
           "target": "smithy.api#String",
           "traits": {
@@ -325,10 +358,17 @@
     "com.whop.ai_chats#CreateAiChatRequest": {
       "type": "structure",
       "members": {
-        "current_company_id": {
+        "agent_identifier": {
+          "target": "com.whop.ai_chats#AiChatAgentIdentifiers",
+          "traits": {
+            "smithy.api#documentation": "The AI agent that handles the chat. Defaults to `support`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to set as context for the AI chat (e.g., \"biz_XXXXX\").",
+            "smithy.api#documentation": "The unique identifier of the account to set as context for the AI chat (e.g., \"biz_XXXXX\").",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -375,6 +415,13 @@
     "com.whop.ai_chats#AiChat": {
       "type": "structure",
       "members": {
+        "agent_identifier": {
+          "target": "com.whop.ai_chats#AiChatAgentIdentifiers",
+          "traits": {
+            "smithy.api#documentation": "The AI agent that handles this chat. Set when the chat is created and fixed for its lifetime.",
+            "smithy.api#required": {}
+          }
+        },
         "blended_token_usage": {
           "target": "smithy.api#String",
           "traits": {
@@ -549,10 +596,10 @@
             "smithy.api#documentation": "The unique identifier of the AI chat to update (e.g., \"ai_chat_XXXXX\")."
           }
         },
-        "current_company_id": {
+        "current_account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to set as context for the AI chat (e.g., \"biz_XXXXX\").",
+            "smithy.api#documentation": "The unique identifier of the account to set as context for the AI chat (e.g., \"biz_XXXXX\").",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -603,7 +650,7 @@
           "uri": "/ai_chats/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update ai chat\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate an AI chat's title, notification preferences, or associated company context.\n\nRequired permissions:\n - `ai_chat:update`"
+        "smithy.api#documentation": "Update ai chat\n\n[Legacy API — https://docs.whop.com/api-reference]\n\nUpdate an AI chat's title, notification preferences, or associated account context.\n\nRequired permissions:\n - `ai_chat:update`"
       }
     },
     "com.whop.ai_chats#DeleteAiChatRequest": {

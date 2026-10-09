@@ -3,23 +3,44 @@
   "patches": [
     {
       "op": "add",
-      "path": "/components/schemas/firewall/allOf/0/required",
-      "value": ["id", "name", "status", "created_at"]
+      "path": "/shapes/com.digitalocean.api#Firewall/members/id/traits/smithy.api#required",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/components/responses/create_firewall_response/content/application~1json/schema/required",
-      "value": ["firewall"]
+      "path": "/shapes/com.digitalocean.api#Firewall/members/status/traits/smithy.api#required",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/components/responses/get_firewall_response/content/application~1json/schema/required",
-      "value": ["firewall"]
+      "path": "/shapes/com.digitalocean.api#Firewall/members/created_at/traits/smithy.api#required",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/components/responses/put_firewall_response/content/application~1json/schema/required",
-      "value": ["firewall"]
+      "path": "/shapes/com.digitalocean.api#Firewall/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FirewallsCreateResponse/members/firewall/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FirewallsGetResponse/members/firewall/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#FirewallsUpdateResponse/members/firewall/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     }
   ]
 }

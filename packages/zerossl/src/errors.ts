@@ -2,8 +2,8 @@
  * ZeroSSL-specific error types.
  *
  * ZeroSSL answers failures with `{ success: false, error: { code, type,
- * info? } }`, usually under HTTP 200. Typed errors are generated from
- * `manual-specs/zerossl.json` and matched on `error.type`; this module holds the
+ * info? } }`, usually under HTTP 200. Typed errors are generated from the
+ * error-code tables in ZeroSSL's API reference and matched on `error.type`; this module holds the
  * shared HTTP defaults and the package's own fallback.
  */
 export {

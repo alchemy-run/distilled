@@ -8067,10 +8067,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Delete a Dynamic Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DeleteDynamicSchemaVersionRequest": {
@@ -8134,10 +8134,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "update a Dynamic Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#UpdateDynamicSchemaVersionResponse": {
@@ -8251,10 +8251,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Create or update a Dynamic Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DynamicSchemaVersionsCreateOrUpdateResponse": {
@@ -8368,10 +8368,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Get a Dynamic Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#GetDynamicSchemaVersionResponse": {
@@ -8479,10 +8479,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "List by Dynamic Schema",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DynamicSchemaVersionListResult": {
@@ -8612,10 +8612,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Delete a DynamicSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DeleteDynamicSchemaRequest": {
@@ -8671,10 +8671,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "update a DynamicSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#UpdateDynamicSchemaResponse": {
@@ -8859,10 +8859,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Create or update a DynamicSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DynamicSchemasCreateOrUpdateResponse": {
@@ -8968,10 +8968,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Get a DynamicSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#GetDynamicSchemaResponse": {
@@ -9071,10 +9071,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "List by Schema",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DynamicSchemaListResult": {
@@ -9966,10 +9966,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Deletes specified Diagnostic resource.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DeleteDiagnosticRequest": {
@@ -10017,10 +10017,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Updates existing Diagnostic resource.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#UpdateDiagnosticResponse": {
@@ -10188,10 +10188,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Creates new or updates existing Diagnostic resource.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DiagnosticsCreateOrUpdateResponse": {
@@ -10358,10 +10358,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Returns details of specified Diagnostic resource.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#GetDiagnosticResponse": {
@@ -10484,10 +10484,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Returns a collection of Diagnostic resources within the resource group.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DiagnosticListResult": {
@@ -16847,10 +16847,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/diagnostics",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Lists Diagnostics resources within an Azure subscription.",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#ListDiagnosticBySubscriptionRequest": {
@@ -17426,10 +17426,10 @@
           "method": "DELETE",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Delete a Schema Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#DeleteSchemaReferenceRequest": {
@@ -17469,10 +17469,10 @@
           "method": "PATCH",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "update a Schema Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#UpdateSchemaReferenceResponse": {
@@ -17597,10 +17597,10 @@
           "method": "PUT",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Create or update a Schema Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#SchemaReferencesCreateOrUpdateResponse": {
@@ -17705,10 +17705,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "Get a Schema Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#GetSchemaReferenceResponse": {
@@ -17792,10 +17792,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences",
           "code": 200,
-          "apiVersion": "2026-06-01"
+          "apiVersion": "2025-08-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2026-06-01"
+        "com.distilled.openapi#apiVersion": "2025-08-01"
       }
     },
     "com.azure.edge#SchemaReferenceListResult": {
