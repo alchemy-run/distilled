@@ -1,0 +1,33 @@
+{
+  "description": "POST /v2/account/keys answers 422 `SSH Key is already in use on your account` when the key material is already registered on the team — a distinct, recoverable condition (look the existing key up by fingerprint) that shares its status with unparseable key material (`Fingerprint could not be generated, please make sure your key is valid`). Type the duplicate as SshKeyAlreadyRegistered via a message matcher; the malformed case stays UnprocessableEntity.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SshKeyAlreadyRegistered",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The public key is already registered on this team (422 `SSH Key is already in use on your account`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "message": {
+                "includes": "already in use"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SshKeysCreate/errors/-",
+      "value": {
+        "target": "com.digitalocean.api#SshKeyAlreadyRegistered"
+      }
+    }
+  ]
+}
