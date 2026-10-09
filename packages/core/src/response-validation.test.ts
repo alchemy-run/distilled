@@ -157,6 +157,33 @@ describe("makeRestProtocol with sensitive output members", () => {
     });
   });
 
+  describe("as a list element", () => {
+    const InList = Schema.Struct({
+      id: Schema.String,
+      header: Schema.Record(Schema.String, Schema.Array(Schema.String.pipe(SensitiveValue()))),
+    });
+
+    test("a body cut off mid-secret fails in both modes without the body", async () => {
+      for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+        const result = await run(
+          decode(`{"id":"a","header":{"Authorization":["${SECRET}`, InList.ast),
+          mode,
+        );
+        expect(Result.isFailure(result) && result.failure).toBeInstanceOf(TestParseError);
+        expect(result).toMatchObject({ failure: { body: "[REDACTED]" } });
+        expect(exposesSecret(result)).toBe(false);
+      }
+    });
+
+    test("a strict mismatch fails without the body", async () => {
+      const body = JSON.stringify({ header: { Authorization: [SECRET] } });
+      const result = await run(decode(body, InList.ast), ResponseValidation.strict);
+      expect(Result.isFailure(result) && result.failure).toBeInstanceOf(TestParseError);
+      expect(result).toMatchObject({ failure: { body: "[REDACTED]" } });
+      expect(exposesSecret(result)).toBe(false);
+    });
+  });
+
   test("a matching body succeeds in both modes with the member redacted", async () => {
     for (const result of await runBothModes(
       JSON.stringify({ id: "a", keys: [{ token: SECRET }] }),

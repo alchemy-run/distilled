@@ -170,7 +170,9 @@ export const hasSensitiveMember = (ast: AST.AST): boolean => {
     seen.add(node);
     if (node._tag === "Union") return node.types.some(visit);
     if (node._tag === "Arrays") {
-      return [...node.elements, ...node.rest].some(visit);
+      return [...node.elements, ...node.rest].some(
+        (e) => getAnn(e, sensitiveValueSymbol) !== undefined || visit(e),
+      );
     }
     if (node._tag !== "Objects") return false;
     return [...node.propertySignatures, ...node.indexSignatures].some(
