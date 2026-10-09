@@ -313,19 +313,160 @@ export const CreatePlanRequestImage = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CreatePlanRequestImage" }) as any as S.Schema<CreatePlanRequestImage>;
 
-export type CreatePlanRequestPaymentMethodConfigurationDisabledList = Array<string>;
+/** The different types of payment methods that can be used. */
+export type PaymentMethodTypes =
+  | "acss_debit"
+  | "addi"
+  | "affirm"
+  | "afterpay_clearpay"
+  | "alipay"
+  | "alipayhk"
+  | "alma"
+  | "amazon_pay"
+  | "apple"
+  | "apple_pay"
+  | "au_bank_transfer"
+  | "au_becs_debit"
+  | "bacs_debit"
+  | "bancolombia"
+  | "bancontact"
+  | "bank_wire"
+  | "billie"
+  | "blik"
+  | "boleto"
+  | "bre_b"
+  | "ca_bank_transfer"
+  | "capchase_pay"
+  | "card"
+  | "card_installments_three"
+  | "card_installments_six"
+  | "card_installments_twelve"
+  | "cashapp"
+  | "claritypay"
+  | "coinbase"
+  | "crypto"
+  | "custom"
+  | "customer_balance"
+  | "demo_pay"
+  | "efecty"
+  | "eps"
+  | "eu_bank_transfer"
+  | "fpx"
+  | "flex_pay"
+  | "gb_bank_transfer"
+  | "gcash"
+  | "giropay"
+  | "google_pay"
+  | "gopay"
+  | "grabpay"
+  | "id_bank_transfer"
+  | "ideal"
+  | "interac"
+  | "kakao_pay"
+  | "klarna"
+  | "klarna_pay_now"
+  | "konbini"
+  | "kr_card"
+  | "kr_market"
+  | "kriya"
+  | "kueski"
+  | "link"
+  | "mb_way"
+  | "m_pesa"
+  | "mercado_pago"
+  | "mercado_pago_ar"
+  | "mercado_pago_mx"
+  | "mobilepay"
+  | "modo"
+  | "mondu"
+  | "multibanco"
+  | "naver_pay"
+  | "nequi"
+  | "netbanking"
+  | "ng_bank"
+  | "ng_bank_transfer"
+  | "ng_card"
+  | "ng_market"
+  | "ng_ussd"
+  | "ng_wallet"
+  | "nupay"
+  | "nz_bank_account"
+  | "oney"
+  | "oney_3x"
+  | "oney_4x"
+  | "opay"
+  | "oxxo"
+  | "p24"
+  | "pago_efectivo"
+  | "pse"
+  | "pay_by_bank"
+  | "payco"
+  | "paynow"
+  | "paypal"
+  | "paypay"
+  | "payto"
+  | "pix"
+  | "platform_balance"
+  | "promptpay"
+  | "qris"
+  | "rapipago"
+  | "rechnung"
+  | "revolut_pay"
+  | "samsung_pay"
+  | "satispay"
+  | "scalapay"
+  | "sencillito"
+  | "sepa_debit"
+  | "sequra"
+  | "servipag"
+  | "sezzle"
+  | "shop_pay"
+  | "shopeepay"
+  | "sofort"
+  | "south_korea_market"
+  | "spei"
+  | "splitit"
+  | "sunbit"
+  | "swish"
+  | "tabby"
+  | "tamara"
+  | "touch_n_go"
+  | "twint"
+  | "upi"
+  | "us_bank_account"
+  | "us_bank_transfer"
+  | "venmo"
+  | "verve"
+  | "vipps"
+  | "webpay"
+  | "wechat_pay"
+  | "yape"
+  | "zip"
+  | "coinflow"
+  | "unknown";
+export const PaymentMethodTypes = S.String;
+
+/** Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
+export type CreatePlanRequestPaymentMethodConfigurationDisabledList = Array<
+  PaymentMethodTypes | (string & {})
+>;
 export const CreatePlanRequestPaymentMethodConfigurationDisabledList = /*@__PURE__*/ S.Array(
-  S.String,
+  PaymentMethodTypes,
 ) as any as S.Schema<CreatePlanRequestPaymentMethodConfigurationDisabledList>;
 
-export type CreatePlanRequestPaymentMethodConfigurationEnabledList = Array<string>;
+/** Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
+export type CreatePlanRequestPaymentMethodConfigurationEnabledList = Array<
+  PaymentMethodTypes | (string & {})
+>;
 export const CreatePlanRequestPaymentMethodConfigurationEnabledList = /*@__PURE__*/ S.Array(
-  S.String,
+  PaymentMethodTypes,
 ) as any as S.Schema<CreatePlanRequestPaymentMethodConfigurationEnabledList>;
 
-/** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. */
+/** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty. */
 export interface CreatePlanRequestPaymentMethodConfiguration {
+  /** Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
   disabled?: CreatePlanRequestPaymentMethodConfigurationDisabledList;
+  /** Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
   enabled?: CreatePlanRequestPaymentMethodConfigurationEnabledList;
   include_platform_defaults?: boolean;
 }
@@ -339,15 +480,20 @@ export const CreatePlanRequestPaymentMethodConfiguration = /*@__PURE__*/ S.suspe
   identifier: "CreatePlanRequestPaymentMethodConfiguration",
 }) as any as S.Schema<CreatePlanRequestPaymentMethodConfiguration>;
 
-/** 3D Secure behavior for this plan. Send `null` to inherit the account default. */
-export type CreatePlanRequestThreeDsLevel = "mandate_challenge" | "frictionless";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default. */
+export type CreatePlanRequestThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const CreatePlanRequestThreeDsLevel = S.String;
 
 export interface CreatePlanRequest {
-  /** The unique identifier of the account to create this plan for. Defaults to the caller's account. */
+  /** The unique identifier of the account to create this plan for. Required when authenticating as a user; an account API key supplies its own account. */
   account_id?: string;
   /** Whether this plan accepts local currency payments via adaptive pricing. */
   adaptive_pricing_enabled?: boolean | null;
+  /** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"size": "Large", "color": "Blue"}`. Names are normalized to snake_case identifiers (`Ring Size` becomes `ring_size`) and come back in alphabetical order. Every variant plan on a product must carry the same attribute names and a distinct set of values. Send `null` to make the plan an ordinary pricing option again. */
+  attributes?: unknown | null;
   /** Recurring billing interval in days, such as 30 for monthly or 365 for annual. */
   billing_period?: number | null;
   /** Checkout styling overrides for this plan. */
@@ -362,7 +508,7 @@ export interface CreatePlanRequest {
   expiration_days?: number | null;
   /** An image displayed on the product page to represent this plan. */
   image?: CreatePlanRequestImage | null;
-  /** Initial amount charged in the plan's currency, e.g. 10.43 for $10.43. */
+  /** Initial amount charged in the plan's currency, e.g. 10.43 for $10.43. A paid fiat plan charges at least 1.00 in its currency; use 0 for free. */
   initial_price?: number | null;
   /** Private notes visible only to the account owner. Not shown to customers. */
   internal_notes?: string | null;
@@ -370,7 +516,7 @@ export interface CreatePlanRequest {
   metadata?: unknown | null;
   /** Override the default tax classification for this specific plan. */
   override_tax_type?: string;
-  /** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. */
+  /** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty. */
   payment_method_configuration?: CreatePlanRequestPaymentMethodConfiguration | null;
   /** Plan billing type, such as `one_time` or `renewal`. */
   plan_type?: string;
@@ -378,15 +524,17 @@ export interface CreatePlanRequest {
   product_id?: string;
   /** Sales method for this plan. */
   release_method?: string;
-  /** The amount charged each billing period for recurring plans, in the plan's currency. */
+  /** The amount charged each billing period for recurring plans, in the plan's currency. A paid fiat plan charges at least 1.00 in its currency. */
   renewal_price?: number | null;
+  /** Stock keeping unit for this plan. Maximum 100 characters. Free text, not enforced unique. */
+  sku?: string | null;
   /** Installment payments required before the subscription pauses. */
   split_pay_required_payments?: number | null;
   /** The maximum number of units available for purchase. Ignored when unlimited_stock is true. */
   stock?: number | null;
-  /** 3D Secure behavior for this plan. Send `null` to inherit the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default. */
   three_ds_level?: CreatePlanRequestThreeDsLevel | (string & {}) | null;
-  /** The display name of the plan shown to customers on the product page. */
+  /** The display name of the plan shown to customers on the product page. Maximum 30 characters. */
   title?: string | null;
   /** Free trial duration before the first recurring charge. */
   trial_period_days?: number | null;
@@ -401,6 +549,7 @@ export const CreatePlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.optional(S.String),
     adaptive_pricing_enabled: S.optional(S.NullOr(S.Boolean)),
+    attributes: S.optional(S.NullOr(S.Unknown)),
     billing_period: S.optional(S.NullOr(S.Number)),
     checkout_styling: S.optional(S.NullOr(S.Unknown)),
     currency: S.optional(S.String),
@@ -417,6 +566,7 @@ export const CreatePlanRequest = /*@__PURE__*/ S.suspend(() =>
     product_id: S.optional(S.String),
     release_method: S.optional(S.String),
     renewal_price: S.optional(S.NullOr(S.Number)),
+    sku: S.optional(S.NullOr(S.String)),
     split_pay_required_payments: S.optional(S.NullOr(S.Number)),
     stock: S.optional(S.NullOr(S.Number)),
     three_ds_level: S.optional(S.NullOr(CreatePlanRequestThreeDsLevel)),
@@ -440,6 +590,13 @@ export const AccountSummary = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
   }),
 ).annotate({ identifier: "AccountSummary" }) as any as S.Schema<AccountSummary>;
+
+/** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"color": "Blue", "size": "Large"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant. */
+export type PlanAttributesMap = { [key: string]: string | undefined };
+export const PlanAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<PlanAttributesMap>;
 
 /** Three-letter ISO currency code for this plan's prices. */
 export type PlanCurrency =
@@ -595,6 +752,25 @@ export const CheckoutSessionPaymentMethodConfiguration = /*@__PURE__*/ S.suspend
   identifier: "CheckoutSessionPaymentMethodConfiguration",
 }) as any as S.Schema<CheckoutSessionPaymentMethodConfiguration>;
 
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
 /** Billing model for this plan. */
 export type PlanPlanType = "renewal" | "one_time";
 export const PlanPlanType = S.String;
@@ -607,8 +783,11 @@ export const PlanReleaseMethod = S.String;
 export type PlanTaxType = "inclusive" | "exclusive" | "unspecified";
 export const PlanTaxType = S.String;
 
-/** 3D Secure behavior for this plan; `null` inherits the account default. */
-export type PlanThreeDsLevel = "mandate_challenge" | "frictionless";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
+export type PlanThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const PlanThreeDsLevel = S.String;
 
 /** Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link. */
@@ -620,6 +799,8 @@ export interface Plan {
   account: AccountSummary | null;
   /** Whether adaptive pricing is enabled for this plan. Raw setting — does not check processor compatibility or feature flags. */
   adaptive_pricing_enabled: boolean;
+  /** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"color": "Blue", "size": "Large"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant. */
+  attributes: PlanAttributesMap | null;
   /** Number of days between recurring charges, such as 30 for monthly or 365 for annual. `null` for one-time plans. */
   billing_period: number | null;
   /** Billing intervals the cancellation discount applies to (`0` forever, `1` first payment, or a month count). `null` when none is offered or the actor lacks the `plan:basic:read` scope. */
@@ -651,6 +832,8 @@ export interface Plan {
   image: unknown | null;
   /** Initial purchase price in plan currency. */
   initial_price: number;
+  /** Total charged at checkout for one unit, before promo codes and tax: `initial_price` plus the first `renewal_price` for recurring plans, or `initial_price` alone while a free trial applies. The trial does not apply when the viewing user has already used one for this plan. */
+  initial_price_due: Money;
   /** Private notes not shown to customers. `null` unless the actor has the `plan:basic:read` scope on the plan's account. */
   internal_notes: string | null;
   /** Invoice this plan was generated for; `null` unless created for an invoice. */
@@ -673,6 +856,8 @@ export interface Plan {
   release_method: PlanReleaseMethod;
   /** Recurring price charged every billing period. */
   renewal_price: number;
+  /** Stock keeping unit, free text set by the seller (e.g. `TSHIRT-LARGE-BLUE`). Not enforced unique. `null` when unset. */
+  sku: string | null;
   /** Installment payments required before the subscription pauses. Must be greater than 1. `null` if split pay is not configured. */
   split_pay_required_payments: number | null;
   /** Units available for purchase. `null` unless the actor has the `plan:basic:read` scope on the plan's account. */
@@ -683,9 +868,9 @@ export interface Plan {
   strike_through_renewal_price: number | null;
   /** How tax is handled for this plan, including whether tax is included in the price, added at checkout, or not configured. */
   tax_type: PlanTaxType;
-  /** 3D Secure behavior for this plan; `null` inherits the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
   three_ds_level: PlanThreeDsLevel | null;
-  /** Plan display name shown to customers. Maximum 30 characters. `null` if no title has been set. */
+  /** Plan display name shown to customers. Maximum 30 characters. A variant created without one defaults to its attribute values joined with ` / `. `null` if no title has been set. */
   title: string | null;
   /** Free trial days before the first renewal charge. `null` if no trial is configured or the user has already used a trial for this plan. */
   trial_period_days: number | null;
@@ -700,6 +885,7 @@ export const Plan = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.NullOr(AccountSummary),
     adaptive_pricing_enabled: S.Boolean,
+    attributes: S.NullOr(PlanAttributesMap),
     billing_period: S.NullOr(S.Number),
     cancel_discount_intervals: S.NullOr(S.Number),
     cancel_discount_percentage: S.NullOr(S.Number),
@@ -716,6 +902,7 @@ export const Plan = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     image: S.NullOr(S.Unknown),
     initial_price: S.Number,
+    initial_price_due: Money,
     internal_notes: S.NullOr(S.String),
     invoice: S.NullOr(S.Unknown),
     member_count: S.NullOr(S.Number),
@@ -727,6 +914,7 @@ export const Plan = /*@__PURE__*/ S.suspend(() =>
     purchase_url: S.String,
     release_method: PlanReleaseMethod,
     renewal_price: S.Number,
+    sku: S.NullOr(S.String),
     split_pay_required_payments: S.NullOr(S.Number),
     stock: S.NullOr(S.Number),
     strike_through_initial_price: S.NullOr(S.Number),
@@ -824,13 +1012,13 @@ export interface ListPlansRequest {
   created_before?: string;
   /** Only return plans created after this timestamp. */
   created_after?: string;
-  /** The number of plans to return (default and max 100). */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns plans after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of plans to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns plans before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
@@ -851,6 +1039,13 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/plans", code: 200 })),
 ).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 
+/** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"color": "Blue", "size": "Large"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant. */
+export type PlanListItemAttributesMap = { [key: string]: string | undefined };
+export const PlanListItemAttributesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<PlanListItemAttributesMap>;
+
 export type PlanListItemCustomFieldsList = Array<PlanCustomField>;
 export const PlanListItemCustomFieldsList = /*@__PURE__*/ S.Array(
   PlanCustomField,
@@ -864,8 +1059,11 @@ export const PlanListItemPlanType = S.String;
 export type PlanListItemReleaseMethod = "buy_now" | "waitlist";
 export const PlanListItemReleaseMethod = S.String;
 
-/** 3D Secure behavior for this plan; `null` inherits the account default. */
-export type PlanListItemThreeDsLevel = "mandate_challenge" | "frictionless";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
+export type PlanListItemThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const PlanListItemThreeDsLevel = S.String;
 
 /** Controls where this plan can be seen. When `hidden`, the plan is reachable only by its direct link. */
@@ -877,6 +1075,8 @@ export interface PlanListItem {
   account: AccountSummary | null;
   /** Whether adaptive pricing is enabled for this plan. Raw setting — does not check processor compatibility or feature flags. */
   adaptive_pricing_enabled: boolean;
+  /** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"color": "Blue", "size": "Large"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant. */
+  attributes: PlanListItemAttributesMap | null;
   /** Number of days between recurring charges, such as 30 for monthly or 365 for annual. `null` for one-time plans. */
   billing_period: number | null;
   /** Billing intervals the cancellation discount applies to (`0` forever, `1` first payment, or a month count). `null` when none is offered or the actor lacks the `plan:basic:read` scope. */
@@ -902,6 +1102,8 @@ export interface PlanListItem {
   image: unknown | null;
   /** Initial purchase price in plan currency. */
   initial_price: number;
+  /** Total charged at checkout for one unit, before promo codes and tax: `initial_price` plus the first `renewal_price` for recurring plans, or `initial_price` alone while a free trial applies. The trial does not apply when the viewing user has already used one for this plan. */
+  initial_price_due: Money;
   /** Private notes not shown to customers. `null` unless the actor has the `plan:basic:read` scope on the plan's account. */
   internal_notes: string | null;
   /** Invoice this plan was generated for; `null` unless created for an invoice. */
@@ -924,6 +1126,8 @@ export interface PlanListItem {
   release_method: PlanListItemReleaseMethod;
   /** Recurring price charged every billing period. */
   renewal_price: number;
+  /** Stock keeping unit, free text set by the seller (e.g. `TSHIRT-LARGE-BLUE`). Not enforced unique. `null` when unset. */
+  sku: string | null;
   /** Installment payments required before the subscription pauses. Must be greater than 1. `null` if split pay is not configured. */
   split_pay_required_payments: number | null;
   /** Units available for purchase. `null` unless the actor has the `plan:basic:read` scope on the plan's account. */
@@ -932,9 +1136,9 @@ export interface PlanListItem {
   strike_through_initial_price: number | null;
   /** Original renewal price shown with a strikethrough, in the plan's currency. `null` when no strikethrough is set. */
   strike_through_renewal_price: number | null;
-  /** 3D Secure behavior for this plan; `null` inherits the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` inherits the account default. */
   three_ds_level: PlanListItemThreeDsLevel | null;
-  /** Plan display name shown to customers. Maximum 30 characters. `null` if no title has been set. */
+  /** Plan display name shown to customers. Maximum 30 characters. A variant created without one defaults to its attribute values joined with ` / `. `null` if no title has been set. */
   title: string | null;
   /** Free trial days before the first renewal charge. `null` if no trial is configured or the user has already used a trial for this plan. */
   trial_period_days: number | null;
@@ -949,6 +1153,7 @@ export const PlanListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.NullOr(AccountSummary),
     adaptive_pricing_enabled: S.Boolean,
+    attributes: S.NullOr(PlanListItemAttributesMap),
     billing_period: S.NullOr(S.Number),
     cancel_discount_intervals: S.NullOr(S.Number),
     cancel_discount_percentage: S.NullOr(S.Number),
@@ -962,6 +1167,7 @@ export const PlanListItem = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     image: S.NullOr(S.Unknown),
     initial_price: S.Number,
+    initial_price_due: Money,
     internal_notes: S.NullOr(S.String),
     invoice: S.NullOr(S.Unknown),
     member_count: S.NullOr(S.Number),
@@ -973,6 +1179,7 @@ export const PlanListItem = /*@__PURE__*/ S.suspend(() =>
     purchase_url: S.String,
     release_method: PlanListItemReleaseMethod,
     renewal_price: S.Number,
+    sku: S.NullOr(S.String),
     split_pay_required_payments: S.NullOr(S.Number),
     stock: S.NullOr(S.Number),
     strike_through_initial_price: S.NullOr(S.Number),
@@ -1060,19 +1267,27 @@ export const UpdatePlanRequestCustomFieldsList = /*@__PURE__*/ S.Array(
 export type UpdatePlanRequestImage = CreatePlanRequestImage;
 export const UpdatePlanRequestImage = CreatePlanRequestImage;
 
-export type UpdatePlanRequestPaymentMethodConfigurationDisabledList = Array<string>;
+/** Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
+export type UpdatePlanRequestPaymentMethodConfigurationDisabledList = Array<
+  PaymentMethodTypes | (string & {})
+>;
 export const UpdatePlanRequestPaymentMethodConfigurationDisabledList = /*@__PURE__*/ S.Array(
-  S.String,
+  PaymentMethodTypes,
 ) as any as S.Schema<UpdatePlanRequestPaymentMethodConfigurationDisabledList>;
 
-export type UpdatePlanRequestPaymentMethodConfigurationEnabledList = Array<string>;
+/** Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
+export type UpdatePlanRequestPaymentMethodConfigurationEnabledList = Array<
+  PaymentMethodTypes | (string & {})
+>;
 export const UpdatePlanRequestPaymentMethodConfigurationEnabledList = /*@__PURE__*/ S.Array(
-  S.String,
+  PaymentMethodTypes,
 ) as any as S.Schema<UpdatePlanRequestPaymentMethodConfigurationEnabledList>;
 
-/** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. */
+/** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty. */
 export interface UpdatePlanRequestPaymentMethodConfiguration {
+  /** Payment method types explicitly disabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
   disabled?: UpdatePlanRequestPaymentMethodConfigurationDisabledList;
+  /** Payment method types explicitly enabled for this plan — the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
   enabled?: UpdatePlanRequestPaymentMethodConfigurationEnabledList;
   include_platform_defaults?: boolean;
 }
@@ -1086,8 +1301,11 @@ export const UpdatePlanRequestPaymentMethodConfiguration = /*@__PURE__*/ S.suspe
   identifier: "UpdatePlanRequestPaymentMethodConfiguration",
 }) as any as S.Schema<UpdatePlanRequestPaymentMethodConfiguration>;
 
-/** 3D Secure behavior for this plan. Send `null` to inherit the account default. */
-export type UpdatePlanRequestThreeDsLevel = "mandate_challenge" | "frictionless";
+/** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default. */
+export type UpdatePlanRequestThreeDsLevel =
+  | "mandate_challenge"
+  | "mandate_if_required"
+  | "frictionless_if_required";
 export const UpdatePlanRequestThreeDsLevel = S.String;
 
 export interface UpdatePlanRequest {
@@ -1095,6 +1313,8 @@ export interface UpdatePlanRequest {
   id: string;
   /** Whether this plan accepts local currency payments via adaptive pricing. */
   adaptive_pricing_enabled?: boolean | null;
+  /** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"size": "Large", "color": "Blue"}`. Names are normalized to snake_case identifiers (`Ring Size` becomes `ring_size`) and come back in alphabetical order. Every variant plan on a product must carry the same attribute names and a distinct set of values. Send `null` to make the plan an ordinary pricing option again. */
+  attributes?: unknown | null;
   /** Recurring billing interval in days, such as 30 for monthly or 365 for annual. */
   billing_period?: number | null;
   /** How many renewals the retention discount applies to. Required when `offer_cancel_discount` is true. */
@@ -1113,7 +1333,7 @@ export interface UpdatePlanRequest {
   expiration_days?: number | null;
   /** An image displayed on the product page to represent this plan. */
   image?: CreatePlanRequestImage | null;
-  /** Initial amount charged in the plan's currency, e.g. 10.43 for $10.43. */
+  /** Initial amount charged in the plan's currency, e.g. 10.43 for $10.43. A paid fiat plan charges at least 1.00 in its currency; use 0 for free. */
   initial_price?: number | null;
   /** Private notes visible only to the account owner. Not shown to customers. */
   internal_notes?: string | null;
@@ -1123,21 +1343,23 @@ export interface UpdatePlanRequest {
   offer_cancel_discount?: boolean | null;
   /** Override the default tax classification for this specific plan. */
   override_tax_type?: string;
-  /** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. */
+  /** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty. */
   payment_method_configuration?: UpdatePlanRequestPaymentMethodConfiguration | null;
   /** Sales method for this plan. */
   release_method?: string;
-  /** The amount charged each billing period for recurring plans, in the plan's currency. */
+  /** The amount charged each billing period for recurring plans, in the plan's currency. A paid fiat plan charges at least 1.00 in its currency. */
   renewal_price?: number | null;
+  /** Stock keeping unit for this plan. Maximum 100 characters. Free text, not enforced unique. */
+  sku?: string | null;
   /** The maximum number of units available for purchase. Ignored when unlimited_stock is true. */
   stock?: number | null;
   /** A comparison price displayed with a strikethrough for the initial price. */
   strike_through_initial_price?: number | null;
   /** A comparison price displayed with a strikethrough for the renewal price. */
   strike_through_renewal_price?: number | null;
-  /** 3D Secure behavior for this plan. Send `null` to inherit the account default. */
+  /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default. */
   three_ds_level?: UpdatePlanRequestThreeDsLevel | (string & {}) | null;
-  /** The display name of the plan shown to customers on the product page. */
+  /** The display name of the plan shown to customers on the product page. Maximum 30 characters. */
   title?: string | null;
   /** Free trial duration before the first recurring charge. */
   trial_period_days?: number | null;
@@ -1150,6 +1372,7 @@ export const UpdatePlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     adaptive_pricing_enabled: S.optional(S.NullOr(S.Boolean)),
+    attributes: S.optional(S.NullOr(S.Unknown)),
     billing_period: S.optional(S.NullOr(S.Number)),
     cancel_discount_intervals: S.optional(S.NullOr(S.Number)),
     cancel_discount_percentage: S.optional(S.NullOr(S.Number)),
@@ -1167,6 +1390,7 @@ export const UpdatePlanRequest = /*@__PURE__*/ S.suspend(() =>
     payment_method_configuration: S.optional(S.NullOr(UpdatePlanRequestPaymentMethodConfiguration)),
     release_method: S.optional(S.String),
     renewal_price: S.optional(S.NullOr(S.Number)),
+    sku: S.optional(S.NullOr(S.String)),
     stock: S.optional(S.NullOr(S.Number)),
     strike_through_initial_price: S.optional(S.NullOr(S.Number)),
     strike_through_renewal_price: S.optional(S.NullOr(S.Number)),
@@ -1209,7 +1433,7 @@ export const createPlan: API.OperationMethod<
 }));
 
 export type DeletePlanError = NotFound | WhopOpError;
-/** Delete Plan Permanently delete a plan from a product. Existing memberships on this plan will not be affected. */
+/** Delete Plan Delete a plan from a product. It stops selling immediately; existing memberships on this plan will not be affected. */
 export const deletePlan: API.OperationMethod<
   DeletePlanRequest,
   DeletePlanResponse,

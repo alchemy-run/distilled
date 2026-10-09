@@ -3,22 +3,22 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#DeleteDashboard/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-04-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#DeleteDashboard/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-04-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#UpdateDashboard/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-04-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#UpdateDashboard/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-04-01-preview"
     },
     {
@@ -33,32 +33,32 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#GetDashboard/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-04-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#GetDashboard/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-04-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#ListDashboardByResourceGroup/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsListByResourceGroup/traits/smithy.api#http/apiVersion",
       "value": "2025-04-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#ListDashboardByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsListByResourceGroup/traits/com.distilled.openapi#apiVersion",
       "value": "2025-04-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#ListDashboardBySubscription/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsListBySubscription/traits/smithy.api#http/apiVersion",
       "value": "2025-04-01-preview"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.portal#ListDashboardBySubscription/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.portal#DashboardsListBySubscription/traits/com.distilled.openapi#apiVersion",
       "value": "2025-04-01-preview"
     }
   ]

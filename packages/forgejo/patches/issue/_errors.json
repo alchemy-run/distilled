@@ -3,8 +3,10 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1repos~1{owner}~1{repo}~1labels/get/responses/403",
-      "value": { "$ref": "#/responses/forbidden" }
+      "path": "/shapes/com.forgejo.issue#IssueListLabels/errors/0",
+      "value": {
+        "target": "com.forgejo.issue#Forbidden"
+      }
     }
   ]
 }

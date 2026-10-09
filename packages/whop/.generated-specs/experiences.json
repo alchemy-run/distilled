@@ -45,13 +45,6 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id",
-            "smithy.api#required": {}
-          }
-        },
         "product_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -74,6 +67,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "created_after"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {}
           }
         }
       },
@@ -364,17 +364,17 @@
     "com.whop.experiences#CreateExperienceRequest": {
       "type": "structure",
       "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the company to create this experience for.",
+            "smithy.api#required": {}
+          }
+        },
         "app_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the app that powers this experience.",
-            "smithy.api#required": {}
-          }
-        },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the company to create this experience for.",
             "smithy.api#required": {}
           }
         },

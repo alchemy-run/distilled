@@ -75,127 +75,24 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ParametersTypeEnum =
-  | "REPORT_TYPE_UNSPECIFIED"
-  | "STANDARD"
-  | "INVENTORY_AVAILABILITY"
-  | "AUDIENCE_COMPOSITION"
-  | "FLOODLIGHT"
-  | "YOUTUBE"
-  | "GRP"
-  | "YOUTUBE_PROGRAMMATIC_GUARANTEED"
-  | "REACH"
-  | "UNIQUE_REACH_AUDIENCE"
-  | "FULL_PATH"
-  | "PATH_ATTRIBUTION";
-export const ParametersTypeEnum = S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Represents a single filter rule. */
-export interface FilterPair {
-  /** The type of value to filter by. Defined by a [Filter](/bid-manager/reference/rest/v2/filters-metrics#filters) value. */
-  type?: string;
-  /** The identifying value to filter by, such as a relevant resource ID. */
-  value?: string;
-}
-export const FilterPair = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "FilterPair" }) as any as S.Schema<FilterPair>;
-
-export type FilterPairList = Array<FilterPair>;
-export const FilterPairList = /*@__PURE__*/ S.Array(FilterPair) as any as S.Schema<FilterPairList>;
-
-/** Report parameter options. */
-export interface Options {
-  /** Whether to include data for audience lists specifically targeted by filtered line items or insertion orders. Requires the use of `FILTER_INSERTION_ORDER` or `FILTER_LINE_ITEM` filters. */
-  includeOnlyTargetedUserLists?: boolean;
-}
-export const Options = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    includeOnlyTargetedUserLists: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Options" }) as any as S.Schema<Options>;
-
-/** Parameters of a generated report. */
-export interface Parameters {
-  /** The type of the report. The type of the report determines the dimesions, filters, and metrics that can be used. */
-  type?: ParametersTypeEnum | (string & {});
-  /** Metrics to define the data populating the report. Defined by [Metric](/bid-manager/reference/rest/v2/filters-metrics#metrics) values. */
-  metrics?: StringList;
-  /** Filters to limit the scope of reported data. */
-  filters?: FilterPairList;
-  /** Dimensions by which to segment and group the data. Defined by [Filter](/bid-manager/reference/rest/v2/filters-metrics#filters) values. */
-  groupBys?: StringList;
-  /** Additional report parameter options. */
-  options?: Options;
-}
-export const Parameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ParametersTypeEnum),
-    metrics: S.optional(StringList),
-    filters: S.optional(FilterPairList),
-    groupBys: S.optional(StringList),
-    options: S.optional(Options),
-  }),
-).annotate({ identifier: "Parameters" }) as any as S.Schema<Parameters>;
-
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Doubleclickbidmanager_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   year?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
 }
 export const Doubleclickbidmanager_Date = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    month: S.optional(S.Number),
     day: S.optional(S.Number),
     year: S.optional(S.Number),
-    month: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "Doubleclickbidmanager_Date",
 }) as any as S.Schema<Doubleclickbidmanager_Date>;
-
-export type QueryScheduleFrequencyEnum =
-  | "FREQUENCY_UNSPECIFIED"
-  | "ONE_TIME"
-  | "DAILY"
-  | "WEEKLY"
-  | "SEMI_MONTHLY"
-  | "MONTHLY"
-  | "QUARTERLY"
-  | "YEARLY";
-export const QueryScheduleFrequencyEnum = S.String;
-
-/** Settings on when and how frequently to run a query. */
-export interface QuerySchedule {
-  /** The date on which to end the scheduled runs. This field is required if frequency is not set to `ONE_TIME`. Otherwise, it will be ignored. */
-  endDate?: Doubleclickbidmanager_Date;
-  /** The canonical code for the timezone the query schedule is based on. Scheduled runs are usually conducted in the morning of a given day. Defaults to `America/New_York`. */
-  nextRunTimezoneCode?: string;
-  /** How frequently to run the query. If set to `ONE_TIME`, the query will only be run when queries.run is called. */
-  frequency?: QueryScheduleFrequencyEnum | (string & {});
-  /** The date on which to begin the scheduled runs. This field is required if frequency is not set to `ONE_TIME`. Otherwise, it will be ignored. */
-  startDate?: Doubleclickbidmanager_Date;
-}
-export const QuerySchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endDate: S.optional(Doubleclickbidmanager_Date),
-    nextRunTimezoneCode: S.optional(S.String),
-    frequency: S.optional(QueryScheduleFrequencyEnum),
-    startDate: S.optional(Doubleclickbidmanager_Date),
-  }),
-).annotate({ identifier: "QuerySchedule" }) as any as S.Schema<QuerySchedule>;
-
-export type QueryMetadataFormatEnum = "FORMAT_UNSPECIFIED" | "CSV" | "XLSX";
-export const QueryMetadataFormatEnum = S.String;
 
 export type DataRangeRangeEnum =
   | "RANGE_UNSPECIFIED"
@@ -221,61 +118,164 @@ export const DataRangeRangeEnum = S.String;
 
 /** The date range to be reported on. */
 export interface DataRange {
-  /** The preset date range to be reported on. If `CUSTOM_DATES` is assigned to this field, fields custom_start_date and custom_end_date must be set to specify the custom date range. */
-  range?: DataRangeRangeEnum | (string & {});
-  /** If `CUSTOM_DATES` is assigned to range, this field specifies the end date for the date range that is reported on. This field is required if using `CUSTOM_DATES` range and will be ignored otherwise. */
-  customEndDate?: Doubleclickbidmanager_Date;
   /** If `CUSTOM_DATES` is assigned to range, this field specifies the starting date for the date range that is reported on. This field is required if using `CUSTOM_DATES` range and will be ignored otherwise. */
   customStartDate?: Doubleclickbidmanager_Date;
+  /** If `CUSTOM_DATES` is assigned to range, this field specifies the end date for the date range that is reported on. This field is required if using `CUSTOM_DATES` range and will be ignored otherwise. */
+  customEndDate?: Doubleclickbidmanager_Date;
+  /** The preset date range to be reported on. If `CUSTOM_DATES` is assigned to this field, fields custom_start_date and custom_end_date must be set to specify the custom date range. */
+  range?: DataRangeRangeEnum | (string & {});
 }
 export const DataRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    range: S.optional(DataRangeRangeEnum),
-    customEndDate: S.optional(Doubleclickbidmanager_Date),
     customStartDate: S.optional(Doubleclickbidmanager_Date),
+    customEndDate: S.optional(Doubleclickbidmanager_Date),
+    range: S.optional(DataRangeRangeEnum),
   }),
 ).annotate({ identifier: "DataRange" }) as any as S.Schema<DataRange>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+export type QueryMetadataFormatEnum = "FORMAT_UNSPECIFIED" | "CSV" | "XLSX";
+export const QueryMetadataFormatEnum = S.String;
+
 /** The metadata of the query. */
 export interface QueryMetadata {
+  /** The date range the report generated by the query will report on. This date range will be defined by the time zone as used by the advertiser. */
+  dataRange?: DataRange;
   /** The display name of the query. This value will be used in the file name of reports generated by the query. */
   title?: string;
   /** List of additional email addresses with which to share the query. If send_notification is `true`, these email addresses will receive a notification when a report generated by the query is ready. If these email addresses are connected to Display & Video 360 users, the query will be available to them in the Display & Video 360 interface. */
   shareEmailAddress?: StringList;
-  /** The format of the report generated by the query. */
-  format?: QueryMetadataFormatEnum | (string & {});
   /** Whether an email notification is sent to the query creator when a report generated by the query is ready. This value is `false` by default. */
   sendNotification?: boolean;
-  /** The date range the report generated by the query will report on. This date range will be defined by the time zone as used by the advertiser. */
-  dataRange?: DataRange;
+  /** The format of the report generated by the query. */
+  format?: QueryMetadataFormatEnum | (string & {});
 }
 export const QueryMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dataRange: S.optional(DataRange),
     title: S.optional(S.String),
     shareEmailAddress: S.optional(StringList),
-    format: S.optional(QueryMetadataFormatEnum),
     sendNotification: S.optional(S.Boolean),
-    dataRange: S.optional(DataRange),
+    format: S.optional(QueryMetadataFormatEnum),
   }),
 ).annotate({ identifier: "QueryMetadata" }) as any as S.Schema<QueryMetadata>;
 
+export type QueryScheduleFrequencyEnum =
+  | "FREQUENCY_UNSPECIFIED"
+  | "ONE_TIME"
+  | "DAILY"
+  | "WEEKLY"
+  | "SEMI_MONTHLY"
+  | "MONTHLY"
+  | "QUARTERLY"
+  | "YEARLY";
+export const QueryScheduleFrequencyEnum = S.String;
+
+/** Settings on when and how frequently to run a query. */
+export interface QuerySchedule {
+  /** The date on which to begin the scheduled runs. This field is required if frequency is not set to `ONE_TIME`. Otherwise, it will be ignored. */
+  startDate?: Doubleclickbidmanager_Date;
+  /** How frequently to run the query. If set to `ONE_TIME`, the query will only be run when queries.run is called. */
+  frequency?: QueryScheduleFrequencyEnum | (string & {});
+  /** The date on which to end the scheduled runs. This field is required if frequency is not set to `ONE_TIME`. Otherwise, it will be ignored. */
+  endDate?: Doubleclickbidmanager_Date;
+  /** The canonical code for the timezone the query schedule is based on. Scheduled runs are usually conducted in the morning of a given day. Defaults to `America/New_York`. */
+  nextRunTimezoneCode?: string;
+}
+export const QuerySchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startDate: S.optional(Doubleclickbidmanager_Date),
+    frequency: S.optional(QueryScheduleFrequencyEnum),
+    endDate: S.optional(Doubleclickbidmanager_Date),
+    nextRunTimezoneCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "QuerySchedule" }) as any as S.Schema<QuerySchedule>;
+
+export type ParametersTypeEnum =
+  | "REPORT_TYPE_UNSPECIFIED"
+  | "STANDARD"
+  | "INVENTORY_AVAILABILITY"
+  | "AUDIENCE_COMPOSITION"
+  | "FLOODLIGHT"
+  | "YOUTUBE"
+  | "GRP"
+  | "YOUTUBE_PROGRAMMATIC_GUARANTEED"
+  | "REACH"
+  | "UNIQUE_REACH_AUDIENCE"
+  | "FULL_PATH"
+  | "PATH_ATTRIBUTION";
+export const ParametersTypeEnum = S.String;
+
+/** Report parameter options. */
+export interface Options {
+  /** Whether to include data for audience lists specifically targeted by filtered line items or insertion orders. Requires the use of `FILTER_INSERTION_ORDER` or `FILTER_LINE_ITEM` filters. */
+  includeOnlyTargetedUserLists?: boolean;
+}
+export const Options = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    includeOnlyTargetedUserLists: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "Options" }) as any as S.Schema<Options>;
+
+/** Represents a single filter rule. */
+export interface FilterPair {
+  /** The identifying value to filter by, such as a relevant resource ID. */
+  value?: string;
+  /** The type of value to filter by. Defined by a [Filter](/bid-manager/reference/rest/v2/filters-metrics#filters) value. */
+  type?: string;
+}
+export const FilterPair = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotate({ identifier: "FilterPair" }) as any as S.Schema<FilterPair>;
+
+export type FilterPairList = Array<FilterPair>;
+export const FilterPairList = /*@__PURE__*/ S.Array(FilterPair) as any as S.Schema<FilterPairList>;
+
+/** Parameters of a generated report. */
+export interface Parameters {
+  /** Dimensions by which to segment and group the data. Defined by [Filter](/bid-manager/reference/rest/v2/filters-metrics#filters) values. */
+  groupBys?: StringList;
+  /** The type of the report. The type of the report determines the dimesions, filters, and metrics that can be used. */
+  type?: ParametersTypeEnum | (string & {});
+  /** Additional report parameter options. */
+  options?: Options;
+  /** Filters to limit the scope of reported data. */
+  filters?: FilterPairList;
+  /** Metrics to define the data populating the report. Defined by [Metric](/bid-manager/reference/rest/v2/filters-metrics#metrics) values. */
+  metrics?: StringList;
+}
+export const Parameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupBys: S.optional(StringList),
+    type: S.optional(ParametersTypeEnum),
+    options: S.optional(Options),
+    filters: S.optional(FilterPairList),
+    metrics: S.optional(StringList),
+  }),
+).annotate({ identifier: "Parameters" }) as any as S.Schema<Parameters>;
+
 /** A single query used to generate a report. */
 export interface Query {
-  /** The parameters of the report generated by the query. */
-  params?: Parameters;
   /** Output only. The unique ID of the query. */
   queryId?: string;
-  /** When and how often the query is scheduled to run. If the frequency field is set to `ONE_TIME`, the query will only run when queries.run is called. */
-  schedule?: QuerySchedule;
   /** The metadata of the query. */
   metadata?: QueryMetadata;
+  /** When and how often the query is scheduled to run. If the frequency field is set to `ONE_TIME`, the query will only run when queries.run is called. */
+  schedule?: QuerySchedule;
+  /** The parameters of the report generated by the query. */
+  params?: Parameters;
 }
 export const Query = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    params: S.optional(Parameters),
     queryId: S.optional(S.String),
-    schedule: S.optional(QuerySchedule),
     metadata: S.optional(QueryMetadata),
+    schedule: S.optional(QuerySchedule),
+    params: S.optional(Parameters),
   }),
 ).annotate({ identifier: "Query" }) as any as S.Schema<Query>;
 
@@ -333,15 +333,15 @@ export const GetQueriesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetQueriesRequest" }) as any as S.Schema<GetQueriesRequest>;
 
 export interface GetQueriesReportsRequest {
-  /** Required. The ID of the query that generated the report. */
-  queryId: string;
   /** Required. The ID of the query to retrieve. */
   reportId: string;
+  /** Required. The ID of the query that generated the report. */
+  queryId: string;
 }
 export const GetQueriesReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queryId: S.String.pipe(T.Label()),
     reportId: S.String.pipe(T.Label()),
+    queryId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -351,35 +351,35 @@ export const GetQueriesReportsRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetQueriesReportsRequest" }) as any as S.Schema<GetQueriesReportsRequest>;
 
-export type ReportStatusFormatEnum = "FORMAT_UNSPECIFIED" | "CSV" | "XLSX";
-export const ReportStatusFormatEnum = S.String;
-
 export type ReportStatusStateEnum = "STATE_UNSPECIFIED" | "QUEUED" | "RUNNING" | "DONE" | "FAILED";
 export const ReportStatusStateEnum = S.String;
 
+export type ReportStatusFormatEnum = "FORMAT_UNSPECIFIED" | "CSV" | "XLSX";
+export const ReportStatusFormatEnum = S.String;
+
 /** The status of a report. */
 export interface ReportStatus {
-  /** The format of the generated report file. */
-  format?: ReportStatusFormatEnum;
-  /** Output only. The timestamp of when report generation finished successfully or in failure. This field will not be set unless state is `DONE` or `FAILED`. */
-  finishTime?: string;
   /** Output only. The state of the report generation. */
   state?: ReportStatusStateEnum;
+  /** Output only. The timestamp of when report generation finished successfully or in failure. This field will not be set unless state is `DONE` or `FAILED`. */
+  finishTime?: string;
+  /** The format of the generated report file. */
+  format?: ReportStatusFormatEnum;
 }
 export const ReportStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    format: S.optional(ReportStatusFormatEnum),
-    finishTime: S.optional(S.String),
     state: S.optional(ReportStatusStateEnum),
+    finishTime: S.optional(S.String),
+    format: S.optional(ReportStatusFormatEnum),
   }),
 ).annotate({ identifier: "ReportStatus" }) as any as S.Schema<ReportStatus>;
 
 /** The metadata of a report. */
 export interface ReportMetadata {
-  /** Output only. The location of the generated report file in Google Cloud Storage. This field will be absent if status.state is not `DONE`. */
-  googleCloudStoragePath?: string;
   /** The end date of the report data date range. */
   reportDataEndDate?: Doubleclickbidmanager_Date;
+  /** Output only. The location of the generated report file in Google Cloud Storage. This field will be absent if status.state is not `DONE`. */
+  googleCloudStoragePath?: string;
   /** The status of the report. */
   status?: ReportStatus;
   /** The start date of the report data date range. */
@@ -387,8 +387,8 @@ export interface ReportMetadata {
 }
 export const ReportMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    googleCloudStoragePath: S.optional(S.String),
     reportDataEndDate: S.optional(Doubleclickbidmanager_Date),
+    googleCloudStoragePath: S.optional(S.String),
     status: S.optional(ReportStatus),
     reportDataStartDate: S.optional(Doubleclickbidmanager_Date),
   }),
@@ -396,15 +396,15 @@ export const ReportMetadata = /*@__PURE__*/ S.suspend(() =>
 
 /** Identifying information of a report. */
 export interface ReportKey {
-  /** Output only. The unique ID of the query that generated the report. */
-  queryId?: string;
   /** Output only. The unique ID of the report. */
   reportId?: string;
+  /** Output only. The unique ID of the query that generated the report. */
+  queryId?: string;
 }
 export const ReportKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queryId: S.optional(S.String),
     reportId: S.optional(S.String),
+    queryId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportKey" }) as any as S.Schema<ReportKey>;
 
@@ -412,32 +412,32 @@ export const ReportKey = /*@__PURE__*/ S.suspend(() =>
 export interface Report {
   /** The metadata of the report. */
   metadata?: ReportMetadata;
-  /** The key information identifying the report. */
-  key?: ReportKey;
   /** The parameters of the report. */
   params?: Parameters;
+  /** The key information identifying the report. */
+  key?: ReportKey;
 }
 export const Report = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(ReportMetadata),
-    key: S.optional(ReportKey),
     params: S.optional(Parameters),
+    key: S.optional(ReportKey),
   }),
 ).annotate({ identifier: "Report" }) as any as S.Schema<Report>;
 
 export interface ListQueriesRequest {
-  /** Maximum number of results per page. Must be between `1` and `100`. Defaults to `100` if unspecified. */
-  pageSize?: number;
-  /** Field to sort the list by. Accepts the following values: * `queryId` (default) * `metadata.title` The default sorting order is ascending. To specify descending order for a field, add the suffix `desc` to the field name. For example, `queryId desc`. */
-  orderBy?: string;
   /** A token identifying which page of results the server should return. Typically, this is the value of nextPageToken, returned from the previous call to the `queries.list` method. If unspecified, the first page of results is returned. */
   pageToken?: string;
+  /** Field to sort the list by. Accepts the following values: * `queryId` (default) * `metadata.title` The default sorting order is ascending. To specify descending order for a field, add the suffix `desc` to the field name. For example, `queryId desc`. */
+  orderBy?: string;
+  /** Maximum number of results per page. Must be between `1` and `100`. Defaults to `100` if unspecified. */
+  pageSize?: number;
 }
 export const ListQueriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -464,21 +464,21 @@ export const ListQueriesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListQueriesResponse" }) as any as S.Schema<ListQueriesResponse>;
 
 export interface ListQueriesReportsRequest {
+  /** Maximum number of results per page. Must be between `1` and `100`. Defaults to `100` if unspecified. */
+  pageSize?: number;
+  /** Field to sort the list by. Accepts the following values: * `key.reportId` (default) The default sorting order is ascending. To specify descending order for a field, add the suffix `desc` to the field name. For example, `key.reportId desc`. */
+  orderBy?: string;
   /** A token identifying which page of results the server should return. Typically, this is the value of nextPageToken returned from the previous call to the `queries.reports.list` method. If unspecified, the first page of results is returned. */
   pageToken?: string;
   /** Required. The ID of the query that generated the reports. */
   queryId: string;
-  /** Field to sort the list by. Accepts the following values: * `key.reportId` (default) The default sorting order is ascending. To specify descending order for a field, add the suffix `desc` to the field name. For example, `key.reportId desc`. */
-  orderBy?: string;
-  /** Maximum number of results per page. Must be between `1` and `100`. Defaults to `100` if unspecified. */
-  pageSize?: number;
 }
 export const ListQueriesReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     queryId: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -494,15 +494,15 @@ export type ReportList = Array<Report>;
 export const ReportList = /*@__PURE__*/ S.Array(Report) as any as S.Schema<ReportList>;
 
 export interface ListReportsResponse {
-  /** A token to retrieve the next page of results. Pass this value in the page_token field in the subsequent call to `queries.reports.list` method to retrieve the next page of results. */
-  nextPageToken?: string;
   /** The list of reports. This field will be absent if empty. */
   reports?: ReportList;
+  /** A token to retrieve the next page of results. Pass this value in the page_token field in the subsequent call to `queries.reports.list` method to retrieve the next page of results. */
+  nextPageToken?: string;
 }
 export const ListReportsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     reports: S.optional(ReportList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListReportsResponse" }) as any as S.Schema<ListReportsResponse>;
 
@@ -518,17 +518,17 @@ export const RunQueryRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "RunQueryRequest" }) as any as S.Schema<RunQueryRequest>;
 
 export interface RunQueriesRequest {
-  /** Whether the query should be run synchronously. When `true`, the request won't return until the resulting report has finished running. This parameter is `false` by default. Setting this parameter to `true` is **not recommended**. */
-  synchronous?: boolean;
   /** Required. The ID of the query to run. */
   queryId: string;
+  /** Whether the query should be run synchronously. When `true`, the request won't return until the resulting report has finished running. This parameter is `false` by default. Setting this parameter to `true` is **not recommended**. */
+  synchronous?: boolean;
   /** Request body */
   body?: RunQueryRequest;
 }
 export const RunQueriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    synchronous: S.optional(S.Boolean.pipe(T.Query())),
     queryId: S.String.pipe(T.Label()),
+    synchronous: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(RunQueryRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

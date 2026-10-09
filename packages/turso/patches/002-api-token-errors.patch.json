@@ -1,0 +1,31 @@
+{
+  "description": "Type createAPIToken's observed failures (409 duplicate token name, 404 unknown group for a group-scoped token, 400 invalid scopes) and revokeOrganizationAPIToken's 404. Discovered via live API testing.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.turso.api#CreateAPIToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.turso.api#BadRequest"
+        },
+        {
+          "target": "com.turso.api#NotFound"
+        },
+        {
+          "target": "com.turso.api#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.turso.api#RevokeOrganizationAPIToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ]
+    }
+  ]
+}

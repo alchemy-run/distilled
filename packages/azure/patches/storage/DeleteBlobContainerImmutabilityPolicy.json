@@ -3,7 +3,7 @@
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.azure.storage#DeleteBlobContainerImmutabilityPolicyRequest/members/ifMatch",
+      "path": "/shapes/com.azure.storage#BlobContainersDeleteImmutabilityPolicyRequest/members/ifMatch",
       "value": {
         "target": "smithy.api#String",
         "traits": {

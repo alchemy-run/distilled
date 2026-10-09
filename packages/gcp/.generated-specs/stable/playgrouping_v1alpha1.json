@@ -8,6 +8,58 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.playgrouping_v1alpha1#Tag": {
+      "type": "structure",
+      "members": {
+        "stringValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A string value of the tag."
+          }
+        },
+        "int64Value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A signed 64-bit integer value of the tag."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Key for the tag."
+          }
+        },
+        "booleanValue": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value of the tag."
+          }
+        },
+        "timeValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A time value of the tag."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A tag is associated with exactly one package name and user."
+      }
+    },
+    "com.gcp.playgrouping_v1alpha1#VerifyTokenRequest": {
+      "type": "structure",
+      "members": {
+        "persona": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Persona represented by the token. Format: personas/{persona}"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for VerifyToken."
+      }
+    },
     "com.gcp.playgrouping_v1alpha1#CreateOrUpdateTagsRequest": {
       "type": "structure",
       "members": {
@@ -28,42 +80,11 @@
         "target": "com.gcp.playgrouping_v1alpha1#Tag"
       }
     },
-    "com.gcp.playgrouping_v1alpha1#Tag": {
+    "com.gcp.playgrouping_v1alpha1#VerifyTokenResponse": {
       "type": "structure",
-      "members": {
-        "booleanValue": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value of the tag."
-          }
-        },
-        "int64Value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A signed 64-bit integer value of the tag."
-          }
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Key for the tag."
-          }
-        },
-        "timeValue": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A time value of the tag."
-          }
-        },
-        "stringValue": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A string value of the tag."
-          }
-        }
-      },
+      "members": {},
       "traits": {
-        "smithy.api#documentation": "A tag is associated with exactly one package name and user."
+        "smithy.api#documentation": "Response message for VerifyToken."
       }
     },
     "com.gcp.playgrouping_v1alpha1#CreateOrUpdateTagsResponse": {
@@ -80,42 +101,21 @@
         "smithy.api#documentation": "Response message for CreateOrUpdateTags."
       }
     },
-    "com.gcp.playgrouping_v1alpha1#VerifyTokenRequest": {
-      "type": "structure",
-      "members": {
-        "persona": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Persona represented by the token. Format: personas/{persona}"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Request message for VerifyToken."
-      }
-    },
-    "com.gcp.playgrouping_v1alpha1#VerifyTokenResponse": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "Response message for VerifyToken."
-      }
-    },
     "com.gcp.playgrouping_v1alpha1#VerifyAppsTokensRequest": {
       "type": "structure",
       "members": {
-        "appPackage": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. App the token belongs to. Format: apps/{package_name}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
         "token": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Required. The token to be verified. Format: tokens/{token}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "appPackage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. App the token belongs to. Format: apps/{package_name}",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }

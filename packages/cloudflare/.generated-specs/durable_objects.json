@@ -41,6 +41,12 @@
         },
         "use_sqlite": {
           "target": "smithy.api#Boolean"
+        },
+        "dispatch_namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Workers for Platforms dispatch namespace of the script that owns this namespace; absent for account-level scripts."
+          }
         }
       }
     },

@@ -23934,6 +23934,18 @@
           "traits": {
             "smithy.api#documentation": "Indicates whether requests using non-AAD authentication are blocked"
           }
+        },
+        "createMode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set to `Recover` to restore a soft-deleted account with the same name."
+          }
+        },
+        "automationAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Automation account ID (GUID) of the soft-deleted account to recover; required with `createMode: Recover`."
+          }
         }
       },
       "traits": {
@@ -24262,31 +24274,36 @@
         "properties": {
           "target": "com.azure.automation#DeletedAutomationAccountProperties",
           "traits": {
-            "smithy.api#documentation": "Gets or sets the automation account properties."
+            "smithy.api#documentation": "Gets or sets the automation account properties.",
+            "smithy.api#jsonName": "Properties"
           }
         },
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The resource id."
+            "smithy.api#documentation": "The resource id.",
+            "smithy.api#jsonName": "Id"
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Gets or sets name of the resource."
+            "smithy.api#documentation": "Gets or sets name of the resource.",
+            "smithy.api#jsonName": "Name"
           }
         },
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The resource type."
+            "smithy.api#documentation": "The resource type.",
+            "smithy.api#jsonName": "Type"
           }
         },
         "location": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Gets or sets the location of the resource."
+            "smithy.api#documentation": "Gets or sets the location of the resource.",
+            "smithy.api#jsonName": "Location"
           }
         }
       },
@@ -24300,25 +24317,29 @@
         "automationAccountResourceId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Gets or sets the Automation Account Resource Id."
+            "smithy.api#documentation": "Gets or sets the Automation Account Resource Id.",
+            "smithy.api#jsonName": "AutomationAccountResourceId"
           }
         },
         "automationAccountId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Gets or sets the Automation Account Id."
+            "smithy.api#documentation": "Gets or sets the Automation Account Id.",
+            "smithy.api#jsonName": "AutomationAccountId"
           }
         },
         "location": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Gets or sets the location of the resource."
+            "smithy.api#documentation": "Gets or sets the location of the resource.",
+            "smithy.api#jsonName": "Location"
           }
         },
         "deletionTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Gets the deletion time."
+            "smithy.api#documentation": "Gets the deletion time.",
+            "smithy.api#jsonName": "DeletedTime"
           }
         }
       },

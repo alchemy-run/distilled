@@ -176,6 +176,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   const paths = tagBuckets.get(slug)!;
   const subSpec = { ...fullSpec, paths };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.s2.${slug}`,
     serviceName: toPascal(slug),
     // S2's `in: header` parameters are real per-call inputs — the

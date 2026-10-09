@@ -1043,6 +1043,14 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "The name of the certificate"
           }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ETag of the certificate. A value of \"*\" applies to any version."
+          }
         }
       },
       "traits": {
@@ -1105,6 +1113,13 @@
         },
         "properties": {
           "target": "com.azure.iothub#CertificatePropertiesInput"
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate."
+          }
         }
       },
       "traits": {
@@ -6017,6 +6032,13 @@
           "target": "com.azure.iothub#ArmIdentityInput",
           "traits": {
             "smithy.api#documentation": "The managed identities for the IotHub."
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "ETag of the IoT hub. Do not specify for creating a brand new IoT hub. Required to update an existing IoT hub."
           }
         }
       },

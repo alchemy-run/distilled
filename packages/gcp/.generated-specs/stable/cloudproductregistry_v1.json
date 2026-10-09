@@ -8,39 +8,57 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.cloudproductregistry_v1#ListProductSuitesResponse": {
+    "com.gcp.cloudproductregistry_v1#ProductSuite": {
       "type": "structure",
       "members": {
-        "productSuites": {
-          "target": "com.gcp.cloudproductregistry_v1#ProductSuiteList",
-          "traits": {
-            "smithy.api#documentation": "Matched ProductSuites"
-          }
-        },
-        "nextPageToken": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
+            "smithy.api#documentation": "Identifier. The resource name of the ProductSuite. Format: productSuites/{product_suite}"
           }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response message for ListProductSuites."
-      }
-    },
-    "com.gcp.cloudproductregistry_v1#ProductSuiteList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.cloudproductregistry_v1#ProductSuite"
-      }
-    },
-    "com.gcp.cloudproductregistry_v1#ListLogicalProductsResponse": {
-      "type": "structure",
-      "members": {
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title of the ProductSuite."
+          }
+        },
+        "replaced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. Indicates whether the product suite has been replaced. If `false`, the product suite is active. If `true`, the product suite has been replaced by another type, and the `replacement` field contains the resource name of that replacement."
+          }
+        },
         "logicalProducts": {
-          "target": "com.gcp.cloudproductregistry_v1#LogicalProductList",
+          "target": "com.gcp.cloudproductregistry_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "Matched LogicalProducts"
+            "smithy.api#documentation": "Output only. LogicalProducts under this suite. Format: logicalProducts/{logical_product}"
+          }
+        },
+        "replacement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The resource name of the Logical Entity that the product suite is replaced by. This field is only populated when this product suite is replaced by some other type. Eg: logicalProducts/{logical_product}, logicalProducts/{logical_product}/variants/{variant}, etc."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a unified grouping of products sharing a common brand and market positioning."
+      }
+    },
+    "com.gcp.cloudproductregistry_v1#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.cloudproductregistry_v1#ListLogicalProductVariantsResponse": {
+      "type": "structure",
+      "members": {
+        "logicalProductVariants": {
+          "target": "com.gcp.cloudproductregistry_v1#LogicalProductVariantList",
+          "traits": {
+            "smithy.api#documentation": "Matched LogicalProductVariants"
           }
         },
         "nextPageToken": {
@@ -51,13 +69,13 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Response message for ListLogicalProducts."
+        "smithy.api#documentation": "Response message for ListLogicalProductVariants."
       }
     },
-    "com.gcp.cloudproductregistry_v1#LogicalProductList": {
+    "com.gcp.cloudproductregistry_v1#LogicalProductVariantList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.cloudproductregistry_v1#LogicalProduct"
+        "target": "com.gcp.cloudproductregistry_v1#LogicalProductVariant"
       }
     },
     "com.gcp.cloudproductregistry_v1#LookupEntityResponse": {
@@ -86,89 +104,57 @@
         "smithy.api#documentation": "Response message for LookupEntity."
       }
     },
-    "com.gcp.cloudproductregistry_v1#ProductSuite": {
+    "com.gcp.cloudproductregistry_v1#LogicalProduct": {
       "type": "structure",
       "members": {
-        "replaced": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Output only. Indicates whether the product suite has been replaced. If `false`, the product suite is active. If `true`, the product suite has been replaced by another type, and the `replacement` field contains the resource name of that replacement."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifier. The resource name of the ProductSuite. Format: productSuites/{product_suite}"
-          }
-        },
-        "logicalProducts": {
-          "target": "com.gcp.cloudproductregistry_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Output only. LogicalProducts under this suite. Format: logicalProducts/{logical_product}"
-          }
-        },
-        "replacement": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The resource name of the Logical Entity that the product suite is replaced by. This field is only populated when this product suite is replaced by some other type. Eg: logicalProducts/{logical_product}, logicalProducts/{logical_product}/variants/{variant}, etc."
-          }
-        },
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Title of the ProductSuite."
+            "smithy.api#documentation": "Display name of the LogicalProduct."
           }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Represents a unified grouping of products sharing a common brand and market positioning."
-      }
-    },
-    "com.gcp.cloudproductregistry_v1#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.cloudproductregistry_v1#LogicalProductVariant": {
-      "type": "structure",
-      "members": {
+        },
+        "productSuite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product suite associated with the logical product. Format: productSuites/{product_suite}."
+          }
+        },
         "replaced": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Output only. Indicates whether the logical product variant has been replaced. If `false`, the variant is active. If `true`, the variant has been replaced by another type, and the `replacement` field contains the resource name of that replacement."
-          }
-        },
-        "replacement": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The resource name of the Logical Entity that the logical product variant is replaced by. This field is only populated when this logical product variant is replaced by some other type. Eg: logicalProducts/{logical_product}, productSuites/{product_suite}, etc."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name of the LogicalProductVariant."
+            "smithy.api#documentation": "Output only. Indicates whether the logical product has been replaced. If `false`, the product is active. If `true`, the product has been replaced by another type, and the `replacement` field contains the resource name of that replacement."
           }
         },
         "lifecycleState": {
-          "target": "com.gcp.cloudproductregistry_v1#LogicalProductVariantLifecycleStateEnum",
+          "target": "com.gcp.cloudproductregistry_v1#LogicalProductLifecycleStateEnum",
           "traits": {
-            "smithy.api#documentation": "Output only. Current Lifecycle state of the logical product variant."
+            "smithy.api#documentation": "Output only. Current Lifecycle state of the logical product."
+          }
+        },
+        "replacement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The resource name of the Logical Entity that the logical product is replaced by. This field is only populated when this logical product is replaced by some other type. Eg: logicalProducts/{logical_product}/variants/{variant}, productSuites/{product_suite}, etc."
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier. The resource name of the LogicalProductVariant. Format: logicalProducts/{logical_product}/variants/{variant}"
+            "smithy.api#documentation": "Identifier. The resource name of the LogicalProduct. Format: logicalProducts/{logical_product}."
+          }
+        },
+        "variants": {
+          "target": "com.gcp.cloudproductregistry_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Output only. Child variant resource references. Format: logicalProducts/{logical_product}/variants/{variant}"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Represents a distinct offering derived from a primary product that retains core functionalities but offers specialized features for a specific market segment."
+        "smithy.api#documentation": "Represents an independent service offering that can be provisioned by a customer."
       }
     },
-    "com.gcp.cloudproductregistry_v1#LogicalProductVariantLifecycleStateEnum": {
+    "com.gcp.cloudproductregistry_v1#LogicalProductLifecycleStateEnum": {
       "type": "enum",
       "members": {
         "LIFECYCLE_STATE_UNSPECIFIED": {
@@ -203,83 +189,97 @@
         }
       }
     },
-    "com.gcp.cloudproductregistry_v1#ListLogicalProductVariantsResponse": {
+    "com.gcp.cloudproductregistry_v1#ListLogicalProductsResponse": {
       "type": "structure",
       "members": {
+        "logicalProducts": {
+          "target": "com.gcp.cloudproductregistry_v1#LogicalProductList",
+          "traits": {
+            "smithy.api#documentation": "Matched LogicalProducts"
+          }
+        },
         "nextPageToken": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
           }
-        },
-        "logicalProductVariants": {
-          "target": "com.gcp.cloudproductregistry_v1#LogicalProductVariantList",
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for ListLogicalProducts."
+      }
+    },
+    "com.gcp.cloudproductregistry_v1#LogicalProductList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.cloudproductregistry_v1#LogicalProduct"
+      }
+    },
+    "com.gcp.cloudproductregistry_v1#ListProductSuitesResponse": {
+      "type": "structure",
+      "members": {
+        "productSuites": {
+          "target": "com.gcp.cloudproductregistry_v1#ProductSuiteList",
           "traits": {
-            "smithy.api#documentation": "Matched LogicalProductVariants"
+            "smithy.api#documentation": "Matched ProductSuites"
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Response message for ListLogicalProductVariants."
+        "smithy.api#documentation": "Response message for ListProductSuites."
       }
     },
-    "com.gcp.cloudproductregistry_v1#LogicalProductVariantList": {
+    "com.gcp.cloudproductregistry_v1#ProductSuiteList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.cloudproductregistry_v1#LogicalProductVariant"
+        "target": "com.gcp.cloudproductregistry_v1#ProductSuite"
       }
     },
-    "com.gcp.cloudproductregistry_v1#LogicalProduct": {
+    "com.gcp.cloudproductregistry_v1#LogicalProductVariant": {
       "type": "structure",
       "members": {
-        "replaced": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Output only. Indicates whether the logical product has been replaced. If `false`, the product is active. If `true`, the product has been replaced by another type, and the `replacement` field contains the resource name of that replacement."
-          }
-        },
-        "replacement": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The resource name of the Logical Entity that the logical product is replaced by. This field is only populated when this logical product is replaced by some other type. Eg: logicalProducts/{logical_product}/variants/{variant}, productSuites/{product_suite}, etc."
-          }
-        },
-        "variants": {
-          "target": "com.gcp.cloudproductregistry_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Output only. Child variant resource references. Format: logicalProducts/{logical_product}/variants/{variant}"
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier. The resource name of the LogicalProduct. Format: logicalProducts/{logical_product}."
+            "smithy.api#documentation": "Identifier. The resource name of the LogicalProductVariant. Format: logicalProducts/{logical_product}/variants/{variant}"
           }
         },
         "lifecycleState": {
-          "target": "com.gcp.cloudproductregistry_v1#LogicalProductLifecycleStateEnum",
+          "target": "com.gcp.cloudproductregistry_v1#LogicalProductVariantLifecycleStateEnum",
           "traits": {
-            "smithy.api#documentation": "Output only. Current Lifecycle state of the logical product."
+            "smithy.api#documentation": "Output only. Current Lifecycle state of the logical product variant."
           }
         },
         "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Display name of the LogicalProduct."
+            "smithy.api#documentation": "Display name of the LogicalProductVariant."
           }
         },
-        "productSuite": {
+        "replaced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. Indicates whether the logical product variant has been replaced. If `false`, the variant is active. If `true`, the variant has been replaced by another type, and the `replacement` field contains the resource name of that replacement."
+          }
+        },
+        "replacement": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Product suite associated with the logical product. Format: productSuites/{product_suite}."
+            "smithy.api#documentation": "Output only. The resource name of the Logical Entity that the logical product variant is replaced by. This field is only populated when this logical product variant is replaced by some other type. Eg: logicalProducts/{logical_product}, productSuites/{product_suite}, etc."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Represents an independent service offering that can be provisioned by a customer."
+        "smithy.api#documentation": "Represents a distinct offering derived from a primary product that retains core functionalities but offers specialized features for a specific market segment."
       }
     },
-    "com.gcp.cloudproductregistry_v1#LogicalProductLifecycleStateEnum": {
+    "com.gcp.cloudproductregistry_v1#LogicalProductVariantLifecycleStateEnum": {
       "type": "enum",
       "members": {
         "LIFECYCLE_STATE_UNSPECIFIED": {
@@ -377,43 +377,6 @@
         "smithy.api#documentation": "Get details of a ProductSuite."
       }
     },
-    "com.gcp.cloudproductregistry_v1#LookupEntityProductSuitesRequest": {
-      "type": "structure",
-      "members": {
-        "lookupUri": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Entity uri to look up. Supported Formats: logicalProducts/{logical_product} logicalProducts/{logical_product}/variants/{variant} productSuites/{product_suite}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.cloudproductregistry_v1#LookupEntityProductSuites": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudproductregistry_v1#LookupEntityProductSuitesRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudproductregistry_v1#LookupEntityResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudproductregistry_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudproductregistry_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+lookupUri}:lookupEntity"
-        },
-        "smithy.api#documentation": "Look up entities."
-      }
-    },
     "com.gcp.cloudproductregistry_v1#ListProductSuitesRequest": {
       "type": "structure",
       "members": {
@@ -461,6 +424,43 @@
         }
       }
     },
+    "com.gcp.cloudproductregistry_v1#LookupEntityProductSuitesRequest": {
+      "type": "structure",
+      "members": {
+        "lookupUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Entity uri to look up. Supported Formats: logicalProducts/{logical_product} logicalProducts/{logical_product}/variants/{variant} productSuites/{product_suite}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.cloudproductregistry_v1#LookupEntityProductSuites": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudproductregistry_v1#LookupEntityProductSuitesRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudproductregistry_v1#LookupEntityResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudproductregistry_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudproductregistry_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+lookupUri}:lookupEntity"
+        },
+        "smithy.api#documentation": "Look up entities."
+      }
+    },
     "com.gcp.cloudproductregistry_v1#LookupEntityLogicalProductsRequest": {
       "type": "structure",
       "members": {
@@ -496,60 +496,6 @@
           "uri": "v1/{+lookupUri}:lookupEntity"
         },
         "smithy.api#documentation": "Look up entities."
-      }
-    },
-    "com.gcp.cloudproductregistry_v1#ListLogicalProductsRequest": {
-      "type": "structure",
-      "members": {
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. A page token, received from a previous `ListLogicalProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLogicalProducts` must match the call that provided the page token.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Optional. The maximum number of logical products to return. The service may return fewer than this value. If unspecified, at most 100 logical products will be returned. The maximum value is 500; values above 500 will be coerced to 500.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The filter expression for listing logical products. Filter syntax: https://google.aip.dev/160 Supported fields: suite_id",
-            "smithy.api#httpQuery": "filter"
-          }
-        }
-      }
-    },
-    "com.gcp.cloudproductregistry_v1#ListLogicalProducts": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudproductregistry_v1#ListLogicalProductsRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudproductregistry_v1#ListLogicalProductsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudproductregistry_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudproductregistry_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/logicalProducts"
-        },
-        "smithy.api#documentation": "Lists LogicalProducts matching given criteria.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
       }
     },
     "com.gcp.cloudproductregistry_v1#GetLogicalProductsRequest": {
@@ -589,40 +535,39 @@
         "smithy.api#documentation": "Gets details of a LogicalProduct."
       }
     },
-    "com.gcp.cloudproductregistry_v1#ListLogicalProductsVariantsRequest": {
+    "com.gcp.cloudproductregistry_v1#ListLogicalProductsRequest": {
       "type": "structure",
       "members": {
         "pageSize": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Optional. The maximum number of logical product variants to return. The service may return fewer than this value. If unspecified, at most 100 logical product variants will be returned. The maximum value is 500; values above 500 will be coerced to 500.",
+            "smithy.api#documentation": "Optional. The maximum number of logical products to return. The service may return fewer than this value. If unspecified, at most 100 logical products will be returned. The maximum value is 500; values above 500 will be coerced to 500.",
             "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The filter expression for listing logical products. Filter syntax: https://google.aip.dev/160 Supported fields: suite_id",
+            "smithy.api#httpQuery": "filter"
           }
         },
         "pageToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. A page token, received from a previous `ListLogicalProductVariants` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLogicalProductVariants` must match the call that provided the page token.",
+            "smithy.api#documentation": "Optional. A page token, received from a previous `ListLogicalProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLogicalProducts` must match the call that provided the page token.",
             "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Parent logical product id. Format: logicalProducts/{logical_product}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
           }
         }
       }
     },
-    "com.gcp.cloudproductregistry_v1#ListLogicalProductsVariants": {
+    "com.gcp.cloudproductregistry_v1#ListLogicalProducts": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.cloudproductregistry_v1#ListLogicalProductsVariantsRequest"
+        "target": "com.gcp.cloudproductregistry_v1#ListLogicalProductsRequest"
       },
       "output": {
-        "target": "com.gcp.cloudproductregistry_v1#ListLogicalProductVariantsResponse"
+        "target": "com.gcp.cloudproductregistry_v1#ListLogicalProductsResponse"
       },
       "errors": [
         {
@@ -635,9 +580,9 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "v1/{+parent}/variants"
+          "uri": "v1/logicalProducts"
         },
-        "smithy.api#documentation": "Lists LogicalProductVariants matching given criteria.",
+        "smithy.api#documentation": "Lists LogicalProducts matching given criteria.",
         "smithy.api#paginated": {
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
@@ -679,6 +624,61 @@
           "uri": "v1/{+lookupUri}:lookupEntity"
         },
         "smithy.api#documentation": "Look up entities."
+      }
+    },
+    "com.gcp.cloudproductregistry_v1#ListLogicalProductsVariantsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent logical product id. Format: logicalProducts/{logical_product}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous `ListLogicalProductVariants` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLogicalProductVariants` must match the call that provided the page token.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. The maximum number of logical product variants to return. The service may return fewer than this value. If unspecified, at most 100 logical product variants will be returned. The maximum value is 500; values above 500 will be coerced to 500.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudproductregistry_v1#ListLogicalProductsVariants": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudproductregistry_v1#ListLogicalProductsVariantsRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudproductregistry_v1#ListLogicalProductVariantsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudproductregistry_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudproductregistry_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/variants"
+        },
+        "smithy.api#documentation": "Lists LogicalProductVariants matching given criteria.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
       }
     },
     "com.gcp.cloudproductregistry_v1#GetLogicalProductsVariantsRequest": {

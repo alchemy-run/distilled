@@ -42,13 +42,14 @@ errors. Typed rate-limit errors retain `Retry-After` as an optional Effect
 
 ## Source and limitations
 
-[`manual-specs/zerossl.json`](./manual-specs/zerossl.json) is a hand-authored
-Smithy model based on the [ZeroSSL REST docs](https://zerossl.com/documentation/api/)
-and [EAB endpoint docs](https://zerossl.com/documentation/acme/generate-eab-credentials/).
-There is no downloaded spec or artificial mirror. Edit the model and handwritten
-protocol, not generated service files. From this package directory, regenerate
-with `node --conditions=bun scripts/generate.ts`; format changed paths with
-`pnpm exec oxfmt <paths>` from the workspace root.
+`scripts/convert.ts` builds the Smithy model from the ZeroSSL API reference,
+which ZeroSSL publishes as Markdown in
+[zerossl/documentation](https://github.com/zerossl/documentation) and the spec
+mirror `specs/spec-mirror-zerossl` snapshots daily: one page per endpoint
+(method, URL, parameter table, example response) plus the error-code tables.
+What the reference does not state lives in `patches/`. Edit the converter,
+patches and handwritten protocol, not generated service files; regenerate with
+`pnpm generate zerossl` from the workspace root.
 
 Only EAB credential generation is modeled, not ZeroSSL's certificate-management
 REST API. Certificate issuance uses `@distilled.cloud/acme` with the ZeroSSL

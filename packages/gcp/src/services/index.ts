@@ -276,6 +276,7 @@ export * as speech_v1 from "./speech_v1.ts";
 export * as sqladmin_v1 from "./sqladmin_v1.ts";
 export * as storage_v1 from "./storage_v1.ts";
 export * as storagebatchoperations_v1 from "./storagebatchoperations_v1.ts";
+export * as storageinsights_v1 from "./storageinsights_v1.ts";
 export * as storagetransfer_v1 from "./storagetransfer_v1.ts";
 export * as streetviewpublish_v1 from "./streetviewpublish_v1.ts";
 export * as sts_v1 from "./sts_v1.ts";

@@ -204,13 +204,13 @@ export interface ListFilesRequest {
   order?: ListFilesRequestOrder | (string & {});
   /** The sort direction. */
   direction?: ListFilesRequestDirection | (string & {});
-  /** The number of files to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor; returns files after this position. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** The number of files to return from the end of the range. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** A cursor; returns files before this position. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -259,7 +259,7 @@ export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListFilesResponse" }) as any as S.Schema<ListFilesResponse>;
 
 export type CompleteFileError = BadRequest | NotFound | Conflict | WhopOpError;
-/** Complete File Multipart Upload Assembles the parts of a multipart upload after every part has been PUT to its presigned URL. Pass the `multipart_upload_id` from Create File and each part's `ETag` response header. */
+/** Complete File Multipart Upload Assembles the parts of a multipart upload after every part has been PUT to its presigned URL. Pass the `multipart_upload_id` from Create File and each part's `ETag` response header. For a step-by-step walkthrough of multipart uploads, see the [direct file uploads guide](/developer/guides/direct-file-uploads). */
 export const completeFile: API.OperationMethod<
   CompleteFileRequest,
   File,
@@ -274,7 +274,7 @@ export const completeFile: API.OperationMethod<
 }));
 
 export type CreateFileError = BadRequest | Conflict | WhopOpError;
-/** Create File Creates a file and returns a presigned destination to upload its bytes to. PUT the bytes to `upload_url` (single-part), or to each of `multipart_upload_urls` and then call Complete File Multipart Upload. Once the bytes land the file becomes `ready`, and its ID can be attached wherever a file is accepted — account legal documents, dispute evidence documents. */
+/** Create File Creates a file and returns a presigned destination to upload its bytes to. PUT the bytes to `upload_url` (single-part), or to each of `multipart_upload_urls` and then call Complete File Multipart Upload. Once the bytes land the file becomes `ready`, and its ID can be attached wherever a file is accepted — account legal documents, dispute evidence documents. For a step-by-step walkthrough of single-part and multipart uploads, see the [direct file uploads guide](/developer/guides/direct-file-uploads). */
 export const createFile: API.OperationMethod<
   CreateFileRequest,
   File,

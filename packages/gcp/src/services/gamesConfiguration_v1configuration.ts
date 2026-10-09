@@ -173,27 +173,27 @@ export const LocalizedStringBundle = /*@__PURE__*/ S.suspend(() =>
 
 /** An achievement configuration detail. */
 export interface AchievementConfigurationDetail {
-  /** Localized strings for the achievement description. */
-  description?: LocalizedStringBundle;
-  /** The sort rank of this achievement. Writes to this field are ignored. */
-  sortRank?: number;
-  /** The icon url of this achievement. Writes to this field are ignored. */
-  iconUrl?: string;
-  /** Point value for the achievement. */
-  pointValue?: number;
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationDetail`. */
-  kind?: string;
   /** Localized strings for the achievement name. */
   name?: LocalizedStringBundle;
+  /** The icon url of this achievement. Writes to this field are ignored. */
+  iconUrl?: string;
+  /** Localized strings for the achievement description. */
+  description?: LocalizedStringBundle;
+  /** Point value for the achievement. */
+  pointValue?: number;
+  /** The sort rank of this achievement. Writes to this field are ignored. */
+  sortRank?: number;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationDetail`. */
+  kind?: string;
 }
 export const AchievementConfigurationDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(LocalizedStringBundle),
-    sortRank: S.optional(S.Number),
-    iconUrl: S.optional(S.String),
-    pointValue: S.optional(S.Number),
-    kind: S.optional(S.String),
     name: S.optional(LocalizedStringBundle),
+    iconUrl: S.optional(S.String),
+    description: S.optional(LocalizedStringBundle),
+    pointValue: S.optional(S.Number),
+    sortRank: S.optional(S.Number),
+    kind: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AchievementConfigurationDetail",
@@ -209,31 +209,31 @@ export const AchievementConfigurationInitialStateEnum = S.String;
 export interface AchievementConfiguration {
   /** The type of the achievement. */
   achievementType?: AchievementConfigurationAchievementTypeEnum | (string & {});
+  /** The token for this resource. */
+  token?: string;
+  /** The ID of the achievement. */
+  id?: string;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfiguration`. */
   kind?: string;
   /** The read-only published data of the achievement. */
   published?: AchievementConfigurationDetail;
-  /** The ID of the achievement. */
-  id?: string;
+  /** Steps to unlock. Only applicable to incremental achievements. */
+  stepsToUnlock?: number;
   /** The initial state of the achievement. */
   initialState?: AchievementConfigurationInitialStateEnum | (string & {});
   /** The draft data of the achievement. */
   draft?: AchievementConfigurationDetail;
-  /** The token for this resource. */
-  token?: string;
-  /** Steps to unlock. Only applicable to incremental achievements. */
-  stepsToUnlock?: number;
 }
 export const AchievementConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     achievementType: S.optional(AchievementConfigurationAchievementTypeEnum),
+    token: S.optional(S.String),
+    id: S.optional(S.String),
     kind: S.optional(S.String),
     published: S.optional(AchievementConfigurationDetail),
-    id: S.optional(S.String),
+    stepsToUnlock: S.optional(S.Number),
     initialState: S.optional(AchievementConfigurationInitialStateEnum),
     draft: S.optional(AchievementConfigurationDetail),
-    token: S.optional(S.String),
-    stepsToUnlock: S.optional(S.Number),
   }),
 ).annotate({ identifier: "AchievementConfiguration" }) as any as S.Schema<AchievementConfiguration>;
 
@@ -255,40 +255,6 @@ export const GetLeaderboardConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetLeaderboardConfigurationsRequest",
 }) as any as S.Schema<GetLeaderboardConfigurationsRequest>;
 
-export type LeaderboardConfigurationScoreOrderEnum =
-  | "SCORE_ORDER_UNSPECIFIED"
-  | "LARGER_IS_BETTER"
-  | "SMALLER_IS_BETTER";
-export const LeaderboardConfigurationScoreOrderEnum = S.String;
-
-/** A number affix resource. */
-export interface GamesNumberAffixConfiguration {
-  /** When the language does not require special treatment of the given quantity (as with all numbers in Chinese, or 42 in English). */
-  other?: LocalizedStringBundle;
-  /** When the language requires special treatment of numbers like one (as with the number 1 in English and most other languages; in Russian, any number ending in 1 but not ending in 11 is in this class). */
-  one?: LocalizedStringBundle;
-  /** When the language requires special treatment of numbers like two (as with 2 in Welsh, or 102 in Slovenian). */
-  two?: LocalizedStringBundle;
-  /** When the language requires special treatment of "large" numbers (as with numbers ending 11-99 in Maltese). */
-  many?: LocalizedStringBundle;
-  /** When the language requires special treatment of "small" numbers (as with 2, 3, and 4 in Czech; or numbers ending 2, 3, or 4 but not 12, 13, or 14 in Polish). */
-  few?: LocalizedStringBundle;
-  /** When the language requires special treatment of the number 0 (as in Arabic). */
-  zero?: LocalizedStringBundle;
-}
-export const GamesNumberAffixConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    other: S.optional(LocalizedStringBundle),
-    one: S.optional(LocalizedStringBundle),
-    two: S.optional(LocalizedStringBundle),
-    many: S.optional(LocalizedStringBundle),
-    few: S.optional(LocalizedStringBundle),
-    zero: S.optional(LocalizedStringBundle),
-  }),
-).annotate({
-  identifier: "GamesNumberAffixConfiguration",
-}) as any as S.Schema<GamesNumberAffixConfiguration>;
-
 export type GamesNumberFormatConfigurationNumberFormatTypeEnum =
   | "NUMBER_FORMAT_TYPE_UNSPECIFIED"
   | "NUMERIC"
@@ -296,23 +262,51 @@ export type GamesNumberFormatConfigurationNumberFormatTypeEnum =
   | "CURRENCY";
 export const GamesNumberFormatConfigurationNumberFormatTypeEnum = S.String;
 
+/** A number affix resource. */
+export interface GamesNumberAffixConfiguration {
+  /** When the language does not require special treatment of the given quantity (as with all numbers in Chinese, or 42 in English). */
+  other?: LocalizedStringBundle;
+  /** When the language requires special treatment of "large" numbers (as with numbers ending 11-99 in Maltese). */
+  many?: LocalizedStringBundle;
+  /** When the language requires special treatment of numbers like one (as with the number 1 in English and most other languages; in Russian, any number ending in 1 but not ending in 11 is in this class). */
+  one?: LocalizedStringBundle;
+  /** When the language requires special treatment of the number 0 (as in Arabic). */
+  zero?: LocalizedStringBundle;
+  /** When the language requires special treatment of numbers like two (as with 2 in Welsh, or 102 in Slovenian). */
+  two?: LocalizedStringBundle;
+  /** When the language requires special treatment of "small" numbers (as with 2, 3, and 4 in Czech; or numbers ending 2, 3, or 4 but not 12, 13, or 14 in Polish). */
+  few?: LocalizedStringBundle;
+}
+export const GamesNumberAffixConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    other: S.optional(LocalizedStringBundle),
+    many: S.optional(LocalizedStringBundle),
+    one: S.optional(LocalizedStringBundle),
+    zero: S.optional(LocalizedStringBundle),
+    two: S.optional(LocalizedStringBundle),
+    few: S.optional(LocalizedStringBundle),
+  }),
+).annotate({
+  identifier: "GamesNumberAffixConfiguration",
+}) as any as S.Schema<GamesNumberAffixConfiguration>;
+
 /** A number format resource. */
 export interface GamesNumberFormatConfiguration {
-  /** An optional suffix for the NUMERIC format type. These strings follow the same plural rules as all Android string resources. */
-  suffix?: GamesNumberAffixConfiguration;
-  /** The curreny code string. Only used for CURRENCY format type. */
-  currencyCode?: string;
   /** The formatting for the number. */
   numberFormatType?: GamesNumberFormatConfigurationNumberFormatTypeEnum | (string & {});
   /** The number of decimal places for number. Only used for NUMERIC format type. */
   numDecimalPlaces?: number;
+  /** The curreny code string. Only used for CURRENCY format type. */
+  currencyCode?: string;
+  /** An optional suffix for the NUMERIC format type. These strings follow the same plural rules as all Android string resources. */
+  suffix?: GamesNumberAffixConfiguration;
 }
 export const GamesNumberFormatConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    suffix: S.optional(GamesNumberAffixConfiguration),
-    currencyCode: S.optional(S.String),
     numberFormatType: S.optional(GamesNumberFormatConfigurationNumberFormatTypeEnum),
     numDecimalPlaces: S.optional(S.Number),
+    currencyCode: S.optional(S.String),
+    suffix: S.optional(GamesNumberAffixConfiguration),
   }),
 ).annotate({
   identifier: "GamesNumberFormatConfiguration",
@@ -320,57 +314,63 @@ export const GamesNumberFormatConfiguration = /*@__PURE__*/ S.suspend(() =>
 
 /** A leaderboard configuration detail. */
 export interface LeaderboardConfigurationDetail {
+  /** The sort rank of this leaderboard. Writes to this field are ignored. */
+  sortRank?: number;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationDetail`. */
   kind?: string;
-  /** Localized strings for the leaderboard name. */
-  name?: LocalizedStringBundle;
   /** The icon url of this leaderboard. Writes to this field are ignored. */
   iconUrl?: string;
   /** The score formatting for the leaderboard. */
   scoreFormat?: GamesNumberFormatConfiguration;
-  /** The sort rank of this leaderboard. Writes to this field are ignored. */
-  sortRank?: number;
+  /** Localized strings for the leaderboard name. */
+  name?: LocalizedStringBundle;
 }
 export const LeaderboardConfigurationDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    sortRank: S.optional(S.Number),
     kind: S.optional(S.String),
-    name: S.optional(LocalizedStringBundle),
     iconUrl: S.optional(S.String),
     scoreFormat: S.optional(GamesNumberFormatConfiguration),
-    sortRank: S.optional(S.Number),
+    name: S.optional(LocalizedStringBundle),
   }),
 ).annotate({
   identifier: "LeaderboardConfigurationDetail",
 }) as any as S.Schema<LeaderboardConfigurationDetail>;
 
+export type LeaderboardConfigurationScoreOrderEnum =
+  | "SCORE_ORDER_UNSPECIFIED"
+  | "LARGER_IS_BETTER"
+  | "SMALLER_IS_BETTER";
+export const LeaderboardConfigurationScoreOrderEnum = S.String;
+
 /** An leaderboard configuration resource. */
 export interface LeaderboardConfiguration {
   /** Minimum score that can be posted to this leaderboard. */
   scoreMin?: string;
-  /** The token for this resource. */
-  token?: string;
-  /** Maximum score that can be posted to this leaderboard. */
-  scoreMax?: string;
-  scoreOrder?: LeaderboardConfigurationScoreOrderEnum | (string & {});
-  /** The ID of the leaderboard. */
-  id?: string;
   /** The draft data of the leaderboard. */
   draft?: LeaderboardConfigurationDetail;
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`. */
-  kind?: string;
+  scoreOrder?: LeaderboardConfigurationScoreOrderEnum | (string & {});
   /** The read-only published data of the leaderboard. */
   published?: LeaderboardConfigurationDetail;
+  /** Maximum score that can be posted to this leaderboard. */
+  scoreMax?: string;
+  /** The ID of the leaderboard. */
+  id?: string;
+  /** The token for this resource. */
+  token?: string;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`. */
+  kind?: string;
 }
 export const LeaderboardConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scoreMin: S.optional(S.String),
-    token: S.optional(S.String),
-    scoreMax: S.optional(S.String),
-    scoreOrder: S.optional(LeaderboardConfigurationScoreOrderEnum),
-    id: S.optional(S.String),
     draft: S.optional(LeaderboardConfigurationDetail),
-    kind: S.optional(S.String),
+    scoreOrder: S.optional(LeaderboardConfigurationScoreOrderEnum),
     published: S.optional(LeaderboardConfigurationDetail),
+    scoreMax: S.optional(S.String),
+    id: S.optional(S.String),
+    token: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "LeaderboardConfiguration" }) as any as S.Schema<LeaderboardConfiguration>;
 
@@ -417,18 +417,18 @@ export const InsertLeaderboardConfigurationsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<InsertLeaderboardConfigurationsRequest>;
 
 export interface ListAchievementConfigurationsRequest {
+  /** The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`. */
+  maxResults?: number;
   /** The application ID from the Google Play developer console. */
   applicationId: string;
   /** The token returned by the previous request. */
   pageToken?: string;
-  /** The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`. */
-  maxResults?: number;
 }
 export const ListAchievementConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     applicationId: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -447,35 +447,35 @@ export const AchievementConfigurationList = /*@__PURE__*/ S.Array(
 
 /** A ListConfigurations response. */
 export interface AchievementConfigurationListResponse {
+  /** The achievement configurations. */
+  items: AchievementConfigurationList;
   /** The pagination token for the next page of results. */
   nextPageToken?: string;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationListResponse`. */
   kind?: string;
-  /** The achievement configurations. */
-  items: AchievementConfigurationList;
 }
 export const AchievementConfigurationListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    items: AchievementConfigurationList,
     nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
-    items: AchievementConfigurationList,
   }),
 ).annotate({
   identifier: "AchievementConfigurationListResponse",
 }) as any as S.Schema<AchievementConfigurationListResponse>;
 
 export interface ListLeaderboardConfigurationsRequest {
-  /** The application ID from the Google Play developer console. */
-  applicationId: string;
   /** The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`. */
   maxResults?: number;
+  /** The application ID from the Google Play developer console. */
+  applicationId: string;
   /** The token returned by the previous request. */
   pageToken?: string;
 }
 export const ListLeaderboardConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    applicationId: S.String.pipe(T.Label()),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    applicationId: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -495,18 +495,18 @@ export const LeaderboardConfigurationList = /*@__PURE__*/ S.Array(
 
 /** A ListConfigurations response. */
 export interface LeaderboardConfigurationListResponse {
-  /** The leaderboard configurations. */
-  items: LeaderboardConfigurationList;
   /** The pagination token for the next page of results. */
   nextPageToken?: string;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationListResponse`. */
   kind?: string;
+  /** The leaderboard configurations. */
+  items: LeaderboardConfigurationList;
 }
 export const LeaderboardConfigurationListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: LeaderboardConfigurationList,
     nextPageToken: S.optional(S.String),
     kind: S.optional(S.String),
+    items: LeaderboardConfigurationList,
   }),
 ).annotate({
   identifier: "LeaderboardConfigurationListResponse",

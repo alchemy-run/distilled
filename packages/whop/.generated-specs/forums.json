@@ -45,17 +45,17 @@
             "smithy.api#httpQuery": "last"
           }
         },
-        "company_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "company_id",
-            "smithy.api#required": {}
-          }
-        },
         "product_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "product_id"
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#required": {}
           }
         }
       },

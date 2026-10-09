@@ -3687,8 +3687,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The guest configuration assignment name.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The guest configuration assignment name."
           }
         },
         "location": {
@@ -3713,6 +3712,12 @@
           "target": "com.azure.guestconfiguration#GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData",
           "traits": {
             "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+          }
+        },
+        "error": {
+          "target": "com.azure.guestconfiguration#GuestConfigurationAssignmentResponseError",
+          "traits": {
+            "smithy.api#documentation": "Error the service embeds in a 200 response, e.g. `VMSSNotSupported`."
           }
         }
       },
@@ -3911,8 +3916,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The guest configuration assignment name.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The guest configuration assignment name."
           }
         },
         "location": {
@@ -3937,6 +3941,12 @@
           "target": "com.azure.guestconfiguration#GetGuestConfigurationAssignmentsVMSSResponseSystemData",
           "traits": {
             "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+          }
+        },
+        "error": {
+          "target": "com.azure.guestconfiguration#GuestConfigurationAssignmentResponseError",
+          "traits": {
+            "smithy.api#documentation": "Error the service embeds in a 200 response, e.g. `VMSSNotSupported`."
           }
         }
       },
@@ -4385,6 +4395,26 @@
       "traits": {
         "smithy.api#title": "Azure Guestconfiguration",
         "smithy.api#documentation": "Azure Guestconfiguration API — merged from the guestconfiguration resource-manager specs (latest stable api-version per resource provider)."
+      }
+    },
+    "com.azure.guestconfiguration#GuestConfigurationAssignmentResponseError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error code, e.g. `VMSSNotSupported`."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Error the service embeds in a 200 response it could not fulfil."
       }
     }
   }

@@ -79,15 +79,15 @@ export const InsertArchiveRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** JSON response template for groups migration API. */
 export interface Groups {
-  /** The kind of insert resource this is. */
-  kind?: string;
   /** The status of the insert request. */
   responseCode?: string;
+  /** The kind of insert resource this is. */
+  kind?: string;
 }
 export const Groups = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     responseCode: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "Groups" }) as any as S.Schema<Groups>;
 

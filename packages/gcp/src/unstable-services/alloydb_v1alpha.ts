@@ -94,54 +94,14 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
-export type BackupDatabaseVersionEnum =
-  | "DATABASE_VERSION_UNSPECIFIED"
-  | "POSTGRES_13"
-  | "POSTGRES_14"
-  | "POSTGRES_15"
-  | "POSTGRES_16"
-  | "POSTGRES_17"
-  | "POSTGRES_18"
-  | "POSTGRES_19";
-export const BackupDatabaseVersionEnum = S.String;
-
-export type BackupTypeEnum = "TYPE_UNSPECIFIED" | "ON_DEMAND" | "AUTOMATED" | "CONTINUOUS";
-export const BackupTypeEnum = S.String;
-
-export type BackupEditionEnum =
-  | "EDITION_UNSPECIFIED"
-  | "EDITION_ALLOYDB"
-  | "EDITION_ALLOYDB_DEVELOPER";
-export const BackupEditionEnum = S.String;
-
 export type BackupStateEnum = "STATE_UNSPECIFIED" | "READY" | "CREATING" | "FAILED" | "DELETING";
 export const BackupStateEnum = S.String;
 
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
-export type EncryptionInfoEncryptionTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "GOOGLE_DEFAULT_ENCRYPTION"
-  | "CUSTOMER_MANAGED_ENCRYPTION";
-export const EncryptionInfoEncryptionTypeEnum = S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** EncryptionInfo describes the encryption information of a cluster or a backup. */
-export interface EncryptionInfo {
-  /** Output only. Type of encryption. */
-  encryptionType?: EncryptionInfoEncryptionTypeEnum | (string & {});
-  /** Output only. Cloud KMS key versions that are being used to protect the database or the backup. */
-  kmsKeyVersions?: StringList;
-}
-export const EncryptionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encryptionType: S.optional(EncryptionInfoEncryptionTypeEnum),
-    kmsKeyVersions: S.optional(StringList),
-  }),
-).annotate({ identifier: "EncryptionInfo" }) as any as S.Schema<EncryptionInfo>;
+export type BackupTypeEnum = "TYPE_UNSPECIFIED" | "ON_DEMAND" | "AUTOMATED" | "CONTINUOUS";
+export const BackupTypeEnum = S.String;
 
 /** EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key). */
 export interface EncryptionConfig {
@@ -154,127 +114,167 @@ export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
 
+export type BackupEditionEnum =
+  | "EDITION_UNSPECIFIED"
+  | "EDITION_ALLOYDB"
+  | "EDITION_ALLOYDB_DEVELOPER";
+export const BackupEditionEnum = S.String;
+
 /** A backup's position in a quantity-based retention queue, of backups with the same source cluster and type, with length, retention, specified by the backup's retention policy. Once the position is greater than the retention, the backup is eligible to be garbage collected. Example: 5 backups from the same source cluster and type with a quantity-based retention of 3 and denoted by backup_id (position, retention). Safe: backup_5 (1, 3), backup_4, (2, 3), backup_3 (3, 3). Awaiting garbage collection: backup_2 (4, 3), backup_1 (5, 3) */
 export interface QuantityBasedExpiry {
-  /** Output only. The backup's position among its backups with the same source cluster and type, by descending chronological order create time(i.e. newest first). */
-  retentionCount?: number;
   /** Output only. The length of the quantity-based queue, specified by the backup's retention policy. */
   totalRetentionCount?: number;
+  /** Output only. The backup's position among its backups with the same source cluster and type, by descending chronological order create time(i.e. newest first). */
+  retentionCount?: number;
 }
 export const QuantityBasedExpiry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    retentionCount: S.optional(S.Number),
     totalRetentionCount: S.optional(S.Number),
+    retentionCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "QuantityBasedExpiry" }) as any as S.Schema<QuantityBasedExpiry>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+export type EncryptionInfoEncryptionTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "GOOGLE_DEFAULT_ENCRYPTION"
+  | "CUSTOMER_MANAGED_ENCRYPTION";
+export const EncryptionInfoEncryptionTypeEnum = S.String;
+
+/** EncryptionInfo describes the encryption information of a cluster or a backup. */
+export interface EncryptionInfo {
+  /** Output only. Cloud KMS key versions that are being used to protect the database or the backup. */
+  kmsKeyVersions?: StringList;
+  /** Output only. Type of encryption. */
+  encryptionType?: EncryptionInfoEncryptionTypeEnum | (string & {});
+}
+export const EncryptionInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kmsKeyVersions: S.optional(StringList),
+    encryptionType: S.optional(EncryptionInfoEncryptionTypeEnum),
+  }),
+).annotate({ identifier: "EncryptionInfo" }) as any as S.Schema<EncryptionInfo>;
+
+export type BackupDatabaseVersionEnum =
+  | "DATABASE_VERSION_UNSPECIFIED"
+  | "POSTGRES_13"
+  | "POSTGRES_14"
+  | "POSTGRES_15"
+  | "POSTGRES_16"
+  | "POSTGRES_17"
+  | "POSTGRES_18"
+  | "POSTGRES_19";
+export const BackupDatabaseVersionEnum = S.String;
+
 /** Message describing Backup object */
 export interface Backup {
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** For Resource freshness validation (https://google.aip.dev/154) */
-  etag?: string;
-  /** Output only. The database engine major version of the cluster this backup was created from. Any restored cluster created from this backup will have the same database version. */
-  databaseVersion?: BackupDatabaseVersionEnum | (string & {});
-  /** Output only. The system-generated UID of the cluster which was used to create this resource. */
-  clusterUid?: string;
-  /** The backup type, which suggests the trigger for the backup. */
-  type?: BackupTypeEnum | (string & {});
-  /** User-settable and human-readable display name for the Backup. */
-  displayName?: string;
-  /** Output only. Update time stamp Users should not infer any meaning from this field. Its value is generally unrelated to the timing of the backup creation operation. */
-  updateTime?: string;
-  /** Output only. The edition of the cluster this backup was created from. Any restored cluster created from this backup will have the same edition. */
-  edition?: BackupEditionEnum | (string & {});
-  /** Output only. Create time stamp */
-  createTime?: string;
   /** Output only. The current state of the backup. */
   state?: BackupStateEnum | (string & {});
-  /** Output only. Set to true if the cluster corresponding to this backup is deleted. This field is only populated for when using the BACKUP_VIEW_CLUSTER_DELETED view. */
-  clusterDeleted?: boolean;
-  /** Output only. The size of the backup in bytes. */
-  sizeBytes?: string;
-  /** Output only. The time at which after the backup is eligible to be garbage collected. It is the duration specified by the backup's retention policy, added to the backup's create_time. */
-  expiryTime?: string;
-  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation), if true, indicates that the service is actively updating the resource. This can happen due to user-triggered updates or system actions like failover or maintenance. */
-  reconciling?: boolean;
-  /** User-provided description of the backup. */
-  description?: string;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
-  tags?: StringMap;
-  /** Output only. The encryption information for the backup. */
-  encryptionInfo?: EncryptionInfo;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
-  annotations?: StringMap;
-  /** Output only. Timestamp when the resource finished being created. */
-  createCompletionTime?: string;
-  /** Output only. The name of the backup resource with the format: * projects/{project}/locations/{region}/backups/{backup_id} where the cluster and backup ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the backup resource name is the name of the parent resource: * projects/{project}/locations/{region} */
-  name?: string;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string;
   /** Labels as key value pairs */
   labels?: StringMap;
+  /** The backup type, which suggests the trigger for the backup. */
+  type?: BackupTypeEnum | (string & {});
   /** Optional. The encryption config can be specified to encrypt the backup with a customer-managed encryption key (CMEK). When this field is not specified, the backup will then use default encryption scheme to protect the user data. */
   encryptionConfig?: EncryptionConfig;
+  /** Output only. Update time stamp Users should not infer any meaning from this field. Its value is generally unrelated to the timing of the backup creation operation. */
+  updateTime?: string;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean;
+  /** Output only. Timestamp when the resource finished being created. */
+  createCompletionTime?: string;
+  /** Output only. Create time stamp */
+  createTime?: string;
+  /** Output only. The edition of the cluster this backup was created from. Any restored cluster created from this backup will have the same edition. */
+  edition?: BackupEditionEnum | (string & {});
+  /** User-settable and human-readable display name for the Backup. */
+  displayName?: string;
+  /** Output only. The time at which after the backup is eligible to be garbage collected. It is the duration specified by the backup's retention policy, added to the backup's create_time. */
+  expiryTime?: string;
+  /** User-provided description of the backup. */
+  description?: string;
+  /** Output only. The size of the backup in bytes. */
+  sizeBytes?: string;
   /** Output only. The QuantityBasedExpiry of the backup, specified by the backup's retention policy. Once the expiry quantity is over retention, the backup is eligible to be garbage collected. */
   expiryQuantity?: QuantityBasedExpiry;
+  /** Output only. The system-generated UID of the cluster which was used to create this resource. */
+  clusterUid?: string;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
+  tags?: StringMap;
   /** Output only. Delete time stamp */
   deleteTime?: string;
-  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
-  uid?: string;
+  /** Output only. The name of the backup resource with the format: * projects/{project}/locations/{region}/backups/{backup_id} where the cluster and backup ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the backup resource name is the name of the parent resource: * projects/{project}/locations/{region} */
+  name?: string;
   /** Required. The full resource name of the backup source cluster (e.g., projects/{project}/locations/{region}/clusters/{cluster_id}). */
   clusterName?: string;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean;
+  /** Output only. The encryption information for the backup. */
+  encryptionInfo?: EncryptionInfo;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap;
+  /** Output only. Set to true if the cluster corresponding to this backup is deleted. This field is only populated for when using the BACKUP_VIEW_CLUSTER_DELETED view. */
+  clusterDeleted?: boolean;
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation), if true, indicates that the service is actively updating the resource. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string;
+  /** Output only. The database engine major version of the cluster this backup was created from. Any restored cluster created from this backup will have the same database version. */
+  databaseVersion?: BackupDatabaseVersionEnum | (string & {});
 }
 export const Backup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    satisfiesPzs: S.optional(S.Boolean),
-    etag: S.optional(S.String),
-    databaseVersion: S.optional(BackupDatabaseVersionEnum),
-    clusterUid: S.optional(S.String),
-    type: S.optional(BackupTypeEnum),
-    displayName: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    edition: S.optional(BackupEditionEnum),
-    createTime: S.optional(S.String),
     state: S.optional(BackupStateEnum),
-    clusterDeleted: S.optional(S.Boolean),
-    sizeBytes: S.optional(S.String),
-    expiryTime: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    tags: S.optional(StringMap),
-    encryptionInfo: S.optional(EncryptionInfo),
-    satisfiesPzi: S.optional(S.Boolean),
-    annotations: S.optional(StringMap),
-    createCompletionTime: S.optional(S.String),
-    name: S.optional(S.String),
+    etag: S.optional(S.String),
     labels: S.optional(StringMap),
+    type: S.optional(BackupTypeEnum),
     encryptionConfig: S.optional(EncryptionConfig),
+    updateTime: S.optional(S.String),
+    satisfiesPzs: S.optional(S.Boolean),
+    createCompletionTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    edition: S.optional(BackupEditionEnum),
+    displayName: S.optional(S.String),
+    expiryTime: S.optional(S.String),
+    description: S.optional(S.String),
+    sizeBytes: S.optional(S.String),
     expiryQuantity: S.optional(QuantityBasedExpiry),
+    clusterUid: S.optional(S.String),
+    tags: S.optional(StringMap),
     deleteTime: S.optional(S.String),
-    uid: S.optional(S.String),
+    name: S.optional(S.String),
     clusterName: S.optional(S.String),
+    satisfiesPzi: S.optional(S.Boolean),
+    encryptionInfo: S.optional(EncryptionInfo),
+    annotations: S.optional(StringMap),
+    clusterDeleted: S.optional(S.Boolean),
+    reconciling: S.optional(S.Boolean),
+    uid: S.optional(S.String),
+    databaseVersion: S.optional(BackupDatabaseVersionEnum),
   }),
 ).annotate({ identifier: "Backup" }) as any as S.Schema<Backup>;
 
 export interface CreateProjectsLocationsBackupsRequest {
   /** Required. ID of the requesting object. */
   backupId?: string;
-  /** Required. Value for parent. */
-  parent: string;
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
   validateOnly?: boolean;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. Value for parent. */
+  parent: string;
   /** Request body */
   body?: Backup;
 }
 export const CreateProjectsLocationsBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backupId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Backup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -300,89 +300,54 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    done: S.optional(S.Boolean),
     error: S.optional(Status),
     response: S.optional(DocumentMap),
     name: S.optional(S.String),
+    done: S.optional(S.Boolean),
     metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
-/** PscConfig contains PSC related configuration at a cluster level. */
-export interface PscConfig {
-  /** Optional. Create an instance that allows connections from Private Service Connect endpoints to the instance. */
-  pscEnabled?: boolean;
-  /** Output only. The project number that needs to be allowlisted on the network attachment to enable outbound connectivity. */
-  serviceOwnedProjectNumber?: string;
+/** MaintenanceSchedule stores the maintenance schedule generated from the MaintenanceUpdatePolicy, once a maintenance rollout is triggered, if MaintenanceWindow is set, and if there is no conflicting DenyPeriod. The schedule is cleared once the update takes place. This field cannot be manually changed; modify the MaintenanceUpdatePolicy instead. */
+export interface MaintenanceSchedule {
+  /** Output only. The scheduled start time for the maintenance. */
+  startTime?: string;
 }
-export const PscConfig = /*@__PURE__*/ S.suspend(() =>
+export const MaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pscEnabled: S.optional(S.Boolean),
-    serviceOwnedProjectNumber: S.optional(S.String),
+    startTime: S.optional(S.String),
   }),
-).annotate({ identifier: "PscConfig" }) as any as S.Schema<PscConfig>;
-
-export type ClusterStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "READY"
-  | "STOPPED"
-  | "EMPTY"
-  | "CREATING"
-  | "DELETING"
-  | "FAILED"
-  | "BOOTSTRAPPING"
-  | "MAINTENANCE"
-  | "PROMOTING"
-  | "SWITCHOVER"
-  | "RECREATING";
-export const ClusterStateEnum = S.String;
-
-export type ClusterMaintenanceVersionSelectionPolicyEnum =
-  | "MAINTENANCE_VERSION_SELECTION_POLICY_UNSPECIFIED"
-  | "MAINTENANCE_VERSION_SELECTION_POLICY_LATEST"
-  | "MAINTENANCE_VERSION_SELECTION_POLICY_DEFAULT";
-export const ClusterMaintenanceVersionSelectionPolicyEnum = S.String;
-
-/** A quantity based policy specifies that a certain number of the most recent successful backups should be retained. */
-export interface QuantityBasedRetention {
-  /** The number of backups to retain. */
-  count?: number;
-}
-export const QuantityBasedRetention = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    count: S.optional(S.Number),
-  }),
-).annotate({ identifier: "QuantityBasedRetention" }) as any as S.Schema<QuantityBasedRetention>;
+).annotate({ identifier: "MaintenanceSchedule" }) as any as S.Schema<MaintenanceSchedule>;
 
 /** A time based retention policy specifies that all backups within a certain time period should be retained. */
 export interface TimeBasedRetention {
@@ -399,19 +364,19 @@ export const TimeBasedRetention = /*@__PURE__*/ S.suspend(() =>
 export interface GoogleTypeTimeOfDay {
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
   nanos?: number;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
   seconds?: number;
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
   hours?: number;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
 }
 export const GoogleTypeTimeOfDay = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nanos: S.optional(S.Number),
+    minutes: S.optional(S.Number),
     seconds: S.optional(S.Number),
     hours: S.optional(S.Number),
-    minutes: S.optional(S.Number),
   }),
 ).annotate({ identifier: "GoogleTypeTimeOfDay" }) as any as S.Schema<GoogleTypeTimeOfDay>;
 
@@ -452,102 +417,68 @@ export const WeeklySchedule = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "WeeklySchedule" }) as any as S.Schema<WeeklySchedule>;
 
+/** A quantity based policy specifies that a certain number of the most recent successful backups should be retained. */
+export interface QuantityBasedRetention {
+  /** The number of backups to retain. */
+  count?: number;
+}
+export const QuantityBasedRetention = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.optional(S.Number),
+  }),
+).annotate({ identifier: "QuantityBasedRetention" }) as any as S.Schema<QuantityBasedRetention>;
+
 /** Message describing the user-specified automated backup policy. All fields in the automated backup policy are optional. Defaults for each field are provided if they are not set. */
 export interface AutomatedBackupPolicy {
-  /** Quantity-based Backup retention policy to retain recent backups. */
-  quantityBasedRetention?: QuantityBasedRetention;
-  /** Optional. The encryption config can be specified to encrypt the backups with a customer-managed encryption key (CMEK). When this field is not specified, the backup will use the cluster's encryption config. */
-  encryptionConfig?: EncryptionConfig;
-  /** Time-based Backup retention policy. */
-  timeBasedRetention?: TimeBasedRetention;
   /** Labels to apply to backups created using this configuration. */
   labels?: StringMap;
-  /** Whether automated automated backups are enabled. If not set, defaults to true. */
-  enabled?: boolean;
-  /** The location where the backup will be stored. Currently, the only supported option is to store the backup in the same region as the cluster. If empty, defaults to the region of the cluster. */
-  location?: string;
+  /** Time-based Backup retention policy. */
+  timeBasedRetention?: TimeBasedRetention;
   /** The length of the time window during which a backup can be taken. If a backup does not succeed within this time window, it will be canceled and considered failed. The backup window must be at least 5 minutes long. There is no upper bound on the window. If not set, it defaults to 1 hour. */
   backupWindow?: string;
+  /** Whether automated automated backups are enabled. If not set, defaults to true. */
+  enabled?: boolean;
   /** Weekly schedule for the Backup. */
   weeklySchedule?: WeeklySchedule;
+  /** The location where the backup will be stored. Currently, the only supported option is to store the backup in the same region as the cluster. If empty, defaults to the region of the cluster. */
+  location?: string;
+  /** Optional. The encryption config can be specified to encrypt the backups with a customer-managed encryption key (CMEK). When this field is not specified, the backup will use the cluster's encryption config. */
+  encryptionConfig?: EncryptionConfig;
+  /** Quantity-based Backup retention policy to retain recent backups. */
+  quantityBasedRetention?: QuantityBasedRetention;
 }
 export const AutomatedBackupPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    quantityBasedRetention: S.optional(QuantityBasedRetention),
-    encryptionConfig: S.optional(EncryptionConfig),
-    timeBasedRetention: S.optional(TimeBasedRetention),
     labels: S.optional(StringMap),
-    enabled: S.optional(S.Boolean),
-    location: S.optional(S.String),
+    timeBasedRetention: S.optional(TimeBasedRetention),
     backupWindow: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
     weeklySchedule: S.optional(WeeklySchedule),
+    location: S.optional(S.String),
+    encryptionConfig: S.optional(EncryptionConfig),
+    quantityBasedRetention: S.optional(QuantityBasedRetention),
   }),
 ).annotate({ identifier: "AutomatedBackupPolicy" }) as any as S.Schema<AutomatedBackupPolicy>;
 
-/** Configuration that allows the user to create an AlloyDB Express cluster. */
-export interface ExpressConfig {
-  /** Optional. Whether Express configuration is enabled for the cluster. */
+export type ClusterSubscriptionTypeEnum = "SUBSCRIPTION_TYPE_UNSPECIFIED" | "STANDARD" | "TRIAL";
+export const ClusterSubscriptionTypeEnum = S.String;
+
+/** ContinuousBackupConfig describes the continuous backups recovery configurations of a cluster. */
+export interface ContinuousBackupConfig {
+  /** The number of days that are eligible to restore from using PITR. To support the entire recovery window, backups and logs are retained for one day more than the recovery window. If not set, defaults to 14 days. */
+  recoveryWindowDays?: number;
+  /** The encryption config can be specified to encrypt the backups with a customer-managed encryption key (CMEK). When this field is not specified, the backup will use the cluster's encryption config. */
+  encryptionConfig?: EncryptionConfig;
+  /** Whether ContinuousBackup is enabled. */
   enabled?: boolean;
 }
-export const ExpressConfig = /*@__PURE__*/ S.suspend(() =>
+export const ContinuousBackupConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    recoveryWindowDays: S.optional(S.Number),
+    encryptionConfig: S.optional(EncryptionConfig),
     enabled: S.optional(S.Boolean),
   }),
-).annotate({ identifier: "ExpressConfig" }) as any as S.Schema<ExpressConfig>;
-
-export type SslConfigSslModeEnum =
-  | "SSL_MODE_UNSPECIFIED"
-  | "SSL_MODE_ALLOW"
-  | "SSL_MODE_REQUIRE"
-  | "SSL_MODE_VERIFY_CA"
-  | "ALLOW_UNENCRYPTED_AND_ENCRYPTED"
-  | "ENCRYPTED_ONLY";
-export const SslConfigSslModeEnum = S.String;
-
-export type SslConfigCaSourceEnum = "CA_SOURCE_UNSPECIFIED" | "CA_SOURCE_MANAGED";
-export const SslConfigCaSourceEnum = S.String;
-
-/** SSL configuration. */
-export interface SslConfig {
-  /** Optional. SSL mode. Specifies client-server SSL/TLS connection behavior. */
-  sslMode?: SslConfigSslModeEnum | (string & {});
-  /** Optional. Certificate Authority (CA) source. Only CA_SOURCE_MANAGED is supported currently, and is the default value. */
-  caSource?: SslConfigCaSourceEnum | (string & {});
-}
-export const SslConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sslMode: S.optional(SslConfigSslModeEnum),
-    caSource: S.optional(SslConfigCaSourceEnum),
-  }),
-).annotate({ identifier: "SslConfig" }) as any as S.Schema<SslConfig>;
-
-/** Message describing a BackupDrBackupSource. */
-export interface BackupDrBackupSource {
-  /** Required. The name of the backup resource with the format: * projects/{project}/locations/{location}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id} */
-  backup?: string;
-}
-export const BackupDrBackupSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backup: S.optional(S.String),
-  }),
-).annotate({ identifier: "BackupDrBackupSource" }) as any as S.Schema<BackupDrBackupSource>;
-
-export type ClusterEditionEnum =
-  | "EDITION_UNSPECIFIED"
-  | "EDITION_ALLOYDB"
-  | "EDITION_ALLOYDB_DEVELOPER";
-export const ClusterEditionEnum = S.String;
-
-/** Deprecated and unused. This message will be removed in the near future. */
-export interface GeminiClusterConfig {
-  /** Output only. Deprecated and unused. This field will be removed in the near future. */
-  entitled?: boolean;
-}
-export const GeminiClusterConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entitled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "GeminiClusterConfig" }) as any as S.Schema<GeminiClusterConfig>;
+).annotate({ identifier: "ContinuousBackupConfig" }) as any as S.Schema<ContinuousBackupConfig>;
 
 export type ClusterDatabaseVersionEnum =
   | "DATABASE_VERSION_UNSPECIFIED"
@@ -560,145 +491,20 @@ export type ClusterDatabaseVersionEnum =
   | "POSTGRES_19";
 export const ClusterDatabaseVersionEnum = S.String;
 
-export type ClusterSubscriptionTypeEnum = "SUBSCRIPTION_TYPE_UNSPECIFIED" | "STANDARD" | "TRIAL";
-export const ClusterSubscriptionTypeEnum = S.String;
-
-/** Information about a single window when BackupDR was enabled for this cluster. */
-export interface BackupDrEnabledWindow {
-  /** The retention period for logs generated by BackupDR for this cluster. */
-  logRetentionPeriod?: string;
-  /** Time when the BackupDR protection for this cluster was enabled. */
-  enabledTime?: string;
-  /** The BackupPlanAssociation resource that was used to enable BackupDR protection for this cluster. */
-  backupPlanAssociation?: string;
-  /** The DataSource resource that represents the cluster in BackupDR. */
-  dataSource?: string;
-  /** Whether automated backup was previously enabled prior to enabling BackupDR protection for this cluster. */
-  automatedBackupPreviouslyEnabled?: boolean;
-  /** The retention set for the continuous backup that was previously enabled prior to enabling BackupDR protection for this cluster. */
-  continuousBackupPreviousRecoveryWindowDays?: number;
-  /** Whether continuous backup was previously enabled prior to enabling BackupDR protection for this cluster. */
-  continuousBackupPreviouslyEnabled?: boolean;
-  /** Time when the BackupDR protection for this cluster was disabled. This field will be empty if this BackupDR window is the `current_window`. */
-  disabledTime?: string;
-  /** The time when continuous backup was previously enabled prior to enabling BackupDR protection for this cluster. */
-  continuousBackupPreviouslyEnabledTime?: string;
-}
-export const BackupDrEnabledWindow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logRetentionPeriod: S.optional(S.String),
-    enabledTime: S.optional(S.String),
-    backupPlanAssociation: S.optional(S.String),
-    dataSource: S.optional(S.String),
-    automatedBackupPreviouslyEnabled: S.optional(S.Boolean),
-    continuousBackupPreviousRecoveryWindowDays: S.optional(S.Number),
-    continuousBackupPreviouslyEnabled: S.optional(S.Boolean),
-    disabledTime: S.optional(S.String),
-    continuousBackupPreviouslyEnabledTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "BackupDrEnabledWindow" }) as any as S.Schema<BackupDrEnabledWindow>;
-
-export type BackupDrEnabledWindowList = Array<BackupDrEnabledWindow>;
-export const BackupDrEnabledWindowList = /*@__PURE__*/ S.Array(
-  BackupDrEnabledWindow,
-) as any as S.Schema<BackupDrEnabledWindowList>;
-
-/** Information about BackupDR protection for this cluster. */
-export interface BackupDrInfo {
-  /** The current BackupDR configuration for this cluster. If BackupDR protection is not enabled for this cluster, this field will be empty. */
-  currentWindow?: BackupDrEnabledWindow;
-  /** Windows during which BackupDR was enabled for this cluster, along with associated configuration for that window. These are used to determine points-in-time for which restores can be performed. The windows are ordered with the most recent window last. Windows are mutally exclusive. Windows which closed more than 1 year ago will be removed from this list. */
-  previousWindows?: BackupDrEnabledWindowList;
-}
-export const BackupDrInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    currentWindow: S.optional(BackupDrEnabledWindow),
-    previousWindows: S.optional(BackupDrEnabledWindowList),
-  }),
-).annotate({ identifier: "BackupDrInfo" }) as any as S.Schema<BackupDrInfo>;
-
-export type ClusterClusterTypeEnum = "CLUSTER_TYPE_UNSPECIFIED" | "PRIMARY" | "SECONDARY";
-export const ClusterClusterTypeEnum = S.String;
-
-/** Configuration information for the secondary cluster. This should be set if and only if the cluster is of type SECONDARY. */
-export interface SecondaryConfig {
-  /** The name of the primary cluster name with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} */
-  primaryClusterName?: string;
-}
-export const SecondaryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    primaryClusterName: S.optional(S.String),
-  }),
-).annotate({ identifier: "SecondaryConfig" }) as any as S.Schema<SecondaryConfig>;
-
-/** Message describing a BackupSource. */
-export interface BackupSource {
-  /** Output only. The system-generated UID of the backup which was used to create this resource. The UID is generated when the backup is created, and it is retained until the backup is deleted. */
-  backupUid?: string;
-  /** Required. The name of the backup resource with the format: * projects/{project}/locations/{region}/backups/{backup_id} */
-  backupName?: string;
-}
-export const BackupSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backupUid: S.optional(S.String),
-    backupName: S.optional(S.String),
-  }),
-).annotate({ identifier: "BackupSource" }) as any as S.Schema<BackupSource>;
-
-export type ContinuousBackupInfoScheduleItemEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export const ContinuousBackupInfoScheduleItemEnum = S.String;
-
-export type ContinuousBackupInfoScheduleItemEnumList = Array<
-  ContinuousBackupInfoScheduleItemEnum | (string & {})
->;
-export const ContinuousBackupInfoScheduleItemEnumList = /*@__PURE__*/ S.Array(
-  ContinuousBackupInfoScheduleItemEnum,
-) as any as S.Schema<ContinuousBackupInfoScheduleItemEnumList>;
-
-/** ContinuousBackupInfo describes the continuous backup properties of a cluster. */
-export interface ContinuousBackupInfo {
-  /** Output only. The earliest restorable time that can be restored to. If continuous backups and recovery was recently enabled, the earliest restorable time is the creation time of the earliest eligible backup within this cluster's continuous backup recovery window. After a cluster has had continuous backups enabled for the duration of its recovery window, the earliest restorable time becomes "now minus the recovery window". For example, assuming a point in time recovery is attempted at 04/16/2025 3:23:00PM with a 14d recovery window, the earliest restorable time would be 04/02/2025 3:23:00PM. This field is only visible if the CLUSTER_VIEW_CONTINUOUS_BACKUP cluster view is provided. */
-  earliestRestorableTime?: string;
-  /** Output only. Days of the week on which a continuous backup is taken. */
-  schedule?: ContinuousBackupInfoScheduleItemEnumList;
-  /** Output only. The encryption information for the WALs and backups required for ContinuousBackup. */
-  encryptionInfo?: EncryptionInfo;
-  /** Output only. When ContinuousBackup was most recently enabled. Set to null if ContinuousBackup is not enabled. */
-  enabledTime?: string;
-}
-export const ContinuousBackupInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    earliestRestorableTime: S.optional(S.String),
-    schedule: S.optional(ContinuousBackupInfoScheduleItemEnumList),
-    encryptionInfo: S.optional(EncryptionInfo),
-    enabledTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "ContinuousBackupInfo" }) as any as S.Schema<ContinuousBackupInfo>;
-
-/** The source CloudSQL backup resource. */
-export interface CloudSQLBackupRunSource {
-  /** The project ID of the source CloudSQL instance. This should be the same as the AlloyDB cluster's project. */
-  project?: string;
-  /** Required. The CloudSQL backup run ID. */
-  backupRunId?: string;
-  /** Required. The CloudSQL instance ID. */
-  instanceId?: string;
-}
-export const CloudSQLBackupRunSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project: S.optional(S.String),
-    backupRunId: S.optional(S.String),
-    instanceId: S.optional(S.String),
-  }),
-).annotate({ identifier: "CloudSQLBackupRunSource" }) as any as S.Schema<CloudSQLBackupRunSource>;
+export type ClusterStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "READY"
+  | "STOPPED"
+  | "EMPTY"
+  | "CREATING"
+  | "DELETING"
+  | "FAILED"
+  | "BOOTSTRAPPING"
+  | "MAINTENANCE"
+  | "PROMOTING"
+  | "SWITCHOVER"
+  | "RECREATING";
+export const ClusterStateEnum = S.String;
 
 export type MigrationSourceSourceTypeEnum = "MIGRATION_SOURCE_TYPE_UNSPECIFIED" | "DMS";
 export const MigrationSourceSourceTypeEnum = S.String;
@@ -720,30 +526,195 @@ export const MigrationSource = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MigrationSource" }) as any as S.Schema<MigrationSource>;
 
-/** Configuration for the primary cluster. It has the list of clusters that are replicating from this cluster. This should be set if and only if the cluster is of type PRIMARY. */
-export interface PrimaryConfig {
-  /** Output only. Names of the clusters that are replicating from this cluster. */
-  secondaryClusterNames?: StringList;
+/** Message describing a BackupDrBackupSource. */
+export interface BackupDrBackupSource {
+  /** Required. The name of the backup resource with the format: * projects/{project}/locations/{location}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id} */
+  backup?: string;
 }
-export const PrimaryConfig = /*@__PURE__*/ S.suspend(() =>
+export const BackupDrBackupSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secondaryClusterNames: S.optional(StringList),
+    backup: S.optional(S.String),
   }),
-).annotate({ identifier: "PrimaryConfig" }) as any as S.Schema<PrimaryConfig>;
+).annotate({ identifier: "BackupDrBackupSource" }) as any as S.Schema<BackupDrBackupSource>;
 
-/** Metadata related to network configuration. */
-export interface NetworkConfig {
-  /** Optional. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: `projects/{project_number}/global/networks/{network_id}`. This is required to create a cluster. */
-  network?: string;
-  /** Optional. Name of the allocated IP range for the private IP AlloyDB cluster, for example: "google-managed-services-default". If set, the instance IPs for this cluster will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?`. Field name is intended to be consistent with Cloud SQL. */
-  allocatedIpRange?: string;
+/** Contains information and all metadata related to TRIAL clusters. */
+export interface TrialMetadata {
+  /** grace end time of the cluster. */
+  graceEndTime?: string;
+  /** End time of the trial cluster. */
+  endTime?: string;
+  /** Upgrade time of trial cluster to Standard cluster. */
+  upgradeTime?: string;
+  /** start time of the trial cluster. */
+  startTime?: string;
 }
-export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
+export const TrialMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    network: S.optional(S.String),
-    allocatedIpRange: S.optional(S.String),
+    graceEndTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    upgradeTime: S.optional(S.String),
+    startTime: S.optional(S.String),
   }),
-).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
+).annotate({ identifier: "TrialMetadata" }) as any as S.Schema<TrialMetadata>;
+
+/** Information about a single window when BackupDR was enabled for this cluster. */
+export interface BackupDrEnabledWindow {
+  /** Time when the BackupDR protection for this cluster was disabled. This field will be empty if this BackupDR window is the `current_window`. */
+  disabledTime?: string;
+  /** The BackupPlanAssociation resource that was used to enable BackupDR protection for this cluster. */
+  backupPlanAssociation?: string;
+  /** Whether continuous backup was previously enabled prior to enabling BackupDR protection for this cluster. */
+  continuousBackupPreviouslyEnabled?: boolean;
+  /** The time when continuous backup was previously enabled prior to enabling BackupDR protection for this cluster. */
+  continuousBackupPreviouslyEnabledTime?: string;
+  /** The retention set for the continuous backup that was previously enabled prior to enabling BackupDR protection for this cluster. */
+  continuousBackupPreviousRecoveryWindowDays?: number;
+  /** Time when the BackupDR protection for this cluster was enabled. */
+  enabledTime?: string;
+  /** The retention period for logs generated by BackupDR for this cluster. */
+  logRetentionPeriod?: string;
+  /** Whether automated backup was previously enabled prior to enabling BackupDR protection for this cluster. */
+  automatedBackupPreviouslyEnabled?: boolean;
+  /** The DataSource resource that represents the cluster in BackupDR. */
+  dataSource?: string;
+}
+export const BackupDrEnabledWindow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disabledTime: S.optional(S.String),
+    backupPlanAssociation: S.optional(S.String),
+    continuousBackupPreviouslyEnabled: S.optional(S.Boolean),
+    continuousBackupPreviouslyEnabledTime: S.optional(S.String),
+    continuousBackupPreviousRecoveryWindowDays: S.optional(S.Number),
+    enabledTime: S.optional(S.String),
+    logRetentionPeriod: S.optional(S.String),
+    automatedBackupPreviouslyEnabled: S.optional(S.Boolean),
+    dataSource: S.optional(S.String),
+  }),
+).annotate({ identifier: "BackupDrEnabledWindow" }) as any as S.Schema<BackupDrEnabledWindow>;
+
+export type BackupDrEnabledWindowList = Array<BackupDrEnabledWindow>;
+export const BackupDrEnabledWindowList = /*@__PURE__*/ S.Array(
+  BackupDrEnabledWindow,
+) as any as S.Schema<BackupDrEnabledWindowList>;
+
+/** Information about BackupDR protection for this cluster. */
+export interface BackupDrInfo {
+  /** Windows during which BackupDR was enabled for this cluster, along with associated configuration for that window. These are used to determine points-in-time for which restores can be performed. The windows are ordered with the most recent window last. Windows are mutally exclusive. Windows which closed more than 1 year ago will be removed from this list. */
+  previousWindows?: BackupDrEnabledWindowList;
+  /** The current BackupDR configuration for this cluster. If BackupDR protection is not enabled for this cluster, this field will be empty. */
+  currentWindow?: BackupDrEnabledWindow;
+}
+export const BackupDrInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    previousWindows: S.optional(BackupDrEnabledWindowList),
+    currentWindow: S.optional(BackupDrEnabledWindow),
+  }),
+).annotate({ identifier: "BackupDrInfo" }) as any as S.Schema<BackupDrInfo>;
+
+export type SslConfigCaSourceEnum = "CA_SOURCE_UNSPECIFIED" | "CA_SOURCE_MANAGED";
+export const SslConfigCaSourceEnum = S.String;
+
+export type SslConfigSslModeEnum =
+  | "SSL_MODE_UNSPECIFIED"
+  | "SSL_MODE_ALLOW"
+  | "SSL_MODE_REQUIRE"
+  | "SSL_MODE_VERIFY_CA"
+  | "ALLOW_UNENCRYPTED_AND_ENCRYPTED"
+  | "ENCRYPTED_ONLY";
+export const SslConfigSslModeEnum = S.String;
+
+/** SSL configuration. */
+export interface SslConfig {
+  /** Optional. Certificate Authority (CA) source. Only CA_SOURCE_MANAGED is supported currently, and is the default value. */
+  caSource?: SslConfigCaSourceEnum | (string & {});
+  /** Optional. SSL mode. Specifies client-server SSL/TLS connection behavior. */
+  sslMode?: SslConfigSslModeEnum | (string & {});
+}
+export const SslConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    caSource: S.optional(SslConfigCaSourceEnum),
+    sslMode: S.optional(SslConfigSslModeEnum),
+  }),
+).annotate({ identifier: "SslConfig" }) as any as S.Schema<SslConfig>;
+
+/** Configuration information for the secondary cluster. This should be set if and only if the cluster is of type SECONDARY. */
+export interface SecondaryConfig {
+  /** The name of the primary cluster name with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} */
+  primaryClusterName?: string;
+}
+export const SecondaryConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    primaryClusterName: S.optional(S.String),
+  }),
+).annotate({ identifier: "SecondaryConfig" }) as any as S.Schema<SecondaryConfig>;
+
+/** Message describing a BackupSource. */
+export interface BackupSource {
+  /** Required. The name of the backup resource with the format: * projects/{project}/locations/{region}/backups/{backup_id} */
+  backupName?: string;
+  /** Output only. The system-generated UID of the backup which was used to create this resource. The UID is generated when the backup is created, and it is retained until the backup is deleted. */
+  backupUid?: string;
+}
+export const BackupSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    backupName: S.optional(S.String),
+    backupUid: S.optional(S.String),
+  }),
+).annotate({ identifier: "BackupSource" }) as any as S.Schema<BackupSource>;
+
+/** Deprecated and unused. This message will be removed in the near future. */
+export interface GeminiClusterConfig {
+  /** Output only. Deprecated and unused. This field will be removed in the near future. */
+  entitled?: boolean;
+}
+export const GeminiClusterConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entitled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "GeminiClusterConfig" }) as any as S.Schema<GeminiClusterConfig>;
+
+export type ClusterMaintenanceVersionSelectionPolicyEnum =
+  | "MAINTENANCE_VERSION_SELECTION_POLICY_UNSPECIFIED"
+  | "MAINTENANCE_VERSION_SELECTION_POLICY_LATEST"
+  | "MAINTENANCE_VERSION_SELECTION_POLICY_DEFAULT";
+export const ClusterMaintenanceVersionSelectionPolicyEnum = S.String;
+
+/** Configuration that allows the user to create an AlloyDB Express cluster. */
+export interface ExpressConfig {
+  /** Optional. Whether Express configuration is enabled for the cluster. */
+  enabled?: boolean;
+}
+export const ExpressConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "ExpressConfig" }) as any as S.Schema<ExpressConfig>;
+
+export type ClusterEditionEnum =
+  | "EDITION_UNSPECIFIED"
+  | "EDITION_ALLOYDB"
+  | "EDITION_ALLOYDB_DEVELOPER";
+export const ClusterEditionEnum = S.String;
+
+export type ClusterClusterTypeEnum = "CLUSTER_TYPE_UNSPECIFIED" | "PRIMARY" | "SECONDARY";
+export const ClusterClusterTypeEnum = S.String;
+
+/** The source CloudSQL backup resource. */
+export interface CloudSQLBackupRunSource {
+  /** Required. The CloudSQL instance ID. */
+  instanceId?: string;
+  /** Required. The CloudSQL backup run ID. */
+  backupRunId?: string;
+  /** The project ID of the source CloudSQL instance. This should be the same as the AlloyDB cluster's project. */
+  project?: string;
+}
+export const CloudSQLBackupRunSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instanceId: S.optional(S.String),
+    backupRunId: S.optional(S.String),
+    project: S.optional(S.String),
+  }),
+).annotate({ identifier: "CloudSQLBackupRunSource" }) as any as S.Schema<CloudSQLBackupRunSource>;
 
 /** The username/password for a database user. Used for specifying initial users at cluster creation time. */
 export interface UserPassword {
@@ -759,55 +730,19 @@ export const UserPassword = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserPassword" }) as any as S.Schema<UserPassword>;
 
-/** MaintenanceSchedule stores the maintenance schedule generated from the MaintenanceUpdatePolicy, once a maintenance rollout is triggered, if MaintenanceWindow is set, and if there is no conflicting DenyPeriod. The schedule is cleared once the update takes place. This field cannot be manually changed; modify the MaintenanceUpdatePolicy instead. */
-export interface MaintenanceSchedule {
-  /** Output only. The scheduled start time for the maintenance. */
-  startTime?: string;
+/** PscConfig contains PSC related configuration at a cluster level. */
+export interface PscConfig {
+  /** Optional. Create an instance that allows connections from Private Service Connect endpoints to the instance. */
+  pscEnabled?: boolean;
+  /** Output only. The project number that needs to be allowlisted on the network attachment to enable outbound connectivity. */
+  serviceOwnedProjectNumber?: string;
 }
-export const MaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
+export const PscConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.String),
+    pscEnabled: S.optional(S.Boolean),
+    serviceOwnedProjectNumber: S.optional(S.String),
   }),
-).annotate({ identifier: "MaintenanceSchedule" }) as any as S.Schema<MaintenanceSchedule>;
-
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface GoogleTypeDate {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-}
-export const GoogleTypeDate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    year: S.optional(S.Number),
-    day: S.optional(S.Number),
-    month: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GoogleTypeDate" }) as any as S.Schema<GoogleTypeDate>;
-
-/** DenyMaintenancePeriod definition. Excepting emergencies, maintenance will not be scheduled to start within this deny period. The start_date must be less than the end_date. */
-export interface DenyMaintenancePeriod {
-  /** Deny period end date. This can be: * A full date, with non-zero year, month and day values OR * A month and day value, with a zero year for recurring */
-  endDate?: GoogleTypeDate;
-  /** Deny period start date. This can be: * A full date, with non-zero year, month and day values OR * A month and day value, with a zero year for recurring */
-  startDate?: GoogleTypeDate;
-  /** Time in UTC when the deny period starts on start_date and ends on end_date. This can be: * Full time OR * All zeros for 00:00:00 UTC */
-  time?: GoogleTypeTimeOfDay;
-}
-export const DenyMaintenancePeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endDate: S.optional(GoogleTypeDate),
-    startDate: S.optional(GoogleTypeDate),
-    time: S.optional(GoogleTypeTimeOfDay),
-  }),
-).annotate({ identifier: "DenyMaintenancePeriod" }) as any as S.Schema<DenyMaintenancePeriod>;
-
-export type DenyMaintenancePeriodList = Array<DenyMaintenancePeriod>;
-export const DenyMaintenancePeriodList = /*@__PURE__*/ S.Array(
-  DenyMaintenancePeriod,
-) as any as S.Schema<DenyMaintenancePeriodList>;
+).annotate({ identifier: "PscConfig" }) as any as S.Schema<PscConfig>;
 
 export type MaintenanceWindowDayEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -839,19 +774,121 @@ export const MaintenanceWindowList = /*@__PURE__*/ S.Array(
   MaintenanceWindow,
 ) as any as S.Schema<MaintenanceWindowList>;
 
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface GoogleTypeDate {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+}
+export const GoogleTypeDate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    month: S.optional(S.Number),
+    year: S.optional(S.Number),
+    day: S.optional(S.Number),
+  }),
+).annotate({ identifier: "GoogleTypeDate" }) as any as S.Schema<GoogleTypeDate>;
+
+/** DenyMaintenancePeriod definition. Excepting emergencies, maintenance will not be scheduled to start within this deny period. The start_date must be less than the end_date. */
+export interface DenyMaintenancePeriod {
+  /** Deny period end date. This can be: * A full date, with non-zero year, month and day values OR * A month and day value, with a zero year for recurring */
+  endDate?: GoogleTypeDate;
+  /** Time in UTC when the deny period starts on start_date and ends on end_date. This can be: * Full time OR * All zeros for 00:00:00 UTC */
+  time?: GoogleTypeTimeOfDay;
+  /** Deny period start date. This can be: * A full date, with non-zero year, month and day values OR * A month and day value, with a zero year for recurring */
+  startDate?: GoogleTypeDate;
+}
+export const DenyMaintenancePeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endDate: S.optional(GoogleTypeDate),
+    time: S.optional(GoogleTypeTimeOfDay),
+    startDate: S.optional(GoogleTypeDate),
+  }),
+).annotate({ identifier: "DenyMaintenancePeriod" }) as any as S.Schema<DenyMaintenancePeriod>;
+
+export type DenyMaintenancePeriodList = Array<DenyMaintenancePeriod>;
+export const DenyMaintenancePeriodList = /*@__PURE__*/ S.Array(
+  DenyMaintenancePeriod,
+) as any as S.Schema<DenyMaintenancePeriodList>;
+
 /** MaintenanceUpdatePolicy defines the policy for system updates. */
 export interface MaintenanceUpdatePolicy {
-  /** Periods to deny maintenance. Currently limited to 1. */
-  denyMaintenancePeriods?: DenyMaintenancePeriodList;
   /** Preferred windows to perform maintenance. Currently limited to 1. */
   maintenanceWindows?: MaintenanceWindowList;
+  /** Periods to deny maintenance. Currently limited to 1. */
+  denyMaintenancePeriods?: DenyMaintenancePeriodList;
 }
 export const MaintenanceUpdatePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    denyMaintenancePeriods: S.optional(DenyMaintenancePeriodList),
     maintenanceWindows: S.optional(MaintenanceWindowList),
+    denyMaintenancePeriods: S.optional(DenyMaintenancePeriodList),
   }),
 ).annotate({ identifier: "MaintenanceUpdatePolicy" }) as any as S.Schema<MaintenanceUpdatePolicy>;
+
+/** Metadata related to network configuration. */
+export interface NetworkConfig {
+  /** Optional. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: `projects/{project_number}/global/networks/{network_id}`. This is required to create a cluster. */
+  network?: string;
+  /** Optional. Name of the allocated IP range for the private IP AlloyDB cluster, for example: "google-managed-services-default". If set, the instance IPs for this cluster will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?`. Field name is intended to be consistent with Cloud SQL. */
+  allocatedIpRange?: string;
+}
+export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    network: S.optional(S.String),
+    allocatedIpRange: S.optional(S.String),
+  }),
+).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
+
+/** Configuration for the primary cluster. It has the list of clusters that are replicating from this cluster. This should be set if and only if the cluster is of type PRIMARY. */
+export interface PrimaryConfig {
+  /** Output only. Names of the clusters that are replicating from this cluster. */
+  secondaryClusterNames?: StringList;
+}
+export const PrimaryConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secondaryClusterNames: S.optional(StringList),
+  }),
+).annotate({ identifier: "PrimaryConfig" }) as any as S.Schema<PrimaryConfig>;
+
+export type ContinuousBackupInfoScheduleItemEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const ContinuousBackupInfoScheduleItemEnum = S.String;
+
+export type ContinuousBackupInfoScheduleItemEnumList = Array<
+  ContinuousBackupInfoScheduleItemEnum | (string & {})
+>;
+export const ContinuousBackupInfoScheduleItemEnumList = /*@__PURE__*/ S.Array(
+  ContinuousBackupInfoScheduleItemEnum,
+) as any as S.Schema<ContinuousBackupInfoScheduleItemEnumList>;
+
+/** ContinuousBackupInfo describes the continuous backup properties of a cluster. */
+export interface ContinuousBackupInfo {
+  /** Output only. The earliest restorable time that can be restored to. If continuous backups and recovery was recently enabled, the earliest restorable time is the creation time of the earliest eligible backup within this cluster's continuous backup recovery window. After a cluster has had continuous backups enabled for the duration of its recovery window, the earliest restorable time becomes "now minus the recovery window". For example, assuming a point in time recovery is attempted at 04/16/2025 3:23:00PM with a 14d recovery window, the earliest restorable time would be 04/02/2025 3:23:00PM. This field is only visible if the CLUSTER_VIEW_CONTINUOUS_BACKUP cluster view is provided. */
+  earliestRestorableTime?: string;
+  /** Output only. The encryption information for the WALs and backups required for ContinuousBackup. */
+  encryptionInfo?: EncryptionInfo;
+  /** Output only. Days of the week on which a continuous backup is taken. */
+  schedule?: ContinuousBackupInfoScheduleItemEnumList;
+  /** Output only. When ContinuousBackup was most recently enabled. Set to null if ContinuousBackup is not enabled. */
+  enabledTime?: string;
+}
+export const ContinuousBackupInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    earliestRestorableTime: S.optional(S.String),
+    encryptionInfo: S.optional(EncryptionInfo),
+    schedule: S.optional(ContinuousBackupInfoScheduleItemEnumList),
+    enabledTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "ContinuousBackupInfo" }) as any as S.Schema<ContinuousBackupInfo>;
 
 /** Configuration for Dataplex integration. */
 export interface DataplexConfig {
@@ -864,198 +901,161 @@ export const DataplexConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "DataplexConfig" }) as any as S.Schema<DataplexConfig>;
 
-/** Contains information and all metadata related to TRIAL clusters. */
-export interface TrialMetadata {
-  /** Upgrade time of trial cluster to Standard cluster. */
-  upgradeTime?: string;
-  /** start time of the trial cluster. */
-  startTime?: string;
-  /** grace end time of the cluster. */
-  graceEndTime?: string;
-  /** End time of the trial cluster. */
-  endTime?: string;
-}
-export const TrialMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    upgradeTime: S.optional(S.String),
-    startTime: S.optional(S.String),
-    graceEndTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "TrialMetadata" }) as any as S.Schema<TrialMetadata>;
-
-/** ContinuousBackupConfig describes the continuous backups recovery configurations of a cluster. */
-export interface ContinuousBackupConfig {
-  /** The encryption config can be specified to encrypt the backups with a customer-managed encryption key (CMEK). When this field is not specified, the backup will use the cluster's encryption config. */
-  encryptionConfig?: EncryptionConfig;
-  /** The number of days that are eligible to restore from using PITR. To support the entire recovery window, backups and logs are retained for one day more than the recovery window. If not set, defaults to 14 days. */
-  recoveryWindowDays?: number;
-  /** Whether ContinuousBackup is enabled. */
-  enabled?: boolean;
-}
-export const ContinuousBackupConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encryptionConfig: S.optional(EncryptionConfig),
-    recoveryWindowDays: S.optional(S.Number),
-    enabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ContinuousBackupConfig" }) as any as S.Schema<ContinuousBackupConfig>;
-
 /** A cluster is a collection of regional AlloyDB resources. It can include a primary instance and one or more read pool instances. All cluster resources share a storage layer, which scales as needed. */
 export interface Cluster {
-  /** Output only. The encryption information for the cluster. */
-  encryptionInfo?: EncryptionInfo;
-  /** Optional. The configuration for Private Service Connect (PSC) for the cluster. */
-  pscConfig?: PscConfig;
-  /** Output only. AlloyDB per-cluster service account. This service account is created per-cluster per-project, and is different from the per-project service account. The per-cluster service account naming format is subject to change. */
-  serviceAccountEmail?: string;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** Output only. The current serving state of the cluster. */
-  state?: ClusterStateEnum | (string & {});
+  /** Output only. The maintenance schedule for the cluster, generated for a specific rollout if a maintenance window is set. */
+  maintenanceSchedule?: MaintenanceSchedule;
   /** Output only. Update time stamp */
   updateTime?: string;
   /** User-settable and human-readable display name for the Cluster. */
   displayName?: string;
-  /** Input only. Policy to use to automatically select the maintenance version to which to update the cluster's instances. */
-  maintenanceVersionSelectionPolicy?: ClusterMaintenanceVersionSelectionPolicyEnum | (string & {});
   /** The automated backup policy for this cluster. If no policy is provided then the default policy will be used. If backups are supported for the cluster, the default policy takes one backup a day, has a backup window of 1 hour, and retains backups for 14 days. For more information on the defaults, consult the documentation for the message type. */
   automatedBackupPolicy?: AutomatedBackupPolicy;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
-  tags?: StringMap;
-  /** Optional. Configuration that allows the customer to create an AlloyDB Express cluster. */
-  expressConfig?: ExpressConfig;
-  /** SSL configuration for this AlloyDB cluster. */
-  sslConfig?: SslConfig;
-  /** Output only. Cluster created from a BackupDR backup. */
-  backupdrBackupSource?: BackupDrBackupSource;
-  /** Optional. Edition of the cluster. If left unspecified, the cluster behaves as `EDITION_ALLOYDB`. */
-  edition?: ClusterEditionEnum | (string & {});
-  /** Labels as key value pairs */
-  labels?: StringMap;
-  /** Optional. Deprecated and unused. This field will be removed in the near future. */
-  geminiConfig?: GeminiClusterConfig;
-  /** Optional. The database engine major version. This is an optional field and it is populated at the Cluster creation time. If a database version is not supplied at cluster creation time, then a default database version will be used. */
-  databaseVersion?: ClusterDatabaseVersionEnum | (string & {});
-  /** Output only. The name of the cluster resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} where the cluster ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the cluster resource name is the name of the parent resource: * projects/{project}/locations/{region} */
-  name?: string;
   /** Optional. Subscription type of the cluster. */
   subscriptionType?: ClusterSubscriptionTypeEnum | (string & {});
-  /** Output only. Output only information about BackupDR protection for this cluster. */
-  backupdrInfo?: BackupDrInfo;
-  /** Output only. The type of the cluster. This is an output-only field and it's populated at the Cluster creation time or the Cluster promotion time. The cluster type is determined by which RPC was used to create the cluster (i.e. `CreateCluster` vs. `CreateSecondaryCluster` */
-  clusterType?: ClusterClusterTypeEnum | (string & {});
-  /** Output only. Create time stamp */
-  createTime?: string;
-  /** Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: `projects/{project}/global/networks/{network_id}`. This is required to create a cluster. Deprecated, use network_config.network instead. */
-  network?: string;
-  /** Cross Region replication config specific to SECONDARY cluster. */
-  secondaryConfig?: SecondaryConfig;
-  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
-  uid?: string;
-  /** Output only. Cluster created from backup. */
-  backupSource?: BackupSource;
-  /** Output only. Continuous backup properties for this cluster. */
-  continuousBackupInfo?: ContinuousBackupInfo;
-  /** For Resource freshness validation (https://google.aip.dev/154) */
-  etag?: string;
-  /** Output only. Cluster created from CloudSQL snapshot. */
-  cloudsqlBackupRunSource?: CloudSQLBackupRunSource;
-  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
-  annotations?: StringMap;
-  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
-  reconciling?: boolean;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Output only. Cluster created via DMS migration. */
-  migrationSource?: MigrationSource;
-  /** Output only. Cross Region replication config specific to PRIMARY cluster. */
-  primaryConfig?: PrimaryConfig;
-  /** Optional. */
-  networkConfig?: NetworkConfig;
-  /** Input only. Initial user to setup during cluster creation. Required. If used in `RestoreCluster` this is ignored. */
-  initialUser?: UserPassword;
-  /** Output only. Delete time stamp */
-  deleteTime?: string;
-  /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
-  encryptionConfig?: EncryptionConfig;
-  /** Output only. The maintenance schedule for the cluster, generated for a specific rollout if a maintenance window is set. */
-  maintenanceSchedule?: MaintenanceSchedule;
-  /** Optional. The maintenance update policy determines when to allow or deny updates. */
-  maintenanceUpdatePolicy?: MaintenanceUpdatePolicy;
-  /** Optional. Configuration for Dataplex integration. */
-  dataplexConfig?: DataplexConfig;
-  /** Output only. Metadata for free trial clusters */
-  trialMetadata?: TrialMetadata;
   /** Optional. Continuous backup configuration for this cluster. */
   continuousBackupConfig?: ContinuousBackupConfig;
+  /** Optional. The database engine major version. This is an optional field and it is populated at the Cluster creation time. If a database version is not supplied at cluster creation time, then a default database version will be used. */
+  databaseVersion?: ClusterDatabaseVersionEnum | (string & {});
+  /** Output only. The current serving state of the cluster. */
+  state?: ClusterStateEnum | (string & {});
+  /** Output only. Create time stamp */
+  createTime?: string;
+  /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
+  encryptionConfig?: EncryptionConfig;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
+  tags?: StringMap;
+  /** Output only. Cluster created via DMS migration. */
+  migrationSource?: MigrationSource;
+  /** Output only. Delete time stamp */
+  deleteTime?: string;
+  /** Output only. Cluster created from a BackupDR backup. */
+  backupdrBackupSource?: BackupDrBackupSource;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string;
+  /** Output only. Metadata for free trial clusters */
+  trialMetadata?: TrialMetadata;
+  /** Output only. The encryption information for the cluster. */
+  encryptionInfo?: EncryptionInfo;
+  /** Output only. Output only information about BackupDR protection for this cluster. */
+  backupdrInfo?: BackupDrInfo;
+  /** SSL configuration for this AlloyDB cluster. */
+  sslConfig?: SslConfig;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string;
+  /** Cross Region replication config specific to SECONDARY cluster. */
+  secondaryConfig?: SecondaryConfig;
+  /** Output only. Cluster created from backup. */
+  backupSource?: BackupSource;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean;
+  /** Optional. Deprecated and unused. This field will be removed in the near future. */
+  geminiConfig?: GeminiClusterConfig;
+  /** Input only. Policy to use to automatically select the maintenance version to which to update the cluster's instances. */
+  maintenanceVersionSelectionPolicy?: ClusterMaintenanceVersionSelectionPolicyEnum | (string & {});
+  /** Optional. Configuration that allows the customer to create an AlloyDB Express cluster. */
+  expressConfig?: ExpressConfig;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap;
+  /** Labels as key value pairs */
+  labels?: StringMap;
+  /** Optional. Edition of the cluster. If left unspecified, the cluster behaves as `EDITION_ALLOYDB`. */
+  edition?: ClusterEditionEnum | (string & {});
+  /** Output only. The type of the cluster. This is an output-only field and it's populated at the Cluster creation time or the Cluster promotion time. The cluster type is determined by which RPC was used to create the cluster (i.e. `CreateCluster` vs. `CreateSecondaryCluster` */
+  clusterType?: ClusterClusterTypeEnum | (string & {});
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean;
+  /** Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: `projects/{project}/global/networks/{network_id}`. This is required to create a cluster. Deprecated, use network_config.network instead. */
+  network?: string;
+  /** Output only. Cluster created from CloudSQL snapshot. */
+  cloudsqlBackupRunSource?: CloudSQLBackupRunSource;
+  /** Input only. Initial user to setup during cluster creation. Required. If used in `RestoreCluster` this is ignored. */
+  initialUser?: UserPassword;
+  /** Optional. The configuration for Private Service Connect (PSC) for the cluster. */
+  pscConfig?: PscConfig;
+  /** Output only. AlloyDB per-cluster service account. This service account is created per-cluster per-project, and is different from the per-project service account. The per-cluster service account naming format is subject to change. */
+  serviceAccountEmail?: string;
+  /** Optional. The maintenance update policy determines when to allow or deny updates. */
+  maintenanceUpdatePolicy?: MaintenanceUpdatePolicy;
+  /** Output only. The name of the cluster resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} where the cluster ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the cluster resource name is the name of the parent resource: * projects/{project}/locations/{region} */
+  name?: string;
+  /** Optional. */
+  networkConfig?: NetworkConfig;
+  /** Output only. Cross Region replication config specific to PRIMARY cluster. */
+  primaryConfig?: PrimaryConfig;
+  /** Output only. Continuous backup properties for this cluster. */
+  continuousBackupInfo?: ContinuousBackupInfo;
+  /** Optional. Configuration for Dataplex integration. */
+  dataplexConfig?: DataplexConfig;
 }
 export const Cluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryptionInfo: S.optional(EncryptionInfo),
-    pscConfig: S.optional(PscConfig),
-    serviceAccountEmail: S.optional(S.String),
-    satisfiesPzs: S.optional(S.Boolean),
-    state: S.optional(ClusterStateEnum),
+    maintenanceSchedule: S.optional(MaintenanceSchedule),
     updateTime: S.optional(S.String),
     displayName: S.optional(S.String),
-    maintenanceVersionSelectionPolicy: S.optional(ClusterMaintenanceVersionSelectionPolicyEnum),
     automatedBackupPolicy: S.optional(AutomatedBackupPolicy),
-    tags: S.optional(StringMap),
-    expressConfig: S.optional(ExpressConfig),
-    sslConfig: S.optional(SslConfig),
-    backupdrBackupSource: S.optional(BackupDrBackupSource),
-    edition: S.optional(ClusterEditionEnum),
-    labels: S.optional(StringMap),
-    geminiConfig: S.optional(GeminiClusterConfig),
-    databaseVersion: S.optional(ClusterDatabaseVersionEnum),
-    name: S.optional(S.String),
     subscriptionType: S.optional(ClusterSubscriptionTypeEnum),
-    backupdrInfo: S.optional(BackupDrInfo),
-    clusterType: S.optional(ClusterClusterTypeEnum),
-    createTime: S.optional(S.String),
-    network: S.optional(S.String),
-    secondaryConfig: S.optional(SecondaryConfig),
-    uid: S.optional(S.String),
-    backupSource: S.optional(BackupSource),
-    continuousBackupInfo: S.optional(ContinuousBackupInfo),
-    etag: S.optional(S.String),
-    cloudsqlBackupRunSource: S.optional(CloudSQLBackupRunSource),
-    annotations: S.optional(StringMap),
-    reconciling: S.optional(S.Boolean),
-    satisfiesPzi: S.optional(S.Boolean),
-    migrationSource: S.optional(MigrationSource),
-    primaryConfig: S.optional(PrimaryConfig),
-    networkConfig: S.optional(NetworkConfig),
-    initialUser: S.optional(UserPassword),
-    deleteTime: S.optional(S.String),
-    encryptionConfig: S.optional(EncryptionConfig),
-    maintenanceSchedule: S.optional(MaintenanceSchedule),
-    maintenanceUpdatePolicy: S.optional(MaintenanceUpdatePolicy),
-    dataplexConfig: S.optional(DataplexConfig),
-    trialMetadata: S.optional(TrialMetadata),
     continuousBackupConfig: S.optional(ContinuousBackupConfig),
+    databaseVersion: S.optional(ClusterDatabaseVersionEnum),
+    state: S.optional(ClusterStateEnum),
+    createTime: S.optional(S.String),
+    encryptionConfig: S.optional(EncryptionConfig),
+    tags: S.optional(StringMap),
+    migrationSource: S.optional(MigrationSource),
+    deleteTime: S.optional(S.String),
+    backupdrBackupSource: S.optional(BackupDrBackupSource),
+    uid: S.optional(S.String),
+    trialMetadata: S.optional(TrialMetadata),
+    encryptionInfo: S.optional(EncryptionInfo),
+    backupdrInfo: S.optional(BackupDrInfo),
+    sslConfig: S.optional(SslConfig),
+    etag: S.optional(S.String),
+    secondaryConfig: S.optional(SecondaryConfig),
+    backupSource: S.optional(BackupSource),
+    satisfiesPzs: S.optional(S.Boolean),
+    geminiConfig: S.optional(GeminiClusterConfig),
+    maintenanceVersionSelectionPolicy: S.optional(ClusterMaintenanceVersionSelectionPolicyEnum),
+    expressConfig: S.optional(ExpressConfig),
+    satisfiesPzi: S.optional(S.Boolean),
+    annotations: S.optional(StringMap),
+    labels: S.optional(StringMap),
+    edition: S.optional(ClusterEditionEnum),
+    clusterType: S.optional(ClusterClusterTypeEnum),
+    reconciling: S.optional(S.Boolean),
+    network: S.optional(S.String),
+    cloudsqlBackupRunSource: S.optional(CloudSQLBackupRunSource),
+    initialUser: S.optional(UserPassword),
+    pscConfig: S.optional(PscConfig),
+    serviceAccountEmail: S.optional(S.String),
+    maintenanceUpdatePolicy: S.optional(MaintenanceUpdatePolicy),
+    name: S.optional(S.String),
+    networkConfig: S.optional(NetworkConfig),
+    primaryConfig: S.optional(PrimaryConfig),
+    continuousBackupInfo: S.optional(ContinuousBackupInfo),
+    dataplexConfig: S.optional(DataplexConfig),
   }),
 ).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 
 export interface CreateProjectsLocationsClustersRequest {
+  /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
+  parent: string;
   /** Required. ID of the requesting object. */
   clusterId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean;
-  /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
-  parent: string;
   /** Request body */
   body?: Cluster;
 }
 export const CreateProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     clusterId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     body: S.optional(Cluster.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1067,6 +1067,94 @@ export const CreateProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "CreateProjectsLocationsClustersRequest",
 }) as any as S.Schema<CreateProjectsLocationsClustersRequest>;
+
+/** Instance level Query Insights information, which is read-only and available in the output only. */
+export interface QueryInsightsInstanceInfo {
+  /** Output only. Maximum query string length. */
+  queryStringLength?: number;
+  /** Output only. Number of query execution plans captured per minute. */
+  queryPlansPerMinute?: number;
+  /** Output only. Whether to record application tags. */
+  recordApplicationTags?: boolean;
+  /** Output only. Whether to record client address. */
+  recordClientAddress?: boolean;
+  /** Output only. Whether Query Insights is enabled. */
+  enabled?: boolean;
+}
+export const QueryInsightsInstanceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    queryStringLength: S.optional(S.Number),
+    queryPlansPerMinute: S.optional(S.Number),
+    recordApplicationTags: S.optional(S.Boolean),
+    recordClientAddress: S.optional(S.Boolean),
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "QueryInsightsInstanceInfo",
+}) as any as S.Schema<QueryInsightsInstanceInfo>;
+
+export type InstanceAvailabilityTypeEnum = "AVAILABILITY_TYPE_UNSPECIFIED" | "ZONAL" | "REGIONAL";
+export const InstanceAvailabilityTypeEnum = S.String;
+
+/** Client connection configuration */
+export interface ClientConnectionConfig {
+  /** Optional. Configuration to enforce connectors only (ex: AuthProxy) connections to the database. */
+  requireConnectors?: boolean;
+  /** Optional. SSL configuration option for this instance. */
+  sslConfig?: SslConfig;
+}
+export const ClientConnectionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requireConnectors: S.optional(S.Boolean),
+    sslConfig: S.optional(SslConfig),
+  }),
+).annotate({ identifier: "ClientConnectionConfig" }) as any as S.Schema<ClientConnectionConfig>;
+
+export type InstanceActivationPolicyEnum = "ACTIVATION_POLICY_UNSPECIFIED" | "ALWAYS" | "NEVER";
+export const InstanceActivationPolicyEnum = S.String;
+
+/** AuthorizedNetwork contains metadata for an authorized network. */
+export interface AuthorizedNetwork {
+  /** CIDR range for one authorzied network of the instance. */
+  cidrRange?: string;
+}
+export const AuthorizedNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cidrRange: S.optional(S.String),
+  }),
+).annotate({ identifier: "AuthorizedNetwork" }) as any as S.Schema<AuthorizedNetwork>;
+
+export type AuthorizedNetworkList = Array<AuthorizedNetwork>;
+export const AuthorizedNetworkList = /*@__PURE__*/ S.Array(
+  AuthorizedNetwork,
+) as any as S.Schema<AuthorizedNetworkList>;
+
+/** Metadata related to instance-level network configuration. */
+export interface InstanceNetworkConfig {
+  /** Optional. A list of external network authorized to access this instance. */
+  authorizedExternalNetworks?: AuthorizedNetworkList;
+  /** Optional. Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default". If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster. The range name must comply with [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035). Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?. */
+  allocatedIpRangeOverride?: string;
+  /** Optional. Enabling public ip for the instance. */
+  enablePublicIp?: boolean;
+  /** Optional. Enabling an outbound public IP address to support a database server sending requests out into the internet. */
+  enableOutboundPublicIp?: boolean;
+  /** Output only. The resource link for the VPC network in which instance resources are created and from which they are accessible via Private IP. This will be the same value as the parent cluster's network. It is specified in the form: // `projects/{project_number}/global/networks/{network_id}`. */
+  network?: string;
+}
+export const InstanceNetworkConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorizedExternalNetworks: S.optional(AuthorizedNetworkList),
+    allocatedIpRangeOverride: S.optional(S.String),
+    enablePublicIp: S.optional(S.Boolean),
+    enableOutboundPublicIp: S.optional(S.Boolean),
+    network: S.optional(S.String),
+  }),
+).annotate({ identifier: "InstanceNetworkConfig" }) as any as S.Schema<InstanceNetworkConfig>;
+
+/** Deprecated and unused. This message will be removed in the near future. */
+export type GeminiInstanceConfig = GeminiClusterConfig;
+export const GeminiInstanceConfig = GeminiClusterConfig;
 
 export type InstanceStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1083,31 +1171,96 @@ export type InstanceStateEnum =
   | "STARTING";
 export const InstanceStateEnum = S.String;
 
-/** Details of a single node in the instance. Nodes in an AlloyDB instance are ephemeral, they can change during update, failover, autohealing and resize operations. */
-export interface Node {
-  /** Output only. Indicates whether the node set up to be configured as a hot standby. */
-  isHotStandby?: boolean;
-  /** Output only. The private IP address of the VM e.g. "10.57.0.34". */
-  ip?: string;
-  /** Output only. The Compute Engine zone of the VM e.g. "us-central1-b". */
-  zoneId?: string;
-  /** Output only. Determined by state of the compute VM and postgres-service health. Compute VM state can have values listed in https://cloud.google.com/compute/docs/instances/instance-life-cycle and postgres-service health can have values: HEALTHY and UNHEALTHY. */
-  state?: string;
-  /** Output only. The identifier of the VM e.g. "test-read-0601-407e52be-ms3l". */
-  id?: string;
+/** QueryInsights Instance specific configuration. */
+export interface QueryInsightsInstanceConfig {
+  /** Record client address for an instance. Client address is PII information. This flag is turned "on" by default. */
+  recordClientAddress?: boolean;
+  /** Record application tags for an instance. This flag is turned "on" by default. */
+  recordApplicationTags?: boolean;
+  /** Number of query execution plans captured by Insights per minute for all queries combined. The default value is 5. Any integer between 0 and 20 is considered valid. */
+  queryPlansPerMinute?: number;
+  /** Query string length. The default value is 1024. Any integer between 256 and 4500 is considered valid. */
+  queryStringLength?: number;
 }
-export const Node = /*@__PURE__*/ S.suspend(() =>
+export const QueryInsightsInstanceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    isHotStandby: S.optional(S.Boolean),
-    ip: S.optional(S.String),
-    zoneId: S.optional(S.String),
-    state: S.optional(S.String),
-    id: S.optional(S.String),
+    recordClientAddress: S.optional(S.Boolean),
+    recordApplicationTags: S.optional(S.Boolean),
+    queryPlansPerMinute: S.optional(S.Number),
+    queryStringLength: S.optional(S.Number),
   }),
-).annotate({ identifier: "Node" }) as any as S.Schema<Node>;
+).annotate({
+  identifier: "QueryInsightsInstanceConfig",
+}) as any as S.Schema<QueryInsightsInstanceConfig>;
 
-export type NodeList = Array<Node>;
-export const NodeList = /*@__PURE__*/ S.Array(Node) as any as S.Schema<NodeList>;
+/** Observability Instance specific configuration. */
+export interface ObservabilityInstanceConfig {
+  /** Output only. Track wait event types during query execution for an instance. This flag is turned "on" by default but tracking is enabled only after observability enabled flag is also turned on. This is read-only flag and only modifiable by internal API. */
+  trackWaitEventTypes?: boolean;
+  /** Track actively running queries on the instance. If not set, this flag is "off" by default. */
+  trackActiveQueries?: boolean;
+  /** Track wait events during query execution for an instance. This flag is turned "on" by default but tracking is enabled only after observability enabled flag is also turned on. */
+  trackWaitEvents?: boolean;
+  /** Record application tags for an instance. This flag is turned "off" by default. */
+  recordApplicationTags?: boolean;
+  /** Observability feature status for an instance. This flag is turned "off" by default. */
+  enabled?: boolean;
+  /** Track client address for an instance. If not set, default value is "off". */
+  trackClientAddress?: boolean;
+  /** Query string length. The default value is 10k. */
+  maxQueryStringLength?: number;
+  /** Whether assistive experiences are enabled for this AlloyDB instance. */
+  assistiveExperiencesEnabled?: boolean;
+  /** Preserve comments in query string for an instance. This flag is turned "off" by default. */
+  preserveComments?: boolean;
+  /** Number of query execution plans captured by Insights per minute for all queries combined. The default value is 200. Any integer between 0 to 200 is considered valid. */
+  queryPlansPerMinute?: number;
+  /** Indicates whether to track active query plans for an instance. If not set, the default value is "off". Can only be enabled if track_active_queries is enabled. Deprecated: Use track_active_queries instead. */
+  trackActiveQueryPlan?: boolean;
+}
+export const ObservabilityInstanceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    trackWaitEventTypes: S.optional(S.Boolean),
+    trackActiveQueries: S.optional(S.Boolean),
+    trackWaitEvents: S.optional(S.Boolean),
+    recordApplicationTags: S.optional(S.Boolean),
+    enabled: S.optional(S.Boolean),
+    trackClientAddress: S.optional(S.Boolean),
+    maxQueryStringLength: S.optional(S.Number),
+    assistiveExperiencesEnabled: S.optional(S.Boolean),
+    preserveComments: S.optional(S.Boolean),
+    queryPlansPerMinute: S.optional(S.Number),
+    trackActiveQueryPlan: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ObservabilityInstanceConfig",
+}) as any as S.Schema<ObservabilityInstanceConfig>;
+
+export type InstanceDataApiAccessEnum =
+  | "DEFAULT_DATA_API_ENABLED_FOR_GOOGLE_CLOUD_SERVICES"
+  | "DISABLED"
+  | "ENABLED";
+export const InstanceDataApiAccessEnum = S.String;
+
+/** Information about the Private Service Connect (PSC) for the instance. */
+export interface PscInstanceInfo {
+  /** Output only. Indicates if the PSC auto connection policy is enabled for the instance. For older instances, this will be off by default, but for newer instances, this will be auto-enabled. */
+  effectivePscAutoConnectionPolicy?: boolean;
+  /** Output only. The effective state of the PSC auto DNS for the instance. */
+  effectivePscAutoDnsEnabled?: boolean;
+  /** Output only. The PSC service connection policy name. The format is "projects//regions//serviceConnectionPolicies/" */
+  serviceConnectionPolicy?: string;
+  /** Output only. Specifies the auto DNS names for the instance. */
+  pscAutoDnsNames?: StringList;
+}
+export const PscInstanceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    effectivePscAutoConnectionPolicy: S.optional(S.Boolean),
+    effectivePscAutoDnsEnabled: S.optional(S.Boolean),
+    serviceConnectionPolicy: S.optional(S.String),
+    pscAutoDnsNames: S.optional(StringList),
+  }),
+).annotate({ identifier: "PscInstanceInfo" }) as any as S.Schema<PscInstanceInfo>;
 
 export type ConnectionPoolConfigAuthproxyPoolerScalingTypeEnum =
   | "POOLER_SCALING_TYPE_UNSPECIFIED"
@@ -1125,14 +1278,14 @@ export const ConnectionPoolConfigPoolerScalingTypeEnum = S.String;
 
 /** Configuration for Managed Connection Pool (MCP). */
 export interface ConnectionPoolConfig {
-  /** Optional. Whether to enable Managed Connection Pool (MCP). */
-  enabled?: boolean;
-  /** Optional. The scaling type of the AuthProxy pooler. */
-  authproxyPoolerScalingType?: ConnectionPoolConfigAuthproxyPoolerScalingTypeEnum | (string & {});
   /** Optional. Connection Pool flags, as a list of "key": "value" pairs. */
   flags?: StringMap;
+  /** Optional. The scaling type of the AuthProxy pooler. */
+  authproxyPoolerScalingType?: ConnectionPoolConfigAuthproxyPoolerScalingTypeEnum | (string & {});
   /** Output only. The number of running AuthProxy poolers per instance. */
   authproxyPoolerCount?: number;
+  /** Optional. Whether to enable Managed Connection Pool (MCP). */
+  enabled?: boolean;
   /** Optional. The scaling type of the regular pooler. */
   poolerScalingType?: ConnectionPoolConfigPoolerScalingTypeEnum | (string & {});
   /** Output only. The number of running poolers per instance. */
@@ -1140,171 +1293,20 @@ export interface ConnectionPoolConfig {
 }
 export const ConnectionPoolConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.Boolean),
-    authproxyPoolerScalingType: S.optional(ConnectionPoolConfigAuthproxyPoolerScalingTypeEnum),
     flags: S.optional(StringMap),
+    authproxyPoolerScalingType: S.optional(ConnectionPoolConfigAuthproxyPoolerScalingTypeEnum),
     authproxyPoolerCount: S.optional(S.Number),
+    enabled: S.optional(S.Boolean),
     poolerScalingType: S.optional(ConnectionPoolConfigPoolerScalingTypeEnum),
     poolerCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ConnectionPoolConfig" }) as any as S.Schema<ConnectionPoolConfig>;
-
-/** MachineConfig describes the configuration of a machine. */
-export interface MachineConfig {
-  /** The number of CPU's in the VM instance. */
-  cpuCount?: number;
-  /** Machine type of the VM instance. E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd". cpu_count must match the number of vCPUs in the machine type. */
-  machineType?: string;
-}
-export const MachineConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cpuCount: S.optional(S.Number),
-    machineType: S.optional(S.String),
-  }),
-).annotate({ identifier: "MachineConfig" }) as any as S.Schema<MachineConfig>;
-
-export type InstanceDataApiAccessEnum =
-  | "DEFAULT_DATA_API_ENABLED_FOR_GOOGLE_CLOUD_SERVICES"
-  | "DISABLED"
-  | "ENABLED";
-export const InstanceDataApiAccessEnum = S.String;
-
-export type InstanceInstanceTypeEnum =
-  | "INSTANCE_TYPE_UNSPECIFIED"
-  | "PRIMARY"
-  | "READ_POOL"
-  | "SECONDARY";
-export const InstanceInstanceTypeEnum = S.String;
-
-export type GCAInstanceConfigGcaEntitlementEnum =
-  | "GCA_ENTITLEMENT_TYPE_UNSPECIFIED"
-  | "GCA_STANDARD";
-export const GCAInstanceConfigGcaEntitlementEnum = S.String;
-
-/** Instance level configuration parameters related to the Gemini Cloud Assist product. */
-export interface GCAInstanceConfig {
-  /** Output only. Represents the GCA entitlement state of the instance. */
-  gcaEntitlement?: GCAInstanceConfigGcaEntitlementEnum | (string & {});
-}
-export const GCAInstanceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gcaEntitlement: S.optional(GCAInstanceConfigGcaEntitlementEnum),
-  }),
-).annotate({ identifier: "GCAInstanceConfig" }) as any as S.Schema<GCAInstanceConfig>;
-
-/** Observability Instance specific configuration. */
-export interface ObservabilityInstanceConfig {
-  /** Track wait events during query execution for an instance. This flag is turned "on" by default but tracking is enabled only after observability enabled flag is also turned on. */
-  trackWaitEvents?: boolean;
-  /** Query string length. The default value is 10k. */
-  maxQueryStringLength?: number;
-  /** Indicates whether to track active query plans for an instance. If not set, the default value is "off". Can only be enabled if track_active_queries is enabled. Deprecated: Use track_active_queries instead. */
-  trackActiveQueryPlan?: boolean;
-  /** Record application tags for an instance. This flag is turned "off" by default. */
-  recordApplicationTags?: boolean;
-  /** Number of query execution plans captured by Insights per minute for all queries combined. The default value is 200. Any integer between 0 to 200 is considered valid. */
-  queryPlansPerMinute?: number;
-  /** Preserve comments in query string for an instance. This flag is turned "off" by default. */
-  preserveComments?: boolean;
-  /** Track actively running queries on the instance. If not set, this flag is "off" by default. */
-  trackActiveQueries?: boolean;
-  /** Observability feature status for an instance. This flag is turned "off" by default. */
-  enabled?: boolean;
-  /** Track client address for an instance. If not set, default value is "off". */
-  trackClientAddress?: boolean;
-  /** Whether assistive experiences are enabled for this AlloyDB instance. */
-  assistiveExperiencesEnabled?: boolean;
-  /** Output only. Track wait event types during query execution for an instance. This flag is turned "on" by default but tracking is enabled only after observability enabled flag is also turned on. This is read-only flag and only modifiable by internal API. */
-  trackWaitEventTypes?: boolean;
-}
-export const ObservabilityInstanceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trackWaitEvents: S.optional(S.Boolean),
-    maxQueryStringLength: S.optional(S.Number),
-    trackActiveQueryPlan: S.optional(S.Boolean),
-    recordApplicationTags: S.optional(S.Boolean),
-    queryPlansPerMinute: S.optional(S.Number),
-    preserveComments: S.optional(S.Boolean),
-    trackActiveQueries: S.optional(S.Boolean),
-    enabled: S.optional(S.Boolean),
-    trackClientAddress: S.optional(S.Boolean),
-    assistiveExperiencesEnabled: S.optional(S.Boolean),
-    trackWaitEventTypes: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ObservabilityInstanceConfig",
-}) as any as S.Schema<ObservabilityInstanceConfig>;
 
 export type PscInstanceConfigPscAutoDnsStateEnum =
   | "PSC_AUTO_DNS_STATE_UNSPECIFIED"
   | "PSC_AUTO_DNS_STATE_ENABLED"
   | "PSC_AUTO_DNS_STATE_DISABLED";
 export const PscInstanceConfigPscAutoDnsStateEnum = S.String;
-
-export type DnsAutomationInfoStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING_CREATE"
-  | "ACTIVE"
-  | "PENDING_DELETE"
-  | "CREATE_FAILED"
-  | "DELETE_FAILED";
-export const DnsAutomationInfoStateEnum = S.String;
-
-/** DnsAutomationInfo contains information about the DNS automation for the instance. */
-export interface DnsAutomationInfo {
-  /** Output only. The fully qualified domain name of the instance for DNS automation. Example: "...alloydb.goog.". Note: The AUDIT directive is intentionally omitted because this field contains sensitive network topology information. */
-  fullyQualifiedDomainName?: string;
-  /** Output only. The state of the DNS automation. */
-  state?: DnsAutomationInfoStateEnum | (string & {});
-}
-export const DnsAutomationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fullyQualifiedDomainName: S.optional(S.String),
-    state: S.optional(DnsAutomationInfoStateEnum),
-  }),
-).annotate({ identifier: "DnsAutomationInfo" }) as any as S.Schema<DnsAutomationInfo>;
-
-export type DnsAutomationInfoList = Array<DnsAutomationInfo>;
-export const DnsAutomationInfoList = /*@__PURE__*/ S.Array(
-  DnsAutomationInfo,
-) as any as S.Schema<DnsAutomationInfoList>;
-
-/** Configuration for setting up PSC service automation. Consumer projects in the configs will be allowlisted automatically for the instance. */
-export interface PscAutoConnectionConfig {
-  /** Output only. The IP address of the PSC service automation endpoint. */
-  ipAddress?: string;
-  /** Output only. The creation state or result of the connection policy. Possible values include: - `ACTIVE`: The policy was created successfully. - `PERMISSION_DENIED`: Sufficient permissions were not provided. Note that this field is an unstructured output and customers should not rely on the specific string value or error message directly. */
-  serviceConnectionPolicyCreationState?: string;
-  /** Output only. List of DNS automation info for the PSC auto connection. */
-  dnsAutomationInfos?: DnsAutomationInfoList;
-  /** Output only. The status of the service connection policy. Possible values: "STATE_UNSPECIFIED" - Default state, when Connection Map is created initially. "VALID" - Set when policy and map configuration is valid, and their matching can lead to allowing creation of PSC Connections subject to other constraints like connections limit. "CONNECTION_POLICY_MISSING" - No Service Connection Policy found for this network and Service Class "POLICY_LIMIT_REACHED" - Service Connection Policy limit reached for this network and Service Class "CONSUMER_INSTANCE_PROJECT_NOT_ALLOWLISTED" - The consumer instance project is not in AllowedGoogleProducersResourceHierarchyLevels of the matching ServiceConnectionPolicy. */
-  consumerNetworkStatus?: string;
-  /** The consumer network for the PSC service automation, example: "projects/vpc-host-project/global/networks/default". The consumer network might be hosted a different project than the consumer project. */
-  consumerNetwork?: string;
-  /** The consumer project to which the PSC service automation endpoint will be created. */
-  consumerProject?: string;
-  /** Output only. The PSC service connection policy name. The format is "projects//regions//serviceConnectionPolicies/" */
-  serviceConnectionPolicy?: string;
-  /** Output only. The status of the PSC service automation connection. Possible values: "STATE_UNSPECIFIED" - An invalid state as the default case. "ACTIVE" - The connection has been created successfully. "FAILED" - The connection is not functional since some resources on the connection fail to be created. "CREATING" - The connection is being created. "DELETING" - The connection is being deleted. "CREATE_REPAIRING" - The connection is being repaired to complete creation. "DELETE_REPAIRING" - The connection is being repaired to complete deletion. */
-  status?: string;
-}
-export const PscAutoConnectionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipAddress: S.optional(S.String),
-    serviceConnectionPolicyCreationState: S.optional(S.String),
-    dnsAutomationInfos: S.optional(DnsAutomationInfoList),
-    consumerNetworkStatus: S.optional(S.String),
-    consumerNetwork: S.optional(S.String),
-    consumerProject: S.optional(S.String),
-    serviceConnectionPolicy: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
-).annotate({ identifier: "PscAutoConnectionConfig" }) as any as S.Schema<PscAutoConnectionConfig>;
-
-export type PscAutoConnectionConfigList = Array<PscAutoConnectionConfig>;
-export const PscAutoConnectionConfigList = /*@__PURE__*/ S.Array(
-  PscAutoConnectionConfig,
-) as any as S.Schema<PscAutoConnectionConfigList>;
 
 export type PscInstanceConfigPscAutoConnectionPolicyStateEnum =
   | "PSC_AUTO_CONNECTION_POLICY_STATE_UNSPECIFIED"
@@ -1328,38 +1330,229 @@ export const PscInterfaceConfigList = /*@__PURE__*/ S.Array(
   PscInterfaceConfig,
 ) as any as S.Schema<PscInterfaceConfigList>;
 
+export type DnsAutomationInfoStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING_CREATE"
+  | "ACTIVE"
+  | "PENDING_DELETE"
+  | "CREATE_FAILED"
+  | "DELETE_FAILED";
+export const DnsAutomationInfoStateEnum = S.String;
+
+/** DnsAutomationInfo contains information about the DNS automation for the instance. */
+export interface DnsAutomationInfo {
+  /** Output only. The state of the DNS automation. */
+  state?: DnsAutomationInfoStateEnum | (string & {});
+  /** Output only. The fully qualified domain name of the instance for DNS automation. Example: "...alloydb.goog.". Note: The AUDIT directive is intentionally omitted because this field contains sensitive network topology information. */
+  fullyQualifiedDomainName?: string;
+}
+export const DnsAutomationInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(DnsAutomationInfoStateEnum),
+    fullyQualifiedDomainName: S.optional(S.String),
+  }),
+).annotate({ identifier: "DnsAutomationInfo" }) as any as S.Schema<DnsAutomationInfo>;
+
+export type DnsAutomationInfoList = Array<DnsAutomationInfo>;
+export const DnsAutomationInfoList = /*@__PURE__*/ S.Array(
+  DnsAutomationInfo,
+) as any as S.Schema<DnsAutomationInfoList>;
+
+/** Configuration for setting up PSC service automation. Consumer projects in the configs will be allowlisted automatically for the instance. */
+export interface PscAutoConnectionConfig {
+  /** Output only. The creation state or result of the connection policy. Possible values include: - `ACTIVE`: The policy was created successfully. - `PERMISSION_DENIED`: Sufficient permissions were not provided. Note that this field is an unstructured output and customers should not rely on the specific string value or error message directly. */
+  serviceConnectionPolicyCreationState?: string;
+  /** Output only. The PSC service connection policy name. The format is "projects//regions//serviceConnectionPolicies/" */
+  serviceConnectionPolicy?: string;
+  /** Output only. List of DNS automation info for the PSC auto connection. */
+  dnsAutomationInfos?: DnsAutomationInfoList;
+  /** Output only. The status of the PSC service automation connection. Possible values: "STATE_UNSPECIFIED" - An invalid state as the default case. "ACTIVE" - The connection has been created successfully. "FAILED" - The connection is not functional since some resources on the connection fail to be created. "CREATING" - The connection is being created. "DELETING" - The connection is being deleted. "CREATE_REPAIRING" - The connection is being repaired to complete creation. "DELETE_REPAIRING" - The connection is being repaired to complete deletion. */
+  status?: string;
+  /** Output only. The status of the service connection policy. Possible values: "STATE_UNSPECIFIED" - Default state, when Connection Map is created initially. "VALID" - Set when policy and map configuration is valid, and their matching can lead to allowing creation of PSC Connections subject to other constraints like connections limit. "CONNECTION_POLICY_MISSING" - No Service Connection Policy found for this network and Service Class "POLICY_LIMIT_REACHED" - Service Connection Policy limit reached for this network and Service Class "CONSUMER_INSTANCE_PROJECT_NOT_ALLOWLISTED" - The consumer instance project is not in AllowedGoogleProducersResourceHierarchyLevels of the matching ServiceConnectionPolicy. */
+  consumerNetworkStatus?: string;
+  /** The consumer network for the PSC service automation, example: "projects/vpc-host-project/global/networks/default". The consumer network might be hosted a different project than the consumer project. */
+  consumerNetwork?: string;
+  /** Output only. The IP address of the PSC service automation endpoint. */
+  ipAddress?: string;
+  /** The consumer project to which the PSC service automation endpoint will be created. */
+  consumerProject?: string;
+}
+export const PscAutoConnectionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceConnectionPolicyCreationState: S.optional(S.String),
+    serviceConnectionPolicy: S.optional(S.String),
+    dnsAutomationInfos: S.optional(DnsAutomationInfoList),
+    status: S.optional(S.String),
+    consumerNetworkStatus: S.optional(S.String),
+    consumerNetwork: S.optional(S.String),
+    ipAddress: S.optional(S.String),
+    consumerProject: S.optional(S.String),
+  }),
+).annotate({ identifier: "PscAutoConnectionConfig" }) as any as S.Schema<PscAutoConnectionConfig>;
+
+export type PscAutoConnectionConfigList = Array<PscAutoConnectionConfig>;
+export const PscAutoConnectionConfigList = /*@__PURE__*/ S.Array(
+  PscAutoConnectionConfig,
+) as any as S.Schema<PscAutoConnectionConfigList>;
+
 /** PscInstanceConfig contains PSC related configuration at an instance level. */
 export interface PscInstanceConfig {
   /** Optional. Configuration for setting up PSC auto DNS for the instance. */
   pscAutoDnsState?: PscInstanceConfigPscAutoDnsStateEnum | (string & {});
-  /** Optional. Configurations for setting up PSC service automation. */
-  pscAutoConnections?: PscAutoConnectionConfigList;
-  /** Optional. List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance. */
-  allowedConsumerProjects?: StringList;
   /** Optional. Configuration for setting up PSC auto connection for the instance. */
   pscAutoConnectionPolicyState?: PscInstanceConfigPscAutoConnectionPolicyStateEnum | (string & {});
   /** Output only. The DNS name of the instance for PSC connectivity. Name convention: ...alloydb-psc.goog */
   pscDnsName?: string;
   /** Optional. Configurations for setting up PSC interfaces attached to the instance which are used for outbound connectivity. Only primary instances can have PSC interface attached. Currently we only support 0 or 1 PSC interface. */
   pscInterfaceConfigs?: PscInterfaceConfigList;
+  /** Optional. List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance. */
+  allowedConsumerProjects?: StringList;
   /** Output only. The service attachment created when Private Service Connect (PSC) is enabled for the instance. The name of the resource will be in the format of `projects//regions//serviceAttachments/` */
   serviceAttachmentLink?: string;
+  /** Optional. Configurations for setting up PSC service automation. */
+  pscAutoConnections?: PscAutoConnectionConfigList;
 }
 export const PscInstanceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pscAutoDnsState: S.optional(PscInstanceConfigPscAutoDnsStateEnum),
-    pscAutoConnections: S.optional(PscAutoConnectionConfigList),
-    allowedConsumerProjects: S.optional(StringList),
     pscAutoConnectionPolicyState: S.optional(PscInstanceConfigPscAutoConnectionPolicyStateEnum),
     pscDnsName: S.optional(S.String),
     pscInterfaceConfigs: S.optional(PscInterfaceConfigList),
+    allowedConsumerProjects: S.optional(StringList),
     serviceAttachmentLink: S.optional(S.String),
+    pscAutoConnections: S.optional(PscAutoConnectionConfigList),
   }),
 ).annotate({ identifier: "PscInstanceConfig" }) as any as S.Schema<PscInstanceConfig>;
 
-/** Deprecated and unused. This message will be removed in the near future. */
-export type GeminiInstanceConfig = GeminiClusterConfig;
-export const GeminiInstanceConfig = GeminiClusterConfig;
+export interface ObservabilityInstanceInfo {
+  /** Output only. Track wait event types during query execution for an instance. */
+  trackWaitEventTypes?: boolean;
+  /** Output only. Track wait events during query execution for an instance. */
+  trackWaitEvents?: boolean;
+  /** Output only. Observability feature status for an instance. */
+  enabled?: boolean;
+  /** Output only. Record application tags for an instance. */
+  recordApplicationTags?: boolean;
+  /** Output only. Indicates whether to track active query plans for an instance. Deprecated: Use track_active_queries instead. */
+  trackActiveQueryPlan?: boolean;
+  /** Output only. Track actively running queries on the instance. */
+  trackActiveQueries?: boolean;
+  /** Output only. Whether assistive experiences are enabled for this AlloyDB instance. */
+  assistiveExperiencesEnabled?: boolean;
+  /** Output only. Number of query execution plans captured by Insights per minute for all queries combined. */
+  queryPlansPerMinute?: number;
+  /** Output only. Query string length. The default value is 10k. */
+  maxQueryStringLength?: number;
+  /** Output only. Preserve comments in query string for an instance. */
+  preserveComments?: boolean;
+  /** Output only. Track client address for an instance. */
+  trackClientAddress?: boolean;
+}
+export const ObservabilityInstanceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    trackWaitEventTypes: S.optional(S.Boolean),
+    trackWaitEvents: S.optional(S.Boolean),
+    enabled: S.optional(S.Boolean),
+    recordApplicationTags: S.optional(S.Boolean),
+    trackActiveQueryPlan: S.optional(S.Boolean),
+    trackActiveQueries: S.optional(S.Boolean),
+    assistiveExperiencesEnabled: S.optional(S.Boolean),
+    queryPlansPerMinute: S.optional(S.Number),
+    maxQueryStringLength: S.optional(S.Number),
+    preserveComments: S.optional(S.Boolean),
+    trackClientAddress: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ObservabilityInstanceInfo",
+}) as any as S.Schema<ObservabilityInstanceInfo>;
+
+/** MachineConfig describes the configuration of a machine. */
+export interface MachineConfig {
+  /** The number of CPU's in the VM instance. */
+  cpuCount?: number;
+  /** Machine type of the VM instance. E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd". cpu_count must match the number of vCPUs in the machine type. */
+  machineType?: string;
+}
+export const MachineConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cpuCount: S.optional(S.Number),
+    machineType: S.optional(S.String),
+  }),
+).annotate({ identifier: "MachineConfig" }) as any as S.Schema<MachineConfig>;
+
+export type GCAInstanceConfigGcaEntitlementEnum =
+  | "GCA_ENTITLEMENT_TYPE_UNSPECIFIED"
+  | "GCA_STANDARD";
+export const GCAInstanceConfigGcaEntitlementEnum = S.String;
+
+/** Instance level configuration parameters related to the Gemini Cloud Assist product. */
+export interface GCAInstanceConfig {
+  /** Output only. Represents the GCA entitlement state of the instance. */
+  gcaEntitlement?: GCAInstanceConfigGcaEntitlementEnum | (string & {});
+}
+export const GCAInstanceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gcaEntitlement: S.optional(GCAInstanceConfigGcaEntitlementEnum),
+  }),
+).annotate({ identifier: "GCAInstanceConfig" }) as any as S.Schema<GCAInstanceConfig>;
+
+/** Details of a single node in the instance. Nodes in an AlloyDB instance are ephemeral, they can change during update, failover, autohealing and resize operations. */
+export interface Node {
+  /** Output only. The private IP address of the VM e.g. "10.57.0.34". */
+  ip?: string;
+  /** Output only. Determined by state of the compute VM and postgres-service health. Compute VM state can have values listed in https://cloud.google.com/compute/docs/instances/instance-life-cycle and postgres-service health can have values: HEALTHY and UNHEALTHY. */
+  state?: string;
+  /** Output only. The Compute Engine zone of the VM e.g. "us-central1-b". */
+  zoneId?: string;
+  /** Output only. Indicates whether the node set up to be configured as a hot standby. */
+  isHotStandby?: boolean;
+  /** Output only. The identifier of the VM e.g. "test-read-0601-407e52be-ms3l". */
+  id?: string;
+}
+export const Node = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ip: S.optional(S.String),
+    state: S.optional(S.String),
+    zoneId: S.optional(S.String),
+    isHotStandby: S.optional(S.Boolean),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Node" }) as any as S.Schema<Node>;
+
+export type NodeList = Array<Node>;
+export const NodeList = /*@__PURE__*/ S.Array(Node) as any as S.Schema<NodeList>;
+
+/** A schedule for the autoscaler. */
+export interface Schedule {
+  /** If true, the schedule is disabled. */
+  disabled?: boolean;
+  /** Cron expression for the triggering the schedule. See https://cloud.google.com/compute/docs/autoscaler/scaling-schedules#cron_expressions for the syntax. */
+  cronExpression?: string;
+  /** The location-based IANA time zone for interpreting the schedule's start time. If no time zone is provided, UTC is used by default. */
+  timeZone?: string;
+  /** Description of the schedule. */
+  description?: string;
+  /** Minimum number of nodes in while the schedule is active. */
+  minNodeCount?: string;
+  /** Name of the schedule. */
+  name?: string;
+  /** Duration of the schedule. */
+  durationSec?: string;
+}
+export const Schedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disabled: S.optional(S.Boolean),
+    cronExpression: S.optional(S.String),
+    timeZone: S.optional(S.String),
+    description: S.optional(S.String),
+    minNodeCount: S.optional(S.String),
+    name: S.optional(S.String),
+    durationSec: S.optional(S.String),
+  }),
+).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
+
+export type ScheduleList = Array<Schedule>;
+export const ScheduleList = /*@__PURE__*/ S.Array(Schedule) as any as S.Schema<ScheduleList>;
 
 /** CPU utilization policy for the autoscaler. */
 export interface CpuUtilization {
@@ -1374,67 +1567,35 @@ export const CpuUtilization = /*@__PURE__*/ S.suspend(() =>
 
 /** Policy for the autoscaler. */
 export interface Policy {
+  /** Maximum number of nodes for the autoscaler. */
+  maxNodeCount?: string;
   /** If true, autoscaling is enabled for the instance. If not set, the default value is false. */
   enabled?: boolean;
   /** CPU utilization policy for the autoscaler. */
   cpuUtilization?: CpuUtilization;
-  /** Maximum number of nodes for the autoscaler. */
-  maxNodeCount?: string;
   /** The period of time in seconds after a new node is created before the autoscaler will incorporate its resource usage (e.g. CPU utilization) into the autoscaling recommendation algorithm. */
   coolDownPeriodSec?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    maxNodeCount: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     cpuUtilization: S.optional(CpuUtilization),
-    maxNodeCount: S.optional(S.String),
     coolDownPeriodSec: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
-/** A schedule for the autoscaler. */
-export interface Schedule {
-  /** Name of the schedule. */
-  name?: string;
-  /** Cron expression for the triggering the schedule. See https://cloud.google.com/compute/docs/autoscaler/scaling-schedules#cron_expressions for the syntax. */
-  cronExpression?: string;
-  /** Minimum number of nodes in while the schedule is active. */
-  minNodeCount?: string;
-  /** If true, the schedule is disabled. */
-  disabled?: boolean;
-  /** Description of the schedule. */
-  description?: string;
-  /** The location-based IANA time zone for interpreting the schedule's start time. If no time zone is provided, UTC is used by default. */
-  timeZone?: string;
-  /** Duration of the schedule. */
-  durationSec?: string;
-}
-export const Schedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    cronExpression: S.optional(S.String),
-    minNodeCount: S.optional(S.String),
-    disabled: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    timeZone: S.optional(S.String),
-    durationSec: S.optional(S.String),
-  }),
-).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
-
-export type ScheduleList = Array<Schedule>;
-export const ScheduleList = /*@__PURE__*/ S.Array(Schedule) as any as S.Schema<ScheduleList>;
-
 /** Configuration for autoscaling. */
 export interface AutoScalingConfig {
-  /** Policy for the MIG autoscaler. */
-  policy?: Policy;
   /** Optional list of schedules for the MIG autoscaler. If not set, no schedules are created. */
   schedules?: ScheduleList;
+  /** Policy for the MIG autoscaler. */
+  policy?: Policy;
 }
 export const AutoScalingConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    policy: S.optional(Policy),
     schedules: S.optional(ScheduleList),
+    policy: S.optional(Policy),
   }),
 ).annotate({ identifier: "AutoScalingConfig" }) as any as S.Schema<AutoScalingConfig>;
 
@@ -1452,114 +1613,12 @@ export const ReadPoolConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ReadPoolConfig" }) as any as S.Schema<ReadPoolConfig>;
 
-/** AuthorizedNetwork contains metadata for an authorized network. */
-export interface AuthorizedNetwork {
-  /** CIDR range for one authorzied network of the instance. */
-  cidrRange?: string;
-}
-export const AuthorizedNetwork = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cidrRange: S.optional(S.String),
-  }),
-).annotate({ identifier: "AuthorizedNetwork" }) as any as S.Schema<AuthorizedNetwork>;
-
-export type AuthorizedNetworkList = Array<AuthorizedNetwork>;
-export const AuthorizedNetworkList = /*@__PURE__*/ S.Array(
-  AuthorizedNetwork,
-) as any as S.Schema<AuthorizedNetworkList>;
-
-/** Metadata related to instance-level network configuration. */
-export interface InstanceNetworkConfig {
-  /** Optional. Enabling public ip for the instance. */
-  enablePublicIp?: boolean;
-  /** Optional. Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default". If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster. The range name must comply with [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035). Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?. */
-  allocatedIpRangeOverride?: string;
-  /** Optional. Enabling an outbound public IP address to support a database server sending requests out into the internet. */
-  enableOutboundPublicIp?: boolean;
-  /** Optional. A list of external network authorized to access this instance. */
-  authorizedExternalNetworks?: AuthorizedNetworkList;
-  /** Output only. The resource link for the VPC network in which instance resources are created and from which they are accessible via Private IP. This will be the same value as the parent cluster's network. It is specified in the form: // `projects/{project_number}/global/networks/{network_id}`. */
-  network?: string;
-}
-export const InstanceNetworkConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enablePublicIp: S.optional(S.Boolean),
-    allocatedIpRangeOverride: S.optional(S.String),
-    enableOutboundPublicIp: S.optional(S.Boolean),
-    authorizedExternalNetworks: S.optional(AuthorizedNetworkList),
-    network: S.optional(S.String),
-  }),
-).annotate({ identifier: "InstanceNetworkConfig" }) as any as S.Schema<InstanceNetworkConfig>;
-
-/** Instance level Query Insights information, which is read-only and available in the output only. */
-export interface QueryInsightsInstanceInfo {
-  /** Output only. Whether Query Insights is enabled. */
-  enabled?: boolean;
-  /** Output only. Whether to record client address. */
-  recordClientAddress?: boolean;
-  /** Output only. Maximum query string length. */
-  queryStringLength?: number;
-  /** Output only. Number of query execution plans captured per minute. */
-  queryPlansPerMinute?: number;
-  /** Output only. Whether to record application tags. */
-  recordApplicationTags?: boolean;
-}
-export const QueryInsightsInstanceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    recordClientAddress: S.optional(S.Boolean),
-    queryStringLength: S.optional(S.Number),
-    queryPlansPerMinute: S.optional(S.Number),
-    recordApplicationTags: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "QueryInsightsInstanceInfo",
-}) as any as S.Schema<QueryInsightsInstanceInfo>;
-
-export type InstanceActivationPolicyEnum = "ACTIVATION_POLICY_UNSPECIFIED" | "ALWAYS" | "NEVER";
-export const InstanceActivationPolicyEnum = S.String;
-
-export interface ObservabilityInstanceInfo {
-  /** Output only. Record application tags for an instance. */
-  recordApplicationTags?: boolean;
-  /** Output only. Number of query execution plans captured by Insights per minute for all queries combined. */
-  queryPlansPerMinute?: number;
-  /** Output only. Whether assistive experiences are enabled for this AlloyDB instance. */
-  assistiveExperiencesEnabled?: boolean;
-  /** Output only. Track wait event types during query execution for an instance. */
-  trackWaitEventTypes?: boolean;
-  /** Output only. Indicates whether to track active query plans for an instance. Deprecated: Use track_active_queries instead. */
-  trackActiveQueryPlan?: boolean;
-  /** Output only. Query string length. The default value is 10k. */
-  maxQueryStringLength?: number;
-  /** Output only. Observability feature status for an instance. */
-  enabled?: boolean;
-  /** Output only. Track wait events during query execution for an instance. */
-  trackWaitEvents?: boolean;
-  /** Output only. Track actively running queries on the instance. */
-  trackActiveQueries?: boolean;
-  /** Output only. Preserve comments in query string for an instance. */
-  preserveComments?: boolean;
-  /** Output only. Track client address for an instance. */
-  trackClientAddress?: boolean;
-}
-export const ObservabilityInstanceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordApplicationTags: S.optional(S.Boolean),
-    queryPlansPerMinute: S.optional(S.Number),
-    assistiveExperiencesEnabled: S.optional(S.Boolean),
-    trackWaitEventTypes: S.optional(S.Boolean),
-    trackActiveQueryPlan: S.optional(S.Boolean),
-    maxQueryStringLength: S.optional(S.Number),
-    enabled: S.optional(S.Boolean),
-    trackWaitEvents: S.optional(S.Boolean),
-    trackActiveQueries: S.optional(S.Boolean),
-    preserveComments: S.optional(S.Boolean),
-    trackClientAddress: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ObservabilityInstanceInfo",
-}) as any as S.Schema<ObservabilityInstanceInfo>;
+export type InstanceInstanceTypeEnum =
+  | "INSTANCE_TYPE_UNSPECIFIED"
+  | "PRIMARY"
+  | "READ_POOL"
+  | "SECONDARY";
+export const InstanceInstanceTypeEnum = S.String;
 
 export type UpdatePolicyModeEnum = "MODE_UNSPECIFIED" | "DEFAULT" | "FORCE_APPLY";
 export const UpdatePolicyModeEnum = S.String;
@@ -1575,208 +1634,149 @@ export const UpdatePolicy = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UpdatePolicy" }) as any as S.Schema<UpdatePolicy>;
 
-/** Client connection configuration */
-export interface ClientConnectionConfig {
-  /** Optional. SSL configuration option for this instance. */
-  sslConfig?: SslConfig;
-  /** Optional. Configuration to enforce connectors only (ex: AuthProxy) connections to the database. */
-  requireConnectors?: boolean;
-}
-export const ClientConnectionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sslConfig: S.optional(SslConfig),
-    requireConnectors: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ClientConnectionConfig" }) as any as S.Schema<ClientConnectionConfig>;
-
-export type InstanceAvailabilityTypeEnum = "AVAILABILITY_TYPE_UNSPECIFIED" | "ZONAL" | "REGIONAL";
-export const InstanceAvailabilityTypeEnum = S.String;
-
-/** QueryInsights Instance specific configuration. */
-export interface QueryInsightsInstanceConfig {
-  /** Record application tags for an instance. This flag is turned "on" by default. */
-  recordApplicationTags?: boolean;
-  /** Query string length. The default value is 1024. Any integer between 256 and 4500 is considered valid. */
-  queryStringLength?: number;
-  /** Record client address for an instance. Client address is PII information. This flag is turned "on" by default. */
-  recordClientAddress?: boolean;
-  /** Number of query execution plans captured by Insights per minute for all queries combined. The default value is 5. Any integer between 0 and 20 is considered valid. */
-  queryPlansPerMinute?: number;
-}
-export const QueryInsightsInstanceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordApplicationTags: S.optional(S.Boolean),
-    queryStringLength: S.optional(S.Number),
-    recordClientAddress: S.optional(S.Boolean),
-    queryPlansPerMinute: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "QueryInsightsInstanceConfig",
-}) as any as S.Schema<QueryInsightsInstanceConfig>;
-
-/** Information about the Private Service Connect (PSC) for the instance. */
-export interface PscInstanceInfo {
-  /** Output only. Indicates if the PSC auto connection policy is enabled for the instance. For older instances, this will be off by default, but for newer instances, this will be auto-enabled. */
-  effectivePscAutoConnectionPolicy?: boolean;
-  /** Output only. The PSC service connection policy name. The format is "projects//regions//serviceConnectionPolicies/" */
-  serviceConnectionPolicy?: string;
-  /** Output only. The effective state of the PSC auto DNS for the instance. */
-  effectivePscAutoDnsEnabled?: boolean;
-  /** Output only. Specifies the auto DNS names for the instance. */
-  pscAutoDnsNames?: StringList;
-}
-export const PscInstanceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    effectivePscAutoConnectionPolicy: S.optional(S.Boolean),
-    serviceConnectionPolicy: S.optional(S.String),
-    effectivePscAutoDnsEnabled: S.optional(S.Boolean),
-    pscAutoDnsNames: S.optional(StringList),
-  }),
-).annotate({ identifier: "PscInstanceInfo" }) as any as S.Schema<PscInstanceInfo>;
-
 /** An Instance is a computing unit that an end customer can connect to. It's the main unit of computing resources in AlloyDB. */
 export interface Instance {
-  /** Database flags. Set at the instance level. They are copied from the primary instance on secondary instance creation. Flags that have restrictions default to the value at primary instance on read instances during creation. Read instances can set new flags or override existing flags that are relevant for reads, for example, for enabling columnar cache on a read instance. Flags set on read instance might or might not be present on the primary instance. This is a list of "key": "value" pairs. "key": The name of the flag. These flags are passed at instance setup time, so include both server options and system variables for Postgres. Flags are specified with underscores, not hyphens. "value": The value of the flag. Booleans are set to **on** for true and **off** for false. This field must be omitted if the flag doesn't take a value. */
-  databaseFlags?: StringMap;
-  /** Output only. The current serving state of the instance. */
-  state?: InstanceStateEnum | (string & {});
-  /** Output only. List of available read-only VMs in this instance, including the standby for a PRIMARY instance. */
-  nodes?: NodeList;
-  /** Output only. Update time stamp */
-  updateTime?: string;
-  /** Optional. The configuration for Managed Connection Pool (MCP). */
-  connectionPoolConfig?: ConnectionPoolConfig;
-  /** Configurations for the machines that host the underlying database engine. */
-  machineConfig?: MachineConfig;
   /** For Resource freshness validation (https://google.aip.dev/154) */
   etag?: string;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  /** Output only. Instance level Query Insights information, which is read-only and available in the output only. Contains the effective query insights settings for this instance, by merging customer's provided `QueryInsightsInstanceConfig` with the Query Insights defaults. */
+  queryInsightsInfo?: QueryInsightsInstanceInfo;
+  /** Availability type of an Instance. If empty, defaults to REGIONAL for primary instances. For read pools, availability_type is always UNSPECIFIED. Instances in the read pools are evenly distributed across available zones within the region (i.e. read pools with more than one node will have a node in at least two zones). */
+  availabilityType?: InstanceAvailabilityTypeEnum | (string & {});
+  /** Optional. Client connection specific configurations */
+  clientConnectionConfig?: ClientConnectionConfig;
+  /** Output only. The IP address for the Instance. This is the connection endpoint for an end-user application. */
+  ipAddress?: string;
   /** Output only. Maintenance version of the instance, for example: POSTGRES_15.2025_07_15.04_00. Output only. Update this field via the parent cluster's maintenance_version field(s). */
   maintenanceVersionName?: string;
-  /** Optional. Controls whether the Data API is enabled for this instance. When enabled, this allows authorized users to connect to the instance from the public internet using the `executeSql` API, even for private IP instances. If this is not specified, the data API is enabled by default for Google internal services like AlloyDB Studio. Disable it explicitly to disallow Google internal services as well. */
-  dataApiAccess?: InstanceDataApiAccessEnum | (string & {});
-  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
-  uid?: string;
-  /** Labels as key value pairs */
-  labels?: StringMap;
-  /** Required. The type of the instance. Specified at creation time. */
-  instanceType?: InstanceInstanceTypeEnum | (string & {});
-  /** Output only. Configuration parameters related to Gemini Cloud Assist. */
-  gcaConfig?: GCAInstanceConfig;
-  /** Configuration for observability. */
-  observabilityConfig?: ObservabilityInstanceConfig;
-  /** User-settable and human-readable display name for the Instance. */
-  displayName?: string;
-  /** Optional. The configuration for Private Service Connect (PSC) for the instance. */
-  pscInstanceConfig?: PscInstanceConfig;
-  /** Output only. Create time stamp */
-  createTime?: string;
+  /** Optional. Specifies whether an instance needs to spin up. Once the instance is active, the activation policy can be updated to the `NEVER` to stop the instance. Likewise, the activation policy can be updated to `ALWAYS` to start the instance. There are restrictions around when an instance can/cannot be activated (for example, a read pool instance should be stopped before stopping primary etc.). Please refer to the API documentation for more details. */
+  activationPolicy?: InstanceActivationPolicyEnum | (string & {});
+  /** Optional. Instance-level network configuration. */
+  networkConfig?: InstanceNetworkConfig;
   /** Optional. Deprecated and unused. This field will be removed in the near future. */
   geminiConfig?: GeminiClusterConfig;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap;
+  /** Output only. The current serving state of the instance. */
+  state?: InstanceStateEnum | (string & {});
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Instance does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean;
+  /** Configuration for query insights. */
+  queryInsightsConfig?: QueryInsightsInstanceConfig;
+  /** Output only. The name of the instance resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id}/instances/{instance_id} where the cluster and instance ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the instance resource name is the name of the parent resource: * projects/{project}/locations/{region}/clusters/{cluster_id} */
+  name?: string;
+  /** Labels as key value pairs */
+  labels?: StringMap;
+  /** Database flags. Set at the instance level. They are copied from the primary instance on secondary instance creation. Flags that have restrictions default to the value at primary instance on read instances during creation. Read instances can set new flags or override existing flags that are relevant for reads, for example, for enabling columnar cache on a read instance. Flags set on read instance might or might not be present on the primary instance. This is a list of "key": "value" pairs. "key": The name of the flag. These flags are passed at instance setup time, so include both server options and system variables for Postgres. Flags are specified with underscores, not hyphens. "value": The value of the flag. Booleans are set to **on** for true and **off** for false. This field must be omitted if the flag doesn't take a value. */
+  databaseFlags?: StringMap;
+  /** Output only. Create time stamp */
+  createTime?: string;
+  /** Configuration for observability. */
+  observabilityConfig?: ObservabilityInstanceConfig;
+  /** Optional. Controls whether the Data API is enabled for this instance. When enabled, this allows authorized users to connect to the instance from the public internet using the `executeSql` API, even for private IP instances. If this is not specified, the data API is enabled by default for Google internal services like AlloyDB Studio. Disable it explicitly to disallow Google internal services as well. */
+  dataApiAccess?: InstanceDataApiAccessEnum | (string & {});
+  /** Output only. Information about the Private Service Connect (PSC) for the instance. */
+  pscInstanceInfo?: PscInstanceInfo;
+  /** Optional. The configuration for Managed Connection Pool (MCP). */
+  connectionPoolConfig?: ConnectionPoolConfig;
+  /** Optional. The configuration for Private Service Connect (PSC) for the instance. */
+  pscInstanceConfig?: PscInstanceConfig;
+  /** Output only. Instance level observability information, contains the effective values of observability settings for this instance, by merging customer's provided `ObservabilityInstanceConfig` with the Observability defaults. */
+  observabilityInstanceInfo?: ObservabilityInstanceInfo;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean;
+  /** Output only. Update time stamp */
+  updateTime?: string;
+  /** Configurations for the machines that host the underlying database engine. */
+  machineConfig?: MachineConfig;
+  /** Output only. The public IP addresses for the Instance. This is available ONLY when enable_public_ip is set. This is the connection endpoint for an end-user application. */
+  publicIpAddress?: string;
+  /** User-settable and human-readable display name for the Instance. */
+  displayName?: string;
+  /** Output only. Configuration parameters related to Gemini Cloud Assist. */
+  gcaConfig?: GCAInstanceConfig;
+  /** Output only. All outbound public IP addresses configured for the instance. */
+  outboundPublicIpAddresses?: StringList;
+  /** Output only. Delete time stamp */
+  deleteTime?: string;
+  /** Output only. List of available read-only VMs in this instance, including the standby for a PRIMARY instance. */
+  nodes?: NodeList;
   /** Output only. This is set for the read-write VM of the PRIMARY instance only. */
   writableNode?: Node;
   /** Read pool instance configuration. This is required if the value of instanceType is READ_POOL. */
   readPoolConfig?: ReadPoolConfig;
-  /** Optional. Instance-level network configuration. */
-  networkConfig?: InstanceNetworkConfig;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Output only. Instance level Query Insights information, which is read-only and available in the output only. Contains the effective query insights settings for this instance, by merging customer's provided `QueryInsightsInstanceConfig` with the Query Insights defaults. */
-  queryInsightsInfo?: QueryInsightsInstanceInfo;
-  /** Output only. The IP address for the Instance. This is the connection endpoint for an end-user application. */
-  ipAddress?: string;
-  /** Output only. All outbound public IP addresses configured for the instance. */
-  outboundPublicIpAddresses?: StringList;
-  /** Optional. Specifies whether an instance needs to spin up. Once the instance is active, the activation policy can be updated to the `NEVER` to stop the instance. Likewise, the activation policy can be updated to `ALWAYS` to start the instance. There are restrictions around when an instance can/cannot be activated (for example, a read pool instance should be stopped before stopping primary etc.). Please refer to the API documentation for more details. */
-  activationPolicy?: InstanceActivationPolicyEnum | (string & {});
   /** The Compute Engine zone that the instance should serve from, per https://cloud.google.com/compute/docs/regions-zones This can ONLY be specified for ZONAL instances. If present for a REGIONAL instance, an error will be thrown. If this is absent for a ZONAL instance, instance is created in a random zone with available capacity. */
   gceZone?: string;
-  /** Output only. Instance level observability information, contains the effective values of observability settings for this instance, by merging customer's provided `ObservabilityInstanceConfig` with the Observability defaults. */
-  observabilityInstanceInfo?: ObservabilityInstanceInfo;
-  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Instance does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
-  reconciling?: boolean;
-  /** Output only. Delete time stamp */
-  deleteTime?: string;
+  /** Required. The type of the instance. Specified at creation time. */
+  instanceType?: InstanceInstanceTypeEnum | (string & {});
   /** Update policy that will be applied during instance update. This field is not persisted when you update the instance. To use a non-default update policy, you must specify explicitly specify the value in each update request. */
   updatePolicy?: UpdatePolicy;
-  /** Output only. The name of the instance resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id}/instances/{instance_id} where the cluster and instance ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the instance resource name is the name of the parent resource: * projects/{project}/locations/{region}/clusters/{cluster_id} */
-  name?: string;
-  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
-  annotations?: StringMap;
-  /** Optional. Client connection specific configurations */
-  clientConnectionConfig?: ClientConnectionConfig;
-  /** Availability type of an Instance. If empty, defaults to REGIONAL for primary instances. For read pools, availability_type is always UNSPECIFIED. Instances in the read pools are evenly distributed across available zones within the region (i.e. read pools with more than one node will have a node in at least two zones). */
-  availabilityType?: InstanceAvailabilityTypeEnum | (string & {});
-  /** Configuration for query insights. */
-  queryInsightsConfig?: QueryInsightsInstanceConfig;
-  /** Output only. The public IP addresses for the Instance. This is available ONLY when enable_public_ip is set. This is the connection endpoint for an end-user application. */
-  publicIpAddress?: string;
-  /** Output only. Information about the Private Service Connect (PSC) for the instance. */
-  pscInstanceInfo?: PscInstanceInfo;
 }
 export const Instance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    databaseFlags: S.optional(StringMap),
-    state: S.optional(InstanceStateEnum),
-    nodes: S.optional(NodeList),
-    updateTime: S.optional(S.String),
-    connectionPoolConfig: S.optional(ConnectionPoolConfig),
-    machineConfig: S.optional(MachineConfig),
     etag: S.optional(S.String),
-    satisfiesPzs: S.optional(S.Boolean),
+    queryInsightsInfo: S.optional(QueryInsightsInstanceInfo),
+    availabilityType: S.optional(InstanceAvailabilityTypeEnum),
+    clientConnectionConfig: S.optional(ClientConnectionConfig),
+    ipAddress: S.optional(S.String),
     maintenanceVersionName: S.optional(S.String),
-    dataApiAccess: S.optional(InstanceDataApiAccessEnum),
-    uid: S.optional(S.String),
-    labels: S.optional(StringMap),
-    instanceType: S.optional(InstanceInstanceTypeEnum),
-    gcaConfig: S.optional(GCAInstanceConfig),
-    observabilityConfig: S.optional(ObservabilityInstanceConfig),
-    displayName: S.optional(S.String),
-    pscInstanceConfig: S.optional(PscInstanceConfig),
-    createTime: S.optional(S.String),
+    activationPolicy: S.optional(InstanceActivationPolicyEnum),
+    networkConfig: S.optional(InstanceNetworkConfig),
     geminiConfig: S.optional(GeminiClusterConfig),
+    satisfiesPzs: S.optional(S.Boolean),
+    uid: S.optional(S.String),
+    annotations: S.optional(StringMap),
+    state: S.optional(InstanceStateEnum),
+    reconciling: S.optional(S.Boolean),
+    queryInsightsConfig: S.optional(QueryInsightsInstanceConfig),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    databaseFlags: S.optional(StringMap),
+    createTime: S.optional(S.String),
+    observabilityConfig: S.optional(ObservabilityInstanceConfig),
+    dataApiAccess: S.optional(InstanceDataApiAccessEnum),
+    pscInstanceInfo: S.optional(PscInstanceInfo),
+    connectionPoolConfig: S.optional(ConnectionPoolConfig),
+    pscInstanceConfig: S.optional(PscInstanceConfig),
+    observabilityInstanceInfo: S.optional(ObservabilityInstanceInfo),
+    satisfiesPzi: S.optional(S.Boolean),
+    updateTime: S.optional(S.String),
+    machineConfig: S.optional(MachineConfig),
+    publicIpAddress: S.optional(S.String),
+    displayName: S.optional(S.String),
+    gcaConfig: S.optional(GCAInstanceConfig),
+    outboundPublicIpAddresses: S.optional(StringList),
+    deleteTime: S.optional(S.String),
+    nodes: S.optional(NodeList),
     writableNode: S.optional(Node),
     readPoolConfig: S.optional(ReadPoolConfig),
-    networkConfig: S.optional(InstanceNetworkConfig),
-    satisfiesPzi: S.optional(S.Boolean),
-    queryInsightsInfo: S.optional(QueryInsightsInstanceInfo),
-    ipAddress: S.optional(S.String),
-    outboundPublicIpAddresses: S.optional(StringList),
-    activationPolicy: S.optional(InstanceActivationPolicyEnum),
     gceZone: S.optional(S.String),
-    observabilityInstanceInfo: S.optional(ObservabilityInstanceInfo),
-    reconciling: S.optional(S.Boolean),
-    deleteTime: S.optional(S.String),
+    instanceType: S.optional(InstanceInstanceTypeEnum),
     updatePolicy: S.optional(UpdatePolicy),
-    name: S.optional(S.String),
-    annotations: S.optional(StringMap),
-    clientConnectionConfig: S.optional(ClientConnectionConfig),
-    availabilityType: S.optional(InstanceAvailabilityTypeEnum),
-    queryInsightsConfig: S.optional(QueryInsightsInstanceConfig),
-    publicIpAddress: S.optional(S.String),
-    pscInstanceInfo: S.optional(PscInstanceInfo),
   }),
 ).annotate({ identifier: "Instance" }) as any as S.Schema<Instance>;
 
 export interface CreateProjectsLocationsClustersInstancesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
-  parent: string;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean;
+  /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
+  parent: string;
   /** Required. ID of the requesting object. */
   instanceId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Instance;
 }
 export const CreateProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     instanceId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Instance.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1804,41 +1804,41 @@ export interface User {
   keepExtraRoles?: boolean;
   /** Input only. Password for the user. */
   password?: string;
+  /** Optional. List of database roles this user has. The database role strings are subject to the PostgreSQL naming conventions. */
+  databaseRoles?: StringList;
   /** Optional. Type of this user. */
   userType?: UserUserTypeEnum | (string & {});
   /** Output only. Name of the resource in the form of projects/{project}/locations/{location}/cluster/{cluster}/users/{user}. */
   name?: string;
-  /** Optional. List of database roles this user has. The database role strings are subject to the PostgreSQL naming conventions. */
-  databaseRoles?: StringList;
 }
 export const User = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keepExtraRoles: S.optional(S.Boolean),
     password: S.optional(S.String),
+    databaseRoles: S.optional(StringList),
     userType: S.optional(UserUserTypeEnum),
     name: S.optional(S.String),
-    databaseRoles: S.optional(StringList),
   }),
 ).annotate({ identifier: "User" }) as any as S.Schema<User>;
 
 export interface CreateProjectsLocationsClustersUsersRequest {
-  /** Required. ID of the requesting object. */
-  userId?: string;
-  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
-  validateOnly?: boolean;
   /** Required. Value for parent. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. ID of the requesting object. */
+  userId?: string;
+  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
+  validateOnly?: boolean;
   /** Request body */
   body?: User;
 }
 export const CreateProjectsLocationsClustersUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    userId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(User.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1859,94 +1859,94 @@ export type EndpointStateEnum =
   | "DELETING";
 export const EndpointStateEnum = S.String;
 
+/** The DNS config for the endpoint, containing the DNS record name, type and targets. */
+export interface DNSConfig {
+  /** The type of the DNS record, e.g., "A", "AAAA", "CNAME". */
+  dnsRecordType?: string;
+  /** The fully qualified domain name (FQDN) of the DNS record, e.g., ".location.alloydb-psa.goog". */
+  dnsName?: string;
+}
+export const DNSConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dnsRecordType: S.optional(S.String),
+    dnsName: S.optional(S.String),
+  }),
+).annotate({ identifier: "DNSConfig" }) as any as S.Schema<DNSConfig>;
+
 export type EndpointEndpointTypeEnum =
   | "ENDPOINT_TYPE_UNSPECIFIED"
   | "WRITE_ENDPOINT"
   | "READ_ENDPOINT";
 export const EndpointEndpointTypeEnum = S.String;
 
-/** The DNS config for the endpoint, containing the DNS record name, type and targets. */
-export interface DNSConfig {
-  /** The fully qualified domain name (FQDN) of the DNS record, e.g., ".location.alloydb-psa.goog". */
-  dnsName?: string;
-  /** The type of the DNS record, e.g., "A", "AAAA", "CNAME". */
-  dnsRecordType?: string;
-}
-export const DNSConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dnsName: S.optional(S.String),
-    dnsRecordType: S.optional(S.String),
-  }),
-).annotate({ identifier: "DNSConfig" }) as any as S.Schema<DNSConfig>;
-
 /** Endpoint resource. */
 export interface Endpoint {
-  /** User-settable and human-readable display name for the Endpoint. */
-  displayName?: string;
   /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
   annotations?: StringMap;
   /** Output only. Identifier. The name of the endpoint resource with the format: * projects/{project}/locations/{region}/endpoints/{endpoint_id} where the endpoint ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the endpoint resource name is the name of the parent resource: * projects/{project}/locations/{region} */
   name?: string;
-  /** Output only. The effective target instances that the endpoint is associated with. This is a list of target instance names, e.g. projects/{project_number}/locations/{location}/clusters/{cluster_id}/instances/{instance_id} For write endpoint, there is only one effective target instance which has to be a primary instance. Effective target instances are only different from target instances after a switchover or cross-region failover operation. Otherwise, effective_target_instances are the same as target_instances. Note that after a cross-region failover operation, the effective_target_instances can be stale until the operation to update the endpoint is complete. */
-  effectiveTargetInstances?: StringList;
-  /** Output only. Update time stamp */
-  updateTime?: string;
-  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
-  uid?: string;
-  /** Output only. The state of the endpoint. */
-  state?: EndpointStateEnum | (string & {});
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string;
+  /** User-settable and human-readable display name for the Endpoint. */
+  displayName?: string;
   /** The names of the target instances for the endpoint, should be of format projects/{project}/locations/{region}/clusters/{cluster}/instances/{instance}. For write endpoint, there is only one target instance which has to be a primary instance. For read endpoint, there can be multiple target instances which can be read or secondary instances. After a cross-region failover or switchover operation, the endpoint will be associated with a different target instance. This change will be reflected in the effective_target_instances field. */
   targetInstances?: StringList;
+  /** Output only. The state of the endpoint. */
+  state?: EndpointStateEnum | (string & {});
+  /** Output only. The effective target instances that the endpoint is associated with. This is a list of target instance names, e.g. projects/{project_number}/locations/{location}/clusters/{cluster_id}/instances/{instance_id} For write endpoint, there is only one effective target instance which has to be a primary instance. Effective target instances are only different from target instances after a switchover or cross-region failover operation. Otherwise, effective_target_instances are the same as target_instances. Note that after a cross-region failover operation, the effective_target_instances can be stale until the operation to update the endpoint is complete. */
+  effectiveTargetInstances?: StringList;
+  /** Output only. The DNS config for the endpoint. Each endpoint is associated with a specific DNS name and the DNS type. The DNS targets are the IP addresses of the target instances. The dns_type is the type of the DNS record, eg. Type "A" or Type "CNAME". This field is not configurable by the user, and it is updated when user specifies the target instances. */
+  dnsConfig?: DNSConfig;
   /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Endpoint does not match the user's intended state, and the service is actively updating the Endpoint to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
   reconciling?: boolean;
+  /** Output only. Delete time stamp */
+  deleteTime?: string;
   /** Output only. Create time stamp */
   createTime?: string;
   /** The type of the endpoint, either write or read. */
   endpointType?: EndpointEndpointTypeEnum | (string & {});
-  /** For Resource freshness validation (https://google.aip.dev/154) */
-  etag?: string;
-  /** Output only. The DNS config for the endpoint. Each endpoint is associated with a specific DNS name and the DNS type. The DNS targets are the IP addresses of the target instances. The dns_type is the type of the DNS record, eg. Type "A" or Type "CNAME". This field is not configurable by the user, and it is updated when user specifies the target instances. */
-  dnsConfig?: DNSConfig;
-  /** Output only. Delete time stamp */
-  deleteTime?: string;
+  /** Output only. Update time stamp */
+  updateTime?: string;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string;
 }
 export const Endpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
     annotations: S.optional(StringMap),
     name: S.optional(S.String),
-    effectiveTargetInstances: S.optional(StringList),
-    updateTime: S.optional(S.String),
-    uid: S.optional(S.String),
-    state: S.optional(EndpointStateEnum),
+    etag: S.optional(S.String),
+    displayName: S.optional(S.String),
     targetInstances: S.optional(StringList),
+    state: S.optional(EndpointStateEnum),
+    effectiveTargetInstances: S.optional(StringList),
+    dnsConfig: S.optional(DNSConfig),
     reconciling: S.optional(S.Boolean),
+    deleteTime: S.optional(S.String),
     createTime: S.optional(S.String),
     endpointType: S.optional(EndpointEndpointTypeEnum),
-    etag: S.optional(S.String),
-    dnsConfig: S.optional(DNSConfig),
-    deleteTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    uid: S.optional(S.String),
   }),
 ).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
 
 export interface CreateProjectsLocationsEndpointsRequest {
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
   validateOnly?: boolean;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. The location of the new endpoint. For the required format, see the comment on the Endpoint.name field. */
-  parent: string;
   /** Required. ID of the requesting object. */
   endpointId?: string;
+  /** Required. The location of the new endpoint. For the required format, see the comment on the Endpoint.name field. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Endpoint;
 }
 export const CreateProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     endpointId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Endpoint.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1960,23 +1960,23 @@ export const CreateProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<CreateProjectsLocationsEndpointsRequest>;
 
 export interface CreatesecondaryProjectsLocationsClustersRequest {
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean;
   /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
   parent: string;
   /** Required. ID of the requesting object (the secondary cluster). */
   clusterId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean;
   /** Request body */
   body?: Cluster;
 }
 export const CreatesecondaryProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     clusterId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Cluster.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1990,24 +1990,24 @@ export const CreatesecondaryProjectsLocationsClustersRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<CreatesecondaryProjectsLocationsClustersRequest>;
 
 export interface CreatesecondaryProjectsLocationsClustersInstancesRequest {
-  /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
-  parent: string;
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. ID of the requesting object. */
   instanceId?: string;
+  /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
+  parent: string;
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean;
   /** Request body */
   body?: Instance;
 }
 export const CreatesecondaryProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       requestId: S.optional(S.String.pipe(T.Query())),
       instanceId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       body: S.optional(Instance.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2021,21 +2021,21 @@ export const CreatesecondaryProjectsLocationsClustersInstancesRequest = /*@__PUR
 }) as any as S.Schema<CreatesecondaryProjectsLocationsClustersInstancesRequest>;
 
 export interface DeleteProjectsLocationsBackupsRequest {
-  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
-  validateOnly?: boolean;
   /** Optional. The current etag of the Backup. If an etag is provided and does not match the current etag of the Backup, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
   /** Required. Name of the resource. For the required format, see the comment on the Backup.name field. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
+  validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     etag: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -2048,23 +2048,23 @@ export const DeleteProjectsLocationsBackupsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<DeleteProjectsLocationsBackupsRequest>;
 
 export interface DeleteProjectsLocationsClustersRequest {
-  /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field. */
-  name: string;
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean;
   /** Optional. Whether to cascade delete child instances for given cluster. */
   force?: boolean;
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean;
   /** Optional. The current etag of the Cluster. If an etag is provided and does not match the current etag of the Cluster, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field. */
+  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
 }
 export const DeleteProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2078,21 +2078,21 @@ export const DeleteProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DeleteProjectsLocationsClustersRequest>;
 
 export interface DeleteProjectsLocationsClustersInstancesRequest {
+  /** Optional. The current etag of the Instance. If an etag is provided and does not match the current etag of the Instance, deletion will be blocked and an ABORTED error will be returned. */
+  etag?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean;
-  /** Optional. The current etag of the Instance. If an etag is provided and does not match the current etag of the Instance, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
 }
 export const DeleteProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    etag: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -2129,21 +2129,21 @@ export const DeleteProjectsLocationsClustersUsersRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<DeleteProjectsLocationsClustersUsersRequest>;
 
 export interface DeleteProjectsLocationsEndpointsRequest {
-  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
-  validateOnly?: boolean;
-  /** Optional. The current etag of the Endpoint. If an etag is provided and does not match the current etag of the Endpoint, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. The name of the resource. For the required format, see the comment on the Endpoint.name field. */
   name: string;
+  /** Optional. The current etag of the Endpoint. If an etag is provided and does not match the current etag of the Endpoint, deletion will be blocked and an ABORTED error will be returned. */
+  etag?: string;
+  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
+  validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    etag: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -2175,23 +2175,43 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 
 /** Options for exporting data in CSV format. */
 export interface CsvExportOptions {
-  /** Optional. Specifies the quoting character to be used when a data value is quoted. The default is double-quote. The value of this argument has to be a character in Hex ASCII Code. */
-  quoteCharacter?: string;
-  /** Optional. Specifies the character that should appear before a data character that needs to be escaped. The default is the same as quote character. The value of this argument has to be a character in Hex ASCII Code. */
-  escapeCharacter?: string;
-  /** Required. The SELECT query used to extract the data. */
-  selectQuery?: string;
   /** Optional. Specifies the character that separates columns within each row (line) of the file. The default is comma. The value of this argument has to be a character in Hex ASCII Code. */
   fieldDelimiter?: string;
+  /** Optional. Specifies the character that should appear before a data character that needs to be escaped. The default is the same as quote character. The value of this argument has to be a character in Hex ASCII Code. */
+  escapeCharacter?: string;
+  /** Optional. Specifies the quoting character to be used when a data value is quoted. The default is double-quote. The value of this argument has to be a character in Hex ASCII Code. */
+  quoteCharacter?: string;
+  /** Required. The SELECT query used to extract the data. */
+  selectQuery?: string;
 }
 export const CsvExportOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    quoteCharacter: S.optional(S.String),
-    escapeCharacter: S.optional(S.String),
-    selectQuery: S.optional(S.String),
     fieldDelimiter: S.optional(S.String),
+    escapeCharacter: S.optional(S.String),
+    quoteCharacter: S.optional(S.String),
+    selectQuery: S.optional(S.String),
   }),
 ).annotate({ identifier: "CsvExportOptions" }) as any as S.Schema<CsvExportOptions>;
+
+/** Options for exporting data in SQL format. */
+export interface SqlExportOptions {
+  /** Optional. If true, only export the schema. */
+  schemaOnly?: boolean;
+  /** Optional. If true, use DROP ... IF EXISTS commands to check for the object's existence before dropping it in clean_target_objects mode. */
+  ifExistTargetObjects?: boolean;
+  /** Optional. Tables to export from. */
+  tables?: StringList;
+  /** Optional. If true, output commands to DROP all the dumped database objects prior to outputting the commands for creating them. */
+  cleanTargetObjects?: boolean;
+}
+export const SqlExportOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemaOnly: S.optional(S.Boolean),
+    ifExistTargetObjects: S.optional(S.Boolean),
+    tables: S.optional(StringList),
+    cleanTargetObjects: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "SqlExportOptions" }) as any as S.Schema<SqlExportOptions>;
 
 /** Destination for Export. Export will be done to cloud storage. */
 export interface GcsDestination {
@@ -2204,43 +2224,23 @@ export const GcsDestination = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GcsDestination" }) as any as S.Schema<GcsDestination>;
 
-/** Options for exporting data in SQL format. */
-export interface SqlExportOptions {
-  /** Optional. Tables to export from. */
-  tables?: StringList;
-  /** Optional. If true, output commands to DROP all the dumped database objects prior to outputting the commands for creating them. */
-  cleanTargetObjects?: boolean;
-  /** Optional. If true, only export the schema. */
-  schemaOnly?: boolean;
-  /** Optional. If true, use DROP ... IF EXISTS commands to check for the object's existence before dropping it in clean_target_objects mode. */
-  ifExistTargetObjects?: boolean;
-}
-export const SqlExportOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tables: S.optional(StringList),
-    cleanTargetObjects: S.optional(S.Boolean),
-    schemaOnly: S.optional(S.Boolean),
-    ifExistTargetObjects: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SqlExportOptions" }) as any as S.Schema<SqlExportOptions>;
-
 /** Export cluster request. */
 export interface ExportClusterRequest {
-  /** Options for exporting data in CSV format. Required field to be set for CSV file type. */
-  csvExportOptions?: CsvExportOptions;
-  /** Required. Option to export data to cloud storage. */
-  gcsDestination?: GcsDestination;
   /** Required. Name of the database where the export command will be executed. Note - Value provided should be the same as expected from `SELECT current_database();` and NOT as a resource reference. */
   database?: string;
+  /** Options for exporting data in CSV format. Required field to be set for CSV file type. */
+  csvExportOptions?: CsvExportOptions;
   /** Options for exporting data in SQL format. Required field to be set for SQL file type. */
   sqlExportOptions?: SqlExportOptions;
+  /** Required. Option to export data to cloud storage. */
+  gcsDestination?: GcsDestination;
 }
 export const ExportClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    csvExportOptions: S.optional(CsvExportOptions),
-    gcsDestination: S.optional(GcsDestination),
     database: S.optional(S.String),
+    csvExportOptions: S.optional(CsvExportOptions),
     sqlExportOptions: S.optional(SqlExportOptions),
+    gcsDestination: S.optional(GcsDestination),
   }),
 ).annotate({ identifier: "ExportClusterRequest" }) as any as S.Schema<ExportClusterRequest>;
 
@@ -2301,16 +2301,16 @@ export const FailoverProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S
 }) as any as S.Schema<FailoverProjectsLocationsClustersInstancesRequest>;
 
 export interface GetConnectionInfoProjectsLocationsClustersInstancesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The name of the parent resource. The required format is: projects/{project}/locations/{location}/clusters/{cluster}/instances/{instance} */
   parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const GetConnectionInfoProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      requestId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2326,28 +2326,28 @@ export const GetConnectionInfoProjectsLocationsClustersInstancesRequest = /*@__P
 export interface ConnectionInfo {
   /** Output only. The unique ID of the Instance. */
   instanceUid?: string;
-  /** Output only. The pem-encoded chain that may be used to verify the X.509 certificate. Expected to be in issuer-to-root order according to RFC 5246. */
-  pemCertificateChain?: StringList;
+  /** Output only. The DNS name to use with PSC for the Instance. */
+  pscDnsName?: string;
   /** The name of the ConnectionInfo singleton resource, e.g.: projects/{project}/locations/{location}/clusters/*\/instances/*\/connectionInfo This field currently has no semantic meaning. */
   name?: string;
   /** Output only. The public IP addresses for the Instance. This is available ONLY when enable_public_ip is set. This is the connection endpoint for an end-user application. */
   publicIpAddress?: string;
-  /** Output only. The DNS name to use with PSC for the Instance. */
-  pscDnsName?: string;
   /** Output only. The private network IP address for the Instance. This is the default IP for the instance and is always created (even if enable_public_ip is set). This is the connection endpoint for an end-user application. */
   ipAddress?: string;
   /** Output only. Specifies the DNS name to use with PSC service automation for the Instance. */
   pscAutoDnsName?: string;
+  /** Output only. The pem-encoded chain that may be used to verify the X.509 certificate. Expected to be in issuer-to-root order according to RFC 5246. */
+  pemCertificateChain?: StringList;
 }
 export const ConnectionInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceUid: S.optional(S.String),
-    pemCertificateChain: S.optional(StringList),
+    pscDnsName: S.optional(S.String),
     name: S.optional(S.String),
     publicIpAddress: S.optional(S.String),
-    pscDnsName: S.optional(S.String),
     ipAddress: S.optional(S.String),
     pscAutoDnsName: S.optional(S.String),
+    pemCertificateChain: S.optional(StringList),
   }),
 ).annotate({ identifier: "ConnectionInfo" }) as any as S.Schema<ConnectionInfo>;
 
@@ -2367,24 +2367,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface GoogleCloudLocationLocation {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
 }
 export const GoogleCloudLocationLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
     locationId: S.optional(S.String),
+    name: S.optional(S.String),
     displayName: S.optional(S.String),
     labels: S.optional(StringMap),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "GoogleCloudLocationLocation",
@@ -2443,15 +2443,15 @@ export type GetProjectsLocationsClustersInstancesViewEnum =
 export const GetProjectsLocationsClustersInstancesViewEnum = S.String;
 
 export interface GetProjectsLocationsClustersInstancesRequest {
-  /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
-  name: string;
   /** The view of the instance to return. */
   view?: GetProjectsLocationsClustersInstancesViewEnum | (string & {});
+  /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
+  name: string;
 }
 export const GetProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     view: S.optional(GetProjectsLocationsClustersInstancesViewEnum.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({ method: "GET", uri: "v1alpha/{+name}", baseUrl: "https://alloydb.googleapis.com/" }),
   ),
@@ -2507,46 +2507,46 @@ export const SqlImportOptions = CancelOperationRequest;
 
 /** Options for importing data in CSV format. */
 export interface CsvImportOptions {
-  /** Optional. Specifies the character that separates columns within each row (line) of the file. The default is comma. The value of this argument has to be a character in Hex ASCII Code. */
-  fieldDelimiter?: string;
   /** Required. The database table to import CSV file into. */
   table?: string;
-  /** Optional. The columns to which CSV data is imported. If not specified, all columns of the database table are loaded with CSV data. */
-  columns?: StringList;
-  /** Optional. Specifies the quoting character to be used when a data value is quoted. The default is double-quote. The value of this argument has to be a character in Hex ASCII Code. */
-  quoteCharacter?: string;
+  /** Optional. Specifies the character that separates columns within each row (line) of the file. The default is comma. The value of this argument has to be a character in Hex ASCII Code. */
+  fieldDelimiter?: string;
   /** Optional. Specifies the character that should appear before a data character that needs to be escaped. The default is same as quote character. The value of this argument has to be a character in Hex ASCII Code. */
   escapeCharacter?: string;
+  /** Optional. Specifies the quoting character to be used when a data value is quoted. The default is double-quote. The value of this argument has to be a character in Hex ASCII Code. */
+  quoteCharacter?: string;
+  /** Optional. The columns to which CSV data is imported. If not specified, all columns of the database table are loaded with CSV data. */
+  columns?: StringList;
 }
 export const CsvImportOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fieldDelimiter: S.optional(S.String),
     table: S.optional(S.String),
-    columns: S.optional(StringList),
-    quoteCharacter: S.optional(S.String),
+    fieldDelimiter: S.optional(S.String),
     escapeCharacter: S.optional(S.String),
+    quoteCharacter: S.optional(S.String),
+    columns: S.optional(StringList),
   }),
 ).annotate({ identifier: "CsvImportOptions" }) as any as S.Schema<CsvImportOptions>;
 
 /** Import cluster request. */
 export interface ImportClusterRequest {
-  /** Optional. Name of the database to which the import will be done. For import from SQL file, this is required only if the file does not specify a database. Note - Value provided should be the same as expected from `SELECT current_database();` and NOT as a resource reference. */
-  database?: string;
   /** Required. The path to the file in Google Cloud Storage where the source file for import will be stored. The URI is in the form `gs://bucketName/fileName`. */
   gcsUri?: string;
-  /** Optional. Database user to be used for importing the data. Note - Value provided should be the same as expected from `SELECT current_user;` and NOT as a resource reference. */
-  user?: string;
   /** Options for importing data in SQL format. */
   sqlImportOptions?: CancelOperationRequest;
+  /** Optional. Database user to be used for importing the data. Note - Value provided should be the same as expected from `SELECT current_user;` and NOT as a resource reference. */
+  user?: string;
+  /** Optional. Name of the database to which the import will be done. For import from SQL file, this is required only if the file does not specify a database. Note - Value provided should be the same as expected from `SELECT current_database();` and NOT as a resource reference. */
+  database?: string;
   /** Options for importing data in CSV format. */
   csvImportOptions?: CsvImportOptions;
 }
 export const ImportClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    database: S.optional(S.String),
     gcsUri: S.optional(S.String),
-    user: S.optional(S.String),
     sqlImportOptions: S.optional(CancelOperationRequest),
+    user: S.optional(S.String),
+    database: S.optional(S.String),
     csvImportOptions: S.optional(CsvImportOptions),
   }),
 ).annotate({ identifier: "ImportClusterRequest" }) as any as S.Schema<ImportClusterRequest>;
@@ -2577,18 +2577,18 @@ export const InjectFaultRequestFaultTypeEnum = S.String;
 
 /** Message for triggering fault injection on an instance */
 export interface InjectFaultRequest {
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean;
   /** Required. The type of fault to be injected in an instance. */
   faultType?: InjectFaultRequestFaultTypeEnum | (string & {});
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean;
 }
 export const InjectFaultRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean),
     faultType: S.optional(InjectFaultRequestFaultTypeEnum),
     requestId: S.optional(S.String),
+    validateOnly: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "InjectFaultRequest" }) as any as S.Schema<InjectFaultRequest>;
 
@@ -2616,10 +2616,10 @@ export const InjectFaultProjectsLocationsClustersInstancesRequest = /*@__PURE__*
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
@@ -2628,8 +2628,8 @@ export interface ListProjectsLocationsRequest {
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -2671,27 +2671,27 @@ export type ListProjectsLocationsBackupsViewEnum =
 export const ListProjectsLocationsBackupsViewEnum = S.String;
 
 export interface ListProjectsLocationsBackupsRequest {
-  /** Filtering results */
-  filter?: string;
-  /** Required. Parent value for ListBackupsRequest */
-  parent: string;
-  /** Optional. The view of the backup to return. */
-  view?: ListProjectsLocationsBackupsViewEnum | (string & {});
-  /** Hint for how to order the results */
-  orderBy?: string;
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Required. Parent value for ListBackupsRequest */
+  parent: string;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Hint for how to order the results */
+  orderBy?: string;
+  /** Filtering results */
+  filter?: string;
+  /** Optional. The view of the backup to return. */
+  view?: ListProjectsLocationsBackupsViewEnum | (string & {});
 }
 export const ListProjectsLocationsBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    view: S.optional(ListProjectsLocationsBackupsViewEnum.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    view: S.optional(ListProjectsLocationsBackupsViewEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2724,24 +2724,24 @@ export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListBackupsResponse" }) as any as S.Schema<ListBackupsResponse>;
 
 export interface ListProjectsLocationsClustersRequest {
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Optional. Filtering results */
-  filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. Filtering results */
+  filter?: string;
   /** Required. The name of the parent resource. For the required format, see the comment on the Cluster.name field. Additionally, you can perform an aggregated list operation by specifying a value with the following format: * projects/{project}/locations/- */
   parent: string;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
 }
 export const ListProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2758,40 +2758,40 @@ export const ClusterList = /*@__PURE__*/ S.Array(Cluster) as any as S.Schema<Clu
 
 /** Message for response to listing Clusters */
 export interface ListClustersResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
   /** The list of Cluster */
   clusters?: ClusterList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListClustersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     clusters: S.optional(ClusterList),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListClustersResponse" }) as any as S.Schema<ListClustersResponse>;
 
 export interface ListProjectsLocationsClustersInstancesRequest {
   /** Optional. Filtering results */
   filter?: string;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. Additionally, you can perform an aggregated list operation by specifying a value with one of the following formats: * projects/{project}/locations/-/clusters/- * projects/{project}/locations/{region}/clusters/- */
   parent: string;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
 }
 export const ListProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2824,24 +2824,24 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export interface ListProjectsLocationsClustersUsersRequest {
-  /** Optional. Filtering results */
-  filter?: string;
-  /** Required. Parent value for ListUsersRequest */
-  parent: string;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
+  /** Optional. Filtering results */
+  filter?: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Required. Parent value for ListUsersRequest */
+  parent: string;
 }
 export const ListProjectsLocationsClustersUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2858,40 +2858,40 @@ export const UserList = /*@__PURE__*/ S.Array(User) as any as S.Schema<UserList>
 
 /** Message for response to listing Users */
 export interface ListUsersResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** The list of User */
   users?: UserList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     users: S.optional(UserList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export interface ListProjectsLocationsEndpointsRequest {
-  /** Optional. Hint for how to order the results */
-  orderBy?: string;
   /** Optional. Filtering results. This field is currently not supported, its value will be ignored if passed. */
   filter?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `ListEndpoints` call. This should be provided to retrieve the subsequent page. This field is currently not supported, its value will be ignored if passed. */
   pageToken?: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string;
   /** Required. The name of the parent resource. For the required format, see the comment on the Endpoint.name field. Additionally, you can perform an aggregated list operation by specifying a value with the following format: * projects/{project}/locations/- */
   parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2908,40 +2908,40 @@ export const EndpointList = /*@__PURE__*/ S.Array(Endpoint) as any as S.Schema<E
 
 /** Message for response to listing Endpoints */
 export interface ListEndpointsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
   /** The list of Endpoints */
   endpoints?: EndpointList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     endpoints: S.optional(EndpointList),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({ identifier: "ListEndpointsResponse" }) as any as S.Schema<ListEndpointsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page size. */
   pageSize?: number;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list filter. */
+  filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2958,18 +2958,18 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
+    operations: S.optional(OperationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
@@ -2980,21 +2980,21 @@ export type ListProjectsLocationsSupportedDatabaseFlagsScopeEnum =
 export const ListProjectsLocationsSupportedDatabaseFlagsScopeEnum = S.String;
 
 export interface ListProjectsLocationsSupportedDatabaseFlagsRequest {
-  /** Optional. The scope for which supported flags are requested. If not specified, default is DATABASE. */
-  scope?: ListProjectsLocationsSupportedDatabaseFlagsScopeEnum | (string & {});
-  /** Required. The name of the parent resource. The required format is: * projects/{project}/locations/{location} Regardless of the parent specified here, as long it is contains a valid project and location, the service will return a static list of supported flags resources. Note that we do not yet support region-specific flags. */
-  parent: string;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+  /** Required. The name of the parent resource. The required format is: * projects/{project}/locations/{location} Regardless of the parent specified here, as long it is contains a valid project and location, the service will return a static list of supported flags resources. Note that we do not yet support region-specific flags. */
+  parent: string;
+  /** Optional. The scope for which supported flags are requested. If not specified, default is DATABASE. */
+  scope?: ListProjectsLocationsSupportedDatabaseFlagsScopeEnum | (string & {});
 }
 export const ListProjectsLocationsSupportedDatabaseFlagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    scope: S.optional(ListProjectsLocationsSupportedDatabaseFlagsScopeEnum.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    scope: S.optional(ListProjectsLocationsSupportedDatabaseFlagsScopeEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3019,6 +3019,23 @@ export const StringRestrictions = /*@__PURE__*/ S.suspend(() =>
     caseAgnostic: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "StringRestrictions" }) as any as S.Schema<StringRestrictions>;
+
+/** Restrictions on INTEGER type values. */
+export interface IntegerRestrictions {
+  /** The maximum value that can be specified, if applicable. */
+  maxValue?: string;
+  /** The minimum value that can be specified, if applicable. */
+  minValue?: string;
+}
+export const IntegerRestrictions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxValue: S.optional(S.String),
+    minValue: S.optional(S.String),
+  }),
+).annotate({ identifier: "IntegerRestrictions" }) as any as S.Schema<IntegerRestrictions>;
+
+export type SupportedDatabaseFlagScopeEnum = "SCOPE_UNSPECIFIED" | "DATABASE" | "CONNECTION_POOL";
+export const SupportedDatabaseFlagScopeEnum = S.String;
 
 export type SupportedDatabaseFlagSupportedDbVersionsItemEnum =
   | "DATABASE_VERSION_UNSPECIFIED"
@@ -3045,60 +3062,43 @@ export type SupportedDatabaseFlagValueTypeEnum =
   | "NONE";
 export const SupportedDatabaseFlagValueTypeEnum = S.String;
 
-export type SupportedDatabaseFlagScopeEnum = "SCOPE_UNSPECIFIED" | "DATABASE" | "CONNECTION_POOL";
-export const SupportedDatabaseFlagScopeEnum = S.String;
-
-/** Restrictions on INTEGER type values. */
-export interface IntegerRestrictions {
-  /** The minimum value that can be specified, if applicable. */
-  minValue?: string;
-  /** The maximum value that can be specified, if applicable. */
-  maxValue?: string;
-}
-export const IntegerRestrictions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minValue: S.optional(S.String),
-    maxValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "IntegerRestrictions" }) as any as S.Schema<IntegerRestrictions>;
-
 /** SupportedDatabaseFlag gives general information about a database flag, like type and allowed values. This is a static value that is defined on the server side, and it cannot be modified by callers. To set the Database flags on a particular Instance, a caller should modify the Instance.database_flags field. */
 export interface SupportedDatabaseFlag {
   /** Restriction on STRING type value. */
   stringRestrictions?: StringRestrictions;
+  /** Restriction on INTEGER type value. */
+  integerRestrictions?: IntegerRestrictions;
   /** Whether setting or updating this flag on an Instance requires a database restart. If a flag that requires database restart is set, the backend will automatically restart the database (making sure to satisfy any availability SLO's). */
   requiresDbRestart?: boolean;
-  /** The recommended value for a STRING flag. */
-  recommendedStringValue?: string;
+  /** The recommended value for an INTEGER flag. */
+  recommendedIntegerValue?: string;
   /** The name of the flag resource, following Google Cloud conventions, e.g.: * projects/{project}/locations/{location}/flags/{flag} This field currently has no semantic meaning. */
   name?: string;
+  /** The scope of the flag. */
+  scope?: SupportedDatabaseFlagScopeEnum;
+  /** The recommended value for a STRING flag. */
+  recommendedStringValue?: string;
+  /** The name of the database flag, e.g. "max_allowed_packets". The is a possibly key for the Instance.database_flags map field. */
+  flagName?: string;
   /** Major database engine versions for which this flag is supported. */
   supportedDbVersions?: SupportedDatabaseFlagSupportedDbVersionsItemEnumList;
   valueType?: SupportedDatabaseFlagValueTypeEnum;
-  /** The scope of the flag. */
-  scope?: SupportedDatabaseFlagScopeEnum;
-  /** The recommended value for an INTEGER flag. */
-  recommendedIntegerValue?: string;
   /** Whether the database flag accepts multiple values. If true, a comma-separated list of stringified values may be specified. */
   acceptsMultipleValues?: boolean;
-  /** Restriction on INTEGER type value. */
-  integerRestrictions?: IntegerRestrictions;
-  /** The name of the database flag, e.g. "max_allowed_packets". The is a possibly key for the Instance.database_flags map field. */
-  flagName?: string;
 }
 export const SupportedDatabaseFlag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     stringRestrictions: S.optional(StringRestrictions),
+    integerRestrictions: S.optional(IntegerRestrictions),
     requiresDbRestart: S.optional(S.Boolean),
-    recommendedStringValue: S.optional(S.String),
+    recommendedIntegerValue: S.optional(S.String),
     name: S.optional(S.String),
+    scope: S.optional(SupportedDatabaseFlagScopeEnum),
+    recommendedStringValue: S.optional(S.String),
+    flagName: S.optional(S.String),
     supportedDbVersions: S.optional(SupportedDatabaseFlagSupportedDbVersionsItemEnumList),
     valueType: S.optional(SupportedDatabaseFlagValueTypeEnum),
-    scope: S.optional(SupportedDatabaseFlagScopeEnum),
-    recommendedIntegerValue: S.optional(S.String),
     acceptsMultipleValues: S.optional(S.Boolean),
-    integerRestrictions: S.optional(IntegerRestrictions),
-    flagName: S.optional(S.String),
   }),
 ).annotate({ identifier: "SupportedDatabaseFlag" }) as any as S.Schema<SupportedDatabaseFlag>;
 
@@ -3124,26 +3124,26 @@ export const ListSupportedDatabaseFlagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSupportedDatabaseFlagsResponse>;
 
 export interface PatchProjectsLocationsBackupsRequest {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Backup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
-  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
-  validateOnly?: boolean;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. If set to true, update succeeds even if instance is not found. In that case, a new backup is created and `update_mask` is ignored. */
   allowMissing?: boolean;
   /** Output only. The name of the backup resource with the format: * projects/{project}/locations/{region}/backups/{backup_id} where the cluster and backup ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the backup resource name is the name of the parent resource: * projects/{project}/locations/{region} */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
+  validateOnly?: boolean;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Backup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: Backup;
 }
 export const PatchProjectsLocationsBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Backup.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1alpha/{+name}", baseUrl: "https://alloydb.googleapis.com/" }),
@@ -3153,26 +3153,26 @@ export const PatchProjectsLocationsBackupsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PatchProjectsLocationsBackupsRequest>;
 
 export interface PatchProjectsLocationsClustersRequest {
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Optional. If set to true, update succeeds even if cluster is not found. In that case, a new cluster is created and `update_mask` is ignored. */
-  allowMissing?: boolean;
   /** Output only. The name of the cluster resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} where the cluster ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the cluster resource name is the name of the parent resource: * projects/{project}/locations/{region} */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Optional. If set to true, update succeeds even if cluster is not found. In that case, a new cluster is created and `update_mask` is ignored. */
+  allowMissing?: boolean;
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean;
   /** Request body */
   body?: Cluster;
 }
 export const PatchProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
-    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Cluster.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1alpha/{+name}", baseUrl: "https://alloydb.googleapis.com/" }),
@@ -3182,26 +3182,26 @@ export const PatchProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PatchProjectsLocationsClustersRequest>;
 
 export interface PatchProjectsLocationsClustersInstancesRequest {
-  /** Optional. If set to true, update succeeds even if instance is not found. In that case, a new instance is created and `update_mask` is ignored. */
-  allowMissing?: boolean;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Output only. The name of the instance resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id}/instances/{instance_id} where the cluster and instance ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the instance resource name is the name of the parent resource: * projects/{project}/locations/{region}/clusters/{cluster_id} */
+  name: string;
+  /** Optional. If set to true, update succeeds even if instance is not found. In that case, a new instance is created and `update_mask` is ignored. */
+  allowMissing?: boolean;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Instance resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
-  /** Output only. The name of the instance resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id}/instances/{instance_id} where the cluster and instance ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the instance resource name is the name of the parent resource: * projects/{project}/locations/{region}/clusters/{cluster_id} */
-  name: string;
   /** Request body */
   body?: Instance;
 }
 export const PatchProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     body: S.optional(Instance.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1alpha/{+name}", baseUrl: "https://alloydb.googleapis.com/" }),
@@ -3213,24 +3213,24 @@ export const PatchProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.su
 export interface PatchProjectsLocationsClustersUsersRequest {
   /** Output only. Name of the resource in the form of projects/{project}/locations/{location}/cluster/{cluster}/users/{user}. */
   name: string;
-  /** Optional. Allow missing fields in the update mask. */
-  allowMissing?: boolean;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
   validateOnly?: boolean;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Optional. Allow missing fields in the update mask. */
+  allowMissing?: boolean;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: User;
 }
 export const PatchProjectsLocationsClustersUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(User.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1alpha/{+name}", baseUrl: "https://alloydb.googleapis.com/" }),
@@ -3240,14 +3240,14 @@ export const PatchProjectsLocationsClustersUsersRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<PatchProjectsLocationsClustersUsersRequest>;
 
 export interface PatchProjectsLocationsEndpointsRequest {
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
   validateOnly?: boolean;
   /** Output only. Identifier. The name of the endpoint resource with the format: * projects/{project}/locations/{region}/endpoints/{endpoint_id} where the endpoint ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the endpoint resource name is the name of the parent resource: * projects/{project}/locations/{region} */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Optional. If set to true, update succeeds even if endpoint is not found. In that case, a new endpoint is created and `update_mask` is ignored. */
   allowMissing?: boolean;
   /** Request body */
@@ -3255,10 +3255,10 @@ export interface PatchProjectsLocationsEndpointsRequest {
 }
 export const PatchProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateMask: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Endpoint.pipe(T.HttpBody())),
   }).pipe(
@@ -3272,19 +3272,19 @@ export const PatchProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend(()
 export interface PromoteClusterRequest {
   /** Optional. The current etag of the Cluster. If an etag is provided and does not match the current etag of the Cluster, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
-  /** Optional. If set, the promote operation will attempt to recreate the original primary cluster as a secondary cluster when it comes back online. Otherwise, the promoted cluster will be a standalone cluster. Currently only supported when there is a single secondary cluster. */
-  failover?: boolean;
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean;
+  /** Optional. If set, the promote operation will attempt to recreate the original primary cluster as a secondary cluster when it comes back online. Otherwise, the promoted cluster will be a standalone cluster. Currently only supported when there is a single secondary cluster. */
+  failover?: boolean;
 }
 export const PromoteClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     etag: S.optional(S.String),
-    failover: S.optional(S.Boolean),
-    validateOnly: S.optional(S.Boolean),
     requestId: S.optional(S.String),
+    validateOnly: S.optional(S.Boolean),
+    failover: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "PromoteClusterRequest" }) as any as S.Schema<PromoteClusterRequest>;
 
@@ -3310,18 +3310,18 @@ export const PromoteProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<PromoteProjectsLocationsClustersRequest>;
 
 export interface RestartInstanceRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Optional. Full name of the nodes as obtained from INSTANCE_VIEW_FULL to restart upon. Applicable only to read instances. */
-  nodeIds?: StringList;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean;
+  /** Optional. Full name of the nodes as obtained from INSTANCE_VIEW_FULL to restart upon. Applicable only to read instances. */
+  nodeIds?: StringList;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const RestartInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String),
-    nodeIds: S.optional(StringList),
     validateOnly: S.optional(S.Boolean),
+    nodeIds: S.optional(StringList),
+    requestId: S.optional(S.String),
   }),
 ).annotate({ identifier: "RestartInstanceRequest" }) as any as S.Schema<RestartInstanceRequest>;
 
@@ -3348,17 +3348,17 @@ export const RestartProjectsLocationsClustersInstancesRequest = /*@__PURE__*/ S.
 
 /** Message for registering Restoring from CloudSQL resource. */
 export interface RestoreFromCloudSQLRequest {
-  /** Required. The resource being created */
-  cluster?: Cluster;
   /** Cluster created from CloudSQL backup run. */
   cloudsqlBackupRunSource?: CloudSQLBackupRunSource;
+  /** Required. The resource being created */
+  cluster?: Cluster;
   /** Required. ID of the requesting object. */
   clusterId?: string;
 }
 export const RestoreFromCloudSQLRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cluster: S.optional(Cluster),
     cloudsqlBackupRunSource: S.optional(CloudSQLBackupRunSource),
+    cluster: S.optional(Cluster),
     clusterId: S.optional(S.String),
   }),
 ).annotate({
@@ -3386,20 +3386,6 @@ export const RestoreFromCloudSQLProjectsLocationsClustersRequest = /*@__PURE__*/
   identifier: "RestoreFromCloudSQLProjectsLocationsClustersRequest",
 }) as any as S.Schema<RestoreFromCloudSQLProjectsLocationsClustersRequest>;
 
-/** Message describing a ContinuousBackupSource. */
-export interface ContinuousBackupSource {
-  /** Required. The source cluster from which to restore. This cluster must have continuous backup enabled for this operation to succeed. For the required format, see the comment on the Cluster.name field. */
-  cluster?: string;
-  /** Required. The point in time to restore to. */
-  pointInTime?: string;
-}
-export const ContinuousBackupSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cluster: S.optional(S.String),
-    pointInTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "ContinuousBackupSource" }) as any as S.Schema<ContinuousBackupSource>;
-
 /** Message describing a BackupDrPitrSource. */
 export interface BackupDrPitrSource {
   /** Required. The point in time to restore to. */
@@ -3414,35 +3400,49 @@ export const BackupDrPitrSource = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "BackupDrPitrSource" }) as any as S.Schema<BackupDrPitrSource>;
 
+/** Message describing a ContinuousBackupSource. */
+export interface ContinuousBackupSource {
+  /** Required. The point in time to restore to. */
+  pointInTime?: string;
+  /** Required. The source cluster from which to restore. This cluster must have continuous backup enabled for this operation to succeed. For the required format, see the comment on the Cluster.name field. */
+  cluster?: string;
+}
+export const ContinuousBackupSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pointInTime: S.optional(S.String),
+    cluster: S.optional(S.String),
+  }),
+).annotate({ identifier: "ContinuousBackupSource" }) as any as S.Schema<ContinuousBackupSource>;
+
 /** Message for restoring a Cluster from a backup or another cluster at a given point in time. NEXT_ID: 11 */
 export interface RestoreClusterRequest {
-  /** Required. ID of the requesting object. */
-  clusterId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Backup source. */
-  backupSource?: BackupSource;
-  /** BackupDR backup source. */
-  backupdrBackupSource?: BackupDrBackupSource;
   /** Required. The resource being created */
   cluster?: Cluster;
-  /** ContinuousBackup source. Continuous backup needs to be enabled in the source cluster for this operation to succeed. */
-  continuousBackupSource?: ContinuousBackupSource;
+  /** BackupDR backup source. */
+  backupdrBackupSource?: BackupDrBackupSource;
+  /** Backup source. */
+  backupSource?: BackupSource;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean;
+  /** Required. ID of the requesting object. */
+  clusterId?: string;
   /** BackupDR source used for point in time recovery. */
   backupdrPitrSource?: BackupDrPitrSource;
+  /** ContinuousBackup source. Continuous backup needs to be enabled in the source cluster for this operation to succeed. */
+  continuousBackupSource?: ContinuousBackupSource;
 }
 export const RestoreClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clusterId: S.optional(S.String),
     requestId: S.optional(S.String),
-    backupSource: S.optional(BackupSource),
-    backupdrBackupSource: S.optional(BackupDrBackupSource),
     cluster: S.optional(Cluster),
-    continuousBackupSource: S.optional(ContinuousBackupSource),
+    backupdrBackupSource: S.optional(BackupDrBackupSource),
+    backupSource: S.optional(BackupSource),
     validateOnly: S.optional(S.Boolean),
+    clusterId: S.optional(S.String),
     backupdrPitrSource: S.optional(BackupDrPitrSource),
+    continuousBackupSource: S.optional(ContinuousBackupSource),
   }),
 ).annotate({ identifier: "RestoreClusterRequest" }) as any as S.Schema<RestoreClusterRequest>;
 
@@ -3468,29 +3468,19 @@ export const RestoreProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<RestoreProjectsLocationsClustersRequest>;
 
 /** Message for switching over to a cluster */
-export interface SwitchoverClusterRequest {
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-}
-export const SwitchoverClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validateOnly: S.optional(S.Boolean),
-    requestId: S.optional(S.String),
-  }),
-).annotate({ identifier: "SwitchoverClusterRequest" }) as any as S.Schema<SwitchoverClusterRequest>;
+export type SwitchoverClusterRequest = FailoverInstanceRequest;
+export const SwitchoverClusterRequest = FailoverInstanceRequest;
 
 export interface SwitchoverProjectsLocationsClustersRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
   name: string;
   /** Request body */
-  body?: SwitchoverClusterRequest;
+  body?: FailoverInstanceRequest;
 }
 export const SwitchoverProjectsLocationsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    body: S.optional(SwitchoverClusterRequest.pipe(T.HttpBody())),
+    body: S.optional(FailoverInstanceRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -3515,21 +3505,21 @@ export const UpgradeClusterRequestVersionEnum = S.String;
 
 /** Upgrades a cluster. */
 export interface UpgradeClusterRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean;
   /** Required. The version the cluster is going to be upgraded to. */
   version?: UpgradeClusterRequestVersionEnum | (string & {});
   /** Optional. The current etag of the Cluster. If an etag is provided and does not match the current etag of the Cluster, upgrade will be blocked and an ABORTED error will be returned. */
   etag?: string;
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const UpgradeClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String),
-    validateOnly: S.optional(S.Boolean),
     version: S.optional(UpgradeClusterRequestVersionEnum),
     etag: S.optional(S.String),
+    validateOnly: S.optional(S.Boolean),
+    requestId: S.optional(S.String),
   }),
 ).annotate({ identifier: "UpgradeClusterRequest" }) as any as S.Schema<UpgradeClusterRequest>;
 

@@ -1,0 +1,1858 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.whop.experiments#ExperimentResourceReference": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referenced resource tag, belonging to the experiment owner.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.whop.experiments#ExperimentResourceReferenceObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentResourceReferenceObject": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        },
+        "APP_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app_build"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product"
+          }
+        },
+        "PLAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ListExperimentsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "ENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ended"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ListExperimentsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "FLAG_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flag_key"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ListExperimentsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ListExperimentsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account ID. Omit or pass internal for Whop internal experiments; internal access is required."
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "smithy.api#httpQuery": "related_resource",
+            "smithy.api#documentation": "Filter by related resource; requires account_id."
+          }
+        },
+        "status": {
+          "target": "com.whop.experiments#ListExperimentsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only experiments with this status."
+          }
+        },
+        "first": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "first",
+            "smithy.api#documentation": "Number of results to return from the start of the range."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
+          }
+        },
+        "last": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "last",
+            "smithy.api#documentation": "Number of results to return from the end of the range."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
+          }
+        },
+        "order": {
+          "target": "com.whop.experiments#ListExperimentsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The field to sort experiments by."
+          }
+        },
+        "direction": {
+          "target": "com.whop.experiments#ListExperimentsRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Sort direction."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiments#Experiment": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Owning account ID, or internal for Whop platform experiments.",
+            "smithy.api#required": {}
+          }
+        },
+        "assignment_seed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Assignment hashes UTF-8 seed + subject ID with CRC32 modulo 100 and selects the stored end-exclusive range.",
+            "smithy.api#required": {}
+          }
+        },
+        "bucket_by": {
+          "target": "com.whop.experiments#ExperimentBucketBy",
+          "traits": {
+            "smithy.api#documentation": "Randomization unit — `user` buckets each user independently, `account` buckets whole accounts (every user of an account gets the same arm). `null` for feature flags.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "configuration_revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Revision of the serving configuration. Does not change the assignment seed.",
+            "smithy.api#required": {}
+          }
+        },
+        "control": {
+          "target": "com.whop.experiments#ExperimentControl",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the experiment was created, as an ISO 8601 timestamp.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the user who created the experiment, prefixed `user_`. `null` for experiments created before creators were recorded.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ended_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the experiment stopped collecting data, as an ISO 8601 timestamp. `null` while still running.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "feature_flag_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` when this was created as a feature flag rather than a full experiment. Feature flags share the same evaluation API but do not collect metric results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "findings": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What was learned and why this outcome, recorded when the experiment was ended. `null` until then.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "flag_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Developer-chosen handle referenced from code. Anywhere the API takes an experiment identifier, the `expt_` id and the flag_key are interchangeable.",
+            "smithy.api#required": {}
+          }
+        },
+        "hypothesis": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hypothesis for this experiment. `null` when none is set, and always `null` for feature flags.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the experiment, prefixed `expt_`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the experiment began collecting data, as an ISO 8601 timestamp. `null` for drafts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.whop.experiments#ExperimentStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle state. `draft` — not yet live; `active` — currently running; `paused` — traffic paused; `ended` — concluded.",
+            "smithy.api#required": {}
+          }
+        },
+        "targeting_rules": {
+          "target": "com.whop.experiments#ExperimentTargetingRulesList",
+          "traits": {
+            "smithy.api#documentation": "Rules gating who is in the experiment at all. Conditions within a rule are AND-ed, rules are OR-ed, and `exclude` rules always win. Empty means everyone qualifies.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "variants": {
+          "target": "com.whop.experiments#ExperimentVariantsList",
+          "traits": {
+            "smithy.api#documentation": "Treatment arms. Users outside every arm's allocation form the implicit `control` group. Weights only ever grow and arms are never removed, so a user moves from control into a treatment at most once.",
+            "smithy.api#required": {}
+          }
+        },
+        "winning_arm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The treatment that won, set when the experiment was ended. Once set, every evaluation returns this arm to every caller regardless of targeting or allocation, and no further exposures are recorded. `null` means control won — an ended experiment with no winning arm evaluates to `control` for everyone. Always `null` for feature flags, which simply evaluate to disabled once ended.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentBucketBy": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "ANONYMOUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "anonymous"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Randomization unit — `user` buckets each user independently, `account` buckets whole accounts (every user of an account gets the same arm). `null` for feature flags."
+      }
+    },
+    "com.whop.experiments#ExperimentControl": {
+      "type": "structure",
+      "members": {
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentStatus": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "ENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ended"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle state. `draft` — not yet live; `active` — currently running; `paused` — traffic paused; `ended` — concluded."
+      }
+    },
+    "com.whop.experiments#ExperimentTargetingRulesItemConditionsItemOperator": {
+      "type": "enum",
+      "members": {
+        "ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NEQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neq"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Comparison to apply."
+      }
+    },
+    "com.whop.experiments#ExperimentTargetingRulesItemConditionsItemType": {
+      "type": "enum",
+      "members": {
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "ACCOUNT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_id"
+          }
+        },
+        "PROPERTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "property"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the condition matches on: the user ID, the account ID, or a named user property."
+      }
+    },
+    "com.whop.experiments#ExperimentTargetingRulesItemConditionsItem": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Property name to read from the user context. Present when `type` is `property`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "com.whop.experiments#ExperimentTargetingRulesItemConditionsItemOperator",
+          "traits": {
+            "smithy.api#documentation": "Comparison to apply.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.experiments#ExperimentTargetingRulesItemConditionsItemType",
+          "traits": {
+            "smithy.api#documentation": "What the condition matches on: the user ID, the account ID, or a named user property.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value or list of values to match against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentTargetingRulesItemConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#ExperimentTargetingRulesItemConditionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions within this rule, all of which must match."
+      }
+    },
+    "com.whop.experiments#ExperimentTargetingRulesItemType": {
+      "type": "enum",
+      "members": {
+        "INCLUDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "include"
+          }
+        },
+        "EXCLUDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exclude"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`include` — users matching this rule qualify; `exclude` — users matching this rule are always excluded, overriding any include rule."
+      }
+    },
+    "com.whop.experiments#ExperimentTargetingRulesItem": {
+      "type": "structure",
+      "members": {
+        "conditions": {
+          "target": "com.whop.experiments#ExperimentTargetingRulesItemConditionsList",
+          "traits": {
+            "smithy.api#documentation": "Conditions within this rule, all of which must match.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.experiments#ExperimentTargetingRulesItemType",
+          "traits": {
+            "smithy.api#documentation": "`include` — users matching this rule qualify; `exclude` — users matching this rule are always excluded, overriding any include rule."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentTargetingRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#ExperimentTargetingRulesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Rules gating who is in the experiment at all. Conditions within a rule are AND-ed, rules are OR-ed, and `exclude` rules always win. Empty means everyone qualifies."
+      }
+    },
+    "com.whop.experiments#ExperimentVariantsItemRangesItemList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentVariantsItemRangesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#ExperimentVariantsItemRangesItemList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Granted bucket ranges (1% units, end-exclusive) recording this arm's allocation history. Server-managed; ranges are only ever appended, which is what keeps assignments permanent."
+      }
+    },
+    "com.whop.experiments#ExperimentVariantsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Treatment identifier. `control` is reserved — it is the implicit remainder.",
+            "smithy.api#required": {}
+          }
+        },
+        "ranges": {
+          "target": "com.whop.experiments#ExperimentVariantsItemRangesList",
+          "traits": {
+            "smithy.api#documentation": "Granted bucket ranges (1% units, end-exclusive) recording this arm's allocation history. Server-managed; ranges are only ever appended, which is what keeps assignments permanent."
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Percentage of all users assigned to this treatment, 1–100. All weights together sum to at most 100; the remainder is control.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#ExperimentVariantsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Treatment arms. Users outside every arm's allocation form the implicit `control` group. Weights only ever grow and arms are never removed, so a user moves from control into a treatment at most once."
+      }
+    },
+    "com.whop.experiments#ListExperimentsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#Experiment"
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ListExperimentsResponsePageInfo": {
+      "type": "structure",
+      "members": {
+        "end_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_next_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_previous_page": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ListExperimentsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.whop.experiments#ListExperimentsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page_info": {
+          "target": "com.whop.experiments#ListExperimentsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.experiments#ListExperiments": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiments#ListExperimentsRequest"
+      },
+      "output": {
+        "target": "com.whop.experiments#ListExperimentsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiments#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/experiments",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Experiments\n\nLists experiments for one account with experiment:read permission. Omit account_id or pass internal to list internal experiments, which requires Whop internal access.",
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "page_info.end_cursor",
+          "hasNextPage": "page_info.has_next_page",
+          "items": "data",
+          "pageSize": "first"
+        }
+      }
+    },
+    "com.whop.experiments#CreateExperimentRequestBucketBy": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "ANONYMOUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "anonymous"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Randomization unit, and the only identity the assignment is keyed on — evaluation fails rather than falling back to another. `user` (default) uses `subject[user_id]` for account experiments and the signed-in user for internal experiments; `account` uses `subject[account_id]`, so every user of an account gets the same arm; `anonymous` uses the anonymous id and survives sign-in. Fixed after creation."
+      }
+    },
+    "com.whop.experiments#CreateExperimentRequestControl": {
+      "type": "structure",
+      "members": {
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#CreateExperimentRequestTargetingRulesItemConditionsItemOperator": {
+      "type": "enum",
+      "members": {
+        "ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NEQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neq"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Comparison to apply: `any`/`none` — inclusion/exclusion list; `eq`/`neq` — equality; `gt`/`gte`/`lt`/`lte` — numeric range."
+      }
+    },
+    "com.whop.experiments#CreateExperimentRequestTargetingRulesItemConditionsItemType": {
+      "type": "enum",
+      "members": {
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "ACCOUNT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_id"
+          }
+        },
+        "PROPERTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "property"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`user_id` — match on subject user ID; `account_id` — match on account ID (prefixed `biz_`); `property` — match on a named user property (requires `field`)."
+      }
+    },
+    "com.whop.experiments#CreateExperimentRequestTargetingRulesItemConditionsItem": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Property name to read from the user context. Required when `type` is `property`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "com.whop.experiments#CreateExperimentRequestTargetingRulesItemConditionsItemOperator",
+          "traits": {
+            "smithy.api#documentation": "Comparison to apply: `any`/`none` — inclusion/exclusion list; `eq`/`neq` — equality; `gt`/`gte`/`lt`/`lte` — numeric range.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.experiments#CreateExperimentRequestTargetingRulesItemConditionsItemType",
+          "traits": {
+            "smithy.api#documentation": "`user_id` — match on subject user ID; `account_id` — match on account ID (prefixed `biz_`); `property` — match on a named user property (requires `field`).",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value or list of values to match against. Pass an array for `any`/`none`, a scalar for the others.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#CreateExperimentRequestTargetingRulesItemConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#CreateExperimentRequestTargetingRulesItemConditionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions within this rule. Must be non-empty. All conditions must be satisfied for the rule to match (AND logic). Rules are OR-ed together."
+      }
+    },
+    "com.whop.experiments#CreateExperimentRequestTargetingRulesItemType": {
+      "type": "enum",
+      "members": {
+        "INCLUDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "include"
+          }
+        },
+        "EXCLUDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exclude"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`include` — users matching this rule qualify; `exclude` — users matching this rule are always excluded, overriding any include rule. Defaults to `include`."
+      }
+    },
+    "com.whop.experiments#CreateExperimentRequestTargetingRulesItem": {
+      "type": "structure",
+      "members": {
+        "conditions": {
+          "target": "com.whop.experiments#CreateExperimentRequestTargetingRulesItemConditionsList",
+          "traits": {
+            "smithy.api#documentation": "Conditions within this rule. Must be non-empty. All conditions must be satisfied for the rule to match (AND logic). Rules are OR-ed together.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.experiments#CreateExperimentRequestTargetingRulesItemType",
+          "traits": {
+            "smithy.api#documentation": "`include` — users matching this rule qualify; `exclude` — users matching this rule are always excluded, overriding any include rule. Defaults to `include`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#CreateExperimentRequestTargetingRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#CreateExperimentRequestTargetingRulesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Rules that determine which subjects qualify for the experiment."
+      }
+    },
+    "com.whop.experiments#CreateExperimentRequestVariantsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Treatment identifier. `control` is reserved for the implicit remainder.",
+            "smithy.api#required": {}
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Percentage of all subjects assigned to this treatment. The remainder is control.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#CreateExperimentRequestVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#CreateExperimentRequestVariantsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Treatment arms to create. Users outside every arm form the implicit `control` group. Required unless `feature_flag_only` is `true`."
+      }
+    },
+    "com.whop.experiments#CreateExperimentRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Owning account tag or internal. Required; ownership cannot change.",
+            "smithy.api#required": {}
+          }
+        },
+        "bucket_by": {
+          "target": "com.whop.experiments#CreateExperimentRequestBucketBy",
+          "traits": {
+            "smithy.api#documentation": "Randomization unit, and the only identity the assignment is keyed on — evaluation fails rather than falling back to another. `user` (default) uses `subject[user_id]` for account experiments and the signed-in user for internal experiments; `account` uses `subject[account_id]`, so every user of an account gets the same arm; `anonymous` uses the anonymous id and survives sign-in. Fixed after creation."
+          }
+        },
+        "control": {
+          "target": "com.whop.experiments#CreateExperimentRequestControl"
+        },
+        "feature_flag_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When `true`, creates a binary feature flag rather than a full experiment. Feature flags expose the same evaluation API but do not collect metric results. Defaults to `false`."
+          }
+        },
+        "flag_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Developer-chosen handle referenced from code, used in evaluation and results calls. Interchangeable with the returned `expt_` id anywhere the API takes an experiment identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "hypothesis": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required for full experiments; rejected on feature flags. Structure it as \"If we [change] for [cohort], then [measurable behavior] will [increase/decrease], resulting in [business outcome], because [evidence]. Created by [name].\" Evidence should be something real — a baseline number, a funnel breakdown — not a guess, and [name] is you, not something to leave blank.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name. Defaults to `flag_key` when omitted."
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "targeting_rules": {
+          "target": "com.whop.experiments#CreateExperimentRequestTargetingRulesList",
+          "traits": {
+            "smithy.api#documentation": "Rules that determine which subjects qualify for the experiment."
+          }
+        },
+        "variants": {
+          "target": "com.whop.experiments#CreateExperimentRequestVariantsList",
+          "traits": {
+            "smithy.api#documentation": "Treatment arms to create. Users outside every arm form the implicit `control` group. Required unless `feature_flag_only` is `true`."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiments#CreateExperiment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiments#CreateExperimentRequest"
+      },
+      "output": {
+        "target": "com.whop.experiments#Experiment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experiments",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Experiment\n\nCreates a draft experiment for the specified account. Use internal for a Whop platform experiment."
+      }
+    },
+    "com.whop.experiments#EvaluateExperimentExposuresRequestSubject": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String"
+        },
+        "anonymous_id": {
+          "target": "smithy.api#String"
+        },
+        "user_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#EvaluateExperimentExposuresRequest": {
+      "type": "structure",
+      "members": {
+        "subject": {
+          "target": "com.whop.experiments#EvaluateExperimentExposuresRequestSubject",
+          "traits": {
+            "smithy.api#httpQuery": "subject",
+            "smithy.api#documentation": "Bucketing subject. Ownership is the top-level account_id. Account experiments accept caller-supplied subject IDs; internal experiments derive the user from the session."
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "smithy.api#httpQuery": "related_resource",
+            "smithy.api#documentation": "Restricts batch evaluation to this related resource; omitted batches contain only unbound experiments."
+          }
+        },
+        "flag_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "flag_key",
+            "smithy.api#documentation": "Flag or experiment to evaluate — the flag_key handle or the `expt_` id. Omit to return all flags the caller qualifies for."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account ID or internal. Required when evaluating by flag_key or in a batch; optional for an expt_ ID."
+          }
+        },
+        "properties": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "properties",
+            "smithy.api#documentation": "JSON-encoded scalar values that property targeting conditions match against. Numeric and boolean strings are coerced. Nested query keys such as properties[plan]=pro remain accepted for existing callers. For internal experiments, is_internal_user is derived from the session and cannot be overridden."
+          }
+        },
+        "log_exposure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "log_exposure",
+            "smithy.api#documentation": "Set false to evaluate without recording an exposure. Omitted records it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiments#ExperimentExposure": {
+      "type": "structure",
+      "members": {
+        "configuration_revision": {
+          "target": "smithy.api#Integer"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the subject receives a treatment or enabled feature flag.",
+            "smithy.api#required": {}
+          }
+        },
+        "experiment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique experiment ID, included for account experiments."
+          }
+        },
+        "flag_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present when evaluating a single experiment."
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Treatment name, control, or null for an inactive flag or excluded subject.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentExposureBatch": {
+      "type": "structure",
+      "members": {
+        "exposures": {
+          "target": "com.whop.experiments#ExperimentExposureBatchExposuresMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#ExperimentExposureBatchExposuresMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.whop.experiments#ExperimentExposure"
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#EvaluateExperimentExposuresResponseBody": {
+      "type": "union",
+      "members": {
+        "ExperimentExposure": {
+          "target": "com.whop.experiments#ExperimentExposure"
+        },
+        "ExperimentExposureBatch": {
+          "target": "com.whop.experiments#ExperimentExposureBatch"
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#EvaluateExperimentExposuresResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.whop.experiments#EvaluateExperimentExposuresResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.whop.experiments#EvaluateExperimentExposures": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiments#EvaluateExperimentExposuresRequest"
+      },
+      "output": {
+        "target": "com.whop.experiments#EvaluateExperimentExposuresResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/experiments/exposures",
+          "code": 200
+        },
+        "smithy.api#documentation": "Evaluate Experiments\n\nEvaluates and records an exposure without requiring authentication. When credentials resolve, their authentication method, API key ID, and signed-in user ID are recorded on the exposure event. Pass subject for bucketing identity and account_id for experiment ownership.\n\nPass `flag_key` to check a single flag, or omit it to fetch active flags in the account and related resource scope. Internal anonymous callers may use the `x-whop-anonymous-id` header or `ajs_anonymous_id` cookie; explicit `subject[anonymous_id]` takes precedence.\n\nAssignments use exactly the configured `bucket_by`: `subject[user_id]`, `subject[account_id]`, or `subject[anonymous_id]`. Internal user experiments derive identity from the signed-in session. Missing the required identity fails single evaluation and omits the experiment from batch evaluation. Subjects outside all treatment ranges receive control.\n\nPass `subject[account_id]` to enable account-level targeting rules. Pass `properties` as a JSON object to supply the values that `property` targeting conditions match against.\n\nPass `log_exposure=false` to read an assignment without recording an exposure, for a client that caches assignments up front and records the exposure when the arm is actually rendered. Omitted records the exposure, so pinned callers are unchanged."
+      }
+    },
+    "com.whop.experiments#GetExperimentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The experiment identifier — the `expt_` id or the flag_key handle."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account or internal. Required when id is a flag key; optional for an expt_ ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiments#GetExperiment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiments#GetExperimentRequest"
+      },
+      "output": {
+        "target": "com.whop.experiments#Experiment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/experiments/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve Experiment\n\nRetrieves a single experiment or feature flag by its `expt_` id or flag_key handle. Requires the corresponding experiment permission on the owning account, or Whop internal access for internal experiments."
+      }
+    },
+    "com.whop.experiments#UpdateExperimentRequestControl": {
+      "type": "structure",
+      "members": {
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemConditionsItemOperator": {
+      "type": "enum",
+      "members": {
+        "ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NEQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neq"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Comparison to apply: `any`/`none` — inclusion/exclusion list; `eq`/`neq` — equality; `gt`/`gte`/`lt`/`lte` — numeric range."
+      }
+    },
+    "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemConditionsItemType": {
+      "type": "enum",
+      "members": {
+        "USER_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_id"
+          }
+        },
+        "ACCOUNT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_id"
+          }
+        },
+        "PROPERTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "property"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`user_id` — match on subject user ID; `account_id` — match on account ID (prefixed `biz_`); `property` — match on a named user property (requires `field`)."
+      }
+    },
+    "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemConditionsItem": {
+      "type": "structure",
+      "members": {
+        "field": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Property name to read from the user context. Required when `type` is `property`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "operator": {
+          "target": "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemConditionsItemOperator",
+          "traits": {
+            "smithy.api#documentation": "Comparison to apply: `any`/`none` — inclusion/exclusion list; `eq`/`neq` — equality; `gt`/`gte`/`lt`/`lte` — numeric range.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemConditionsItemType",
+          "traits": {
+            "smithy.api#documentation": "`user_id` — match on subject user ID; `account_id` — match on account ID (prefixed `biz_`); `property` — match on a named user property (requires `field`).",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value or list of values to match against. Pass an array for `any`/`none`, a scalar for the others.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemConditionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Conditions within this rule. Must be non-empty. All conditions must be satisfied for the rule to match (AND logic). Rules are OR-ed together."
+      }
+    },
+    "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemType": {
+      "type": "enum",
+      "members": {
+        "INCLUDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "include"
+          }
+        },
+        "EXCLUDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exclude"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`include` — users matching this rule qualify; `exclude` — users matching this rule are always excluded, overriding any include rule. Defaults to `include`."
+      }
+    },
+    "com.whop.experiments#UpdateExperimentRequestTargetingRulesItem": {
+      "type": "structure",
+      "members": {
+        "conditions": {
+          "target": "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemConditionsList",
+          "traits": {
+            "smithy.api#documentation": "Conditions within this rule. Must be non-empty. All conditions must be satisfied for the rule to match (AND logic). Rules are OR-ed together.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.whop.experiments#UpdateExperimentRequestTargetingRulesItemType",
+          "traits": {
+            "smithy.api#documentation": "`include` — users matching this rule qualify; `exclude` — users matching this rule are always excluded, overriding any include rule. Defaults to `include`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#UpdateExperimentRequestTargetingRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#UpdateExperimentRequestTargetingRulesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Replace the targeting rules with this set. Omit to leave unchanged."
+      }
+    },
+    "com.whop.experiments#UpdateExperimentRequestVariantsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Treatment name. Pass every existing treatment (weights equal or higher); append new names to add arms. `control` is reserved.",
+            "smithy.api#required": {}
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Percentage assigned to treatment; allocation may only grow."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.whop.experiments#UpdateExperimentRequestVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.whop.experiments#UpdateExperimentRequestVariantsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Grow treatment allocation. Pass every existing treatment with an equal-or-higher weight; append new names to add arms. Weights never decrease and arms are never removed. Omit to leave unchanged."
+      }
+    },
+    "com.whop.experiments#UpdateExperimentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The experiment identifier — the `expt_` id or the flag_key handle."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account or internal. Required when id is a flag key; optional for an expt_ ID."
+          }
+        },
+        "control": {
+          "target": "com.whop.experiments#UpdateExperimentRequestControl"
+        },
+        "hypothesis": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Omit to leave unchanged. Send an empty string to clear it. Not accepted on feature flags. When setting it, structure it as \"If we [change] for [cohort], then [measurable behavior] will [increase/decrease], resulting in [business outcome], because [evidence]. Created by [name].\" same as on create.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "related_resource": {
+          "target": "com.whop.experiments#ExperimentResourceReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "targeting_rules": {
+          "target": "com.whop.experiments#UpdateExperimentRequestTargetingRulesList",
+          "traits": {
+            "smithy.api#documentation": "Replace the targeting rules with this set. Omit to leave unchanged."
+          }
+        },
+        "variants": {
+          "target": "com.whop.experiments#UpdateExperimentRequestVariantsList",
+          "traits": {
+            "smithy.api#documentation": "Grow treatment allocation. Pass every existing treatment with an equal-or-higher weight; append new names to add arms. Weights never decrease and arms are never removed. Omit to leave unchanged."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiments#UpdateExperiment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiments#UpdateExperimentRequest"
+      },
+      "output": {
+        "target": "com.whop.experiments#Experiment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/experiments/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Experiment\n\nUpdates the targeting rules, treatment allocation, metrics, or hypothesis of an existing experiment or feature flag. Weights and metrics can only grow, so enrolled users never change arms and an existing metric is never dropped. Lifecycle moves through the transition endpoints (`activate`, `pause`, `end`), never through this update. Requires the corresponding experiment permission on the owning account, or Whop internal access for internal experiments."
+      }
+    },
+    "com.whop.experiments#ActivateExperimentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The experiment identifier — the `expt_` id or the flag_key handle."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account or internal. Required when id is a flag key; optional for an expt_ ID."
+          }
+        },
+        "duration_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Reporting window length in days. Omit to use the default. This does not automatically end the experiment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiments#ActivateExperiment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiments#ActivateExperimentRequest"
+      },
+      "output": {
+        "target": "com.whop.experiments#Experiment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiments#BadRequest"
+        },
+        {
+          "target": "com.whop.experiments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experiments/{id}/activate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Activate Experiment\n\nStarts (or resumes) an experiment or feature flag so evaluation begins serving it. Activating a draft stamps `started_at`; resuming a paused experiment keeps the original start. Only drafts and paused experiments can be activated. Requires the corresponding experiment permission on the owning account, or Whop internal access for internal experiments."
+      }
+    },
+    "com.whop.experiments#EndExperimentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The experiment identifier — the `expt_` id or the flag_key handle."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account or internal. Required when id is a flag key; optional for an expt_ ID."
+          }
+        },
+        "findings": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What you learned and why you chose this outcome. Required.",
+            "smithy.api#required": {}
+          }
+        },
+        "winning_arm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The treatment that won. Setting it rolls that arm out: every later evaluation returns it to every caller, ignoring targeting and allocation, and exposures stop being recorded. Omit it when control won — an ended experiment with no winning arm evaluates to `control` for everyone, so ending again without one also reverts a rollout recorded by mistake. Not accepted on feature flags, which evaluate to disabled once ended.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiments#EndExperiment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiments#EndExperimentRequest"
+      },
+      "output": {
+        "target": "com.whop.experiments#Experiment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiments#BadRequest"
+        },
+        {
+          "target": "com.whop.experiments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experiments/{id}/end",
+          "code": 200
+        },
+        "smithy.api#documentation": "End Experiment\n\nConcludes the experiment and records required `findings`. Pass `winning_arm` to serve the winning treatment to everyone; omit it when control won. Ended experiments cannot restart, but may be ended again to correct the winner. Requires experiment:manage on the account, or internal access for platform experiments."
+      }
+    },
+    "com.whop.experiments#PauseExperimentRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The experiment identifier — the `expt_` id or the flag_key handle."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "account_id",
+            "smithy.api#documentation": "Owning account or internal. Required when id is a flag key; optional for an expt_ ID."
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.whop.experiments#PauseExperiment": {
+      "type": "operation",
+      "input": {
+        "target": "com.whop.experiments#PauseExperimentRequest"
+      },
+      "output": {
+        "target": "com.whop.experiments#Experiment"
+      },
+      "errors": [
+        {
+          "target": "com.whop.experiments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experiments/{id}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause Experiment\n\nPauses an active experiment or feature flag: evaluation stops serving it and exposures stop flowing. Assignments are keyed on stable identity, so users return to their original arm when the experiment resumes. Requires the corresponding experiment permission on the owning account, or Whop internal access for internal experiments."
+      }
+    },
+    "com.whop.experiments#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.whop.experiments#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.whop.experiments#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.whop.experiments#Experiments": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.whop.experiments#ListExperiments"
+        },
+        {
+          "target": "com.whop.experiments#CreateExperiment"
+        },
+        {
+          "target": "com.whop.experiments#EvaluateExperimentExposures"
+        },
+        {
+          "target": "com.whop.experiments#GetExperiment"
+        },
+        {
+          "target": "com.whop.experiments#UpdateExperiment"
+        },
+        {
+          "target": "com.whop.experiments#ActivateExperiment"
+        },
+        {
+          "target": "com.whop.experiments#EndExperiment"
+        },
+        {
+          "target": "com.whop.experiments#PauseExperiment"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Whop API",
+        "smithy.api#documentation": "The Whop REST API. Please see https://docs.whop.com/developer/api/getting-started for more details."
+      }
+    }
+  }
+}

@@ -31,10 +31,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/storageTaskAssignments",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Lists Resource IDs of the Storage Task Assignments associated with this Storage Task.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#StorageTaskAssignmentsListResult": {
@@ -133,10 +133,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/stopAllAssignments",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Stops all active running assignments for the storage task",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#StopStorageTaskAllAssignmentsRequest": {
@@ -184,10 +184,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/reports",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Fetch the storage tasks run report summary for each assignment.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#StorageTaskReportSummary": {
@@ -557,10 +557,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Delete the storage task resource.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#DeleteStorageTaskRequest": {
@@ -608,10 +608,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Update storage task properties",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#UpdateStorageTaskResponse": {
@@ -1223,10 +1223,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Asynchronously creates a new storage task resource with the specified parameters. If a storage task is already created and a subsequent create request is issued with different properties, the storage task properties will be updated. If a storage task is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#CreateStorageTaskResponse": {
@@ -1459,10 +1459,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Get the storage task properties",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#GetStorageTaskResponse": {
@@ -1610,10 +1610,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Lists all the storage tasks available under the given resource group.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#StorageTasksListResult": {
@@ -1783,10 +1783,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.StorageActions/storageTasks",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Lists all the storage tasks available under the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#ListStorageTaskBySubscriptionRequest": {
@@ -1818,10 +1818,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.StorageActions/locations/{location}/previewActions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Runs the input conditions against input object metadata properties and designates matched objects in response.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#StorageTaskPreviewAction": {
@@ -2065,10 +2065,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.StorageActions/operations",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2023-01-01"
         },
         "smithy.api#documentation": "Lists all of the available Storage Actions Rest API operations.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
     "com.azure.storageactions#ListOperationsResponse": {

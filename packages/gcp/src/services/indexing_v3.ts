@@ -87,18 +87,18 @@ export const UrlNotificationTypeEnum = S.String;
 
 /** `UrlNotification` is the resource used in all Indexing API calls. It describes one event in the life cycle of a Web Document. */
 export interface UrlNotification {
-  /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
-  url?: string;
   /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
   notifyTime?: string;
   /** The URL life cycle event that Google is being notified about. */
   type?: UrlNotificationTypeEnum | (string & {});
+  /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
+  url?: string;
 }
 export const UrlNotification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
     notifyTime: S.optional(S.String),
     type: S.optional(UrlNotificationTypeEnum),
+    url: S.optional(S.String),
   }),
 ).annotate({ identifier: "UrlNotification" }) as any as S.Schema<UrlNotification>;
 
@@ -106,16 +106,16 @@ export const UrlNotification = /*@__PURE__*/ S.suspend(() =>
 export interface UrlNotificationMetadata {
   /** Latest notification received with type `URL_UPDATED`. */
   latestUpdate?: UrlNotification;
-  /** Latest notification received with type `URL_REMOVED`. */
-  latestRemove?: UrlNotification;
   /** URL to which this metadata refers. */
   url?: string;
+  /** Latest notification received with type `URL_REMOVED`. */
+  latestRemove?: UrlNotification;
 }
 export const UrlNotificationMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     latestUpdate: S.optional(UrlNotification),
-    latestRemove: S.optional(UrlNotification),
     url: S.optional(S.String),
+    latestRemove: S.optional(UrlNotification),
   }),
 ).annotate({ identifier: "UrlNotificationMetadata" }) as any as S.Schema<UrlNotificationMetadata>;
 

@@ -75,44 +75,44 @@ export const LoyaltyCustomerLoyaltyTierEnum = S.String;
 
 /** Represents a customer’s physical address. */
 export interface AddressInfo {
+  /** Optional. The Unicode country/region code (CLDR) of the customer, such as "US" or "CH". This field is case-insensitive. For more information, see https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/latest/supplemental/territory_containment_un_m_49.html. */
+  regionCode?: string;
+  /** Optional. The state or province of the customer. */
+  state?: string;
   /** Optional. The given name of the customer. */
   givenName?: string;
   /** Optional. The city of the customer. */
   city?: string;
-  /** Optional. The state or province of the customer. */
-  state?: string;
   /** Optional. The family name of the customer. */
   familyName?: string;
-  /** Optional. The Unicode country/region code (CLDR) of the customer, such as "US" or "CH". This field is case-insensitive. For more information, see https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/latest/supplemental/territory_containment_un_m_49.html. */
-  regionCode?: string;
   /** Optional. The postal code (zip code) of the customer. **Format Rules:** * **United States:** 5-digit zip codes (e.g., "94108"). */
   postalCode?: string;
 }
 export const AddressInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    regionCode: S.optional(S.String),
+    state: S.optional(S.String),
     givenName: S.optional(S.String),
     city: S.optional(S.String),
-    state: S.optional(S.String),
     familyName: S.optional(S.String),
-    regionCode: S.optional(S.String),
     postalCode: S.optional(S.String),
   }),
 ).annotate({ identifier: "AddressInfo" }) as any as S.Schema<AddressInfo>;
 
 /** The user identifiers associated with the customer. At least one of the fields within this message must be provided. */
 export interface UserIdentifier {
-  /** Optional. The customer's phone number, in [E.164 format](https://support.google.com/google-ads/answer/16355235) (e.g., "+16502530000"). */
-  phoneNumber?: string;
   /** Optional. The customer’s physical address. */
   address?: AddressInfo;
   /** Optional. The customer’s email address. */
   emailAddress?: string;
+  /** Optional. The customer's phone number, in [E.164 format](https://support.google.com/google-ads/answer/16355235) (e.g., "+16502530000"). */
+  phoneNumber?: string;
 }
 export const UserIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    phoneNumber: S.optional(S.String),
     address: S.optional(AddressInfo),
     emailAddress: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserIdentifier" }) as any as S.Schema<UserIdentifier>;
 

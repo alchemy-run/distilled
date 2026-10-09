@@ -48,6 +48,8 @@ import {
   isMechanicalOperationId,
   isVerbatimRouteId,
   pathToVerbNoun,
+  RENAME_METADATA_KEY,
+  renameShapes,
   resolveOperationName,
   toVerbNoun,
   type OperationIdRewrite,
@@ -217,6 +219,13 @@ export interface OpenApiConvertOptions {
    * `"METHOD path"` keys when two methods share an `operationId`.
    */
   readonly operationNames?: OperationIdRewrite;
+  /**
+   * Name shapes from the spec (`PascalCase(operationId)`, no overrides) and
+   * record the {@link operationNaming} names in
+   * `metadata[RENAME_METADATA_KEY]`; `finalizeConvert` renames after the
+   * Smithy patches, so patches target upstream names.
+   */
+  readonly deferNaming?: boolean;
 }
 
 export interface SmithyModel {
@@ -1223,10 +1232,48 @@ const DEFAULT_ERROR_STATUSES = ["401", "429", "500", "503"];
 
 const DEFAULT_SUCCESS_STATUSES = ["200", "201", "204"];
 
+export { RENAME_METADATA_KEY };
+
 export const convertOpenApiToSmithy = (
   spec: unknown,
   options: OpenApiConvertOptions,
 ): SmithyModel => {
+  const named = convertOnce(spec, options);
+  if (!options.deferNaming) return named;
+  const upstream = convertOnce(spec, {
+    ...options,
+    operationNaming: "as-is",
+    operationNames: undefined,
+  });
+  // Names never steer the conversion (only uniqueness suffixes and the
+  // `By<Param>` rule read them), so both runs create the same shapes in the
+  // same order: the i-th shape of one is the i-th of the other.
+  const from = Object.keys(upstream.shapes);
+  const to = Object.keys(named.shapes);
+  if (from.length !== to.length) {
+    throw new Error(
+      `deferNaming (${options.namespace}): ${from.length} shapes with upstream names, ${to.length} with final names`,
+    );
+  }
+  const rename: Record<string, string> = {};
+  for (let i = 0; i < from.length; i++) if (from[i] !== to[i]) rename[from[i]!] = to[i]!;
+  const check = structuredClone(upstream);
+  renameShapes(check, new Map(Object.entries(rename)));
+  if (JSON.stringify(check) !== JSON.stringify(named)) {
+    const differs = to.find(
+      (id) => JSON.stringify(check.shapes[id]) !== JSON.stringify(named.shapes[id]),
+    );
+    throw new Error(
+      `deferNaming (${options.namespace}): the upstream-named model does not rename to the final one (first difference: ${differs ?? "metadata"})`,
+    );
+  }
+  if (Object.keys(rename).length > 0) {
+    upstream.metadata = { ...upstream.metadata, [RENAME_METADATA_KEY]: rename };
+  }
+  return upstream;
+};
+
+const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel => {
   const doc = spec as any;
   const version = detectVersion(doc);
   const ctx: Ctx = {

@@ -1,0 +1,3950 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.notion.meeting_notes#CreateMeetingNoteRequestLanguage": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "EN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en"
+          }
+        },
+        "ZH_CN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zh-CN"
+          }
+        },
+        "ZH_TW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zh-TW"
+          }
+        },
+        "ES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "es"
+          }
+        },
+        "FR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr"
+          }
+        },
+        "DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de"
+          }
+        },
+        "JA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ja"
+          }
+        },
+        "KO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ko"
+          }
+        },
+        "PT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pt"
+          }
+        },
+        "RU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ru"
+          }
+        },
+        "TH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "th"
+          }
+        },
+        "VI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vi"
+          }
+        },
+        "ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id"
+          }
+        },
+        "DA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "da"
+          }
+        },
+        "FI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fi"
+          }
+        },
+        "NO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no"
+          }
+        },
+        "NL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl"
+          }
+        },
+        "IT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it"
+          }
+        },
+        "SV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sv"
+          }
+        },
+        "AR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ar"
+          }
+        },
+        "HE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "he"
+          }
+        },
+        "PL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Language hint for transcription. Defaults to automatic detection."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteRequestOptions": {
+      "type": "structure",
+      "members": {
+        "kickoff_summary": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to start summary generation after transcription."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional processing settings."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteRequestSource": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always \"file_upload\".",
+            "smithy.api#required": {}
+          }
+        },
+        "file_upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of a completed public API file upload.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Audio or video source for the meeting note."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteRequestParent": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always \"page_id\".",
+            "smithy.api#required": {}
+          }
+        },
+        "page_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Page ID where the meeting note should be created. Required for file_upload sources.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parent page for the new meeting note."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteRequest": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title for the meeting note."
+          }
+        },
+        "language": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteRequestLanguage",
+          "traits": {
+            "smithy.api#documentation": "Language hint for transcription. Defaults to automatic detection."
+          }
+        },
+        "options": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteRequestOptions",
+          "traits": {
+            "smithy.api#documentation": "Optional processing settings."
+          }
+        },
+        "source": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteRequestSource",
+          "traits": {
+            "smithy.api#documentation": "Audio or video source for the meeting note."
+          }
+        },
+        "parent": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteRequestParent",
+          "traits": {
+            "smithy.api#documentation": "Parent page for the new meeting note."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase0": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always \"block\".",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the meeting note block.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponse": {
+      "type": "structure",
+      "members": {
+        "plain_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plain text content of the rich text object, without any styling.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL that the rich text object links to or mentions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "annotations": {
+          "target": "com.notion.meeting_notes#AnnotationResponse",
+          "traits": {
+            "smithy.api#documentation": "All rich text objects contain an annotations object that sets the styling for the rich text.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `text`"
+          }
+        },
+        "text": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseText",
+          "traits": {
+            "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+          }
+        },
+        "mention": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMention",
+          "traits": {
+            "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+          }
+        },
+        "equation": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseEquation",
+          "traits": {
+            "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#AnnotationResponse": {
+      "type": "structure",
+      "members": {
+        "bold": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "italic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "strikethrough": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "underline": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "com.notion.meeting_notes#ApiColor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#ApiColor": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "BROWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown"
+          }
+        },
+        "ORANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange"
+          }
+        },
+        "YELLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow"
+          }
+        },
+        "GREEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green"
+          }
+        },
+        "BLUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue"
+          }
+        },
+        "PURPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple"
+          }
+        },
+        "PINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink"
+          }
+        },
+        "RED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red"
+          }
+        },
+        "DEFAULT_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default_background"
+          }
+        },
+        "GRAY_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray_background"
+          }
+        },
+        "BROWN_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brown_background"
+          }
+        },
+        "ORANGE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orange_background"
+          }
+        },
+        "YELLOW_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yellow_background"
+          }
+        },
+        "GREEN_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "green_background"
+          }
+        },
+        "BLUE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blue_background"
+          }
+        },
+        "PURPLE_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purple_background"
+          }
+        },
+        "PINK_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pink_background"
+          }
+        },
+        "RED_BACKGROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "red_background"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`, `default_background`, `gray_background`, `brown_background`, `orange_background`, `yellow_background`, `green_background`, `blue_background`, `purple_background`, `pink_background`, `red_background`"
+      }
+    },
+    "com.notion.meeting_notes#RichTextItemResponseTextLink": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseText": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The actual text content of the text.",
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseTextLink",
+          "traits": {
+            "smithy.api#documentation": "An object with information about any inline link in this text, if included.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link."
+      }
+    },
+    "com.notion.meeting_notes#UserValueResponse": {
+      "type": "union",
+      "members": {
+        "PartialUserObjectResponse": {
+          "target": "com.notion.meeting_notes#PartialUserObjectResponse"
+        },
+        "UserObjectResponse": {
+          "target": "com.notion.meeting_notes#UserObjectResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#PartialUserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#UserObjectResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates this user is a person."
+          }
+        },
+        "person": {
+          "target": "com.notion.meeting_notes#UserObjectResponsePerson",
+          "traits": {
+            "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+          }
+        },
+        "bot": {
+          "target": "com.notion.meeting_notes#UserObjectResponseBot",
+          "traits": {
+            "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#UserObjectResponsePerson": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the person, when the `type` of the user is `person`."
+      }
+    },
+    "com.notion.meeting_notes#BotInfoResponse": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "com.notion.meeting_notes#BotInfoResponseOwner",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the bot's workspace.",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_limits": {
+          "target": "com.notion.meeting_notes#BotInfoResponseWorkspaceLimits",
+          "traits": {
+            "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the bot's workspace.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#BotInfoResponseOwnerCase0UserCase0Person": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the person."
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person's email is verified."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The person info of the user."
+      }
+    },
+    "com.notion.meeting_notes#BotInfoResponseOwnerCase0UserCase0": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user object type name.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "avatar_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The avatar URL of the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "person": {
+          "target": "com.notion.meeting_notes#BotInfoResponseOwnerCase0UserCase0Person",
+          "traits": {
+            "smithy.api#documentation": "The person info of the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#BotInfoResponseOwnerCase0User": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#BotInfoResponseOwnerCase0UserCase0"
+        },
+        "PartialUserObjectResponse": {
+          "target": "com.notion.meeting_notes#PartialUserObjectResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration."
+      }
+    },
+    "com.notion.meeting_notes#BotInfoResponseOwnerCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.meeting_notes#BotInfoResponseOwnerCase0User",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `user`. This means the bot is for a integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#BotInfoResponseOwnerCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `workspace`",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Details about the owner of the bot, when the `type` of the owner is `workspace`. This means the bot is for an internal integration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#BotInfoResponseOwner": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#BotInfoResponseOwnerCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#BotInfoResponseOwnerCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the owner of the bot."
+      }
+    },
+    "com.notion.meeting_notes#BotInfoResponseWorkspaceLimits": {
+      "type": "structure",
+      "members": {
+        "max_file_upload_size_in_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum allowable size of a file upload, in bytes",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Limits and restrictions that apply to the bot's workspace"
+      }
+    },
+    "com.notion.meeting_notes#UserObjectResponseBot": {
+      "type": "union",
+      "members": {
+        "EmptyObject": {
+          "target": "smithy.api#Document"
+        },
+        "BotInfoResponse": {
+          "target": "com.notion.meeting_notes#BotInfoResponse"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the bot, when the `type` of the user is `bot`."
+      }
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `user`",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.notion.meeting_notes#UserValueResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the user mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#DateResponse": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start date of the date object.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end date of the date object, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time zone of the date object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`",
+            "smithy.api#required": {}
+          }
+        },
+        "date": {
+          "target": "com.notion.meeting_notes#DateResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the date mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#LinkPreviewMentionResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the link preview mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `link_preview`",
+            "smithy.api#required": {}
+          }
+        },
+        "link_preview": {
+          "target": "com.notion.meeting_notes#LinkPreviewMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the link preview mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#LinkMentionResponse": {
+      "type": "structure",
+      "members": {
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The href of the link mention.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the link."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the link."
+          }
+        },
+        "link_author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The author of the link."
+          }
+        },
+        "link_provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider of the link."
+          }
+        },
+        "thumbnail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The thumbnail URL of the link."
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The icon URL of the link."
+          }
+        },
+        "iframe_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The iframe URL of the link."
+          }
+        },
+        "height": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The height of the link preview iframe."
+          }
+        },
+        "padding": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The padding of the link preview iframe."
+          }
+        },
+        "padding_top": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The top padding of the link preview iframe."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `link_mention`",
+            "smithy.api#required": {}
+          }
+        },
+        "link_mention": {
+          "target": "com.notion.meeting_notes#LinkMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the link mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase4Page": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the page in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the page mention."
+      }
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase4": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `page`",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase4Page",
+          "traits": {
+            "smithy.api#documentation": "Details of the page mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase5Database": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the database in the mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the database mention."
+      }
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase5": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `database`",
+            "smithy.api#required": {}
+          }
+        },
+        "database": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase5Database",
+          "traits": {
+            "smithy.api#documentation": "Details of the database mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#TemplateMentionResponse": {
+      "type": "union",
+      "members": {
+        "TemplateMentionDateTemplateMentionResponse": {
+          "target": "com.notion.meeting_notes#TemplateMentionDateTemplateMentionResponse"
+        },
+        "TemplateMentionUserTemplateMentionResponse": {
+          "target": "com.notion.meeting_notes#TemplateMentionUserTemplateMentionResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#TemplateMentionDateTemplateMentionResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_date`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention_date": {
+          "target": "com.notion.meeting_notes#TemplateMentionDateTemplateMentionResponseTemplateMentionDate",
+          "traits": {
+            "smithy.api#documentation": "The date of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#TemplateMentionDateTemplateMentionResponseTemplateMentionDate": {
+      "type": "enum",
+      "members": {
+        "TODAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "today"
+          }
+        },
+        "NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "now"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The date of the template mention."
+      }
+    },
+    "com.notion.meeting_notes#TemplateMentionUserTemplateMentionResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention_user`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase6": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `template_mention`",
+            "smithy.api#required": {}
+          }
+        },
+        "template_mention": {
+          "target": "com.notion.meeting_notes#TemplateMentionResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the template mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#CustomEmojiResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the custom emoji.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMentionCase7": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom_emoji`",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_emoji": {
+          "target": "com.notion.meeting_notes#CustomEmojiResponse",
+          "traits": {
+            "smithy.api#documentation": "Details of the custom emoji mention.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#RichTextItemResponseMention": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase1"
+        },
+        "Case2": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase2"
+        },
+        "Case3": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase3"
+        },
+        "Case4": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase4"
+        },
+        "Case5": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase5"
+        },
+        "Case6": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase6"
+        },
+        "Case7": {
+          "target": "com.notion.meeting_notes#RichTextItemResponseMentionCase7"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference."
+      }
+    },
+    "com.notion.meeting_notes#RichTextItemResponseEquation": {
+      "type": "structure",
+      "members": {
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A KaTeX compatible string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Notion supports inline LaTeX equations as rich text objects with a type value of `equation`."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesTitleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.meeting_notes#RichTextItemResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "Title of the meeting note as rich text."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesStatus": {
+      "type": "enum",
+      "members": {
+        "TRANSCRIPTION_NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcription_not_started"
+          }
+        },
+        "TRANSCRIPTION_PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcription_paused"
+          }
+        },
+        "TRANSCRIPTION_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcription_in_progress"
+          }
+        },
+        "TRANSCRIPTION_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcription_failed"
+          }
+        },
+        "SUMMARY_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "summary_in_progress"
+          }
+        },
+        "NOTES_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notes_ready"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current processing status of the meeting note transcription."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesChildren": {
+      "type": "structure",
+      "members": {
+        "summary_block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Block ID of the AI summary tab."
+          }
+        },
+        "notes_block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Block ID of the meeting notes tab."
+          }
+        },
+        "transcript_block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Block ID of the transcript tab."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Block IDs for each tab (summary, notes, transcript)."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEventAttendeesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of attendee user IDs."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEvent": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 start time of the calendar event.",
+            "smithy.api#required": {}
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 end time of the calendar event.",
+            "smithy.api#required": {}
+          }
+        },
+        "attendees": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEventAttendeesList",
+          "traits": {
+            "smithy.api#documentation": "List of attendee user IDs."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Calendar event metadata associated with this meeting note."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesRecording": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp when the recording started."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp when the recording ended."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Start and end times of the actual recording."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotes": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesTitleList",
+          "traits": {
+            "smithy.api#documentation": "Title of the meeting note as rich text."
+          }
+        },
+        "status": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesStatus",
+          "traits": {
+            "smithy.api#documentation": "Current processing status of the meeting note transcription."
+          }
+        },
+        "children": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesChildren",
+          "traits": {
+            "smithy.api#documentation": "Block IDs for each tab (summary, notes, transcript)."
+          }
+        },
+        "calendar_event": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEvent",
+          "traits": {
+            "smithy.api#documentation": "Calendar event metadata associated with this meeting note."
+          }
+        },
+        "recording": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotesRecording",
+          "traits": {
+            "smithy.api#documentation": "Start and end times of the actual recording."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Meeting note content fields."
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always \"block\".",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the meeting note block.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always \"meeting_notes\".",
+            "smithy.api#required": {}
+          }
+        },
+        "meeting_notes": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1MeetingNotes",
+          "traits": {
+            "smithy.api#documentation": "Meeting note content fields.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp when this meeting note was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp when this meeting note was last edited.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.notion.meeting_notes#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "User who created this meeting note.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_by": {
+          "target": "com.notion.meeting_notes#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "User who last edited this meeting note.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_children": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this block has child blocks.",
+            "smithy.api#required": {}
+          }
+        },
+        "in_trash": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this meeting note is in the trash.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponseBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#CreateMeetingNoteResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.notion.meeting_notes#CreateMeetingNoteResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.meeting_notes#CreateMeetingNote": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.meeting_notes#CreateMeetingNoteRequest"
+      },
+      "output": {
+        "target": "com.notion.meeting_notes#CreateMeetingNoteResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/blocks/meeting_notes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a meeting note"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterOperator": {
+      "type": "enum",
+      "members": {
+        "AND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "and"
+          }
+        },
+        "OR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "or"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Operator for combinator filters."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0Property": {
+      "type": "enum",
+      "members": {
+        "TITLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "title"
+          }
+        },
+        "ATTENDEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attendees"
+          }
+        },
+        "CREATED_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_time"
+          }
+        },
+        "CREATED_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_by"
+          }
+        },
+        "LAST_EDITED_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_edited_time"
+          }
+        },
+        "LAST_EDITED_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_edited_by"
+          }
+        },
+        "NOTION_MEETING_NOTES_ATTENDEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notion://meeting_notes/attendees"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which meeting-note property to filter on. Prefer the short names; the schema URI form is accepted for compatibility."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase0Operator": {
+      "type": "enum",
+      "members": {
+        "STRING_IS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_is"
+          }
+        },
+        "STRING_IS_NOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_is_not"
+          }
+        },
+        "STRING_CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_contains"
+          }
+        },
+        "STRING_DOES_NOT_CONTAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_does_not_contain"
+          }
+        },
+        "STRING_STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_starts_with"
+          }
+        },
+        "STRING_ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_ends_with"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How to compare the text."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase0Value": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `exact`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The literal text the operator compares against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The text to compare against."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase0": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase0Operator",
+          "traits": {
+            "smithy.api#documentation": "How to compare the text.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase0Value",
+          "traits": {
+            "smithy.api#documentation": "The text to compare against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1Operator": {
+      "type": "enum",
+      "members": {
+        "PERSON_CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person_contains"
+          }
+        },
+        "PERSON_DOES_NOT_CONTAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person_does_not_contain"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the property must contain the people listed."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueItemCase0Value": {
+      "type": "structure",
+      "members": {
+        "table": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `notion_user`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's ID, as a UUID or the `user://<uuid>` form returned by user search.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pointer to the Notion user to match."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueItemCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `exact`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueItemCase0Value",
+          "traits": {
+            "smithy.api#documentation": "Pointer to the Notion user to match.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueItemCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `me`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueItemCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The people to compare against."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1Operator",
+          "traits": {
+            "smithy.api#documentation": "Whether the property must contain the people listed.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1ValueList",
+          "traits": {
+            "smithy.api#documentation": "The people to compare against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2Operator": {
+      "type": "enum",
+      "members": {
+        "DATE_IS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is"
+          }
+        },
+        "DATE_IS_BEFORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_before"
+          }
+        },
+        "DATE_IS_AFTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_after"
+          }
+        },
+        "DATE_IS_ON_OR_BEFORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_on_or_before"
+          }
+        },
+        "DATE_IS_ON_OR_AFTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_on_or_after"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How to compare the date."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase0Value": {
+      "type": "enum",
+      "members": {
+        "TODAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "today"
+          }
+        },
+        "TOMORROW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tomorrow"
+          }
+        },
+        "YESTERDAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yesterday"
+          }
+        },
+        "ONE_WEEK_AGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_week_ago"
+          }
+        },
+        "ONE_WEEK_FROM_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_week_from_now"
+          }
+        },
+        "ONE_MONTH_AGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_month_ago"
+          }
+        },
+        "ONE_MONTH_FROM_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_month_from_now"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `today`, `tomorrow`, `yesterday`, `one_week_ago`, `one_week_from_now`, `one_month_ago`, `one_month_from_now`"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase0Value",
+          "traits": {
+            "smithy.api#documentation": "One of: `today`, `tomorrow`, `yesterday`, `one_week_ago`, `one_week_from_now`, `one_month_ago`, `one_month_from_now`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase1ValueCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The calendar date as an ISO 8601 date string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase1ValueCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `datetime`",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The calendar date as an ISO 8601 date string.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of day in 24-hour HH:MM format.",
+            "smithy.api#required": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IANA time zone name the time is interpreted in.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase1Value": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase1ValueCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase1ValueCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use the is_empty operator to match an unset date."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `exact`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase1Value",
+          "traits": {
+            "smithy.api#documentation": "Use the is_empty operator to match an unset date.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2Value": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2ValueCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The date to compare against."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2Operator",
+          "traits": {
+            "smithy.api#documentation": "How to compare the date.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2Value",
+          "traits": {
+            "smithy.api#documentation": "The date to compare against.",
+            "smithy.api#required": {}
+          }
+        },
+        "use_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Compare against the end of a date range rather than its start."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3Operator": {
+      "type": "enum",
+      "members": {
+        "DATE_IS_WITHIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_within"
+          }
+        },
+        "DATE_IS_RELATIVE_TO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_relative_to"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How to compare the date against the range."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase0Direction": {
+      "type": "enum",
+      "members": {
+        "PAST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "past"
+          }
+        },
+        "FUTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "future"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the window runs backwards or forwards from now."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase0Unit": {
+      "type": "enum",
+      "members": {
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `year`, `month`, `week`, `day`"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom`",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase0Direction",
+          "traits": {
+            "smithy.api#documentation": "Whether the window runs backwards or forwards from now.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase0Unit",
+          "traits": {
+            "smithy.api#documentation": "One of: `year`, `month`, `week`, `day`",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many units wide the window is.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase1Unit": {
+      "type": "enum",
+      "members": {
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `year`, `month`, `week`, `day`"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `surrounding`",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase1Unit",
+          "traits": {
+            "smithy.api#documentation": "One of: `year`, `month`, `week`, `day`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase2Value": {
+      "type": "enum",
+      "members": {
+        "THIS_WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "this_week"
+          }
+        },
+        "THE_PAST_WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_past_week"
+          }
+        },
+        "THE_PAST_MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_past_month"
+          }
+        },
+        "THE_PAST_YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_past_year"
+          }
+        },
+        "THE_NEXT_WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_next_week"
+          }
+        },
+        "THE_NEXT_MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_next_month"
+          }
+        },
+        "THE_NEXT_YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_next_year"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `this_week`, `the_past_week`, `the_past_month`, `the_past_year`, `the_next_week`, `the_next_month`, `the_next_year`"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase2Value",
+          "traits": {
+            "smithy.api#documentation": "One of: `this_week`, `the_past_week`, `the_past_month`, `the_past_year`, `the_next_week`, `the_next_month`, `the_next_year`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase3Value": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `daterange`",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive start of the range as an ISO 8601 date string, if any."
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive end of the range as an ISO 8601 date string, if any."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use the is_empty operator to match an unset date."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `exact`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase3Value",
+          "traits": {
+            "smithy.api#documentation": "Use the is_empty operator to match an unset date.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3Value": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase1"
+        },
+        "Case2": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase2"
+        },
+        "Case3": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3ValueCase3"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The range to compare against."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3Operator",
+          "traits": {
+            "smithy.api#documentation": "How to compare the date against the range.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3Value",
+          "traits": {
+            "smithy.api#documentation": "The range to compare against.",
+            "smithy.api#required": {}
+          }
+        },
+        "use_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Compare against the end of a date range rather than its start."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase4Operator": {
+      "type": "enum",
+      "members": {
+        "IS_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_empty"
+          }
+        },
+        "IS_NOT_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_not_empty"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the property must be empty or set."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase4": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase4Operator",
+          "traits": {
+            "smithy.api#documentation": "Whether the property must be empty or set.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0Filter": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase1"
+        },
+        "Case2": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase2"
+        },
+        "Case3": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase3"
+        },
+        "Case4": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0FilterCase4"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The comparison to apply. Use the arm matching the property's type."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0": {
+      "type": "structure",
+      "members": {
+        "property": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0Property",
+          "traits": {
+            "smithy.api#documentation": "Which meeting-note property to filter on. Prefer the short names; the schema URI form is accepted for compatibility.",
+            "smithy.api#required": {}
+          }
+        },
+        "filter": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0Filter",
+          "traits": {
+            "smithy.api#documentation": "The comparison to apply. Use the arm matching the property's type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1Operator": {
+      "type": "enum",
+      "members": {
+        "AND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "and"
+          }
+        },
+        "OR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "or"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether every child must match, or any of them."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemProperty": {
+      "type": "enum",
+      "members": {
+        "TITLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "title"
+          }
+        },
+        "ATTENDEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attendees"
+          }
+        },
+        "CREATED_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_time"
+          }
+        },
+        "CREATED_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_by"
+          }
+        },
+        "LAST_EDITED_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_edited_time"
+          }
+        },
+        "LAST_EDITED_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_edited_by"
+          }
+        },
+        "NOTION_MEETING_NOTES_ATTENDEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notion://meeting_notes/attendees"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which meeting-note property to filter on. Prefer the short names; the schema URI form is accepted for compatibility."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase0Operator": {
+      "type": "enum",
+      "members": {
+        "STRING_IS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_is"
+          }
+        },
+        "STRING_IS_NOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_is_not"
+          }
+        },
+        "STRING_CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_contains"
+          }
+        },
+        "STRING_DOES_NOT_CONTAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_does_not_contain"
+          }
+        },
+        "STRING_STARTS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_starts_with"
+          }
+        },
+        "STRING_ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_ends_with"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How to compare the text."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase0Value": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `exact`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The literal text the operator compares against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The text to compare against."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase0": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase0Operator",
+          "traits": {
+            "smithy.api#documentation": "How to compare the text.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase0Value",
+          "traits": {
+            "smithy.api#documentation": "The text to compare against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1Operator": {
+      "type": "enum",
+      "members": {
+        "PERSON_CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person_contains"
+          }
+        },
+        "PERSON_DOES_NOT_CONTAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person_does_not_contain"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the property must contain the people listed."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueItemCase0Value": {
+      "type": "structure",
+      "members": {
+        "table": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `notion_user`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's ID, as a UUID or the `user://<uuid>` form returned by user search.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pointer to the Notion user to match."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueItemCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `exact`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueItemCase0Value",
+          "traits": {
+            "smithy.api#documentation": "Pointer to the Notion user to match.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueItemCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `me`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueItemCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The people to compare against."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1Operator",
+          "traits": {
+            "smithy.api#documentation": "Whether the property must contain the people listed.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1ValueList",
+          "traits": {
+            "smithy.api#documentation": "The people to compare against.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2Operator": {
+      "type": "enum",
+      "members": {
+        "DATE_IS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is"
+          }
+        },
+        "DATE_IS_BEFORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_before"
+          }
+        },
+        "DATE_IS_AFTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_after"
+          }
+        },
+        "DATE_IS_ON_OR_BEFORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_on_or_before"
+          }
+        },
+        "DATE_IS_ON_OR_AFTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_on_or_after"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How to compare the date."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase0Value": {
+      "type": "enum",
+      "members": {
+        "TODAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "today"
+          }
+        },
+        "TOMORROW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tomorrow"
+          }
+        },
+        "YESTERDAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yesterday"
+          }
+        },
+        "ONE_WEEK_AGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_week_ago"
+          }
+        },
+        "ONE_WEEK_FROM_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_week_from_now"
+          }
+        },
+        "ONE_MONTH_AGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_month_ago"
+          }
+        },
+        "ONE_MONTH_FROM_NOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "one_month_from_now"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `today`, `tomorrow`, `yesterday`, `one_week_ago`, `one_week_from_now`, `one_month_ago`, `one_month_from_now`"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase0Value",
+          "traits": {
+            "smithy.api#documentation": "One of: `today`, `tomorrow`, `yesterday`, `one_week_ago`, `one_week_from_now`, `one_month_ago`, `one_month_from_now`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase1ValueCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `date`",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The calendar date as an ISO 8601 date string.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase1ValueCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `datetime`",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The calendar date as an ISO 8601 date string.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time of day in 24-hour HH:MM format.",
+            "smithy.api#required": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IANA time zone name the time is interpreted in.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase1Value": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase1ValueCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase1ValueCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use the is_empty operator to match an unset date."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `exact`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase1Value",
+          "traits": {
+            "smithy.api#documentation": "Use the is_empty operator to match an unset date.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2Value": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2ValueCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The date to compare against."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2Operator",
+          "traits": {
+            "smithy.api#documentation": "How to compare the date.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2Value",
+          "traits": {
+            "smithy.api#documentation": "The date to compare against.",
+            "smithy.api#required": {}
+          }
+        },
+        "use_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Compare against the end of a date range rather than its start."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3Operator": {
+      "type": "enum",
+      "members": {
+        "DATE_IS_WITHIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_within"
+          }
+        },
+        "DATE_IS_RELATIVE_TO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "date_is_relative_to"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How to compare the date against the range."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase0Direction": {
+      "type": "enum",
+      "members": {
+        "PAST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "past"
+          }
+        },
+        "FUTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "future"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the window runs backwards or forwards from now."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase0Unit": {
+      "type": "enum",
+      "members": {
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `year`, `month`, `week`, `day`"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `custom`",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase0Direction",
+          "traits": {
+            "smithy.api#documentation": "Whether the window runs backwards or forwards from now.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase0Unit",
+          "traits": {
+            "smithy.api#documentation": "One of: `year`, `month`, `week`, `day`",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many units wide the window is.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase1Unit": {
+      "type": "enum",
+      "members": {
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `year`, `month`, `week`, `day`"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `surrounding`",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase1Unit",
+          "traits": {
+            "smithy.api#documentation": "One of: `year`, `month`, `week`, `day`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase2Value": {
+      "type": "enum",
+      "members": {
+        "THIS_WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "this_week"
+          }
+        },
+        "THE_PAST_WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_past_week"
+          }
+        },
+        "THE_PAST_MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_past_month"
+          }
+        },
+        "THE_PAST_YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_past_year"
+          }
+        },
+        "THE_NEXT_WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_next_week"
+          }
+        },
+        "THE_NEXT_MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_next_month"
+          }
+        },
+        "THE_NEXT_YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "the_next_year"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of: `this_week`, `the_past_week`, `the_past_month`, `the_past_year`, `the_next_week`, `the_next_month`, `the_next_year`"
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase2": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `relative`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase2Value",
+          "traits": {
+            "smithy.api#documentation": "One of: `this_week`, `the_past_week`, `the_past_month`, `the_past_year`, `the_next_week`, `the_next_month`, `the_next_year`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase3Value": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `daterange`",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive start of the range as an ISO 8601 date string, if any."
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive end of the range as an ISO 8601 date string, if any."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use the is_empty operator to match an unset date."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase3": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always `exact`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase3Value",
+          "traits": {
+            "smithy.api#documentation": "Use the is_empty operator to match an unset date.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3Value": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase1"
+        },
+        "Case2": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase2"
+        },
+        "Case3": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3ValueCase3"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The range to compare against."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3Operator",
+          "traits": {
+            "smithy.api#documentation": "How to compare the date against the range.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3Value",
+          "traits": {
+            "smithy.api#documentation": "The range to compare against.",
+            "smithy.api#required": {}
+          }
+        },
+        "use_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Compare against the end of a date range rather than its start."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase4Operator": {
+      "type": "enum",
+      "members": {
+        "IS_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_empty"
+          }
+        },
+        "IS_NOT_EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_not_empty"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the property must be empty or set."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase4": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase4Operator",
+          "traits": {
+            "smithy.api#documentation": "Whether the property must be empty or set.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilter": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase1"
+        },
+        "Case2": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase2"
+        },
+        "Case3": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase3"
+        },
+        "Case4": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilterCase4"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The comparison to apply. Use the arm matching the property's type."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItem": {
+      "type": "structure",
+      "members": {
+        "property": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemProperty",
+          "traits": {
+            "smithy.api#documentation": "Which meeting-note property to filter on. Prefer the short names; the schema URI form is accepted for compatibility.",
+            "smithy.api#required": {}
+          }
+        },
+        "filter": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItemFilter",
+          "traits": {
+            "smithy.api#documentation": "The comparison to apply. Use the arm matching the property's type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The conditions in this group. A group with no conditions matches nothing, so send at least one."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1Operator",
+          "traits": {
+            "smithy.api#documentation": "Whether every child must match, or any of them.",
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1FiltersList",
+          "traits": {
+            "smithy.api#documentation": "The conditions in this group. A group with no conditions matches nothing, so send at least one.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase0"
+        },
+        "Case1": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Nested filters; each may be a combinator (and/or) or property filter."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestFilter": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterOperator",
+          "traits": {
+            "smithy.api#documentation": "Operator for combinator filters.",
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilterFiltersList",
+          "traits": {
+            "smithy.api#documentation": "Nested filters; each may be a combinator (and/or) or property filter."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional filter for querying meeting notes. Supports combinator (and/or) and property filters on title, attendees, created_time, created_by, last_edited_time, last_edited_by."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestSortItemProperty": {
+      "type": "enum",
+      "members": {
+        "TITLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "title"
+          }
+        },
+        "ATTENDEES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attendees"
+          }
+        },
+        "CREATED_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_time"
+          }
+        },
+        "CREATED_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_by"
+          }
+        },
+        "LAST_EDITED_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_edited_time"
+          }
+        },
+        "LAST_EDITED_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_edited_by"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Property name to sort by."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestSortItemDirection": {
+      "type": "enum",
+      "members": {
+        "ASCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ascending"
+          }
+        },
+        "DESCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "descending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sort direction. Must be 'ascending' or 'descending'."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestSortItem": {
+      "type": "structure",
+      "members": {
+        "property": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestSortItemProperty",
+          "traits": {
+            "smithy.api#documentation": "Property name to sort by.",
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestSortItemDirection",
+          "traits": {
+            "smithy.api#documentation": "Sort direction. Must be 'ascending' or 'descending'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequestSortList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.meeting_notes#QueryMeetingNotesRequestSortItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional sort order for the results. Each entry specifies a property name and direction."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesRequest": {
+      "type": "structure",
+      "members": {
+        "filter": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestFilter",
+          "traits": {
+            "smithy.api#documentation": "Optional filter for querying meeting notes. Supports combinator (and/or) and property filters on title, attendees, created_time, created_by, last_edited_time, last_edited_by."
+          }
+        },
+        "sort": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesRequestSortList",
+          "traits": {
+            "smithy.api#documentation": "Optional sort order for the results. Each entry specifies a property name and direction."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of results to return. Defaults to 50."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesTitleList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.meeting_notes#RichTextItemResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "Title of the meeting note as rich text."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesStatus": {
+      "type": "enum",
+      "members": {
+        "TRANSCRIPTION_NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcription_not_started"
+          }
+        },
+        "TRANSCRIPTION_PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcription_paused"
+          }
+        },
+        "TRANSCRIPTION_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcription_in_progress"
+          }
+        },
+        "TRANSCRIPTION_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcription_failed"
+          }
+        },
+        "SUMMARY_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "summary_in_progress"
+          }
+        },
+        "NOTES_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notes_ready"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current processing status of the meeting note transcription."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesChildren": {
+      "type": "structure",
+      "members": {
+        "summary_block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Block ID of the AI summary tab."
+          }
+        },
+        "notes_block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Block ID of the meeting notes tab."
+          }
+        },
+        "transcript_block_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Block ID of the transcript tab."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Block IDs for each tab (summary, notes, transcript)."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEventAttendeesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of attendee user IDs."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEvent": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 start time of the calendar event.",
+            "smithy.api#required": {}
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 end time of the calendar event.",
+            "smithy.api#required": {}
+          }
+        },
+        "attendees": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEventAttendeesList",
+          "traits": {
+            "smithy.api#documentation": "List of attendee user IDs."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Calendar event metadata associated with this meeting note."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesRecording": {
+      "type": "structure",
+      "members": {
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp when the recording started."
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp when the recording ended."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Start and end times of the actual recording."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotes": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesTitleList",
+          "traits": {
+            "smithy.api#documentation": "Title of the meeting note as rich text."
+          }
+        },
+        "status": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesStatus",
+          "traits": {
+            "smithy.api#documentation": "Current processing status of the meeting note transcription."
+          }
+        },
+        "children": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesChildren",
+          "traits": {
+            "smithy.api#documentation": "Block IDs for each tab (summary, notes, transcript)."
+          }
+        },
+        "calendar_event": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEvent",
+          "traits": {
+            "smithy.api#documentation": "Calendar event metadata associated with this meeting note."
+          }
+        },
+        "recording": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotesRecording",
+          "traits": {
+            "smithy.api#documentation": "Start and end times of the actual recording."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Meeting note content fields."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItem": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always \"block\".",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the meeting note block.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Always \"meeting_notes\".",
+            "smithy.api#required": {}
+          }
+        },
+        "meeting_notes": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItemMeetingNotes",
+          "traits": {
+            "smithy.api#documentation": "Meeting note content fields.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp when this meeting note was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp when this meeting note was last edited.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.notion.meeting_notes#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "User who created this meeting note.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_edited_by": {
+          "target": "com.notion.meeting_notes#PartialUserObjectResponse",
+          "traits": {
+            "smithy.api#documentation": "User who last edited this meeting note.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_children": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this block has child blocks.",
+            "smithy.api#required": {}
+          }
+        },
+        "in_trash": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this meeting note is in the trash.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Meeting note block objects."
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotesResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.notion.meeting_notes#QueryMeetingNotesResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Meeting note block objects.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether additional results exist beyond the returned limit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.notion.meeting_notes#QueryMeetingNotes": {
+      "type": "operation",
+      "input": {
+        "target": "com.notion.meeting_notes#QueryMeetingNotesRequest"
+      },
+      "output": {
+        "target": "com.notion.meeting_notes#QueryMeetingNotesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/blocks/meeting_notes/query",
+          "code": 200
+        },
+        "smithy.api#documentation": "Query meeting notes"
+      }
+    },
+    "com.notion.meeting_notes#MeetingNotes": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.notion.meeting_notes#CreateMeetingNote"
+        },
+        {
+          "target": "com.notion.meeting_notes#QueryMeetingNotes"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Notion API"
+      }
+    }
+  }
+}

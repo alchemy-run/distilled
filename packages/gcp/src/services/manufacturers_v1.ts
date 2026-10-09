@@ -120,75 +120,65 @@ export const GetAccountsLanguagesProductCertificationsRequest = /*@__PURE__*/ S.
   identifier: "GetAccountsLanguagesProductCertificationsRequest",
 }) as any as S.Schema<GetAccountsLanguagesProductCertificationsRequest>;
 
+/** Description of a certification. */
+export interface Certification {
+  /** Optional. A unique code to identify the certification. */
+  code?: string;
+  /** Required. Name of the certification body. */
+  authority?: string;
+  /** Optional. The expiration date (UTC). */
+  validUntil?: string;
+  /** Required. Name of the certification. */
+  name?: string;
+  /** Optional. A URL link to the certification logo. */
+  logo?: string;
+  /** Optional. A custom value of the certification. */
+  value?: string;
+  /** Optional. A URL link to the certification. */
+  link?: string;
+}
+export const Certification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    authority: S.optional(S.String),
+    validUntil: S.optional(S.String),
+    name: S.optional(S.String),
+    logo: S.optional(S.String),
+    value: S.optional(S.String),
+    link: S.optional(S.String),
+  }),
+).annotate({ identifier: "Certification" }) as any as S.Schema<Certification>;
+
+export type CertificationList = Array<Certification>;
+export const CertificationList = /*@__PURE__*/ S.Array(
+  Certification,
+) as any as S.Schema<CertificationList>;
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-export type IssueResolutionEnum = "RESOLUTION_UNSPECIFIED" | "USER_ACTION" | "PENDING_PROCESSING";
-export const IssueResolutionEnum = S.String;
-
-export type IssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
-export const IssueSeverityEnum = S.String;
-
-/** Product issue. */
-export interface Issue {
-  /** Output only. List of country codes (ISO 3166-1 alpha-2) where issue applies to the manufacturer product. */
-  applicableCountries?: StringList;
-  /** The timestamp when this issue appeared. */
-  timestamp?: string;
-  /** The server-generated type of the issue, for example, “INCORRECT_TEXT_FORMATTING”, “IMAGE_NOT_SERVEABLE”, etc. */
-  type?: string;
-  /** If present, the attribute that triggered the issue. For more information about attributes, see https://support.google.com/manufacturers/answer/6124116. */
-  attribute?: string;
-  /** Short title describing the nature of the issue. */
-  title?: string;
-  /** Longer description of the issue focused on how to resolve it. */
-  description?: string;
-  /** The destination this issue applies to. */
-  destination?: string;
-  /** What needs to happen to resolve the issue. */
-  resolution?: IssueResolutionEnum | (string & {});
-  /** The severity of the issue. */
-  severity?: IssueSeverityEnum | (string & {});
-}
-export const Issue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicableCountries: S.optional(StringList),
-    timestamp: S.optional(S.String),
-    type: S.optional(S.String),
-    attribute: S.optional(S.String),
-    title: S.optional(S.String),
-    description: S.optional(S.String),
-    destination: S.optional(S.String),
-    resolution: S.optional(IssueResolutionEnum),
-    severity: S.optional(IssueSeverityEnum),
-  }),
-).annotate({ identifier: "Issue" }) as any as S.Schema<Issue>;
-
-export type IssueList = Array<Issue>;
-export const IssueList = /*@__PURE__*/ S.Array(Issue) as any as S.Schema<IssueList>;
 
 export type DestinationStatusStatusEnum = "UNKNOWN" | "ACTIVE" | "PENDING" | "DISAPPROVED";
 export const DestinationStatusStatusEnum = S.String;
 
 /** The destination status. */
 export interface DestinationStatus {
-  /** Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved. */
-  disapprovedCountries?: StringList;
-  /** The status of the destination. */
-  status?: DestinationStatusStatusEnum | (string & {});
-  /** Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is pending approval. */
-  pendingCountries?: StringList;
   /** Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is approved. */
   approvedCountries?: StringList;
+  /** Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is pending approval. */
+  pendingCountries?: StringList;
+  /** The status of the destination. */
+  status?: DestinationStatusStatusEnum | (string & {});
+  /** Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved. */
+  disapprovedCountries?: StringList;
   /** The name of the destination. */
   destination?: string;
 }
 export const DestinationStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    disapprovedCountries: S.optional(StringList),
-    status: S.optional(DestinationStatusStatusEnum),
-    pendingCountries: S.optional(StringList),
     approvedCountries: S.optional(StringList),
+    pendingCountries: S.optional(StringList),
+    status: S.optional(DestinationStatusStatusEnum),
+    disapprovedCountries: S.optional(StringList),
     destination: S.optional(S.String),
   }),
 ).annotate({ identifier: "DestinationStatus" }) as any as S.Schema<DestinationStatus>;
@@ -198,75 +188,85 @@ export const DestinationStatusList = /*@__PURE__*/ S.Array(
   DestinationStatus,
 ) as any as S.Schema<DestinationStatusList>;
 
-/** Description of a certification. */
-export interface Certification {
-  /** Optional. A URL link to the certification. */
-  link?: string;
-  /** Optional. A unique code to identify the certification. */
-  code?: string;
-  /** Optional. A custom value of the certification. */
-  value?: string;
-  /** Optional. A URL link to the certification logo. */
-  logo?: string;
-  /** Required. Name of the certification. */
-  name?: string;
-  /** Required. Name of the certification body. */
-  authority?: string;
-  /** Optional. The expiration date (UTC). */
-  validUntil?: string;
-}
-export const Certification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    link: S.optional(S.String),
-    code: S.optional(S.String),
-    value: S.optional(S.String),
-    logo: S.optional(S.String),
-    name: S.optional(S.String),
-    authority: S.optional(S.String),
-    validUntil: S.optional(S.String),
-  }),
-).annotate({ identifier: "Certification" }) as any as S.Schema<Certification>;
+export type IssueResolutionEnum = "RESOLUTION_UNSPECIFIED" | "USER_ACTION" | "PENDING_PROCESSING";
+export const IssueResolutionEnum = S.String;
 
-export type CertificationList = Array<Certification>;
-export const CertificationList = /*@__PURE__*/ S.Array(
-  Certification,
-) as any as S.Schema<CertificationList>;
+export type IssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
+export const IssueSeverityEnum = S.String;
+
+/** Product issue. */
+export interface Issue {
+  /** The timestamp when this issue appeared. */
+  timestamp?: string;
+  /** Longer description of the issue focused on how to resolve it. */
+  description?: string;
+  /** The destination this issue applies to. */
+  destination?: string;
+  /** The server-generated type of the issue, for example, “INCORRECT_TEXT_FORMATTING”, “IMAGE_NOT_SERVEABLE”, etc. */
+  type?: string;
+  /** What needs to happen to resolve the issue. */
+  resolution?: IssueResolutionEnum | (string & {});
+  /** If present, the attribute that triggered the issue. For more information about attributes, see https://support.google.com/manufacturers/answer/6124116. */
+  attribute?: string;
+  /** Short title describing the nature of the issue. */
+  title?: string;
+  /** The severity of the issue. */
+  severity?: IssueSeverityEnum | (string & {});
+  /** Output only. List of country codes (ISO 3166-1 alpha-2) where issue applies to the manufacturer product. */
+  applicableCountries?: StringList;
+}
+export const Issue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.optional(S.String),
+    description: S.optional(S.String),
+    destination: S.optional(S.String),
+    type: S.optional(S.String),
+    resolution: S.optional(IssueResolutionEnum),
+    attribute: S.optional(S.String),
+    title: S.optional(S.String),
+    severity: S.optional(IssueSeverityEnum),
+    applicableCountries: S.optional(StringList),
+  }),
+).annotate({ identifier: "Issue" }) as any as S.Schema<Issue>;
+
+export type IssueList = Array<Issue>;
+export const IssueList = /*@__PURE__*/ S.Array(Issue) as any as S.Schema<IssueList>;
 
 /** Product certification data. */
 export interface ProductCertification {
-  /** Optional. These are your own product categorization system in your product data. */
-  productType?: StringList;
+  /** Required. A list of certifications to link to the described product. */
+  certification?: CertificationList;
   /** Optional. These are the Manufacturer Part Numbers (MPN). MPNs are used to uniquely identify a specific product among all products from the same manufacturer */
   mpn?: StringList;
-  /** Output only. A server-generated list of issues associated with the product. */
-  issues?: IssueList;
-  /** Output only. The statuses of the destinations. */
-  destinationStatuses?: DestinationStatusList;
-  /** Optional. Another name for GTIN. */
-  productCode?: StringList;
-  /** Required. This is the product's brand name. The brand is used to help identify your product. */
-  brand?: string;
+  /** Optional. A 2-letter country code (ISO 3166-1 Alpha 2). */
+  countryCode?: StringList;
   /** Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
   name?: string;
   /** Required. This is to clearly identify the product you are certifying. */
   title?: string;
-  /** Required. A list of certifications to link to the described product. */
-  certification?: CertificationList;
-  /** Optional. A 2-letter country code (ISO 3166-1 Alpha 2). */
-  countryCode?: StringList;
+  /** Output only. The statuses of the destinations. */
+  destinationStatuses?: DestinationStatusList;
+  /** Required. This is the product's brand name. The brand is used to help identify your product. */
+  brand?: string;
+  /** Optional. Another name for GTIN. */
+  productCode?: StringList;
+  /** Optional. These are your own product categorization system in your product data. */
+  productType?: StringList;
+  /** Output only. A server-generated list of issues associated with the product. */
+  issues?: IssueList;
 }
 export const ProductCertification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    productType: S.optional(StringList),
+    certification: S.optional(CertificationList),
     mpn: S.optional(StringList),
-    issues: S.optional(IssueList),
-    destinationStatuses: S.optional(DestinationStatusList),
-    productCode: S.optional(StringList),
-    brand: S.optional(S.String),
+    countryCode: S.optional(StringList),
     name: S.optional(S.String),
     title: S.optional(S.String),
-    certification: S.optional(CertificationList),
-    countryCode: S.optional(StringList),
+    destinationStatuses: S.optional(DestinationStatusList),
+    brand: S.optional(S.String),
+    productCode: S.optional(StringList),
+    productType: S.optional(StringList),
+    issues: S.optional(IssueList),
   }),
 ).annotate({ identifier: "ProductCertification" }) as any as S.Schema<ProductCertification>;
 
@@ -285,18 +285,18 @@ export const GetAccountsProductsIncludeEnumList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetAccountsProductsIncludeEnumList>;
 
 export interface GetAccountsProductsRequest {
+  /** The information to be included in the response. Only sections listed here will be returned. */
+  include?: GetAccountsProductsIncludeEnumList;
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
   /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
   name: string;
-  /** The information to be included in the response. Only sections listed here will be returned. */
-  include?: GetAccountsProductsIncludeEnumList;
 }
 export const GetAccountsProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    include: S.optional(GetAccountsProductsIncludeEnumList.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-    include: S.optional(GetAccountsProductsIncludeEnumList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -307,82 +307,6 @@ export const GetAccountsProductsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetAccountsProductsRequest",
 }) as any as S.Schema<GetAccountsProductsRequest>;
-
-/** Description of a certification. */
-export interface GoogleShoppingManufacturersV1ProductCertification {
-  /** Required. Name of the certification. */
-  name?: string;
-  /** Optional. A custom value of the certification. */
-  value?: string;
-  /** Required. Name of the certification body. */
-  authority?: string;
-  /** Optional. The expiration date (UTC). */
-  validUntil?: string;
-  /** Optional. A URL link to the certification logo. */
-  logo?: string;
-  /** Optional. A URL link to the certification. */
-  link?: string;
-  /** Optional. A unique code to identify the certification. */
-  code?: string;
-}
-export const GoogleShoppingManufacturersV1ProductCertification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    value: S.optional(S.String),
-    authority: S.optional(S.String),
-    validUntil: S.optional(S.String),
-    logo: S.optional(S.String),
-    link: S.optional(S.String),
-    code: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleShoppingManufacturersV1ProductCertification",
-}) as any as S.Schema<GoogleShoppingManufacturersV1ProductCertification>;
-
-export type GoogleShoppingManufacturersV1ProductCertificationList =
-  Array<GoogleShoppingManufacturersV1ProductCertification>;
-export const GoogleShoppingManufacturersV1ProductCertificationList = /*@__PURE__*/ S.Array(
-  GoogleShoppingManufacturersV1ProductCertification,
-) as any as S.Schema<GoogleShoppingManufacturersV1ProductCertificationList>;
-
-export type ImageStatusEnum =
-  | "STATUS_UNSPECIFIED"
-  | "PENDING_PROCESSING"
-  | "PENDING_CRAWL"
-  | "OK"
-  | "ROBOTED"
-  | "XROBOTED"
-  | "CRAWL_ERROR"
-  | "PROCESSING_ERROR"
-  | "DECODING_ERROR"
-  | "TOO_BIG"
-  | "CRAWL_SKIPPED"
-  | "HOSTLOADED"
-  | "HTTP_404";
-export const ImageStatusEnum = S.String;
-
-export type ImageTypeEnum = "TYPE_UNSPECIFIED" | "CRAWLED" | "UPLOADED";
-export const ImageTypeEnum = S.String;
-
-/** An image. */
-export interface Image {
-  /** The status of the image. @OutputOnly */
-  status?: ImageStatusEnum | (string & {});
-  /** The type of the image, i.e., crawled or uploaded. @OutputOnly */
-  type?: ImageTypeEnum | (string & {});
-  /** The URL of the image. For crawled images, this is the provided URL. For uploaded images, this is a serving URL from Google if the image has been processed successfully. */
-  imageUrl?: string;
-}
-export const Image = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ImageStatusEnum),
-    type: S.optional(ImageTypeEnum),
-    imageUrl: S.optional(S.String),
-  }),
-).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
-
-export type ImageList = Array<Image>;
-export const ImageList = /*@__PURE__*/ S.Array(Image) as any as S.Schema<ImageList>;
 
 /** The number of products in a single package. For more information, see https://support.google.com/manufacturers/answer/6124116#count. */
 export interface Count {
@@ -412,20 +336,56 @@ export const Capacity = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Capacity" }) as any as S.Schema<Capacity>;
 
+export type ImageTypeEnum = "TYPE_UNSPECIFIED" | "CRAWLED" | "UPLOADED";
+export const ImageTypeEnum = S.String;
+
+export type ImageStatusEnum =
+  | "STATUS_UNSPECIFIED"
+  | "PENDING_PROCESSING"
+  | "PENDING_CRAWL"
+  | "OK"
+  | "ROBOTED"
+  | "XROBOTED"
+  | "CRAWL_ERROR"
+  | "PROCESSING_ERROR"
+  | "DECODING_ERROR"
+  | "TOO_BIG"
+  | "CRAWL_SKIPPED"
+  | "HOSTLOADED"
+  | "HTTP_404";
+export const ImageStatusEnum = S.String;
+
+/** An image. */
+export interface Image {
+  /** The type of the image, i.e., crawled or uploaded. @OutputOnly */
+  type?: ImageTypeEnum | (string & {});
+  /** The URL of the image. For crawled images, this is the provided URL. For uploaded images, this is a serving URL from Google if the image has been processed successfully. */
+  imageUrl?: string;
+  /** The status of the image. @OutputOnly */
+  status?: ImageStatusEnum | (string & {});
+}
+export const Image = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ImageTypeEnum),
+    imageUrl: S.optional(S.String),
+    status: S.optional(ImageStatusEnum),
+  }),
+).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
+
 /** A product detail of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail. */
 export interface ProductDetail {
-  /** The name of the attribute. */
-  attributeName?: string;
   /** The value of the attribute. */
   attributeValue?: string;
   /** A short section name that can be reused between multiple product details. */
   sectionName?: string;
+  /** The name of the attribute. */
+  attributeName?: string;
 }
 export const ProductDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attributeName: S.optional(S.String),
     attributeValue: S.optional(S.String),
     sectionName: S.optional(S.String),
+    attributeName: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProductDetail" }) as any as S.Schema<ProductDetail>;
 
@@ -433,6 +393,237 @@ export type ProductDetailList = Array<ProductDetail>;
 export const ProductDetailList = /*@__PURE__*/ S.Array(
   ProductDetail,
 ) as any as S.Schema<ProductDetailList>;
+
+/** A feature description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc. */
+export interface FeatureDescription {
+  /** A short description of the feature. */
+  headline?: string;
+  /** A detailed description of the feature. */
+  text?: string;
+  /** An optional image describing the feature. */
+  image?: Image;
+}
+export const FeatureDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headline: S.optional(S.String),
+    text: S.optional(S.String),
+    image: S.optional(Image),
+  }),
+).annotate({ identifier: "FeatureDescription" }) as any as S.Schema<FeatureDescription>;
+
+export type FeatureDescriptionList = Array<FeatureDescription>;
+export const FeatureDescriptionList = /*@__PURE__*/ S.Array(
+  FeatureDescription,
+) as any as S.Schema<FeatureDescriptionList>;
+
+export interface Grocery {
+  /** Nutrition claim. */
+  nutritionClaim?: StringList;
+  /** Alcohol by volume. */
+  alcoholByVolume?: number;
+  /** Storage instructions. */
+  storageInstructions?: string;
+  /** Allergens. */
+  allergens?: string;
+  /** Directions. */
+  directions?: string;
+  /** Active ingredients. */
+  activeIngredients?: string;
+  /** Ingredients. */
+  ingredients?: string;
+  /** Derived nutrition claim. */
+  derivedNutritionClaim?: StringList;
+  /** Indications. */
+  indications?: string;
+}
+export const Grocery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nutritionClaim: S.optional(StringList),
+    alcoholByVolume: S.optional(S.Number),
+    storageInstructions: S.optional(S.String),
+    allergens: S.optional(S.String),
+    directions: S.optional(S.String),
+    activeIngredients: S.optional(S.String),
+    ingredients: S.optional(S.String),
+    derivedNutritionClaim: S.optional(StringList),
+    indications: S.optional(S.String),
+  }),
+).annotate({ identifier: "Grocery" }) as any as S.Schema<Grocery>;
+
+export type ImageList = Array<Image>;
+export const ImageList = /*@__PURE__*/ S.Array(Image) as any as S.Schema<ImageList>;
+
+/** Combination of float amount and unit. */
+export interface FloatUnit {
+  /** amount. */
+  amount?: number;
+  /** unit. */
+  unit?: string;
+}
+export const FloatUnit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.Number),
+    unit: S.optional(S.String),
+  }),
+).annotate({ identifier: "FloatUnit" }) as any as S.Schema<FloatUnit>;
+
+/** Voluntary Nutrition Facts. */
+export interface VoluntaryNutritionFact {
+  /** Value. */
+  value?: FloatUnit;
+  /** Daily percentage. */
+  dailyPercentage?: number;
+  /** Name. */
+  name?: string;
+}
+export const VoluntaryNutritionFact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(FloatUnit),
+    dailyPercentage: S.optional(S.Number),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "VoluntaryNutritionFact" }) as any as S.Schema<VoluntaryNutritionFact>;
+
+export type VoluntaryNutritionFactList = Array<VoluntaryNutritionFact>;
+export const VoluntaryNutritionFactList = /*@__PURE__*/ S.Array(
+  VoluntaryNutritionFact,
+) as any as S.Schema<VoluntaryNutritionFactList>;
+
+export interface Nutrition {
+  /** Polyunsaturated fat. */
+  polyunsaturatedFat?: FloatUnit;
+  /** Total carbohydrate daily percentage. */
+  totalCarbohydrateDailyPercentage?: number;
+  /** Potassium. */
+  potassium?: FloatUnit;
+  /** Iron daily percentage. */
+  ironDailyPercentage?: number;
+  /** Monounsaturated fat. */
+  monounsaturatedFat?: FloatUnit;
+  /** Folate folic acid. */
+  folateFolicAcid?: FloatUnit;
+  /** Nutrition fact measure. */
+  nutritionFactMeasure?: string;
+  /** Potassium daily percentage. */
+  potassiumDailyPercentage?: number;
+  /** Food Serving Size. Serving size description. */
+  servingSizeDescription?: string;
+  /** Voluntary nutrition fact. */
+  voluntaryNutritionFact?: VoluntaryNutritionFactList;
+  /** Cholesterol. */
+  cholesterol?: FloatUnit;
+  /** Starch. */
+  starch?: FloatUnit;
+  /** Total fat. */
+  totalFat?: FloatUnit;
+  /** Total sugars. */
+  totalSugars?: FloatUnit;
+  /** Servings per container. */
+  servingsPerContainer?: string;
+  /** Folate mcg DFE. */
+  folateMcgDfe?: number;
+  /** Dietary fiber. */
+  dietaryFiber?: FloatUnit;
+  /** Energy from fat. */
+  energyFromFat?: FloatUnit;
+  /** Serving size measure. */
+  servingSizeMeasure?: FloatUnit;
+  /** Mandatory Nutrition Facts. Energy. */
+  energy?: FloatUnit;
+  /** Vitamin D. */
+  vitaminD?: FloatUnit;
+  /** Added sugars. */
+  addedSugars?: FloatUnit;
+  /** Protein daily percentage. */
+  proteinDailyPercentage?: number;
+  /** Total sugars daily percentage. */
+  totalSugarsDailyPercentage?: number;
+  /** Protein. */
+  protein?: FloatUnit;
+  /** Trans fat. */
+  transFat?: FloatUnit;
+  /** Dietary fiber daily percentage. */
+  dietaryFiberDailyPercentage?: number;
+  /** Saturated fat. */
+  saturatedFat?: FloatUnit;
+  /** Saturated fat daily percentage. */
+  saturatedFatDailyPercentage?: number;
+  /** Folate daily percentage. */
+  folateDailyPercentage?: number;
+  /** Calcium daily percentage. */
+  calciumDailyPercentage?: number;
+  /** Cholesterol daily percentage. */
+  cholesterolDailyPercentage?: number;
+  /** Total fat daily percentage. */
+  totalFatDailyPercentage?: number;
+  /** Polyols. */
+  polyols?: FloatUnit;
+  /** Added sugars daily percentage. */
+  addedSugarsDailyPercentage?: number;
+  /** Iron. */
+  iron?: FloatUnit;
+  /** Sodium daily percentage. */
+  sodiumDailyPercentage?: number;
+  /** Trans fat daily percentage. */
+  transFatDailyPercentage?: number;
+  /** Prepared size description. */
+  preparedSizeDescription?: string;
+  /** Total carbohydrate. */
+  totalCarbohydrate?: FloatUnit;
+  /** Vitamin D daily percentage. */
+  vitaminDDailyPercentage?: number;
+  /** Sodium. */
+  sodium?: FloatUnit;
+  /** Calcium. */
+  calcium?: FloatUnit;
+}
+export const Nutrition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    polyunsaturatedFat: S.optional(FloatUnit),
+    totalCarbohydrateDailyPercentage: S.optional(S.Number),
+    potassium: S.optional(FloatUnit),
+    ironDailyPercentage: S.optional(S.Number),
+    monounsaturatedFat: S.optional(FloatUnit),
+    folateFolicAcid: S.optional(FloatUnit),
+    nutritionFactMeasure: S.optional(S.String),
+    potassiumDailyPercentage: S.optional(S.Number),
+    servingSizeDescription: S.optional(S.String),
+    voluntaryNutritionFact: S.optional(VoluntaryNutritionFactList),
+    cholesterol: S.optional(FloatUnit),
+    starch: S.optional(FloatUnit),
+    totalFat: S.optional(FloatUnit),
+    totalSugars: S.optional(FloatUnit),
+    servingsPerContainer: S.optional(S.String),
+    folateMcgDfe: S.optional(S.Number),
+    dietaryFiber: S.optional(FloatUnit),
+    energyFromFat: S.optional(FloatUnit),
+    servingSizeMeasure: S.optional(FloatUnit),
+    energy: S.optional(FloatUnit),
+    vitaminD: S.optional(FloatUnit),
+    addedSugars: S.optional(FloatUnit),
+    proteinDailyPercentage: S.optional(S.Number),
+    totalSugarsDailyPercentage: S.optional(S.Number),
+    protein: S.optional(FloatUnit),
+    transFat: S.optional(FloatUnit),
+    dietaryFiberDailyPercentage: S.optional(S.Number),
+    saturatedFat: S.optional(FloatUnit),
+    saturatedFatDailyPercentage: S.optional(S.Number),
+    folateDailyPercentage: S.optional(S.Number),
+    calciumDailyPercentage: S.optional(S.Number),
+    cholesterolDailyPercentage: S.optional(S.Number),
+    totalFatDailyPercentage: S.optional(S.Number),
+    polyols: S.optional(FloatUnit),
+    addedSugarsDailyPercentage: S.optional(S.Number),
+    iron: S.optional(FloatUnit),
+    sodiumDailyPercentage: S.optional(S.Number),
+    transFatDailyPercentage: S.optional(S.Number),
+    preparedSizeDescription: S.optional(S.String),
+    totalCarbohydrate: S.optional(FloatUnit),
+    vitaminDDailyPercentage: S.optional(S.Number),
+    sodium: S.optional(FloatUnit),
+    calcium: S.optional(FloatUnit),
+  }),
+).annotate({ identifier: "Nutrition" }) as any as S.Schema<Nutrition>;
 
 /** A price. */
 export interface Price {
@@ -448,416 +639,225 @@ export const Price = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Price" }) as any as S.Schema<Price>;
 
-/** Combination of float amount and unit. */
-export interface FloatUnit {
-  /** unit. */
-  unit?: string;
-  /** amount. */
-  amount?: number;
-}
-export const FloatUnit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    unit: S.optional(S.String),
-    amount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "FloatUnit" }) as any as S.Schema<FloatUnit>;
-
-/** Voluntary Nutrition Facts. */
-export interface VoluntaryNutritionFact {
-  /** Daily percentage. */
-  dailyPercentage?: number;
-  /** Name. */
+/** Description of a certification. */
+export interface GoogleShoppingManufacturersV1ProductCertification {
+  /** Required. Name of the certification body. */
+  authority?: string;
+  /** Optional. A unique code to identify the certification. */
+  code?: string;
+  /** Required. Name of the certification. */
   name?: string;
-  /** Value. */
-  value?: FloatUnit;
+  /** Optional. A custom value of the certification. */
+  value?: string;
+  /** Optional. The expiration date (UTC). */
+  validUntil?: string;
+  /** Optional. A URL link to the certification logo. */
+  logo?: string;
+  /** Optional. A URL link to the certification. */
+  link?: string;
 }
-export const VoluntaryNutritionFact = /*@__PURE__*/ S.suspend(() =>
+export const GoogleShoppingManufacturersV1ProductCertification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dailyPercentage: S.optional(S.Number),
+    authority: S.optional(S.String),
+    code: S.optional(S.String),
     name: S.optional(S.String),
-    value: S.optional(FloatUnit),
+    value: S.optional(S.String),
+    validUntil: S.optional(S.String),
+    logo: S.optional(S.String),
+    link: S.optional(S.String),
   }),
-).annotate({ identifier: "VoluntaryNutritionFact" }) as any as S.Schema<VoluntaryNutritionFact>;
+).annotate({
+  identifier: "GoogleShoppingManufacturersV1ProductCertification",
+}) as any as S.Schema<GoogleShoppingManufacturersV1ProductCertification>;
 
-export type VoluntaryNutritionFactList = Array<VoluntaryNutritionFact>;
-export const VoluntaryNutritionFactList = /*@__PURE__*/ S.Array(
-  VoluntaryNutritionFact,
-) as any as S.Schema<VoluntaryNutritionFactList>;
-
-export interface Nutrition {
-  /** Total sugars daily percentage. */
-  totalSugarsDailyPercentage?: number;
-  /** Sodium daily percentage. */
-  sodiumDailyPercentage?: number;
-  /** Saturated fat. */
-  saturatedFat?: FloatUnit;
-  /** Folate daily percentage. */
-  folateDailyPercentage?: number;
-  /** Protein daily percentage. */
-  proteinDailyPercentage?: number;
-  /** Calcium. */
-  calcium?: FloatUnit;
-  /** Voluntary nutrition fact. */
-  voluntaryNutritionFact?: VoluntaryNutritionFactList;
-  /** Servings per container. */
-  servingsPerContainer?: string;
-  /** Prepared size description. */
-  preparedSizeDescription?: string;
-  /** Serving size measure. */
-  servingSizeMeasure?: FloatUnit;
-  /** Cholesterol daily percentage. */
-  cholesterolDailyPercentage?: number;
-  /** Trans fat. */
-  transFat?: FloatUnit;
-  /** Calcium daily percentage. */
-  calciumDailyPercentage?: number;
-  /** Dietary fiber. */
-  dietaryFiber?: FloatUnit;
-  /** Monounsaturated fat. */
-  monounsaturatedFat?: FloatUnit;
-  /** Total fat daily percentage. */
-  totalFatDailyPercentage?: number;
-  /** Potassium. */
-  potassium?: FloatUnit;
-  /** Protein. */
-  protein?: FloatUnit;
-  /** Cholesterol. */
-  cholesterol?: FloatUnit;
-  /** Vitamin D. */
-  vitaminD?: FloatUnit;
-  /** Sodium. */
-  sodium?: FloatUnit;
-  /** Nutrition fact measure. */
-  nutritionFactMeasure?: string;
-  /** Folate mcg DFE. */
-  folateMcgDfe?: number;
-  /** Iron daily percentage. */
-  ironDailyPercentage?: number;
-  /** Starch. */
-  starch?: FloatUnit;
-  /** Vitamin D daily percentage. */
-  vitaminDDailyPercentage?: number;
-  /** Energy from fat. */
-  energyFromFat?: FloatUnit;
-  /** Saturated fat daily percentage. */
-  saturatedFatDailyPercentage?: number;
-  /** Trans fat daily percentage. */
-  transFatDailyPercentage?: number;
-  /** Polyunsaturated fat. */
-  polyunsaturatedFat?: FloatUnit;
-  /** Food Serving Size. Serving size description. */
-  servingSizeDescription?: string;
-  /** Added sugars daily percentage. */
-  addedSugarsDailyPercentage?: number;
-  /** Total fat. */
-  totalFat?: FloatUnit;
-  /** Potassium daily percentage. */
-  potassiumDailyPercentage?: number;
-  /** Added sugars. */
-  addedSugars?: FloatUnit;
-  /** Polyols. */
-  polyols?: FloatUnit;
-  /** Total carbohydrate. */
-  totalCarbohydrate?: FloatUnit;
-  /** Mandatory Nutrition Facts. Energy. */
-  energy?: FloatUnit;
-  /** Dietary fiber daily percentage. */
-  dietaryFiberDailyPercentage?: number;
-  /** Total carbohydrate daily percentage. */
-  totalCarbohydrateDailyPercentage?: number;
-  /** Folate folic acid. */
-  folateFolicAcid?: FloatUnit;
-  /** Iron. */
-  iron?: FloatUnit;
-  /** Total sugars. */
-  totalSugars?: FloatUnit;
-}
-export const Nutrition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    totalSugarsDailyPercentage: S.optional(S.Number),
-    sodiumDailyPercentage: S.optional(S.Number),
-    saturatedFat: S.optional(FloatUnit),
-    folateDailyPercentage: S.optional(S.Number),
-    proteinDailyPercentage: S.optional(S.Number),
-    calcium: S.optional(FloatUnit),
-    voluntaryNutritionFact: S.optional(VoluntaryNutritionFactList),
-    servingsPerContainer: S.optional(S.String),
-    preparedSizeDescription: S.optional(S.String),
-    servingSizeMeasure: S.optional(FloatUnit),
-    cholesterolDailyPercentage: S.optional(S.Number),
-    transFat: S.optional(FloatUnit),
-    calciumDailyPercentage: S.optional(S.Number),
-    dietaryFiber: S.optional(FloatUnit),
-    monounsaturatedFat: S.optional(FloatUnit),
-    totalFatDailyPercentage: S.optional(S.Number),
-    potassium: S.optional(FloatUnit),
-    protein: S.optional(FloatUnit),
-    cholesterol: S.optional(FloatUnit),
-    vitaminD: S.optional(FloatUnit),
-    sodium: S.optional(FloatUnit),
-    nutritionFactMeasure: S.optional(S.String),
-    folateMcgDfe: S.optional(S.Number),
-    ironDailyPercentage: S.optional(S.Number),
-    starch: S.optional(FloatUnit),
-    vitaminDDailyPercentage: S.optional(S.Number),
-    energyFromFat: S.optional(FloatUnit),
-    saturatedFatDailyPercentage: S.optional(S.Number),
-    transFatDailyPercentage: S.optional(S.Number),
-    polyunsaturatedFat: S.optional(FloatUnit),
-    servingSizeDescription: S.optional(S.String),
-    addedSugarsDailyPercentage: S.optional(S.Number),
-    totalFat: S.optional(FloatUnit),
-    potassiumDailyPercentage: S.optional(S.Number),
-    addedSugars: S.optional(FloatUnit),
-    polyols: S.optional(FloatUnit),
-    totalCarbohydrate: S.optional(FloatUnit),
-    energy: S.optional(FloatUnit),
-    dietaryFiberDailyPercentage: S.optional(S.Number),
-    totalCarbohydrateDailyPercentage: S.optional(S.Number),
-    folateFolicAcid: S.optional(FloatUnit),
-    iron: S.optional(FloatUnit),
-    totalSugars: S.optional(FloatUnit),
-  }),
-).annotate({ identifier: "Nutrition" }) as any as S.Schema<Nutrition>;
-
-/** A feature description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc. */
-export interface FeatureDescription {
-  /** A short description of the feature. */
-  headline?: string;
-  /** An optional image describing the feature. */
-  image?: Image;
-  /** A detailed description of the feature. */
-  text?: string;
-}
-export const FeatureDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    headline: S.optional(S.String),
-    image: S.optional(Image),
-    text: S.optional(S.String),
-  }),
-).annotate({ identifier: "FeatureDescription" }) as any as S.Schema<FeatureDescription>;
-
-export type FeatureDescriptionList = Array<FeatureDescription>;
-export const FeatureDescriptionList = /*@__PURE__*/ S.Array(
-  FeatureDescription,
-) as any as S.Schema<FeatureDescriptionList>;
-
-export interface Grocery {
-  /** Alcohol by volume. */
-  alcoholByVolume?: number;
-  /** Directions. */
-  directions?: string;
-  /** Ingredients. */
-  ingredients?: string;
-  /** Nutrition claim. */
-  nutritionClaim?: StringList;
-  /** Active ingredients. */
-  activeIngredients?: string;
-  /** Allergens. */
-  allergens?: string;
-  /** Storage instructions. */
-  storageInstructions?: string;
-  /** Derived nutrition claim. */
-  derivedNutritionClaim?: StringList;
-  /** Indications. */
-  indications?: string;
-}
-export const Grocery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    alcoholByVolume: S.optional(S.Number),
-    directions: S.optional(S.String),
-    ingredients: S.optional(S.String),
-    nutritionClaim: S.optional(StringList),
-    activeIngredients: S.optional(S.String),
-    allergens: S.optional(S.String),
-    storageInstructions: S.optional(S.String),
-    derivedNutritionClaim: S.optional(StringList),
-    indications: S.optional(S.String),
-  }),
-).annotate({ identifier: "Grocery" }) as any as S.Schema<Grocery>;
+export type GoogleShoppingManufacturersV1ProductCertificationList =
+  Array<GoogleShoppingManufacturersV1ProductCertification>;
+export const GoogleShoppingManufacturersV1ProductCertificationList = /*@__PURE__*/ S.Array(
+  GoogleShoppingManufacturersV1ProductCertification,
+) as any as S.Schema<GoogleShoppingManufacturersV1ProductCertificationList>;
 
 /** Attributes of the product. For more information, see https://support.google.com/manufacturers/answer/6124116. */
 export interface Attributes {
-  /** The material of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#material. */
-  material?: string;
-  /** The scent of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#scent. */
-  scent?: string;
-  /** Optional. List of certifications claimed by this product. */
-  certification?: GoogleShoppingManufacturersV1ProductCertificationList;
-  /** The additional images of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#addlimage. */
-  additionalImageLink?: ImageList;
-  /** Optional. List of countries to show this product in. Countries provided in this attribute will override any of the countries configured at feed level. The values should be: the [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the countries in which this item will be shown. */
-  intendedCountry?: StringList;
-  /** The size type of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizetype. */
-  sizeType?: StringList;
-  /** The count of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#count. */
-  count?: Count;
-  /** The format of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#format. */
-  format?: string;
-  /** The target gender of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gender. */
-  gender?: string;
-  /** The type or category of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#producttype. */
-  productType?: StringList;
-  /** A list of excluded destinations such as "ClientExport", "ClientShoppingCatalog" or "PartnerShoppingCatalog". For more information, see https://support.google.com/manufacturers/answer/7443550 */
-  excludedDestination?: StringList;
-  /** The brand name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#brand. */
-  brand?: string;
-  /** The flavor of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#flavor. */
-  flavor?: string;
-  /** The pattern of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#pattern. */
-  pattern?: string;
-  /** Virtual Model (3d) asset link. */
-  virtualModelLink?: string;
-  /** The title of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#title. */
-  title?: string;
-  /** The capacity of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity. */
-  capacity?: Capacity;
-  /** The canonical name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productname. */
-  productName?: string;
-  /** The release date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#release. */
-  releaseDate?: string;
-  /** The videos of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#video. */
-  videoLink?: StringList;
-  /** The item group id of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#itemgroupid. */
-  itemGroupId?: string;
-  /** The image of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#image. */
-  imageLink?: Image;
-  /** Rich product content. For more information, see https://support.google.com/manufacturers/answer/9389865 */
-  richProductContent?: StringList;
-  /** The details of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail. */
-  productDetail?: ProductDetailList;
-  /** The Global Trade Item Number (GTIN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gtin. */
-  gtin?: StringList;
-  /** The target age group of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#agegroup. */
-  ageGroup?: string;
   /** The color of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#color. */
   color?: string;
-  /** A list of included destinations such as "ClientExport", "ClientShoppingCatalog" or "PartnerShoppingCatalog". For more information, see https://support.google.com/manufacturers/answer/7443550 */
-  includedDestination?: StringList;
-  /** The size of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#size. */
-  size?: string;
-  /** The Manufacturer Part Number (MPN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#mpn. */
-  mpn?: string;
-  /** The product highlights. For more information, see https://support.google.com/manufacturers/answer/10066942 */
-  productHighlight?: StringList;
-  /** The size system of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizesystem. */
-  sizeSystem?: string;
+  /** The count of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#count. */
+  count?: Count;
   /** The theme of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#theme. */
   theme?: string;
-  /** The URL of the detail page of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productpage. */
-  productPageUrl?: string;
+  /** The flavor of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#flavor. */
+  flavor?: string;
+  /** The capacity of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity. */
+  capacity?: Capacity;
+  /** The target age group of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#agegroup. */
+  ageGroup?: string;
+  /** The material of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#material. */
+  material?: string;
+  /** The Manufacturer Part Number (MPN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#mpn. */
+  mpn?: string;
+  /** The release date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#release. */
+  releaseDate?: string;
+  /** The title of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#title. */
+  title?: string;
+  /** The canonical name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productname. */
+  productName?: string;
+  /** The image of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#image. */
+  imageLink?: Image;
   /** The disclosure date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#disclosure. */
   disclosureDate?: string;
-  /** The suggested retail price (MSRP) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#price. */
-  suggestedRetailPrice?: Price;
-  /** The target client id. Should only be used in the accounts of the data partners. For more information, see https://support.google.com/manufacturers/answer/10857344 */
-  targetClientId?: string;
-  /** Nutrition Attributes. See more at https://support.google.com/manufacturers/answer/12098458#food-servings. */
-  nutrition?: Nutrition;
-  /** The rich format description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc. */
-  featureDescription?: FeatureDescriptionList;
-  /** The description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#description. */
-  description?: string;
-  /** Grocery Attributes. See more at https://support.google.com/manufacturers/answer/12098458#grocery. */
-  grocery?: Grocery;
+  /** A list of excluded destinations such as "ClientExport", "ClientShoppingCatalog" or "PartnerShoppingCatalog". For more information, see https://support.google.com/manufacturers/answer/7443550 */
+  excludedDestination?: StringList;
+  /** Rich product content. For more information, see https://support.google.com/manufacturers/answer/9389865 */
+  richProductContent?: StringList;
+  /** The size of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#size. */
+  size?: string;
   /** The name of the group of products related to the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productline. */
   productLine?: string;
+  /** The URL of the detail page of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productpage. */
+  productPageUrl?: string;
+  /** The details of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail. */
+  productDetail?: ProductDetailList;
+  /** The target gender of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gender. */
+  gender?: string;
+  /** The scent of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#scent. */
+  scent?: string;
+  /** Virtual Model (3d) asset link. */
+  virtualModelLink?: string;
+  /** The Global Trade Item Number (GTIN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gtin. */
+  gtin?: StringList;
+  /** The target client id. Should only be used in the accounts of the data partners. For more information, see https://support.google.com/manufacturers/answer/10857344 */
+  targetClientId?: string;
+  /** The format of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#format. */
+  format?: string;
+  /** The brand name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#brand. */
+  brand?: string;
+  /** The rich format description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc. */
+  featureDescription?: FeatureDescriptionList;
+  /** The type or category of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#producttype. */
+  productType?: StringList;
+  /** The product highlights. For more information, see https://support.google.com/manufacturers/answer/10066942 */
+  productHighlight?: StringList;
+  /** The item group id of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#itemgroupid. */
+  itemGroupId?: string;
+  /** Grocery Attributes. See more at https://support.google.com/manufacturers/answer/12098458#grocery. */
+  grocery?: Grocery;
+  /** The additional images of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#addlimage. */
+  additionalImageLink?: ImageList;
+  /** Nutrition Attributes. See more at https://support.google.com/manufacturers/answer/12098458#food-servings. */
+  nutrition?: Nutrition;
+  /** The videos of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#video. */
+  videoLink?: StringList;
+  /** The suggested retail price (MSRP) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#price. */
+  suggestedRetailPrice?: Price;
+  /** A list of included destinations such as "ClientExport", "ClientShoppingCatalog" or "PartnerShoppingCatalog". For more information, see https://support.google.com/manufacturers/answer/7443550 */
+  includedDestination?: StringList;
+  /** The size system of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizesystem. */
+  sizeSystem?: string;
+  /** Optional. List of certifications claimed by this product. */
+  certification?: GoogleShoppingManufacturersV1ProductCertificationList;
+  /** The pattern of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#pattern. */
+  pattern?: string;
+  /** The description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#description. */
+  description?: string;
+  /** The size type of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizetype. */
+  sizeType?: StringList;
+  /** Optional. List of countries to show this product in. Countries provided in this attribute will override any of the countries configured at feed level. The values should be: the [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the countries in which this item will be shown. */
+  intendedCountry?: StringList;
 }
 export const Attributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    material: S.optional(S.String),
-    scent: S.optional(S.String),
-    certification: S.optional(GoogleShoppingManufacturersV1ProductCertificationList),
-    additionalImageLink: S.optional(ImageList),
-    intendedCountry: S.optional(StringList),
-    sizeType: S.optional(StringList),
-    count: S.optional(Count),
-    format: S.optional(S.String),
-    gender: S.optional(S.String),
-    productType: S.optional(StringList),
-    excludedDestination: S.optional(StringList),
-    brand: S.optional(S.String),
-    flavor: S.optional(S.String),
-    pattern: S.optional(S.String),
-    virtualModelLink: S.optional(S.String),
-    title: S.optional(S.String),
-    capacity: S.optional(Capacity),
-    productName: S.optional(S.String),
-    releaseDate: S.optional(S.String),
-    videoLink: S.optional(StringList),
-    itemGroupId: S.optional(S.String),
-    imageLink: S.optional(Image),
-    richProductContent: S.optional(StringList),
-    productDetail: S.optional(ProductDetailList),
-    gtin: S.optional(StringList),
-    ageGroup: S.optional(S.String),
     color: S.optional(S.String),
-    includedDestination: S.optional(StringList),
-    size: S.optional(S.String),
-    mpn: S.optional(S.String),
-    productHighlight: S.optional(StringList),
-    sizeSystem: S.optional(S.String),
+    count: S.optional(Count),
     theme: S.optional(S.String),
-    productPageUrl: S.optional(S.String),
+    flavor: S.optional(S.String),
+    capacity: S.optional(Capacity),
+    ageGroup: S.optional(S.String),
+    material: S.optional(S.String),
+    mpn: S.optional(S.String),
+    releaseDate: S.optional(S.String),
+    title: S.optional(S.String),
+    productName: S.optional(S.String),
+    imageLink: S.optional(Image),
     disclosureDate: S.optional(S.String),
-    suggestedRetailPrice: S.optional(Price),
-    targetClientId: S.optional(S.String),
-    nutrition: S.optional(Nutrition),
-    featureDescription: S.optional(FeatureDescriptionList),
-    description: S.optional(S.String),
-    grocery: S.optional(Grocery),
+    excludedDestination: S.optional(StringList),
+    richProductContent: S.optional(StringList),
+    size: S.optional(S.String),
     productLine: S.optional(S.String),
+    productPageUrl: S.optional(S.String),
+    productDetail: S.optional(ProductDetailList),
+    gender: S.optional(S.String),
+    scent: S.optional(S.String),
+    virtualModelLink: S.optional(S.String),
+    gtin: S.optional(StringList),
+    targetClientId: S.optional(S.String),
+    format: S.optional(S.String),
+    brand: S.optional(S.String),
+    featureDescription: S.optional(FeatureDescriptionList),
+    productType: S.optional(StringList),
+    productHighlight: S.optional(StringList),
+    itemGroupId: S.optional(S.String),
+    grocery: S.optional(Grocery),
+    additionalImageLink: S.optional(ImageList),
+    nutrition: S.optional(Nutrition),
+    videoLink: S.optional(StringList),
+    suggestedRetailPrice: S.optional(Price),
+    includedDestination: S.optional(StringList),
+    sizeSystem: S.optional(S.String),
+    certification: S.optional(GoogleShoppingManufacturersV1ProductCertificationList),
+    pattern: S.optional(S.String),
+    description: S.optional(S.String),
+    sizeType: S.optional(StringList),
+    intendedCountry: S.optional(StringList),
   }),
 ).annotate({ identifier: "Attributes" }) as any as S.Schema<Attributes>;
 
 /** Product data. */
 export interface Product {
-  /** The target country of the product as a CLDR territory code (for example, US). */
-  targetCountry?: string;
-  /** The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
-  productId?: string;
+  /** Attributes of the product uploaded to the Manufacturer Center. Manually edited attributes are taken into account. */
+  attributes?: Attributes;
+  /** The status of the destinations. */
+  destinationStatuses?: DestinationStatusList;
+  /** Optional. The feed label for the product. */
+  feedLabel?: string;
   /** A server-generated list of issues associated with the product. */
   issues?: IssueList;
   /** The content language of the product as a two-letter ISO 639-1 language code (for example, en). */
   contentLanguage?: string;
-  /** Optional. The feed label for the product. */
-  feedLabel?: string;
-  /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
-  name?: string;
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent?: string;
-  /** The status of the destinations. */
-  destinationStatuses?: DestinationStatusList;
-  /** Attributes of the product uploaded to the Manufacturer Center. Manually edited attributes are taken into account. */
-  attributes?: Attributes;
+  /** The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
+  productId?: string;
+  /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
+  name?: string;
+  /** The target country of the product as a CLDR territory code (for example, US). */
+  targetCountry?: string;
 }
 export const Product = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    targetCountry: S.optional(S.String),
-    productId: S.optional(S.String),
+    attributes: S.optional(Attributes),
+    destinationStatuses: S.optional(DestinationStatusList),
+    feedLabel: S.optional(S.String),
     issues: S.optional(IssueList),
     contentLanguage: S.optional(S.String),
-    feedLabel: S.optional(S.String),
-    name: S.optional(S.String),
     parent: S.optional(S.String),
-    destinationStatuses: S.optional(DestinationStatusList),
-    attributes: S.optional(Attributes),
+    productId: S.optional(S.String),
+    name: S.optional(S.String),
+    targetCountry: S.optional(S.String),
   }),
 ).annotate({ identifier: "Product" }) as any as S.Schema<Product>;
 
 export interface ListAccountsLanguagesProductCertificationsRequest {
-  /** Optional. A page token, received from a previous `ListProductCertifications` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductCertifications` must match the call that provided the page token. Required if requesting the second or higher page. */
-  pageToken?: string;
-  /** Optional. The maximum number of product certifications to return. The service may return fewer than this value. If unspecified, at most 50 product certifications will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. The parent, which owns this collection of product certifications. Format: accounts/{account}/languages/{language_code} */
   parent: string;
+  /** Optional. The maximum number of product certifications to return. The service may return fewer than this value. If unspecified, at most 50 product certifications will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. A page token, received from a previous `ListProductCertifications` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductCertifications` must match the call that provided the page token. Required if requesting the second or higher page. */
+  pageToken?: string;
 }
 export const ListAccountsLanguagesProductCertificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -905,21 +905,21 @@ export const ListAccountsProductsIncludeEnumList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListAccountsProductsIncludeEnumList>;
 
 export interface ListAccountsProductsRequest {
-  /** The token returned by the previous request. */
-  pageToken?: string;
-  /** Maximum number of product statuses to return in the response, used for paging. */
-  pageSize?: number;
-  /** The information to be included in the response. Only sections listed here will be returned. */
-  include?: ListAccountsProductsIncludeEnumList;
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
+  /** The information to be included in the response. Only sections listed here will be returned. */
+  include?: ListAccountsProductsIncludeEnumList;
+  /** Maximum number of product statuses to return in the response, used for paging. */
+  pageSize?: number;
+  /** The token returned by the previous request. */
+  pageToken?: string;
 }
 export const ListAccountsProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    include: S.optional(ListAccountsProductsIncludeEnumList.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    include: S.optional(ListAccountsProductsIncludeEnumList.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -948,17 +948,17 @@ export const ListProductsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListProductsResponse" }) as any as S.Schema<ListProductsResponse>;
 
 export interface PatchAccountsLanguagesProductCertificationsRequest {
-  /** Optional. The list of fields to update according to aip.dev/134. However, only full update is supported as of right now. Therefore, it can be either ignored or set to "*". Setting any other values will returns UNIMPLEMENTED error. */
-  updateMask?: string;
   /** Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
   name: string;
+  /** Optional. The list of fields to update according to aip.dev/134. However, only full update is supported as of right now. Therefore, it can be either ignored or set to "*". Setting any other values will returns UNIMPLEMENTED error. */
+  updateMask?: string;
   /** Request body */
   body?: ProductCertification;
 }
 export const PatchAccountsLanguagesProductCertificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ProductCertification.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -972,17 +972,17 @@ export const PatchAccountsLanguagesProductCertificationsRequest = /*@__PURE__*/ 
 }) as any as S.Schema<PatchAccountsLanguagesProductCertificationsRequest>;
 
 export interface UpdateAccountsProductsRequest {
-  /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
-  parent: string;
   /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
   name: string;
+  /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
+  parent: string;
   /** Request body */
   body?: Attributes;
 }
 export const UpdateAccountsProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Attributes.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

@@ -12,6 +12,7 @@
     "specs:link": "node scripts/specs.ts link",
     "specs:check": "node scripts/specs.ts check",
     "patches:audit": "node scripts/patches.ts audit",
+    "patches:names": "node scripts/patches.ts names",
     "typecheck": "tsc -b",
     "bench": "pnpm bench:runtime && pnpm bench:bundle && pnpm bench:typecheck",
     "bench:runtime": "node --conditions=bun benches/runtime/run.ts",
@@ -23,12 +24,15 @@
     "format:check": "oxfmt --check",
     "lint": "oxlint -c oxlint.config.ts",
     "prepare": "husky",
-    "publish:packages": "pnpm publish --recursive --filter './packages/*' --access public",
-    "typecheck:ci": "tsc -b --noCheck false"
+    "typecheck:ci": "tsc -b --noCheck false",
+    "validate:publish-packages": "node scripts/validate-publish-packages.ts"
   },
   "devDependencies": {
+    "@alchemy.run/pkg": "2.0.0-beta.81",
+    "@effect/platform-node": "catalog:",
     "@types/node": "catalog:",
     "changelogithub": "catalog:",
+    "effect": "catalog:",
     "husky": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",

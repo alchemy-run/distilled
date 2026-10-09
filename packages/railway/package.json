@@ -38,5 +38,9 @@
   },
   "peerDependencies": {
     "effect": "catalog:"
+  },
+  "distilled": {
+    "generatedAt": "2026-10-07",
+    "specUpdatedAt": "2026-10-04"
   }
 }

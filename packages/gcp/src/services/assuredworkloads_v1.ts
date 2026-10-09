@@ -131,22 +131,22 @@ export const GoogleCloudAssuredworkloadsV1AcknowledgeViolationResponse = /*@__PU
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1AcknowledgeViolationResponse>;
 
 export interface AggregateFoldersLocationsDbFrameworkComplianceReportsRequest {
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "interval.endTime"?: string;
   /** Required. The name of the aggregated compliance report over time to retrieve. Format: `organizations/{organization_id}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report}` */
   name: string;
   /** Optional. The filtering results. */
   filter?: string;
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
   "interval.startTime"?: string;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "interval.endTime"?: string;
 }
 export const AggregateFoldersLocationsDbFrameworkComplianceReportsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      "interval.endTime": S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
       "interval.startTime": S.optional(S.String.pipe(T.Query())),
+      "interval.endTime": S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -163,33 +163,33 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** The details for a control assessment. */
 export interface GoogleCloudAssuredworkloadsV1ControlAssessmentDetails {
-  /** The list of controls that were assessed and are passing. */
-  assessedPassingControlIds?: StringList;
-  /** The list of controls that aren't assessed because they require manual review. */
-  notAssessedControlIds?: StringList;
-  /** The list of controls that are failing. */
-  failingControlIds?: StringList;
-  /** The number of controls that were assessed and are passing. */
-  assessedPassingControls?: number;
   /** The number of controls that aren't assessed because they require manual review. */
   notAssessedControls?: number;
-  /** The number of controls that are failing. */
-  failingControls?: number;
-  /** The list of controls that are passing or not assessed. */
-  passingControlIds?: StringList;
   /** The number of controls that are passing or not assessed. */
   passingControls?: number;
+  /** The list of controls that were assessed and are passing. */
+  assessedPassingControlIds?: StringList;
+  /** The number of controls that are failing. */
+  failingControls?: number;
+  /** The number of controls that were assessed and are passing. */
+  assessedPassingControls?: number;
+  /** The list of controls that aren't assessed because they require manual review. */
+  notAssessedControlIds?: StringList;
+  /** The list of controls that are passing or not assessed. */
+  passingControlIds?: StringList;
+  /** The list of controls that are failing. */
+  failingControlIds?: StringList;
 }
 export const GoogleCloudAssuredworkloadsV1ControlAssessmentDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    assessedPassingControlIds: S.optional(StringList),
-    notAssessedControlIds: S.optional(StringList),
-    failingControlIds: S.optional(StringList),
-    assessedPassingControls: S.optional(S.Number),
     notAssessedControls: S.optional(S.Number),
-    failingControls: S.optional(S.Number),
-    passingControlIds: S.optional(StringList),
     passingControls: S.optional(S.Number),
+    assessedPassingControlIds: S.optional(StringList),
+    failingControls: S.optional(S.Number),
+    assessedPassingControls: S.optional(S.Number),
+    notAssessedControlIds: S.optional(StringList),
+    passingControlIds: S.optional(StringList),
+    failingControlIds: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1ControlAssessmentDetails",
@@ -197,15 +197,15 @@ export const GoogleCloudAssuredworkloadsV1ControlAssessmentDetails = /*@__PURE__
 
 /** The aggregated compliance report. */
 export interface GoogleCloudAssuredworkloadsV1AggregatedComplianceReport {
-  /** The report time of the aggregated compliance report. */
-  reportTime?: string;
   /** The control assessment details of the framework. */
   controlAssessmentDetails?: GoogleCloudAssuredworkloadsV1ControlAssessmentDetails;
+  /** The report time of the aggregated compliance report. */
+  reportTime?: string;
 }
 export const GoogleCloudAssuredworkloadsV1AggregatedComplianceReport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportTime: S.optional(S.String),
     controlAssessmentDetails: S.optional(GoogleCloudAssuredworkloadsV1ControlAssessmentDetails),
+    reportTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1AggregatedComplianceReport",
@@ -234,22 +234,22 @@ export const GoogleCloudAssuredworkloadsV1AggregateDbFrameworkComplianceReportRe
   }) as any as S.Schema<GoogleCloudAssuredworkloadsV1AggregateDbFrameworkComplianceReportResponse>;
 
 export interface AggregateOrganizationsLocationsDbFrameworkComplianceReportsRequest {
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "interval.endTime"?: string;
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
   "interval.startTime"?: string;
-  /** Required. The name of the aggregated compliance report over time to retrieve. Format: `organizations/{organization_id}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report}` */
-  name: string;
   /** Optional. The filtering results. */
   filter?: string;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "interval.endTime"?: string;
+  /** Required. The name of the aggregated compliance report over time to retrieve. Format: `organizations/{organization_id}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report}` */
+  name: string;
 }
 export const AggregateOrganizationsLocationsDbFrameworkComplianceReportsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "interval.endTime": S.optional(S.String.pipe(T.Query())),
       "interval.startTime": S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      "interval.endTime": S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -262,22 +262,22 @@ export const AggregateOrganizationsLocationsDbFrameworkComplianceReportsRequest 
   }) as any as S.Schema<AggregateOrganizationsLocationsDbFrameworkComplianceReportsRequest>;
 
 export interface AggregateProjectsLocationsDbFrameworkComplianceReportsRequest {
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "interval.endTime"?: string;
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
   "interval.startTime"?: string;
   /** Optional. The filtering results. */
   filter?: string;
   /** Required. The name of the aggregated compliance report over time to retrieve. Format: `organizations/{organization_id}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report}` */
   name: string;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "interval.endTime"?: string;
 }
 export const AggregateProjectsLocationsDbFrameworkComplianceReportsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "interval.endTime": S.optional(S.String.pipe(T.Query())),
       "interval.startTime": S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      "interval.endTime": S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -290,25 +290,25 @@ export const AggregateProjectsLocationsDbFrameworkComplianceReportsRequest =
   }) as any as S.Schema<AggregateProjectsLocationsDbFrameworkComplianceReportsRequest>;
 
 export interface AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest {
-  /** Optional. Page size. If a value is not specified, the default value of 10 is used. The maximum value is 50. */
-  pageSize?: number;
-  /** Optional. The page token from the previous response. It needs to be passed in the second and following requests. */
-  pageToken?: string;
   /** The source type is a project. Specify the project's relative resource name, formatted as either a project number or a project ID: "projects/{PROJECT_NUMBER}" or "projects/{PROJECT_ID}" For example: "projects/951040570662" when specifying a project number, or "projects/my-project-123" when specifying a project ID. */
   project?: string;
   /** Required. The resource ID of the folder-based destination workload. This workload is where the source resource will hypothetically be moved to. Specify the workload's relative resource name, formatted as: "organizations/{ORGANIZATION_ID}/locations/{LOCATION_ID}/workloads/{WORKLOAD_ID}" For example: "organizations/123/locations/us-east1/workloads/assured-workload-2" */
   target: string;
   /** Optional. List of asset types to be analyzed, including and under the source resource. If empty, all assets are analyzed. The complete list of asset types is available [here](https://cloud.google.com/asset-inventory/docs/supported-asset-types). */
   assetTypes?: StringList;
+  /** Optional. The page token from the previous response. It needs to be passed in the second and following requests. */
+  pageToken?: string;
+  /** Optional. Page size. If a value is not specified, the default value of 10 is used. The maximum value is 50. */
+  pageSize?: number;
 }
 export const AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       project: S.optional(S.String.pipe(T.Query())),
       target: S.String.pipe(T.Label()),
       assetTypes: S.optional(StringList.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -319,34 +319,6 @@ export const AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest = /*@__PU
 ).annotate({
   identifier: "AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest",
 }) as any as S.Schema<AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest>;
-
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-export type DocumentMapList = Array<DocumentMap>;
-export const DocumentMapList = /*@__PURE__*/ S.Array(
-  DocumentMap,
-) as any as S.Schema<DocumentMapList>;
-
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface GoogleRpcStatus {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-}
-export const GoogleRpcStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
-    code: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GoogleRpcStatus" }) as any as S.Schema<GoogleRpcStatus>;
 
 /** Represents the impact of moving the asset to the target. */
 export interface GoogleCloudAssuredworkloadsV1MoveImpact {
@@ -383,20 +355,48 @@ export const GoogleCloudAssuredworkloadsV1MoveAnalysisResult = /*@__PURE__*/ S.s
   identifier: "GoogleCloudAssuredworkloadsV1MoveAnalysisResult",
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1MoveAnalysisResult>;
 
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
+export type DocumentMapList = Array<DocumentMap>;
+export const DocumentMapList = /*@__PURE__*/ S.Array(
+  DocumentMap,
+) as any as S.Schema<DocumentMapList>;
+
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface GoogleRpcStatus {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+}
+export const GoogleRpcStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    details: S.optional(DocumentMapList),
+    message: S.optional(S.String),
+    code: S.optional(S.Number),
+  }),
+).annotate({ identifier: "GoogleRpcStatus" }) as any as S.Schema<GoogleRpcStatus>;
+
 /** Represents a logical group of checks performed for an asset. If successful, the group contains the analysis result, otherwise it contains an error with the failure reason. */
 export interface GoogleCloudAssuredworkloadsV1MoveAnalysisGroup {
-  /** Error details for a failed analysis. */
-  error?: GoogleRpcStatus;
   /** Name of the analysis group. */
   displayName?: string;
   /** Result of a successful analysis. */
   analysisResult?: GoogleCloudAssuredworkloadsV1MoveAnalysisResult;
+  /** Error details for a failed analysis. */
+  error?: GoogleRpcStatus;
 }
 export const GoogleCloudAssuredworkloadsV1MoveAnalysisGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    error: S.optional(GoogleRpcStatus),
     displayName: S.optional(S.String),
     analysisResult: S.optional(GoogleCloudAssuredworkloadsV1MoveAnalysisResult),
+    error: S.optional(GoogleRpcStatus),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1MoveAnalysisGroup",
@@ -410,18 +410,18 @@ export const GoogleCloudAssuredworkloadsV1MoveAnalysisGroupList = /*@__PURE__*/ 
 
 /** Represents move analysis results for an asset. */
 export interface GoogleCloudAssuredworkloadsV1AssetMoveAnalysis {
-  /** List of eligible analyses performed for the asset. */
-  analysisGroups?: GoogleCloudAssuredworkloadsV1MoveAnalysisGroupList;
-  /** Type of the asset being analyzed. Possible values will be among the ones listed [here](https://cloud.google.com/asset-inventory/docs/supported-asset-types). */
-  assetType?: string;
   /** The full resource name of the asset being analyzed. Example: //compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1 */
   asset?: string;
+  /** Type of the asset being analyzed. Possible values will be among the ones listed [here](https://cloud.google.com/asset-inventory/docs/supported-asset-types). */
+  assetType?: string;
+  /** List of eligible analyses performed for the asset. */
+  analysisGroups?: GoogleCloudAssuredworkloadsV1MoveAnalysisGroupList;
 }
 export const GoogleCloudAssuredworkloadsV1AssetMoveAnalysis = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    analysisGroups: S.optional(GoogleCloudAssuredworkloadsV1MoveAnalysisGroupList),
-    assetType: S.optional(S.String),
     asset: S.optional(S.String),
+    assetType: S.optional(S.String),
+    analysisGroups: S.optional(GoogleCloudAssuredworkloadsV1MoveAnalysisGroupList),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1AssetMoveAnalysis",
@@ -491,89 +491,118 @@ export const ApplyOrganizationsLocationsWorkloadsUpdatesRequest = /*@__PURE__*/ 
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: GoogleRpcStatus;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
 }
 export const GoogleLongrunningOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    response: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
     error: S.optional(GoogleRpcStatus),
-    response: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "GoogleLongrunningOperation",
 }) as any as S.Schema<GoogleLongrunningOperation>;
 
-/** Request for archiving resource events. */
-export interface GoogleCloudAssuredworkloadsV1ArchiveResourceEventsRequest {
-  /** Required. Only events with EventTime earlier than this cutoff will be archived. */
-  eventCutoffTime?: string;
-  /** Required. The maximum total number of events to move in this request. */
-  maxEventsMove?: number;
-  /** Required. The organization ID for which to archive events. */
-  organizationId?: string;
-  /** Required. The region of the workload(s) whose events should be archived. This is used to filter workloads based on AssurantWorkloadData.region. */
-  region?: string;
-  /** Optional. Time to set as ArchiveTime in the archive table. If not provided, the current time is used. */
-  archiveTime?: string;
-  /** Required. The number of events to process in a single transaction batch. */
-  batchSize?: number;
+/** Permissions granted to the AW Partner SA account for the customer workload */
+export interface GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions {
+  /** Optional. Allow the partner to view inspectability logs and monitoring violations. */
+  dataLogsViewer?: boolean;
+  /** Optional. Allow partner to view access approval logs. */
+  serviceAccessApprover?: boolean;
+  /** Optional. Allow partner to view support case details for an AXT log */
+  accessTransparencyLogsSupportCaseViewer?: boolean;
+  /** Optional. Allow partner to view violation alerts. */
+  assuredWorkloadsMonitoring?: boolean;
 }
-export const GoogleCloudAssuredworkloadsV1ArchiveResourceEventsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      eventCutoffTime: S.optional(S.String),
-      maxEventsMove: S.optional(S.Number),
-      organizationId: S.optional(S.String),
-      region: S.optional(S.String),
-      archiveTime: S.optional(S.String),
-      batchSize: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1ArchiveResourceEventsRequest",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1ArchiveResourceEventsRequest>;
-
-export interface ArchiveResourceEventsAssuredworkloadsRequest {
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1ArchiveResourceEventsRequest;
-}
-export const ArchiveResourceEventsAssuredworkloadsRequest = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    body: S.optional(GoogleCloudAssuredworkloadsV1ArchiveResourceEventsRequest.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/assuredworkloads:archiveResourceEvents",
-      baseUrl: "https://assuredworkloads.googleapis.com/",
-    }),
-  ),
+    dataLogsViewer: S.optional(S.Boolean),
+    serviceAccessApprover: S.optional(S.Boolean),
+    accessTransparencyLogsSupportCaseViewer: S.optional(S.Boolean),
+    assuredWorkloadsMonitoring: S.optional(S.Boolean),
+  }),
 ).annotate({
-  identifier: "ArchiveResourceEventsAssuredworkloadsRequest",
-}) as any as S.Schema<ArchiveResourceEventsAssuredworkloadsRequest>;
+  identifier: "GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions>;
 
-/** Response for archiving resource events. */
-export interface GoogleCloudAssuredworkloadsV1ArchiveResourceEventsResponse {
-  /** The total number of events successfully moved to the archive table. */
-  movedEventsCount?: number;
+/** Represents the Compliance Status of this workload */
+export interface GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus {
+  /** Number of current resource violations which are not acknowledged. */
+  acknowledgedResourceViolationCount?: number;
+  /** Number of current orgPolicy violations which are not acknowledged. */
+  activeViolationCount?: number;
+  /** Number of current resource violations which are acknowledged. */
+  activeResourceViolationCount?: number;
+  /** Number of current orgPolicy violations which are acknowledged. */
+  acknowledgedViolationCount?: number;
 }
-export const GoogleCloudAssuredworkloadsV1ArchiveResourceEventsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      movedEventsCount: S.optional(S.Number),
-    }),
+export const GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    acknowledgedResourceViolationCount: S.optional(S.Number),
+    activeViolationCount: S.optional(S.Number),
+    activeResourceViolationCount: S.optional(S.Number),
+    acknowledgedViolationCount: S.optional(S.Number),
+  }),
 ).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1ArchiveResourceEventsResponse",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1ArchiveResourceEventsResponse>;
+  identifier: "GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus>;
+
+export type GoogleCloudAssuredworkloadsV1WorkloadResourceInfoResourceTypeEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "CONSUMER_PROJECT"
+  | "CONSUMER_FOLDER"
+  | "ENCRYPTION_KEYS_PROJECT"
+  | "KEYRING";
+export const GoogleCloudAssuredworkloadsV1WorkloadResourceInfoResourceTypeEnum = S.String;
+
+/** Represent the resources that are children of this Workload. */
+export interface GoogleCloudAssuredworkloadsV1WorkloadResourceInfo {
+  /** Output only. Resource identifier. For a project this represents project_number. */
+  resourceId?: string;
+  /** Indicates the type of resource. */
+  resourceType?: GoogleCloudAssuredworkloadsV1WorkloadResourceInfoResourceTypeEnum | (string & {});
+}
+export const GoogleCloudAssuredworkloadsV1WorkloadResourceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceId: S.optional(S.String),
+    resourceType: S.optional(GoogleCloudAssuredworkloadsV1WorkloadResourceInfoResourceTypeEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudAssuredworkloadsV1WorkloadResourceInfo",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadResourceInfo>;
+
+export type GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList =
+  Array<GoogleCloudAssuredworkloadsV1WorkloadResourceInfo>;
+export const GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList = /*@__PURE__*/ S.Array(
+  GoogleCloudAssuredworkloadsV1WorkloadResourceInfo,
+) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList>;
+
+/** Settings specific to the Key Management Service. */
+export interface GoogleCloudAssuredworkloadsV1WorkloadKMSSettings {
+  /** Required. Input only. Immutable. The time at which the Key Management Service will automatically create a new version of the crypto key and mark it as the primary. */
+  nextRotationTime?: string;
+  /** Required. Input only. Immutable. [next_rotation_time] will be advanced by this period when the Key Management Service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. */
+  rotationPeriod?: string;
+}
+export const GoogleCloudAssuredworkloadsV1WorkloadKMSSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextRotationTime: S.optional(S.String),
+    rotationPeriod: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAssuredworkloadsV1WorkloadKMSSettings",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadKMSSettings>;
 
 export type GoogleCloudAssuredworkloadsV1WorkloadSaaEnrollmentResponseSetupStatusEnum =
   | "SETUP_STATE_UNSPECIFIED"
@@ -621,185 +650,6 @@ export const GoogleCloudAssuredworkloadsV1WorkloadSaaEnrollmentResponse = /*@__P
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1WorkloadSaaEnrollmentResponse",
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadSaaEnrollmentResponse>;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsResourceTypeEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "CONSUMER_PROJECT"
-  | "CONSUMER_FOLDER"
-  | "ENCRYPTION_KEYS_PROJECT"
-  | "KEYRING";
-export const GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsResourceTypeEnum = S.String;
-
-/** Represent the custom settings for the resources to be created. */
-export interface GoogleCloudAssuredworkloadsV1WorkloadResourceSettings {
-  /** User-assigned resource display name. If not empty it will be used to create a resource with the specified name. */
-  displayName?: string;
-  /** Resource identifier. For a project this represents project_id. If the project is already taken, the workload creation will fail. For KeyRing, this represents the keyring_id. For a folder, don't set this value as folder_id is assigned by Google. */
-  resourceId?: string;
-  /** Indicates the type of resource. This field should be specified to correspond the id to the right project type (CONSUMER_PROJECT or ENCRYPTION_KEYS_PROJECT) */
-  resourceType?:
-    | GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsResourceTypeEnum
-    | (string & {});
-}
-export const GoogleCloudAssuredworkloadsV1WorkloadResourceSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    resourceId: S.optional(S.String),
-    resourceType: S.optional(GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsResourceTypeEnum),
-  }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1WorkloadResourceSettings",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadResourceSettings>;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList =
-  Array<GoogleCloudAssuredworkloadsV1WorkloadResourceSettings>;
-export const GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList = /*@__PURE__*/ S.Array(
-  GoogleCloudAssuredworkloadsV1WorkloadResourceSettings,
-) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList>;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptionsKajEnrollmentTypeEnum =
-  | "KAJ_ENROLLMENT_TYPE_UNSPECIFIED"
-  | "KEY_ACCESS_TRANSPARENCY_OFF";
-export const GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptionsKajEnrollmentTypeEnum = S.String;
-
-/** Options to be set for the given created workload. */
-export interface GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions {
-  /** Optional. Specifies type of KAJ Enrollment if provided. */
-  kajEnrollmentType?:
-    | GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptionsKajEnrollmentTypeEnum
-    | (string & {});
-}
-export const GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kajEnrollmentType: S.optional(
-      GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptionsKajEnrollmentTypeEnum,
-    ),
-  }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-/** Permissions granted to the AW Partner SA account for the customer workload */
-export interface GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions {
-  /** Optional. Allow partner to view support case details for an AXT log */
-  accessTransparencyLogsSupportCaseViewer?: boolean;
-  /** Optional. Allow partner to view violation alerts. */
-  assuredWorkloadsMonitoring?: boolean;
-  /** Optional. Allow partner to view access approval logs. */
-  serviceAccessApprover?: boolean;
-  /** Optional. Allow the partner to view inspectability logs and monitoring violations. */
-  dataLogsViewer?: boolean;
-}
-export const GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessTransparencyLogsSupportCaseViewer: S.optional(S.Boolean),
-    assuredWorkloadsMonitoring: S.optional(S.Boolean),
-    serviceAccessApprover: S.optional(S.Boolean),
-    dataLogsViewer: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions>;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadKajEnrollmentStateEnum =
-  | "KAJ_ENROLLMENT_STATE_UNSPECIFIED"
-  | "KAJ_ENROLLMENT_STATE_PENDING"
-  | "KAJ_ENROLLMENT_STATE_COMPLETE";
-export const GoogleCloudAssuredworkloadsV1WorkloadKajEnrollmentStateEnum = S.String;
-
-/** Represents the Compliance Status of this workload */
-export interface GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus {
-  /** Number of current orgPolicy violations which are not acknowledged. */
-  activeViolationCount?: number;
-  /** Number of current orgPolicy violations which are acknowledged. */
-  acknowledgedViolationCount?: number;
-  /** Number of current resource violations which are not acknowledged. */
-  acknowledgedResourceViolationCount?: number;
-  /** Number of current resource violations which are acknowledged. */
-  activeResourceViolationCount?: number;
-}
-export const GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    activeViolationCount: S.optional(S.Number),
-    acknowledgedViolationCount: S.optional(S.Number),
-    acknowledgedResourceViolationCount: S.optional(S.Number),
-    activeResourceViolationCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus>;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadPartnerEnum =
-  | "PARTNER_UNSPECIFIED"
-  | "LOCAL_CONTROLS_BY_S3NS"
-  | "SOVEREIGN_CONTROLS_BY_T_SYSTEMS"
-  | "SOVEREIGN_CONTROLS_BY_SIA_MINSAIT"
-  | "SOVEREIGN_CONTROLS_BY_PSN"
-  | "SOVEREIGN_CONTROLS_BY_CNTXT"
-  | "SOVEREIGN_CONTROLS_BY_CNTXT_NO_EKM"
-  | "SPAIN_DATA_BOUNDARY_BY_TELEFONICA";
-export const GoogleCloudAssuredworkloadsV1WorkloadPartnerEnum = S.String;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum =
-  | "EKM_PROVISIONING_ERROR_MAPPING_UNSPECIFIED"
-  | "INVALID_SERVICE_ACCOUNT"
-  | "MISSING_METRICS_SCOPE_ADMIN_PERMISSION"
-  | "MISSING_EKM_CONNECTION_ADMIN_PERMISSION";
-export const GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum =
-  S.String;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum =
-  | "EKM_PROVISIONING_STATE_UNSPECIFIED"
-  | "EKM_PROVISIONING_STATE_PENDING"
-  | "EKM_PROVISIONING_STATE_FAILED"
-  | "EKM_PROVISIONING_STATE_COMPLETED";
-export const GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum =
-  S.String;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum =
-  | "EKM_PROVISIONING_ERROR_DOMAIN_UNSPECIFIED"
-  | "UNSPECIFIED_ERROR"
-  | "GOOGLE_SERVER_ERROR"
-  | "EXTERNAL_USER_ERROR"
-  | "EXTERNAL_PARTNER_ERROR"
-  | "TIMEOUT_ERROR";
-export const GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum =
-  S.String;
-
-/** External key management systems(EKM) Provisioning response */
-export interface GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse {
-  /** Detailed error message if Ekm provisioning fails */
-  ekmProvisioningErrorMapping?:
-    | GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum
-    | (string & {});
-  /** Output only. Indicates Ekm enrollment Provisioning of a given workload. */
-  ekmProvisioningState?:
-    | GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum
-    | (string & {});
-  /** Indicates Ekm provisioning error if any. */
-  ekmProvisioningErrorDomain?:
-    | GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum
-    | (string & {});
-}
-export const GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ekmProvisioningErrorMapping: S.optional(
-        GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum,
-      ),
-      ekmProvisioningState: S.optional(
-        GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum,
-      ),
-      ekmProvisioningErrorDomain: S.optional(
-        GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum,
-      ),
-    }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse>;
 
 export type GoogleCloudAssuredworkloadsV1WorkloadComplianceRegimeEnum =
   | "COMPLIANCE_REGIME_UNSPECIFIED"
@@ -850,145 +700,234 @@ export type GoogleCloudAssuredworkloadsV1WorkloadComplianceRegimeEnum =
   | "US_REGIONAL_ACCESS";
 export const GoogleCloudAssuredworkloadsV1WorkloadComplianceRegimeEnum = S.String;
 
-/** Settings specific to the Key Management Service. */
-export interface GoogleCloudAssuredworkloadsV1WorkloadKMSSettings {
-  /** Required. Input only. Immutable. [next_rotation_time] will be advanced by this period when the Key Management Service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. */
-  rotationPeriod?: string;
-  /** Required. Input only. Immutable. The time at which the Key Management Service will automatically create a new version of the crypto key and mark it as the primary. */
-  nextRotationTime?: string;
-}
-export const GoogleCloudAssuredworkloadsV1WorkloadKMSSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rotationPeriod: S.optional(S.String),
-    nextRotationTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1WorkloadKMSSettings",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadKMSSettings>;
-
-export type GoogleCloudAssuredworkloadsV1WorkloadResourceInfoResourceTypeEnum =
+export type GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsResourceTypeEnum =
   | "RESOURCE_TYPE_UNSPECIFIED"
   | "CONSUMER_PROJECT"
   | "CONSUMER_FOLDER"
   | "ENCRYPTION_KEYS_PROJECT"
   | "KEYRING";
-export const GoogleCloudAssuredworkloadsV1WorkloadResourceInfoResourceTypeEnum = S.String;
+export const GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsResourceTypeEnum = S.String;
 
-/** Represent the resources that are children of this Workload. */
-export interface GoogleCloudAssuredworkloadsV1WorkloadResourceInfo {
-  /** Output only. Resource identifier. For a project this represents project_number. */
+/** Represent the custom settings for the resources to be created. */
+export interface GoogleCloudAssuredworkloadsV1WorkloadResourceSettings {
+  /** Indicates the type of resource. This field should be specified to correspond the id to the right project type (CONSUMER_PROJECT or ENCRYPTION_KEYS_PROJECT) */
+  resourceType?:
+    | GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsResourceTypeEnum
+    | (string & {});
+  /** User-assigned resource display name. If not empty it will be used to create a resource with the specified name. */
+  displayName?: string;
+  /** Resource identifier. For a project this represents project_id. If the project is already taken, the workload creation will fail. For KeyRing, this represents the keyring_id. For a folder, don't set this value as folder_id is assigned by Google. */
   resourceId?: string;
-  /** Indicates the type of resource. */
-  resourceType?: GoogleCloudAssuredworkloadsV1WorkloadResourceInfoResourceTypeEnum | (string & {});
 }
-export const GoogleCloudAssuredworkloadsV1WorkloadResourceInfo = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAssuredworkloadsV1WorkloadResourceSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    resourceType: S.optional(GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsResourceTypeEnum),
+    displayName: S.optional(S.String),
     resourceId: S.optional(S.String),
-    resourceType: S.optional(GoogleCloudAssuredworkloadsV1WorkloadResourceInfoResourceTypeEnum),
   }),
 ).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1WorkloadResourceInfo",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadResourceInfo>;
+  identifier: "GoogleCloudAssuredworkloadsV1WorkloadResourceSettings",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadResourceSettings>;
 
-export type GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList =
-  Array<GoogleCloudAssuredworkloadsV1WorkloadResourceInfo>;
-export const GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList = /*@__PURE__*/ S.Array(
-  GoogleCloudAssuredworkloadsV1WorkloadResourceInfo,
-) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList>;
+export type GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList =
+  Array<GoogleCloudAssuredworkloadsV1WorkloadResourceSettings>;
+export const GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList = /*@__PURE__*/ S.Array(
+  GoogleCloudAssuredworkloadsV1WorkloadResourceSettings,
+) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList>;
+
+export type GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum =
+  | "EKM_PROVISIONING_STATE_UNSPECIFIED"
+  | "EKM_PROVISIONING_STATE_PENDING"
+  | "EKM_PROVISIONING_STATE_FAILED"
+  | "EKM_PROVISIONING_STATE_COMPLETED";
+export const GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum =
+  S.String;
+
+export type GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum =
+  | "EKM_PROVISIONING_ERROR_MAPPING_UNSPECIFIED"
+  | "INVALID_SERVICE_ACCOUNT"
+  | "MISSING_METRICS_SCOPE_ADMIN_PERMISSION"
+  | "MISSING_EKM_CONNECTION_ADMIN_PERMISSION";
+export const GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum =
+  S.String;
+
+export type GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum =
+  | "EKM_PROVISIONING_ERROR_DOMAIN_UNSPECIFIED"
+  | "UNSPECIFIED_ERROR"
+  | "GOOGLE_SERVER_ERROR"
+  | "EXTERNAL_USER_ERROR"
+  | "EXTERNAL_PARTNER_ERROR"
+  | "TIMEOUT_ERROR";
+export const GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum =
+  S.String;
+
+/** External key management systems(EKM) Provisioning response */
+export interface GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse {
+  /** Output only. Indicates Ekm enrollment Provisioning of a given workload. */
+  ekmProvisioningState?:
+    | GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum
+    | (string & {});
+  /** Detailed error message if Ekm provisioning fails */
+  ekmProvisioningErrorMapping?:
+    | GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum
+    | (string & {});
+  /** Indicates Ekm provisioning error if any. */
+  ekmProvisioningErrorDomain?:
+    | GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum
+    | (string & {});
+}
+export const GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ekmProvisioningState: S.optional(
+        GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum,
+      ),
+      ekmProvisioningErrorMapping: S.optional(
+        GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum,
+      ),
+      ekmProvisioningErrorDomain: S.optional(
+        GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum,
+      ),
+    }),
+).annotate({
+  identifier: "GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse>;
+
+export type GoogleCloudAssuredworkloadsV1WorkloadKajEnrollmentStateEnum =
+  | "KAJ_ENROLLMENT_STATE_UNSPECIFIED"
+  | "KAJ_ENROLLMENT_STATE_PENDING"
+  | "KAJ_ENROLLMENT_STATE_COMPLETE";
+export const GoogleCloudAssuredworkloadsV1WorkloadKajEnrollmentStateEnum = S.String;
+
+export type GoogleCloudAssuredworkloadsV1WorkloadPartnerEnum =
+  | "PARTNER_UNSPECIFIED"
+  | "LOCAL_CONTROLS_BY_S3NS"
+  | "SOVEREIGN_CONTROLS_BY_T_SYSTEMS"
+  | "SOVEREIGN_CONTROLS_BY_SIA_MINSAIT"
+  | "SOVEREIGN_CONTROLS_BY_PSN"
+  | "SOVEREIGN_CONTROLS_BY_CNTXT"
+  | "SOVEREIGN_CONTROLS_BY_CNTXT_NO_EKM"
+  | "SPAIN_DATA_BOUNDARY_BY_TELEFONICA";
+export const GoogleCloudAssuredworkloadsV1WorkloadPartnerEnum = S.String;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export type GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptionsKajEnrollmentTypeEnum =
+  | "KAJ_ENROLLMENT_TYPE_UNSPECIFIED"
+  | "KEY_ACCESS_TRANSPARENCY_OFF";
+export const GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptionsKajEnrollmentTypeEnum = S.String;
+
+/** Options to be set for the given created workload. */
+export interface GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions {
+  /** Optional. Specifies type of KAJ Enrollment if provided. */
+  kajEnrollmentType?:
+    | GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptionsKajEnrollmentTypeEnum
+    | (string & {});
+}
+export const GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kajEnrollmentType: S.optional(
+      GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptionsKajEnrollmentTypeEnum,
+    ),
+  }),
+).annotate({
+  identifier: "GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions>;
 
 /** A Workload object for managing highly regulated workloads of cloud customers. */
 export interface GoogleCloudAssuredworkloadsV1Workload {
-  /** Output only. Represents the SAA enrollment response of the given workload. SAA enrollment response is queried during GetWorkload call. In failure cases, user friendly error message is shown in SAA details page. */
-  saaEnrollmentResponse?: GoogleCloudAssuredworkloadsV1WorkloadSaaEnrollmentResponse;
-  /** Input only. Resource properties that are used to customize workload resources. These properties (such as custom project id) will be used to create workload resources if possible. This field is optional. */
-  resourceSettings?: GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList;
-  /** Output only. Urls for services which are compliant for this Assured Workload, but which are currently disallowed by the ResourceUsageRestriction org policy. Invoke RestrictAllowedResources endpoint to allow your project developers to use these services in their environment. */
-  compliantButDisallowedServices?: StringList;
-  /** Required. The user-assigned display name of the Workload. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, and spaces. Example: My Workload */
-  displayName?: string;
-  /** Optional. Options to be set for the given created workload. */
-  workloadOptions?: GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions;
-  /** Optional. Labels applied to the workload. */
-  labels?: StringMap;
-  /** Input only. The parent resource for the resources managed by this Assured Workload. May be either empty or a folder resource which is a child of the Workload parent. If not specified all resources are created under the parent organization. Format: folders/{folder_id} */
-  provisionedResourcesParent?: string;
-  /** Output only. Immutable. The Workload creation timestamp. */
-  createTime?: string;
   /** Optional. Permissions granted to the AW Partner SA account for the customer workload */
   partnerPermissions?: GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions;
-  /** Output only. Represents the KAJ enrollment state of the given workload. */
-  kajEnrollmentState?: GoogleCloudAssuredworkloadsV1WorkloadKajEnrollmentStateEnum | (string & {});
   /** Output only. Count of active Violations in the Workload. */
   complianceStatus?: GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus;
-  /** Output only. Indicates whether resource monitoring is enabled for workload or not. It is true when Resource feed is subscribed to AWM topic and AWM Service Agent Role is binded to AW Service Account for resource Assured workload. */
-  resourceMonitoringEnabled?: boolean;
   /** Optional. Indicates the sovereignty status of the given workload. Currently meant to be used by Europe/Canada customers. */
   enableSovereignControls?: boolean;
-  /** Optional. Partner regime associated with this workload. */
-  partner?: GoogleCloudAssuredworkloadsV1WorkloadPartnerEnum | (string & {});
-  /** Optional. Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT/Telefonica partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC */
-  partnerServicesBillingAccount?: string;
-  /** Output only. Represents the Ekm Provisioning State of the given workload. */
-  ekmProvisioningResponse?: GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse;
+  /** Output only. Indicates whether resource monitoring is enabled for workload or not. It is true when Resource feed is subscribed to AWM topic and AWM Service Agent Role is binded to AW Service Account for resource Assured workload. */
+  resourceMonitoringEnabled?: boolean;
   /** Optional. The billing account used for the resources which are direct children of workload. This billing account is initially associated with the resources created as part of Workload creation. After the initial creation of these resources, the customer can change the assigned billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF`. */
   billingAccount?: string;
+  /** Output only. The resources associated with this workload. These resources will be created when creating the workload. If any of the projects already exist, the workload creation will fail. Always read only. */
+  resources?: GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList;
+  /** Input only. Settings used to create a CMEK crypto key. When set, a project with a KMS CMEK key is provisioned. This field is deprecated as of Feb 28, 2022. In order to create a Keyring, callers should specify, ENCRYPTION_KEYS_PROJECT or KEYRING in ResourceSettings.resource_type field. */
+  kmsSettings?: GoogleCloudAssuredworkloadsV1WorkloadKMSSettings;
+  /** Output only. Represents the SAA enrollment response of the given workload. SAA enrollment response is queried during GetWorkload call. In failure cases, user friendly error message is shown in SAA details page. */
+  saaEnrollmentResponse?: GoogleCloudAssuredworkloadsV1WorkloadSaaEnrollmentResponse;
   /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
   name?: string;
   /** Required. Immutable. Compliance Regime associated with this workload. */
   complianceRegime?: GoogleCloudAssuredworkloadsV1WorkloadComplianceRegimeEnum | (string & {});
+  /** Input only. Resource properties that are used to customize workload resources. These properties (such as custom project id) will be used to create workload resources if possible. This field is optional. */
+  resourceSettings?: GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList;
+  /** Output only. Represents the Ekm Provisioning State of the given workload. */
+  ekmProvisioningResponse?: GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse;
   /** Optional. ETag of the workload, it is calculated on the basis of the Workload contents. It will be used in Update & Delete operations. */
   etag?: string;
-  /** Input only. Settings used to create a CMEK crypto key. When set, a project with a KMS CMEK key is provisioned. This field is deprecated as of Feb 28, 2022. In order to create a Keyring, callers should specify, ENCRYPTION_KEYS_PROJECT or KEYRING in ResourceSettings.resource_type field. */
-  kmsSettings?: GoogleCloudAssuredworkloadsV1WorkloadKMSSettings;
-  /** Output only. The resources associated with this workload. These resources will be created when creating the workload. If any of the projects already exist, the workload creation will fail. Always read only. */
-  resources?: GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList;
+  /** Output only. Represents the KAJ enrollment state of the given workload. */
+  kajEnrollmentState?: GoogleCloudAssuredworkloadsV1WorkloadKajEnrollmentStateEnum | (string & {});
+  /** Input only. The parent resource for the resources managed by this Assured Workload. May be either empty or a folder resource which is a child of the Workload parent. If not specified all resources are created under the parent organization. Format: folders/{folder_id} */
+  provisionedResourcesParent?: string;
+  /** Optional. Partner regime associated with this workload. */
+  partner?: GoogleCloudAssuredworkloadsV1WorkloadPartnerEnum | (string & {});
+  /** Optional. Labels applied to the workload. */
+  labels?: StringMap;
+  /** Optional. Options to be set for the given created workload. */
+  workloadOptions?: GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions;
+  /** Optional. Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT/Telefonica partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC */
+  partnerServicesBillingAccount?: string;
+  /** Required. The user-assigned display name of the Workload. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, and spaces. Example: My Workload */
+  displayName?: string;
+  /** Output only. Urls for services which are compliant for this Assured Workload, but which are currently disallowed by the ResourceUsageRestriction org policy. Invoke RestrictAllowedResources endpoint to allow your project developers to use these services in their environment. */
+  compliantButDisallowedServices?: StringList;
   /** Optional. Indicates whether the e-mail notification for a violation is enabled for a workload. This value will be by default True, and if not present will be considered as true. This should only be updated via updateWorkload call. Any Changes to this field during the createWorkload call will not be honored. This will always be true while creating the workload. */
   violationNotificationsEnabled?: boolean;
+  /** Output only. Immutable. The Workload creation timestamp. */
+  createTime?: string;
 }
 export const GoogleCloudAssuredworkloadsV1Workload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    saaEnrollmentResponse: S.optional(GoogleCloudAssuredworkloadsV1WorkloadSaaEnrollmentResponse),
-    resourceSettings: S.optional(GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList),
-    compliantButDisallowedServices: S.optional(StringList),
-    displayName: S.optional(S.String),
-    workloadOptions: S.optional(GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions),
-    labels: S.optional(StringMap),
-    provisionedResourcesParent: S.optional(S.String),
-    createTime: S.optional(S.String),
     partnerPermissions: S.optional(GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions),
-    kajEnrollmentState: S.optional(GoogleCloudAssuredworkloadsV1WorkloadKajEnrollmentStateEnum),
     complianceStatus: S.optional(GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus),
-    resourceMonitoringEnabled: S.optional(S.Boolean),
     enableSovereignControls: S.optional(S.Boolean),
-    partner: S.optional(GoogleCloudAssuredworkloadsV1WorkloadPartnerEnum),
-    partnerServicesBillingAccount: S.optional(S.String),
+    resourceMonitoringEnabled: S.optional(S.Boolean),
+    billingAccount: S.optional(S.String),
+    resources: S.optional(GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList),
+    kmsSettings: S.optional(GoogleCloudAssuredworkloadsV1WorkloadKMSSettings),
+    saaEnrollmentResponse: S.optional(GoogleCloudAssuredworkloadsV1WorkloadSaaEnrollmentResponse),
+    name: S.optional(S.String),
+    complianceRegime: S.optional(GoogleCloudAssuredworkloadsV1WorkloadComplianceRegimeEnum),
+    resourceSettings: S.optional(GoogleCloudAssuredworkloadsV1WorkloadResourceSettingsList),
     ekmProvisioningResponse: S.optional(
       GoogleCloudAssuredworkloadsV1WorkloadEkmProvisioningResponse,
     ),
-    billingAccount: S.optional(S.String),
-    name: S.optional(S.String),
-    complianceRegime: S.optional(GoogleCloudAssuredworkloadsV1WorkloadComplianceRegimeEnum),
     etag: S.optional(S.String),
-    kmsSettings: S.optional(GoogleCloudAssuredworkloadsV1WorkloadKMSSettings),
-    resources: S.optional(GoogleCloudAssuredworkloadsV1WorkloadResourceInfoList),
+    kajEnrollmentState: S.optional(GoogleCloudAssuredworkloadsV1WorkloadKajEnrollmentStateEnum),
+    provisionedResourcesParent: S.optional(S.String),
+    partner: S.optional(GoogleCloudAssuredworkloadsV1WorkloadPartnerEnum),
+    labels: S.optional(StringMap),
+    workloadOptions: S.optional(GoogleCloudAssuredworkloadsV1WorkloadWorkloadOptions),
+    partnerServicesBillingAccount: S.optional(S.String),
+    displayName: S.optional(S.String),
+    compliantButDisallowedServices: S.optional(StringList),
     violationNotificationsEnabled: S.optional(S.Boolean),
+    createTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1Workload",
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1Workload>;
 
 export interface CreateOrganizationsLocationsWorkloadsRequest {
-  /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
-  parent: string;
   /** Optional. A identifier associated with the workload and underlying projects which allows for the break down of billing costs for a workload. The value provided for the identifier will add a label to the workload and contained projects with the identifier as the value. */
   externalId?: string;
+  /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
+  parent: string;
   /** Request body */
   body?: GoogleCloudAssuredworkloadsV1Workload;
 }
 export const CreateOrganizationsLocationsWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     externalId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudAssuredworkloadsV1Workload.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1002,15 +941,15 @@ export const CreateOrganizationsLocationsWorkloadsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<CreateOrganizationsLocationsWorkloadsRequest>;
 
 export interface DeleteOrganizationsLocationsWorkloadsRequest {
-  /** Optional. The etag of the workload. If this is provided, it must match the server's etag. */
-  etag?: string;
   /** Required. The `name` field is used to identify the workload. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
   name: string;
+  /** Optional. The etag of the workload. If this is provided, it must match the server's etag. */
+  etag?: string;
 }
 export const DeleteOrganizationsLocationsWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1106,56 +1045,32 @@ export const FetchFoldersLocationsDbFrameworkComplianceReportsRequest = /*@__PUR
   identifier: "FetchFoldersLocationsDbFrameworkComplianceReportsRequest",
 }) as any as S.Schema<FetchFoldersLocationsDbFrameworkComplianceReportsRequest>;
 
-export type GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkTypeEnum =
-  | "FRAMEWORK_TYPE_UNSPECIFIED"
-  | "BUILT_IN"
-  | "CUSTOM";
-export const GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkTypeEnum =
-  S.String;
-
-export type GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnum =
-  | "FRAMEWORK_CATEGORY_UNSPECIFIED"
-  | "INDUSTRY_DEFINED_STANDARD"
-  | "ASSURED_WORKLOADS"
-  | "DATA_SECURITY"
-  | "GOOGLE_BEST_PRACTICES"
-  | "CUSTOM_FRAMEWORK";
-export const GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnum =
-  S.String;
-
-export type GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList =
-  Array<GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnum>;
-export const GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnum,
-  ) as any as S.Schema<GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList>;
-
 /** The details for a target resource. */
 export interface GoogleCloudAssuredworkloadsV1TargetResourceDetails {
-  /** The create time of the target resource. */
-  createTime?: string;
-  /** The update time of the target resource. */
-  updateTime?: string;
-  /** The minor revision ID of the framework for the target resource. */
-  minorRevisionId?: string;
-  /** The target resource. For example, `organizations/1234567890`, `projects/1234567890`, or `folders/1234567890`. */
-  targetResource?: string;
-  /** The display name of the target resource. For example, `google.com`, `staging-project`, or `development-folder`. */
-  targetResourceDisplayName?: string;
   /** The framework deployment name for the target resource. For example, `organizations/{organization_id}/locations/{location}/frameworkDeployments/{framework_deployment_id}` */
   frameworkDeployment?: string;
   /** The major revision ID of the framework for the target resource. */
   majorRevisionId?: string;
+  /** The update time of the target resource. */
+  updateTime?: string;
+  /** The create time of the target resource. */
+  createTime?: string;
+  /** The target resource. For example, `organizations/1234567890`, `projects/1234567890`, or `folders/1234567890`. */
+  targetResource?: string;
+  /** The display name of the target resource. For example, `google.com`, `staging-project`, or `development-folder`. */
+  targetResourceDisplayName?: string;
+  /** The minor revision ID of the framework for the target resource. */
+  minorRevisionId?: string;
 }
 export const GoogleCloudAssuredworkloadsV1TargetResourceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    minorRevisionId: S.optional(S.String),
-    targetResource: S.optional(S.String),
-    targetResourceDisplayName: S.optional(S.String),
     frameworkDeployment: S.optional(S.String),
     majorRevisionId: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    targetResource: S.optional(S.String),
+    targetResourceDisplayName: S.optional(S.String),
+    minorRevisionId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1TargetResourceDetails",
@@ -1182,54 +1097,78 @@ export const GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportRespon
     GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseSupportedCloudProvidersItemEnum,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseSupportedCloudProvidersItemEnumList>;
 
+export type GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnum =
+  | "FRAMEWORK_CATEGORY_UNSPECIFIED"
+  | "INDUSTRY_DEFINED_STANDARD"
+  | "ASSURED_WORKLOADS"
+  | "DATA_SECURITY"
+  | "GOOGLE_BEST_PRACTICES"
+  | "CUSTOM_FRAMEWORK";
+export const GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnum =
+  S.String;
+
+export type GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList =
+  Array<GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnum>;
+export const GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnum,
+  ) as any as S.Schema<GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList>;
+
+export type GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkTypeEnum =
+  | "FRAMEWORK_TYPE_UNSPECIFIED"
+  | "BUILT_IN"
+  | "CUSTOM";
+export const GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkTypeEnum =
+  S.String;
+
 /** The response message for FetchDbFrameworkComplianceReport. */
 export interface GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponse {
-  /** The latest major revision ID of the framework. */
-  majorRevisionId?: string;
   /** The name of the framework. */
   framework?: string;
-  /** The description of the framework. */
-  frameworkDescription?: string;
-  /** The type of the framework. */
-  frameworkType?: GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkTypeEnum;
-  /** The list of framework categories supported. */
-  frameworkCategories?: GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList;
-  /** The target resource details of the framework. */
-  targetResourceDetails?: GoogleCloudAssuredworkloadsV1TargetResourceDetailsList;
-  /** The latest minor revision ID of the latest major revision of the framework. */
-  minorRevisionId?: string;
   /** Optional. The display name for the framework. */
   frameworkDisplayName?: string;
-  /** The control assessment details of the framework. */
-  controlAssessmentDetails?: GoogleCloudAssuredworkloadsV1ControlAssessmentDetails;
+  /** The target resource details of the framework. */
+  targetResourceDetails?: GoogleCloudAssuredworkloadsV1TargetResourceDetailsList;
   /** The list of cloud providers that are supported by the framework. */
   supportedCloudProviders?: GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseSupportedCloudProvidersItemEnumList;
+  /** The latest major revision ID of the framework. */
+  majorRevisionId?: string;
+  /** The description of the framework. */
+  frameworkDescription?: string;
   /** The name of the framework compliance report. */
   name?: string;
+  /** The list of framework categories supported. */
+  frameworkCategories?: GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList;
+  /** The latest minor revision ID of the latest major revision of the framework. */
+  minorRevisionId?: string;
+  /** The control assessment details of the framework. */
+  controlAssessmentDetails?: GoogleCloudAssuredworkloadsV1ControlAssessmentDetails;
   /** Output only. The last updated time of the report. */
   updateTime?: string;
+  /** The type of the framework. */
+  frameworkType?: GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkTypeEnum;
 }
 export const GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      majorRevisionId: S.optional(S.String),
       framework: S.optional(S.String),
-      frameworkDescription: S.optional(S.String),
-      frameworkType: S.optional(
-        GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkTypeEnum,
-      ),
-      frameworkCategories: S.optional(
-        GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList,
-      ),
-      targetResourceDetails: S.optional(GoogleCloudAssuredworkloadsV1TargetResourceDetailsList),
-      minorRevisionId: S.optional(S.String),
       frameworkDisplayName: S.optional(S.String),
-      controlAssessmentDetails: S.optional(GoogleCloudAssuredworkloadsV1ControlAssessmentDetails),
+      targetResourceDetails: S.optional(GoogleCloudAssuredworkloadsV1TargetResourceDetailsList),
       supportedCloudProviders: S.optional(
         GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseSupportedCloudProvidersItemEnumList,
       ),
+      majorRevisionId: S.optional(S.String),
+      frameworkDescription: S.optional(S.String),
       name: S.optional(S.String),
+      frameworkCategories: S.optional(
+        GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkCategoriesItemEnumList,
+      ),
+      minorRevisionId: S.optional(S.String),
+      controlAssessmentDetails: S.optional(GoogleCloudAssuredworkloadsV1ControlAssessmentDetails),
       updateTime: S.optional(S.String),
+      frameworkType: S.optional(
+        GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponseFrameworkTypeEnum,
+      ),
     }),
   ).annotate({
     identifier: "GoogleCloudAssuredworkloadsV1FetchDbFrameworkComplianceReportResponse",
@@ -1263,17 +1202,17 @@ export const FetchOrganizationsLocationsDbFrameworkComplianceReportsRequest =
 export interface FetchProjectsLocationsDbFrameworkComplianceReportsRequest {
   /** Optional. The end time of the report. */
   endTime?: string;
-  /** Required. The name of the framework compliance report to retrieve. */
-  name: string;
   /** Optional. The filtering results. */
   filter?: string;
+  /** Required. The name of the framework compliance report to retrieve. */
+  name: string;
 }
 export const FetchProjectsLocationsDbFrameworkComplianceReportsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       endTime: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1348,62 +1287,28 @@ export const GetOrganizationsLocationsWorkloadsViolationsRequest = /*@__PURE__*/
   identifier: "GetOrganizationsLocationsWorkloadsViolationsRequest",
 }) as any as S.Schema<GetOrganizationsLocationsWorkloadsViolationsRequest>;
 
-/** Violation exception detail. */
-export interface GoogleCloudAssuredworkloadsV1ViolationExceptionContext {
-  /** Business justification provided towards the acknowledgement of the violation. */
-  comment?: string;
-  /** Name of the user (or service account) who acknowledged the violation. */
-  userName?: string;
-  /** Timestamp when the violation was acknowledged. */
-  acknowledgementTime?: string;
-}
-export const GoogleCloudAssuredworkloadsV1ViolationExceptionContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    comment: S.optional(S.String),
-    userName: S.optional(S.String),
-    acknowledgementTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1ViolationExceptionContext",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1ViolationExceptionContext>;
-
-export type GoogleCloudAssuredworkloadsV1ViolationExceptionContextList =
-  Array<GoogleCloudAssuredworkloadsV1ViolationExceptionContext>;
-export const GoogleCloudAssuredworkloadsV1ViolationExceptionContextList = /*@__PURE__*/ S.Array(
-  GoogleCloudAssuredworkloadsV1ViolationExceptionContext,
-) as any as S.Schema<GoogleCloudAssuredworkloadsV1ViolationExceptionContextList>;
-
-export type GoogleCloudAssuredworkloadsV1ViolationViolationTypeEnum =
-  | "VIOLATION_TYPE_UNSPECIFIED"
-  | "ORG_POLICY"
-  | "RESOURCE";
-export const GoogleCloudAssuredworkloadsV1ViolationViolationTypeEnum = S.String;
-
-export type GoogleCloudAssuredworkloadsV1ViolationRemediationRemediationTypeEnum =
-  | "REMEDIATION_TYPE_UNSPECIFIED"
-  | "REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION"
-  | "REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION"
-  | "REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION"
-  | "REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION"
-  | "REMEDIATION_RESOURCE_VIOLATION"
-  | "REMEDIATION_RESOURCE_VIOLATION_NON_CMEK_SERVICES";
-export const GoogleCloudAssuredworkloadsV1ViolationRemediationRemediationTypeEnum = S.String;
+export type GoogleCloudAssuredworkloadsV1ViolationStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "RESOLVED"
+  | "UNRESOLVED"
+  | "EXCEPTION";
+export const GoogleCloudAssuredworkloadsV1ViolationStateEnum = S.String;
 
 /** Remediation instructions to resolve violation via cloud console */
 export interface GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsConsole {
-  /** Additional urls for more information about steps */
-  additionalLinks?: StringList;
   /** Steps to resolve violation via cloud console */
   steps?: StringList;
   /** Link to console page where violations can be resolved */
   consoleUris?: StringList;
+  /** Additional urls for more information about steps */
+  additionalLinks?: StringList;
 }
 export const GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsConsole =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      additionalLinks: S.optional(StringList),
       steps: S.optional(StringList),
       consoleUris: S.optional(StringList),
+      additionalLinks: S.optional(StringList),
     }),
   ).annotate({
     identifier: "GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsConsole",
@@ -1411,19 +1316,19 @@ export const GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsConsol
 
 /** Remediation instructions to resolve violation via gcloud cli */
 export interface GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsGcloud {
+  /** Gcloud command to resolve violation */
+  gcloudCommands?: StringList;
   /** Steps to resolve violation via gcloud cli */
   steps?: StringList;
   /** Additional urls for more information about steps */
   additionalLinks?: StringList;
-  /** Gcloud command to resolve violation */
-  gcloudCommands?: StringList;
 }
 export const GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsGcloud =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      gcloudCommands: S.optional(StringList),
       steps: S.optional(StringList),
       additionalLinks: S.optional(StringList),
-      gcloudCommands: S.optional(StringList),
     }),
   ).annotate({
     identifier: "GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsGcloud",
@@ -1450,129 +1355,163 @@ export const GoogleCloudAssuredworkloadsV1ViolationRemediationInstructions =
     identifier: "GoogleCloudAssuredworkloadsV1ViolationRemediationInstructions",
   }) as any as S.Schema<GoogleCloudAssuredworkloadsV1ViolationRemediationInstructions>;
 
+export type GoogleCloudAssuredworkloadsV1ViolationRemediationRemediationTypeEnum =
+  | "REMEDIATION_TYPE_UNSPECIFIED"
+  | "REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION"
+  | "REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION"
+  | "REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION"
+  | "REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION"
+  | "REMEDIATION_RESOURCE_VIOLATION"
+  | "REMEDIATION_RESOURCE_VIOLATION_NON_CMEK_SERVICES";
+export const GoogleCloudAssuredworkloadsV1ViolationRemediationRemediationTypeEnum = S.String;
+
 /** Represents remediation guidance to resolve compliance violation for AssuredWorkload */
 export interface GoogleCloudAssuredworkloadsV1ViolationRemediation {
-  /** Output only. Reemediation type based on the type of org policy values violated */
-  remediationType?: GoogleCloudAssuredworkloadsV1ViolationRemediationRemediationTypeEnum;
-  /** Values that can resolve the violation For example: for list org policy violations, this will either be the list of allowed or denied values */
-  compliantValues?: StringList;
   /** Required. Remediation instructions to resolve violations */
   instructions?: GoogleCloudAssuredworkloadsV1ViolationRemediationInstructions;
+  /** Values that can resolve the violation For example: for list org policy violations, this will either be the list of allowed or denied values */
+  compliantValues?: StringList;
+  /** Output only. Reemediation type based on the type of org policy values violated */
+  remediationType?: GoogleCloudAssuredworkloadsV1ViolationRemediationRemediationTypeEnum;
 }
 export const GoogleCloudAssuredworkloadsV1ViolationRemediation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    instructions: S.optional(GoogleCloudAssuredworkloadsV1ViolationRemediationInstructions),
+    compliantValues: S.optional(StringList),
     remediationType: S.optional(
       GoogleCloudAssuredworkloadsV1ViolationRemediationRemediationTypeEnum,
     ),
-    compliantValues: S.optional(StringList),
-    instructions: S.optional(GoogleCloudAssuredworkloadsV1ViolationRemediationInstructions),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1ViolationRemediation",
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1ViolationRemediation>;
 
-export type GoogleCloudAssuredworkloadsV1ViolationStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "RESOLVED"
-  | "UNRESOLVED"
-  | "EXCEPTION";
-export const GoogleCloudAssuredworkloadsV1ViolationStateEnum = S.String;
+export type GoogleCloudAssuredworkloadsV1ViolationViolationTypeEnum =
+  | "VIOLATION_TYPE_UNSPECIFIED"
+  | "ORG_POLICY"
+  | "RESOURCE";
+export const GoogleCloudAssuredworkloadsV1ViolationViolationTypeEnum = S.String;
+
+/** Violation exception detail. */
+export interface GoogleCloudAssuredworkloadsV1ViolationExceptionContext {
+  /** Business justification provided towards the acknowledgement of the violation. */
+  comment?: string;
+  /** Name of the user (or service account) who acknowledged the violation. */
+  userName?: string;
+  /** Timestamp when the violation was acknowledged. */
+  acknowledgementTime?: string;
+}
+export const GoogleCloudAssuredworkloadsV1ViolationExceptionContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    comment: S.optional(S.String),
+    userName: S.optional(S.String),
+    acknowledgementTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAssuredworkloadsV1ViolationExceptionContext",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1ViolationExceptionContext>;
+
+export type GoogleCloudAssuredworkloadsV1ViolationExceptionContextList =
+  Array<GoogleCloudAssuredworkloadsV1ViolationExceptionContext>;
+export const GoogleCloudAssuredworkloadsV1ViolationExceptionContextList = /*@__PURE__*/ S.Array(
+  GoogleCloudAssuredworkloadsV1ViolationExceptionContext,
+) as any as S.Schema<GoogleCloudAssuredworkloadsV1ViolationExceptionContextList>;
 
 /** Workload monitoring Violation. */
 export interface GoogleCloudAssuredworkloadsV1Violation {
-  /** Output only. List of all the exception detail added for the violation. */
-  exceptionContexts?: GoogleCloudAssuredworkloadsV1ViolationExceptionContextList;
-  /** Output only. Contains the remediation instructions for the violation in markdown format. */
-  remediationMarkdown?: string;
-  /** Output only. Type of the violation */
-  violationType?: GoogleCloudAssuredworkloadsV1ViolationViolationTypeEnum;
-  /** Optional. Timestamp when this violation was acknowledged first. Check exception_contexts to find the last time the violation was acknowledged when there are more than one violations. This field will be absent when acknowledged field is marked as false. */
-  acknowledgementTime?: string;
-  /** Output only. Immutable. Name of the Violation. Format: organizations/{organization}/locations/{location}/workloads/{workload_id}/violations/{violations_id} */
-  name?: string;
-  /** Optional. Output only. Violation Id of the org-policy violation due to which the resource violation is caused. Empty for org-policy violations. */
-  associatedOrgPolicyViolationId?: string;
-  /** Output only. Time of the event which triggered the Violation. */
-  beginTime?: string;
-  /** Output only. Immutable. Audit Log Link for violated resource Format: https://console.cloud.google.com/logs/query;query={logName}{protoPayload.resourceName}{timeRange}{folder} */
-  auditLogLink?: string;
-  /** Output only. The last time when the Violation record was updated. */
-  updateTime?: string;
   /** Output only. Immutable. The org-policy-constraint that was incorrectly changed, which resulted in this violation. */
   orgPolicyConstraint?: string;
-  /** Output only. Immutable. Name of the OrgPolicy which was modified with non-compliant change and resulted this violation. Format: projects/{project_number}/policies/{constraint_name} folders/{folder_id}/policies/{constraint_name} organizations/{organization_id}/policies/{constraint_name} */
-  nonCompliantOrgPolicy?: string;
-  /** A boolean that indicates if the violation is acknowledged */
-  acknowledged?: boolean;
-  /** Output only. Description for the Violation. e.g. OrgPolicy gcp.resourceLocations has non compliant value. */
-  description?: string;
-  /** Output only. Time of the event which fixed the Violation. If the violation is ACTIVE this will be empty. */
-  resolveTime?: string;
-  /** Optional. Output only. Name of the resource like //storage.googleapis.com/myprojectxyz-testbucket. Empty for org-policy violations. */
-  resourceName?: string;
-  /** Output only. Compliance violation remediation */
-  remediation?: GoogleCloudAssuredworkloadsV1ViolationRemediation;
-  /** Output only. Category under which this violation is mapped. e.g. Location, Service Usage, Access, Encryption, etc. */
-  category?: string;
-  /** Optional. Output only. Type of the resource like compute.googleapis.com/Disk, etc. Empty for org-policy violations. */
-  resourceType?: string;
-  /** Output only. List of compliance frameworks that are affected by this violation. This field is only populated when using `VIOLATION_VIEW_DATA_BOUNDARY`. e.g. "FedRAMP High", "NIST 800-53". */
-  affectedFrameworks?: StringList;
-  /** Optional. Output only. Parent project number where resource is present. Empty for org-policy violations. */
-  parentProjectNumber?: string;
   /** Output only. State of the violation */
   state?: GoogleCloudAssuredworkloadsV1ViolationStateEnum;
+  /** Output only. Time of the event which fixed the Violation. If the violation is ACTIVE this will be empty. */
+  resolveTime?: string;
+  /** Output only. Compliance violation remediation */
+  remediation?: GoogleCloudAssuredworkloadsV1ViolationRemediation;
   /** Output only. Immutable. Audit Log link to find business justification provided for violation exception. Format: https://console.cloud.google.com/logs/query;query={logName}{protoPayload.resourceName}{protoPayload.methodName}{timeRange}{organization} */
   exceptionAuditLogLink?: string;
+  /** Output only. Time of the event which triggered the Violation. */
+  beginTime?: string;
   /** Optional. Output only. The number of resource violations for particular org policy violation. This will be 0 in case of resource violation. */
   childResourceViolationCount?: number;
+  /** Output only. Immutable. Name of the OrgPolicy which was modified with non-compliant change and resulted this violation. Format: projects/{project_number}/policies/{constraint_name} folders/{folder_id}/policies/{constraint_name} organizations/{organization_id}/policies/{constraint_name} */
+  nonCompliantOrgPolicy?: string;
+  /** Output only. The last time when the Violation record was updated. */
+  updateTime?: string;
+  /** Optional. Output only. Violation Id of the org-policy violation due to which the resource violation is caused. Empty for org-policy violations. */
+  associatedOrgPolicyViolationId?: string;
+  /** Output only. List of compliance frameworks that are affected by this violation. This field is only populated when using `VIOLATION_VIEW_DATA_BOUNDARY`. e.g. "FedRAMP High", "NIST 800-53". */
+  affectedFrameworks?: StringList;
+  /** Output only. Description for the Violation. e.g. OrgPolicy gcp.resourceLocations has non compliant value. */
+  description?: string;
+  /** Optional. Timestamp when this violation was acknowledged first. Check exception_contexts to find the last time the violation was acknowledged when there are more than one violations. This field will be absent when acknowledged field is marked as false. */
+  acknowledgementTime?: string;
+  /** Output only. Immutable. Audit Log Link for violated resource Format: https://console.cloud.google.com/logs/query;query={logName}{protoPayload.resourceName}{timeRange}{folder} */
+  auditLogLink?: string;
+  /** Output only. Type of the violation */
+  violationType?: GoogleCloudAssuredworkloadsV1ViolationViolationTypeEnum;
+  /** A boolean that indicates if the violation is acknowledged */
+  acknowledged?: boolean;
+  /** Output only. List of all the exception detail added for the violation. */
+  exceptionContexts?: GoogleCloudAssuredworkloadsV1ViolationExceptionContextList;
+  /** Optional. Output only. Type of the resource like compute.googleapis.com/Disk, etc. Empty for org-policy violations. */
+  resourceType?: string;
+  /** Output only. Immutable. Name of the Violation. Format: organizations/{organization}/locations/{location}/workloads/{workload_id}/violations/{violations_id} */
+  name?: string;
+  /** Output only. Category under which this violation is mapped. e.g. Location, Service Usage, Access, Encryption, etc. */
+  category?: string;
+  /** Optional. Output only. Name of the resource like //storage.googleapis.com/myprojectxyz-testbucket. Empty for org-policy violations. */
+  resourceName?: string;
+  /** Optional. Output only. Parent project number where resource is present. Empty for org-policy violations. */
+  parentProjectNumber?: string;
+  /** Output only. Contains the remediation instructions for the violation in markdown format. */
+  remediationMarkdown?: string;
 }
 export const GoogleCloudAssuredworkloadsV1Violation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exceptionContexts: S.optional(GoogleCloudAssuredworkloadsV1ViolationExceptionContextList),
-    remediationMarkdown: S.optional(S.String),
-    violationType: S.optional(GoogleCloudAssuredworkloadsV1ViolationViolationTypeEnum),
-    acknowledgementTime: S.optional(S.String),
-    name: S.optional(S.String),
-    associatedOrgPolicyViolationId: S.optional(S.String),
-    beginTime: S.optional(S.String),
-    auditLogLink: S.optional(S.String),
-    updateTime: S.optional(S.String),
     orgPolicyConstraint: S.optional(S.String),
-    nonCompliantOrgPolicy: S.optional(S.String),
-    acknowledged: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    resolveTime: S.optional(S.String),
-    resourceName: S.optional(S.String),
-    remediation: S.optional(GoogleCloudAssuredworkloadsV1ViolationRemediation),
-    category: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    affectedFrameworks: S.optional(StringList),
-    parentProjectNumber: S.optional(S.String),
     state: S.optional(GoogleCloudAssuredworkloadsV1ViolationStateEnum),
+    resolveTime: S.optional(S.String),
+    remediation: S.optional(GoogleCloudAssuredworkloadsV1ViolationRemediation),
     exceptionAuditLogLink: S.optional(S.String),
+    beginTime: S.optional(S.String),
     childResourceViolationCount: S.optional(S.Number),
+    nonCompliantOrgPolicy: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    associatedOrgPolicyViolationId: S.optional(S.String),
+    affectedFrameworks: S.optional(StringList),
+    description: S.optional(S.String),
+    acknowledgementTime: S.optional(S.String),
+    auditLogLink: S.optional(S.String),
+    violationType: S.optional(GoogleCloudAssuredworkloadsV1ViolationViolationTypeEnum),
+    acknowledged: S.optional(S.Boolean),
+    exceptionContexts: S.optional(GoogleCloudAssuredworkloadsV1ViolationExceptionContextList),
+    resourceType: S.optional(S.String),
+    name: S.optional(S.String),
+    category: S.optional(S.String),
+    resourceName: S.optional(S.String),
+    parentProjectNumber: S.optional(S.String),
+    remediationMarkdown: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1Violation",
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1Violation>;
 
 export interface ListFoldersLocationsDbFindingSummariesRequest {
-  /** Required. The parent scope for the framework overview page. Formats: - projects/{project}/locations/{location} - folders/{folder}/locations/{location} - organizations/{organization}/locations/{location} */
-  parent: string;
-  /** Optional. A token that identifies the page of results that the server should return. */
-  pageToken?: string;
-  /** Optional. The filtering results. */
-  filter?: string;
   /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number;
+  /** Optional. A token that identifies the page of results that the server should return. */
+  pageToken?: string;
+  /** Required. The parent scope for the framework overview page. Formats: - projects/{project}/locations/{location} - folders/{folder}/locations/{location} - organizations/{organization}/locations/{location} */
+  parent: string;
+  /** Optional. The filtering results. */
+  filter?: string;
 }
 export const ListFoldersLocationsDbFindingSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1607,36 +1546,36 @@ export const GoogleCloudAssuredworkloadsV1DbFindingSummaryFindingClassEnum = S.S
 
 /** The details for a finding. */
 export interface GoogleCloudAssuredworkloadsV1DbFindingSummary {
-  /** Output only. The count of the finding. */
-  findingCount?: string;
   /** Output only. The severity of the finding. */
   severity?: GoogleCloudAssuredworkloadsV1DbFindingSummarySeverityEnum;
-  /** Identifier. The name of the finding summary. */
-  name?: string;
   /** Optional. The list of compliance frameworks that the finding belongs to. */
   relatedFrameworks?: StringList;
   /** Output only. The class of the finding. */
   findingClass?: GoogleCloudAssuredworkloadsV1DbFindingSummaryFindingClassEnum;
-  /** Output only. The category of the finding. */
-  findingCategory?: string;
-  /** Output only. Number of active resource findings for this category. */
-  resourceFindingCount?: string;
-  /** Output only. The last updated time of the finding. */
-  updateTime?: string;
   /** Output only. Number of active organization policy findings for this category. */
   organizationPolicyFindingCount?: string;
+  /** Output only. The last updated time of the finding. */
+  updateTime?: string;
+  /** Output only. The category of the finding. */
+  findingCategory?: string;
+  /** Identifier. The name of the finding summary. */
+  name?: string;
+  /** Output only. The count of the finding. */
+  findingCount?: string;
+  /** Output only. Number of active resource findings for this category. */
+  resourceFindingCount?: string;
 }
 export const GoogleCloudAssuredworkloadsV1DbFindingSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    findingCount: S.optional(S.String),
     severity: S.optional(GoogleCloudAssuredworkloadsV1DbFindingSummarySeverityEnum),
-    name: S.optional(S.String),
     relatedFrameworks: S.optional(StringList),
     findingClass: S.optional(GoogleCloudAssuredworkloadsV1DbFindingSummaryFindingClassEnum),
-    findingCategory: S.optional(S.String),
-    resourceFindingCount: S.optional(S.String),
-    updateTime: S.optional(S.String),
     organizationPolicyFindingCount: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    findingCategory: S.optional(S.String),
+    name: S.optional(S.String),
+    findingCount: S.optional(S.String),
+    resourceFindingCount: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1DbFindingSummary",
@@ -1650,16 +1589,16 @@ export const GoogleCloudAssuredworkloadsV1DbFindingSummaryList = /*@__PURE__*/ S
 
 /** The response message for ListDbFindingSummaries. */
 export interface GoogleCloudAssuredworkloadsV1ListDbFindingSummariesResponse {
-  /** List of finding summary by category. */
-  dbFindingSummaries?: GoogleCloudAssuredworkloadsV1DbFindingSummaryList;
   /** Output only. The token to retrieve the next page of results. */
   nextPageToken?: string;
+  /** List of finding summary by category. */
+  dbFindingSummaries?: GoogleCloudAssuredworkloadsV1DbFindingSummaryList;
 }
 export const GoogleCloudAssuredworkloadsV1ListDbFindingSummariesResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      dbFindingSummaries: S.optional(GoogleCloudAssuredworkloadsV1DbFindingSummaryList),
       nextPageToken: S.optional(S.String),
+      dbFindingSummaries: S.optional(GoogleCloudAssuredworkloadsV1DbFindingSummaryList),
     }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1ListDbFindingSummariesResponse",
@@ -1668,20 +1607,20 @@ export const GoogleCloudAssuredworkloadsV1ListDbFindingSummariesResponse = /*@__
 export interface ListFoldersLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest {
   /** Required. The parent scope for the framework overview page. Format: organizations/{organization}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} folders/{folder}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} projects/{project}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} */
   parent: string;
-  /** Optional. A token that identifies the page of results that the server should return. */
-  pageToken?: string;
   /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
   pageSize?: number;
   /** Optional. The filtering results. */
   filter?: string;
+  /** Optional. A token that identifies the page of results that the server should return. */
+  pageToken?: string;
 }
 export const ListFoldersLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1693,6 +1632,117 @@ export const ListFoldersLocationsDbFrameworkComplianceReportsDbControlCompliance
     identifier:
       "ListFoldersLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest",
   }) as any as S.Schema<ListFoldersLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest>;
+
+/** The similar controls. */
+export interface GoogleCloudAssuredworkloadsV1SimilarControls {
+  /** The name of the framework. */
+  framework?: string;
+  /** The ID of the control. */
+  controlId?: string;
+}
+export const GoogleCloudAssuredworkloadsV1SimilarControls = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    framework: S.optional(S.String),
+    controlId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAssuredworkloadsV1SimilarControls",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1SimilarControls>;
+
+export type GoogleCloudAssuredworkloadsV1SimilarControlsList =
+  Array<GoogleCloudAssuredworkloadsV1SimilarControls>;
+export const GoogleCloudAssuredworkloadsV1SimilarControlsList = /*@__PURE__*/ S.Array(
+  GoogleCloudAssuredworkloadsV1SimilarControls,
+) as any as S.Schema<GoogleCloudAssuredworkloadsV1SimilarControlsList>;
+
+export type GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryOverallEvaluationStateEnum =
+  | "EVALUATION_STATE_UNSPECIFIED"
+  | "EVALUATION_STATE_PASSED"
+  | "EVALUATION_STATE_FAILED"
+  | "EVALUATION_STATE_NOT_ASSESSED";
+export const GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryOverallEvaluationStateEnum =
+  S.String;
+
+export type GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetailsEvaluationStateEnum =
+  | "EVALUATION_STATE_UNSPECIFIED"
+  | "EVALUATION_STATE_PASSED"
+  | "EVALUATION_STATE_FAILED"
+  | "EVALUATION_STATE_NOT_ASSESSED";
+export const GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetailsEvaluationStateEnum =
+  S.String;
+
+/** The cloud control assessment details for non-manual cloud controls. */
+export interface GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails {
+  /** Output only. Number of resource findings for the cloud control. */
+  resourceFindingCount?: string;
+  /** Output only. The evaluation status of the cloud control. */
+  evaluationState?: GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetailsEvaluationStateEnum;
+  /** Output only. Number of organization policy findings for the cloud control. */
+  orgPolicyFindingCount?: string;
+  /** The number of findings for the cloud control. */
+  findingsCount?: number;
+}
+export const GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      resourceFindingCount: S.optional(S.String),
+      evaluationState: S.optional(
+        GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetailsEvaluationStateEnum,
+      ),
+      orgPolicyFindingCount: S.optional(S.String),
+      findingsCount: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails>;
+
+export type GoogleCloudAssuredworkloadsV1CloudControlReportEnforcementModeEnum =
+  | "ENFORCEMENT_MODE_UNSPECIFIED"
+  | "PREVENTIVE"
+  | "DETECTIVE"
+  | "AUDIT";
+export const GoogleCloudAssuredworkloadsV1CloudControlReportEnforcementModeEnum = S.String;
+
+export type GoogleCloudAssuredworkloadsV1CloudControlReportCloudControlTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "CUSTOM"
+  | "BUILT_IN";
+export const GoogleCloudAssuredworkloadsV1CloudControlReportCloudControlTypeEnum = S.String;
+
+export type GoogleCloudAssuredworkloadsV1CloudControlReportFindingSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "CRITICAL"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW";
+export const GoogleCloudAssuredworkloadsV1CloudControlReportFindingSeverityEnum = S.String;
+
+/** The details for a manual cloud control assessment. */
+export interface GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails {
+  /** The guide for assessing a cloud control manually. */
+  manualCloudControlGuide?: StringList;
+}
+export const GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      manualCloudControlGuide: S.optional(StringList),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails",
+  }) as any as S.Schema<GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails>;
+
+export type GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnum =
+  | "RULE_ACTION_TYPE_UNSPECIFIED"
+  | "RULE_ACTION_TYPE_PREVENTIVE"
+  | "RULE_ACTION_TYPE_DETECTIVE"
+  | "RULE_ACTION_TYPE_AUDIT";
+export const GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnum = S.String;
+
+export type GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnumList =
+  Array<GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnum>;
+export const GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnumList = /*@__PURE__*/ S.Array(
+  GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnum,
+) as any as S.Schema<GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnumList>;
 
 /** A list of strings for the parameter value. */
 export interface GoogleCloudAssuredworkloadsV1StringList {
@@ -1723,33 +1773,20 @@ export const GoogleCloudAssuredworkloadsV1CELExpression = /*@__PURE__*/ S.suspen
   identifier: "GoogleCloudAssuredworkloadsV1CELExpression",
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1CELExpression>;
 
-export type GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnum =
-  | "RULE_ACTION_TYPE_UNSPECIFIED"
-  | "RULE_ACTION_TYPE_PREVENTIVE"
-  | "RULE_ACTION_TYPE_DETECTIVE"
-  | "RULE_ACTION_TYPE_AUDIT";
-export const GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnum = S.String;
-
-export type GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnumList =
-  Array<GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnum>;
-export const GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnumList = /*@__PURE__*/ S.Array(
-  GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnum,
-) as any as S.Schema<GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnumList>;
-
 /** A rule in the cloud control. */
 export interface GoogleCloudAssuredworkloadsV1Rule {
   /** Optional. The rule description. The maximum length is 2000 characters. */
   description?: string;
-  /** The rule's logic expression in Common Expression Language (CEL). */
-  celExpression?: GoogleCloudAssuredworkloadsV1CELExpression;
   /** Required. The functionality that's enabled by the rule. */
   ruleActionTypes?: GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnumList;
+  /** The rule's logic expression in Common Expression Language (CEL). */
+  celExpression?: GoogleCloudAssuredworkloadsV1CELExpression;
 }
 export const GoogleCloudAssuredworkloadsV1Rule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
-    celExpression: S.optional(GoogleCloudAssuredworkloadsV1CELExpression),
     ruleActionTypes: S.optional(GoogleCloudAssuredworkloadsV1RuleRuleActionTypesItemEnumList),
+    celExpression: S.optional(GoogleCloudAssuredworkloadsV1CELExpression),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1Rule",
@@ -1760,155 +1797,65 @@ export const GoogleCloudAssuredworkloadsV1RuleList = /*@__PURE__*/ S.Array(
   GoogleCloudAssuredworkloadsV1Rule,
 ) as any as S.Schema<GoogleCloudAssuredworkloadsV1RuleList>;
 
-export type GoogleCloudAssuredworkloadsV1CloudControlReportFindingSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "CRITICAL"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW";
-export const GoogleCloudAssuredworkloadsV1CloudControlReportFindingSeverityEnum = S.String;
-
-export type GoogleCloudAssuredworkloadsV1CloudControlReportEnforcementModeEnum =
-  | "ENFORCEMENT_MODE_UNSPECIFIED"
-  | "PREVENTIVE"
-  | "DETECTIVE"
-  | "AUDIT";
-export const GoogleCloudAssuredworkloadsV1CloudControlReportEnforcementModeEnum = S.String;
-
-/** The details for a manual cloud control assessment. */
-export interface GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails {
-  /** The guide for assessing a cloud control manually. */
-  manualCloudControlGuide?: StringList;
-}
-export const GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      manualCloudControlGuide: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails",
-  }) as any as S.Schema<GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails>;
-
-/** The similar controls. */
-export interface GoogleCloudAssuredworkloadsV1SimilarControls {
-  /** The name of the framework. */
-  framework?: string;
-  /** The ID of the control. */
-  controlId?: string;
-}
-export const GoogleCloudAssuredworkloadsV1SimilarControls = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    framework: S.optional(S.String),
-    controlId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1SimilarControls",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1SimilarControls>;
-
-export type GoogleCloudAssuredworkloadsV1SimilarControlsList =
-  Array<GoogleCloudAssuredworkloadsV1SimilarControls>;
-export const GoogleCloudAssuredworkloadsV1SimilarControlsList = /*@__PURE__*/ S.Array(
-  GoogleCloudAssuredworkloadsV1SimilarControls,
-) as any as S.Schema<GoogleCloudAssuredworkloadsV1SimilarControlsList>;
-
-export type GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetailsEvaluationStateEnum =
-  | "EVALUATION_STATE_UNSPECIFIED"
-  | "EVALUATION_STATE_PASSED"
-  | "EVALUATION_STATE_FAILED"
-  | "EVALUATION_STATE_NOT_ASSESSED";
-export const GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetailsEvaluationStateEnum =
-  S.String;
-
-/** The cloud control assessment details for non-manual cloud controls. */
-export interface GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails {
-  /** Output only. The evaluation status of the cloud control. */
-  evaluationState?: GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetailsEvaluationStateEnum;
-  /** The number of findings for the cloud control. */
-  findingsCount?: number;
-  /** Output only. Number of resource findings for the cloud control. */
-  resourceFindingCount?: string;
-  /** Output only. Number of organization policy findings for the cloud control. */
-  orgPolicyFindingCount?: string;
-}
-export const GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      evaluationState: S.optional(
-        GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetailsEvaluationStateEnum,
-      ),
-      findingsCount: S.optional(S.Number),
-      resourceFindingCount: S.optional(S.String),
-      orgPolicyFindingCount: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails>;
-
-export type GoogleCloudAssuredworkloadsV1CloudControlReportCloudControlTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "CUSTOM"
-  | "BUILT_IN";
-export const GoogleCloudAssuredworkloadsV1CloudControlReportCloudControlTypeEnum = S.String;
-
 /** The cloud control report. */
 export interface GoogleCloudAssuredworkloadsV1CloudControlReport {
-  /** The name of the cloud control. */
-  cloudControl?: string;
-  /** The list of rules that correspond to the cloud control. */
-  rules?: GoogleCloudAssuredworkloadsV1RuleList;
-  /** The severity of the finding. */
-  findingSeverity?: GoogleCloudAssuredworkloadsV1CloudControlReportFindingSeverityEnum;
-  /** The display name of the cloud control. */
-  displayName?: string;
-  /** The major revision IDs of the frameworks that the cloud control belongs to. */
-  frameworkMajorRevisionIds?: StringList;
-  /** The list of categories for the cloud control. */
-  categories?: StringList;
-  /** The major revision ID of the cloud control. */
-  majorRevisionId?: string;
-  /** The description of the cloud control. */
-  description?: string;
-  /** The enforcement mode of the cloud control. */
-  enforcementMode?: GoogleCloudAssuredworkloadsV1CloudControlReportEnforcementModeEnum;
+  /** The category of the finding. */
+  findingCategory?: string;
+  /** The details of a cloud control assessment. */
+  cloudControlAssessmentDetails?: GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails;
   /** The minor revision ID of the cloud control. */
   minorRevisionId?: string;
   /** The name of the cloud control deployment. */
   cloudControlDeployment?: string;
-  /** The details of a manual cloud control assessment. */
-  manualCloudControlAssessmentDetails?: GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails;
-  /** The list of similar controls. */
-  similarControls?: GoogleCloudAssuredworkloadsV1SimilarControlsList;
-  /** The details of a cloud control assessment. */
-  cloudControlAssessmentDetails?: GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails;
+  /** The enforcement mode of the cloud control. */
+  enforcementMode?: GoogleCloudAssuredworkloadsV1CloudControlReportEnforcementModeEnum;
+  /** The major revision ID of the cloud control. */
+  majorRevisionId?: string;
   /** The type of the cloud control. */
   cloudControlType?: GoogleCloudAssuredworkloadsV1CloudControlReportCloudControlTypeEnum;
-  /** The category of the finding. */
-  findingCategory?: string;
+  /** The list of similar controls. */
+  similarControls?: GoogleCloudAssuredworkloadsV1SimilarControlsList;
+  /** The list of categories for the cloud control. */
+  categories?: StringList;
+  /** The description of the cloud control. */
+  description?: string;
+  /** The major revision IDs of the frameworks that the cloud control belongs to. */
+  frameworkMajorRevisionIds?: StringList;
+  /** The severity of the finding. */
+  findingSeverity?: GoogleCloudAssuredworkloadsV1CloudControlReportFindingSeverityEnum;
+  /** The display name of the cloud control. */
+  displayName?: string;
+  /** The name of the cloud control. */
+  cloudControl?: string;
+  /** The details of a manual cloud control assessment. */
+  manualCloudControlAssessmentDetails?: GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails;
+  /** The list of rules that correspond to the cloud control. */
+  rules?: GoogleCloudAssuredworkloadsV1RuleList;
 }
 export const GoogleCloudAssuredworkloadsV1CloudControlReport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudControl: S.optional(S.String),
-    rules: S.optional(GoogleCloudAssuredworkloadsV1RuleList),
-    findingSeverity: S.optional(GoogleCloudAssuredworkloadsV1CloudControlReportFindingSeverityEnum),
-    displayName: S.optional(S.String),
-    frameworkMajorRevisionIds: S.optional(StringList),
-    categories: S.optional(StringList),
-    majorRevisionId: S.optional(S.String),
-    description: S.optional(S.String),
-    enforcementMode: S.optional(GoogleCloudAssuredworkloadsV1CloudControlReportEnforcementModeEnum),
-    minorRevisionId: S.optional(S.String),
-    cloudControlDeployment: S.optional(S.String),
-    manualCloudControlAssessmentDetails: S.optional(
-      GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails,
-    ),
-    similarControls: S.optional(GoogleCloudAssuredworkloadsV1SimilarControlsList),
+    findingCategory: S.optional(S.String),
     cloudControlAssessmentDetails: S.optional(
       GoogleCloudAssuredworkloadsV1CloudControlAssessmentDetails,
     ),
+    minorRevisionId: S.optional(S.String),
+    cloudControlDeployment: S.optional(S.String),
+    enforcementMode: S.optional(GoogleCloudAssuredworkloadsV1CloudControlReportEnforcementModeEnum),
+    majorRevisionId: S.optional(S.String),
     cloudControlType: S.optional(
       GoogleCloudAssuredworkloadsV1CloudControlReportCloudControlTypeEnum,
     ),
-    findingCategory: S.optional(S.String),
+    similarControls: S.optional(GoogleCloudAssuredworkloadsV1SimilarControlsList),
+    categories: S.optional(StringList),
+    description: S.optional(S.String),
+    frameworkMajorRevisionIds: S.optional(StringList),
+    findingSeverity: S.optional(GoogleCloudAssuredworkloadsV1CloudControlReportFindingSeverityEnum),
+    displayName: S.optional(S.String),
+    cloudControl: S.optional(S.String),
+    manualCloudControlAssessmentDetails: S.optional(
+      GoogleCloudAssuredworkloadsV1ManualCloudControlAssessmentDetails,
+    ),
+    rules: S.optional(GoogleCloudAssuredworkloadsV1RuleList),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1CloudControlReport",
@@ -1928,62 +1875,54 @@ export type GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryControlRespon
 export const GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryControlResponsibilityTypeEnum =
   S.String;
 
-export type GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryOverallEvaluationStateEnum =
-  | "EVALUATION_STATE_UNSPECIFIED"
-  | "EVALUATION_STATE_PASSED"
-  | "EVALUATION_STATE_FAILED"
-  | "EVALUATION_STATE_NOT_ASSESSED";
-export const GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryOverallEvaluationStateEnum =
-  S.String;
-
 /** The details for control compliance. */
 export interface GoogleCloudAssuredworkloadsV1DbControlComplianceSummary {
-  /** The list of cloud control reports. */
-  cloudControlReports?: GoogleCloudAssuredworkloadsV1CloudControlReportList;
-  /** The responsibility type for the control. */
-  controlResponsibilityType?: GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryControlResponsibilityTypeEnum;
-  /** The total number of findings for the control. */
-  totalFindingsCount?: number;
-  /** The display name of the control. */
-  displayName?: string;
   /** Output only. Number of resource findings for this control. */
   resourceFindingCount?: string;
-  /** The name of the control. */
-  control?: string;
-  /** Identifier. The name of the control compliance summary. */
-  name?: string;
-  /** Output only. The overall evaluation status of the control. */
-  overallEvaluationState?: GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryOverallEvaluationStateEnum;
-  /** Output only. Number of organization policy findings for this control. */
-  orgPolicyFindingCount?: string;
-  /** The description of the control. */
-  description?: string;
   /** The list of similar controls. */
   similarControls?: GoogleCloudAssuredworkloadsV1SimilarControlsList;
+  /** Output only. The overall evaluation status of the control. */
+  overallEvaluationState?: GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryOverallEvaluationStateEnum;
+  /** The list of cloud control reports. */
+  cloudControlReports?: GoogleCloudAssuredworkloadsV1CloudControlReportList;
+  /** The name of the control. */
+  control?: string;
+  /** The display name of the control. */
+  displayName?: string;
+  /** Identifier. The name of the control compliance summary. */
+  name?: string;
+  /** The description of the control. */
+  description?: string;
   /** The list of compliance frameworks that the control belongs to. */
   complianceFrameworks?: StringList;
   /** Whether the control is a fake control. Fake controls are created and mapped to cloud controls that don't belong to a control group. */
   isFakeControl?: boolean;
+  /** The responsibility type for the control. */
+  controlResponsibilityType?: GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryControlResponsibilityTypeEnum;
+  /** The total number of findings for the control. */
+  totalFindingsCount?: number;
+  /** Output only. Number of organization policy findings for this control. */
+  orgPolicyFindingCount?: string;
 }
 export const GoogleCloudAssuredworkloadsV1DbControlComplianceSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    resourceFindingCount: S.optional(S.String),
+    similarControls: S.optional(GoogleCloudAssuredworkloadsV1SimilarControlsList),
+    overallEvaluationState: S.optional(
+      GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryOverallEvaluationStateEnum,
+    ),
     cloudControlReports: S.optional(GoogleCloudAssuredworkloadsV1CloudControlReportList),
+    control: S.optional(S.String),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    complianceFrameworks: S.optional(StringList),
+    isFakeControl: S.optional(S.Boolean),
     controlResponsibilityType: S.optional(
       GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryControlResponsibilityTypeEnum,
     ),
     totalFindingsCount: S.optional(S.Number),
-    displayName: S.optional(S.String),
-    resourceFindingCount: S.optional(S.String),
-    control: S.optional(S.String),
-    name: S.optional(S.String),
-    overallEvaluationState: S.optional(
-      GoogleCloudAssuredworkloadsV1DbControlComplianceSummaryOverallEvaluationStateEnum,
-    ),
     orgPolicyFindingCount: S.optional(S.String),
-    description: S.optional(S.String),
-    similarControls: S.optional(GoogleCloudAssuredworkloadsV1SimilarControlsList),
-    complianceFrameworks: S.optional(StringList),
-    isFakeControl: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1DbControlComplianceSummary",
@@ -2021,25 +1960,25 @@ export type ListFoldersLocationsDbFrameworkComplianceSummariesViewEnum =
 export const ListFoldersLocationsDbFrameworkComplianceSummariesViewEnum = S.String;
 
 export interface ListFoldersLocationsDbFrameworkComplianceSummariesRequest {
-  /** Required. The parent scope for the framework compliance summary. Format: organizations/{organization}/locations/{location} folders/{folder}/locations/{location} projects/{project}/locations/{location} */
-  parent: string;
   /** Optional. The filtering results. */
   filter?: string;
   /** Optional. A token that identifies the page of results that the server should return. Pass the next_page_token value from a previous result. */
   pageToken?: string;
-  /** Optional. Specifies the level of detail to return in the response. */
-  view?: ListFoldersLocationsDbFrameworkComplianceSummariesViewEnum | (string & {});
+  /** Required. The parent scope for the framework compliance summary. Format: organizations/{organization}/locations/{location} folders/{folder}/locations/{location} projects/{project}/locations/{location} */
+  parent: string;
   /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
   pageSize?: number;
+  /** Optional. Specifies the level of detail to return in the response. */
+  view?: ListFoldersLocationsDbFrameworkComplianceSummariesViewEnum | (string & {});
 }
 export const ListFoldersLocationsDbFrameworkComplianceSummariesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      view: S.optional(ListFoldersLocationsDbFrameworkComplianceSummariesViewEnum.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      view: S.optional(ListFoldersLocationsDbFrameworkComplianceSummariesViewEnum.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2050,6 +1989,12 @@ export const ListFoldersLocationsDbFrameworkComplianceSummariesRequest = /*@__PU
 ).annotate({
   identifier: "ListFoldersLocationsDbFrameworkComplianceSummariesRequest",
 }) as any as S.Schema<ListFoldersLocationsDbFrameworkComplianceSummariesRequest>;
+
+export type GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkTypeEnum =
+  | "FRAMEWORK_TYPE_UNSPECIFIED"
+  | "BUILT_IN"
+  | "CUSTOM";
+export const GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkTypeEnum = S.String;
 
 export type GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummarySupportedCloudProvidersItemEnum =
   | "CLOUD_PROVIDER_UNSPECIFIED"
@@ -2065,6 +2010,22 @@ export const GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummarySupportedC
   /*@__PURE__*/ S.Array(
     GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummarySupportedCloudProvidersItemEnum,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummarySupportedCloudProvidersItemEnumList>;
+
+/** The trend of a compliance metric. */
+export interface GoogleCloudAssuredworkloadsV1Trend {
+  /** Output only. The trend value as a percentage. The value can be positive or negative. */
+  valuePercent?: number;
+  /** Output only. The duration for the trend. */
+  duration?: string;
+}
+export const GoogleCloudAssuredworkloadsV1Trend = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    valuePercent: S.optional(S.Number),
+    duration: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAssuredworkloadsV1Trend",
+}) as any as S.Schema<GoogleCloudAssuredworkloadsV1Trend>;
 
 export type GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkCategoriesItemEnum =
   | "FRAMEWORK_CATEGORY_UNSPECIFIED"
@@ -2083,75 +2044,53 @@ export const GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkC
     GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkCategoriesItemEnum,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkCategoriesItemEnumList>;
 
-/** The trend of a compliance metric. */
-export interface GoogleCloudAssuredworkloadsV1Trend {
-  /** Output only. The duration for the trend. */
-  duration?: string;
-  /** Output only. The trend value as a percentage. The value can be positive or negative. */
-  valuePercent?: number;
-}
-export const GoogleCloudAssuredworkloadsV1Trend = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    duration: S.optional(S.String),
-    valuePercent: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudAssuredworkloadsV1Trend",
-}) as any as S.Schema<GoogleCloudAssuredworkloadsV1Trend>;
-
-export type GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkTypeEnum =
-  | "FRAMEWORK_TYPE_UNSPECIFIED"
-  | "BUILT_IN"
-  | "CUSTOM";
-export const GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkTypeEnum = S.String;
-
 /** The details for a framework compliance summary. */
 export interface GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummary {
-  /** The major revision ID of the framework. */
-  majorRevisionId?: string;
-  /** Optional. The display name for the framework. */
-  frameworkDisplayName?: string;
+  /** The control assessment details of the framework. */
+  controlAssessmentDetails?: GoogleCloudAssuredworkloadsV1ControlAssessmentDetails;
+  /** The type of framework. */
+  frameworkType?: GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkTypeEnum;
+  /** Identifier. The name of the framework compliance summary. */
+  name?: string;
   /** The list of cloud providers supported by the framework. */
   supportedCloudProviders?: GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummarySupportedCloudProvidersItemEnumList;
-  /** The list of framework categories supported by the framework. */
-  frameworkCategories?: GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkCategoriesItemEnumList;
-  /** Output only. The count of the findings generated against the framework. */
-  findingCount?: string;
-  /** The minor revision ID of the framework. */
-  minorRevisionId?: string;
   /** Output only. The trend of controls that are passing for the given duration. */
   controlsPassingTrend?: GoogleCloudAssuredworkloadsV1Trend;
   /** The target resource details for the framework. */
   targetResourceDetails?: GoogleCloudAssuredworkloadsV1TargetResourceDetailsList;
-  /** The control assessment details of the framework. */
-  controlAssessmentDetails?: GoogleCloudAssuredworkloadsV1ControlAssessmentDetails;
-  /** Identifier. The name of the framework compliance summary. */
-  name?: string;
-  /** The type of framework. */
-  frameworkType?: GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkTypeEnum;
+  /** Optional. The display name for the framework. */
+  frameworkDisplayName?: string;
+  /** The minor revision ID of the framework. */
+  minorRevisionId?: string;
+  /** Output only. The count of the findings generated against the framework. */
+  findingCount?: string;
+  /** The list of framework categories supported by the framework. */
+  frameworkCategories?: GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkCategoriesItemEnumList;
+  /** The major revision ID of the framework. */
+  majorRevisionId?: string;
   /** The name of the framework. */
   framework?: string;
 }
 export const GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummary = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      majorRevisionId: S.optional(S.String),
-      frameworkDisplayName: S.optional(S.String),
-      supportedCloudProviders: S.optional(
-        GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummarySupportedCloudProvidersItemEnumList,
-      ),
-      frameworkCategories: S.optional(
-        GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkCategoriesItemEnumList,
-      ),
-      findingCount: S.optional(S.String),
-      minorRevisionId: S.optional(S.String),
-      controlsPassingTrend: S.optional(GoogleCloudAssuredworkloadsV1Trend),
-      targetResourceDetails: S.optional(GoogleCloudAssuredworkloadsV1TargetResourceDetailsList),
       controlAssessmentDetails: S.optional(GoogleCloudAssuredworkloadsV1ControlAssessmentDetails),
-      name: S.optional(S.String),
       frameworkType: S.optional(
         GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkTypeEnum,
       ),
+      name: S.optional(S.String),
+      supportedCloudProviders: S.optional(
+        GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummarySupportedCloudProvidersItemEnumList,
+      ),
+      controlsPassingTrend: S.optional(GoogleCloudAssuredworkloadsV1Trend),
+      targetResourceDetails: S.optional(GoogleCloudAssuredworkloadsV1TargetResourceDetailsList),
+      frameworkDisplayName: S.optional(S.String),
+      minorRevisionId: S.optional(S.String),
+      findingCount: S.optional(S.String),
+      frameworkCategories: S.optional(
+        GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryFrameworkCategoriesItemEnumList,
+      ),
+      majorRevisionId: S.optional(S.String),
       framework: S.optional(S.String),
     }),
 ).annotate({
@@ -2166,39 +2105,39 @@ export const GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryList = /*@
 
 /** The response message for ListDbFrameworkComplianceSummariesResponse. */
 export interface GoogleCloudAssuredworkloadsV1ListDbFrameworkComplianceSummariesResponse {
-  /** Output only. The token to retrieve the next page of results. */
-  nextPageToken?: string;
   /** The list of framework compliance summaries. */
   dbFrameworkComplianceSummaries?: GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryList;
+  /** Output only. The token to retrieve the next page of results. */
+  nextPageToken?: string;
 }
 export const GoogleCloudAssuredworkloadsV1ListDbFrameworkComplianceSummariesResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      nextPageToken: S.optional(S.String),
       dbFrameworkComplianceSummaries: S.optional(
         GoogleCloudAssuredworkloadsV1DbFrameworkComplianceSummaryList,
       ),
+      nextPageToken: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudAssuredworkloadsV1ListDbFrameworkComplianceSummariesResponse",
   }) as any as S.Schema<GoogleCloudAssuredworkloadsV1ListDbFrameworkComplianceSummariesResponse>;
 
 export interface ListOrganizationsLocationsDbFindingSummariesRequest {
+  /** Required. The parent scope for the framework overview page. Formats: - projects/{project}/locations/{location} - folders/{folder}/locations/{location} - organizations/{organization}/locations/{location} */
+  parent: string;
+  /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number;
   /** Optional. The filtering results. */
   filter?: string;
   /** Optional. A token that identifies the page of results that the server should return. */
   pageToken?: string;
-  /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number;
-  /** Required. The parent scope for the framework overview page. Formats: - projects/{project}/locations/{location} - folders/{folder}/locations/{location} - organizations/{organization}/locations/{location} */
-  parent: string;
 }
 export const ListOrganizationsLocationsDbFindingSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2211,22 +2150,22 @@ export const ListOrganizationsLocationsDbFindingSummariesRequest = /*@__PURE__*/
 }) as any as S.Schema<ListOrganizationsLocationsDbFindingSummariesRequest>;
 
 export interface ListOrganizationsLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest {
-  /** Required. The parent scope for the framework overview page. Format: organizations/{organization}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} folders/{folder}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} projects/{project}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} */
-  parent: string;
-  /** Optional. A token that identifies the page of results that the server should return. */
-  pageToken?: string;
   /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
   pageSize?: number;
   /** Optional. The filtering results. */
   filter?: string;
+  /** Required. The parent scope for the framework overview page. Format: organizations/{organization}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} folders/{folder}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} projects/{project}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} */
+  parent: string;
+  /** Optional. A token that identifies the page of results that the server should return. */
+  pageToken?: string;
 }
 export const ListOrganizationsLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2246,27 +2185,27 @@ export type ListOrganizationsLocationsDbFrameworkComplianceSummariesViewEnum =
 export const ListOrganizationsLocationsDbFrameworkComplianceSummariesViewEnum = S.String;
 
 export interface ListOrganizationsLocationsDbFrameworkComplianceSummariesRequest {
-  /** Optional. Specifies the level of detail to return in the response. */
-  view?: ListOrganizationsLocationsDbFrameworkComplianceSummariesViewEnum | (string & {});
-  /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
-  pageSize?: number;
   /** Optional. A token that identifies the page of results that the server should return. Pass the next_page_token value from a previous result. */
   pageToken?: string;
-  /** Optional. The filtering results. */
-  filter?: string;
+  /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
+  pageSize?: number;
+  /** Optional. Specifies the level of detail to return in the response. */
+  view?: ListOrganizationsLocationsDbFrameworkComplianceSummariesViewEnum | (string & {});
   /** Required. The parent scope for the framework compliance summary. Format: organizations/{organization}/locations/{location} folders/{folder}/locations/{location} projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. The filtering results. */
+  filter?: string;
 }
 export const ListOrganizationsLocationsDbFrameworkComplianceSummariesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       view: S.optional(
         ListOrganizationsLocationsDbFrameworkComplianceSummariesViewEnum.pipe(T.Query()),
       ),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2279,24 +2218,24 @@ export const ListOrganizationsLocationsDbFrameworkComplianceSummariesRequest =
   }) as any as S.Schema<ListOrganizationsLocationsDbFrameworkComplianceSummariesRequest>;
 
 export interface ListOrganizationsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list page size. */
   pageSize?: number;
-  /** The standard list page token. */
-  pageToken?: string;
   /** The standard list filter. */
   filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export const ListOrganizationsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2315,17 +2254,17 @@ export const GoogleLongrunningOperationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
   operations?: GoogleLongrunningOperationList;
 }
 export const GoogleLongrunningListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
     operations: S.optional(GoogleLongrunningOperationList),
   }),
 ).annotate({
@@ -2333,21 +2272,21 @@ export const GoogleLongrunningListOperationsResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GoogleLongrunningListOperationsResponse>;
 
 export interface ListOrganizationsLocationsWorkloadsRequest {
-  /** Optional. Page size. */
-  pageSize?: number;
   /** Optional. Page token returned from previous request. Page token contains context from previous request. Page token needs to be passed in the second and following requests. */
   pageToken?: string;
-  /** Optional. A custom filter for filtering by properties of a workload. At this time, only filtering by labels is supported. */
-  filter?: string;
   /** Required. Parent Resource to list workloads from. Must be of the form `organizations/{org_id}/locations/{location}`. */
   parent: string;
+  /** Optional. Page size. */
+  pageSize?: number;
+  /** Optional. A custom filter for filtering by properties of a workload. At this time, only filtering by labels is supported. */
+  filter?: string;
 }
 export const ListOrganizationsLocationsWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2367,33 +2306,33 @@ export const GoogleCloudAssuredworkloadsV1WorkloadList = /*@__PURE__*/ S.Array(
 
 /** Response of ListWorkloads endpoint. */
 export interface GoogleCloudAssuredworkloadsV1ListWorkloadsResponse {
-  /** The next page token. Return empty if reached the last page. */
-  nextPageToken?: string;
   /** List of Workloads under a given parent. */
   workloads?: GoogleCloudAssuredworkloadsV1WorkloadList;
+  /** The next page token. Return empty if reached the last page. */
+  nextPageToken?: string;
 }
 export const GoogleCloudAssuredworkloadsV1ListWorkloadsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     workloads: S.optional(GoogleCloudAssuredworkloadsV1WorkloadList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1ListWorkloadsResponse",
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1ListWorkloadsResponse>;
 
 export interface ListOrganizationsLocationsWorkloadsUpdatesRequest {
-  /** Page token returned from previous request. */
-  pageToken?: string;
-  /** Page size. The default value is 20 and the max allowed value is 100. */
-  pageSize?: number;
   /** Required. organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
   parent: string;
+  /** Page size. The default value is 20 and the max allowed value is 100. */
+  pageSize?: number;
+  /** Page token returned from previous request. */
+  pageToken?: string;
 }
 export const ListOrganizationsLocationsWorkloadsUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2407,16 +2346,16 @@ export const ListOrganizationsLocationsWorkloadsUpdatesRequest = /*@__PURE__*/ S
 
 /** The values allowed for a ListPolicy. */
 export interface GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRuleStringValues {
-  /** List of values allowed at this resource. */
-  allowedValues?: StringList;
   /** List of values denied at this resource. */
   deniedValues?: StringList;
+  /** List of values allowed at this resource. */
+  allowedValues?: StringList;
 }
 export const GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRuleStringValues = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      allowedValues: S.optional(StringList),
       deniedValues: S.optional(StringList),
+      allowedValues: S.optional(StringList),
     }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRuleStringValues",
@@ -2424,21 +2363,21 @@ export const GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRuleStringValues = /*@_
 
 /** A rule used to express this policy. */
 export interface GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRule {
+  /** ListPolicy only when all values are allowed. */
+  allowAll?: boolean;
   /** ListPolicy only when custom values are specified. */
   values?: GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRuleStringValues;
   /** ListPolicy only when all values are denied. */
   denyAll?: boolean;
   /** BooleanPolicy only. */
   enforce?: boolean;
-  /** ListPolicy only when all values are allowed. */
-  allowAll?: boolean;
 }
 export const GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    allowAll: S.optional(S.Boolean),
     values: S.optional(GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRuleStringValues),
     denyAll: S.optional(S.Boolean),
     enforce: S.optional(S.Boolean),
-    allowAll: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRule",
@@ -2446,24 +2385,24 @@ export const GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRule = /*@__PURE__*/ S.
 
 /** This assured workload service object is used to represent the org policy attached to a resource. It servces the same purpose as the orgpolicy.v2.Policy object but with functionality that is limited to what is supported by Assured Workloads(e.g. only one rule under one OrgPolicy object, no conditions, etc). */
 export interface GoogleCloudAssuredworkloadsV1OrgPolicy {
-  /** If `inherit` is true, policy rules of the lowest ancestor in the resource hierarchy chain are inherited. If it is false, policy rules are not inherited. */
-  inherit?: boolean;
   /** The rule of the OrgPolicy. */
   rule?: GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRule;
   /** Ignores policies set above this resource and restores to the `constraint_default` value. `reset` can only be true when `rules` is empty and `inherit` is false. */
   reset?: boolean;
-  /** Resource that the OrgPolicy attaches to. Format: folders/123" projects/123". */
-  resource?: string;
   /** The constraint name of the OrgPolicy. e.g. "constraints/gcp.resourceLocations". */
   constraint?: string;
+  /** If `inherit` is true, policy rules of the lowest ancestor in the resource hierarchy chain are inherited. If it is false, policy rules are not inherited. */
+  inherit?: boolean;
+  /** Resource that the OrgPolicy attaches to. Format: folders/123" projects/123". */
+  resource?: string;
 }
 export const GoogleCloudAssuredworkloadsV1OrgPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inherit: S.optional(S.Boolean),
     rule: S.optional(GoogleCloudAssuredworkloadsV1OrgPolicyPolicyRule),
     reset: S.optional(S.Boolean),
-    resource: S.optional(S.String),
     constraint: S.optional(S.String),
+    inherit: S.optional(S.Boolean),
+    resource: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1OrgPolicy",
@@ -2509,21 +2448,21 @@ export const GoogleCloudAssuredworkloadsV1WorkloadUpdateStateEnum = S.String;
 export interface GoogleCloudAssuredworkloadsV1WorkloadUpdate {
   /** The details of the update. */
   details?: GoogleCloudAssuredworkloadsV1UpdateDetails;
+  /** Output only. The state of the update. */
+  state?: GoogleCloudAssuredworkloadsV1WorkloadUpdateStateEnum;
   /** The time the update was created. */
   createTime?: string;
   /** The time the update was last updated. */
   updateTime?: string;
-  /** Output only. The state of the update. */
-  state?: GoogleCloudAssuredworkloadsV1WorkloadUpdateStateEnum;
   /** Output only. Immutable. Identifier. Resource name of the WorkloadUpdate. Format: organizations/{organization}/locations/{location}/workloads/{workload}/updates/{update} */
   name?: string;
 }
 export const GoogleCloudAssuredworkloadsV1WorkloadUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     details: S.optional(GoogleCloudAssuredworkloadsV1UpdateDetails),
+    state: S.optional(GoogleCloudAssuredworkloadsV1WorkloadUpdateStateEnum),
     createTime: S.optional(S.String),
     updateTime: S.optional(S.String),
-    state: S.optional(GoogleCloudAssuredworkloadsV1WorkloadUpdateStateEnum),
     name: S.optional(S.String),
   }),
 ).annotate({
@@ -2560,33 +2499,33 @@ export type ListOrganizationsLocationsWorkloadsViolationsViewEnum =
 export const ListOrganizationsLocationsWorkloadsViolationsViewEnum = S.String;
 
 export interface ListOrganizationsLocationsWorkloadsViolationsRequest {
-  /** Optional. A custom filter for filtering by the Violations properties. */
-  filter?: string;
-  /** Required. The Workload name. Format `organizations/{org_id}/locations/{location}/workloads/{workload}`. */
-  parent: string;
-  /** The end of the time window. */
-  "interval.endTime"?: string;
-  /** The start of the time window. */
-  "interval.startTime"?: string;
   /** Optional. Actionable sorting delegation. */
   orderBy?: string;
+  /** The start of the time window. */
+  "interval.startTime"?: string;
+  /** The end of the time window. */
+  "interval.endTime"?: string;
   /** Optional. Specifies the violation view(AssuredWorkloads or DataBoundary) for fetching violations. */
   view?: ListOrganizationsLocationsWorkloadsViolationsViewEnum | (string & {});
   /** Optional. Page token returned from previous request. */
   pageToken?: string;
   /** Optional. Page size. */
   pageSize?: number;
+  /** Optional. A custom filter for filtering by the Violations properties. */
+  filter?: string;
+  /** Required. The Workload name. Format `organizations/{org_id}/locations/{location}/workloads/{workload}`. */
+  parent: string;
 }
 export const ListOrganizationsLocationsWorkloadsViolationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    "interval.endTime": S.optional(S.String.pipe(T.Query())),
-    "interval.startTime": S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    "interval.startTime": S.optional(S.String.pipe(T.Query())),
+    "interval.endTime": S.optional(S.String.pipe(T.Query())),
     view: S.optional(ListOrganizationsLocationsWorkloadsViolationsViewEnum.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2606,39 +2545,39 @@ export const GoogleCloudAssuredworkloadsV1ViolationList = /*@__PURE__*/ S.Array(
 
 /** Response of ListViolations endpoint. */
 export interface GoogleCloudAssuredworkloadsV1ListViolationsResponse {
+  /** The next page token. Returns empty if reached the last page. */
+  nextPageToken?: string;
   /** The total number of violations. */
   totalSize?: number;
   /** List of Violations under a Workload. */
   violations?: GoogleCloudAssuredworkloadsV1ViolationList;
-  /** The next page token. Returns empty if reached the last page. */
-  nextPageToken?: string;
 }
 export const GoogleCloudAssuredworkloadsV1ListViolationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     totalSize: S.optional(S.Number),
     violations: S.optional(GoogleCloudAssuredworkloadsV1ViolationList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAssuredworkloadsV1ListViolationsResponse",
 }) as any as S.Schema<GoogleCloudAssuredworkloadsV1ListViolationsResponse>;
 
 export interface ListProjectsLocationsDbFindingSummariesRequest {
-  /** Optional. A token that identifies the page of results that the server should return. */
-  pageToken?: string;
-  /** Optional. The filtering results. */
-  filter?: string;
-  /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number;
   /** Required. The parent scope for the framework overview page. Formats: - projects/{project}/locations/{location} - folders/{folder}/locations/{location} - organizations/{organization}/locations/{location} */
   parent: string;
+  /** Optional. A token that identifies the page of results that the server should return. */
+  pageToken?: string;
+  /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number;
+  /** Optional. The filtering results. */
+  filter?: string;
 }
 export const ListProjectsLocationsDbFindingSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2653,20 +2592,20 @@ export const ListProjectsLocationsDbFindingSummariesRequest = /*@__PURE__*/ S.su
 export interface ListProjectsLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest {
   /** Optional. A token that identifies the page of results that the server should return. */
   pageToken?: string;
-  /** Optional. The filtering results. */
-  filter?: string;
   /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
   pageSize?: number;
   /** Required. The parent scope for the framework overview page. Format: organizations/{organization}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} folders/{folder}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} projects/{project}/locations/{location}/dbFrameworkComplianceReports/{db_framework_compliance_report} */
   parent: string;
+  /** Optional. The filtering results. */
+  filter?: string;
 }
 export const ListProjectsLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2686,25 +2625,25 @@ export type ListProjectsLocationsDbFrameworkComplianceSummariesViewEnum =
 export const ListProjectsLocationsDbFrameworkComplianceSummariesViewEnum = S.String;
 
 export interface ListProjectsLocationsDbFrameworkComplianceSummariesRequest {
-  /** Required. The parent scope for the framework compliance summary. Format: organizations/{organization}/locations/{location} folders/{folder}/locations/{location} projects/{project}/locations/{location} */
-  parent: string;
+  /** Optional. A token that identifies the page of results that the server should return. Pass the next_page_token value from a previous result. */
+  pageToken?: string;
+  /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
+  pageSize?: number;
   /** Optional. Specifies the level of detail to return in the response. */
   view?: ListProjectsLocationsDbFrameworkComplianceSummariesViewEnum | (string & {});
   /** Optional. The filtering results. */
   filter?: string;
-  /** Optional. The requested page size. The server might return fewer items than requested. If unspecified, the default page size is 50. The maximum value is 1000. */
-  pageSize?: number;
-  /** Optional. A token that identifies the page of results that the server should return. Pass the next_page_token value from a previous result. */
-  pageToken?: string;
+  /** Required. The parent scope for the framework compliance summary. Format: organizations/{organization}/locations/{location} folders/{folder}/locations/{location} projects/{project}/locations/{location} */
+  parent: string;
 }
 export const ListProjectsLocationsDbFrameworkComplianceSummariesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       view: S.optional(ListProjectsLocationsDbFrameworkComplianceSummariesViewEnum.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2718,18 +2657,18 @@ export const ListProjectsLocationsDbFrameworkComplianceSummariesRequest = /*@__P
 
 /** Request for updating permission settings for a partner workload. */
 export interface GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest {
-  /** Optional. The etag of the workload. If this is provided, it must match the server's etag. */
-  etag?: string;
   /** Required. The list of fields to be updated. E.g. update_mask { paths: "partner_permissions.data_logs_viewer"} */
   updateMask?: string;
+  /** Optional. The etag of the workload. If this is provided, it must match the server's etag. */
+  etag?: string;
   /** Required. The partner permissions to be updated. */
   partnerPermissions?: GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions;
 }
 export const GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      etag: S.optional(S.String),
       updateMask: S.optional(S.String),
+      etag: S.optional(S.String),
       partnerPermissions: S.optional(GoogleCloudAssuredworkloadsV1WorkloadPartnerPermissions),
     }),
 ).annotate({
@@ -2761,17 +2700,17 @@ export const MutatePartnerPermissionsOrganizationsLocationsWorkloadsRequest =
   }) as any as S.Schema<MutatePartnerPermissionsOrganizationsLocationsWorkloadsRequest>;
 
 export interface PatchOrganizationsLocationsWorkloadsRequest {
-  /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
-  name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string;
+  /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
+  name: string;
   /** Request body */
   body?: GoogleCloudAssuredworkloadsV1Workload;
 }
 export const PatchOrganizationsLocationsWorkloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudAssuredworkloadsV1Workload.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2840,69 +2779,6 @@ export const GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesResponse =
   /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
     identifier: "GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesResponse",
   }) as any as S.Schema<GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesResponse>;
-
-/** Request for reverting archived resource events. */
-export interface GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsRequest {
-  /** Required. The number of events to process in a single transaction batch. */
-  batchSize?: number;
-  /** Required. Only events within this time range will be reverted. This helps prevent reverting everything when something goes wrong. */
-  archiveEndTime?: string;
-  /** Required. Only events within this time range will be reverted. This helps prevent reverting everything when something goes wrong. */
-  archiveStartTime?: string;
-  /** Required. The organization ID for which to revert events. */
-  organizationId?: string;
-  /** Required. The maximum total number of events to move in this request. */
-  maxEventsMove?: number;
-  /** Required. The region of the workload(s) whose events should be reverted. This is used to filter workloads based on AssurantWorkloadData.region. */
-  region?: string;
-}
-export const GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      batchSize: S.optional(S.Number),
-      archiveEndTime: S.optional(S.String),
-      archiveStartTime: S.optional(S.String),
-      organizationId: S.optional(S.String),
-      maxEventsMove: S.optional(S.Number),
-      region: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsRequest",
-  }) as any as S.Schema<GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsRequest>;
-
-export interface RevertArchivedResourceEventsAssuredworkloadsRequest {
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsRequest;
-}
-export const RevertArchivedResourceEventsAssuredworkloadsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    body: S.optional(
-      GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsRequest.pipe(T.HttpBody()),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/assuredworkloads:revertArchivedResourceEvents",
-      baseUrl: "https://assuredworkloads.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "RevertArchivedResourceEventsAssuredworkloadsRequest",
-}) as any as S.Schema<RevertArchivedResourceEventsAssuredworkloadsRequest>;
-
-/** Response for reverting archived resource events. */
-export interface GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsResponse {
-  /** The total number of events successfully moved to the original table. */
-  movedEventsCount?: number;
-}
-export const GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      movedEventsCount: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsResponse",
-  }) as any as S.Schema<GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsResponse>;
 
 export type AcknowledgeOrganizationsLocationsWorkloadsViolationsError =
   | NotFound
@@ -3013,26 +2889,6 @@ export const applyOrganizationsLocationsWorkloadsUpdates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ApplyOrganizationsLocationsWorkloadsUpdatesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ArchiveResourceEventsAssuredworkloadsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Finds orphan ResourceEvents matching the criteria and moves them to the ArchivedResourceEvents table. */
-export const archiveResourceEventsAssuredworkloads: API.OperationMethod<
-  ArchiveResourceEventsAssuredworkloadsRequest,
-  GoogleCloudAssuredworkloadsV1ArchiveResourceEventsResponse,
-  ArchiveResourceEventsAssuredworkloadsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ArchiveResourceEventsAssuredworkloadsRequest,
-  output: GoogleCloudAssuredworkloadsV1ArchiveResourceEventsResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3511,26 +3367,6 @@ export const restrictAllowedResourcesOrganizationsLocationsWorkloads: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest,
   output: GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RevertArchivedResourceEventsAssuredworkloadsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Finds matching ArchivedResourceEvents and moves them back to the ResourceEvents table. */
-export const revertArchivedResourceEventsAssuredworkloads: API.OperationMethod<
-  RevertArchivedResourceEventsAssuredworkloadsRequest,
-  GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsResponse,
-  RevertArchivedResourceEventsAssuredworkloadsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RevertArchivedResourceEventsAssuredworkloadsRequest,
-  output: GoogleCloudAssuredworkloadsV1RevertArchivedResourceEventsResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,

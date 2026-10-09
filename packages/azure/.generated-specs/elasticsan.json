@@ -79,6 +79,20 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "The name of the Volume."
           }
+        },
+        "xMsDeleteSnapshots": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-delete-snapshots",
+            "smithy.api#documentation": "Optional, used to delete snapshots under volume. Allowed value are only true or false. Default value is false."
+          }
+        },
+        "xMsForceDelete": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-force-delete",
+            "smithy.api#documentation": "Optional, used to delete volume if active sessions present. Allowed value are only true or false. Default value is false."
+          }
         }
       },
       "traits": {

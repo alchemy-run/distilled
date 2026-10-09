@@ -133,7 +133,7 @@ export interface ListPayoutMethodRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id: string;
+  account_id: string;
 }
 export const ListPayoutMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -141,7 +141,7 @@ export const ListPayoutMethodRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.String.pipe(T.Query()),
+    account_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/payout_methods", code: 200 })),
 ).annotate({ identifier: "ListPayoutMethodRequest" }) as any as S.Schema<ListPayoutMethodRequest>;
 

@@ -54,7 +54,7 @@ export const CreateLeadRequestMetadataMap = /*@__PURE__*/ S.Record(
 
 export interface CreateLeadRequest {
   /** The unique identifier of the company to create the lead for, starting with 'biz_'. */
-  company_id: string;
+  account_id: string;
   /** A JSON object of custom metadata to attach to the lead for tracking purposes. */
   metadata?: CreateLeadRequestMetadataMap | null;
   /** The unique identifier of the product the lead is interested in, starting with 'prod_'. */
@@ -66,7 +66,7 @@ export interface CreateLeadRequest {
 }
 export const CreateLeadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    company_id: S.String,
+    account_id: S.String,
     metadata: S.optional(S.NullOr(CreateLeadRequestMetadataMap)),
     product_id: S.optional(S.NullOr(S.String)),
     referrer: S.optional(S.NullOr(S.String)),
@@ -179,10 +179,10 @@ export interface ListLeadRequest {
   before?: string;
   first?: number;
   last?: number;
-  company_id: string;
   created_after?: string;
   created_before?: string;
   product_ids?: ListLeadRequestProductIdsList;
+  account_id: string;
 }
 export const ListLeadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -190,10 +190,10 @@ export const ListLeadRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-    company_id: S.String.pipe(T.Query()),
     created_after: S.optional(S.String.pipe(T.Query())),
     created_before: S.optional(S.String.pipe(T.Query())),
     product_ids: S.optional(ListLeadRequestProductIdsList.pipe(T.Query())),
+    account_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/leads", code: 200 })),
 ).annotate({ identifier: "ListLeadRequest" }) as any as S.Schema<ListLeadRequest>;
 

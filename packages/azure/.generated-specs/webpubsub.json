@@ -3062,6 +3062,18 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "fullyQualifiedNamespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHubEndpoint: fully qualified Event Hubs namespace, e.g. `my.servicebus.windows.net`."
+          }
+        },
+        "eventHubName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventHubEndpoint: name of the event hub."
+          }
         }
       },
       "traits": {
@@ -3087,6 +3099,18 @@
           "target": "com.azure.webpubsub#EventListenerFilterType",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "systemEvents": {
+          "target": "com.azure.webpubsub#EventHandlerSystemEventsList",
+          "traits": {
+            "smithy.api#documentation": "EventNameFilter: system events to forward (`connected`, `disconnected`)."
+          }
+        },
+        "userEventPattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EventNameFilter: matching pattern for user event names (`*`, `event1,event2`, or a single name)."
           }
         }
       },

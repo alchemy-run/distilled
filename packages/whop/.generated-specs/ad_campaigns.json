@@ -87,6 +87,12 @@
             "smithy.api#enumValue": "clicks"
           }
         },
+        "LINK_CLICKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "link_clicks"
+          }
+        },
         "UNIQUE_CLICKS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -258,28 +264,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of campaigns to return."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "Cursor to fetch the page after (from page_info.end_cursor)."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of campaigns to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "Cursor to fetch the page before (from page_info.start_cursor)."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         }
       },
@@ -314,9 +320,24 @@
         "budget_amount": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The campaign's budget, in the ad account's currency. `null` when each ad group sets its own budget instead.",
+            "smithy.api#documentation": "The campaign's budget in USD, which is what it is stored and billed in. `null` when each ad group sets its own budget instead.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "budget_amount_local": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The same budget stated in `budget_currency` at today's exchange rate, for display in the account's ads reporting currency. `null` when `budget_amount` is.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "budget_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 4217 code `budget_amount_local` is in: the account's `ads_reporting_currency` preference. `usd` unless the account changed it.",
+            "smithy.api#required": {}
           }
         },
         "budget_optimization": {
@@ -502,8 +523,22 @@
         "delivery_status": {
           "target": "com.whop.ad_campaigns#AdCampaignDeliveryStatus",
           "traits": {
-            "smithy.api#documentation": "Whether the campaign's ads are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned.",
+            "smithy.api#documentation": "Whether the campaign's ads are delivering right now, and if not, why. Account billing failures set payment_failed without changing the configured status. Successful payment retry clears that block and recalculates delivery. When several states apply at once, the highest-precedence one is returned.",
             "smithy.api#required": {}
+          }
+        },
+        "desired_cost_per_result": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Google only: the target cost per conversion in USD when `bid_type` is `average_target`. `null` otherwise.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ends_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Google only: when the campaign stops delivering, as an ISO 8601 timestamp. `null` runs it until paused.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "frequency": {
@@ -545,6 +580,13 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Whop pixel-attributed leads, last-click.",
+            "smithy.api#required": {}
+          }
+        },
+        "link_clicks": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Clicks on links in the ad that lead to your destination, as reported by the ad platform. A subset of clicks, which also counts likes, comments, and other interactions with the ad.",
             "smithy.api#required": {}
           }
         },
@@ -658,10 +700,17 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Google only: when the campaign starts delivering, as an ISO 8601 timestamp. `null` starts it as soon as it launches.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "status": {
           "target": "com.whop.ad_campaigns#AdCampaignStatus",
           "traits": {
-            "smithy.api#documentation": "The lifecycle status of the ad campaign.",
+            "smithy.api#documentation": "The configured lifecycle status of the ad campaign. Billing failures preserve active or paused here and set delivery_status to payment_failed.",
             "smithy.api#required": {}
           }
         },
@@ -800,6 +849,12 @@
             "smithy.api#enumValue": "payment_failed"
           }
         },
+        "IN_APPEAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_appeal"
+          }
+        },
         "ALL_ADS_REJECTED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -868,7 +923,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Whether the campaign's ads are delivering right now, and if not, why. When several states apply at once, the highest-precedence one is returned."
+        "smithy.api#documentation": "Whether the campaign's ads are delivering right now, and if not, why. Account billing failures set payment_failed without changing the configured status. Successful payment retry clears that block and recalculates delivery. When several states apply at once, the highest-precedence one is returned."
       }
     },
     "com.whop.ad_campaigns#AdPlatformIssue": {
@@ -990,6 +1045,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "tiktok"
+          }
+        },
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
           }
         }
       },
@@ -1181,7 +1242,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The lifecycle status of the ad campaign."
+        "smithy.api#documentation": "The configured lifecycle status of the ad campaign. Billing failures preserve active or paused here and set delivery_status to payment_failed."
       }
     },
     "com.whop.ad_campaigns#ListAdCampaignsResponseDataList": {
@@ -1448,7 +1509,13 @@
         "budget_amount": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The campaign's budget, in the ad account's currency. Required when budget_optimization is `ad_campaign`; omit when each ad group sets its own budget."
+            "smithy.api#documentation": "The campaign's budget in USD, which is what it is stored and billed in. Required when budget_optimization is `ad_campaign` (or send budget_amount_local instead); omit when each ad group sets its own budget."
+          }
+        },
+        "budget_amount_local": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The campaign's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount. Provide this or budget_amount, not both."
           }
         },
         "budget_optimization": {
@@ -1768,7 +1835,13 @@
         "budget_amount": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The campaign budget, in the account's currency. Interpreted as daily or lifetime per the campaign's budget type, including a budget_type sent in the same request."
+            "smithy.api#documentation": "The campaign budget in USD, which is what it is stored and billed in. Interpreted as daily or lifetime per the campaign's budget type, including a budget_type sent in the same request."
+          }
+        },
+        "budget_amount_local": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The campaign budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both."
           }
         },
         "budget_optimization": {
@@ -2024,54 +2097,6 @@
         "smithy.api#documentation": "Pause an Ad Campaign\n\nPauses an active ad campaign."
       }
     },
-    "com.whop.ad_campaigns#RetryAdCampaignPaymentRequest": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The ad campaign ID."
-          }
-        },
-        "idempotency_key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpHeader": "Idempotency-Key",
-            "smithy.api#documentation": "A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.whop.ad_campaigns#RetryAdCampaignPayment": {
-      "type": "operation",
-      "input": {
-        "target": "com.whop.ad_campaigns#RetryAdCampaignPaymentRequest"
-      },
-      "output": {
-        "target": "com.whop.ad_campaigns#AdCampaign"
-      },
-      "errors": [
-        {
-          "target": "com.whop.ad_campaigns#BadRequest"
-        },
-        {
-          "target": "com.whop.ad_campaigns#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/ad_campaigns/{id}/retry_payment",
-          "code": 200
-        },
-        "smithy.api#documentation": "Retry a Failed Ad Campaign Payment\n\nRetries billing for an ad campaign whose payment previously failed."
-      }
-    },
     "com.whop.ad_campaigns#UnpauseAdCampaignRequest": {
       "type": "structure",
       "members": {
@@ -2114,7 +2139,7 @@
           "uri": "/ad_campaigns/{id}/unpause",
           "code": 200
         },
-        "smithy.api#documentation": "Unpause an Ad Campaign\n\nResumes a paused ad campaign."
+        "smithy.api#documentation": "Unpause an Ad Campaign\n\nResumes a paused ad campaign. Requires an ads payment method on the account."
       }
     },
     "com.whop.ad_campaigns#BadRequest": {
@@ -2180,9 +2205,6 @@
         },
         {
           "target": "com.whop.ad_campaigns#PauseAdCampaign"
-        },
-        {
-          "target": "com.whop.ad_campaigns#RetryAdCampaignPayment"
         },
         {
           "target": "com.whop.ad_campaigns#UnpauseAdCampaign"

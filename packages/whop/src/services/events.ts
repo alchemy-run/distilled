@@ -94,6 +94,8 @@ export interface CreateEventRequestContext {
   msclkid?: string | null;
   /** Reddit click ID. */
   rdt_cid?: string | null;
+  /** Whop SC identifier. */
+  sc?: string | null;
   /** Snapchat click ID. */
   sccid?: string | null;
   /** Screen resolution (e.g. 1920x1080). */
@@ -142,6 +144,7 @@ export const CreateEventRequestContext = /*@__PURE__*/ S.suspend(() =>
     li_fat_id: S.optional(S.NullOr(S.String)),
     msclkid: S.optional(S.NullOr(S.String)),
     rdt_cid: S.optional(S.NullOr(S.String)),
+    sc: S.optional(S.NullOr(S.String)),
     sccid: S.optional(S.NullOr(S.String)),
     screen_resolution: S.optional(S.NullOr(S.String)),
     timezone: S.optional(S.NullOr(S.String)),
@@ -406,11 +409,11 @@ export const CreateEventResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetPulseRequest {
   /** Filter to one or more types, comma separated — for example `purchase,card_spend`. These are the item's `type`, not its `event_name`: several types share the `ledger_line.created` event name. Omit for every type in the feed. Values outside the feed's own set are rejected. */
   event?: string;
-  /** The number of events to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor for fetching events after a previous page. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** A cursor for fetching events before a later page. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const GetPulseRequest = /*@__PURE__*/ S.suspend(() =>
@@ -527,17 +530,17 @@ export interface ListEventsRequest {
   from?: string;
   /** End of the time range as an ISO 8601 timestamp. Required when identifier is omitted; otherwise defaults to now. */
   to?: string;
-  /** The number of events to return. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** A cursor for fetching events after a previous page. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** A cursor for fetching events before a later page. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
   /** The order events are returned in by time. Defaults to desc (most recent first); asc reads a journey forwards from where it starts. after and before always page forwards and backwards through that order. */
   direction?: ListEventsRequestDirection | (string & {});
   /** Full event names to filter by, comma-separated (payment.completed, pixel.lead, pixel.page, pixel.custom:<name>) — the same vocabulary the events / people metrics use. */
   event?: string;
-  /** Canonical source path, exact or with a trailing :* prefix (whop:<campaign>:*, ext:meta:*, referrer:<domain>, direct). Restricts the list to conversion targets attributed to that source — the debuggability twin of a metric cell's source parameter. */
+  /** Canonical source path, exact or with a trailing :* prefix (whop:<campaign>:*, ext:meta:*, referrer:<domain>, direct, unknown). Selects conversions credited to this source. */
   source?: string;
   /** Attribution model for the source filter (defaults to last_touch). */
   attribution_model?: ListEventsRequestAttributionModel | (string & {});
@@ -739,7 +742,10 @@ export const ListEventsResponseDataItemRelatedApp = /*@__PURE__*/ S.suspend(() =
 export type ListEventsResponseDataItemRelatedAudienceAudienceType = "custom" | "lookalike";
 export const ListEventsResponseDataItemRelatedAudienceAudienceType = S.String;
 
-export type ListEventsResponseDataItemRelatedAudienceSourceType = "csv_upload" | "people_filter";
+export type ListEventsResponseDataItemRelatedAudienceSourceType =
+  | "csv_upload"
+  | "people_filter"
+  | "engagement";
 export const ListEventsResponseDataItemRelatedAudienceSourceType = S.String;
 
 /** The saved audience this event came from. Present on the identify events an audience ingest writes for each of its members. */
@@ -762,10 +768,68 @@ export const ListEventsResponseDataItemRelatedAudience = /*@__PURE__*/ S.suspend
   identifier: "ListEventsResponseDataItemRelatedAudience",
 }) as any as S.Schema<ListEventsResponseDataItemRelatedAudience>;
 
+export interface Money {
+  /** The amount in major units, as an exact decimal string — `"10.00"` is ten dollars. A string so no float rounds it in transit. */
+  amount: string;
+  /** Three-letter ISO 4217 currency code, lowercase. */
+  currency: string;
+  /** How many decimal places the amount CARRIES — the precision the charge itself runs at. */
+  decimals: number;
+  /** How many decimal places to SHOW. Usually equal to `decimals`, and deliberately not always: COP is charged in centavos but written in whole pesos, so it is `2` and `0`. Format the number in your own locale using this. */
+  display_decimals: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    currency: S.String,
+    decimals: S.Number,
+    display_decimals: S.Number,
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+export interface ReceiptLineItem {
+  /** Line item ID, prefixed `li_`. Null when the payment predates item snapshots and the item is read from the payment's plan. */
+  id: string | null;
+  /** The item's name as shown at checkout — the product title, else the plan title. */
+  label: string | null;
+  /** The plan bought, prefixed `plan_`. Null when the plan has since been deleted. */
+  plan_id: string | null;
+  /** The plan's current title, or `null` when the plan has been deleted or has no title. */
+  plan_title: string | null;
+  /** The product the plan belongs to, prefixed `prod_`. On a payment that predates item snapshots this falls back to the plan's product, so it can be set where the parent's own `product_id` is null. Null for a plan with no product. */
+  product_id: string | null;
+  /** The product's current title, or `null` when the item has no product. */
+  product_title: string | null;
+  /** How many units were bought. */
+  quantity: number;
+  /** The recorded amount for this item's full quantity, before discounts, tax, and fees, in its purchase currency. Returns `null` when no item amount was recorded. */
+  subtotal: Money | null;
+}
+export const ReceiptLineItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.NullOr(S.String),
+    label: S.NullOr(S.String),
+    plan_id: S.NullOr(S.String),
+    plan_title: S.NullOr(S.String),
+    product_id: S.NullOr(S.String),
+    product_title: S.NullOr(S.String),
+    quantity: S.Number,
+    subtotal: S.NullOr(Money),
+  }),
+).annotate({ identifier: "ReceiptLineItem" }) as any as S.Schema<ReceiptLineItem>;
+
+/** Everything this payment charged for, in purchase order, including quantities. Older payments fall back to their original plan. */
+export type ListEventsResponseDataItemRelatedPaymentLineItemsList = Array<ReceiptLineItem>;
+export const ListEventsResponseDataItemRelatedPaymentLineItemsList = /*@__PURE__*/ S.Array(
+  ReceiptLineItem,
+) as any as S.Schema<ListEventsResponseDataItemRelatedPaymentLineItemsList>;
+
 export interface ListEventsResponseDataItemRelatedPayment {
   card_brand?: string | null;
   card_last4?: string | null;
   id?: string;
+  /** Everything this payment charged for, in purchase order, including quantities. Older payments fall back to their original plan. */
+  line_items?: ListEventsResponseDataItemRelatedPaymentLineItemsList;
   provider?: string | null;
 }
 export const ListEventsResponseDataItemRelatedPayment = /*@__PURE__*/ S.suspend(() =>
@@ -773,6 +837,7 @@ export const ListEventsResponseDataItemRelatedPayment = /*@__PURE__*/ S.suspend(
     card_brand: S.optional(S.NullOr(S.String)),
     card_last4: S.optional(S.NullOr(S.String)),
     id: S.optional(S.String),
+    line_items: S.optional(ListEventsResponseDataItemRelatedPaymentLineItemsList),
     provider: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
@@ -900,8 +965,6 @@ export interface ListEventsResponseDataItem {
   path?: string | null;
   person_id: string;
   questions?: ListEventsResponseDataItemQuestionsList | null;
-  recommended_action_chain_id?: string | null;
-  recommended_action_shown_position?: number | null;
   referrer_url?: string | null;
   /** Hydrated details for the records this event references. Only present keys resolved. */
   related?: ListEventsResponseDataItemRelated | null;
@@ -922,8 +985,6 @@ export const ListEventsResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.NullOr(S.String)),
     person_id: S.String,
     questions: S.optional(S.NullOr(ListEventsResponseDataItemQuestionsList)),
-    recommended_action_chain_id: S.optional(S.NullOr(S.String)),
-    recommended_action_shown_position: S.optional(S.NullOr(S.Number)),
     referrer_url: S.optional(S.NullOr(S.String)),
     related: S.optional(S.NullOr(ListEventsResponseDataItemRelated)),
     total_usd_amount: S.optional(S.NullOr(S.Number)),

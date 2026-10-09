@@ -48,14 +48,14 @@ export class UnprocessableEntity
 export interface DeletePaymentMethodRequest {
   /** The unique identifier of the payment method to delete. */
   id: string;
-  company_id?: string;
   member_id?: string;
+  account_id?: string;
 }
 export const DeletePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-    company_id: S.optional(S.String.pipe(T.Query())),
     member_id: S.optional(S.String.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/payment_methods/{id}", code: 200 })),
 ).annotate({
   identifier: "DeletePaymentMethodRequest",
@@ -71,14 +71,14 @@ export const DeletePaymentMethodResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetPaymentMethodRequest {
   /** The unique identifier of the payment method. */
   id: string;
-  company_id?: string;
   member_id?: string;
+  account_id?: string;
 }
 export const GetPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-    company_id: S.optional(S.String.pipe(T.Query())),
     member_id: S.optional(S.String.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/payment_methods/{id}", code: 200 })),
 ).annotate({ identifier: "GetPaymentMethodRequest" }) as any as S.Schema<GetPaymentMethodRequest>;
 
@@ -151,12 +151,13 @@ export const PaymentMethodCase0Icons = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PaymentMethodCase0Icons" }) as any as S.Schema<PaymentMethodCase0Icons>;
 
 /** The different types of payment methods that can be used. */
-export type PaymentMethodTypes =
+export type LegacyPaymentMethodTypes =
   | "acss_debit"
   | "addi"
   | "affirm"
   | "afterpay_clearpay"
   | "alipay"
+  | "alipayhk"
   | "alma"
   | "amazon_pay"
   | "apple"
@@ -168,7 +169,6 @@ export type PaymentMethodTypes =
   | "bancontact"
   | "bank_wire"
   | "billie"
-  | "bizum"
   | "blik"
   | "boleto"
   | "bre_b"
@@ -189,7 +189,9 @@ export type PaymentMethodTypes =
   | "eps"
   | "eu_bank_transfer"
   | "fpx"
+  | "flex_pay"
   | "gb_bank_transfer"
+  | "gcash"
   | "giropay"
   | "google_pay"
   | "gopay"
@@ -209,6 +211,8 @@ export type PaymentMethodTypes =
   | "mb_way"
   | "m_pesa"
   | "mercado_pago"
+  | "mercado_pago_ar"
+  | "mercado_pago_mx"
   | "mobilepay"
   | "modo"
   | "mondu"
@@ -222,7 +226,12 @@ export type PaymentMethodTypes =
   | "ng_market"
   | "ng_ussd"
   | "ng_wallet"
+  | "nupay"
   | "nz_bank_account"
+  | "oney"
+  | "oney_3x"
+  | "oney_4x"
+  | "opay"
   | "oxxo"
   | "p24"
   | "pago_efectivo"
@@ -256,12 +265,15 @@ export type PaymentMethodTypes =
   | "splitit"
   | "sunbit"
   | "swish"
+  | "tabby"
   | "tamara"
+  | "touch_n_go"
   | "twint"
   | "upi"
   | "us_bank_account"
   | "us_bank_transfer"
   | "venmo"
+  | "verve"
   | "vipps"
   | "webpay"
   | "wechat_pay"
@@ -269,7 +281,7 @@ export type PaymentMethodTypes =
   | "zip"
   | "coinflow"
   | "unknown";
-export const PaymentMethodTypes = S.String;
+export const LegacyPaymentMethodTypes = S.String;
 
 /** A saved payment method with no type-specific details available. */
 export interface PaymentMethodCase0 {
@@ -280,7 +292,7 @@ export interface PaymentMethodCase0 {
   /** Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"VXNlci0xMA=="`) or integer (such as `4`) input value will be accepted as an ID. */
   id: string;
   /** The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit). */
-  payment_method_type: PaymentMethodTypes;
+  payment_method_type: LegacyPaymentMethodTypes;
   /** The typename of this object */
   typename: string;
 }
@@ -289,7 +301,7 @@ export const PaymentMethodCase0 = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     icons: PaymentMethodCase0Icons,
     id: S.String,
-    payment_method_type: PaymentMethodTypes,
+    payment_method_type: LegacyPaymentMethodTypes,
     typename: S.String,
   }),
 ).annotate({ identifier: "PaymentMethodCase0" }) as any as S.Schema<PaymentMethodCase0>;
@@ -421,7 +433,7 @@ export interface PaymentMethodCase1 {
   /** Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"VXNlci0xMA=="`) or integer (such as `4`) input value will be accepted as an ID. */
   id: string;
   /** The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit). */
-  payment_method_type: PaymentMethodTypes;
+  payment_method_type: LegacyPaymentMethodTypes;
   /** The typename of this object */
   typename: string;
 }
@@ -432,7 +444,7 @@ export const PaymentMethodCase1 = /*@__PURE__*/ S.suspend(() =>
     has_payer_document: S.Boolean,
     icons: PaymentMethodCase0Icons,
     id: S.String,
-    payment_method_type: PaymentMethodTypes,
+    payment_method_type: LegacyPaymentMethodTypes,
     typename: S.String,
   }),
 ).annotate({ identifier: "PaymentMethodCase1" }) as any as S.Schema<PaymentMethodCase1>;
@@ -493,7 +505,7 @@ export interface PaymentMethodCase2 {
   /** Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"VXNlci0xMA=="`) or integer (such as `4`) input value will be accepted as an ID. */
   id: string;
   /** The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit). */
-  payment_method_type: PaymentMethodTypes;
+  payment_method_type: LegacyPaymentMethodTypes;
   /** The typename of this object */
   typename: string;
   /** The bank account-specific details for this payment method, including bank name and last four digits. */
@@ -504,7 +516,7 @@ export const PaymentMethodCase2 = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     icons: PaymentMethodCase0Icons,
     id: S.String,
-    payment_method_type: PaymentMethodTypes,
+    payment_method_type: LegacyPaymentMethodTypes,
     typename: S.String,
     us_bank_account: PaymentMethodCase2UsBankAccount,
   }),
@@ -565,7 +577,7 @@ export interface PaymentMethodCase3 {
   /** Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"VXNlci0xMA=="`) or integer (such as `4`) input value will be accepted as an ID. */
   id: string;
   /** The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit). */
-  payment_method_type: PaymentMethodTypes;
+  payment_method_type: LegacyPaymentMethodTypes;
   /** The typename of this object */
   typename: string;
 }
@@ -575,7 +587,7 @@ export const PaymentMethodCase3 = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     icons: PaymentMethodCase0Icons,
     id: S.String,
-    payment_method_type: PaymentMethodTypes,
+    payment_method_type: LegacyPaymentMethodTypes,
     typename: S.String,
   }),
 ).annotate({ identifier: "PaymentMethodCase3" }) as any as S.Schema<PaymentMethodCase3>;
@@ -633,7 +645,7 @@ export interface PaymentMethodCase4 {
   /** The iDEAL-specific details for this payment method, including bank name and BIC. */
   ideal: PaymentMethodCase4Ideal;
   /** The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit). */
-  payment_method_type: PaymentMethodTypes;
+  payment_method_type: LegacyPaymentMethodTypes;
   /** The typename of this object */
   typename: string;
 }
@@ -643,7 +655,7 @@ export const PaymentMethodCase4 = /*@__PURE__*/ S.suspend(() =>
     icons: PaymentMethodCase0Icons,
     id: S.String,
     ideal: PaymentMethodCase4Ideal,
-    payment_method_type: PaymentMethodTypes,
+    payment_method_type: LegacyPaymentMethodTypes,
     typename: S.String,
   }),
 ).annotate({ identifier: "PaymentMethodCase4" }) as any as S.Schema<PaymentMethodCase4>;
@@ -707,7 +719,7 @@ export interface PaymentMethodCase5 {
   /** Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"VXNlci0xMA=="`) or integer (such as `4`) input value will be accepted as an ID. */
   id: string;
   /** The type of payment instrument stored on file (e.g., card, us_bank_account, cashapp, ideal, sepa_debit). */
-  payment_method_type: PaymentMethodTypes;
+  payment_method_type: LegacyPaymentMethodTypes;
   /** The SEPA Direct Debit-specific details for this payment method, including bank code and last four IBAN digits. */
   sepa_debit: PaymentMethodCase5SepaDebit;
   /** The typename of this object */
@@ -718,7 +730,7 @@ export const PaymentMethodCase5 = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     icons: PaymentMethodCase0Icons,
     id: S.String,
-    payment_method_type: PaymentMethodTypes,
+    payment_method_type: LegacyPaymentMethodTypes,
     sepa_debit: PaymentMethodCase5SepaDebit,
     typename: S.String,
   }),
@@ -748,10 +760,10 @@ export const FutureUsageTypes = S.String;
 
 /** Only return payment methods of these types. Pass the eligible `type` values from the payment method types catalogue so the list holds nothing the purchase cannot take. An empty list returns no payment methods. */
 export type ListPaymentMethodRequestPaymentMethodTypesList = Array<
-  PaymentMethodTypes | (string & {})
+  LegacyPaymentMethodTypes | (string & {})
 >;
 export const ListPaymentMethodRequestPaymentMethodTypesList = /*@__PURE__*/ S.Array(
-  PaymentMethodTypes,
+  LegacyPaymentMethodTypes,
 ) as any as S.Schema<ListPaymentMethodRequestPaymentMethodTypesList>;
 
 /** Only return cards on these networks, such as the networks the seller accepts. Payment methods that are not cards are unaffected. */
@@ -772,7 +784,6 @@ export interface ListPaymentMethodRequest {
   first?: number;
   last?: number;
   member_id?: string;
-  company_id?: string;
   direction?: Direction | (string & {});
   created_before?: string;
   created_after?: string;
@@ -783,6 +794,7 @@ export interface ListPaymentMethodRequest {
   has_payer_document?: boolean;
   expired?: boolean;
   broken?: boolean;
+  account_id?: string;
 }
 export const ListPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -791,7 +803,6 @@ export const ListPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
     member_id: S.optional(S.String.pipe(T.Query())),
-    company_id: S.optional(S.String.pipe(T.Query())),
     direction: S.optional(Direction.pipe(T.Query())),
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
@@ -804,6 +815,7 @@ export const ListPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
     has_payer_document: S.optional(S.Boolean.pipe(T.Query())),
     expired: S.optional(S.Boolean.pipe(T.Query())),
     broken: S.optional(S.Boolean.pipe(T.Query())),
+    account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/payment_methods", code: 200 })),
 ).annotate({ identifier: "ListPaymentMethodRequest" }) as any as S.Schema<ListPaymentMethodRequest>;
 
@@ -1095,7 +1107,7 @@ export type GetPaymentMethodError =
   | NotFound
   | UnprocessableEntity
   | WhopOpError;
-/** Retrieve payment method [Legacy API — https://docs.whop.com/api-reference] Retrieves the details of an existing payment method. Addresses a member's wallet when member_id or company_id is given, otherwise your own. Required permissions: - `member:payment_methods:read` */
+/** Retrieve payment method [Legacy API — https://docs.whop.com/api-reference] Retrieves the details of an existing payment method. Addresses a member's wallet when member_id or account_id is given, otherwise your own. Required permissions: - `member:payment_methods:read` */
 export const getPaymentMethod: API.OperationMethod<
   GetPaymentMethodRequest,
   GetPaymentMethodResponse,

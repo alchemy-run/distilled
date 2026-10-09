@@ -3,8 +3,8 @@
  * Fetches the Meilisearch OpenAPI spec (and a vendor docs snapshot) to
  * ../specs/.
  *
- * Meilisearch publishes ONE OpenAPI 3.1 document — the same file its docs
- * site offers for download. There is no git repo required; the mirror
+ * Meilisearch publishes ONE OpenAPI 3.1 document, attached to every GitHub
+ * release as `meilisearch-openapi.json`. No git clone is required; the mirror
  * snapshots the published JSON plus the docs index.
  *
  * Usage:
@@ -16,7 +16,7 @@
  */
 
 const OPENAPI_SPEC_URL =
-  "https://www.meilisearch.com/docs/assets/open-api/meilisearch-openapi.json";
+  "https://github.com/meilisearch/meilisearch/releases/latest/download/meilisearch-openapi.json";
 const DOCS_INDEX_URL = "https://www.meilisearch.com/docs/llms.txt";
 const SPECS_DIR = "../specs";
 const OPENAPI_PATH = `${SPECS_DIR}/openapi.json`;

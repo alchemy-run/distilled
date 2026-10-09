@@ -1,0 +1,139 @@
+{
+  "description": "From drop-dashboard-only-ops.patch.json: Remove 16 PostHog endpoints that PostHog's backend explicitly rejects with `Forbidden: This action does not support personal API key access`. PostHog publishes these in their OpenAPI spec but enforces a server-side allowlist that limits them to dashboard-session cookie auth only — there is no API credential (personal API key, project ingestion token, anything) that can call them. Dropping them from the spec means the SDK never generates an unusable typed surface for them.\n\nIf PostHog ever opens these to API auth, drop this patch and regenerate.\n\nObserved-Forbidden operations (path + method):\n  - POST   /api/projects/{project_id}/actions/bulk_update_tags/\n  - GET    /api/projects/{project_id}/conversations/tickets/unread_count/\n  - GET    /api/projects/{project_id}/dashboard_templates/json_schema/\n  - PATCH  /api/projects/{project_id}/dashboards/{id}/move_tile/\n  - POST   /api/projects/{project_id}/dashboards/bulk_update_tags/\n  - POST   /api/projects/{project_id}/dashboards/create_from_template_json/\n  - POST   /api/projects/{project_id}/dashboards/create_unlisted_dashboard/\n  - GET    /api/projects/{project_id}/event_definitions/{id}/metrics/\n  - POST   /api/projects/{project_id}/event_definitions/bulk_update_tags/\n  - POST   /api/projects/{project_id}/file_system/{id}/count/\n  - POST   /api/projects/{project_id}/file_system/{id}/link/\n  - POST   /api/projects/{project_id}/file_system/{id}/move/\n  - POST   /api/projects/{project_id}/file_system/count_by_path/\n  - GET    /api/projects/{project_id}/file_system/log_view/\n  - POST   /api/projects/{project_id}/file_system/log_view/\n  - GET    /api/projects/{project_id}/file_system/unfiled/",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemCountCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemCountCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemLinkCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemLinkCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemCountByPathCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemCountByPathCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemLogViewRetrieveRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemLogViewRetrieve"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemLogViewCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemLogViewCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemUnfiledRetrieveRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/metadata/distilled.rename/com.posthog.file_system#FileSystemUnfiledRetrieve"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemCountCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemCountCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemLinkCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemLinkCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemMoveCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemMoveCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemCountByPathCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemCountByPathCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemLogViewRetrieveRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemLogViewRetrieve"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemLogViewCreateRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemLogViewCreate"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemUnfiledRetrieveRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system#FileSystemUnfiledRetrieve"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.posthog.file_system#FileSystem/operations",
+      "value": [
+        {
+          "target": "com.posthog.file_system#FileSystemList"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemCreate"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemRetrieve"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemUpdate"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemPartialUpdate"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemDestroy"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemHomeFolderCreate"
+        },
+        {
+          "target": "com.posthog.file_system#FileSystemUndoDeleteCreate"
+        }
+      ]
+    }
+  ]
+}

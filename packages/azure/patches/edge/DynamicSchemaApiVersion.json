@@ -3,22 +3,22 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#DeleteDynamicSchema/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemasDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#DeleteDynamicSchema/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemasDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#DeleteDynamicSchemaVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemaVersionsDelete/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#DeleteDynamicSchemaVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemaVersionsDelete/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
@@ -43,62 +43,62 @@
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#GetDynamicSchema/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemasGet/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#GetDynamicSchema/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemasGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#GetDynamicSchemaVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemaVersionsGet/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#GetDynamicSchemaVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemaVersionsGet/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListDynamicSchemaBySchema/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemasListBySchema/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListDynamicSchemaBySchema/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemasListBySchema/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListDynamicSchemaVersionByDynamicSchema/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemaVersionsListByDynamicSchema/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#ListDynamicSchemaVersionByDynamicSchema/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemaVersionsListByDynamicSchema/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#UpdateDynamicSchema/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemasUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#UpdateDynamicSchema/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemasUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#UpdateDynamicSchemaVersion/traits/smithy.api#http/apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemaVersionsUpdate/traits/smithy.api#http/apiVersion",
       "value": "2025-08-01"
     },
     {
       "op": "replace",
-      "path": "/shapes/com.azure.edge#UpdateDynamicSchemaVersion/traits/com.distilled.openapi#apiVersion",
+      "path": "/shapes/com.azure.edge#DynamicSchemaVersionsUpdate/traits/com.distilled.openapi#apiVersion",
       "value": "2025-08-01"
     }
   ]

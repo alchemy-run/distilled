@@ -75,19 +75,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface PartnerCustomerAccount {
-  accountId?: string;
-  accountName?: string;
-  accountType?: string;
-}
-export const PartnerCustomerAccount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-    accountName: S.optional(S.String),
-    accountType: S.optional(S.String),
-  }),
-).annotate({ identifier: "PartnerCustomerAccount" }) as any as S.Schema<PartnerCustomerAccount>;
-
 export type ProductAccountAccountTypeEnum =
   | "ACCOUNT_TYPE_UNSPECIFIED"
   | "GOOGLE_ADS"
@@ -110,14 +97,14 @@ export const ProductAccountProductEnum = S.String;
 
 export interface ProductAccount {
   accountType?: ProductAccountAccountTypeEnum | (string & {});
-  product?: ProductAccountProductEnum | (string & {});
   accountId?: string;
+  product?: ProductAccountProductEnum | (string & {});
 }
 export const ProductAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountType: S.optional(ProductAccountAccountTypeEnum),
-    product: S.optional(ProductAccountProductEnum),
     accountId: S.optional(S.String),
+    product: S.optional(ProductAccountProductEnum),
   }),
 ).annotate({ identifier: "ProductAccount" }) as any as S.Schema<ProductAccount>;
 
@@ -126,6 +113,19 @@ export type PartnerLinkFeatureSetEnum =
   | "FEATURE_SET_AUDIENCE_AND_EVENT_MANAGEMENT"
   | "FEATURE_SET_AD_EVENT_MANAGEMENT";
 export const PartnerLinkFeatureSetEnum = S.String;
+
+export interface PartnerCustomerAccount {
+  accountId?: string;
+  accountName?: string;
+  accountType?: string;
+}
+export const PartnerCustomerAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.optional(S.String),
+    accountName: S.optional(S.String),
+    accountType: S.optional(S.String),
+  }),
+).annotate({ identifier: "PartnerCustomerAccount" }) as any as S.Schema<PartnerCustomerAccount>;
 
 export type PartnerCustomerAccountList = Array<PartnerCustomerAccount>;
 export const PartnerCustomerAccountList = /*@__PURE__*/ S.Array(
@@ -142,21 +142,21 @@ export const PartnerLinkMetadata = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PartnerLinkMetadata" }) as any as S.Schema<PartnerLinkMetadata>;
 
 export interface PartnerLink {
-  partnerCustomerAccount?: PartnerCustomerAccount;
   partnerAccount?: ProductAccount;
-  owningAccount?: ProductAccount;
-  partnerLinkId?: string;
   featureSet?: PartnerLinkFeatureSetEnum | (string & {});
+  partnerLinkId?: string;
+  owningAccount?: ProductAccount;
+  partnerCustomerAccount?: PartnerCustomerAccount;
   name?: string;
   partnerLinkMetadata?: PartnerLinkMetadata;
 }
 export const PartnerLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partnerCustomerAccount: S.optional(PartnerCustomerAccount),
     partnerAccount: S.optional(ProductAccount),
-    owningAccount: S.optional(ProductAccount),
-    partnerLinkId: S.optional(S.String),
     featureSet: S.optional(PartnerLinkFeatureSetEnum),
+    partnerLinkId: S.optional(S.String),
+    owningAccount: S.optional(ProductAccount),
+    partnerCustomerAccount: S.optional(PartnerCustomerAccount),
     name: S.optional(S.String),
     partnerLinkMetadata: S.optional(PartnerLinkMetadata),
   }),
@@ -182,6 +182,37 @@ export const CreateAccountTypesAccountsPartnerLinksRequest = /*@__PURE__*/ S.sus
   identifier: "CreateAccountTypesAccountsPartnerLinksRequest",
 }) as any as S.Schema<CreateAccountTypesAccountsPartnerLinksRequest>;
 
+export type UserListDirectLicenseStatusEnum =
+  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
+  | "USER_LIST_LICENSE_STATUS_ENABLED"
+  | "USER_LIST_LICENSE_STATUS_DISABLED";
+export const UserListDirectLicenseStatusEnum = S.String;
+
+export type UserListDirectLicenseClientAccountTypeEnum =
+  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_UNKNOWN"
+  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_ADS"
+  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_PARTNER"
+  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_ADVERTISER"
+  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_AD_MANAGER_AUDIENCE_LINK";
+export const UserListDirectLicenseClientAccountTypeEnum = S.String;
+
+export interface UserListLicenseMetrics {
+  impressionCount?: string;
+  endDate?: string;
+  clickCount?: string;
+  revenueUsdMicros?: string;
+  startDate?: string;
+}
+export const UserListLicenseMetrics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    impressionCount: S.optional(S.String),
+    endDate: S.optional(S.String),
+    clickCount: S.optional(S.String),
+    revenueUsdMicros: S.optional(S.String),
+    startDate: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserListLicenseMetrics" }) as any as S.Schema<UserListLicenseMetrics>;
+
 export type UserListLicensePricingCostTypeEnum =
   | "USER_LIST_PRICING_COST_TYPE_UNSPECIFIED"
   | "CPC"
@@ -197,27 +228,27 @@ export type UserListLicensePricingBuyerApprovalStateEnum =
 export const UserListLicensePricingBuyerApprovalStateEnum = S.String;
 
 export interface UserListLicensePricing {
-  costType?: UserListLicensePricingCostTypeEnum | (string & {});
   maxCostMicros?: string;
-  currencyCode?: string;
-  buyerApprovalState?: UserListLicensePricingBuyerApprovalStateEnum | (string & {});
-  startTime?: string;
-  endTime?: string;
-  pricingActive?: boolean;
   pricingId?: string;
+  currencyCode?: string;
+  costType?: UserListLicensePricingCostTypeEnum | (string & {});
   costMicros?: string;
+  pricingActive?: boolean;
+  startTime?: string;
+  buyerApprovalState?: UserListLicensePricingBuyerApprovalStateEnum | (string & {});
+  endTime?: string;
 }
 export const UserListLicensePricing = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    costType: S.optional(UserListLicensePricingCostTypeEnum),
     maxCostMicros: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    buyerApprovalState: S.optional(UserListLicensePricingBuyerApprovalStateEnum),
-    startTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-    pricingActive: S.optional(S.Boolean),
     pricingId: S.optional(S.String),
+    currencyCode: S.optional(S.String),
+    costType: S.optional(UserListLicensePricingCostTypeEnum),
     costMicros: S.optional(S.String),
+    pricingActive: S.optional(S.Boolean),
+    startTime: S.optional(S.String),
+    buyerApprovalState: S.optional(UserListLicensePricingBuyerApprovalStateEnum),
+    endTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserListLicensePricing" }) as any as S.Schema<UserListLicensePricing>;
 
@@ -226,61 +257,30 @@ export const UserListLicensePricingList = /*@__PURE__*/ S.Array(
   UserListLicensePricing,
 ) as any as S.Schema<UserListLicensePricingList>;
 
-export interface UserListLicenseMetrics {
-  endDate?: string;
-  revenueUsdMicros?: string;
-  startDate?: string;
-  impressionCount?: string;
-  clickCount?: string;
-}
-export const UserListLicenseMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endDate: S.optional(S.String),
-    revenueUsdMicros: S.optional(S.String),
-    startDate: S.optional(S.String),
-    impressionCount: S.optional(S.String),
-    clickCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "UserListLicenseMetrics" }) as any as S.Schema<UserListLicenseMetrics>;
-
-export type UserListDirectLicenseClientAccountTypeEnum =
-  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_UNKNOWN"
-  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_ADS"
-  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_PARTNER"
-  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_ADVERTISER"
-  | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_AD_MANAGER_AUDIENCE_LINK";
-export const UserListDirectLicenseClientAccountTypeEnum = S.String;
-
-export type UserListDirectLicenseStatusEnum =
-  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
-  | "USER_LIST_LICENSE_STATUS_ENABLED"
-  | "USER_LIST_LICENSE_STATUS_DISABLED";
-export const UserListDirectLicenseStatusEnum = S.String;
-
 export interface UserListDirectLicense {
-  clientAccountId?: string;
-  clientAccountDisplayName?: string;
-  pricing?: UserListLicensePricing;
-  historicalPricings?: UserListLicensePricingList;
-  userListId?: string;
-  metrics?: UserListLicenseMetrics;
-  clientAccountType?: UserListDirectLicenseClientAccountTypeEnum | (string & {});
   status?: UserListDirectLicenseStatusEnum | (string & {});
-  name?: string;
+  userListId?: string;
+  clientAccountId?: string;
+  clientAccountType?: UserListDirectLicenseClientAccountTypeEnum | (string & {});
+  metrics?: UserListLicenseMetrics;
+  clientAccountDisplayName?: string;
+  historicalPricings?: UserListLicensePricingList;
+  pricing?: UserListLicensePricing;
   userListDisplayName?: string;
+  name?: string;
 }
 export const UserListDirectLicense = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientAccountId: S.optional(S.String),
-    clientAccountDisplayName: S.optional(S.String),
-    pricing: S.optional(UserListLicensePricing),
-    historicalPricings: S.optional(UserListLicensePricingList),
-    userListId: S.optional(S.String),
-    metrics: S.optional(UserListLicenseMetrics),
-    clientAccountType: S.optional(UserListDirectLicenseClientAccountTypeEnum),
     status: S.optional(UserListDirectLicenseStatusEnum),
-    name: S.optional(S.String),
+    userListId: S.optional(S.String),
+    clientAccountId: S.optional(S.String),
+    clientAccountType: S.optional(UserListDirectLicenseClientAccountTypeEnum),
+    metrics: S.optional(UserListLicenseMetrics),
+    clientAccountDisplayName: S.optional(S.String),
+    historicalPricings: S.optional(UserListLicensePricingList),
+    pricing: S.optional(UserListLicensePricing),
     userListDisplayName: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserListDirectLicense" }) as any as S.Schema<UserListDirectLicense>;
 
@@ -318,25 +318,25 @@ export type UserListGlobalLicenseLicenseTypeEnum =
 export const UserListGlobalLicenseLicenseTypeEnum = S.String;
 
 export interface UserListGlobalLicense {
-  status?: UserListGlobalLicenseStatusEnum | (string & {});
-  pricing?: UserListLicensePricing;
-  userListId?: string;
-  name?: string;
-  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {});
-  historicalPricings?: UserListLicensePricingList;
-  metrics?: UserListLicenseMetrics;
   userListDisplayName?: string;
+  pricing?: UserListLicensePricing;
+  name?: string;
+  historicalPricings?: UserListLicensePricingList;
+  userListId?: string;
+  status?: UserListGlobalLicenseStatusEnum | (string & {});
+  metrics?: UserListLicenseMetrics;
+  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {});
 }
 export const UserListGlobalLicense = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(UserListGlobalLicenseStatusEnum),
-    pricing: S.optional(UserListLicensePricing),
-    userListId: S.optional(S.String),
-    name: S.optional(S.String),
-    licenseType: S.optional(UserListGlobalLicenseLicenseTypeEnum),
-    historicalPricings: S.optional(UserListLicensePricingList),
-    metrics: S.optional(UserListLicenseMetrics),
     userListDisplayName: S.optional(S.String),
+    pricing: S.optional(UserListLicensePricing),
+    name: S.optional(S.String),
+    historicalPricings: S.optional(UserListLicensePricingList),
+    userListId: S.optional(S.String),
+    status: S.optional(UserListGlobalLicenseStatusEnum),
+    metrics: S.optional(UserListLicenseMetrics),
+    licenseType: S.optional(UserListGlobalLicenseLicenseTypeEnum),
   }),
 ).annotate({ identifier: "UserListGlobalLicense" }) as any as S.Schema<UserListGlobalLicense>;
 
@@ -360,6 +360,36 @@ export const CreateAccountTypesAccountsUserListGlobalLicensesRequest = /*@__PURE
   identifier: "CreateAccountTypesAccountsUserListGlobalLicensesRequest",
 }) as any as S.Schema<CreateAccountTypesAccountsUserListGlobalLicensesRequest>;
 
+export type UserListAccessReasonEnum =
+  | "ACCESS_REASON_UNSPECIFIED"
+  | "OWNED"
+  | "SHARED"
+  | "LICENSED"
+  | "SUBSCRIBED"
+  | "AFFILIATED";
+export const UserListAccessReasonEnum = S.String;
+
+export type UserListClosingReasonEnum = "CLOSING_REASON_UNSPECIFIED" | "UNUSED";
+export const UserListClosingReasonEnum = S.String;
+
+export interface SizeInfo {
+  gmailMembersCount?: string;
+  youtubeMembersCount?: string;
+  displayNetworkMembersCount?: string;
+  searchNetworkMembersCount?: string;
+}
+export const SizeInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gmailMembersCount: S.optional(S.String),
+    youtubeMembersCount: S.optional(S.String),
+    displayNetworkMembersCount: S.optional(S.String),
+    searchNetworkMembersCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "SizeInfo" }) as any as S.Schema<SizeInfo>;
+
+export type UserListMembershipStatusEnum = "MEMBERSHIP_STATUS_UNSPECIFIED" | "OPEN" | "CLOSED";
+export const UserListMembershipStatusEnum = S.String;
+
 export type UserListAccountAccessStatusEnum = "ACCESS_STATUS_UNSPECIFIED" | "ENABLED" | "DISABLED";
 export const UserListAccountAccessStatusEnum = S.String;
 
@@ -374,22 +404,6 @@ export const TargetNetworkInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TargetNetworkInfo" }) as any as S.Schema<TargetNetworkInfo>;
 
-export type IngestedUserListInfoUploadKeyTypesItemEnum =
-  | "UPLOAD_KEY_TYPE_UNSPECIFIED"
-  | "CONTACT_ID"
-  | "MOBILE_ID"
-  | "USER_ID"
-  | "PAIR_ID"
-  | "PSEUDONYMOUS_ID";
-export const IngestedUserListInfoUploadKeyTypesItemEnum = S.String;
-
-export type IngestedUserListInfoUploadKeyTypesItemEnumList = Array<
-  IngestedUserListInfoUploadKeyTypesItemEnum | (string & {})
->;
-export const IngestedUserListInfoUploadKeyTypesItemEnumList = /*@__PURE__*/ S.Array(
-  IngestedUserListInfoUploadKeyTypesItemEnum,
-) as any as S.Schema<IngestedUserListInfoUploadKeyTypesItemEnumList>;
-
 export type PartnerAudienceInfoPartnerAudienceSourceEnum =
   | "PARTNER_AUDIENCE_SOURCE_UNSPECIFIED"
   | "COMMERCE_AUDIENCE"
@@ -398,15 +412,32 @@ export type PartnerAudienceInfoPartnerAudienceSourceEnum =
 export const PartnerAudienceInfoPartnerAudienceSourceEnum = S.String;
 
 export interface PartnerAudienceInfo {
-  commercePartner?: string;
   partnerAudienceSource?: PartnerAudienceInfoPartnerAudienceSourceEnum | (string & {});
+  commercePartner?: string;
 }
 export const PartnerAudienceInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    commercePartner: S.optional(S.String),
     partnerAudienceSource: S.optional(PartnerAudienceInfoPartnerAudienceSourceEnum),
+    commercePartner: S.optional(S.String),
   }),
 ).annotate({ identifier: "PartnerAudienceInfo" }) as any as S.Schema<PartnerAudienceInfo>;
+
+export interface PairIdInfo {
+  matchRatePercentage?: number;
+  cleanRoomIdentifier?: string;
+  publisherId?: string;
+  advertiserIdentifierCount?: string;
+  publisherName?: string;
+}
+export const PairIdInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    matchRatePercentage: S.optional(S.Number),
+    cleanRoomIdentifier: S.optional(S.String),
+    publisherId: S.optional(S.String),
+    advertiserIdentifierCount: S.optional(S.String),
+    publisherName: S.optional(S.String),
+  }),
+).annotate({ identifier: "PairIdInfo" }) as any as S.Schema<PairIdInfo>;
 
 export type MobileIdInfoKeySpaceEnum = "KEY_SPACE_UNSPECIFIED" | "IOS" | "ANDROID";
 export const MobileIdInfoKeySpaceEnum = S.String;
@@ -420,15 +451,15 @@ export type MobileIdInfoDataSourceTypeEnum =
 export const MobileIdInfoDataSourceTypeEnum = S.String;
 
 export interface MobileIdInfo {
-  appId?: string;
   keySpace?: MobileIdInfoKeySpaceEnum | (string & {});
   dataSourceType?: MobileIdInfoDataSourceTypeEnum | (string & {});
+  appId?: string;
 }
 export const MobileIdInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
     keySpace: S.optional(MobileIdInfoKeySpaceEnum),
     dataSourceType: S.optional(MobileIdInfoDataSourceTypeEnum),
+    appId: S.optional(S.String),
   }),
 ).annotate({ identifier: "MobileIdInfo" }) as any as S.Schema<MobileIdInfo>;
 
@@ -450,23 +481,6 @@ export const ContactIdInfo = /*@__PURE__*/ S.suspend(() =>
     matchRatePercentage: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ContactIdInfo" }) as any as S.Schema<ContactIdInfo>;
-
-export interface PairIdInfo {
-  publisherId?: string;
-  cleanRoomIdentifier?: string;
-  publisherName?: string;
-  advertiserIdentifierCount?: string;
-  matchRatePercentage?: number;
-}
-export const PairIdInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publisherId: S.optional(S.String),
-    cleanRoomIdentifier: S.optional(S.String),
-    publisherName: S.optional(S.String),
-    advertiserIdentifierCount: S.optional(S.String),
-    matchRatePercentage: S.optional(S.Number),
-  }),
-).annotate({ identifier: "PairIdInfo" }) as any as S.Schema<PairIdInfo>;
 
 export type PseudonymousIdInfoSyncStatusEnum =
   | "SYNC_STATUS_UNSPECIFIED"
@@ -503,89 +517,75 @@ export const UserIdInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserIdInfo" }) as any as S.Schema<UserIdInfo>;
 
+export type IngestedUserListInfoUploadKeyTypesItemEnum =
+  | "UPLOAD_KEY_TYPE_UNSPECIFIED"
+  | "CONTACT_ID"
+  | "MOBILE_ID"
+  | "USER_ID"
+  | "PAIR_ID"
+  | "PSEUDONYMOUS_ID";
+export const IngestedUserListInfoUploadKeyTypesItemEnum = S.String;
+
+export type IngestedUserListInfoUploadKeyTypesItemEnumList = Array<
+  IngestedUserListInfoUploadKeyTypesItemEnum | (string & {})
+>;
+export const IngestedUserListInfoUploadKeyTypesItemEnumList = /*@__PURE__*/ S.Array(
+  IngestedUserListInfoUploadKeyTypesItemEnum,
+) as any as S.Schema<IngestedUserListInfoUploadKeyTypesItemEnumList>;
+
 export interface IngestedUserListInfo {
-  uploadKeyTypes?: IngestedUserListInfoUploadKeyTypesItemEnumList;
   partnerAudienceInfo?: PartnerAudienceInfo;
+  pairIdInfo?: PairIdInfo;
   mobileIdInfo?: MobileIdInfo;
   contactIdInfo?: ContactIdInfo;
-  pairIdInfo?: PairIdInfo;
   pseudonymousIdInfo?: PseudonymousIdInfo;
   userIdInfo?: UserIdInfo;
+  uploadKeyTypes?: IngestedUserListInfoUploadKeyTypesItemEnumList;
 }
 export const IngestedUserListInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uploadKeyTypes: S.optional(IngestedUserListInfoUploadKeyTypesItemEnumList),
     partnerAudienceInfo: S.optional(PartnerAudienceInfo),
+    pairIdInfo: S.optional(PairIdInfo),
     mobileIdInfo: S.optional(MobileIdInfo),
     contactIdInfo: S.optional(ContactIdInfo),
-    pairIdInfo: S.optional(PairIdInfo),
     pseudonymousIdInfo: S.optional(PseudonymousIdInfo),
     userIdInfo: S.optional(UserIdInfo),
+    uploadKeyTypes: S.optional(IngestedUserListInfoUploadKeyTypesItemEnumList),
   }),
 ).annotate({ identifier: "IngestedUserListInfo" }) as any as S.Schema<IngestedUserListInfo>;
 
-export interface SizeInfo {
-  displayNetworkMembersCount?: string;
-  youtubeMembersCount?: string;
-  searchNetworkMembersCount?: string;
-  gmailMembersCount?: string;
-}
-export const SizeInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayNetworkMembersCount: S.optional(S.String),
-    youtubeMembersCount: S.optional(S.String),
-    searchNetworkMembersCount: S.optional(S.String),
-    gmailMembersCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "SizeInfo" }) as any as S.Schema<SizeInfo>;
-
-export type UserListAccessReasonEnum =
-  | "ACCESS_REASON_UNSPECIFIED"
-  | "OWNED"
-  | "SHARED"
-  | "LICENSED"
-  | "SUBSCRIBED"
-  | "AFFILIATED";
-export const UserListAccessReasonEnum = S.String;
-
-export type UserListClosingReasonEnum = "CLOSING_REASON_UNSPECIFIED" | "UNUSED";
-export const UserListClosingReasonEnum = S.String;
-
-export type UserListMembershipStatusEnum = "MEMBERSHIP_STATUS_UNSPECIFIED" | "OPEN" | "CLOSED";
-export const UserListMembershipStatusEnum = S.String;
-
 export interface UserList {
-  description?: string;
-  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {});
-  targetNetworkInfo?: TargetNetworkInfo;
-  membershipDuration?: string;
-  readOnly?: boolean;
-  ingestedUserListInfo?: IngestedUserListInfo;
-  sizeInfo?: SizeInfo;
   accessReason?: UserListAccessReasonEnum | (string & {});
-  closingReason?: UserListClosingReasonEnum | (string & {});
-  id?: string;
-  membershipStatus?: UserListMembershipStatusEnum | (string & {});
-  integrationCode?: string;
-  name?: string;
   displayName?: string;
+  integrationCode?: string;
+  closingReason?: UserListClosingReasonEnum | (string & {});
+  membershipDuration?: string;
+  sizeInfo?: SizeInfo;
+  membershipStatus?: UserListMembershipStatusEnum | (string & {});
+  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {});
+  description?: string;
+  name?: string;
+  targetNetworkInfo?: TargetNetworkInfo;
+  id?: string;
+  ingestedUserListInfo?: IngestedUserListInfo;
+  readOnly?: boolean;
 }
 export const UserList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    accountAccessStatus: S.optional(UserListAccountAccessStatusEnum),
-    targetNetworkInfo: S.optional(TargetNetworkInfo),
-    membershipDuration: S.optional(S.String),
-    readOnly: S.optional(S.Boolean),
-    ingestedUserListInfo: S.optional(IngestedUserListInfo),
-    sizeInfo: S.optional(SizeInfo),
     accessReason: S.optional(UserListAccessReasonEnum),
-    closingReason: S.optional(UserListClosingReasonEnum),
-    id: S.optional(S.String),
-    membershipStatus: S.optional(UserListMembershipStatusEnum),
-    integrationCode: S.optional(S.String),
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
+    integrationCode: S.optional(S.String),
+    closingReason: S.optional(UserListClosingReasonEnum),
+    membershipDuration: S.optional(S.String),
+    sizeInfo: S.optional(SizeInfo),
+    membershipStatus: S.optional(UserListMembershipStatusEnum),
+    accountAccessStatus: S.optional(UserListAccountAccessStatusEnum),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    targetNetworkInfo: S.optional(TargetNetworkInfo),
+    id: S.optional(S.String),
+    ingestedUserListInfo: S.optional(IngestedUserListInfo),
+    readOnly: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "UserList" }) as any as S.Schema<UserList>;
 
@@ -630,13 +630,13 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface DeleteAccountTypesAccountsUserListsRequest {
-  name: string;
   validateOnly?: boolean;
+  name: string;
 }
 export const DeleteAccountTypesAccountsUserListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://datamanager.googleapis.com/" }),
   ),
@@ -668,13 +668,13 @@ export const Baseline = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Baseline" }) as any as S.Schema<Baseline>;
 
 export interface RetrieveInsightsRequest {
-  baseline?: Baseline;
   userListId?: string;
+  baseline?: Baseline;
 }
 export const RetrieveInsightsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    baseline: S.optional(Baseline),
     userListId: S.optional(S.String),
+    baseline: S.optional(Baseline),
   }),
 ).annotate({ identifier: "RetrieveInsightsRequest" }) as any as S.Schema<RetrieveInsightsRequest>;
 
@@ -698,22 +698,6 @@ export const GetAccountTypesAccountsInsightsRequest = /*@__PURE__*/ S.suspend(()
   identifier: "GetAccountTypesAccountsInsightsRequest",
 }) as any as S.Schema<GetAccountTypesAccountsInsightsRequest>;
 
-export type MarketingDataInsightDimensionEnum =
-  | "AUDIENCE_INSIGHTS_DIMENSION_UNSPECIFIED"
-  | "AUDIENCE_INSIGHTS_DIMENSION_UNKNOWN"
-  | "AFFINITY_USER_INTEREST"
-  | "IN_MARKET_USER_INTEREST"
-  | "AGE_RANGE"
-  | "GENDER";
-export const MarketingDataInsightDimensionEnum = S.String;
-
-export type MarketingDataInsightsAttributeGenderEnum =
-  | "GENDER_UNSPECIFIED"
-  | "GENDER_UNKNOWN"
-  | "GENDER_MALE"
-  | "GENDER_FEMALE";
-export const MarketingDataInsightsAttributeGenderEnum = S.String;
-
 export type MarketingDataInsightsAttributeAgeRangeEnum =
   | "AGE_RANGE_UNSPECIFIED"
   | "AGE_RANGE_UNKNOWN"
@@ -725,18 +709,25 @@ export type MarketingDataInsightsAttributeAgeRangeEnum =
   | "AGE_RANGE_65_UP";
 export const MarketingDataInsightsAttributeAgeRangeEnum = S.String;
 
+export type MarketingDataInsightsAttributeGenderEnum =
+  | "GENDER_UNSPECIFIED"
+  | "GENDER_UNKNOWN"
+  | "GENDER_MALE"
+  | "GENDER_FEMALE";
+export const MarketingDataInsightsAttributeGenderEnum = S.String;
+
 export interface MarketingDataInsightsAttribute {
-  userInterestId?: string;
-  gender?: MarketingDataInsightsAttributeGenderEnum;
-  lift?: number;
   ageRange?: MarketingDataInsightsAttributeAgeRangeEnum;
+  gender?: MarketingDataInsightsAttributeGenderEnum;
+  userInterestId?: string;
+  lift?: number;
 }
 export const MarketingDataInsightsAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userInterestId: S.optional(S.String),
-    gender: S.optional(MarketingDataInsightsAttributeGenderEnum),
-    lift: S.optional(S.Number),
     ageRange: S.optional(MarketingDataInsightsAttributeAgeRangeEnum),
+    gender: S.optional(MarketingDataInsightsAttributeGenderEnum),
+    userInterestId: S.optional(S.String),
+    lift: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "MarketingDataInsightsAttribute",
@@ -747,14 +738,23 @@ export const MarketingDataInsightsAttributeList = /*@__PURE__*/ S.Array(
   MarketingDataInsightsAttribute,
 ) as any as S.Schema<MarketingDataInsightsAttributeList>;
 
+export type MarketingDataInsightDimensionEnum =
+  | "AUDIENCE_INSIGHTS_DIMENSION_UNSPECIFIED"
+  | "AUDIENCE_INSIGHTS_DIMENSION_UNKNOWN"
+  | "AFFINITY_USER_INTEREST"
+  | "IN_MARKET_USER_INTEREST"
+  | "AGE_RANGE"
+  | "GENDER";
+export const MarketingDataInsightDimensionEnum = S.String;
+
 export interface MarketingDataInsight {
-  dimension?: MarketingDataInsightDimensionEnum;
   attributes?: MarketingDataInsightsAttributeList;
+  dimension?: MarketingDataInsightDimensionEnum;
 }
 export const MarketingDataInsight = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dimension: S.optional(MarketingDataInsightDimensionEnum),
     attributes: S.optional(MarketingDataInsightsAttributeList),
+    dimension: S.optional(MarketingDataInsightDimensionEnum),
   }),
 ).annotate({ identifier: "MarketingDataInsight" }) as any as S.Schema<MarketingDataInsight>;
 
@@ -826,264 +826,6 @@ export const GetRequestStatusRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetRequestStatusRequest" }) as any as S.Schema<GetRequestStatusRequest>;
 
-export interface IngestPairDataStatus {
-  recordCount?: string;
-  pairIdCount?: string;
-}
-export const IngestPairDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    pairIdCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "IngestPairDataStatus" }) as any as S.Schema<IngestPairDataStatus>;
-
-export interface IngestUserIdDataStatus {
-  recordCount?: string;
-  userIdCount?: string;
-}
-export const IngestUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    userIdCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "IngestUserIdDataStatus" }) as any as S.Schema<IngestUserIdDataStatus>;
-
-export interface IngestGoogleUserIdDataStatus {
-  recordCount?: string;
-  googleUserIdCount?: string;
-}
-export const IngestGoogleUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    googleUserIdCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestGoogleUserIdDataStatus",
-}) as any as S.Schema<IngestGoogleUserIdDataStatus>;
-
-export interface IngestPartnerProvidedIdDataStatus {
-  recordCount?: string;
-  partnerProvidedIdCount?: string;
-}
-export const IngestPartnerProvidedIdDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    partnerProvidedIdCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestPartnerProvidedIdDataStatus",
-}) as any as S.Schema<IngestPartnerProvidedIdDataStatus>;
-
-export type IngestCompositeDataStatusUploadMatchRateRangeEnum =
-  | "MATCH_RATE_RANGE_UNKNOWN"
-  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
-  | "MATCH_RATE_RANGE_LESS_THAN_20"
-  | "MATCH_RATE_RANGE_20_TO_30"
-  | "MATCH_RATE_RANGE_31_TO_40"
-  | "MATCH_RATE_RANGE_41_TO_50"
-  | "MATCH_RATE_RANGE_51_TO_60"
-  | "MATCH_RATE_RANGE_61_TO_70"
-  | "MATCH_RATE_RANGE_71_TO_80"
-  | "MATCH_RATE_RANGE_81_TO_90"
-  | "MATCH_RATE_RANGE_91_TO_100";
-export const IngestCompositeDataStatusUploadMatchRateRangeEnum = S.String;
-
-export type DataTypeCountTypeEnum =
-  | "DATA_TYPE_UNSPECIFIED"
-  | "EMAIL"
-  | "PHONE_NUMBER"
-  | "ADDRESS"
-  | "IP_ADDRESS";
-export const DataTypeCountTypeEnum = S.String;
-
-export interface DataTypeCount {
-  type?: DataTypeCountTypeEnum;
-  count?: string;
-}
-export const DataTypeCount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(DataTypeCountTypeEnum),
-    count: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataTypeCount" }) as any as S.Schema<DataTypeCount>;
-
-export type DataTypeCountList = Array<DataTypeCount>;
-export const DataTypeCountList = /*@__PURE__*/ S.Array(
-  DataTypeCount,
-) as any as S.Schema<DataTypeCountList>;
-
-export interface IngestCompositeDataStatus {
-  uploadMatchRateRange?: IngestCompositeDataStatusUploadMatchRateRangeEnum;
-  recordCount?: string;
-  dataTypeCounts?: DataTypeCountList;
-}
-export const IngestCompositeDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uploadMatchRateRange: S.optional(IngestCompositeDataStatusUploadMatchRateRangeEnum),
-    recordCount: S.optional(S.String),
-    dataTypeCounts: S.optional(DataTypeCountList),
-  }),
-).annotate({
-  identifier: "IngestCompositeDataStatus",
-}) as any as S.Schema<IngestCompositeDataStatus>;
-
-export interface IngestMobileDataStatus {
-  recordCount?: string;
-  mobileIdCount?: string;
-}
-export const IngestMobileDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    mobileIdCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "IngestMobileDataStatus" }) as any as S.Schema<IngestMobileDataStatus>;
-
-export interface IngestPpidDataStatus {
-  recordCount?: string;
-  ppidCount?: string;
-}
-export const IngestPpidDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    ppidCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "IngestPpidDataStatus" }) as any as S.Schema<IngestPpidDataStatus>;
-
-export type IngestUserDataStatusUploadMatchRateRangeEnum =
-  | "MATCH_RATE_RANGE_UNKNOWN"
-  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
-  | "MATCH_RATE_RANGE_LESS_THAN_20"
-  | "MATCH_RATE_RANGE_20_TO_30"
-  | "MATCH_RATE_RANGE_31_TO_40"
-  | "MATCH_RATE_RANGE_41_TO_50"
-  | "MATCH_RATE_RANGE_51_TO_60"
-  | "MATCH_RATE_RANGE_61_TO_70"
-  | "MATCH_RATE_RANGE_71_TO_80"
-  | "MATCH_RATE_RANGE_81_TO_90"
-  | "MATCH_RATE_RANGE_91_TO_100";
-export const IngestUserDataStatusUploadMatchRateRangeEnum = S.String;
-
-export interface IngestUserDataStatus {
-  recordCount?: string;
-  userIdentifierCount?: string;
-  uploadMatchRateRange?: IngestUserDataStatusUploadMatchRateRangeEnum;
-}
-export const IngestUserDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    userIdentifierCount: S.optional(S.String),
-    uploadMatchRateRange: S.optional(IngestUserDataStatusUploadMatchRateRangeEnum),
-  }),
-).annotate({ identifier: "IngestUserDataStatus" }) as any as S.Schema<IngestUserDataStatus>;
-
-export interface IngestAudienceMembersStatus {
-  pairDataIngestionStatus?: IngestPairDataStatus;
-  userIdDataIngestionStatus?: IngestUserIdDataStatus;
-  googleUserIdDataIngestionStatus?: IngestGoogleUserIdDataStatus;
-  partnerProvidedIdDataIngestionStatus?: IngestPartnerProvidedIdDataStatus;
-  compositeDataIngestionStatus?: IngestCompositeDataStatus;
-  mobileDataIngestionStatus?: IngestMobileDataStatus;
-  ppidDataIngestionStatus?: IngestPpidDataStatus;
-  userDataIngestionStatus?: IngestUserDataStatus;
-}
-export const IngestAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pairDataIngestionStatus: S.optional(IngestPairDataStatus),
-    userIdDataIngestionStatus: S.optional(IngestUserIdDataStatus),
-    googleUserIdDataIngestionStatus: S.optional(IngestGoogleUserIdDataStatus),
-    partnerProvidedIdDataIngestionStatus: S.optional(IngestPartnerProvidedIdDataStatus),
-    compositeDataIngestionStatus: S.optional(IngestCompositeDataStatus),
-    mobileDataIngestionStatus: S.optional(IngestMobileDataStatus),
-    ppidDataIngestionStatus: S.optional(IngestPpidDataStatus),
-    userDataIngestionStatus: S.optional(IngestUserDataStatus),
-  }),
-).annotate({
-  identifier: "IngestAudienceMembersStatus",
-}) as any as S.Schema<IngestAudienceMembersStatus>;
-
-export type RemoveGoogleUserIdDataStatus = IngestGoogleUserIdDataStatus;
-export const RemoveGoogleUserIdDataStatus = IngestGoogleUserIdDataStatus;
-
-export interface RemoveCompositeDataStatus {
-  recordCount?: string;
-  dataTypeCounts?: DataTypeCountList;
-}
-export const RemoveCompositeDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    dataTypeCounts: S.optional(DataTypeCountList),
-  }),
-).annotate({
-  identifier: "RemoveCompositeDataStatus",
-}) as any as S.Schema<RemoveCompositeDataStatus>;
-
-export interface RemoveUserDataStatus {
-  userIdentifierCount?: string;
-  recordCount?: string;
-}
-export const RemoveUserDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userIdentifierCount: S.optional(S.String),
-    recordCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "RemoveUserDataStatus" }) as any as S.Schema<RemoveUserDataStatus>;
-
-export interface RemovePairDataStatus {
-  pairIdCount?: string;
-  recordCount?: string;
-}
-export const RemovePairDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pairIdCount: S.optional(S.String),
-    recordCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "RemovePairDataStatus" }) as any as S.Schema<RemovePairDataStatus>;
-
-export type RemovePartnerProvidedIdDataStatus = IngestPartnerProvidedIdDataStatus;
-export const RemovePartnerProvidedIdDataStatus = IngestPartnerProvidedIdDataStatus;
-
-export interface RemoveMobileDataStatus {
-  mobileIdCount?: string;
-  recordCount?: string;
-}
-export const RemoveMobileDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mobileIdCount: S.optional(S.String),
-    recordCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "RemoveMobileDataStatus" }) as any as S.Schema<RemoveMobileDataStatus>;
-
-export type RemoveUserIdDataStatus = IngestUserIdDataStatus;
-export const RemoveUserIdDataStatus = IngestUserIdDataStatus;
-
-export type RemovePpidDataStatus = IngestPpidDataStatus;
-export const RemovePpidDataStatus = IngestPpidDataStatus;
-
-export interface RemoveAudienceMembersStatus {
-  googleUserIdDataRemovalStatus?: IngestGoogleUserIdDataStatus;
-  compositeDataRemovalStatus?: RemoveCompositeDataStatus;
-  userDataRemovalStatus?: RemoveUserDataStatus;
-  pairDataRemovalStatus?: RemovePairDataStatus;
-  partnerProvidedIdDataRemovalStatus?: IngestPartnerProvidedIdDataStatus;
-  mobileDataRemovalStatus?: RemoveMobileDataStatus;
-  userIdDataRemovalStatus?: IngestUserIdDataStatus;
-  ppidDataRemovalStatus?: IngestPpidDataStatus;
-}
-export const RemoveAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    googleUserIdDataRemovalStatus: S.optional(IngestGoogleUserIdDataStatus),
-    compositeDataRemovalStatus: S.optional(RemoveCompositeDataStatus),
-    userDataRemovalStatus: S.optional(RemoveUserDataStatus),
-    pairDataRemovalStatus: S.optional(RemovePairDataStatus),
-    partnerProvidedIdDataRemovalStatus: S.optional(IngestPartnerProvidedIdDataStatus),
-    mobileDataRemovalStatus: S.optional(RemoveMobileDataStatus),
-    userIdDataRemovalStatus: S.optional(IngestUserIdDataStatus),
-    ppidDataRemovalStatus: S.optional(IngestPpidDataStatus),
-  }),
-).annotate({
-  identifier: "RemoveAudienceMembersStatus",
-}) as any as S.Schema<RemoveAudienceMembersStatus>;
-
 export type RequestStatusPerDestinationRequestStatusEnum =
   | "REQUEST_STATUS_UNKNOWN"
   | "SUCCESS"
@@ -1091,37 +833,6 @@ export type RequestStatusPerDestinationRequestStatusEnum =
   | "FAILED"
   | "PARTIAL_SUCCESS";
 export const RequestStatusPerDestinationRequestStatusEnum = S.String;
-
-export interface Destination {
-  operatingAccount?: ProductAccount;
-  reference?: string;
-  loginAccount?: ProductAccount;
-  linkedAccount?: ProductAccount;
-  productDestinationId?: string;
-}
-export const Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    operatingAccount: S.optional(ProductAccount),
-    reference: S.optional(S.String),
-    loginAccount: S.optional(ProductAccount),
-    linkedAccount: S.optional(ProductAccount),
-    productDestinationId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
-
-export interface IngestEventsStatus {
-  recordCount?: string;
-}
-export const IngestEventsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "IngestEventsStatus" }) as any as S.Schema<IngestEventsStatus>;
-
-export interface RemoveAllAudienceMembersStatus {}
-export const RemoveAllAudienceMembersStatus = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "RemoveAllAudienceMembersStatus",
-}) as any as S.Schema<RemoveAllAudienceMembersStatus>;
 
 export type WarningCountReasonEnum =
   | "PROCESSING_WARNING_REASON_UNSPECIFIED"
@@ -1160,6 +871,305 @@ export const WarningInfo = /*@__PURE__*/ S.suspend(() =>
     warningCounts: S.optional(WarningCountList),
   }),
 ).annotate({ identifier: "WarningInfo" }) as any as S.Schema<WarningInfo>;
+
+export interface RemoveUserIdDataStatus {
+  recordCount?: string;
+  userIdCount?: string;
+}
+export const RemoveUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recordCount: S.optional(S.String),
+    userIdCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "RemoveUserIdDataStatus" }) as any as S.Schema<RemoveUserIdDataStatus>;
+
+export interface RemoveUserDataStatus {
+  recordCount?: string;
+  userIdentifierCount?: string;
+}
+export const RemoveUserDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recordCount: S.optional(S.String),
+    userIdentifierCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "RemoveUserDataStatus" }) as any as S.Schema<RemoveUserDataStatus>;
+
+export interface RemovePairDataStatus {
+  recordCount?: string;
+  pairIdCount?: string;
+}
+export const RemovePairDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recordCount: S.optional(S.String),
+    pairIdCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "RemovePairDataStatus" }) as any as S.Schema<RemovePairDataStatus>;
+
+export interface RemovePpidDataStatus {
+  ppidCount?: string;
+  recordCount?: string;
+}
+export const RemovePpidDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ppidCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "RemovePpidDataStatus" }) as any as S.Schema<RemovePpidDataStatus>;
+
+export type DataTypeCountTypeEnum =
+  | "DATA_TYPE_UNSPECIFIED"
+  | "EMAIL"
+  | "PHONE_NUMBER"
+  | "ADDRESS"
+  | "IP_ADDRESS";
+export const DataTypeCountTypeEnum = S.String;
+
+export interface DataTypeCount {
+  type?: DataTypeCountTypeEnum;
+  count?: string;
+}
+export const DataTypeCount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(DataTypeCountTypeEnum),
+    count: S.optional(S.String),
+  }),
+).annotate({ identifier: "DataTypeCount" }) as any as S.Schema<DataTypeCount>;
+
+export type DataTypeCountList = Array<DataTypeCount>;
+export const DataTypeCountList = /*@__PURE__*/ S.Array(
+  DataTypeCount,
+) as any as S.Schema<DataTypeCountList>;
+
+export interface RemoveCompositeDataStatus {
+  dataTypeCounts?: DataTypeCountList;
+  recordCount?: string;
+}
+export const RemoveCompositeDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataTypeCounts: S.optional(DataTypeCountList),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RemoveCompositeDataStatus",
+}) as any as S.Schema<RemoveCompositeDataStatus>;
+
+export interface RemoveGoogleUserIdDataStatus {
+  googleUserIdCount?: string;
+  recordCount?: string;
+}
+export const RemoveGoogleUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    googleUserIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RemoveGoogleUserIdDataStatus",
+}) as any as S.Schema<RemoveGoogleUserIdDataStatus>;
+
+export interface RemoveMobileDataStatus {
+  recordCount?: string;
+  mobileIdCount?: string;
+}
+export const RemoveMobileDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recordCount: S.optional(S.String),
+    mobileIdCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "RemoveMobileDataStatus" }) as any as S.Schema<RemoveMobileDataStatus>;
+
+export interface RemovePartnerProvidedIdDataStatus {
+  recordCount?: string;
+  partnerProvidedIdCount?: string;
+}
+export const RemovePartnerProvidedIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recordCount: S.optional(S.String),
+    partnerProvidedIdCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RemovePartnerProvidedIdDataStatus",
+}) as any as S.Schema<RemovePartnerProvidedIdDataStatus>;
+
+export interface RemoveAudienceMembersStatus {
+  userIdDataRemovalStatus?: RemoveUserIdDataStatus;
+  userDataRemovalStatus?: RemoveUserDataStatus;
+  pairDataRemovalStatus?: RemovePairDataStatus;
+  ppidDataRemovalStatus?: RemovePpidDataStatus;
+  compositeDataRemovalStatus?: RemoveCompositeDataStatus;
+  googleUserIdDataRemovalStatus?: RemoveGoogleUserIdDataStatus;
+  mobileDataRemovalStatus?: RemoveMobileDataStatus;
+  partnerProvidedIdDataRemovalStatus?: RemovePartnerProvidedIdDataStatus;
+}
+export const RemoveAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userIdDataRemovalStatus: S.optional(RemoveUserIdDataStatus),
+    userDataRemovalStatus: S.optional(RemoveUserDataStatus),
+    pairDataRemovalStatus: S.optional(RemovePairDataStatus),
+    ppidDataRemovalStatus: S.optional(RemovePpidDataStatus),
+    compositeDataRemovalStatus: S.optional(RemoveCompositeDataStatus),
+    googleUserIdDataRemovalStatus: S.optional(RemoveGoogleUserIdDataStatus),
+    mobileDataRemovalStatus: S.optional(RemoveMobileDataStatus),
+    partnerProvidedIdDataRemovalStatus: S.optional(RemovePartnerProvidedIdDataStatus),
+  }),
+).annotate({
+  identifier: "RemoveAudienceMembersStatus",
+}) as any as S.Schema<RemoveAudienceMembersStatus>;
+
+export interface RemoveAllAudienceMembersStatus {}
+export const RemoveAllAudienceMembersStatus = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "RemoveAllAudienceMembersStatus",
+}) as any as S.Schema<RemoveAllAudienceMembersStatus>;
+
+export interface IngestMobileDataStatus {
+  mobileIdCount?: string;
+  recordCount?: string;
+}
+export const IngestMobileDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mobileIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "IngestMobileDataStatus" }) as any as S.Schema<IngestMobileDataStatus>;
+
+export type IngestUserIdDataStatus = RemoveUserIdDataStatus;
+export const IngestUserIdDataStatus = RemoveUserIdDataStatus;
+
+export interface IngestPartnerProvidedIdDataStatus {
+  partnerProvidedIdCount?: string;
+  recordCount?: string;
+}
+export const IngestPartnerProvidedIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partnerProvidedIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngestPartnerProvidedIdDataStatus",
+}) as any as S.Schema<IngestPartnerProvidedIdDataStatus>;
+
+export type IngestUserDataStatusUploadMatchRateRangeEnum =
+  | "MATCH_RATE_RANGE_UNKNOWN"
+  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
+  | "MATCH_RATE_RANGE_LESS_THAN_20"
+  | "MATCH_RATE_RANGE_20_TO_30"
+  | "MATCH_RATE_RANGE_31_TO_40"
+  | "MATCH_RATE_RANGE_41_TO_50"
+  | "MATCH_RATE_RANGE_51_TO_60"
+  | "MATCH_RATE_RANGE_61_TO_70"
+  | "MATCH_RATE_RANGE_71_TO_80"
+  | "MATCH_RATE_RANGE_81_TO_90"
+  | "MATCH_RATE_RANGE_91_TO_100";
+export const IngestUserDataStatusUploadMatchRateRangeEnum = S.String;
+
+export interface IngestUserDataStatus {
+  uploadMatchRateRange?: IngestUserDataStatusUploadMatchRateRangeEnum;
+  userIdentifierCount?: string;
+  recordCount?: string;
+}
+export const IngestUserDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uploadMatchRateRange: S.optional(IngestUserDataStatusUploadMatchRateRangeEnum),
+    userIdentifierCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "IngestUserDataStatus" }) as any as S.Schema<IngestUserDataStatus>;
+
+export interface IngestPairDataStatus {
+  pairIdCount?: string;
+  recordCount?: string;
+}
+export const IngestPairDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pairIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "IngestPairDataStatus" }) as any as S.Schema<IngestPairDataStatus>;
+
+export type IngestPpidDataStatus = RemovePpidDataStatus;
+export const IngestPpidDataStatus = RemovePpidDataStatus;
+
+export type IngestCompositeDataStatusUploadMatchRateRangeEnum =
+  | "MATCH_RATE_RANGE_UNKNOWN"
+  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
+  | "MATCH_RATE_RANGE_LESS_THAN_20"
+  | "MATCH_RATE_RANGE_20_TO_30"
+  | "MATCH_RATE_RANGE_31_TO_40"
+  | "MATCH_RATE_RANGE_41_TO_50"
+  | "MATCH_RATE_RANGE_51_TO_60"
+  | "MATCH_RATE_RANGE_61_TO_70"
+  | "MATCH_RATE_RANGE_71_TO_80"
+  | "MATCH_RATE_RANGE_81_TO_90"
+  | "MATCH_RATE_RANGE_91_TO_100";
+export const IngestCompositeDataStatusUploadMatchRateRangeEnum = S.String;
+
+export interface IngestCompositeDataStatus {
+  uploadMatchRateRange?: IngestCompositeDataStatusUploadMatchRateRangeEnum;
+  recordCount?: string;
+  dataTypeCounts?: DataTypeCountList;
+}
+export const IngestCompositeDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uploadMatchRateRange: S.optional(IngestCompositeDataStatusUploadMatchRateRangeEnum),
+    recordCount: S.optional(S.String),
+    dataTypeCounts: S.optional(DataTypeCountList),
+  }),
+).annotate({
+  identifier: "IngestCompositeDataStatus",
+}) as any as S.Schema<IngestCompositeDataStatus>;
+
+export type IngestGoogleUserIdDataStatus = RemoveGoogleUserIdDataStatus;
+export const IngestGoogleUserIdDataStatus = RemoveGoogleUserIdDataStatus;
+
+export interface IngestAudienceMembersStatus {
+  mobileDataIngestionStatus?: IngestMobileDataStatus;
+  userIdDataIngestionStatus?: RemoveUserIdDataStatus;
+  partnerProvidedIdDataIngestionStatus?: IngestPartnerProvidedIdDataStatus;
+  userDataIngestionStatus?: IngestUserDataStatus;
+  pairDataIngestionStatus?: IngestPairDataStatus;
+  ppidDataIngestionStatus?: RemovePpidDataStatus;
+  compositeDataIngestionStatus?: IngestCompositeDataStatus;
+  googleUserIdDataIngestionStatus?: RemoveGoogleUserIdDataStatus;
+}
+export const IngestAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mobileDataIngestionStatus: S.optional(IngestMobileDataStatus),
+    userIdDataIngestionStatus: S.optional(RemoveUserIdDataStatus),
+    partnerProvidedIdDataIngestionStatus: S.optional(IngestPartnerProvidedIdDataStatus),
+    userDataIngestionStatus: S.optional(IngestUserDataStatus),
+    pairDataIngestionStatus: S.optional(IngestPairDataStatus),
+    ppidDataIngestionStatus: S.optional(RemovePpidDataStatus),
+    compositeDataIngestionStatus: S.optional(IngestCompositeDataStatus),
+    googleUserIdDataIngestionStatus: S.optional(RemoveGoogleUserIdDataStatus),
+  }),
+).annotate({
+  identifier: "IngestAudienceMembersStatus",
+}) as any as S.Schema<IngestAudienceMembersStatus>;
+
+export interface Destination {
+  reference?: string;
+  productDestinationId?: string;
+  loginAccount?: ProductAccount;
+  operatingAccount?: ProductAccount;
+  linkedAccount?: ProductAccount;
+}
+export const Destination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reference: S.optional(S.String),
+    productDestinationId: S.optional(S.String),
+    loginAccount: S.optional(ProductAccount),
+    operatingAccount: S.optional(ProductAccount),
+    linkedAccount: S.optional(ProductAccount),
+  }),
+).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
+
+export interface IngestEventsStatus {
+  recordCount?: string;
+}
+export const IngestEventsStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recordCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "IngestEventsStatus" }) as any as S.Schema<IngestEventsStatus>;
 
 export type ErrorCountReasonEnum =
   | "PROCESSING_ERROR_REASON_UNSPECIFIED"
@@ -1206,17 +1216,19 @@ export type ErrorCountReasonEnum =
   | "PROCESSING_ERROR_REASON_INVALID_CLICK"
   | "PROCESSING_ERROR_REASON_INVALID_OPERATING_ACCOUNT_FOR_CLICK"
   | "PROCESSING_ERROR_REASON_CLICK_NOT_FOUND"
-  | "PROCESSING_ERROR_REASON_EXTERNAL_ATTRIBUTION_DATA_MISSING";
+  | "PROCESSING_ERROR_REASON_EXTERNAL_ATTRIBUTION_DATA_MISSING"
+  | "PROCESSING_ERROR_REASON_DESTINATION_TOO_RECENTLY_CREATED"
+  | "PROCESSING_ERROR_REASON_EXPIRED_CLICK";
 export const ErrorCountReasonEnum = S.String;
 
 export interface ErrorCount {
-  reason?: ErrorCountReasonEnum;
   recordCount?: string;
+  reason?: ErrorCountReasonEnum;
 }
 export const ErrorCount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reason: S.optional(ErrorCountReasonEnum),
     recordCount: S.optional(S.String),
+    reason: S.optional(ErrorCountReasonEnum),
   }),
 ).annotate({ identifier: "ErrorCount" }) as any as S.Schema<ErrorCount>;
 
@@ -1233,24 +1245,24 @@ export const ErrorInfo = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ErrorInfo" }) as any as S.Schema<ErrorInfo>;
 
 export interface RequestStatusPerDestination {
-  audienceMembersIngestionStatus?: IngestAudienceMembersStatus;
-  audienceMembersRemovalStatus?: RemoveAudienceMembersStatus;
   requestStatus?: RequestStatusPerDestinationRequestStatusEnum;
+  warningInfo?: WarningInfo;
+  audienceMembersRemovalStatus?: RemoveAudienceMembersStatus;
+  removeAllAudienceMembersStatus?: RemoveAllAudienceMembersStatus;
+  audienceMembersIngestionStatus?: IngestAudienceMembersStatus;
   destination?: Destination;
   eventsIngestionStatus?: IngestEventsStatus;
-  removeAllAudienceMembersStatus?: RemoveAllAudienceMembersStatus;
-  warningInfo?: WarningInfo;
   errorInfo?: ErrorInfo;
 }
 export const RequestStatusPerDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    audienceMembersIngestionStatus: S.optional(IngestAudienceMembersStatus),
-    audienceMembersRemovalStatus: S.optional(RemoveAudienceMembersStatus),
     requestStatus: S.optional(RequestStatusPerDestinationRequestStatusEnum),
+    warningInfo: S.optional(WarningInfo),
+    audienceMembersRemovalStatus: S.optional(RemoveAudienceMembersStatus),
+    removeAllAudienceMembersStatus: S.optional(RemoveAllAudienceMembersStatus),
+    audienceMembersIngestionStatus: S.optional(IngestAudienceMembersStatus),
     destination: S.optional(Destination),
     eventsIngestionStatus: S.optional(IngestEventsStatus),
-    removeAllAudienceMembersStatus: S.optional(RemoveAllAudienceMembersStatus),
-    warningInfo: S.optional(WarningInfo),
     errorInfo: S.optional(ErrorInfo),
   }),
 ).annotate({
@@ -1271,36 +1283,93 @@ export const GetRequestStatusResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GetRequestStatusResponse" }) as any as S.Schema<GetRequestStatusResponse>;
 
-export interface DeviceInfo {
-  browserVersion?: string;
-  operatingSystem?: string;
-  screenWidth?: number;
-  brand?: string;
-  operatingSystemVersion?: string;
-  userAgent?: string;
-  model?: string;
-  screenHeight?: number;
-  languageCode?: string;
-  category?: string;
-  browser?: string;
-  ipAddress?: string;
+export type AdEventEventTypeEnum =
+  | "EVENT_TYPE_UNSPECIFIED"
+  | "EVENT_TYPE_VIEW"
+  | "EVENT_TYPE_CLICK";
+export const AdEventEventTypeEnum = S.String;
+
+export type AdEventAttributionHintEnum =
+  | "ATTRIBUTION_HINT_UNSPECIFIED"
+  | "ATTRIBUTION_HINT_CONVERTED"
+  | "ATTRIBUTION_HINT_NOT_CONVERTED";
+export const AdEventAttributionHintEnum = S.String;
+
+export type AdEventAdTypeEnum =
+  | "AD_TYPE_UNSPECIFIED"
+  | "AD_TYPE_DISPLAY"
+  | "AD_TYPE_TEXT"
+  | "AD_TYPE_IMAGE"
+  | "AD_TYPE_RICH_MEDIA"
+  | "AD_TYPE_HTML"
+  | "AD_TYPE_AUDIO"
+  | "AD_TYPE_VIDEO";
+export const AdEventAdTypeEnum = S.String;
+
+export type AdEventEventSubtypeEnum =
+  | "EVENT_SUBTYPE_UNSPECIFIED"
+  | "EVENT_SUBTYPE_IMPRESSION"
+  | "EVENT_SUBTYPE_ENGAGED_VIEW"
+  | "EVENT_SUBTYPE_ONSITE_CLICK"
+  | "EVENT_SUBTYPE_OUTBOUND_CLICK";
+export const AdEventEventSubtypeEnum = S.String;
+
+export type AdEventPlatformTypeEnum =
+  | "PLATFORM_TYPE_UNSPECIFIED"
+  | "PLATFORM_TYPE_MOBILE"
+  | "PLATFORM_TYPE_DESKTOP"
+  | "PLATFORM_TYPE_CTV"
+  | "PLATFORM_TYPE_PHONE"
+  | "PLATFORM_TYPE_TABLET";
+export const AdEventPlatformTypeEnum = S.String;
+
+export interface AddressInfo {
+  addressLine?: string;
+  city?: string;
+  administrativeArea?: string;
+  familyName?: string;
+  postalCode?: string;
+  givenName?: string;
+  regionCode?: string;
 }
-export const DeviceInfo = /*@__PURE__*/ S.suspend(() =>
+export const AddressInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    browserVersion: S.optional(S.String),
-    operatingSystem: S.optional(S.String),
-    screenWidth: S.optional(S.Number),
-    brand: S.optional(S.String),
-    operatingSystemVersion: S.optional(S.String),
-    userAgent: S.optional(S.String),
-    model: S.optional(S.String),
-    screenHeight: S.optional(S.Number),
-    languageCode: S.optional(S.String),
-    category: S.optional(S.String),
-    browser: S.optional(S.String),
-    ipAddress: S.optional(S.String),
+    addressLine: S.optional(S.String),
+    city: S.optional(S.String),
+    administrativeArea: S.optional(S.String),
+    familyName: S.optional(S.String),
+    postalCode: S.optional(S.String),
+    givenName: S.optional(S.String),
+    regionCode: S.optional(S.String),
   }),
-).annotate({ identifier: "DeviceInfo" }) as any as S.Schema<DeviceInfo>;
+).annotate({ identifier: "AddressInfo" }) as any as S.Schema<AddressInfo>;
+
+export interface UserIdentifier {
+  emailAddress?: string;
+  phoneNumber?: string;
+  address?: AddressInfo;
+}
+export const UserIdentifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    emailAddress: S.optional(S.String),
+    phoneNumber: S.optional(S.String),
+    address: S.optional(AddressInfo),
+  }),
+).annotate({ identifier: "UserIdentifier" }) as any as S.Schema<UserIdentifier>;
+
+export type UserIdentifierList = Array<UserIdentifier>;
+export const UserIdentifierList = /*@__PURE__*/ S.Array(
+  UserIdentifier,
+) as any as S.Schema<UserIdentifierList>;
+
+export interface UserData {
+  userIdentifiers?: UserIdentifierList;
+}
+export const UserData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userIdentifiers: S.optional(UserIdentifierList),
+  }),
+).annotate({ identifier: "UserData" }) as any as S.Schema<UserData>;
 
 export type AdEventTargetingTypeEnum =
   | "TARGETING_TYPE_UNSPECIFIED"
@@ -1330,115 +1399,40 @@ export type ViewabilityInfoViewTypeEnum =
 export const ViewabilityInfoViewTypeEnum = S.String;
 
 export interface ViewabilityInfo {
-  viewableDuration?: string;
   mediaQuartile?: ViewabilityInfoMediaQuartileEnum | (string & {});
-  viewType?: ViewabilityInfoViewTypeEnum | (string & {});
-  playbackDuration?: string;
   mediaVolumePercent?: number;
-  mediaDuration?: string;
+  viewableDuration?: string;
   viewablePercent?: number;
+  viewType?: ViewabilityInfoViewTypeEnum | (string & {});
+  mediaDuration?: string;
   mediaSkippable?: boolean;
+  playbackDuration?: string;
 }
 export const ViewabilityInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    viewableDuration: S.optional(S.String),
     mediaQuartile: S.optional(ViewabilityInfoMediaQuartileEnum),
-    viewType: S.optional(ViewabilityInfoViewTypeEnum),
-    playbackDuration: S.optional(S.String),
     mediaVolumePercent: S.optional(S.Number),
-    mediaDuration: S.optional(S.String),
+    viewableDuration: S.optional(S.String),
     viewablePercent: S.optional(S.Number),
+    viewType: S.optional(ViewabilityInfoViewTypeEnum),
+    mediaDuration: S.optional(S.String),
     mediaSkippable: S.optional(S.Boolean),
+    playbackDuration: S.optional(S.String),
   }),
 ).annotate({ identifier: "ViewabilityInfo" }) as any as S.Schema<ViewabilityInfo>;
 
-export type AdEventPlatformTypeEnum =
-  | "PLATFORM_TYPE_UNSPECIFIED"
-  | "PLATFORM_TYPE_MOBILE"
-  | "PLATFORM_TYPE_DESKTOP"
-  | "PLATFORM_TYPE_CTV"
-  | "PLATFORM_TYPE_PHONE"
-  | "PLATFORM_TYPE_TABLET";
-export const AdEventPlatformTypeEnum = S.String;
-
-export interface AddressInfo {
-  regionCode?: string;
-  administrativeArea?: string;
-  city?: string;
-  addressLine?: string;
-  familyName?: string;
-  givenName?: string;
-  postalCode?: string;
-}
-export const AddressInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regionCode: S.optional(S.String),
-    administrativeArea: S.optional(S.String),
-    city: S.optional(S.String),
-    addressLine: S.optional(S.String),
-    familyName: S.optional(S.String),
-    givenName: S.optional(S.String),
-    postalCode: S.optional(S.String),
-  }),
-).annotate({ identifier: "AddressInfo" }) as any as S.Schema<AddressInfo>;
-
-export interface UserIdentifier {
-  phoneNumber?: string;
-  emailAddress?: string;
-  address?: AddressInfo;
-}
-export const UserIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    phoneNumber: S.optional(S.String),
-    emailAddress: S.optional(S.String),
-    address: S.optional(AddressInfo),
-  }),
-).annotate({ identifier: "UserIdentifier" }) as any as S.Schema<UserIdentifier>;
-
-export type UserIdentifierList = Array<UserIdentifier>;
-export const UserIdentifierList = /*@__PURE__*/ S.Array(
-  UserIdentifier,
-) as any as S.Schema<UserIdentifierList>;
-
-export interface UserData {
-  userIdentifiers?: UserIdentifierList;
-}
-export const UserData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userIdentifiers: S.optional(UserIdentifierList),
-  }),
-).annotate({ identifier: "UserData" }) as any as S.Schema<UserData>;
-
-export type AdEventEventTypeEnum =
-  | "EVENT_TYPE_UNSPECIFIED"
-  | "EVENT_TYPE_VIEW"
-  | "EVENT_TYPE_CLICK";
-export const AdEventEventTypeEnum = S.String;
-
-export type AdEventEventSubtypeEnum =
-  | "EVENT_SUBTYPE_UNSPECIFIED"
-  | "EVENT_SUBTYPE_IMPRESSION"
-  | "EVENT_SUBTYPE_ENGAGED_VIEW"
-  | "EVENT_SUBTYPE_ONSITE_CLICK"
-  | "EVENT_SUBTYPE_OUTBOUND_CLICK";
-export const AdEventEventSubtypeEnum = S.String;
-
-export type AdEventAttributionHintEnum =
-  | "ATTRIBUTION_HINT_UNSPECIFIED"
-  | "ATTRIBUTION_HINT_CONVERTED"
-  | "ATTRIBUTION_HINT_NOT_CONVERTED";
-export const AdEventAttributionHintEnum = S.String;
-
-export type AdEventAdTypeEnum =
-  | "AD_TYPE_UNSPECIFIED"
-  | "AD_TYPE_DISPLAY"
-  | "AD_TYPE_TEXT"
-  | "AD_TYPE_IMAGE"
-  | "AD_TYPE_RICH_MEDIA"
-  | "AD_TYPE_HTML"
-  | "AD_TYPE_AUDIO"
-  | "AD_TYPE_VIDEO";
-export const AdEventAdTypeEnum = S.String;
+export type AdEventAdPlacementEnum =
+  | "AD_PLACEMENT_UNSPECIFIED"
+  | "AD_PLACEMENT_DISCOVER"
+  | "AD_PLACEMENT_FEED"
+  | "AD_PLACEMENT_FOOTER"
+  | "AD_PLACEMENT_HEADER"
+  | "AD_PLACEMENT_HOME"
+  | "AD_PLACEMENT_IN_CONTENT"
+  | "AD_PLACEMENT_PROMOTED"
+  | "AD_PLACEMENT_SEARCH"
+  | "AD_PLACEMENT_STORY";
+export const AdEventAdPlacementEnum = S.String;
 
 export type AdEventAdFormatEnum =
   | "AD_FORMAT_UNSPECIFIED"
@@ -1462,19 +1456,6 @@ export type AdEventAdFormatEnum =
   | "AD_FORMAT_VIDEO";
 export const AdEventAdFormatEnum = S.String;
 
-export type AdEventAdPlacementEnum =
-  | "AD_PLACEMENT_UNSPECIFIED"
-  | "AD_PLACEMENT_DISCOVER"
-  | "AD_PLACEMENT_FEED"
-  | "AD_PLACEMENT_FOOTER"
-  | "AD_PLACEMENT_HEADER"
-  | "AD_PLACEMENT_HOME"
-  | "AD_PLACEMENT_IN_CONTENT"
-  | "AD_PLACEMENT_PROMOTED"
-  | "AD_PLACEMENT_SEARCH"
-  | "AD_PLACEMENT_STORY";
-export const AdEventAdPlacementEnum = S.String;
-
 export type AdEventPlatformEnum =
   | "PLATFORM_UNSPECIFIED"
   | "PLATFORM_IOS"
@@ -1482,119 +1463,150 @@ export type AdEventPlatformEnum =
   | "PLATFORM_WEB";
 export const AdEventPlatformEnum = S.String;
 
-export interface AdEvent {
-  deviceInfo?: DeviceInfo;
-  adGroupId?: string;
-  targetingType?: AdEventTargetingTypeEnum | (string & {});
-  viewabilityInfo?: ViewabilityInfo;
-  platformType?: AdEventPlatformTypeEnum | (string & {});
-  userData?: UserData;
-  adPlacementString?: string;
-  platformString?: string;
-  medium?: string;
-  eventType?: AdEventEventTypeEnum | (string & {});
-  campaignId?: string;
-  regionCode?: string;
-  timestamp?: string;
-  adWidth?: number;
-  advertiserId?: string;
+export interface DeviceInfo {
+  browser?: string;
+  screenWidth?: number;
+  userAgent?: string;
+  operatingSystemVersion?: string;
+  screenHeight?: number;
   ipAddress?: string;
-  eventSubtypeString?: string;
-  targetingTypeString?: string;
-  adId?: string;
+  browserVersion?: string;
+  operatingSystem?: string;
+  brand?: string;
+  category?: string;
+  model?: string;
+  languageCode?: string;
+}
+export const DeviceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    browser: S.optional(S.String),
+    screenWidth: S.optional(S.Number),
+    userAgent: S.optional(S.String),
+    operatingSystemVersion: S.optional(S.String),
+    screenHeight: S.optional(S.Number),
+    ipAddress: S.optional(S.String),
+    browserVersion: S.optional(S.String),
+    operatingSystem: S.optional(S.String),
+    brand: S.optional(S.String),
+    category: S.optional(S.String),
+    model: S.optional(S.String),
+    languageCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "DeviceInfo" }) as any as S.Schema<DeviceInfo>;
+
+export interface AdEvent {
+  regionCode?: string;
+  measurementAllowed?: boolean;
+  adHeight?: number;
+  campaignName?: string;
   adTypeString?: string;
-  platformTypeString?: string;
-  eventSubtype?: AdEventEventSubtypeEnum | (string & {});
+  eventType?: AdEventEventTypeEnum | (string & {});
   attributionHint?: AdEventAttributionHintEnum | (string & {});
   adType?: AdEventAdTypeEnum | (string & {});
-  campaignName?: string;
-  adFormat?: AdEventAdFormatEnum | (string & {});
-  mobileDeviceId?: string;
-  eventId?: string;
-  source?: string;
-  measurementAllowed?: boolean;
+  ipAddress?: string;
+  platformString?: string;
+  eventSubtype?: AdEventEventSubtypeEnum | (string & {});
+  platformType?: AdEventPlatformTypeEnum | (string & {});
+  advertiserId?: string;
+  userData?: UserData;
+  eventSubtypeString?: string;
+  targetingType?: AdEventTargetingTypeEnum | (string & {});
+  adGroupId?: string;
+  viewabilityInfo?: ViewabilityInfo;
   adFormatString?: string;
   adPlacement?: AdEventAdPlacementEnum | (string & {});
+  adFormat?: AdEventAdFormatEnum | (string & {});
+  platformTypeString?: string;
+  timestamp?: string;
+  targetingTypeString?: string;
+  source?: string;
   platform?: AdEventPlatformEnum | (string & {});
-  adHeight?: number;
+  adPlacementString?: string;
+  deviceInfo?: DeviceInfo;
+  campaignId?: string;
+  mobileDeviceId?: string;
+  adId?: string;
+  medium?: string;
+  eventId?: string;
+  adWidth?: number;
 }
 export const AdEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deviceInfo: S.optional(DeviceInfo),
-    adGroupId: S.optional(S.String),
-    targetingType: S.optional(AdEventTargetingTypeEnum),
-    viewabilityInfo: S.optional(ViewabilityInfo),
-    platformType: S.optional(AdEventPlatformTypeEnum),
-    userData: S.optional(UserData),
-    adPlacementString: S.optional(S.String),
-    platformString: S.optional(S.String),
-    medium: S.optional(S.String),
-    eventType: S.optional(AdEventEventTypeEnum),
-    campaignId: S.optional(S.String),
     regionCode: S.optional(S.String),
-    timestamp: S.optional(S.String),
-    adWidth: S.optional(S.Number),
-    advertiserId: S.optional(S.String),
-    ipAddress: S.optional(S.String),
-    eventSubtypeString: S.optional(S.String),
-    targetingTypeString: S.optional(S.String),
-    adId: S.optional(S.String),
+    measurementAllowed: S.optional(S.Boolean),
+    adHeight: S.optional(S.Number),
+    campaignName: S.optional(S.String),
     adTypeString: S.optional(S.String),
-    platformTypeString: S.optional(S.String),
-    eventSubtype: S.optional(AdEventEventSubtypeEnum),
+    eventType: S.optional(AdEventEventTypeEnum),
     attributionHint: S.optional(AdEventAttributionHintEnum),
     adType: S.optional(AdEventAdTypeEnum),
-    campaignName: S.optional(S.String),
-    adFormat: S.optional(AdEventAdFormatEnum),
-    mobileDeviceId: S.optional(S.String),
-    eventId: S.optional(S.String),
-    source: S.optional(S.String),
-    measurementAllowed: S.optional(S.Boolean),
+    ipAddress: S.optional(S.String),
+    platformString: S.optional(S.String),
+    eventSubtype: S.optional(AdEventEventSubtypeEnum),
+    platformType: S.optional(AdEventPlatformTypeEnum),
+    advertiserId: S.optional(S.String),
+    userData: S.optional(UserData),
+    eventSubtypeString: S.optional(S.String),
+    targetingType: S.optional(AdEventTargetingTypeEnum),
+    adGroupId: S.optional(S.String),
+    viewabilityInfo: S.optional(ViewabilityInfo),
     adFormatString: S.optional(S.String),
     adPlacement: S.optional(AdEventAdPlacementEnum),
+    adFormat: S.optional(AdEventAdFormatEnum),
+    platformTypeString: S.optional(S.String),
+    timestamp: S.optional(S.String),
+    targetingTypeString: S.optional(S.String),
+    source: S.optional(S.String),
     platform: S.optional(AdEventPlatformEnum),
-    adHeight: S.optional(S.Number),
+    adPlacementString: S.optional(S.String),
+    deviceInfo: S.optional(DeviceInfo),
+    campaignId: S.optional(S.String),
+    mobileDeviceId: S.optional(S.String),
+    adId: S.optional(S.String),
+    medium: S.optional(S.String),
+    eventId: S.optional(S.String),
+    adWidth: S.optional(S.Number),
   }),
 ).annotate({ identifier: "AdEvent" }) as any as S.Schema<AdEvent>;
 
 export type AdEventList = Array<AdEvent>;
 export const AdEventList = /*@__PURE__*/ S.Array(AdEvent) as any as S.Schema<AdEventList>;
 
-export type GcpWrappedKeyInfoKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "XCHACHA20_POLY1305";
-export const GcpWrappedKeyInfoKeyTypeEnum = S.String;
-
-export interface GcpWrappedKeyInfo {
-  kekUri?: string;
-  keyType?: GcpWrappedKeyInfoKeyTypeEnum | (string & {});
-  wipProvider?: string;
-  encryptedDek?: string;
-}
-export const GcpWrappedKeyInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kekUri: S.optional(S.String),
-    keyType: S.optional(GcpWrappedKeyInfoKeyTypeEnum),
-    wipProvider: S.optional(S.String),
-    encryptedDek: S.optional(S.String),
-  }),
-).annotate({ identifier: "GcpWrappedKeyInfo" }) as any as S.Schema<GcpWrappedKeyInfo>;
-
 export type AwsWrappedKeyInfoKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "XCHACHA20_POLY1305";
 export const AwsWrappedKeyInfoKeyTypeEnum = S.String;
 
 export interface AwsWrappedKeyInfo {
-  encryptedDek?: string;
-  keyType?: AwsWrappedKeyInfoKeyTypeEnum | (string & {});
-  kekUri?: string;
   roleArn?: string;
+  kekUri?: string;
+  keyType?: AwsWrappedKeyInfoKeyTypeEnum | (string & {});
+  encryptedDek?: string;
 }
 export const AwsWrappedKeyInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryptedDek: S.optional(S.String),
-    keyType: S.optional(AwsWrappedKeyInfoKeyTypeEnum),
-    kekUri: S.optional(S.String),
     roleArn: S.optional(S.String),
+    kekUri: S.optional(S.String),
+    keyType: S.optional(AwsWrappedKeyInfoKeyTypeEnum),
+    encryptedDek: S.optional(S.String),
   }),
 ).annotate({ identifier: "AwsWrappedKeyInfo" }) as any as S.Schema<AwsWrappedKeyInfo>;
+
+export type GcpWrappedKeyInfoKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "XCHACHA20_POLY1305";
+export const GcpWrappedKeyInfoKeyTypeEnum = S.String;
+
+export interface GcpWrappedKeyInfo {
+  encryptedDek?: string;
+  wipProvider?: string;
+  keyType?: GcpWrappedKeyInfoKeyTypeEnum | (string & {});
+  kekUri?: string;
+}
+export const GcpWrappedKeyInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    encryptedDek: S.optional(S.String),
+    wipProvider: S.optional(S.String),
+    keyType: S.optional(GcpWrappedKeyInfoKeyTypeEnum),
+    kekUri: S.optional(S.String),
+  }),
+).annotate({ identifier: "GcpWrappedKeyInfo" }) as any as S.Schema<GcpWrappedKeyInfo>;
 
 export interface CoordinatorKeyInfo {
   keyId?: string;
@@ -1606,14 +1618,14 @@ export const CoordinatorKeyInfo = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CoordinatorKeyInfo" }) as any as S.Schema<CoordinatorKeyInfo>;
 
 export interface EncryptionInfo {
-  gcpWrappedKeyInfo?: GcpWrappedKeyInfo;
   awsWrappedKeyInfo?: AwsWrappedKeyInfo;
+  gcpWrappedKeyInfo?: GcpWrappedKeyInfo;
   coordinatorKeyInfo?: CoordinatorKeyInfo;
 }
 export const EncryptionInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcpWrappedKeyInfo: S.optional(GcpWrappedKeyInfo),
     awsWrappedKeyInfo: S.optional(AwsWrappedKeyInfo),
+    gcpWrappedKeyInfo: S.optional(GcpWrappedKeyInfo),
     coordinatorKeyInfo: S.optional(CoordinatorKeyInfo),
   }),
 ).annotate({ identifier: "EncryptionInfo" }) as any as S.Schema<EncryptionInfo>;
@@ -1652,41 +1664,14 @@ export const IngestAdEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
   identifier: "IngestAdEventsResponse",
 }) as any as S.Schema<IngestAdEventsResponse>;
 
-export interface IpData {
-  observeEndTime?: string;
-  observeStartTime?: string;
-  ipAddress?: string;
+export interface PartnerProvidedIdData {
+  partnerProvidedIds?: StringList;
 }
-export const IpData = /*@__PURE__*/ S.suspend(() =>
+export const PartnerProvidedIdData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    observeEndTime: S.optional(S.String),
-    observeStartTime: S.optional(S.String),
-    ipAddress: S.optional(S.String),
+    partnerProvidedIds: S.optional(StringList),
   }),
-).annotate({ identifier: "IpData" }) as any as S.Schema<IpData>;
-
-export type IpDataList = Array<IpData>;
-export const IpDataList = /*@__PURE__*/ S.Array(IpData) as any as S.Schema<IpDataList>;
-
-export interface CompositeData {
-  ipData?: IpDataList;
-  userData?: UserData;
-}
-export const CompositeData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipData: S.optional(IpDataList),
-    userData: S.optional(UserData),
-  }),
-).annotate({ identifier: "CompositeData" }) as any as S.Schema<CompositeData>;
-
-export interface PpidData {
-  ppids?: StringList;
-}
-export const PpidData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ppids: S.optional(StringList),
-  }),
-).annotate({ identifier: "PpidData" }) as any as S.Schema<PpidData>;
+).annotate({ identifier: "PartnerProvidedIdData" }) as any as S.Schema<PartnerProvidedIdData>;
 
 export interface GoogleUserIdData {
   googleUserIds?: StringList;
@@ -1697,6 +1682,15 @@ export const GoogleUserIdData = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GoogleUserIdData" }) as any as S.Schema<GoogleUserIdData>;
 
+export interface PairData {
+  pairIds?: StringList;
+}
+export const PairData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pairIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "PairData" }) as any as S.Schema<PairData>;
+
 export interface MobileData {
   mobileIds?: StringList;
 }
@@ -1706,14 +1700,14 @@ export const MobileData = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MobileData" }) as any as S.Schema<MobileData>;
 
-export interface UserIdData {
-  userId?: string;
+export interface PpidData {
+  ppids?: StringList;
 }
-export const UserIdData = /*@__PURE__*/ S.suspend(() =>
+export const PpidData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String),
+    ppids: S.optional(StringList),
   }),
-).annotate({ identifier: "UserIdData" }) as any as S.Schema<UserIdData>;
+).annotate({ identifier: "PpidData" }) as any as S.Schema<PpidData>;
 
 export type ConsentAdUserDataEnum =
   | "CONSENT_STATUS_UNSPECIFIED"
@@ -1738,48 +1732,66 @@ export const Consent = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Consent" }) as any as S.Schema<Consent>;
 
-export interface PairData {
-  pairIds?: StringList;
+export interface IpData {
+  ipAddress?: string;
+  observeStartTime?: string;
+  observeEndTime?: string;
 }
-export const PairData = /*@__PURE__*/ S.suspend(() =>
+export const IpData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pairIds: S.optional(StringList),
+    ipAddress: S.optional(S.String),
+    observeStartTime: S.optional(S.String),
+    observeEndTime: S.optional(S.String),
   }),
-).annotate({ identifier: "PairData" }) as any as S.Schema<PairData>;
+).annotate({ identifier: "IpData" }) as any as S.Schema<IpData>;
 
-export interface PartnerProvidedIdData {
-  partnerProvidedIds?: StringList;
+export type IpDataList = Array<IpData>;
+export const IpDataList = /*@__PURE__*/ S.Array(IpData) as any as S.Schema<IpDataList>;
+
+export interface CompositeData {
+  ipData?: IpDataList;
+  userData?: UserData;
 }
-export const PartnerProvidedIdData = /*@__PURE__*/ S.suspend(() =>
+export const CompositeData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partnerProvidedIds: S.optional(StringList),
+    ipData: S.optional(IpDataList),
+    userData: S.optional(UserData),
   }),
-).annotate({ identifier: "PartnerProvidedIdData" }) as any as S.Schema<PartnerProvidedIdData>;
+).annotate({ identifier: "CompositeData" }) as any as S.Schema<CompositeData>;
+
+export interface UserIdData {
+  userId?: string;
+}
+export const UserIdData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserIdData" }) as any as S.Schema<UserIdData>;
 
 export interface AudienceMember {
-  compositeData?: CompositeData;
-  userData?: UserData;
-  ppidData?: PpidData;
-  googleUserIdData?: GoogleUserIdData;
-  mobileData?: MobileData;
   destinationReferences?: StringList;
-  userIdData?: UserIdData;
-  consent?: Consent;
-  pairData?: PairData;
   partnerProvidedIdData?: PartnerProvidedIdData;
+  googleUserIdData?: GoogleUserIdData;
+  userData?: UserData;
+  pairData?: PairData;
+  mobileData?: MobileData;
+  ppidData?: PpidData;
+  consent?: Consent;
+  compositeData?: CompositeData;
+  userIdData?: UserIdData;
 }
 export const AudienceMember = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    compositeData: S.optional(CompositeData),
-    userData: S.optional(UserData),
-    ppidData: S.optional(PpidData),
-    googleUserIdData: S.optional(GoogleUserIdData),
-    mobileData: S.optional(MobileData),
     destinationReferences: S.optional(StringList),
-    userIdData: S.optional(UserIdData),
-    consent: S.optional(Consent),
-    pairData: S.optional(PairData),
     partnerProvidedIdData: S.optional(PartnerProvidedIdData),
+    googleUserIdData: S.optional(GoogleUserIdData),
+    userData: S.optional(UserData),
+    pairData: S.optional(PairData),
+    mobileData: S.optional(MobileData),
+    ppidData: S.optional(PpidData),
+    consent: S.optional(Consent),
+    compositeData: S.optional(CompositeData),
+    userIdData: S.optional(UserIdData),
   }),
 ).annotate({ identifier: "AudienceMember" }) as any as S.Schema<AudienceMember>;
 
@@ -1788,13 +1800,13 @@ export const AudienceMemberList = /*@__PURE__*/ S.Array(
   AudienceMember,
 ) as any as S.Schema<AudienceMemberList>;
 
+export type IngestAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
+export const IngestAudienceMembersRequestEncodingEnum = S.String;
+
 export type DestinationList = Array<Destination>;
 export const DestinationList = /*@__PURE__*/ S.Array(
   Destination,
 ) as any as S.Schema<DestinationList>;
-
-export type IngestAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
-export const IngestAudienceMembersRequestEncodingEnum = S.String;
 
 export type TermsOfServiceCustomerMatchTermsOfServiceStatusEnum =
   | "TERMS_OF_SERVICE_STATUS_UNSPECIFIED"
@@ -1817,22 +1829,22 @@ export const TermsOfService = /*@__PURE__*/ S.suspend(() =>
 
 export interface IngestAudienceMembersRequest {
   audienceMembers?: AudienceMemberList;
-  destinations?: DestinationList;
-  validateOnly?: boolean;
-  encryptionInfo?: EncryptionInfo;
   encoding?: IngestAudienceMembersRequestEncodingEnum | (string & {});
+  destinations?: DestinationList;
   consent?: Consent;
   termsOfService?: TermsOfService;
+  validateOnly?: boolean;
+  encryptionInfo?: EncryptionInfo;
 }
 export const IngestAudienceMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     audienceMembers: S.optional(AudienceMemberList),
-    destinations: S.optional(DestinationList),
-    validateOnly: S.optional(S.Boolean),
-    encryptionInfo: S.optional(EncryptionInfo),
     encoding: S.optional(IngestAudienceMembersRequestEncodingEnum),
+    destinations: S.optional(DestinationList),
     consent: S.optional(Consent),
     termsOfService: S.optional(TermsOfService),
+    validateOnly: S.optional(S.Boolean),
+    encryptionInfo: S.optional(EncryptionInfo),
   }),
 ).annotate({
   identifier: "IngestAudienceMembersRequest",
@@ -1876,14 +1888,14 @@ export const FieldWarningReasonEnum = S.String;
 
 export interface FieldWarning {
   reason?: FieldWarningReasonEnum;
-  description?: string;
   field?: string;
+  description?: string;
 }
 export const FieldWarning = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reason: S.optional(FieldWarningReasonEnum),
-    description: S.optional(S.String),
     field: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "FieldWarning" }) as any as S.Schema<FieldWarning>;
 
@@ -1893,28 +1905,81 @@ export const FieldWarningList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<FieldWarningList>;
 
 export interface IngestAudienceMembersResponse {
-  requestId?: string;
   fieldWarnings?: FieldWarningList;
+  requestId?: string;
 }
 export const IngestAudienceMembersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String),
     fieldWarnings: S.optional(FieldWarningList),
+    requestId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IngestAudienceMembersResponse",
 }) as any as S.Schema<IngestAudienceMembersResponse>;
 
-export interface CustomVariable {
-  destinationReferences?: StringList;
+export type EventEventSourceEnum =
+  | "EVENT_SOURCE_UNSPECIFIED"
+  | "WEB"
+  | "APP"
+  | "IN_STORE"
+  | "PHONE"
+  | "MESSAGE"
+  | "OTHER";
+export const EventEventSourceEnum = S.String;
+
+export type UserPropertiesCustomerValueBucketEnum =
+  | "CUSTOMER_VALUE_BUCKET_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH";
+export const UserPropertiesCustomerValueBucketEnum = S.String;
+
+export type UserPropertiesCustomerTypeEnum =
+  | "CUSTOMER_TYPE_UNSPECIFIED"
+  | "NEW"
+  | "RETURNING"
+  | "REENGAGED";
+export const UserPropertiesCustomerTypeEnum = S.String;
+
+export interface UserProperty {
+  propertyName?: string;
   value?: string;
+}
+export const UserProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    propertyName: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserProperty" }) as any as S.Schema<UserProperty>;
+
+export type UserPropertyList = Array<UserProperty>;
+export const UserPropertyList = /*@__PURE__*/ S.Array(
+  UserProperty,
+) as any as S.Schema<UserPropertyList>;
+
+export interface UserProperties {
+  customerValueBucket?: UserPropertiesCustomerValueBucketEnum | (string & {});
+  customerType?: UserPropertiesCustomerTypeEnum | (string & {});
+  additionalUserProperties?: UserPropertyList;
+}
+export const UserProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customerValueBucket: S.optional(UserPropertiesCustomerValueBucketEnum),
+    customerType: S.optional(UserPropertiesCustomerTypeEnum),
+    additionalUserProperties: S.optional(UserPropertyList),
+  }),
+).annotate({ identifier: "UserProperties" }) as any as S.Schema<UserProperties>;
+
+export interface CustomVariable {
   variable?: string;
+  value?: string;
+  destinationReferences?: StringList;
 }
 export const CustomVariable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinationReferences: S.optional(StringList),
-    value: S.optional(S.String),
     variable: S.optional(S.String),
+    value: S.optional(S.String),
+    destinationReferences: S.optional(StringList),
   }),
 ).annotate({ identifier: "CustomVariable" }) as any as S.Schema<CustomVariable>;
 
@@ -1923,40 +1988,88 @@ export const CustomVariableList = /*@__PURE__*/ S.Array(
   CustomVariable,
 ) as any as S.Schema<CustomVariableList>;
 
-export interface EventParameter {
+export interface ItemParameter {
   parameterName?: string;
   value?: string;
 }
-export const EventParameter = /*@__PURE__*/ S.suspend(() =>
+export const ItemParameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parameterName: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({ identifier: "EventParameter" }) as any as S.Schema<EventParameter>;
+).annotate({ identifier: "ItemParameter" }) as any as S.Schema<ItemParameter>;
 
-export type EventParameterList = Array<EventParameter>;
-export const EventParameterList = /*@__PURE__*/ S.Array(
-  EventParameter,
-) as any as S.Schema<EventParameterList>;
+export type ItemParameterList = Array<ItemParameter>;
+export const ItemParameterList = /*@__PURE__*/ S.Array(
+  ItemParameter,
+) as any as S.Schema<ItemParameterList>;
 
-export interface EventLocation {
-  city?: string;
-  continentCode?: string;
-  storeId?: string;
-  subcontinentCode?: string;
-  regionCode?: string;
-  subdivisionCode?: string;
+export interface ItemCustomVariable {
+  destinationReferences?: StringList;
+  value?: string;
+  variable?: string;
 }
-export const EventLocation = /*@__PURE__*/ S.suspend(() =>
+export const ItemCustomVariable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    city: S.optional(S.String),
-    continentCode: S.optional(S.String),
-    storeId: S.optional(S.String),
-    subcontinentCode: S.optional(S.String),
-    regionCode: S.optional(S.String),
-    subdivisionCode: S.optional(S.String),
+    destinationReferences: S.optional(StringList),
+    value: S.optional(S.String),
+    variable: S.optional(S.String),
   }),
-).annotate({ identifier: "EventLocation" }) as any as S.Schema<EventLocation>;
+).annotate({ identifier: "ItemCustomVariable" }) as any as S.Schema<ItemCustomVariable>;
+
+export type ItemCustomVariableList = Array<ItemCustomVariable>;
+export const ItemCustomVariableList = /*@__PURE__*/ S.Array(
+  ItemCustomVariable,
+) as any as S.Schema<ItemCustomVariableList>;
+
+export interface Item {
+  conversionValue?: number;
+  additionalItemParameters?: ItemParameterList;
+  merchantFeedLabel?: string;
+  quantity?: string;
+  merchantProductId?: string;
+  unitPrice?: number;
+  itemId?: string;
+  customVariables?: ItemCustomVariableList;
+  merchantFeedLanguageCode?: string;
+  merchantId?: string;
+}
+export const Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversionValue: S.optional(S.Number),
+    additionalItemParameters: S.optional(ItemParameterList),
+    merchantFeedLabel: S.optional(S.String),
+    quantity: S.optional(S.String),
+    merchantProductId: S.optional(S.String),
+    unitPrice: S.optional(S.Number),
+    itemId: S.optional(S.String),
+    customVariables: S.optional(ItemCustomVariableList),
+    merchantFeedLanguageCode: S.optional(S.String),
+    merchantId: S.optional(S.String),
+  }),
+).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
+
+export type ItemList = Array<Item>;
+export const ItemList = /*@__PURE__*/ S.Array(Item) as any as S.Schema<ItemList>;
+
+export interface CartData {
+  couponCodes?: StringList;
+  merchantFeedLanguageCode?: string;
+  merchantId?: string;
+  transactionDiscount?: number;
+  items?: ItemList;
+  merchantFeedLabel?: string;
+}
+export const CartData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    couponCodes: S.optional(StringList),
+    merchantFeedLanguageCode: S.optional(S.String),
+    merchantId: S.optional(S.String),
+    transactionDiscount: S.optional(S.Number),
+    items: S.optional(ItemList),
+    merchantFeedLabel: S.optional(S.String),
+  }),
+).annotate({ identifier: "CartData" }) as any as S.Schema<CartData>;
 
 export interface ExperimentalField {
   field?: string;
@@ -1974,64 +2087,21 @@ export const ExperimentalFieldList = /*@__PURE__*/ S.Array(
   ExperimentalField,
 ) as any as S.Schema<ExperimentalFieldList>;
 
-export type EventEventSourceEnum =
-  | "EVENT_SOURCE_UNSPECIFIED"
-  | "WEB"
-  | "APP"
-  | "IN_STORE"
-  | "PHONE"
-  | "MESSAGE"
-  | "OTHER";
-export const EventEventSourceEnum = S.String;
-
-export interface UserProperty {
+export interface EventParameter {
   value?: string;
-  propertyName?: string;
+  parameterName?: string;
 }
-export const UserProperty = /*@__PURE__*/ S.suspend(() =>
+export const EventParameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
-    propertyName: S.optional(S.String),
+    parameterName: S.optional(S.String),
   }),
-).annotate({ identifier: "UserProperty" }) as any as S.Schema<UserProperty>;
+).annotate({ identifier: "EventParameter" }) as any as S.Schema<EventParameter>;
 
-export type UserPropertyList = Array<UserProperty>;
-export const UserPropertyList = /*@__PURE__*/ S.Array(
-  UserProperty,
-) as any as S.Schema<UserPropertyList>;
-
-export type UserPropertiesCustomerValueBucketEnum =
-  | "CUSTOMER_VALUE_BUCKET_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH";
-export const UserPropertiesCustomerValueBucketEnum = S.String;
-
-export type UserPropertiesCustomerTypeEnum =
-  | "CUSTOMER_TYPE_UNSPECIFIED"
-  | "NEW"
-  | "RETURNING"
-  | "REENGAGED";
-export const UserPropertiesCustomerTypeEnum = S.String;
-
-export interface UserProperties {
-  additionalUserProperties?: UserPropertyList;
-  customerValueBucket?: UserPropertiesCustomerValueBucketEnum | (string & {});
-  customerType?: UserPropertiesCustomerTypeEnum | (string & {});
-}
-export const UserProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    additionalUserProperties: S.optional(UserPropertyList),
-    customerValueBucket: S.optional(UserPropertiesCustomerValueBucketEnum),
-    customerType: S.optional(UserPropertiesCustomerTypeEnum),
-  }),
-).annotate({ identifier: "UserProperties" }) as any as S.Schema<UserProperties>;
-
-export type EncryptedUserIdSourceEnum =
-  | "ENCRYPTION_SOURCE_UNSPECIFIED"
-  | "AD_SERVING"
-  | "DATA_TRANSFER";
-export const EncryptedUserIdSourceEnum = S.String;
+export type EventParameterList = Array<EventParameter>;
+export const EventParameterList = /*@__PURE__*/ S.Array(
+  EventParameter,
+) as any as S.Schema<EventParameterList>;
 
 export type EncryptedUserIdEntityTypeEnum =
   | "ENCRYPTION_ENTITY_TYPE_UNSPECIFIED"
@@ -2043,17 +2113,23 @@ export type EncryptedUserIdEntityTypeEnum =
   | "GOOGLE_AD_MANAGER_NETWORK_CODE";
 export const EncryptedUserIdEntityTypeEnum = S.String;
 
+export type EncryptedUserIdSourceEnum =
+  | "ENCRYPTION_SOURCE_UNSPECIFIED"
+  | "AD_SERVING"
+  | "DATA_TRANSFER";
+export const EncryptedUserIdSourceEnum = S.String;
+
 export interface EncryptedUserId {
-  entityId?: string;
-  source?: EncryptedUserIdSourceEnum | (string & {});
   entityType?: EncryptedUserIdEntityTypeEnum | (string & {});
+  source?: EncryptedUserIdSourceEnum | (string & {});
+  entityId?: string;
   encryptedId?: string;
 }
 export const EncryptedUserId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entityId: S.optional(S.String),
-    source: S.optional(EncryptedUserIdSourceEnum),
     entityType: S.optional(EncryptedUserIdEntityTypeEnum),
+    source: S.optional(EncryptedUserIdSourceEnum),
+    entityId: S.optional(S.String),
     encryptedId: S.optional(S.String),
   }),
 ).annotate({ identifier: "EncryptedUserId" }) as any as S.Schema<EncryptedUserId>;
@@ -2064,169 +2140,105 @@ export const EncryptedUserIdList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<EncryptedUserIdList>;
 
 export interface AdIdentifiers {
-  gclid?: string;
-  dclid?: string;
-  impressionId?: string;
-  wbraid?: string;
-  mobileDeviceId?: string;
-  gbraid?: string;
   sessionAttributes?: string;
   visitorPpid?: string;
-  matchId?: string;
   encryptedUserIds?: EncryptedUserIdList;
-  ppid?: string;
+  gclid?: string;
+  dclid?: string;
+  wbraid?: string;
+  impressionId?: string;
+  mobileDeviceId?: string;
+  gbraid?: string;
   landingPageDeviceInfo?: DeviceInfo;
+  matchId?: string;
+  ppid?: string;
 }
 export const AdIdentifiers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gclid: S.optional(S.String),
-    dclid: S.optional(S.String),
-    impressionId: S.optional(S.String),
-    wbraid: S.optional(S.String),
-    mobileDeviceId: S.optional(S.String),
-    gbraid: S.optional(S.String),
     sessionAttributes: S.optional(S.String),
     visitorPpid: S.optional(S.String),
-    matchId: S.optional(S.String),
     encryptedUserIds: S.optional(EncryptedUserIdList),
-    ppid: S.optional(S.String),
+    gclid: S.optional(S.String),
+    dclid: S.optional(S.String),
+    wbraid: S.optional(S.String),
+    impressionId: S.optional(S.String),
+    mobileDeviceId: S.optional(S.String),
+    gbraid: S.optional(S.String),
     landingPageDeviceInfo: S.optional(DeviceInfo),
+    matchId: S.optional(S.String),
+    ppid: S.optional(S.String),
   }),
 ).annotate({ identifier: "AdIdentifiers" }) as any as S.Schema<AdIdentifiers>;
 
-export interface ItemCustomVariable {
-  destinationReferences?: StringList;
-  variable?: string;
-  value?: string;
+export interface EventLocation {
+  city?: string;
+  subcontinentCode?: string;
+  storeId?: string;
+  subdivisionCode?: string;
+  regionCode?: string;
+  continentCode?: string;
 }
-export const ItemCustomVariable = /*@__PURE__*/ S.suspend(() =>
+export const EventLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinationReferences: S.optional(StringList),
-    variable: S.optional(S.String),
-    value: S.optional(S.String),
+    city: S.optional(S.String),
+    subcontinentCode: S.optional(S.String),
+    storeId: S.optional(S.String),
+    subdivisionCode: S.optional(S.String),
+    regionCode: S.optional(S.String),
+    continentCode: S.optional(S.String),
   }),
-).annotate({ identifier: "ItemCustomVariable" }) as any as S.Schema<ItemCustomVariable>;
-
-export type ItemCustomVariableList = Array<ItemCustomVariable>;
-export const ItemCustomVariableList = /*@__PURE__*/ S.Array(
-  ItemCustomVariable,
-) as any as S.Schema<ItemCustomVariableList>;
-
-export interface ItemParameter {
-  value?: string;
-  parameterName?: string;
-}
-export const ItemParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    parameterName: S.optional(S.String),
-  }),
-).annotate({ identifier: "ItemParameter" }) as any as S.Schema<ItemParameter>;
-
-export type ItemParameterList = Array<ItemParameter>;
-export const ItemParameterList = /*@__PURE__*/ S.Array(
-  ItemParameter,
-) as any as S.Schema<ItemParameterList>;
-
-export interface Item {
-  customVariables?: ItemCustomVariableList;
-  quantity?: string;
-  unitPrice?: number;
-  merchantFeedLabel?: string;
-  merchantProductId?: string;
-  itemId?: string;
-  merchantId?: string;
-  conversionValue?: number;
-  merchantFeedLanguageCode?: string;
-  additionalItemParameters?: ItemParameterList;
-}
-export const Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customVariables: S.optional(ItemCustomVariableList),
-    quantity: S.optional(S.String),
-    unitPrice: S.optional(S.Number),
-    merchantFeedLabel: S.optional(S.String),
-    merchantProductId: S.optional(S.String),
-    itemId: S.optional(S.String),
-    merchantId: S.optional(S.String),
-    conversionValue: S.optional(S.Number),
-    merchantFeedLanguageCode: S.optional(S.String),
-    additionalItemParameters: S.optional(ItemParameterList),
-  }),
-).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
-
-export type ItemList = Array<Item>;
-export const ItemList = /*@__PURE__*/ S.Array(Item) as any as S.Schema<ItemList>;
-
-export interface CartData {
-  merchantId?: string;
-  couponCodes?: StringList;
-  transactionDiscount?: number;
-  merchantFeedLanguageCode?: string;
-  items?: ItemList;
-  merchantFeedLabel?: string;
-}
-export const CartData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    merchantId: S.optional(S.String),
-    couponCodes: S.optional(StringList),
-    transactionDiscount: S.optional(S.Number),
-    merchantFeedLanguageCode: S.optional(S.String),
-    items: S.optional(ItemList),
-    merchantFeedLabel: S.optional(S.String),
-  }),
-).annotate({ identifier: "CartData" }) as any as S.Schema<CartData>;
+).annotate({ identifier: "EventLocation" }) as any as S.Schema<EventLocation>;
 
 export interface Event {
-  appInstanceId?: string;
-  conversionValue?: number;
-  transactionId?: string;
-  currency?: string;
-  customVariables?: CustomVariableList;
-  clientId?: string;
-  conversionCount?: number;
-  userId?: string;
-  consent?: Consent;
-  eventDeviceInfo?: DeviceInfo;
-  additionalEventParameters?: EventParameterList;
-  eventLocation?: EventLocation;
-  experimentalFields?: ExperimentalFieldList;
-  eventSource?: EventEventSourceEnum | (string & {});
-  userData?: UserData;
-  lastUpdatedTimestamp?: string;
-  userProperties?: UserProperties;
   eventName?: string;
+  userId?: string;
+  conversionCount?: number;
+  eventSource?: EventEventSourceEnum | (string & {});
+  userProperties?: UserProperties;
   thirdPartyUserData?: UserData;
-  adIdentifiers?: AdIdentifiers;
-  cartData?: CartData;
-  destinationReferences?: StringList;
+  currency?: string;
+  clientId?: string;
+  customVariables?: CustomVariableList;
+  appInstanceId?: string;
   eventTimestamp?: string;
+  cartData?: CartData;
+  conversionValue?: number;
+  lastUpdatedTimestamp?: string;
+  experimentalFields?: ExperimentalFieldList;
+  userData?: UserData;
+  additionalEventParameters?: EventParameterList;
+  adIdentifiers?: AdIdentifiers;
+  consent?: Consent;
+  eventLocation?: EventLocation;
+  destinationReferences?: StringList;
+  eventDeviceInfo?: DeviceInfo;
+  transactionId?: string;
 }
 export const Event = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appInstanceId: S.optional(S.String),
-    conversionValue: S.optional(S.Number),
-    transactionId: S.optional(S.String),
-    currency: S.optional(S.String),
-    customVariables: S.optional(CustomVariableList),
-    clientId: S.optional(S.String),
-    conversionCount: S.optional(S.Number),
-    userId: S.optional(S.String),
-    consent: S.optional(Consent),
-    eventDeviceInfo: S.optional(DeviceInfo),
-    additionalEventParameters: S.optional(EventParameterList),
-    eventLocation: S.optional(EventLocation),
-    experimentalFields: S.optional(ExperimentalFieldList),
-    eventSource: S.optional(EventEventSourceEnum),
-    userData: S.optional(UserData),
-    lastUpdatedTimestamp: S.optional(S.String),
-    userProperties: S.optional(UserProperties),
     eventName: S.optional(S.String),
+    userId: S.optional(S.String),
+    conversionCount: S.optional(S.Number),
+    eventSource: S.optional(EventEventSourceEnum),
+    userProperties: S.optional(UserProperties),
     thirdPartyUserData: S.optional(UserData),
-    adIdentifiers: S.optional(AdIdentifiers),
-    cartData: S.optional(CartData),
-    destinationReferences: S.optional(StringList),
+    currency: S.optional(S.String),
+    clientId: S.optional(S.String),
+    customVariables: S.optional(CustomVariableList),
+    appInstanceId: S.optional(S.String),
     eventTimestamp: S.optional(S.String),
+    cartData: S.optional(CartData),
+    conversionValue: S.optional(S.Number),
+    lastUpdatedTimestamp: S.optional(S.String),
+    experimentalFields: S.optional(ExperimentalFieldList),
+    userData: S.optional(UserData),
+    additionalEventParameters: S.optional(EventParameterList),
+    adIdentifiers: S.optional(AdIdentifiers),
+    consent: S.optional(Consent),
+    eventLocation: S.optional(EventLocation),
+    destinationReferences: S.optional(StringList),
+    eventDeviceInfo: S.optional(DeviceInfo),
+    transactionId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 
@@ -2237,21 +2249,21 @@ export type IngestEventsRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "
 export const IngestEventsRequestEncodingEnum = S.String;
 
 export interface IngestEventsRequest {
-  encryptionInfo?: EncryptionInfo;
   events?: EventList;
-  consent?: Consent;
   destinations?: DestinationList;
-  validateOnly?: boolean;
+  consent?: Consent;
   encoding?: IngestEventsRequestEncodingEnum | (string & {});
+  validateOnly?: boolean;
+  encryptionInfo?: EncryptionInfo;
 }
 export const IngestEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryptionInfo: S.optional(EncryptionInfo),
     events: S.optional(EventList),
-    consent: S.optional(Consent),
     destinations: S.optional(DestinationList),
-    validateOnly: S.optional(S.Boolean),
+    consent: S.optional(Consent),
     encoding: S.optional(IngestEventsRequestEncodingEnum),
+    validateOnly: S.optional(S.Boolean),
+    encryptionInfo: S.optional(EncryptionInfo),
   }),
 ).annotate({ identifier: "IngestEventsRequest" }) as any as S.Schema<IngestEventsRequest>;
 
@@ -2283,13 +2295,13 @@ export const IngestEventsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IngestEventsResponse" }) as any as S.Schema<IngestEventsResponse>;
 
 export interface User {
-  userData?: UserData;
   mobileData?: MobileData;
+  userData?: UserData;
 }
 export const User = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userData: S.optional(UserData),
     mobileData: S.optional(MobileData),
+    userData: S.optional(UserData),
   }),
 ).annotate({ identifier: "User" }) as any as S.Schema<User>;
 
@@ -2300,19 +2312,19 @@ export type IngestUsersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "B
 export const IngestUsersRequestEncodingEnum = S.String;
 
 export interface IngestUsersRequest {
-  destinations?: DestinationList;
-  validateOnly?: boolean;
   encryptionInfo?: EncryptionInfo;
   users?: UserList_;
+  destinations?: DestinationList;
   encoding?: IngestUsersRequestEncodingEnum | (string & {});
+  validateOnly?: boolean;
 }
 export const IngestUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinations: S.optional(DestinationList),
-    validateOnly: S.optional(S.Boolean),
     encryptionInfo: S.optional(EncryptionInfo),
     users: S.optional(UserList_),
+    destinations: S.optional(DestinationList),
     encoding: S.optional(IngestUsersRequestEncodingEnum),
+    validateOnly: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "IngestUsersRequest" }) as any as S.Schema<IngestUsersRequest>;
 
@@ -2342,17 +2354,17 @@ export const IngestUsersResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IngestUsersResponse" }) as any as S.Schema<IngestUsersResponse>;
 
 export interface ListAccountTypesAccountsUserListDirectLicensesRequest {
-  pageToken?: string;
-  filter?: string;
   pageSize?: number;
+  filter?: string;
   parent: string;
+  pageToken?: string;
 }
 export const ListAccountTypesAccountsUserListDirectLicensesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2383,17 +2395,17 @@ export const ListUserListDirectLicensesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListUserListDirectLicensesResponse>;
 
 export interface ListAccountTypesAccountsUserListGlobalLicensesRequest {
-  filter?: string;
-  pageSize?: number;
-  pageToken?: string;
   parent: string;
+  pageToken?: string;
+  pageSize?: number;
+  filter?: string;
 }
 export const ListAccountTypesAccountsUserListGlobalLicensesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2424,18 +2436,18 @@ export const ListUserListGlobalLicensesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListUserListGlobalLicensesResponse>;
 
 export interface ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest {
-  filter?: string;
-  pageToken?: string;
   parent: string;
   pageSize?: number;
+  pageToken?: string;
+  filter?: string;
 }
 export const ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2448,6 +2460,12 @@ export const ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
       "ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest",
   }) as any as S.Schema<ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest>;
 
+export type UserListGlobalLicenseCustomerInfoStatusEnum =
+  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
+  | "USER_LIST_LICENSE_STATUS_ENABLED"
+  | "USER_LIST_LICENSE_STATUS_DISABLED";
+export const UserListGlobalLicenseCustomerInfoStatusEnum = S.String;
+
 export type UserListGlobalLicenseCustomerInfoClientAccountTypeEnum =
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_UNKNOWN"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_ADS"
@@ -2455,12 +2473,6 @@ export type UserListGlobalLicenseCustomerInfoClientAccountTypeEnum =
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_ADVERTISER"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_AD_MANAGER_AUDIENCE_LINK";
 export const UserListGlobalLicenseCustomerInfoClientAccountTypeEnum = S.String;
-
-export type UserListGlobalLicenseCustomerInfoStatusEnum =
-  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
-  | "USER_LIST_LICENSE_STATUS_ENABLED"
-  | "USER_LIST_LICENSE_STATUS_DISABLED";
-export const UserListGlobalLicenseCustomerInfoStatusEnum = S.String;
 
 export type UserListGlobalLicenseCustomerInfoLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_UNSPECIFIED"
@@ -2470,31 +2482,31 @@ export type UserListGlobalLicenseCustomerInfoLicenseTypeEnum =
 export const UserListGlobalLicenseCustomerInfoLicenseTypeEnum = S.String;
 
 export interface UserListGlobalLicenseCustomerInfo {
-  clientAccountDisplayName?: string;
+  userListId?: string;
+  status?: UserListGlobalLicenseCustomerInfoStatusEnum;
   clientAccountId?: string;
+  clientAccountDisplayName?: string;
+  historicalPricings?: UserListLicensePricingList;
+  userListDisplayName?: string;
+  pricing?: UserListLicensePricing;
+  name?: string;
   metrics?: UserListLicenseMetrics;
   clientAccountType?: UserListGlobalLicenseCustomerInfoClientAccountTypeEnum;
-  status?: UserListGlobalLicenseCustomerInfoStatusEnum;
-  userListDisplayName?: string;
-  userListId?: string;
   licenseType?: UserListGlobalLicenseCustomerInfoLicenseTypeEnum;
-  pricing?: UserListLicensePricing;
-  historicalPricings?: UserListLicensePricingList;
-  name?: string;
 }
 export const UserListGlobalLicenseCustomerInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientAccountDisplayName: S.optional(S.String),
+    userListId: S.optional(S.String),
+    status: S.optional(UserListGlobalLicenseCustomerInfoStatusEnum),
     clientAccountId: S.optional(S.String),
+    clientAccountDisplayName: S.optional(S.String),
+    historicalPricings: S.optional(UserListLicensePricingList),
+    userListDisplayName: S.optional(S.String),
+    pricing: S.optional(UserListLicensePricing),
+    name: S.optional(S.String),
     metrics: S.optional(UserListLicenseMetrics),
     clientAccountType: S.optional(UserListGlobalLicenseCustomerInfoClientAccountTypeEnum),
-    status: S.optional(UserListGlobalLicenseCustomerInfoStatusEnum),
-    userListDisplayName: S.optional(S.String),
-    userListId: S.optional(S.String),
     licenseType: S.optional(UserListGlobalLicenseCustomerInfoLicenseTypeEnum),
-    pricing: S.optional(UserListLicensePricing),
-    historicalPricings: S.optional(UserListLicensePricingList),
-    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UserListGlobalLicenseCustomerInfo",
@@ -2506,30 +2518,30 @@ export const UserListGlobalLicenseCustomerInfoList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UserListGlobalLicenseCustomerInfoList>;
 
 export interface ListUserListGlobalLicenseCustomerInfosResponse {
-  nextPageToken?: string;
   userListGlobalLicenseCustomerInfos?: UserListGlobalLicenseCustomerInfoList;
+  nextPageToken?: string;
 }
 export const ListUserListGlobalLicenseCustomerInfosResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     userListGlobalLicenseCustomerInfos: S.optional(UserListGlobalLicenseCustomerInfoList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListUserListGlobalLicenseCustomerInfosResponse",
 }) as any as S.Schema<ListUserListGlobalLicenseCustomerInfosResponse>;
 
 export interface ListAccountTypesAccountsUserListsRequest {
-  pageSize?: number;
-  parent: string;
   pageToken?: string;
   filter?: string;
+  parent: string;
+  pageSize?: number;
 }
 export const ListAccountTypesAccountsUserListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2545,13 +2557,13 @@ export type UserListList = Array<UserList>;
 export const UserListList = /*@__PURE__*/ S.Array(UserList) as any as S.Schema<UserListList>;
 
 export interface ListUserListsResponse {
-  nextPageToken?: string;
   userLists?: UserListList;
+  nextPageToken?: string;
 }
 export const ListUserListsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     userLists: S.optional(UserListList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListUserListsResponse" }) as any as S.Schema<ListUserListsResponse>;
 
@@ -2592,17 +2604,17 @@ export const PatchAccountTypesAccountsUserListGlobalLicensesRequest = /*@__PURE_
 }) as any as S.Schema<PatchAccountTypesAccountsUserListGlobalLicensesRequest>;
 
 export interface PatchAccountTypesAccountsUserListsRequest {
-  updateMask?: string;
-  name: string;
   validateOnly?: boolean;
+  name: string;
+  updateMask?: string;
   /** Request body */
   body?: UserList;
 }
 export const PatchAccountTypesAccountsUserListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(UserList.pipe(T.HttpBody())),
   }).pipe(
     T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://datamanager.googleapis.com/" }),
@@ -2612,15 +2624,15 @@ export const PatchAccountTypesAccountsUserListsRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<PatchAccountTypesAccountsUserListsRequest>;
 
 export interface RemoveAllAudienceMembersRequest {
-  removeAsOfTime?: string;
   destinations?: DestinationList;
   validateOnly?: boolean;
+  removeAsOfTime?: string;
 }
 export const RemoveAllAudienceMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    removeAsOfTime: S.optional(S.String),
     destinations: S.optional(DestinationList),
     validateOnly: S.optional(S.Boolean),
+    removeAsOfTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RemoveAllAudienceMembersRequest",
@@ -2659,19 +2671,19 @@ export type RemoveAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | 
 export const RemoveAudienceMembersRequestEncodingEnum = S.String;
 
 export interface RemoveAudienceMembersRequest {
-  encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {});
-  audienceMembers?: AudienceMemberList;
   destinations?: DestinationList;
-  validateOnly?: boolean;
   encryptionInfo?: EncryptionInfo;
+  audienceMembers?: AudienceMemberList;
+  validateOnly?: boolean;
+  encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {});
 }
 export const RemoveAudienceMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encoding: S.optional(RemoveAudienceMembersRequestEncodingEnum),
-    audienceMembers: S.optional(AudienceMemberList),
     destinations: S.optional(DestinationList),
-    validateOnly: S.optional(S.Boolean),
     encryptionInfo: S.optional(EncryptionInfo),
+    audienceMembers: S.optional(AudienceMemberList),
+    validateOnly: S.optional(S.Boolean),
+    encoding: S.optional(RemoveAudienceMembersRequestEncodingEnum),
   }),
 ).annotate({
   identifier: "RemoveAudienceMembersRequest",
@@ -2706,26 +2718,26 @@ export const RemoveAudienceMembersResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveAudienceMembersResponse",
 }) as any as S.Schema<RemoveAudienceMembersResponse>;
 
-export type UserDataList = Array<UserData>;
-export const UserDataList = /*@__PURE__*/ S.Array(UserData) as any as S.Schema<UserDataList>;
-
 export type RemoveUsersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export const RemoveUsersRequestEncodingEnum = S.String;
 
+export type UserDataList = Array<UserData>;
+export const UserDataList = /*@__PURE__*/ S.Array(UserData) as any as S.Schema<UserDataList>;
+
 export interface RemoveUsersRequest {
-  encryptionInfo?: EncryptionInfo;
-  userData?: UserDataList;
-  encoding?: RemoveUsersRequestEncodingEnum | (string & {});
   destinations?: DestinationList;
+  encoding?: RemoveUsersRequestEncodingEnum | (string & {});
+  encryptionInfo?: EncryptionInfo;
   validateOnly?: boolean;
+  userData?: UserDataList;
 }
 export const RemoveUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryptionInfo: S.optional(EncryptionInfo),
-    userData: S.optional(UserDataList),
-    encoding: S.optional(RemoveUsersRequestEncodingEnum),
     destinations: S.optional(DestinationList),
+    encoding: S.optional(RemoveUsersRequestEncodingEnum),
+    encryptionInfo: S.optional(EncryptionInfo),
     validateOnly: S.optional(S.Boolean),
+    userData: S.optional(UserDataList),
   }),
 ).annotate({ identifier: "RemoveUsersRequest" }) as any as S.Schema<RemoveUsersRequest>;
 
@@ -2756,15 +2768,15 @@ export const RemoveUsersResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface SearchAccountTypesAccountsPartnerLinksRequest {
   filter?: string;
-  pageSize?: number;
   pageToken?: string;
+  pageSize?: number;
   parent: string;
 }
 export const SearchAccountTypesAccountsPartnerLinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({

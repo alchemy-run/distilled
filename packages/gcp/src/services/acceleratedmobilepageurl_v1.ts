@@ -130,17 +130,17 @@ export const AmpUrlErrorList = /*@__PURE__*/ S.Array(
 
 /** AMP URL response for a requested URL. */
 export interface AmpUrl {
-  /** The original non-AMP URL. */
-  originalUrl?: string;
   /** The AMP URL pointing to the publisher's web server. */
   ampUrl?: string;
+  /** The original non-AMP URL. */
+  originalUrl?: string;
   /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
   cdnAmpUrl?: string;
 }
 export const AmpUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    originalUrl: S.optional(S.String),
     ampUrl: S.optional(S.String),
+    originalUrl: S.optional(S.String),
     cdnAmpUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "AmpUrl" }) as any as S.Schema<AmpUrl>;

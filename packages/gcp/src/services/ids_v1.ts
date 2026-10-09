@@ -115,51 +115,51 @@ export const EndpointSeverityEnum = S.String;
 
 /** Endpoint describes a single IDS endpoint. It defines a forwarding rule to which packets can be sent for IDS inspection. */
 export interface Endpoint {
+  /** Required. The fully qualified URL of the network to which the IDS Endpoint is attached. */
+  network?: string;
+  /** Output only. The fully qualified URL of the endpoint's ILB Forwarding Rule. */
+  endpointForwardingRule?: string;
   /** Output only. The update time timestamp. */
   updateTime?: string;
+  /** Output only. The create time timestamp. */
+  createTime?: string;
+  /** Output only. [Output Only] Reserved for future use. */
+  satisfiesPzs?: boolean;
   /** The labels of the endpoint. */
   labels?: StringMap;
   /** Output only. [Output Only] Reserved for future use. */
   satisfiesPzi?: boolean;
-  /** List of threat IDs to be excepted from generating alerts. */
-  threatExceptions?: StringList;
-  /** Output only. The IP address of the IDS Endpoint's ILB. */
-  endpointIp?: string;
-  /** Output only. Current state of the endpoint. */
-  state?: EndpointStateEnum | (string & {});
-  /** Output only. The create time timestamp. */
-  createTime?: string;
-  /** User-provided description of the endpoint */
-  description?: string;
-  /** Whether the endpoint should report traffic logs in addition to threat logs. */
-  trafficLogs?: boolean;
-  /** Output only. The fully qualified URL of the endpoint's ILB Forwarding Rule. */
-  endpointForwardingRule?: string;
-  /** Output only. [Output Only] Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** Required. The fully qualified URL of the network to which the IDS Endpoint is attached. */
-  network?: string;
-  /** Required. Lowest threat severity that this endpoint will alert on. */
-  severity?: EndpointSeverityEnum | (string & {});
   /** Output only. The name of the endpoint. */
   name?: string;
+  /** List of threat IDs to be excepted from generating alerts. */
+  threatExceptions?: StringList;
+  /** Output only. Current state of the endpoint. */
+  state?: EndpointStateEnum | (string & {});
+  /** Whether the endpoint should report traffic logs in addition to threat logs. */
+  trafficLogs?: boolean;
+  /** Output only. The IP address of the IDS Endpoint's ILB. */
+  endpointIp?: string;
+  /** Required. Lowest threat severity that this endpoint will alert on. */
+  severity?: EndpointSeverityEnum | (string & {});
+  /** User-provided description of the endpoint */
+  description?: string;
 }
 export const Endpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    network: S.optional(S.String),
+    endpointForwardingRule: S.optional(S.String),
     updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    satisfiesPzs: S.optional(S.Boolean),
     labels: S.optional(StringMap),
     satisfiesPzi: S.optional(S.Boolean),
-    threatExceptions: S.optional(StringList),
-    endpointIp: S.optional(S.String),
-    state: S.optional(EndpointStateEnum),
-    createTime: S.optional(S.String),
-    description: S.optional(S.String),
-    trafficLogs: S.optional(S.Boolean),
-    endpointForwardingRule: S.optional(S.String),
-    satisfiesPzs: S.optional(S.Boolean),
-    network: S.optional(S.String),
-    severity: S.optional(EndpointSeverityEnum),
     name: S.optional(S.String),
+    threatExceptions: S.optional(StringList),
+    state: S.optional(EndpointStateEnum),
+    trafficLogs: S.optional(S.Boolean),
+    endpointIp: S.optional(S.String),
+    severity: S.optional(EndpointSeverityEnum),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
 
@@ -203,18 +203,18 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
-    message: S.optional(S.String),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
@@ -224,20 +224,20 @@ export interface Operation {
   name?: string;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     error: S.optional(Status),
+    response: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
     metadata: S.optional(DocumentMap),
-    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -282,24 +282,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    locationId: S.optional(S.String),
-    labels: S.optional(StringMap),
-    displayName: S.optional(S.String),
     name: S.optional(S.String),
+    locationId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    displayName: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -332,20 +332,20 @@ export interface ListProjectsLocationsRequest {
   filter?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+name}/locations", baseUrl: "https://ids.googleapis.com/" }),
   ),
@@ -358,36 +358,36 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsEndpointsRequest {
-  /** Optional. The filter expression, following the syntax outlined in https://google.aip.dev/160. */
-  filter?: string;
-  /** Required. The parent, which owns this collection of endpoints. */
-  parent: string;
-  /** Optional. The maximum number of endpoints to return. The service may return fewer than this value. */
-  pageSize?: number;
   /** Optional. One or more fields to compare and use to sort the output. See https://google.aip.dev/132#ordering. */
   orderBy?: string;
+  /** Optional. The maximum number of endpoints to return. The service may return fewer than this value. */
+  pageSize?: number;
+  /** Required. The parent, which owns this collection of endpoints. */
+  parent: string;
+  /** Optional. The filter expression, following the syntax outlined in https://google.aip.dev/160. */
+  filter?: string;
   /** Optional. A page token, received from a previous `ListEndpoints` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListEndpoints` must match the call that provided the page token. */
   pageToken?: string;
 }
 export const ListProjectsLocationsEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -406,38 +406,38 @@ export const EndpointList = /*@__PURE__*/ S.Array(Endpoint) as any as S.Schema<E
 export interface ListEndpointsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
-  /** The list of endpoints response. */
-  endpoints?: EndpointList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The list of endpoints response. */
+  endpoints?: EndpointList;
 }
 export const ListEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    endpoints: S.optional(EndpointList),
     unreachable: S.optional(StringList),
+    endpoints: S.optional(EndpointList),
   }),
 ).annotate({ identifier: "ListEndpointsResponse" }) as any as S.Schema<ListEndpointsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page token. */
   pageToken?: string;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "v1/{+name}/operations", baseUrl: "https://ids.googleapis.com/" }),
   ),
@@ -450,18 +450,18 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    operations: S.optional(OperationList),
   }),
 ).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 

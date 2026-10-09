@@ -96,8 +96,12 @@ export interface Member {
   joined_at: string;
   /** When the member last opened the account's content, as an ISO 8601 timestamp. `null` if they never have. */
   last_accessed_at: string | null;
+  /** The member's phone number, or `null`. Their account number when they have shared one with this seller; otherwise the most recent number collected (or verified) at checkout. */
+  phone_number: string | null;
   /** `joined` while the member is part of the account, `left` after they leave. */
   status: MemberStatus;
+  /** The member's current token balance for this account, computed from token transactions. */
+  token_balance: number;
   /** The user behind this member. `null` when the buyer is another business rather than a person. */
   user: UserSummary | null;
 }
@@ -109,7 +113,9 @@ export const Member = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     joined_at: S.String,
     last_accessed_at: S.NullOr(S.String),
+    phone_number: S.NullOr(S.String),
     status: MemberStatus,
+    token_balance: S.Number,
     user: S.NullOr(UserSummary),
   }),
 ).annotate({ identifier: "Member" }) as any as S.Schema<Member>;
@@ -117,13 +123,13 @@ export const Member = /*@__PURE__*/ S.suspend(() =>
 export interface ListMemberLogsRequest {
   /** Member ID (`mber_` tag). */
   id: string;
-  /** Number of log entries to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to paginate forwards from. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of log entries to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to paginate backwards from. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListMemberLogsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -205,6 +211,11 @@ export const ListMembersRequestAccessLevel = S.String;
 export type ListMembersRequestStatus = "joined" | "left";
 export const ListMembersRequestStatus = S.String;
 
+export type ListMembersRequestUserIdsList = Array<string>;
+export const ListMembersRequestUserIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListMembersRequestUserIdsList>;
+
 export type ListMembersRequestOrder =
   | "created_at"
   | "joined_at"
@@ -222,6 +233,8 @@ export interface ListMembersRequest {
   access_level?: ListMembersRequestAccessLevel | (string & {});
   /** Filter by whether the member is still part of the account. */
   status?: ListMembersRequestStatus | (string & {});
+  /** Only return members whose users match these `user_` identifiers. */
+  user_ids?: ListMembersRequestUserIdsList;
   /** Search members by name or username. An exact email address also matches when the credential holds the member:email:read scope. */
   query?: string;
   /** Only members who joined after this ISO 8601 timestamp. */
@@ -232,13 +245,13 @@ export interface ListMembersRequest {
   order?: ListMembersRequestOrder | (string & {});
   /** Sort direction. */
   direction?: ListMembersRequestDirection | (string & {});
-  /** Number of members to return from the start of the window. */
+  /** Number of results to return from the start of the range. */
   first?: number;
-  /** Cursor to paginate forwards from. */
+  /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
   after?: string;
-  /** Number of members to return from the end of the window. */
+  /** Number of results to return from the end of the range. */
   last?: number;
-  /** Cursor to paginate backwards from. */
+  /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
   before?: string;
 }
 export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
@@ -246,6 +259,7 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
     account_id: S.optional(S.String.pipe(T.Query())),
     access_level: S.optional(ListMembersRequestAccessLevel.pipe(T.Query())),
     status: S.optional(ListMembersRequestStatus.pipe(T.Query())),
+    user_ids: S.optional(ListMembersRequestUserIdsList.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
     created_before: S.optional(S.String.pipe(T.Query())),

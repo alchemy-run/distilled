@@ -53,8 +53,8 @@ export type CreateSwapRequestToChain = string | number;
 export const CreateSwapRequestToChain = S.Unknown as any as S.Schema<CreateSwapRequestToChain>;
 
 export interface CreateSwapRequest {
-  /** Business or user account ID (biz_* / user_*). */
-  account_id: string;
+  /** Business account that makes the swap, prefixed `biz_`. Provide this or `user_id`. */
+  account_id?: string;
   /** Source token amount. Required for crypto swaps. For fiat pairs: the amount of from_token to convert at the mid-market rate; omit (along with to_amount) to repay the full negative to_token balance instead. */
   amount?: string | null;
   /** Source chain name or chain ID. Defaults to the source token's chain when omitted. */
@@ -69,12 +69,14 @@ export interface CreateSwapRequest {
   to_chain?: CreateSwapRequestToChain | null;
   /** Destination token contract address or ticker symbol, such as "XAUT". */
   to_token: string;
+  /** The caller's own user ID, prefixed `user_`, to swap in their personal account. Provide this or `account_id`. */
+  user_id?: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
   idempotency_key?: string;
 }
 export const CreateSwapRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    account_id: S.String,
+    account_id: S.optional(S.String),
     amount: S.optional(S.NullOr(S.String)),
     from_chain: S.optional(S.NullOr(CreateSwapRequestFromChain)),
     from_token: S.String,
@@ -82,6 +84,7 @@ export const CreateSwapRequest = /*@__PURE__*/ S.suspend(() =>
     to_amount: S.optional(S.NullOr(S.String)),
     to_chain: S.optional(S.NullOr(CreateSwapRequestToChain)),
     to_token: S.String,
+    user_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/swaps", code: 200 })),
 ).annotate({ identifier: "CreateSwapRequest" }) as any as S.Schema<CreateSwapRequest>;
@@ -110,7 +113,7 @@ export type CreateSwapResponseToToken = CreateSwapResponseFromToken;
 export const CreateSwapResponseToToken = CreateSwapResponseFromToken;
 
 export interface CreateSwapResponse {
-  /** Account ID that owns the wallet used for the swap. */
+  /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Fiat pairs only: amount of the source currency converted. Null while a stablecoin repayment is processing. */
   amount_in?: number | null;
@@ -133,6 +136,8 @@ export interface CreateSwapResponse {
   to_chain?: string;
   /** Fiat pairs only: the destination currency. */
   to_token?: CreateSwapResponseFromToken | null;
+  /** User whose personal account owns the swap, prefixed `user_`. Null for a business account. */
+  user_id: string | null;
 }
 export const CreateSwapResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -148,6 +153,7 @@ export const CreateSwapResponse = /*@__PURE__*/ S.suspend(() =>
     status: CreateSwapResponseStatus,
     to_chain: S.optional(S.String),
     to_token: S.optional(S.NullOr(CreateSwapResponseFromToken)),
+    user_id: S.NullOr(S.String),
   }),
 ).annotate({ identifier: "CreateSwapResponse" }) as any as S.Schema<CreateSwapResponse>;
 
@@ -301,7 +307,7 @@ export const GetSwapResponseTxHashesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetSwapResponseTxHashesList>;
 
 export interface GetSwapResponse {
-  /** Account ID that owns the wallet used for the swap. */
+  /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Latest error returned for a failed swap. */
   error?: string | null;
@@ -312,6 +318,8 @@ export interface GetSwapResponse {
   status: GetSwapResponseStatus;
   /** On-chain transaction hashes produced by the swap. */
   tx_hashes: GetSwapResponseTxHashesList;
+  /** User whose personal account owns the swap, prefixed `user_`. Null for a business account. */
+  user_id: string | null;
 }
 export const GetSwapResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -321,16 +329,20 @@ export const GetSwapResponse = /*@__PURE__*/ S.suspend(() =>
     object: GetSwapResponseObject,
     status: GetSwapResponseStatus,
     tx_hashes: GetSwapResponseTxHashesList,
+    user_id: S.NullOr(S.String),
   }),
 ).annotate({ identifier: "GetSwapResponse" }) as any as S.Schema<GetSwapResponse>;
 
 export interface ListSwapsRequest {
-  /** Business or user account ID (biz_* / user_*). */
-  account_id: string;
+  /** Business account whose swaps to list, prefixed `biz_`. Provide this or `user_id`. */
+  account_id?: string;
+  /** The caller's own user ID, prefixed `user_`, to list swaps in their personal account. Provide this or `account_id`. */
+  user_id?: string;
 }
 export const ListSwapsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    account_id: S.String.pipe(T.Query()),
+    account_id: S.optional(S.String.pipe(T.Query())),
+    user_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/swaps", code: 200 })),
 ).annotate({ identifier: "ListSwapsRequest" }) as any as S.Schema<ListSwapsRequest>;
 
@@ -348,7 +360,7 @@ export const ListSwapsResponseDataItemTxHashesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListSwapsResponseDataItemTxHashesList>;
 
 export interface ListSwapsResponseDataItem {
-  /** Account ID that owns the wallet used for the swap. */
+  /** Account that owns the swap: a business ID prefixed `biz_`, or the user ID for a personal account. */
   account_id: string;
   /** Latest error returned for a failed swap. */
   error?: string | null;
@@ -359,6 +371,8 @@ export interface ListSwapsResponseDataItem {
   status: ListSwapsResponseDataItemStatus;
   /** On-chain transaction hashes produced by the swap. */
   tx_hashes: ListSwapsResponseDataItemTxHashesList;
+  /** User whose personal account owns the swap, prefixed `user_`. Null for a business account. */
+  user_id: string | null;
 }
 export const ListSwapsResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -368,6 +382,7 @@ export const ListSwapsResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     object: ListSwapsResponseDataItemObject,
     status: ListSwapsResponseDataItemStatus,
     tx_hashes: ListSwapsResponseDataItemTxHashesList,
+    user_id: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "ListSwapsResponseDataItem",

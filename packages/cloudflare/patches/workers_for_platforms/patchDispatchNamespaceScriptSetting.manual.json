@@ -1,0 +1,10 @@
+{
+  "description": "Docs gap: PATCH /workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/settings requires multipart/form-data with the settings JSON as a `settings` form part, like the account-level script settings PATCH (workers/patchScriptScriptAndVersionSetting.manual.json). A live call on 2026-10-09 sent as JSON was rejected with `Content-Type must be one of: multipart/form-data`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#PatchDispatchNamespaceScriptSetting/traits/smithy.api#http/contentType",
+      "value": "multipart"
+    }
+  ]
+}

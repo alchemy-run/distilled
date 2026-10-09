@@ -20,6 +20,8 @@ import {
   RAW_RESPONSE_TRAIT,
 } from "@distilled.cloud/core/codegen/openapi";
 
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
+
 /** Turso's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
@@ -38,8 +40,13 @@ const spec: SdkSpec = {
 
   memberTraitPipes: {
     // Sensitive strings: Redacted-wrapped on decode by the REST protocol.
-    "smithy.api#sensitive": "T.SensitiveValue",
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
+  // ...so their TS type is the Redacted the protocol actually delivers.
+  memberTsType: (m) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : undefined,
 
   // The spec's few oneOf unions (e.g. `Extensions` = "all" | extension list)
   // are plain value alternatives, not key-discriminated object cases — emit
@@ -62,7 +69,16 @@ const spec: SdkSpec = {
 
   // No commonErrorClasses → the default header's errors import is empty;
   // drop it rather than shipping a dead `import {} from "../errors.ts"`.
-  postProcess: (code) => code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, ""),
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) => {
+    const withoutErrors = code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, "");
+    return withoutErrors.includes("Redacted.Redacted<")
+      ? withoutErrors.replace(
+          `import * as S from "@distilled.cloud/core/schema";\n`,
+          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+        )
+      : withoutErrors;
+  },
 };
 
 runGeneratorCli({

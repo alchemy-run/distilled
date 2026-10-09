@@ -101,27 +101,27 @@ export type ItemErrorList = Array<ItemError>;
 export const ItemErrorList = /*@__PURE__*/ S.Array(ItemError) as any as S.Schema<ItemErrorList>;
 
 export interface Item {
-  /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
-  crxVersion?: string;
   /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
   itemError?: ItemErrorList;
-  /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
-  kind?: string;
-  /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
-  uploadState?: string;
-  /** Public key of this item. */
-  publicKey?: string;
   /** Unique ID of the item. */
   id?: string;
+  /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
+  crxVersion?: string;
+  /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
+  kind?: string;
+  /** Public key of this item. */
+  publicKey?: string;
+  /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
+  uploadState?: string;
 }
 export const Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    crxVersion: S.optional(S.String),
     itemError: S.optional(ItemErrorList),
-    kind: S.optional(S.String),
-    uploadState: S.optional(S.String),
-    publicKey: S.optional(S.String),
     id: S.optional(S.String),
+    crxVersion: S.optional(S.String),
+    kind: S.optional(S.String),
+    publicKey: S.optional(S.String),
+    uploadState: S.optional(S.String),
   }),
 ).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 
@@ -142,39 +142,39 @@ export const InsertItemsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "InsertItemsRequest" }) as any as S.Schema<InsertItemsRequest>;
 
 export interface PublishRequest {
-  /** The target deploy percentage of the item. It's only useful for items with big user base. */
-  deployPercentage?: number;
   /** The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target="trustedTesters" or target="default". The default value, if none is supplied, is target="default". Recommended usage is to use the URL query parameter to specificy the value. */
   target?: string;
   /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
   reviewExemption?: boolean;
+  /** The target deploy percentage of the item. It's only useful for items with big user base. */
+  deployPercentage?: number;
 }
 export const PublishRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deployPercentage: S.optional(S.Number),
     target: S.optional(S.String),
     reviewExemption: S.optional(S.Boolean),
+    deployPercentage: S.optional(S.Number),
   }),
 ).annotate({ identifier: "PublishRequest" }) as any as S.Schema<PublishRequest>;
 
 export interface PublishItemsRequest {
-  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
-  reviewExemption?: boolean;
   /** The deploy percentage you want to set for your item. Valid values are [0, 100]. If set to any number less than 100, only that many percentage of users will be allowed to get the update. */
   deployPercentage?: number;
-  /** Provide defined publishTarget in URL (case sensitive): publishTarget="trustedTesters" or publishTarget="default". Defaults to publishTarget="default". */
-  publishTarget?: string;
   /** The ID of the item to publish. */
   itemId: string;
+  /** Provide defined publishTarget in URL (case sensitive): publishTarget="trustedTesters" or publishTarget="default". Defaults to publishTarget="default". */
+  publishTarget?: string;
+  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
+  reviewExemption?: boolean;
   /** Request body */
   body?: PublishRequest;
 }
 export const PublishItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
     deployPercentage: S.optional(S.Number.pipe(T.Query())),
-    publishTarget: S.optional(S.String.pipe(T.Query())),
     itemId: S.String.pipe(T.Label()),
+    publishTarget: S.optional(S.String.pipe(T.Query())),
+    reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(PublishRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -193,17 +193,17 @@ export interface Item2 {
   statusDetail?: StringList;
   /** The ID of this item. */
   item_id?: string;
-  /** Static string value is always "chromewebstore#item". */
-  kind?: string;
   /** The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED. */
   status?: StringList;
+  /** Static string value is always "chromewebstore#item". */
+  kind?: string;
 }
 export const Item2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     statusDetail: S.optional(StringList),
     item_id: S.optional(S.String),
-    kind: S.optional(S.String),
     status: S.optional(StringList),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "Item2" }) as any as S.Schema<Item2>;
 

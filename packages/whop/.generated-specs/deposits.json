@@ -18,147 +18,20 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.whop.deposits#CreateDepositRequestDestinationCase1Network": {
-      "type": "enum",
-      "members": {
-        "ETHEREUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ethereum"
-          }
-        },
-        "POLYGON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "polygon"
-          }
-        },
-        "BASE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "base"
-          }
-        },
-        "SOLANA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "solana"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Destination wallet network."
-      }
-    },
-    "com.whop.deposits#CreateDepositRequestDestinationCase1": {
-      "type": "structure",
-      "members": {
-        "account_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Destination account ID."
-          }
-        },
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Destination wallet address."
-          }
-        },
-        "network": {
-          "target": "com.whop.deposits#CreateDepositRequestDestinationCase1Network",
-          "traits": {
-            "smithy.api#documentation": "Destination wallet network."
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.whop.deposits#CreateDepositRequestDestination": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#String"
-        },
-        "Case1": {
-          "target": "com.whop.deposits#CreateDepositRequestDestinationCase1"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Destination account ID or wallet address. Object form is supported for compatibility. Any business resolves by its account ID without authentication; a user account resolves only for that same authenticated user."
-      }
-    },
-    "com.whop.deposits#CreateDepositRequestMetadataMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata to include with the deposit response."
-      }
-    },
-    "com.whop.deposits#CreateDepositRequestNetwork": {
-      "type": "enum",
-      "members": {
-        "ETHEREUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ethereum"
-          }
-        },
-        "POLYGON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "polygon"
-          }
-        },
-        "BASE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "base"
-          }
-        },
-        "SOLANA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "solana"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Destination network override. Defaults to the destination wallet's own network."
-      }
-    },
     "com.whop.deposits#CreateDepositRequest": {
       "type": "structure",
       "members": {
         "amount": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Amount to prefill on hosted deposit page."
+            "smithy.api#documentation": "Amount to prefill on hosted deposit page. Crypto deposits require a $10 minimum."
           }
         },
         "destination": {
-          "target": "com.whop.deposits#CreateDepositRequestDestination",
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Destination account ID or wallet address. Object form is supported for compatibility. Any business resolves by its account ID without authentication; a user account resolves only for that same authenticated user.",
+            "smithy.api#documentation": "Account ID to fund, `biz_` or `user_`. Any business resolves without authentication; a user account resolves only for that same authenticated user.",
             "smithy.api#required": {}
-          }
-        },
-        "metadata": {
-          "target": "com.whop.deposits#CreateDepositRequestMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Metadata to include with the deposit response."
-          }
-        },
-        "network": {
-          "target": "com.whop.deposits#CreateDepositRequestNetwork",
-          "traits": {
-            "smithy.api#documentation": "Destination network override. Defaults to the destination wallet's own network.",
-            "com.distilled.openapi#nullable": {}
           }
         },
         "idempotency_key": {
@@ -171,18 +44,6 @@
       },
       "traits": {
         "smithy.api#input": {}
-      }
-    },
-    "com.whop.deposits#CreateDepositResponseMetadataMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata from the request."
       }
     },
     "com.whop.deposits#CreateDepositResponseMethodsBankCurrenciesItemRailsItem": {
@@ -345,6 +206,12 @@
             "smithy.api#enumValue": "Solana"
           }
         },
+        "BITCOIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Bitcoin"
+          }
+        },
         "BASE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -411,6 +278,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "BNB"
+          }
+        },
+        "BTC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BTC"
           }
         },
         "ETH": {
@@ -592,7 +465,7 @@
         "target": "com.whop.deposits#CreateDepositResponseMethodsCryptoItem"
       },
       "traits": {
-        "smithy.api#documentation": "Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network."
+        "smithy.api#documentation": "Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network. Crypto deposits require a $10 minimum."
       }
     },
     "com.whop.deposits#CreateDepositResponseMethods": {
@@ -609,7 +482,7 @@
         "crypto": {
           "target": "com.whop.deposits#CreateDepositResponseMethodsCryptoList",
           "traits": {
-            "smithy.api#documentation": "Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network.",
+            "smithy.api#documentation": "Crypto networks available for this deposit, each with its on-chain deposit address and the tokens accepted on that network. Crypto deposits require a $10 minimum.",
             "smithy.api#required": {}
           }
         }
@@ -636,7 +509,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID of the destination owner. Null for raw wallet address destinations.",
+            "smithy.api#documentation": "Account ID of the destination owner.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -653,13 +526,6 @@
             "smithy.api#documentation": "URL of the hosted deposit page. Only present for business destinations.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
-          }
-        },
-        "metadata": {
-          "target": "com.whop.deposits#CreateDepositResponseMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Metadata from the request.",
-            "smithy.api#required": {}
           }
         },
         "methods": {
@@ -702,7 +568,7 @@
           "uri": "/deposits",
           "code": 200
         },
-        "smithy.api#documentation": "Create Deposit\n\nRetrieve the deposit methods for an account, including crypto and bank transfer."
+        "smithy.api#documentation": "Create Deposit\n\nRetrieve the deposit methods for an account, including crypto and bank transfer. Bitcoin deposits are converted by Relay directly to USDT on Plasma in the destination account's wallet. Crypto deposits require a $10 minimum."
       }
     },
     "com.whop.deposits#BadRequest": {

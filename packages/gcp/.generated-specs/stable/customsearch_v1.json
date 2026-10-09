@@ -8,25 +8,1043 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.customsearch_v1#Result": {
+      "type": "structure",
+      "members": {
+        "displayLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An abridged version of this search result’s URL, e.g. www.example.com."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the search result, in plain text."
+          }
+        },
+        "htmlTitle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the search result, in HTML."
+          }
+        },
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full URL to which the search result is pointing, e.g. http://www.example.com/foo/bar."
+          }
+        },
+        "image": {
+          "target": "com.gcp.customsearch_v1#ResultImage",
+          "traits": {
+            "smithy.api#documentation": "Image belonging to a custom search result."
+          }
+        },
+        "labels": {
+          "target": "com.gcp.customsearch_v1#ResultLabelsItemList",
+          "traits": {
+            "smithy.api#documentation": "Encapsulates all information about refinement labels."
+          }
+        },
+        "htmlFormattedUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTML-formatted URL displayed after the snippet for each search result."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique identifier for the type of current object. For this API, it is `customsearch#result.`"
+          }
+        },
+        "pagemap": {
+          "target": "com.gcp.customsearch_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Contains [PageMap](https://developers.google.com/custom-search/docs/structured_data#pagemaps) information for this search result."
+          }
+        },
+        "formattedUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL displayed after the snippet for each search result."
+          }
+        },
+        "htmlSnippet": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snippet of the search result, in HTML."
+          }
+        },
+        "fileFormat": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file format of the search result."
+          }
+        },
+        "mime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The MIME type of the search result."
+          }
+        },
+        "cacheId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the ID of Google's cached version of the search result."
+          }
+        },
+        "snippet": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snippet of the search result, in plain text."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A custom search result."
+      }
+    },
+    "com.gcp.customsearch_v1#ResultImage": {
+      "type": "structure",
+      "members": {
+        "width": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The width of the image, in pixels."
+          }
+        },
+        "thumbnailHeight": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The height of the thumbnail image, in pixels."
+          }
+        },
+        "thumbnailWidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The width of the thumbnail image, in pixels."
+          }
+        },
+        "thumbnailLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL to the thumbnail image."
+          }
+        },
+        "contextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL pointing to the webpage hosting the image."
+          }
+        },
+        "byteSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The size of the image, in bytes."
+          }
+        },
+        "height": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The height of the image, in pixels."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#ResultLabelsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of a refinement label, which you can use to refine searches. Don't display this in your user interface; instead, use displayName."
+          }
+        },
+        "label_with_op": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Refinement label and the associated refinement operation."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of a refinement label. This is the name you should display in your user interface."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#ResultLabelsItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.customsearch_v1#ResultLabelsItem"
+      }
+    },
+    "com.gcp.customsearch_v1#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.gcp.customsearch_v1#Search": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "com.gcp.customsearch_v1#SearchUrl",
+          "traits": {
+            "smithy.api#documentation": "OpenSearch template and URL."
+          }
+        },
+        "context": {
+          "target": "com.gcp.customsearch_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Metadata and refinements associated with the given search engine, including: * The name of the search engine that was used for the query. * A set of [facet objects](https://developers.google.com/custom-search/docs/refinements#create) (refinements) you can use for refining a search."
+          }
+        },
+        "queries": {
+          "target": "com.gcp.customsearch_v1#SearchQueries",
+          "traits": {
+            "smithy.api#documentation": "Query metadata for the previous, current, and next pages of results."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the type of current object. For this API, it is customsearch#search."
+          }
+        },
+        "spelling": {
+          "target": "com.gcp.customsearch_v1#SearchSpelling",
+          "traits": {
+            "smithy.api#documentation": "Spell correction information for a query."
+          }
+        },
+        "searchInformation": {
+          "target": "com.gcp.customsearch_v1#SearchSearchInformation",
+          "traits": {
+            "smithy.api#documentation": "Metadata about a search operation."
+          }
+        },
+        "items": {
+          "target": "com.gcp.customsearch_v1#ResultList",
+          "traits": {
+            "smithy.api#documentation": "The current set of custom search results."
+          }
+        },
+        "promotions": {
+          "target": "com.gcp.customsearch_v1#PromotionList",
+          "traits": {
+            "smithy.api#documentation": "The set of [promotions](https://developers.google.com/custom-search/docs/promotions). Present only if the custom search engine's configuration files define any promotions for the given query."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response to a custom search request."
+      }
+    },
+    "com.gcp.customsearch_v1#SearchUrl": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The MIME type of the OpenSearch URL template for the Custom Search JSON API."
+          }
+        },
+        "template": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The actual [OpenSearch template](http://www.opensearch.org/specifications/opensearch/1.1#opensearch_url_template_syntax) for this API."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#SearchQueries": {
+      "type": "structure",
+      "members": {
+        "nextPage": {
+          "target": "com.gcp.customsearch_v1#SearchQueriesNextPageItemList",
+          "traits": {
+            "smithy.api#documentation": "Metadata representing the next page of results, if applicable."
+          }
+        },
+        "request": {
+          "target": "com.gcp.customsearch_v1#SearchQueriesRequestItemList",
+          "traits": {
+            "smithy.api#documentation": "Metadata representing the current request."
+          }
+        },
+        "previousPage": {
+          "target": "com.gcp.customsearch_v1#SearchQueriesPreviousPageItemList",
+          "traits": {
+            "smithy.api#documentation": "Metadata representing the previous page of results, if applicable."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#SearchQueriesNextPageItem": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of the query."
+          }
+        },
+        "dateRestrict": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years."
+          }
+        },
+        "startIndex": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The index of the current set of search results into the total set of results, where the index of the first result is 1."
+          }
+        },
+        "imgColorType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color)"
+          }
+        },
+        "searchTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The search terms entered by the user."
+          }
+        },
+        "rights": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived`"
+          }
+        },
+        "imgSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large)"
+          }
+        },
+        "siteSearch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to URLs from a specified site."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of search results returned in this set."
+          }
+        },
+        "startPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The page number of this set of results, where the page length is set by the `count` property."
+          }
+        },
+        "hl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages."
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The language of the search results."
+          }
+        },
+        "totalResults": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated number of total search results. May not be accurate."
+          }
+        },
+        "gl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States."
+          }
+        },
+        "hq": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical `AND` operator."
+          }
+        },
+        "orTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query."
+          }
+        },
+        "lowRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
+          }
+        },
+        "imgType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock)"
+          }
+        },
+        "excludeTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results."
+          }
+        },
+        "fileType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287)."
+          }
+        },
+        "siteSearchFilter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site"
+          }
+        },
+        "imgDominantColor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown`"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results."
+          }
+        },
+        "linkSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that all results should contain a link to a specific URL."
+          }
+        },
+        "highRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
+          }
+        },
+        "safe": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `\"off\"`: Disable SafeSearch * `\"active\"`: Enable SafeSearch"
+          }
+        },
+        "inputEncoding": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The character encoding supported for search requests."
+          }
+        },
+        "searchType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Allowed values are `web` or `image`. If unspecified, results are limited to webpages."
+          }
+        },
+        "outputEncoding": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The character encoding supported for search results."
+          }
+        },
+        "exactTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain."
+          }
+        },
+        "relatedSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL."
+          }
+        },
+        "cr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter."
+          }
+        },
+        "googleHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited."
+          }
+        },
+        "disableCnTwTranslation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled"
+          }
+        },
+        "cx": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**."
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that results should be sorted according to the specified expression. For example, sort by date."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#SearchQueriesNextPageItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.customsearch_v1#SearchQueriesNextPageItem"
+      }
+    },
+    "com.gcp.customsearch_v1#SearchQueriesRequestItem": {
+      "type": "structure",
+      "members": {
+        "orTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query."
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that results should be sorted according to the specified expression. For example, sort by date."
+          }
+        },
+        "imgType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock)"
+          }
+        },
+        "cx": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**."
+          }
+        },
+        "cr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter."
+          }
+        },
+        "imgColorType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color)"
+          }
+        },
+        "highRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
+          }
+        },
+        "dateRestrict": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years."
+          }
+        },
+        "outputEncoding": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The character encoding supported for search results."
+          }
+        },
+        "siteSearch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to URLs from a specified site."
+          }
+        },
+        "imgSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large)"
+          }
+        },
+        "safe": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `\"off\"`: Disable SafeSearch * `\"active\"`: Enable SafeSearch"
+          }
+        },
+        "relatedSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL."
+          }
+        },
+        "linkSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that all results should contain a link to a specific URL."
+          }
+        },
+        "totalResults": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated number of total search results. May not be accurate."
+          }
+        },
+        "startIndex": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The index of the current set of search results into the total set of results, where the index of the first result is 1."
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results."
+          }
+        },
+        "fileType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287)."
+          }
+        },
+        "inputEncoding": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The character encoding supported for search requests."
+          }
+        },
+        "gl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States."
+          }
+        },
+        "hq": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical `AND` operator."
+          }
+        },
+        "googleHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited."
+          }
+        },
+        "lowRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
+          }
+        },
+        "exactTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of search results returned in this set."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of the query."
+          }
+        },
+        "searchTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The search terms entered by the user."
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The language of the search results."
+          }
+        },
+        "excludeTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results."
+          }
+        },
+        "searchType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Allowed values are `web` or `image`. If unspecified, results are limited to webpages."
+          }
+        },
+        "hl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages."
+          }
+        },
+        "rights": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived`"
+          }
+        },
+        "startPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The page number of this set of results, where the page length is set by the `count` property."
+          }
+        },
+        "siteSearchFilter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site"
+          }
+        },
+        "imgDominantColor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown`"
+          }
+        },
+        "disableCnTwTranslation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled"
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#SearchQueriesRequestItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.customsearch_v1#SearchQueriesRequestItem"
+      }
+    },
+    "com.gcp.customsearch_v1#SearchQueriesPreviousPageItem": {
+      "type": "structure",
+      "members": {
+        "imgColorType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color)"
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that results should be sorted according to the specified expression. For example, sort by date."
+          }
+        },
+        "dateRestrict": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years."
+          }
+        },
+        "rights": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived`"
+          }
+        },
+        "disableCnTwTranslation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled"
+          }
+        },
+        "searchTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The search terms entered by the user."
+          }
+        },
+        "safe": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `\"off\"`: Disable SafeSearch * `\"active\"`: Enable SafeSearch"
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The language of the search results."
+          }
+        },
+        "cx": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**."
+          }
+        },
+        "startIndex": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The index of the current set of search results into the total set of results, where the index of the first result is 1."
+          }
+        },
+        "highRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
+          }
+        },
+        "cr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter."
+          }
+        },
+        "siteSearch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to URLs from a specified site."
+          }
+        },
+        "lowRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
+          }
+        },
+        "totalResults": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated number of total search results. May not be accurate."
+          }
+        },
+        "searchType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Allowed values are `web` or `image`. If unspecified, results are limited to webpages."
+          }
+        },
+        "siteSearchFilter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site"
+          }
+        },
+        "fileType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287)."
+          }
+        },
+        "excludeTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results."
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results."
+          }
+        },
+        "orTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query."
+          }
+        },
+        "startPage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The page number of this set of results, where the page length is set by the `count` property."
+          }
+        },
+        "exactTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain."
+          }
+        },
+        "googleHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited."
+          }
+        },
+        "linkSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that all results should contain a link to a specific URL."
+          }
+        },
+        "outputEncoding": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The character encoding supported for search results."
+          }
+        },
+        "imgType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock)"
+          }
+        },
+        "imgDominantColor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown`"
+          }
+        },
+        "gl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States."
+          }
+        },
+        "hq": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical `AND` operator."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of the query."
+          }
+        },
+        "relatedSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL."
+          }
+        },
+        "inputEncoding": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The character encoding supported for search requests."
+          }
+        },
+        "imgSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large)"
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of search results returned in this set."
+          }
+        },
+        "hl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#SearchQueriesPreviousPageItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.customsearch_v1#SearchQueriesPreviousPageItem"
+      }
+    },
+    "com.gcp.customsearch_v1#SearchSpelling": {
+      "type": "structure",
+      "members": {
+        "correctedQuery": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The corrected query."
+          }
+        },
+        "htmlCorrectedQuery": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The corrected query, formatted in HTML."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#SearchSearchInformation": {
+      "type": "structure",
+      "members": {
+        "formattedSearchTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time taken for the server to return search results, formatted according to locale style."
+          }
+        },
+        "formattedTotalResults": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total number of search results, formatted according to locale style."
+          }
+        },
+        "totalResults": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total number of search results returned by the query."
+          }
+        },
+        "searchTime": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The time taken for the server to return search results."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#ResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.customsearch_v1#Result"
+      }
+    },
+    "com.gcp.customsearch_v1#PromotionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.customsearch_v1#Promotion"
+      }
+    },
     "com.gcp.customsearch_v1#Promotion": {
       "type": "structure",
       "members": {
-        "image": {
-          "target": "com.gcp.customsearch_v1#PromotionImage",
-          "traits": {
-            "smithy.api#documentation": "Image belonging to a promotion."
-          }
-        },
         "displayLink": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "An abridged version of this search's result URL, e.g. www.example.com."
           }
         },
-        "link": {
-          "target": "smithy.api#String",
+        "bodyLines": {
+          "target": "com.gcp.customsearch_v1#PromotionBodyLinesItemList",
           "traits": {
-            "smithy.api#documentation": "The URL of the promotion."
+            "smithy.api#documentation": "An array of block objects for this promotion."
+          }
+        },
+        "image": {
+          "target": "com.gcp.customsearch_v1#PromotionImage",
+          "traits": {
+            "smithy.api#documentation": "Image belonging to a promotion."
           }
         },
         "htmlTitle": {
@@ -41,10 +1059,10 @@
             "smithy.api#documentation": "The title of the promotion."
           }
         },
-        "bodyLines": {
-          "target": "com.gcp.customsearch_v1#PromotionBodyLinesItemList",
+        "link": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "An array of block objects for this promotion."
+            "smithy.api#documentation": "The URL of the promotion."
           }
         }
       },
@@ -52,42 +1070,19 @@
         "smithy.api#documentation": "Promotion result."
       }
     },
-    "com.gcp.customsearch_v1#PromotionImage": {
-      "type": "structure",
-      "members": {
-        "source": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL of the image for this promotion link."
-          }
-        },
-        "width": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Image width in pixels."
-          }
-        },
-        "height": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Image height in pixels."
-          }
-        }
-      }
-    },
     "com.gcp.customsearch_v1#PromotionBodyLinesItem": {
       "type": "structure",
       "members": {
-        "htmlTitle": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The block object's text in HTML, if it has text."
-          }
-        },
         "url": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The URL of the block object's link, if it has one."
+          }
+        },
+        "htmlTitle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The block object's text in HTML, if it has text."
           }
         },
         "link": {
@@ -110,1020 +1105,95 @@
         "target": "com.gcp.customsearch_v1#PromotionBodyLinesItem"
       }
     },
-    "com.gcp.customsearch_v1#Search": {
+    "com.gcp.customsearch_v1#PromotionImage": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique identifier for the type of current object. For this API, it is customsearch#search."
-          }
-        },
-        "items": {
-          "target": "com.gcp.customsearch_v1#ResultList",
-          "traits": {
-            "smithy.api#documentation": "The current set of custom search results."
-          }
-        },
-        "spelling": {
-          "target": "com.gcp.customsearch_v1#SearchSpelling",
-          "traits": {
-            "smithy.api#documentation": "Spell correction information for a query."
-          }
-        },
-        "promotions": {
-          "target": "com.gcp.customsearch_v1#PromotionList",
-          "traits": {
-            "smithy.api#documentation": "The set of [promotions](https://developers.google.com/custom-search/docs/promotions). Present only if the custom search engine's configuration files define any promotions for the given query."
-          }
-        },
-        "queries": {
-          "target": "com.gcp.customsearch_v1#SearchQueries",
-          "traits": {
-            "smithy.api#documentation": "Query metadata for the previous, current, and next pages of results."
-          }
-        },
-        "searchInformation": {
-          "target": "com.gcp.customsearch_v1#SearchSearchInformation",
-          "traits": {
-            "smithy.api#documentation": "Metadata about a search operation."
-          }
-        },
-        "context": {
-          "target": "com.gcp.customsearch_v1#DocumentMap",
-          "traits": {
-            "smithy.api#documentation": "Metadata and refinements associated with the given search engine, including: * The name of the search engine that was used for the query. * A set of [facet objects](https://developers.google.com/custom-search/docs/refinements#create) (refinements) you can use for refining a search."
-          }
-        },
-        "url": {
-          "target": "com.gcp.customsearch_v1#SearchUrl",
-          "traits": {
-            "smithy.api#documentation": "OpenSearch template and URL."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response to a custom search request."
-      }
-    },
-    "com.gcp.customsearch_v1#ResultList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.customsearch_v1#Result"
-      }
-    },
-    "com.gcp.customsearch_v1#SearchSpelling": {
-      "type": "structure",
-      "members": {
-        "htmlCorrectedQuery": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The corrected query, formatted in HTML."
-          }
-        },
-        "correctedQuery": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The corrected query."
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#PromotionList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.customsearch_v1#Promotion"
-      }
-    },
-    "com.gcp.customsearch_v1#SearchQueries": {
-      "type": "structure",
-      "members": {
-        "previousPage": {
-          "target": "com.gcp.customsearch_v1#SearchQueriesPreviousPageItemList",
-          "traits": {
-            "smithy.api#documentation": "Metadata representing the previous page of results, if applicable."
-          }
-        },
-        "request": {
-          "target": "com.gcp.customsearch_v1#SearchQueriesRequestItemList",
-          "traits": {
-            "smithy.api#documentation": "Metadata representing the current request."
-          }
-        },
-        "nextPage": {
-          "target": "com.gcp.customsearch_v1#SearchQueriesNextPageItemList",
-          "traits": {
-            "smithy.api#documentation": "Metadata representing the next page of results, if applicable."
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#SearchQueriesPreviousPageItem": {
-      "type": "structure",
-      "members": {
-        "hq": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical `AND` operator."
-          }
-        },
-        "cx": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**."
-          }
-        },
-        "lowRange": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
-          }
-        },
-        "excludeTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results."
-          }
-        },
-        "language": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The language of the search results."
-          }
-        },
-        "rights": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived`"
-          }
-        },
-        "imgSize": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large)"
-          }
-        },
-        "sort": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that results should be sorted according to the specified expression. For example, sort by date."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A description of the query."
-          }
-        },
-        "searchTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The search terms entered by the user."
-          }
-        },
-        "fileType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287)."
-          }
-        },
-        "exactTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain."
-          }
-        },
-        "startPage": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The page number of this set of results, where the page length is set by the `count` property."
-          }
-        },
-        "linkSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that all results should contain a link to a specific URL."
-          }
-        },
-        "hl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages."
-          }
-        },
-        "totalResults": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Estimated number of total search results. May not be accurate."
-          }
-        },
-        "orTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query."
-          }
-        },
-        "cr": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter."
-          }
-        },
-        "imgColorType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color)"
-          }
-        },
-        "imgType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock)"
-          }
-        },
-        "highRange": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
-          }
-        },
-        "imgDominantColor": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown`"
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results."
-          }
-        },
-        "disableCnTwTranslation": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled"
-          }
-        },
-        "outputEncoding": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The character encoding supported for search results."
-          }
-        },
-        "searchType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Allowed values are `web` or `image`. If unspecified, results are limited to webpages."
-          }
-        },
-        "count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Number of search results returned in this set."
-          }
-        },
-        "inputEncoding": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The character encoding supported for search requests."
-          }
-        },
-        "relatedSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL."
-          }
-        },
-        "safe": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `\"off\"`: Disable SafeSearch * `\"active\"`: Enable SafeSearch"
-          }
-        },
-        "siteSearchFilter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site"
-          }
-        },
-        "siteSearch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to URLs from a specified site."
-          }
-        },
-        "dateRestrict": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years."
-          }
-        },
-        "gl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States."
-          }
-        },
-        "googleHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited."
-          }
-        },
-        "startIndex": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The index of the current set of search results into the total set of results, where the index of the first result is 1."
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#SearchQueriesPreviousPageItemList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.customsearch_v1#SearchQueriesPreviousPageItem"
-      }
-    },
-    "com.gcp.customsearch_v1#SearchQueriesRequestItem": {
-      "type": "structure",
-      "members": {
-        "rights": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived`"
-          }
-        },
-        "exactTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain."
-          }
-        },
-        "startPage": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The page number of this set of results, where the page length is set by the `count` property."
-          }
-        },
-        "linkSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that all results should contain a link to a specific URL."
-          }
-        },
-        "count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Number of search results returned in this set."
-          }
-        },
-        "sort": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that results should be sorted according to the specified expression. For example, sort by date."
-          }
-        },
-        "inputEncoding": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The character encoding supported for search requests."
-          }
-        },
-        "dateRestrict": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years."
-          }
-        },
-        "imgSize": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large)"
-          }
-        },
-        "highRange": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
-          }
-        },
-        "gl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States."
-          }
-        },
-        "orTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query."
-          }
-        },
-        "searchTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The search terms entered by the user."
-          }
-        },
-        "lowRange": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results."
-          }
-        },
-        "siteSearchFilter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site"
-          }
-        },
-        "fileType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287)."
-          }
-        },
-        "language": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The language of the search results."
-          }
-        },
-        "imgType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock)"
-          }
-        },
-        "outputEncoding": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The character encoding supported for search results."
-          }
-        },
-        "imgColorType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color)"
-          }
-        },
-        "siteSearch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to URLs from a specified site."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A description of the query."
-          }
-        },
-        "hl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages."
-          }
-        },
-        "totalResults": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Estimated number of total search results. May not be accurate."
-          }
-        },
-        "safe": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `\"off\"`: Disable SafeSearch * `\"active\"`: Enable SafeSearch"
-          }
-        },
-        "cr": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter."
-          }
-        },
-        "googleHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited."
-          }
-        },
-        "startIndex": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The index of the current set of search results into the total set of results, where the index of the first result is 1."
-          }
-        },
-        "excludeTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results."
-          }
-        },
-        "searchType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Allowed values are `web` or `image`. If unspecified, results are limited to webpages."
-          }
-        },
-        "relatedSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL."
-          }
-        },
-        "imgDominantColor": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown`"
-          }
-        },
-        "cx": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**."
-          }
-        },
-        "disableCnTwTranslation": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled"
-          }
-        },
-        "hq": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical `AND` operator."
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#SearchQueriesRequestItemList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.customsearch_v1#SearchQueriesRequestItem"
-      }
-    },
-    "com.gcp.customsearch_v1#SearchQueriesNextPageItem": {
-      "type": "structure",
-      "members": {
-        "orTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query."
-          }
-        },
-        "safe": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `\"off\"`: Disable SafeSearch * `\"active\"`: Enable SafeSearch"
-          }
-        },
-        "excludeTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results."
-          }
-        },
-        "inputEncoding": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The character encoding supported for search requests."
-          }
-        },
-        "searchType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Allowed values are `web` or `image`. If unspecified, results are limited to webpages."
-          }
-        },
-        "disableCnTwTranslation": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled"
-          }
-        },
-        "hq": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical `AND` operator."
-          }
-        },
-        "imgType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock)"
-          }
-        },
-        "rights": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived`"
-          }
-        },
-        "cx": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**."
-          }
-        },
-        "linkSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that all results should contain a link to a specific URL."
-          }
-        },
-        "fileType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287)."
-          }
-        },
-        "imgColorType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color)"
-          }
-        },
-        "siteSearch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to URLs from a specified site."
-          }
-        },
-        "relatedSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL."
-          }
-        },
-        "highRange": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
-          }
-        },
-        "language": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The language of the search results."
-          }
-        },
-        "imgDominantColor": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown`"
-          }
-        },
-        "hl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages."
-          }
-        },
-        "lowRange": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query."
-          }
-        },
-        "startIndex": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The index of the current set of search results into the total set of results, where the index of the first result is 1."
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results."
-          }
-        },
-        "googleHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited."
-          }
-        },
-        "totalResults": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Estimated number of total search results. May not be accurate."
-          }
-        },
-        "imgSize": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large)"
-          }
-        },
-        "startPage": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The page number of this set of results, where the page length is set by the `count` property."
-          }
-        },
-        "count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Number of search results returned in this set."
-          }
-        },
-        "cr": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter."
-          }
-        },
-        "outputEncoding": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The character encoding supported for search results."
-          }
-        },
-        "sort": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that results should be sorted according to the specified expression. For example, sort by date."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A description of the query."
-          }
-        },
-        "searchTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The search terms entered by the user."
-          }
-        },
-        "exactTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain."
-          }
-        },
-        "siteSearchFilter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site"
-          }
-        },
-        "gl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States."
-          }
-        },
-        "dateRestrict": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years."
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#SearchQueriesNextPageItemList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.customsearch_v1#SearchQueriesNextPageItem"
-      }
-    },
-    "com.gcp.customsearch_v1#SearchSearchInformation": {
-      "type": "structure",
-      "members": {
-        "formattedSearchTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time taken for the server to return search results, formatted according to locale style."
-          }
-        },
-        "searchTime": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "The time taken for the server to return search results."
-          }
-        },
-        "totalResults": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The total number of search results returned by the query."
-          }
-        },
-        "formattedTotalResults": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The total number of search results, formatted according to locale style."
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#DocumentMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      }
-    },
-    "com.gcp.customsearch_v1#SearchUrl": {
-      "type": "structure",
-      "members": {
-        "template": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The actual [OpenSearch template](http://www.opensearch.org/specifications/opensearch/1.1#opensearch_url_template_syntax) for this API."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The MIME type of the OpenSearch URL template for the Custom Search JSON API."
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#Result": {
-      "type": "structure",
-      "members": {
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The title of the search result, in plain text."
-          }
-        },
-        "displayLink": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An abridged version of this search result’s URL, e.g. www.example.com."
-          }
-        },
-        "htmlSnippet": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The snippet of the search result, in HTML."
-          }
-        },
-        "labels": {
-          "target": "com.gcp.customsearch_v1#ResultLabelsItemList",
-          "traits": {
-            "smithy.api#documentation": "Encapsulates all information about refinement labels."
-          }
-        },
-        "cacheId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indicates the ID of Google's cached version of the search result."
-          }
-        },
-        "image": {
-          "target": "com.gcp.customsearch_v1#ResultImage",
-          "traits": {
-            "smithy.api#documentation": "Image belonging to a custom search result."
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A unique identifier for the type of current object. For this API, it is `customsearch#result.`"
-          }
-        },
-        "htmlFormattedUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The HTML-formatted URL displayed after the snippet for each search result."
-          }
-        },
-        "pagemap": {
-          "target": "com.gcp.customsearch_v1#DocumentMap",
-          "traits": {
-            "smithy.api#documentation": "Contains [PageMap](https://developers.google.com/custom-search/docs/structured_data#pagemaps) information for this search result."
-          }
-        },
-        "formattedUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The URL displayed after the snippet for each search result."
-          }
-        },
-        "snippet": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The snippet of the search result, in plain text."
-          }
-        },
-        "mime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The MIME type of the search result."
-          }
-        },
-        "link": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The full URL to which the search result is pointing, e.g. http://www.example.com/foo/bar."
-          }
-        },
-        "fileFormat": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The file format of the search result."
-          }
-        },
-        "htmlTitle": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The title of the search result, in HTML."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A custom search result."
-      }
-    },
-    "com.gcp.customsearch_v1#ResultLabelsItem": {
-      "type": "structure",
-      "members": {
-        "label_with_op": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Refinement label and the associated refinement operation."
-          }
-        },
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The display name of a refinement label. This is the name you should display in your user interface."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of a refinement label, which you can use to refine searches. Don't display this in your user interface; instead, use displayName."
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#ResultLabelsItemList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.customsearch_v1#ResultLabelsItem"
-      }
-    },
-    "com.gcp.customsearch_v1#ResultImage": {
-      "type": "structure",
-      "members": {
-        "thumbnailWidth": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The width of the thumbnail image, in pixels."
-          }
-        },
         "height": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The height of the image, in pixels."
-          }
-        },
-        "thumbnailHeight": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The height of the thumbnail image, in pixels."
-          }
-        },
-        "thumbnailLink": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A URL to the thumbnail image."
-          }
-        },
-        "contextLink": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A URL pointing to the webpage hosting the image."
-          }
-        },
-        "byteSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The size of the image, in bytes."
+            "smithy.api#documentation": "Image height in pixels."
           }
         },
         "width": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The width of the image, in pixels."
+            "smithy.api#documentation": "Image width in pixels."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the image for this promotion link."
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#ListCseSiteSearchFilterEnum": {
+      "type": "enum",
+      "members": {
+        "SITESEARCHFILTERUNDEFINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "siteSearchFilterUndefined"
+          }
+        },
+        "E": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "e"
+          }
+        },
+        "I": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "i"
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#ListCseImgTypeEnum": {
+      "type": "enum",
+      "members": {
+        "IMGTYPEUNDEFINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "imgTypeUndefined"
+          }
+        },
+        "CLIPART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clipart"
+          }
+        },
+        "FACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "face"
+          }
+        },
+        "LINEART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lineart"
+          }
+        },
+        "STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stock"
+          }
+        },
+        "PHOTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "photo"
+          }
+        },
+        "ANIMATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "animated"
           }
         }
       }
@@ -1211,19 +1281,37 @@
         }
       }
     },
-    "com.gcp.customsearch_v1#ListCseSearchTypeEnum": {
+    "com.gcp.customsearch_v1#ListCseImgColorTypeEnum": {
       "type": "enum",
       "members": {
-        "SEARCHTYPEUNDEFINED": {
+        "IMGCOLORTYPEUNDEFINED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "searchTypeUndefined"
+            "smithy.api#enumValue": "imgColorTypeUndefined"
           }
         },
-        "IMAGE": {
+        "MONO": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "image"
+            "smithy.api#enumValue": "mono"
+          }
+        },
+        "GRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gray"
+          }
+        },
+        "COLOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "color"
+          }
+        },
+        "TRANS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trans"
           }
         }
       }
@@ -1259,76 +1347,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "off"
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#ListCseImgTypeEnum": {
-      "type": "enum",
-      "members": {
-        "IMGTYPEUNDEFINED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "imgTypeUndefined"
-          }
-        },
-        "CLIPART": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "clipart"
-          }
-        },
-        "FACE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "face"
-          }
-        },
-        "LINEART": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "lineart"
-          }
-        },
-        "STOCK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "stock"
-          }
-        },
-        "PHOTO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "photo"
-          }
-        },
-        "ANIMATED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "animated"
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#ListCseSiteSearchFilterEnum": {
-      "type": "enum",
-      "members": {
-        "SITESEARCHFILTERUNDEFINED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "siteSearchFilterUndefined"
-          }
-        },
-        "E": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "e"
-          }
-        },
-        "I": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "i"
           }
         }
       }
@@ -1386,37 +1404,19 @@
         }
       }
     },
-    "com.gcp.customsearch_v1#ListCseImgColorTypeEnum": {
+    "com.gcp.customsearch_v1#ListCseSearchTypeEnum": {
       "type": "enum",
       "members": {
-        "IMGCOLORTYPEUNDEFINED": {
+        "SEARCHTYPEUNDEFINED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "imgColorTypeUndefined"
+            "smithy.api#enumValue": "searchTypeUndefined"
           }
         },
-        "MONO": {
+        "IMAGE": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "mono"
-          }
-        },
-        "GRAY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gray"
-          }
-        },
-        "COLOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "color"
-          }
-        },
-        "TRANS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "trans"
+            "smithy.api#enumValue": "image"
           }
         }
       }
@@ -1424,137 +1424,11 @@
     "com.gcp.customsearch_v1#ListCseRequest": {
       "type": "structure",
       "members": {
-        "sort": {
+        "filter": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The sort expression to apply to the results. The sort parameter specifies that the results be sorted according to the specified expression i.e. sort by date. [Example: sort=date](https://developers.google.com/custom-search/docs/structured_search#sort-by-attribute).",
-            "smithy.api#httpQuery": "sort"
-          }
-        },
-        "start": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The index of the first result to return. The default number of results per page is 10, so `&start=11` would start at the top of the second page of results. **Note**: The JSON API will never return more than 100 results, even if more than 100 documents match the query, so setting the sum of `start + num` to a number greater than 100 will produce an error. Also note that the maximum value for `num` is 10.",
-            "smithy.api#httpQuery": "start"
-          }
-        },
-        "hl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Sets the user interface language. * Explicitly setting this parameter improves the performance and the quality of your search results. * See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages.",
-            "smithy.api#httpQuery": "hl"
-          }
-        },
-        "cr": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#booleanOperators) in the cr parameter's value. Google Search determines the country of a document by analyzing: * the top-level domain (TLD) of the document's URL * the geographic location of the Web server's IP address See the [Country Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) page for a list of valid values for this parameter.",
-            "smithy.api#httpQuery": "cr"
-          }
-        },
-        "lowRange": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies the starting value for a search range. Use `lowRange` and `highRange` to append an inclusive search range of `lowRange...highRange` to the query.",
-            "smithy.api#httpQuery": "lowRange"
-          }
-        },
-        "googlehost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "**Deprecated**. Use the `gl` parameter for a similar effect. The local Google domain (for example, google.com, google.de, or google.fr) to use to perform the search.",
-            "smithy.api#httpQuery": "googlehost"
-          }
-        },
-        "c2coff": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Enables or disables [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch). The default value for this parameter is 0 (zero), meaning that the feature is enabled. Supported values are: * `1`: Disabled * `0`: Enabled (default)",
-            "smithy.api#httpQuery": "c2coff"
-          }
-        },
-        "fileType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to files of a specified extension. A list of file types indexable by Google can be found in Search Console [Help Center](https://support.google.com/webmasters/answer/35287).",
-            "smithy.api#httpQuery": "fileType"
-          }
-        },
-        "linkSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that all search results should contain a link to a particular URL.",
-            "smithy.api#httpQuery": "linkSite"
-          }
-        },
-        "dateRestrict": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years.",
-            "smithy.api#httpQuery": "dateRestrict"
-          }
-        },
-        "exactTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain.",
-            "smithy.api#httpQuery": "exactTerms"
-          }
-        },
-        "cx": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The Programmable Search Engine ID to use for this request.",
-            "smithy.api#httpQuery": "cx"
-          }
-        },
-        "hq": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical AND operator.",
-            "smithy.api#httpQuery": "hq"
-          }
-        },
-        "imgDominantColor": {
-          "target": "com.gcp.customsearch_v1#ListCseImgDominantColorEnum",
-          "traits": {
-            "smithy.api#documentation": "Returns images of a specific dominant color. Acceptable values are: * `\"black\"` * `\"blue\"` * `\"brown\"` * `\"gray\"` * `\"green\"` * `\"orange\"` * `\"pink\"` * `\"purple\"` * `\"red\"` * `\"teal\"` * `\"white\"` * `\"yellow\"`",
-            "smithy.api#httpQuery": "imgDominantColor"
-          }
-        },
-        "searchType": {
-          "target": "com.gcp.customsearch_v1#ListCseSearchTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Specifies the search type: `image`. If unspecified, results are limited to webpages. Acceptable values are: * `\"image\"`: custom image search.",
-            "smithy.api#httpQuery": "searchType"
-          }
-        },
-        "orTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms.",
-            "smithy.api#httpQuery": "orTerms"
-          }
-        },
-        "safe": {
-          "target": "com.gcp.customsearch_v1#ListCseSafeEnum",
-          "traits": {
-            "smithy.api#documentation": "Search safety level. Acceptable values are: * `\"active\"`: Enables SafeSearch filtering. * `\"off\"`: Disables SafeSearch filtering. (default)",
-            "smithy.api#httpQuery": "safe"
-          }
-        },
-        "gl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Geolocation of end user. * The `gl` parameter value is a two-letter country code. The `gl` parameter boosts search results whose country of origin matches the parameter value. See the [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) page for a list of valid values. * Specifying a `gl` parameter value should lead to more relevant results. This is particularly true for international customers and, even more specifically, for customers in English- speaking countries other than the United States.",
-            "smithy.api#httpQuery": "gl"
-          }
-        },
-        "enableAlternateSearchHandler": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Optional. Enables routing of Programmable Search Engine requests to an alternate search handler.",
-            "smithy.api#httpQuery": "enableAlternateSearchHandler"
+            "smithy.api#documentation": "Controls turning on or off the duplicate content filter. * See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Note that host crowding filtering applies only to multi-site searches. * By default, Google applies filtering to all search results to improve the quality of those results. Acceptable values are: * `0`: Turns off duplicate content filter. * `1`: Turns on duplicate content filter.",
+            "smithy.api#httpQuery": "filter"
           }
         },
         "highRange": {
@@ -1564,39 +1438,11 @@
             "smithy.api#httpQuery": "highRange"
           }
         },
-        "num": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Number of search results to return. * Valid values are integers between 1 and 10, inclusive.",
-            "smithy.api#httpQuery": "num"
-          }
-        },
-        "imgType": {
-          "target": "com.gcp.customsearch_v1#ListCseImgTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Returns images of a type. Acceptable values are: * `\"clipart\"` * `\"face\"` * `\"lineart\"` * `\"stock\"` * `\"photo\"` * `\"animated\"`",
-            "smithy.api#httpQuery": "imgType"
-          }
-        },
-        "rights": {
+        "googlehost": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filters based on licensing. Supported values include: `cc_publicdomain`, `cc_attribute`, `cc_sharealike`, `cc_noncommercial`, `cc_nonderived` and combinations of these. See [typical combinations](https://wiki.creativecommons.org/wiki/CC_Search_integration).",
-            "smithy.api#httpQuery": "rights"
-          }
-        },
-        "excludeTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results.",
-            "smithy.api#httpQuery": "excludeTerms"
-          }
-        },
-        "lr": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts the search to documents written in a particular language (e.g., `lr=lang_ja`). Acceptable values are: * `\"lang_ar\"`: Arabic * `\"lang_bg\"`: Bulgarian * `\"lang_ca\"`: Catalan * `\"lang_cs\"`: Czech * `\"lang_da\"`: Danish * `\"lang_de\"`: German * `\"lang_el\"`: Greek * `\"lang_en\"`: English * `\"lang_es\"`: Spanish * `\"lang_et\"`: Estonian * `\"lang_fi\"`: Finnish * `\"lang_fr\"`: French * `\"lang_hr\"`: Croatian * `\"lang_hu\"`: Hungarian * `\"lang_id\"`: Indonesian * `\"lang_is\"`: Icelandic * `\"lang_it\"`: Italian * `\"lang_iw\"`: Hebrew * `\"lang_ja\"`: Japanese * `\"lang_ko\"`: Korean * `\"lang_lt\"`: Lithuanian * `\"lang_lv\"`: Latvian * `\"lang_nl\"`: Dutch * `\"lang_no\"`: Norwegian * `\"lang_pl\"`: Polish * `\"lang_pt\"`: Portuguese * `\"lang_ro\"`: Romanian * `\"lang_ru\"`: Russian * `\"lang_sk\"`: Slovak * `\"lang_sl\"`: Slovenian * `\"lang_sr\"`: Serbian * `\"lang_sv\"`: Swedish * `\"lang_tr\"`: Turkish * `\"lang_zh-CN\"`: Chinese (Simplified) * `\"lang_zh-TW\"`: Chinese (Traditional)",
-            "smithy.api#httpQuery": "lr"
+            "smithy.api#documentation": "**Deprecated**. Use the `gl` parameter for a similar effect. The local Google domain (for example, google.com, google.de, or google.fr) to use to perform the search.",
+            "smithy.api#httpQuery": "googlehost"
           }
         },
         "siteSearchFilter": {
@@ -1613,25 +1459,11 @@
             "smithy.api#httpQuery": "q"
           }
         },
-        "siteSearch": {
+        "linkSite": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Specifies a given site which should always be included or excluded from results (see `siteSearchFilter` parameter, below).",
-            "smithy.api#httpQuery": "siteSearch"
-          }
-        },
-        "imgSize": {
-          "target": "com.gcp.customsearch_v1#ListCseImgSizeEnum",
-          "traits": {
-            "smithy.api#documentation": "Returns images of a specified size. Acceptable values are: * `\"huge\"` * `\"icon\"` * `\"large\"` * `\"medium\"` * `\"small\"` * `\"xlarge\"` * `\"xxlarge\"`",
-            "smithy.api#httpQuery": "imgSize"
-          }
-        },
-        "relatedSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Deprecated.",
-            "smithy.api#httpQuery": "relatedSite"
+            "smithy.api#documentation": "Specifies that all search results should contain a link to a particular URL.",
+            "smithy.api#httpQuery": "linkSite"
           }
         },
         "snippetLength": {
@@ -1641,11 +1473,53 @@
             "smithy.api#httpQuery": "snippetLength"
           }
         },
-        "filter": {
+        "dateRestrict": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Controls turning on or off the duplicate content filter. * See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Note that host crowding filtering applies only to multi-site searches. * By default, Google applies filtering to all search results to improve the quality of those results. Acceptable values are: * `0`: Turns off duplicate content filter. * `1`: Turns on duplicate content filter.",
-            "smithy.api#httpQuery": "filter"
+            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years.",
+            "smithy.api#httpQuery": "dateRestrict"
+          }
+        },
+        "imgType": {
+          "target": "com.gcp.customsearch_v1#ListCseImgTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Returns images of a type. Acceptable values are: * `\"clipart\"` * `\"face\"` * `\"lineart\"` * `\"stock\"` * `\"photo\"` * `\"animated\"`",
+            "smithy.api#httpQuery": "imgType"
+          }
+        },
+        "imgDominantColor": {
+          "target": "com.gcp.customsearch_v1#ListCseImgDominantColorEnum",
+          "traits": {
+            "smithy.api#documentation": "Returns images of a specific dominant color. Acceptable values are: * `\"black\"` * `\"blue\"` * `\"brown\"` * `\"gray\"` * `\"green\"` * `\"orange\"` * `\"pink\"` * `\"purple\"` * `\"red\"` * `\"teal\"` * `\"white\"` * `\"yellow\"`",
+            "smithy.api#httpQuery": "imgDominantColor"
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sort expression to apply to the results. The sort parameter specifies that the results be sorted according to the specified expression i.e. sort by date. [Example: sort=date](https://developers.google.com/custom-search/docs/structured_search#sort-by-attribute).",
+            "smithy.api#httpQuery": "sort"
+          }
+        },
+        "enableAlternateSearchHandler": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. Enables routing of Programmable Search Engine requests to an alternate search handler.",
+            "smithy.api#httpQuery": "enableAlternateSearchHandler"
+          }
+        },
+        "siteSearch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies a given site which should always be included or excluded from results (see `siteSearchFilter` parameter, below).",
+            "smithy.api#httpQuery": "siteSearch"
+          }
+        },
+        "fileType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to files of a specified extension. A list of file types indexable by Google can be found in Search Console [Help Center](https://support.google.com/webmasters/answer/35287).",
+            "smithy.api#httpQuery": "fileType"
           }
         },
         "imgColorType": {
@@ -1653,6 +1527,132 @@
           "traits": {
             "smithy.api#documentation": "Returns black and white, grayscale, transparent, or color images. Acceptable values are: * `\"color\"` * `\"gray\"` * `\"mono\"`: black and white * `\"trans\"`: transparent background",
             "smithy.api#httpQuery": "imgColorType"
+          }
+        },
+        "orTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms.",
+            "smithy.api#httpQuery": "orTerms"
+          }
+        },
+        "gl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Geolocation of end user. * The `gl` parameter value is a two-letter country code. The `gl` parameter boosts search results whose country of origin matches the parameter value. See the [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) page for a list of valid values. * Specifying a `gl` parameter value should lead to more relevant results. This is particularly true for international customers and, even more specifically, for customers in English- speaking countries other than the United States.",
+            "smithy.api#httpQuery": "gl"
+          }
+        },
+        "hq": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical AND operator.",
+            "smithy.api#httpQuery": "hq"
+          }
+        },
+        "c2coff": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Enables or disables [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch). The default value for this parameter is 0 (zero), meaning that the feature is enabled. Supported values are: * `1`: Disabled * `0`: Enabled (default)",
+            "smithy.api#httpQuery": "c2coff"
+          }
+        },
+        "hl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sets the user interface language. * Explicitly setting this parameter improves the performance and the quality of your search results. * See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages.",
+            "smithy.api#httpQuery": "hl"
+          }
+        },
+        "safe": {
+          "target": "com.gcp.customsearch_v1#ListCseSafeEnum",
+          "traits": {
+            "smithy.api#documentation": "Search safety level. Acceptable values are: * `\"active\"`: Enables SafeSearch filtering. * `\"off\"`: Disables SafeSearch filtering. (default)",
+            "smithy.api#httpQuery": "safe"
+          }
+        },
+        "imgSize": {
+          "target": "com.gcp.customsearch_v1#ListCseImgSizeEnum",
+          "traits": {
+            "smithy.api#documentation": "Returns images of a specified size. Acceptable values are: * `\"huge\"` * `\"icon\"` * `\"large\"` * `\"medium\"` * `\"small\"` * `\"xlarge\"` * `\"xxlarge\"`",
+            "smithy.api#httpQuery": "imgSize"
+          }
+        },
+        "lr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts the search to documents written in a particular language (e.g., `lr=lang_ja`). Acceptable values are: * `\"lang_ar\"`: Arabic * `\"lang_bg\"`: Bulgarian * `\"lang_ca\"`: Catalan * `\"lang_cs\"`: Czech * `\"lang_da\"`: Danish * `\"lang_de\"`: German * `\"lang_el\"`: Greek * `\"lang_en\"`: English * `\"lang_es\"`: Spanish * `\"lang_et\"`: Estonian * `\"lang_fi\"`: Finnish * `\"lang_fr\"`: French * `\"lang_hr\"`: Croatian * `\"lang_hu\"`: Hungarian * `\"lang_id\"`: Indonesian * `\"lang_is\"`: Icelandic * `\"lang_it\"`: Italian * `\"lang_iw\"`: Hebrew * `\"lang_ja\"`: Japanese * `\"lang_ko\"`: Korean * `\"lang_lt\"`: Lithuanian * `\"lang_lv\"`: Latvian * `\"lang_nl\"`: Dutch * `\"lang_no\"`: Norwegian * `\"lang_pl\"`: Polish * `\"lang_pt\"`: Portuguese * `\"lang_ro\"`: Romanian * `\"lang_ru\"`: Russian * `\"lang_sk\"`: Slovak * `\"lang_sl\"`: Slovenian * `\"lang_sr\"`: Serbian * `\"lang_sv\"`: Swedish * `\"lang_tr\"`: Turkish * `\"lang_zh-CN\"`: Chinese (Simplified) * `\"lang_zh-TW\"`: Chinese (Traditional)",
+            "smithy.api#httpQuery": "lr"
+          }
+        },
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The index of the first result to return. The default number of results per page is 10, so `&start=11` would start at the top of the second page of results. **Note**: The JSON API will never return more than 100 results, even if more than 100 documents match the query, so setting the sum of `start + num` to a number greater than 100 will produce an error. Also note that the maximum value for `num` is 10.",
+            "smithy.api#httpQuery": "start"
+          }
+        },
+        "excludeTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results.",
+            "smithy.api#httpQuery": "excludeTerms"
+          }
+        },
+        "num": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of search results to return. * Valid values are integers between 1 and 10, inclusive.",
+            "smithy.api#httpQuery": "num"
+          }
+        },
+        "relatedSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated.",
+            "smithy.api#httpQuery": "relatedSite"
+          }
+        },
+        "rights": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filters based on licensing. Supported values include: `cc_publicdomain`, `cc_attribute`, `cc_sharealike`, `cc_noncommercial`, `cc_nonderived` and combinations of these. See [typical combinations](https://wiki.creativecommons.org/wiki/CC_Search_integration).",
+            "smithy.api#httpQuery": "rights"
+          }
+        },
+        "cr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#booleanOperators) in the cr parameter's value. Google Search determines the country of a document by analyzing: * the top-level domain (TLD) of the document's URL * the geographic location of the Web server's IP address See the [Country Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) page for a list of valid values for this parameter.",
+            "smithy.api#httpQuery": "cr"
+          }
+        },
+        "cx": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Programmable Search Engine ID to use for this request.",
+            "smithy.api#httpQuery": "cx"
+          }
+        },
+        "searchType": {
+          "target": "com.gcp.customsearch_v1#ListCseSearchTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Specifies the search type: `image`. If unspecified, results are limited to webpages. Acceptable values are: * `\"image\"`: custom image search.",
+            "smithy.api#httpQuery": "searchType"
+          }
+        },
+        "lowRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the starting value for a search range. Use `lowRange` and `highRange` to append an inclusive search range of `lowRange...highRange` to the query.",
+            "smithy.api#httpQuery": "lowRange"
+          }
+        },
+        "exactTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain.",
+            "smithy.api#httpQuery": "exactTerms"
           }
         }
       }
@@ -1707,46 +1707,6 @@
         "smithy.api#documentation": "Returns metadata about the search performed, metadata about the engine used for the search, and the search results."
       }
     },
-    "com.gcp.customsearch_v1#ListCseSiterestrictSiteSearchFilterEnum": {
-      "type": "enum",
-      "members": {
-        "SITESEARCHFILTERUNDEFINED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "siteSearchFilterUndefined"
-          }
-        },
-        "E": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "e"
-          }
-        },
-        "I": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "i"
-          }
-        }
-      }
-    },
-    "com.gcp.customsearch_v1#ListCseSiterestrictSearchTypeEnum": {
-      "type": "enum",
-      "members": {
-        "SEARCHTYPEUNDEFINED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "searchTypeUndefined"
-          }
-        },
-        "IMAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "image"
-          }
-        }
-      }
-    },
     "com.gcp.customsearch_v1#ListCseSiterestrictSafeEnum": {
       "type": "enum",
       "members": {
@@ -1778,6 +1738,46 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "off"
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#ListCseSiterestrictSearchTypeEnum": {
+      "type": "enum",
+      "members": {
+        "SEARCHTYPEUNDEFINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "searchTypeUndefined"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        }
+      }
+    },
+    "com.gcp.customsearch_v1#ListCseSiterestrictSiteSearchFilterEnum": {
+      "type": "enum",
+      "members": {
+        "SITESEARCHFILTERUNDEFINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "siteSearchFilterUndefined"
+          }
+        },
+        "E": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "e"
+          }
+        },
+        "I": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "i"
           }
         }
       }
@@ -2003,88 +2003,11 @@
     "com.gcp.customsearch_v1#ListCseSiterestrictRequest": {
       "type": "structure",
       "members": {
-        "gl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Geolocation of end user. * The `gl` parameter value is a two-letter country code. The `gl` parameter boosts search results whose country of origin matches the parameter value. See the [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) page for a list of valid values. * Specifying a `gl` parameter value should lead to more relevant results. This is particularly true for international customers and, even more specifically, for customers in English- speaking countries other than the United States.",
-            "smithy.api#httpQuery": "gl"
-          }
-        },
-        "siteSearch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies a given site which should always be included or excluded from results (see `siteSearchFilter` parameter, below).",
-            "smithy.api#httpQuery": "siteSearch"
-          }
-        },
-        "num": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Number of search results to return. * Valid values are integers between 1 and 10, inclusive.",
-            "smithy.api#httpQuery": "num"
-          }
-        },
-        "snippetLength": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Optional. Maximum length of snippet text, in characters, to be returned with results. Note: this feature is limited to specific engines. * Valid values are integers between 161 and 1000, inclusive.",
-            "smithy.api#httpQuery": "snippetLength"
-          }
-        },
         "highRange": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Specifies the ending value for a search range. * Use `lowRange` and `highRange` to append an inclusive search range of `lowRange...highRange` to the query.",
             "smithy.api#httpQuery": "highRange"
-          }
-        },
-        "rights": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filters based on licensing. Supported values include: `cc_publicdomain`, `cc_attribute`, `cc_sharealike`, `cc_noncommercial`, `cc_nonderived` and combinations of these. See [typical combinations](https://wiki.creativecommons.org/wiki/CC_Search_integration).",
-            "smithy.api#httpQuery": "rights"
-          }
-        },
-        "q": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Query",
-            "smithy.api#httpQuery": "q"
-          }
-        },
-        "siteSearchFilter": {
-          "target": "com.gcp.customsearch_v1#ListCseSiterestrictSiteSearchFilterEnum",
-          "traits": {
-            "smithy.api#documentation": "Controls whether to include or exclude results from the site named in the `siteSearch` parameter. Acceptable values are: * `\"e\"`: exclude * `\"i\"`: include",
-            "smithy.api#httpQuery": "siteSearchFilter"
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Controls turning on or off the duplicate content filter. * See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Note that host crowding filtering applies only to multi-site searches. * By default, Google applies filtering to all search results to improve the quality of those results. Acceptable values are: * `0`: Turns off duplicate content filter. * `1`: Turns on duplicate content filter.",
-            "smithy.api#httpQuery": "filter"
-          }
-        },
-        "dateRestrict": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years.",
-            "smithy.api#httpQuery": "dateRestrict"
-          }
-        },
-        "searchType": {
-          "target": "com.gcp.customsearch_v1#ListCseSiterestrictSearchTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Specifies the search type: `image`. If unspecified, results are limited to webpages. Acceptable values are: * `\"image\"`: custom image search.",
-            "smithy.api#httpQuery": "searchType"
-          }
-        },
-        "lr": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts the search to documents written in a particular language (e.g., `lr=lang_ja`). Acceptable values are: * `\"lang_ar\"`: Arabic * `\"lang_bg\"`: Bulgarian * `\"lang_ca\"`: Catalan * `\"lang_cs\"`: Czech * `\"lang_da\"`: Danish * `\"lang_de\"`: German * `\"lang_el\"`: Greek * `\"lang_en\"`: English * `\"lang_es\"`: Spanish * `\"lang_et\"`: Estonian * `\"lang_fi\"`: Finnish * `\"lang_fr\"`: French * `\"lang_hr\"`: Croatian * `\"lang_hu\"`: Hungarian * `\"lang_id\"`: Indonesian * `\"lang_is\"`: Icelandic * `\"lang_it\"`: Italian * `\"lang_iw\"`: Hebrew * `\"lang_ja\"`: Japanese * `\"lang_ko\"`: Korean * `\"lang_lt\"`: Lithuanian * `\"lang_lv\"`: Latvian * `\"lang_nl\"`: Dutch * `\"lang_no\"`: Norwegian * `\"lang_pl\"`: Polish * `\"lang_pt\"`: Portuguese * `\"lang_ro\"`: Romanian * `\"lang_ru\"`: Russian * `\"lang_sk\"`: Slovak * `\"lang_sl\"`: Slovenian * `\"lang_sr\"`: Serbian * `\"lang_sv\"`: Swedish * `\"lang_tr\"`: Turkish * `\"lang_zh-CN\"`: Chinese (Simplified) * `\"lang_zh-TW\"`: Chinese (Traditional)",
-            "smithy.api#httpQuery": "lr"
           }
         },
         "safe": {
@@ -2094,102 +2017,18 @@
             "smithy.api#httpQuery": "safe"
           }
         },
-        "imgDominantColor": {
-          "target": "com.gcp.customsearch_v1#ListCseSiterestrictImgDominantColorEnum",
-          "traits": {
-            "smithy.api#documentation": "Returns images of a specific dominant color. Acceptable values are: * `\"black\"` * `\"blue\"` * `\"brown\"` * `\"gray\"` * `\"green\"` * `\"orange\"` * `\"pink\"` * `\"purple\"` * `\"red\"` * `\"teal\"` * `\"white\"` * `\"yellow\"`",
-            "smithy.api#httpQuery": "imgDominantColor"
-          }
-        },
-        "cr": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#booleanOperators) in the cr parameter's value. Google Search determines the country of a document by analyzing: * the top-level domain (TLD) of the document's URL * the geographic location of the Web server's IP address See the [Country Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) page for a list of valid values for this parameter.",
-            "smithy.api#httpQuery": "cr"
-          }
-        },
-        "hl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Sets the user interface language. * Explicitly setting this parameter improves the performance and the quality of your search results. * See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages.",
-            "smithy.api#httpQuery": "hl"
-          }
-        },
-        "c2coff": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Enables or disables [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch). The default value for this parameter is 0 (zero), meaning that the feature is enabled. Supported values are: * `1`: Disabled * `0`: Enabled (default)",
-            "smithy.api#httpQuery": "c2coff"
-          }
-        },
-        "exactTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain.",
-            "smithy.api#httpQuery": "exactTerms"
-          }
-        },
-        "enableAlternateSearchHandler": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Optional. Enables routing of Programmable Search Engine requests to an alternate search handler.",
-            "smithy.api#httpQuery": "enableAlternateSearchHandler"
-          }
-        },
-        "start": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The index of the first result to return. The default number of results per page is 10, so `&start=11` would start at the top of the second page of results. **Note**: The JSON API will never return more than 100 results, even if more than 100 documents match the query, so setting the sum of `start + num` to a number greater than 100 will produce an error. Also note that the maximum value for `num` is 10.",
-            "smithy.api#httpQuery": "start"
-          }
-        },
-        "linkSite": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Specifies that all search results should contain a link to a particular URL.",
-            "smithy.api#httpQuery": "linkSite"
-          }
-        },
-        "imgSize": {
-          "target": "com.gcp.customsearch_v1#ListCseSiterestrictImgSizeEnum",
-          "traits": {
-            "smithy.api#documentation": "Returns images of a specified size. Acceptable values are: * `\"huge\"` * `\"icon\"` * `\"large\"` * `\"medium\"` * `\"small\"` * `\"xlarge\"` * `\"xxlarge\"`",
-            "smithy.api#httpQuery": "imgSize"
-          }
-        },
-        "excludeTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results.",
-            "smithy.api#httpQuery": "excludeTerms"
-          }
-        },
-        "fileType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Restricts results to files of a specified extension. A list of file types indexable by Google can be found in Search Console [Help Center](https://support.google.com/webmasters/answer/35287).",
-            "smithy.api#httpQuery": "fileType"
-          }
-        },
-        "hq": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical AND operator.",
-            "smithy.api#httpQuery": "hq"
-          }
-        },
-        "orTerms": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms.",
-            "smithy.api#httpQuery": "orTerms"
-          }
-        },
         "cx": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The Programmable Search Engine ID to use for this request.",
             "smithy.api#httpQuery": "cx"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Controls turning on or off the duplicate content filter. * See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Note that host crowding filtering applies only to multi-site searches. * By default, Google applies filtering to all search results to improve the quality of those results. Acceptable values are: * `0`: Turns off duplicate content filter. * `1`: Turns on duplicate content filter.",
+            "smithy.api#httpQuery": "filter"
           }
         },
         "lowRange": {
@@ -2199,6 +2038,41 @@
             "smithy.api#httpQuery": "lowRange"
           }
         },
+        "cr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#booleanOperators) in the cr parameter's value. Google Search determines the country of a document by analyzing: * the top-level domain (TLD) of the document's URL * the geographic location of the Web server's IP address See the [Country Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) page for a list of valid values for this parameter.",
+            "smithy.api#httpQuery": "cr"
+          }
+        },
+        "searchType": {
+          "target": "com.gcp.customsearch_v1#ListCseSiterestrictSearchTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Specifies the search type: `image`. If unspecified, results are limited to webpages. Acceptable values are: * `\"image\"`: custom image search.",
+            "smithy.api#httpQuery": "searchType"
+          }
+        },
+        "num": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of search results to return. * Valid values are integers between 1 and 10, inclusive.",
+            "smithy.api#httpQuery": "num"
+          }
+        },
+        "siteSearchFilter": {
+          "target": "com.gcp.customsearch_v1#ListCseSiterestrictSiteSearchFilterEnum",
+          "traits": {
+            "smithy.api#documentation": "Controls whether to include or exclude results from the site named in the `siteSearch` parameter. Acceptable values are: * `\"e\"`: exclude * `\"i\"`: include",
+            "smithy.api#httpQuery": "siteSearchFilter"
+          }
+        },
+        "c2coff": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Enables or disables [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch). The default value for this parameter is 0 (zero), meaning that the feature is enabled. Supported values are: * `1`: Disabled * `0`: Enabled (default)",
+            "smithy.api#httpQuery": "c2coff"
+          }
+        },
         "sort": {
           "target": "smithy.api#String",
           "traits": {
@@ -2206,18 +2080,53 @@
             "smithy.api#httpQuery": "sort"
           }
         },
-        "relatedSite": {
+        "excludeTerms": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated.",
-            "smithy.api#httpQuery": "relatedSite"
+            "smithy.api#documentation": "Identifies a word or phrase that should not appear in any documents in the search results.",
+            "smithy.api#httpQuery": "excludeTerms"
           }
         },
-        "imgType": {
-          "target": "com.gcp.customsearch_v1#ListCseSiterestrictImgTypeEnum",
+        "enableAlternateSearchHandler": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Returns images of a type. Acceptable values are: * `\"clipart\"` * `\"face\"` * `\"lineart\"` * `\"stock\"` * `\"photo\"` * `\"animated\"`",
-            "smithy.api#httpQuery": "imgType"
+            "smithy.api#documentation": "Optional. Enables routing of Programmable Search Engine requests to an alternate search handler.",
+            "smithy.api#httpQuery": "enableAlternateSearchHandler"
+          }
+        },
+        "exactTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a phrase that all documents in the search results must contain.",
+            "smithy.api#httpQuery": "exactTerms"
+          }
+        },
+        "imgDominantColor": {
+          "target": "com.gcp.customsearch_v1#ListCseSiterestrictImgDominantColorEnum",
+          "traits": {
+            "smithy.api#documentation": "Returns images of a specific dominant color. Acceptable values are: * `\"black\"` * `\"blue\"` * `\"brown\"` * `\"gray\"` * `\"green\"` * `\"orange\"` * `\"pink\"` * `\"purple\"` * `\"red\"` * `\"teal\"` * `\"white\"` * `\"yellow\"`",
+            "smithy.api#httpQuery": "imgDominantColor"
+          }
+        },
+        "lr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts the search to documents written in a particular language (e.g., `lr=lang_ja`). Acceptable values are: * `\"lang_ar\"`: Arabic * `\"lang_bg\"`: Bulgarian * `\"lang_ca\"`: Catalan * `\"lang_cs\"`: Czech * `\"lang_da\"`: Danish * `\"lang_de\"`: German * `\"lang_el\"`: Greek * `\"lang_en\"`: English * `\"lang_es\"`: Spanish * `\"lang_et\"`: Estonian * `\"lang_fi\"`: Finnish * `\"lang_fr\"`: French * `\"lang_hr\"`: Croatian * `\"lang_hu\"`: Hungarian * `\"lang_id\"`: Indonesian * `\"lang_is\"`: Icelandic * `\"lang_it\"`: Italian * `\"lang_iw\"`: Hebrew * `\"lang_ja\"`: Japanese * `\"lang_ko\"`: Korean * `\"lang_lt\"`: Lithuanian * `\"lang_lv\"`: Latvian * `\"lang_nl\"`: Dutch * `\"lang_no\"`: Norwegian * `\"lang_pl\"`: Polish * `\"lang_pt\"`: Portuguese * `\"lang_ro\"`: Romanian * `\"lang_ru\"`: Russian * `\"lang_sk\"`: Slovak * `\"lang_sl\"`: Slovenian * `\"lang_sr\"`: Serbian * `\"lang_sv\"`: Swedish * `\"lang_tr\"`: Turkish * `\"lang_zh-CN\"`: Chinese (Simplified) * `\"lang_zh-TW\"`: Chinese (Traditional)",
+            "smithy.api#httpQuery": "lr"
+          }
+        },
+        "snippetLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum length of snippet text, in characters, to be returned with results. Note: this feature is limited to specific engines. * Valid values are integers between 161 and 1000, inclusive.",
+            "smithy.api#httpQuery": "snippetLength"
+          }
+        },
+        "rights": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filters based on licensing. Supported values include: `cc_publicdomain`, `cc_attribute`, `cc_sharealike`, `cc_noncommercial`, `cc_nonderived` and combinations of these. See [typical combinations](https://wiki.creativecommons.org/wiki/CC_Search_integration).",
+            "smithy.api#httpQuery": "rights"
           }
         },
         "googlehost": {
@@ -2227,11 +2136,102 @@
             "smithy.api#httpQuery": "googlehost"
           }
         },
+        "hl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sets the user interface language. * Explicitly setting this parameter improves the performance and the quality of your search results. * See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages.",
+            "smithy.api#httpQuery": "hl"
+          }
+        },
+        "gl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Geolocation of end user. * The `gl` parameter value is a two-letter country code. The `gl` parameter boosts search results whose country of origin matches the parameter value. See the [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) page for a list of valid values. * Specifying a `gl` parameter value should lead to more relevant results. This is particularly true for international customers and, even more specifically, for customers in English- speaking countries other than the United States.",
+            "smithy.api#httpQuery": "gl"
+          }
+        },
+        "hq": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Appends the specified query terms to the query, as if they were combined with a logical AND operator.",
+            "smithy.api#httpQuery": "hq"
+          }
+        },
+        "siteSearch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies a given site which should always be included or excluded from results (see `siteSearchFilter` parameter, below).",
+            "smithy.api#httpQuery": "siteSearch"
+          }
+        },
+        "imgSize": {
+          "target": "com.gcp.customsearch_v1#ListCseSiterestrictImgSizeEnum",
+          "traits": {
+            "smithy.api#documentation": "Returns images of a specified size. Acceptable values are: * `\"huge\"` * `\"icon\"` * `\"large\"` * `\"medium\"` * `\"small\"` * `\"xlarge\"` * `\"xxlarge\"`",
+            "smithy.api#httpQuery": "imgSize"
+          }
+        },
+        "fileType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to files of a specified extension. A list of file types indexable by Google can be found in Search Console [Help Center](https://support.google.com/webmasters/answer/35287).",
+            "smithy.api#httpQuery": "fileType"
+          }
+        },
+        "imgType": {
+          "target": "com.gcp.customsearch_v1#ListCseSiterestrictImgTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Returns images of a type. Acceptable values are: * `\"clipart\"` * `\"face\"` * `\"lineart\"` * `\"stock\"` * `\"photo\"` * `\"animated\"`",
+            "smithy.api#httpQuery": "imgType"
+          }
+        },
+        "dateRestrict": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years.",
+            "smithy.api#httpQuery": "dateRestrict"
+          }
+        },
+        "q": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Query",
+            "smithy.api#httpQuery": "q"
+          }
+        },
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The index of the first result to return. The default number of results per page is 10, so `&start=11` would start at the top of the second page of results. **Note**: The JSON API will never return more than 100 results, even if more than 100 documents match the query, so setting the sum of `start + num` to a number greater than 100 will produce an error. Also note that the maximum value for `num` is 10.",
+            "smithy.api#httpQuery": "start"
+          }
+        },
+        "orTerms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms.",
+            "smithy.api#httpQuery": "orTerms"
+          }
+        },
+        "relatedSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated.",
+            "smithy.api#httpQuery": "relatedSite"
+          }
+        },
         "imgColorType": {
           "target": "com.gcp.customsearch_v1#ListCseSiterestrictImgColorTypeEnum",
           "traits": {
             "smithy.api#documentation": "Returns black and white, grayscale, transparent, or color images. Acceptable values are: * `\"color\"` * `\"gray\"` * `\"mono\"`: black and white * `\"trans\"`: transparent background",
             "smithy.api#httpQuery": "imgColorType"
+          }
+        },
+        "linkSite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies that all search results should contain a link to a particular URL.",
+            "smithy.api#httpQuery": "linkSite"
           }
         }
       }

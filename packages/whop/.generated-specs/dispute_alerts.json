@@ -112,28 +112,28 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "first",
-            "smithy.api#documentation": "The number of alerts to return (default 20, max 100)."
+            "smithy.api#documentation": "Number of results to return from the start of the range."
           }
         },
         "after": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "after",
-            "smithy.api#documentation": "A cursor; returns alerts after this position."
+            "smithy.api#documentation": "Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page."
           }
         },
         "last": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "last",
-            "smithy.api#documentation": "The number of alerts to return from the end of the range."
+            "smithy.api#documentation": "Number of results to return from the end of the range."
           }
         },
         "before": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "before",
-            "smithy.api#documentation": "A cursor; returns alerts before this position."
+            "smithy.api#documentation": "Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page."
           }
         },
         "order": {
@@ -180,17 +180,17 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "actionable": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether refunding the payment can still avoid a chargeback. `false` once the payment has been disputed or fully refunded, or when the alert could not be matched to a payment — `not_actionable_reason` says which.",
-            "smithy.api#required": {}
-          }
-        },
         "amount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The alerted amount, in whole units of `currency`. This is what the issuer reported, which can differ from the payment's own amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "auto_refunded": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Whop automatically refunded the alerted payment. Reflects the payment, so it can be `true` for a refund issued by another flow (RDR, resolution) on the same payment.",
             "smithy.api#required": {}
           }
         },
@@ -233,15 +233,7 @@
         "issuer": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the bank that issued the card and filed the report.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "not_actionable_reason": {
-          "target": "com.whop.dispute_alerts#DisputeAlertNotActionableReason",
-          "traits": {
-            "smithy.api#documentation": "Why refunding can no longer avoid a chargeback. `network_resolved` when a Visa RDR already closed the case, `payment_unmatched` when no payment matched, `payment_not_captured` when it never captured money, `payment_disputed` once the payment carries a dispute, `payment_refunded` once fully refunded. `null` while `actionable` is true.",
+            "smithy.api#documentation": "Deprecated: always `null` outside Whop's own dashboard. Name of the bank that issued the card and filed the report.\nDEPRECATED: Always null outside Whop's own dashboard.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -272,7 +264,7 @@
         "transaction_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the reported transaction was made, as an ISO 8601 timestamp.",
+            "smithy.api#documentation": "When the reported transaction was made, as an ISO 8601 timestamp — falls back to when the matched payment was made if the issuer's own report didn't carry one. Should not be `null` in practice; treat one as a data issue rather than expected behavior.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -293,44 +285,6 @@
         }
       },
       "traits": {}
-    },
-    "com.whop.dispute_alerts#DisputeAlertNotActionableReason": {
-      "type": "enum",
-      "members": {
-        "NETWORK_RESOLVED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "network_resolved"
-          }
-        },
-        "PAYMENT_UNMATCHED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_unmatched"
-          }
-        },
-        "PAYMENT_NOT_CAPTURED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_not_captured"
-          }
-        },
-        "PAYMENT_DISPUTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_disputed"
-          }
-        },
-        "PAYMENT_REFUNDED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "payment_refunded"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Why refunding can no longer avoid a chargeback. `network_resolved` when a Visa RDR already closed the case, `payment_unmatched` when no payment matched, `payment_not_captured` when it never captured money, `payment_disputed` once the payment carries a dispute, `payment_refunded` once fully refunded. `null` while `actionable` is true."
-      }
     },
     "com.whop.dispute_alerts#DisputeAlertType": {
       "type": "enum",

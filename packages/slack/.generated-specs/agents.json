@@ -18,6 +18,1221 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.slack.agents#ArchiveConversationRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the code channel to archive.",
+            "smithy.api#required": {}
+          }
+        },
+        "summary_message_ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of a message in the code channel to share back as a thread reply on the origin message. Requires the channel to have an `origin_link` set."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#ArchiveConversationResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#ArchiveConversation": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#ArchiveConversationRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#ArchiveConversationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.archive",
+          "code": 200
+        },
+        "smithy.api#documentation": "Archive a code channel.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel_id does not correspond to a valid channel.\n  - `not_agent_channel` — The specified channel is not a code channel.\n  - `not_authorized` — The caller is not an authorized agent bot for this channel.\n  - `already_archived` — The channel has already been archived.\n  - `restricted_action` — The workspace does not allow the bot to archive channels.\n  - `summary_message_not_found` — The specified summary_message_ts does not correspond to a message in the code channel.\n  - `no_origin_link` — summary_message_ts was provided but the code channel has no origin_link set.\n  - `origin_channel_not_found` — The origin channel referenced by the code channel is no longer accessible.\n  - `origin_message_not_found` — The origin message referenced by the code channel's origin_link could not be found.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.archive"
+      }
+    },
+    "com.slack.agents#CreateConversationRequest": {
+      "type": "structure",
+      "members": {
+        "team_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded team id to create the channel in. Required for org tokens when `origin_channel_id` is not provided. When omitted, the workspace is derived from the origin channel."
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An opaque identifier for the agent session. When provided, the call is idempotent: if a channel already exists for this `session_id`, it is returned instead of creating a new one."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A friendly display name for the code channel. Optional when `origin_channel_id` and `origin_message_ts` are provided — in that case the channel is named from the origin message and re-titled automatically. Required when no origin link is given.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_private": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Create a private channel instead of a public one."
+          }
+        },
+        "origin_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The channel ID where the agent session was initiated from. Must be provided together with `origin_message_ts`. The channel must be accessible to the calling user and must not be externally shared (Slack Connect). When `team_id` is omitted with an org token, the channel is created in the same workspace as this origin channel."
+          }
+        },
+        "origin_message_ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message timestamp in the origin channel that started the agent session. Must be provided together with `origin_channel_id`. The author of this message is automatically invited to the newly created code channel."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#CreateConversationResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the newly created code channel.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#CreateConversation": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#CreateConversationRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#CreateConversationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.create",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a dedicated code channel for an agent session.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_disabled` — The caller is not authorized to create code channels. The app must be a recognized agent session app, or the user must have the feature enabled.\n  - `user_not_enabled` — The author of the origin message does not have the code channels feature enabled.\n  - `invalid_agent` — The agent bot user associated with the calling app is not a valid bot.\n  - `channel_not_viewable` — A channel exists for this session but the caller does not have permission to view it.\n  - `origin_channel_externally_shared` — The origin message is in an externally shared (Slack Connect) channel, DM, or group DM. Code channels cannot be created from a Slack Connect conversation.\n  - `origin_channel_is_file_channel` — The origin message is a comment on a file or canvas. Code channels cannot be created from a file channel — when the canvas belongs to a code channel, continue that session instead.\n  - `invalid_origin_link` — The origin link is invalid. Either origin_channel_id and origin_message_ts were not provided together, the channel does not exist or is not accessible to the caller, or the message was not found at the given timestamp.\n  - `name_or_origin_required` — A name must be provided unless an origin link (origin_channel_id and origin_message_ts) is given to derive the channel name from.\n  - `no_shared_workspace` — No workspace could be found where both the app and the requesting user are present. The org app must have a workspace grant for at least one workspace the user belongs to.\n  - `restricted_action` — The calling user is not permitted to create channels of the requested type in this workspace.\n  - `channel_creation_failed` — The code channel could not be created.\n  - `open_failed` — The channel was created but could not be opened in the sidebar.\n  - `invite_failed` — The channel was created but the agent bot could not be invited.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.create"
+      }
+    },
+    "com.slack.agents#GetCanvasRequestContentFormat": {
+      "type": "enum",
+      "members": {
+        "MARKDOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "markdown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Format to render the canvas content in. Defaults to markdown."
+      }
+    },
+    "com.slack.agents#GetCanvasRequest": {
+      "type": "structure",
+      "members": {
+        "channel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the agent session channel the canvas belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded ID of the canvas to fetch.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_format": {
+          "target": "com.slack.agents#GetCanvasRequestContentFormat",
+          "traits": {
+            "smithy.api#documentation": "Format to render the canvas content in. Defaults to markdown."
+          }
+        },
+        "include_resolved": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to include resolved comment threads in the response. Defaults to false."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#GetCanvasResponseCommentsItemRepliesItem": {
+      "type": "structure",
+      "members": {
+        "ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message timestamp of the reply.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded ID of the user who wrote the reply.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text of the reply.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.slack.agents#GetCanvasResponseCommentsItemRepliesList": {
+      "type": "list",
+      "member": {
+        "target": "com.slack.agents#GetCanvasResponseCommentsItemRepliesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Threaded replies to the comment, ordered oldest first. Capped to the most recent 100 replies; older replies are dropped first."
+      }
+    },
+    "com.slack.agents#GetCanvasResponseCommentsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable ID of the comment thread (the canvas annotation the comment is anchored to).",
+            "smithy.api#required": {}
+          }
+        },
+        "ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message timestamp of the comment.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded ID of the user who wrote the comment.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text of the comment.",
+            "smithy.api#required": {}
+          }
+        },
+        "quoted_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The highlighted canvas text the comment is anchored to, rendered as mrkdwn. Empty if the anchored text has since been deleted from the canvas.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_resolved": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the comment thread has been resolved.",
+            "smithy.api#required": {}
+          }
+        },
+        "replies": {
+          "target": "com.slack.agents#GetCanvasResponseCommentsItemRepliesList",
+          "traits": {
+            "smithy.api#documentation": "Threaded replies to the comment, ordered oldest first. Capped to the most recent 100 replies; older replies are dropped first.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more_replies": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the thread had more replies than the cap and older replies were dropped from the response.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.slack.agents#GetCanvasResponseCommentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.slack.agents#GetCanvasResponseCommentsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Comment threads on the canvas, ordered oldest first. Resolved threads are excluded unless include_resolved is true."
+      }
+    },
+    "com.slack.agents#GetCanvasResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the canvas.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the canvas.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full canvas content rendered in the requested content_format.",
+            "smithy.api#required": {}
+          }
+        },
+        "comments": {
+          "target": "com.slack.agents#GetCanvasResponseCommentsList",
+          "traits": {
+            "smithy.api#documentation": "Comment threads on the canvas, ordered oldest first. Resolved threads are excluded unless include_resolved is true.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more_comments": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the canvas had more comment threads than the cap and older threads were dropped from the response.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#GetCanvas": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#GetCanvasRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#GetCanvasResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.getCanvas",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch a canvas attached to a code channel.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel does not correspond to a valid channel.\n  - `not_agent_channel` — The specified channel is not an agent session channel.\n  - `not_authorized` — The caller is not an authorized agent bot for this channel.\n  - `canvas_not_found` — The specified `canvas_id` does not correspond to a canvas you can access.\n  - `canvas_content_fetch_failed` — The canvas content could not be fetched or rendered.\n  - `comments_fetch_failed` — The canvas comment threads could not be fetched.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.getCanvas"
+      }
+    },
+    "com.slack.agents#ListViewsRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the code channel to list views for.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#ListViewsResponseViewsItem": {
+      "type": "structure",
+      "members": {
+        "view_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded channel tab ID of the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "view_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The agent-assigned stable key of the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the backing HTML file.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display label of the view tab.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The current content version of the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "date_added": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp of when the view was first created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.slack.agents#ListViewsResponseViewsList": {
+      "type": "list",
+      "member": {
+        "target": "com.slack.agents#ListViewsResponseViewsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The agent views attached to the channel, in creation order."
+      }
+    },
+    "com.slack.agents#ListViewsResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "views": {
+          "target": "com.slack.agents#ListViewsResponseViewsList",
+          "traits": {
+            "smithy.api#documentation": "The agent views attached to the channel, in creation order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#ListViews": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#ListViewsRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#ListViewsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.listViews",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the views currently attached to a code channel.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel does not correspond to a valid channel.\n  - `not_agent_channel` — The specified channel is not a code channel.\n  - `not_authorized` — The caller is not an authorized agent bot or member for this channel.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.listViews"
+      }
+    },
+    "com.slack.agents#RemoveViewRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the code channel to remove the view from.",
+            "smithy.api#required": {}
+          }
+        },
+        "view_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent-assigned key of the view to remove. Provide exactly one of view_key or view_id."
+          }
+        },
+        "view_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded channel tab ID of the view to remove. Provide exactly one of view_key or view_id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#RemoveViewResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the code channel the view was removed from.",
+            "smithy.api#required": {}
+          }
+        },
+        "view_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded channel tab ID of the removed view.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#RemoveView": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#RemoveViewRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#RemoveViewResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.removeView",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove a view from a code channel.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel does not correspond to a valid channel.\n  - `not_agent_channel` — The specified channel is not a code channel.\n  - `not_authorized` — The caller is not an authorized agent bot or member for this channel.\n  - `view_not_found` — No agent view matches the supplied view_key or view_id in this channel.\n  - `not_view_owner` — The view was created by a different agent bot; only its owner may remove it.\n  - `invalid_arguments` — Exactly one of view_key or view_id must be provided.\n  - `view_remove_failed` — The view's tab or channel properties could not be updated. Safe to retry.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.removeView"
+      }
+    },
+    "com.slack.agents#SetCanvasContentRequest": {
+      "type": "structure",
+      "members": {
+        "channel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the agent session channel the canvas is attached to.",
+            "smithy.api#required": {}
+          }
+        },
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded ID of the canvas whose content to replace.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full new canvas content as markdown. The server diffs this against the current content and applies only the changed sections.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#SetCanvasContentResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the updated canvas.",
+            "smithy.api#required": {}
+          }
+        },
+        "sections_changed_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of section-level edit operations applied (replaced + inserted + deleted). Zero when the new content was identical to the current content.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#SetCanvasContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#SetCanvasContentRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#SetCanvasContentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.setCanvasContent",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace the full markdown content of a plan canvas attached to a code channel.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel does not correspond to a valid channel.\n  - `not_agent_channel` — The specified channel is not an agent session channel.\n  - `feature_not_enabled` — The set-canvas-content feature is not enabled for this user.\n  - `not_authorized` — The caller is not an authorized agent bot for this channel.\n  - `canvas_not_found` — The specified canvas_id does not correspond to a canvas you can access.\n  - `content_too_large` — The provided content exceeds the maximum canvas size.\n  - `too_many_sections` — The provided content or the existing canvas has too many sections to diff. Reduce the number of distinct blocks (paragraphs, headings, code fences) in the document.\n  - `canvas_content_fetch_failed` — The canvas's current content could not be read to compute the diff.\n  - `canvas_content_update_failed` — The canvas content could not be updated.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent"
+      }
+    },
+    "com.slack.agents#SetCommandsRequestCommandsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Full set of commands to register for the calling agent in this channel, replacing that agent's previously registered set. Pass an empty array to clear the agent's commands. At most 10 commands may exist across all agents in the channel; names must be unique within the set and must not collide with builtin Slack commands."
+      }
+    },
+    "com.slack.agents#SetCommandsRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the code channel to register commands for.",
+            "smithy.api#required": {}
+          }
+        },
+        "commands": {
+          "target": "com.slack.agents#SetCommandsRequestCommandsList",
+          "traits": {
+            "smithy.api#documentation": "Full set of commands to register for the calling agent in this channel, replacing that agent's previously registered set. Pass an empty array to clear the agent's commands. At most 10 commands may exist across all agents in the channel; names must be unique within the set and must not collide with builtin Slack commands.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#SetCommandsResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the code channel.",
+            "smithy.api#required": {}
+          }
+        },
+        "command_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of commands now registered for the calling agent in this channel.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#SetCommands": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#SetCommandsRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#SetCommandsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.setCommands",
+          "code": 200
+        },
+        "smithy.api#documentation": "Register the set of agent-defined slash commands for the calling agent in a code channel.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel does not exist or is not accessible.\n  - `not_agent_channel` — The specified channel is not a code channel.\n  - `not_authorized` — The caller is not the channel's agent bot.\n  - `agent_required` — The caller is not a bot, so no agent could be determined for the command set.\n  - `no_actions_url` — The calling agent app has no configured request URL (slash command or interactivity), so it could not receive command invocations.\n  - `too_many_agents` — Registering a new agent would exceed the maximum number of agents with commands in this channel.\n  - `invalid_commands` — One or more commands are malformed (invalid name, missing description, or a field exceeds its length limit).\n  - `too_many_commands` — Registering this set would exceed the maximum of 10 commands across all agents in the channel.\n  - `duplicate_command` — Two or more commands in the set share the same name.\n  - `colliding_with_builtin` — One or more command names collide with a builtin Slack slash command.\n  - `properties_update_failed` — The command set could not be persisted to the channel properties.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.setCommands"
+      }
+    },
+    "com.slack.agents#SetPropertiesRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "SUSPENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suspended"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "New status for the agent session."
+      }
+    },
+    "com.slack.agents#SetPropertiesRequestCodeChannelFilePathsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of file paths relevant to this session."
+      }
+    },
+    "com.slack.agents#SetPropertiesRequestCodeChannelContextBarItemsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Configurable items to display in the channel context bar. A maximum of 5 items will be applied; any beyond that will be silently truncated and a warning returned."
+      }
+    },
+    "com.slack.agents#SetPropertiesRequestCodeChannelSummaryMessage": {
+      "type": "structure",
+      "members": {
+        "message_ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the summary message in the code channel.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Thread timestamp if the summary message is a thread reply. Clients need this to fetch the message via conversations.replies."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Points to the current summary message for this code channel. Must reference a message within this channel. When the channel is archived with a summary_message_ts, this property is also set to record where the summary lives so clients can fetch it."
+      }
+    },
+    "com.slack.agents#SetPropertiesRequestCodeChannel": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Git hosting provider (e.g. github.com)."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository name (e.g., org/repo)."
+          }
+        },
+        "branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Working branch name."
+          }
+        },
+        "base_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base branch the working branch was created from."
+          }
+        },
+        "commit_sha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current commit SHA."
+          }
+        },
+        "pr_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pull request number."
+          }
+        },
+        "pr_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the pull request."
+          }
+        },
+        "pr_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title of the pull request."
+          }
+        },
+        "pr_status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the pull request (e.g. open, merged, closed)."
+          }
+        },
+        "ci_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to the CI pipeline run."
+          }
+        },
+        "ci_state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of the CI pipeline (e.g. pending, success, failure)."
+          }
+        },
+        "file_paths": {
+          "target": "com.slack.agents#SetPropertiesRequestCodeChannelFilePathsList",
+          "traits": {
+            "smithy.api#documentation": "List of file paths relevant to this session."
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary programming language."
+          }
+        },
+        "upstream_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Upstream repository URL."
+          }
+        },
+        "branch_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the working branch."
+          }
+        },
+        "context_bar_items": {
+          "target": "com.slack.agents#SetPropertiesRequestCodeChannelContextBarItemsList",
+          "traits": {
+            "smithy.api#documentation": "Configurable items to display in the channel context bar. A maximum of 5 items will be applied; any beyond that will be silently truncated and a warning returned."
+          }
+        },
+        "summary_message": {
+          "target": "com.slack.agents#SetPropertiesRequestCodeChannelSummaryMessage",
+          "traits": {
+            "smithy.api#documentation": "Points to the current summary message for this code channel. Must reference a message within this channel. When the channel is archived with a summary_message_ts, this property is also set to record where the summary lives so clients can fetch it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Code channel properties to set. Only provided fields are updated."
+      }
+    },
+    "com.slack.agents#SetPropertiesRequestAgentResource": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the external resource."
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the external resource."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display title of the external resource."
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider of the external resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Agent resource properties to set. Only provided fields are updated."
+      }
+    },
+    "com.slack.agents#SetPropertiesRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the code channel to update.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New display title for the agent session."
+          }
+        },
+        "status": {
+          "target": "com.slack.agents#SetPropertiesRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "New status for the agent session."
+          }
+        },
+        "code_channel": {
+          "target": "com.slack.agents#SetPropertiesRequestCodeChannel",
+          "traits": {
+            "smithy.api#documentation": "Code channel properties to set. Only provided fields are updated."
+          }
+        },
+        "agent_resource": {
+          "target": "com.slack.agents#SetPropertiesRequestAgentResource",
+          "traits": {
+            "smithy.api#documentation": "Agent resource properties to set. Only provided fields are updated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#SetPropertiesResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the updated code channel.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#SetProperties": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#SetPropertiesRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#SetPropertiesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.setProperties",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set properties on a code channel.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel_id does not correspond to a valid channel.\n  - `not_agent_channel` — The specified channel is not a code channel.\n  - `not_authorized` — The caller is not an authorized agent bot for this channel.\n  - `invalid_status` — Value passed for `status` was not a valid agent session status.\n  - `invalid_title` — Value passed for `title` was invalid.\n  - `no_properties_provided` — At least one property field must be provided.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.setProperties"
+      }
+    },
+    "com.slack.agents#SetViewRequestAccessLevel": {
+      "type": "enum",
+      "members": {
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "COMMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "comment"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "For canvas views: access level granted to the channel for the canvas tab. Defaults to write. Use 'comment' to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text."
+      }
+    },
+    "com.slack.agents#SetViewRequestCspConnectDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Origins the view may fetch()/XHR/WebSocket to. Accepted and stored, but not honored at render time yet."
+      }
+    },
+    "com.slack.agents#SetViewRequestCspResourceDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Origins the view may load scripts/styles/fonts/images/media from, merged into the curated CDN allowlist at render time."
+      }
+    },
+    "com.slack.agents#SetViewRequestCsp": {
+      "type": "structure",
+      "members": {
+        "connect_domains": {
+          "target": "com.slack.agents#SetViewRequestCspConnectDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Origins the view may fetch()/XHR/WebSocket to. Accepted and stored, but not honored at render time yet."
+          }
+        },
+        "resource_domains": {
+          "target": "com.slack.agents#SetViewRequestCspResourceDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Origins the view may load scripts/styles/fonts/images/media from, merged into the curated CDN allowlist at render time."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Content-Security-Policy domain declarations for the view. Domains are validated server-side (https-only, no private/internal hosts) and persisted. Only resource_domains is honored at render time today; connect_domains is accepted and stored for forward-compatibility but NOT honored yet."
+      }
+    },
+    "com.slack.agents#SetViewRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the code channel to render the view in.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The kind of view to create or update. Defaults to html. Determines which other arguments are required: html and diff require content, block_kit requires blocks, canvas requires canvas_id, pull_request requires pr_url."
+          }
+        },
+        "view_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Agent-assigned stable identity for the view (e.g. the source file path on the agent's machine). Used as the upsert key: calls with the same view_key update the same view. Required for html, block_kit, and canvas views; ignored for diff (a diff view is a per-channel singleton)."
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "View content. For html, a full self-contained HTML document; for diff, raw unified diff text. Capped at 1,000,000 bytes — larger content returns content_too_large. The cap is enforced by the handler (not schema maxLength) so the documented error code actually surfaces instead of a generic argument-validation failure. Required when type is html or diff."
+          }
+        },
+        "blocks": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Block Kit blocks to render in the view tab. Required when type is block_kit; ignored otherwise."
+          }
+        },
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded ID of the canvas to attach as the view. Required when type is canvas; ignored otherwise."
+          }
+        },
+        "access_level": {
+          "target": "com.slack.agents#SetViewRequestAccessLevel",
+          "traits": {
+            "smithy.api#documentation": "For canvas views: access level granted to the channel for the canvas tab. Defaults to write. Use 'comment' to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text."
+          }
+        },
+        "agent_content_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For canvas views: hash of the canvas-derived markdown the agent last wrote, recorded so the agent can later detect human edits to the canvas. Opaque to the server."
+          }
+        },
+        "pr_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For pull_request views: the pull request's URL. Required when type is pull_request; ignored otherwise."
+          }
+        },
+        "base_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For diff views: base branch name for display purposes."
+          }
+        },
+        "head_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For diff views: head branch name for display purposes."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display label for the view tab. Preferred over the legacy 'label' argument (name wins if both are supplied). Defaults to the last path segment of view_key, stripped of any .html/.htm extension."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated alias for 'name'. Display label for the view tab. Defaults to the last path segment of view_key, stripped of any .html/.htm extension."
+          }
+        },
+        "csp": {
+          "target": "com.slack.agents#SetViewRequestCsp",
+          "traits": {
+            "smithy.api#documentation": "Content-Security-Policy domain declarations for the view. Domains are validated server-side (https-only, no private/internal hosts) and persisted. Only resource_domains is honored at render time today; connect_domains is accepted and stored for forward-compatibility but NOT honored yet."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#SetViewResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the code channel the view belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "view_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded channel tab ID of the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the backing file for the view. For html and block_kit views this is the agent-owned content file; for diff views it is the diff snippet file; for canvas views it is the canvas's file ID (same value as canvas_id). Empty for pull_request views, which have no backing file.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Server-assigned content version, monotonically increasing per view.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The type of the view that was created or updated."
+          }
+        },
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For canvas views, the encoded ID of the attached canvas. Absent for other view types."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#SetView": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#SetViewRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#SetViewResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.conversations.setView",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create or update a view in a code channel.\n\nRequired scopes — bot: `code_channels:manage`\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — The specified channel does not correspond to a valid channel.\n  - `not_agent_channel` — The specified channel is not a code channel.\n  - `not_authorized` — The caller is not an authorized agent bot or member for this channel.\n  - `content_too_large` — The view content exceeds the maximum allowed size (1 MB).\n  - `too_many_views` — The channel already has the maximum number of views (5), or already has a diff view (at most 1 is allowed).\n  - `invalid_csp_domain` — One or more declared CSP domains failed validation (must be https:// origins, no private/reserved/internal hosts).\n  - `invalid_view_type` — The supplied type is not a recognized view type.\n  - `missing_required_arg` — A required argument for the supplied view type is missing (content for html/diff, blocks for block_kit, canvas_id for canvas, pr_url for pull_request).\n  - `invalid_pr_url` — The supplied pr_url is not a valid https pull request URL.\n  - `invalid_blocks` — The supplied blocks failed Block Kit validation.\n  - `canvas_not_found` — The specified canvas_id does not correspond to a canvas you can access.\n  - `not_view_owner` — The view already exists and was created by a different agent bot; only its owner may update it.\n  - `view_creation_failed` — The view could not be created as a channel tab.\n\nSee https://docs.slack.dev/reference/methods/agents.conversations.setView"
+      }
+    },
     "com.slack.agents#RenameSessionRequest": {
       "type": "structure",
       "members": {
@@ -232,6 +1447,33 @@
       "type": "service",
       "version": "1.0",
       "operations": [
+        {
+          "target": "com.slack.agents#ArchiveConversation"
+        },
+        {
+          "target": "com.slack.agents#CreateConversation"
+        },
+        {
+          "target": "com.slack.agents#GetCanvas"
+        },
+        {
+          "target": "com.slack.agents#ListViews"
+        },
+        {
+          "target": "com.slack.agents#RemoveView"
+        },
+        {
+          "target": "com.slack.agents#SetCanvasContent"
+        },
+        {
+          "target": "com.slack.agents#SetCommands"
+        },
+        {
+          "target": "com.slack.agents#SetProperties"
+        },
+        {
+          "target": "com.slack.agents#SetView"
+        },
         {
           "target": "com.slack.agents#RenameSession"
         },
