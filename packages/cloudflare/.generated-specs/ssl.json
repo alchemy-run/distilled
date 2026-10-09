@@ -3428,6 +3428,9 @@
         },
         {
           "target": "com.cloudflare.ssl#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.ssl#CertificatePackNotDeletable"
         }
       ]
     },
@@ -4260,6 +4263,28 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.ssl#CertificatePackNotDeletable": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Bad response certificate service"
+            }
+          }
+        ]
       }
     }
   }
