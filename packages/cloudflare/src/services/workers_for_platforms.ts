@@ -217,6 +217,15 @@ export class VectorizeIndexNotFound
     [{ code: 10159 }],
   ) {}
 
+export class WorkerHasNoVersions
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<WorkerHasNoVersions>()("WorkerHasNoVersions", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 404, message: { includes: "has no versions" } }],
+  ) {}
+
 export type DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType =
   "secret_text";
 export const DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretTextType = S.String;
@@ -14398,6 +14407,7 @@ export type GetDispatchNamespaceScriptSettingError =
   | DispatchNamespaceNotFound
   | DispatchNamespaceScriptNotFound
   | Forbidden
+  | WorkerHasNoVersions
   | CloudflareOpError;
 /** Get settings for a script uploaded to a Workers for Platforms dispatch namespace. */
 export const getDispatchNamespaceScriptSetting: API.OperationMethod<
@@ -14412,6 +14422,7 @@ export const getDispatchNamespaceScriptSetting: API.OperationMethod<
     DispatchNamespaceNotFound,
     DispatchNamespaceScriptNotFound,
     Forbidden,
+    WorkerHasNoVersions,
     CloudflareRateLimited,
     CloudflareError,
   ],

@@ -1,5 +1,5 @@
 {
-  "description": "Align workers_for_platforms#DispatchNamespacesScriptsSettingsGet with distilled cloudflare/workers-for-platforms getDispatchNamespaceScriptSetting",
+  "description": "Align workers_for_platforms#DispatchNamespacesScriptsSettingsGet with distilled cloudflare/workers-for-platforms getDispatchNamespaceScriptSetting. The settings read also answers 404 \"This Worker has no versions, which means this Worker has no content or versioned settings.\" for a script that has no version yet, the race workers#getScriptScriptAndVersionSetting already types as WorkerHasNoVersions; observed in production on 2026-10-09 right before the first upload of a new dispatch-namespace script, where it surfaced as the untyped NotFound.",
   "patches": [
     {
       "op": "move",
@@ -38,6 +38,9 @@
         },
         {
           "target": "com.cloudflare.workers_for_platforms#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.workers_for_platforms#WorkerHasNoVersions"
         }
       ]
     }
