@@ -54,6 +54,7 @@ import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
+import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
@@ -125,6 +126,7 @@ export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue> extends Data.
   "GraphQLFailure",
 )<{
   readonly errors: readonly [E, ...E[]];
+  /** The partial response data, with sensitive fields wrapped in `Redacted`. */
   readonly data: unknown;
   readonly status?: number;
 }> {
@@ -208,6 +210,8 @@ export type FieldMeta = {
   readonly kind: "scalar" | "object" | "list" | "connection";
   readonly of?: TypeMeta;
   readonly argTypes?: ArgMeta;
+  /** The value is a secret: extracted strings are wrapped in `Redacted`. */
+  readonly sensitive?: boolean;
 };
 
 export type TypeMeta = {
@@ -215,9 +219,13 @@ export type TypeMeta = {
   readonly fields: Record<string, FieldMeta>;
 };
 
-export const scalarField = (name: string): FieldMeta => ({
+export const scalarField = (
+  name: string,
+  options: { readonly sensitive?: boolean } = {},
+): FieldMeta => ({
   name,
   kind: "scalar",
+  ...(options.sensitive ? { sensitive: true } : {}),
 });
 export const objectField = (name: string, objectType: TypeMeta): FieldMeta => ({
   name,
@@ -280,6 +288,8 @@ export interface SelNode {
   children: Map<string, SelNode>;
   isScalar: boolean;
   isList: boolean;
+  /** The value is a secret: its strings are wrapped in `Redacted`. */
+  sensitive?: boolean;
 }
 
 export interface CompiledOperation {
@@ -386,6 +396,8 @@ type RootExpr = {
   readonly connection?: boolean;
   /** Errors this root field can return, including global errors. */
   readonly errors: ReadonlyArray<ErrorSpec>;
+  /** Leaf root whose value is a secret: extracted strings are wrapped in `Redacted`. */
+  readonly sensitive?: boolean;
 };
 
 type PropExpr = {
@@ -652,6 +664,7 @@ export const rootLeaf = <Value, Error = never>(
   args?: Record<string, unknown>,
   argTypes?: ArgMeta,
   errors: ReadonlyArray<ErrorSpec> = [],
+  options: { readonly sensitive?: boolean } = {},
 ): Query<Value, Error> =>
   make({
     _tag: "Root",
@@ -661,6 +674,7 @@ export const rootLeaf = <Value, Error = never>(
     argTypes,
     type: list ? listRef({ tag: "scalar" }) : { tag: "scalar" },
     errors,
+    ...(options.sensitive ? { sensitive: true } : {}),
   });
 
 const printExpr = (expr: Expr): string => {
@@ -745,6 +759,7 @@ const ensureChild = (
     argTypes?: ArgMeta;
     isScalar?: boolean;
     isList?: boolean;
+    sensitive?: boolean;
   },
 ): SelNode => {
   const args = unwrapRedactedDeep(options.args) as Record<string, unknown> | undefined;
@@ -765,6 +780,7 @@ const ensureChild = (
     children: new Map(),
     isScalar: options.isScalar ?? false,
     isList: options.isList ?? false,
+    ...(options.sensitive ? { sensitive: true } : {}),
   };
   parent.children.set(key, sel);
   return sel;
@@ -792,6 +808,7 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
         isScalar:
           expr.type.tag === "scalar" || (expr.type.tag === "list" && expr.type.of.tag === "scalar"),
         isList: expr.type.tag === "list" && !expr.connection,
+        sensitive: expr.sensitive,
       });
       const key = node.alias ?? node.field;
       forest.rootAlias.set(expr, key);
@@ -806,6 +823,7 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
         argTypes: expr.field.argTypes,
         isScalar: expr.field.kind === "scalar",
         isList: expr.field.kind === "list",
+        sensitive: expr.field.sensitive,
       });
       const path = [...parentPath, node.alias ?? node.field];
       return expr.field.kind === "connection" ? [...path, ...paintConnection(forest, node)] : path;
@@ -866,6 +884,7 @@ const paintRel = (forest: Forest, expr: Expr, listSel: SelNode): void => {
         argTypes: expr.field.argTypes,
         isScalar: expr.field.kind === "scalar",
         isList: expr.field.kind === "list",
+        sensitive: expr.field.sensitive,
       });
       if (expr.field.kind === "connection") paintConnection(forest, child);
       return;
@@ -1046,6 +1065,26 @@ const readField = (parent: unknown, name: string): unknown => {
   return (parent as Record<string, unknown>)[name];
 };
 
+/** Wrap every string of a sensitive scalar (or list of them) in `Redacted`. */
+const redactStrings = (value: unknown): unknown =>
+  typeof value === "string"
+    ? Redacted.make(value)
+    : Array.isArray(value)
+      ? value.map(redactStrings)
+      : value;
+
+/** Copy `data` with the strings of every sensitive field `sel` selects wrapped in `Redacted`. */
+const redactSelected = (sel: SelNode, data: unknown): unknown => {
+  if (sel.children.size === 0 || data === null || typeof data !== "object") return data;
+  if (Array.isArray(data)) return data.map((item) => redactSelected(sel, item));
+  const out: Record<string, unknown> = { ...data };
+  for (const child of sel.children.values()) {
+    const key = child.alias ?? child.field;
+    out[key] = child.sensitive ? redactStrings(out[key]) : redactSelected(child, out[key]);
+  }
+  return out;
+};
+
 const extractAbs = (expr: Expr, data: unknown, rootAlias: WeakMap<object, string>): unknown => {
   switch (expr._tag) {
     case "Root": {
@@ -1200,8 +1239,9 @@ const execute = (compiled: Compiled): Effect.Effect<unknown, ExecuteError, GqlTr
   const once = Effect.gen(function* () {
     const transport = yield* GqlTransport;
     const response = yield* transport.execute(compiled);
+    const data = redactSelected(compiled.tree, response.data);
     const raw = response.errors ?? [];
-    if (raw.length === 0) return response.data;
+    if (raw.length === 0) return data;
     const issues = raw.map((error) => classify(compiled, error, response));
     const [first, ...rest] = issues as [GraphQLIssue, ...GraphQLIssue[]];
     return yield* Effect.fail(
@@ -1209,7 +1249,7 @@ const execute = (compiled: Compiled): Effect.Effect<unknown, ExecuteError, GqlTr
         ? first
         : new GraphQLFailure({
             errors: [first, ...rest],
-            data: response.data,
+            data,
             status: response.status,
           }),
     );
