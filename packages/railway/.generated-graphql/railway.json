@@ -1050,7 +1050,8 @@
         "secretAccessKey": {
           "type": "String!",
           "args": {},
-          "errors": []
+          "errors": [],
+          "sensitive": true
         },
         "urlStyle": {
           "type": "String!",
@@ -1341,7 +1342,8 @@
           "type": "String!",
           "args": {},
           "errors": [],
-          "description": "The token. Shown this once; it isn't stored."
+          "description": "The token. Shown this once; it isn't stored.",
+          "sensitive": true
         }
       },
       "interfaces": []
@@ -5989,7 +5991,8 @@
         "code": {
           "type": "String!",
           "args": {},
-          "errors": []
+          "errors": [],
+          "sensitive": true
         },
         "createdAt": {
           "type": "DateTime!",
@@ -6495,7 +6498,8 @@
             }
           },
           "errors": [],
-          "description": "Creates a new API token."
+          "description": "Creates a new API token.",
+          "sensitive": true
         },
         "apiTokenDelete": {
           "type": "Boolean!",
@@ -6751,7 +6755,8 @@
             }
           },
           "errors": [],
-          "description": "Mint a short-lived (5m) JWT for the agent's harness WebSocket (see agentWsUrl). The in-VM gate verifies signature/exp/aud and pins it to this agent. Mint one per dial; the token only has to survive the upgrade."
+          "description": "Mint a short-lived (5m) JWT for the agent's harness WebSocket (see agentWsUrl). The in-VM gate verifies signature/exp/aud and pins it to this agent. Mint one per dial; the token only has to survive the upgrade.",
+          "sensitive": true
         },
         "cloudAgentSleep": {
           "type": "CloudAgent!",
@@ -7416,7 +7421,8 @@
             }
           },
           "errors": [],
-          "description": "Mints a 5-minute JWT for opening a browser WS session against tcp-proxy."
+          "description": "Mints a 5-minute JWT for opening a browser WS session against tcp-proxy.",
+          "sensitive": true
         },
         "githubRepoDeploy": {
           "type": "String!",
@@ -7532,7 +7538,8 @@
             }
           },
           "errors": ["RailwayNotFound", "RailwayLoginSessionNotFound"],
-          "description": "Get a token for a login session if it exists"
+          "description": "Get a token for a login session if it exists",
+          "sensitive": true
         },
         "loginSessionCreate": {
           "type": "String!",
@@ -7687,7 +7694,8 @@
           },
           "errors": [],
           "description": "Resets the credentials for a plugin in an environment",
-          "deprecated": "Plugins are deprecated"
+          "deprecated": "Plugins are deprecated",
+          "sensitive": true
         },
         "pluginRestart": {
           "type": "Plugin!",
@@ -8011,7 +8019,8 @@
             }
           },
           "errors": ["RailwayNotFound"],
-          "description": "Create a token for a project that has access to a specific environment"
+          "description": "Create a token for a project that has access to a specific environment",
+          "sensitive": true
         },
         "projectTokenDelete": {
           "type": "Boolean!",
@@ -9335,7 +9344,8 @@
             }
           },
           "errors": [],
-          "description": "Get an invite code for a workspace and role"
+          "description": "Get an invite code for a workspace and role",
+          "sensitive": true
         },
         "workspaceInviteCodeUse": {
           "type": "Workspace!",
@@ -16747,7 +16757,8 @@
         "recoveryCodes": {
           "type": "[String!]!",
           "args": {},
-          "errors": []
+          "errors": [],
+          "sensitive": true
         }
       },
       "interfaces": []
@@ -20548,12 +20559,14 @@
         "secret": {
           "type": "String!",
           "args": {},
-          "errors": []
+          "errors": [],
+          "sensitive": true
         },
         "uri": {
           "type": "String!",
           "args": {},
-          "errors": []
+          "errors": [],
+          "sensitive": true
         }
       },
       "interfaces": []
