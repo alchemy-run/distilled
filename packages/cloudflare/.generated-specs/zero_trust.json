@@ -417230,6 +417230,18 @@
           "traits": {
             "smithy.api#documentation": "List of public domains that Access will secure. This field is deprecated in favor of `destinations` and will be supported until November 21, 2025. If `destinations` are provided, then `self_hosted_domains` will be ignored."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -418724,6 +418736,18 @@
           "traits": {
             "smithy.api#documentation": "List of public domains that Access will secure. This field is deprecated in favor of `destinations` and will be supported until November 21, 2025. If `destinations` are provided, then `self_hosted_domains` will be ignored."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -420145,6 +420169,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsGetResultEndUserApplicationSelfHostedDomainsList",
           "traits": {
             "smithy.api#documentation": "List of public domains that Access will secure. This field is deprecated in favor of `destinations` and will be supported until November 21, 2025. If `destinations` are provided, then `self_hosted_domains` will be ignored."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -421568,6 +421604,18 @@
           "traits": {
             "smithy.api#documentation": "List of public domains that Access will secure. This field is deprecated in favor of `destinations` and will be supported until November 21, 2025. If `destinations` are provided, then `self_hosted_domains` will be ignored."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -422120,6 +422168,18 @@
           "traits": {
             "smithy.api#documentation": "The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -422248,6 +422308,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsUpdateResultMcpServerApplicationTagsList",
           "traits": {
             "smithy.api#documentation": "The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -422460,6 +422532,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -422505,6 +422589,18 @@
         },
         "policies": {
           "target": "com.cloudflare.zero_trust#AccessApplicationsUpdateResultInfrastructureApplicationPoliciesList"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -422560,6 +422656,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsUpdateResultBookmarkApplicationType",
           "traits": {
             "smithy.api#documentation": "The application type."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -422636,6 +422744,18 @@
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -422711,6 +422831,18 @@
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -422785,6 +422917,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -422896,6 +423040,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Determines when to skip the App Launcher landing page."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -423102,6 +423258,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -423307,6 +423475,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -423395,6 +423575,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -423601,6 +423793,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -423736,6 +423940,18 @@
           "traits": {
             "smithy.api#documentation": "The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -423864,6 +424080,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsListResultItemMcpServerApplicationTagsList",
           "traits": {
             "smithy.api#documentation": "The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -424076,6 +424304,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -424121,6 +424361,18 @@
         },
         "policies": {
           "target": "com.cloudflare.zero_trust#AccessApplicationsListResultItemInfrastructureApplicationPoliciesList"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -424176,6 +424428,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsListResultItemBookmarkApplicationType",
           "traits": {
             "smithy.api#documentation": "The application type."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -424252,6 +424516,18 @@
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -424327,6 +424603,18 @@
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -424401,6 +424689,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -424512,6 +424812,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Determines when to skip the App Launcher landing page."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -424718,6 +425030,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -424923,6 +425247,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -425011,6 +425347,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -425217,6 +425565,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -425352,6 +425712,18 @@
           "traits": {
             "smithy.api#documentation": "The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -425480,6 +425852,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsGetResultMcpServerApplicationTagsList",
           "traits": {
             "smithy.api#documentation": "The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -425692,6 +426076,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -425737,6 +426133,18 @@
         },
         "policies": {
           "target": "com.cloudflare.zero_trust#AccessApplicationsGetResultInfrastructureApplicationPoliciesList"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -425792,6 +426200,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsGetResultBookmarkApplicationType",
           "traits": {
             "smithy.api#documentation": "The application type."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -425868,6 +426288,18 @@
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -425943,6 +426375,18 @@
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -426017,6 +426461,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -426128,6 +426584,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Determines when to skip the App Launcher landing page."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -426334,6 +426802,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -426539,6 +427019,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -426627,6 +427119,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -426833,6 +427337,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -426968,6 +427484,18 @@
           "traits": {
             "smithy.api#documentation": "The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -427096,6 +427624,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsCreateResultMcpServerApplicationTagsList",
           "traits": {
             "smithy.api#documentation": "The tags you want assigned to an application. Tags are used to filter applications in the App Launcher dashboard."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -427308,6 +427848,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -427353,6 +427905,18 @@
         },
         "policies": {
           "target": "com.cloudflare.zero_trust#AccessApplicationsCreateResultInfrastructureApplicationPoliciesList"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -427408,6 +427972,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsCreateResultBookmarkApplicationType",
           "traits": {
             "smithy.api#documentation": "The application type."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -427484,6 +428060,18 @@
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -427559,6 +428147,18 @@
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -427633,6 +428233,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h. Note: unsupported for infrastructure type applications."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -427744,6 +428356,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Determines when to skip the App Launcher landing page."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -427950,6 +428574,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -428155,6 +428791,18 @@
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
           }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
+          }
         }
       }
     },
@@ -428243,6 +428891,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
@@ -428448,6 +429108,18 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Determines if users can access this application via a clientless browser isolation URL. This allows users to access private domains without connecting to Gateway. The option requires Clientless Browser Isolation to be set up with policies that allow users of this application."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the application was last updated."
           }
         }
       }
