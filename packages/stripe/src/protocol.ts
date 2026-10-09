@@ -543,8 +543,8 @@ const decode = ({
     // 2xx: the response body IS the payload (no envelope). Wire→TS key
     // mapping is schema-driven; sensitive members come back Redacted.
     // Strict mode checks the mapped body against the output schema first.
-    // An output with sensitive members never returns or reports the body
-    // unredacted: a non-JSON body fails in every mode.
+    // For an output with sensitive members, a non-JSON body fails in every
+    // mode and parse errors withhold the body.
     const sensitive = hasSensitiveMember(outputAst);
     const reported = sensitive ? "[REDACTED]" : nonJson ? text : json;
     if (nonJson && sensitive) {

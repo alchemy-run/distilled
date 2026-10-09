@@ -555,8 +555,8 @@ const decodeSpritesResponse = ({
     }
 
     // Strict mode checks the mapped body (or parsed exec frames) against the
-    // output schema. An output with sensitive members never returns or
-    // reports the body unredacted: a non-JSON body fails in every mode.
+    // output schema. For an output with sensitive members, a non-JSON body
+    // fails in every mode and parse errors withhold the body.
     const sensitive = hasSensitiveMember(outputAst);
     const reported = sensitive ? "[REDACTED]" : (execFrames ?? (nonJson ? text : json));
     if (nonJson && sensitive) {

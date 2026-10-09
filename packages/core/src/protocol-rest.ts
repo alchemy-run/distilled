@@ -417,9 +417,9 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       // verbatim (mapKeys handles arrays/scalars structurally either way).
       // Strict mode (core/response-validation) checks the mapped body against
       // the output schema — a non-JSON body reaches it as a string and fails
-      // there unless the operation's output is itself a string. An output
-      // with sensitive members never returns or reports the body unredacted:
-      // a non-JSON body fails in every mode, and parse errors withhold it.
+      // there unless the operation's output is itself a string. For an output
+      // with sensitive members, a non-JSON body fails in every mode and parse
+      // errors withhold the body.
       const sensitive = hasSensitiveMember(outputAst);
       const reported = sensitive ? "[REDACTED]" : nonJson ? text : json;
       if (nonJson && sensitive) {

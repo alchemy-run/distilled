@@ -7,9 +7,9 @@
  *   lenient (default): the response is returned as the protocol read it.
  *                      A body that does not match the declared output type
  *                      (a missing member, a wrong primitive, a non-JSON
- *                      body) still succeeds, except a non-JSON body for an
- *                      output with sensitive members, which fails in every
- *                      mode outside AWS.
+ *                      body) still succeeds, except that core's REST
+ *                      protocol, Stripe and Fly.io fail a non-JSON body for
+ *                      an output with sensitive members in every mode.
  *   strict:            the response is decoded against the output schema,
  *                      and a mismatch fails the call with the SDK's
  *                      `<Sdk>ParseError` (AWS: `ParseError`).
