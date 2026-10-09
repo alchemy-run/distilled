@@ -78,6 +78,19 @@ export class DurableObjectCheckError
     [{ code: 1000, message: { includes: "checking the application durable object" } }],
   ) {}
 
+/** The Durable Object namespace is not visible to the containers API. Right after a Worker upload creates the namespace this is transient; retry. */
+export class DurableObjectNamespaceNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DurableObjectNamespaceNotFound>()(
+      "DurableObjectNamespaceNotFound",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ status: 400, message: { includes: "Durable Object namespace was not found" } }],
+  ) {}
+
 export class DurableObjectNotContainerEnabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DurableObjectNotContainerEnabled>()(
@@ -670,6 +683,7 @@ export type CreateContainerApplicationError =
   | DurableObjectAlreadyHasApplication
   | DurableObjectNotContainerEnabled
   | DurableObjectCheckError
+  | DurableObjectNamespaceNotFound
   | CloudflareOpError;
 export const createContainerApplication: API.OperationMethod<
   CreateContainerApplicationRequest,
@@ -684,6 +698,7 @@ export const createContainerApplication: API.OperationMethod<
     DurableObjectAlreadyHasApplication,
     DurableObjectNotContainerEnabled,
     DurableObjectCheckError,
+    DurableObjectNamespaceNotFound,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -727,6 +742,7 @@ export type CreateDurableObjectContainerApplicationError =
   | DurableObjectAlreadyHasApplication
   | DurableObjectNotContainerEnabled
   | DurableObjectCheckError
+  | DurableObjectNamespaceNotFound
   | CloudflareOpError;
 /** Create a Durable Object-managed application. Requires an existing SQLite Durable Object namespace; the application ID is the namespace ID. Source: cloudflare/workers-sdk packages/deploy-helpers/src/deploy/helpers/durable-object-container-applications.ts (2026-09-30). */
 export const createDurableObjectContainerApplication: API.OperationMethod<
@@ -742,6 +758,7 @@ export const createDurableObjectContainerApplication: API.OperationMethod<
     DurableObjectAlreadyHasApplication,
     DurableObjectNotContainerEnabled,
     DurableObjectCheckError,
+    DurableObjectNamespaceNotFound,
     CloudflareRateLimited,
     CloudflareError,
   ],
