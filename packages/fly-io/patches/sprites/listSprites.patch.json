@@ -1,0 +1,10 @@
+{
+  "description": "Mark SpriteListResponse.next_continuation_token nullable. The spec types it as an optional string, but GET /v1/sprites answers `\"next_continuation_token\": null` when there is no next page, so strict response validation fails listSprites with a SchemaError. Observed on the live API on 2026-10-09 (an organization with no sprites, `has_more: false`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.sprites#SpriteListResponse/members/next_continuation_token/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}
