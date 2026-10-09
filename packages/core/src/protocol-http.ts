@@ -353,18 +353,6 @@ export interface BuildRequestOptions {
 }
 
 /**
- * Build an HTTP request from an operation input and its schema, driven by
- * the trait annotations: `Http()` supplies method + URI template, `Label()`
- * members fill URI placeholders, `Header()`/`Query()` members bind to
- * headers/query params, `DeepQuery()` struct members expand into dotted
- * query params, `HttpBody()` sends the member as the whole body,
- * `FormDataFile()` members become multipart file parts, and everything else
- * is a JSON body field (wire-named via `Body()` / `KeyDictionary`).
- *
- * Throws when the input schema is missing the `Http()` trait — a codegen
- * bug, surfaced as a defect by the calling protocol's Effect context.
- */
-/**
  * Encode a greedy `{name+}` label: the value may span several path
  * segments (e.g. an Azure scope `/subscriptions/{id}/resourceGroups/{rg}`),
  * so each segment is encoded on its own and the `/` separators are kept.
@@ -402,6 +390,20 @@ const flattenToFormPairs = (obj: Record<string, unknown>, prefix = ""): Array<[s
   return pairs;
 };
 
+/**
+ * Build an HTTP request from an operation input and its schema, driven by
+ * the trait annotations: `Http()` supplies method + URI template, `Label()`
+ * members fill URI placeholders, `Header()`/`Query()` members bind to
+ * headers/query params, `DeepQuery()` struct members expand into dotted
+ * query params, `HttpBody()` sends the member as the whole body,
+ * `FormDataFile()` members become multipart file parts, and everything else
+ * is a JSON body field (wire-named via `Body()` / `KeyDictionary`).
+ *
+ * Throws when the input schema is missing the `Http()` trait — a codegen
+ * bug — and, before anything is sent, when a label is `.` or `..` (for a
+ * greedy `{name+}` label, when any of its segments is). Each surfaces as a
+ * defect by the calling protocol's Effect context.
+ */
 export const buildRequest = ({
   input,
   inputAst,
@@ -446,6 +448,16 @@ export const buildRequest = ({
     if (hasPropAnn(prop, labelSymbol)) {
       const token = nameOf(prop, labelSymbol);
       const preserve = getPropAnn(prop, labelEncodingSymbol);
+      const greedy = uri.includes(`{${token}+}`);
+      // The URL parser resolves a `.` or `..` segment, percent-encoded or
+      // not, so no encoding can carry one: it would address another path
+      // (`/projects/p1/branches/..` → `/projects/p1/`). A greedy label keeps
+      // its `/`, so each of its segments counts.
+      if (
+        (greedy ? String(value).split("/") : [String(value)]).some((s) => s === "." || s === "..")
+      ) {
+        throw new Error(`invalid value for input HTTP label: ${key}`);
+      }
       const encoded = encodeURIComponent(String(value));
       const label =
         typeof preserve === "string"
@@ -454,7 +466,7 @@ export const buildRequest = ({
               return preserve.includes(character) ? character : escape;
             })
           : encoded;
-      uri = uri.includes(`{${token}+}`)
+      uri = greedy
         ? uri.replace(`{${token}+}`, () => encodeGreedyLabel(String(value)))
         : uri.replace(`{${token}}`, () => label);
     } else if (hasPropAnn(prop, headerSymbol)) {
