@@ -1922,7 +1922,8 @@ export type GoogleCloudDataplexV1DataScanTypeEnum =
   | "DATA_QUALITY"
   | "DATA_PROFILE"
   | "DATA_DISCOVERY"
-  | "DATA_DOCUMENTATION";
+  | "DATA_DOCUMENTATION"
+  | "UNSTRUCTURED_DATA_PROFILE";
 export const GoogleCloudDataplexV1DataScanTypeEnum = S.String;
 
 export type GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum =
@@ -3257,6 +3258,23 @@ export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions =
     identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions",
   }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions>;
 
+/** Describes options for unstructured data discovery. */
+export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions {
+  /** Optional. Whether to use the global model endpoint. */
+  globalEndpointEnabled?: boolean;
+  /** Optional. Specifies whether deeper semantic inference over the objects' contents using GenAI is enabled. */
+  semanticInferenceEnabled?: boolean;
+}
+export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      globalEndpointEnabled: S.optional(S.Boolean),
+      semanticInferenceEnabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions>;
+
 /** Configurations related to Cloud Storage as the data source. */
 export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfig {
   /** Optional. Configuration for JSON data. */
@@ -3267,6 +3285,8 @@ export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfig {
   includePatterns?: StringList;
   /** Optional. Defines the data to exclude during discovery. Provide a list of patterns that identify the data to exclude. For Cloud Storage bucket assets, these patterns are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these patterns are interpreted as patterns to match table names. */
   excludePatterns?: StringList;
+  /** Optional. Specifies configuration for unstructured data discovery. */
+  unstructuredDataOptions?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions;
 }
 export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3274,6 +3294,9 @@ export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfig = /*@__PURE__*/
     csvOptions: S.optional(GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions),
     includePatterns: S.optional(StringList),
     excludePatterns: S.optional(StringList),
+    unstructuredDataOptions: S.optional(
+      GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions,
+    ),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfig",
@@ -3519,6 +3542,281 @@ export const GoogleCloudDataplexV1DataDiscoveryResult = /*@__PURE__*/ S.suspend(
   identifier: "GoogleCloudDataplexV1DataDiscoveryResult",
 }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoveryResult>;
 
+/** Contains the specification for an unstructured data profile scan. */
+export interface GoogleCloudDataplexV1UnstructuredDataProfileSpec {
+  /** Optional. Whether to use the global model. */
+  globalEndpointEnabled?: boolean;
+  /** Optional. Customized prompt for unstructured data profile. The field will be used as part of the prompt, could be some instruction, specifying skill, or specific area to focus. */
+  customizedPrompt?: string;
+  /** Optional. Whether to publish graph-profile as aspect on the catalog entry. */
+  graphProfilePublishingEnabled?: boolean;
+}
+export const GoogleCloudDataplexV1UnstructuredDataProfileSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    globalEndpointEnabled: S.optional(S.Boolean),
+    customizedPrompt: S.optional(S.String),
+    graphProfilePublishingEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1UnstructuredDataProfileSpec",
+}) as any as S.Schema<GoogleCloudDataplexV1UnstructuredDataProfileSpec>;
+
+export type GoogleCloudDataplexV1GraphProfileFieldModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "NULLABLE"
+  | "REPEATED"
+  | "REQUIRED";
+export const GoogleCloudDataplexV1GraphProfileFieldModeEnum = S.String;
+
+export type GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum =
+  | "METADATA_TYPE_UNSPECIFIED"
+  | "BOOLEAN"
+  | "NUMBER"
+  | "STRING"
+  | "BYTES"
+  | "DATETIME"
+  | "TIMESTAMP"
+  | "GEOSPATIAL"
+  | "STRUCT"
+  | "OTHER";
+export const GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum = S.String;
+
+/** Extraction hints (field-level). */
+export interface GoogleCloudDataplexV1GraphProfileFieldExtractionHints {
+  /** Output only. Standardizes extracted data (e.g., to ISO 3166-1 alpha-2). */
+  normalization?: string;
+  /** Output only. Generates value from other data instead of direct extraction (e.g., hashing). */
+  synthesis?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileFieldExtractionHints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    normalization: S.optional(S.String),
+    synthesis: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileFieldExtractionHints",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileFieldExtractionHints>;
+
+/** Represents a field in a node or edge type. */
+export interface GoogleCloudDataplexV1GraphProfileField {
+  /** Output only. The mode of the field. */
+  mode?: GoogleCloudDataplexV1GraphProfileFieldModeEnum | (string & {});
+  /** Output only. The data type of the field, e.g., STRING, INTEGER, DATE. */
+  dataType?: string;
+  /** Output only. The mapped metadata type. */
+  metadataType?: GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum | (string & {});
+  /** Output only. Name of the field. */
+  name?: string;
+  /** Output only. Sub-fields of this field (for STRUCT types). */
+  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
+  /** Output only. Extraction hints for the field. */
+  extractionHints?: GoogleCloudDataplexV1GraphProfileFieldExtractionHints;
+  /** Output only. Description of the field. */
+  description?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: S.optional(GoogleCloudDataplexV1GraphProfileFieldModeEnum),
+    dataType: S.optional(S.String),
+    metadataType: S.optional(GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum),
+    name: S.optional(S.String),
+    fields: S.optional(S.suspend(() => GoogleCloudDataplexV1GraphProfileFieldList)),
+    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileFieldExtractionHints),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileField",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileField>;
+
+export type GoogleCloudDataplexV1GraphProfileFieldList =
+  Array<GoogleCloudDataplexV1GraphProfileField>;
+export const GoogleCloudDataplexV1GraphProfileFieldList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1GraphProfileField,
+) as any as S.Schema<GoogleCloudDataplexV1GraphProfileFieldList>;
+
+/** Extraction hints (node-level). */
+export interface GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints {
+  /** Output only. Expected occurrence frequency of this node type within a document. Format: "Bounds - Description" Example: "0:N - A document may contain multiple people names." */
+  cardinality?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      cardinality: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints>;
+
+/** Represents a type of node in the graph. */
+export interface GoogleCloudDataplexV1GraphProfileNodeType {
+  /** Output only. Field names forming the primary keys. The order in this array defines the key's ordinal positions for composite keys. */
+  primaryKeys?: StringList;
+  /** Output only. Fields of the node type. */
+  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
+  /** Output only. Name of the node type. */
+  name?: string;
+  /** Output only. Description of the node type. */
+  description?: string;
+  /** Output only. Extraction hints for the node. */
+  extractionHints?: GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints;
+}
+export const GoogleCloudDataplexV1GraphProfileNodeType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    primaryKeys: S.optional(StringList),
+    fields: S.optional(GoogleCloudDataplexV1GraphProfileFieldList),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileNodeType",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeType>;
+
+export type GoogleCloudDataplexV1GraphProfileNodeTypeList =
+  Array<GoogleCloudDataplexV1GraphProfileNodeType>;
+export const GoogleCloudDataplexV1GraphProfileNodeTypeList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1GraphProfileNodeType,
+) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeTypeList>;
+
+/** Extraction hints (edge-level). */
+export interface GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints {
+  /** Output only. Expected connectivity topology and bounds of this relationship. Format: "Topology - Description" Example: "1:N - One company can have multiple financial reports." */
+  cardinality?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      cardinality: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints>;
+
+/** Maps a local field to a referenced field. */
+export interface GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping {
+  /** Output only. Local field name forming part of the foreign key. */
+  field?: string;
+  /** Output only. Field name in the referenced node type. */
+  referencedField?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      field: S.optional(S.String),
+      referencedField: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping",
+  }) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping>;
+
+export type GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList =
+  Array<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping>;
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping,
+  ) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList>;
+
+/** Represents a foreign key constraint. */
+export interface GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey {
+  /** Output only. Description of the foreign key. */
+  description?: string;
+  /** Output only. The node type this constraint references. */
+  referencedNodeType?: string;
+  /** Output only. Field Mappings. Mappings between local fields and the fields they reference in the referenced node type. */
+  fieldMappings?: GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList;
+  /** Output only. Name of the foreign key constraint. */
+  name?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    referencedNodeType: S.optional(S.String),
+    fieldMappings: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey>;
+
+export type GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList =
+  Array<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey>;
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey,
+) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList>;
+
+/** Represents a type of edge (relationship) in the graph. */
+export interface GoogleCloudDataplexV1GraphProfileEdgeType {
+  /** Output only. Extraction hints for the edge. */
+  extractionHints?: GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints;
+  /** Output only. Description of the edge type. */
+  description?: string;
+  /** Output only. Name of the edge type. */
+  name?: string;
+  /** Output only. Source node type. */
+  sourceNodeType?: string;
+  /** Output only. Defines the Foreign Key constraints for the edge. */
+  foreignKeys?: GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList;
+  /** Output only. Fields of the edge type. */
+  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
+  /** Output only. Target node type. */
+  targetNodeType?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileEdgeType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    sourceNodeType: S.optional(S.String),
+    foreignKeys: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList),
+    fields: S.optional(GoogleCloudDataplexV1GraphProfileFieldList),
+    targetNodeType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileEdgeType",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeType>;
+
+export type GoogleCloudDataplexV1GraphProfileEdgeTypeList =
+  Array<GoogleCloudDataplexV1GraphProfileEdgeType>;
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1GraphProfileEdgeType,
+) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeList>;
+
+/** Contains the strict structure for graph-profile for semantic inference scan result. */
+export interface GoogleCloudDataplexV1GraphProfile {
+  /** Output only. Node types. */
+  nodeTypes?: GoogleCloudDataplexV1GraphProfileNodeTypeList;
+  /** Output only. Edge types. */
+  edgeTypes?: GoogleCloudDataplexV1GraphProfileEdgeTypeList;
+}
+export const GoogleCloudDataplexV1GraphProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nodeTypes: S.optional(GoogleCloudDataplexV1GraphProfileNodeTypeList),
+    edgeTypes: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeList),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfile",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfile>;
+
+/** Contains the result of an unstructured data profile scan. */
+export interface GoogleCloudDataplexV1UnstructuredDataProfileResult {
+  /** Output only. The inferred description. */
+  description?: string;
+  /** Output only. The inferred graph profile. */
+  graphProfile?: GoogleCloudDataplexV1GraphProfile;
+  /** Output only. Optional message for partial failures (e.g. node type extraction failed). */
+  partialFailureMessage?: string;
+}
+export const GoogleCloudDataplexV1UnstructuredDataProfileResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    graphProfile: S.optional(GoogleCloudDataplexV1GraphProfile),
+    partialFailureMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1UnstructuredDataProfileResult",
+}) as any as S.Schema<GoogleCloudDataplexV1UnstructuredDataProfileResult>;
+
 /** Represents a user-visible job which provides the insights for the related data source.For example: Data quality: generates queries based on the rules and runs against the data to get data quality check results. For more information, see Auto data quality overview (https://cloud.google.com/dataplex/docs/auto-data-quality-overview). Data profile: analyzes the data in tables and generates insights about the structure, content and relationships (such as null percent, cardinality, min/max/mean, etc). For more information, see About data profiling (https://cloud.google.com/dataplex/docs/data-profiling-overview). Data discovery: scans data in Cloud Storage buckets to extract and then catalog metadata. For more information, see Discover and catalog Cloud Storage data (https://cloud.google.com/bigquery/docs/automatic-discovery). Data documentation: analyzes the table or dataset metadata and generates insights. For tables, insights include descriptions and sample SQL queries. For datasets, insights include descriptions, schema relationships and sample SQL queries. For more information, see Generate data insights in BigQuery (https://cloud.google.com/bigquery/docs/data-insights). */
 export interface GoogleCloudDataplexV1DataScan {
   /** Optional. User friendly display name. Must be between 1-256 characters. */
@@ -3563,6 +3861,10 @@ export interface GoogleCloudDataplexV1DataScan {
   description?: string;
   /** Output only. The result of a data discovery scan. */
   dataDiscoveryResult?: GoogleCloudDataplexV1DataDiscoveryResult;
+  /** Optional. Settings for an unstructured data profile scan. */
+  unstructuredDataProfileSpec?: GoogleCloudDataplexV1UnstructuredDataProfileSpec;
+  /** Output only. The result of an unstructured data profile scan. */
+  unstructuredDataProfileResult?: GoogleCloudDataplexV1UnstructuredDataProfileResult;
 }
 export const GoogleCloudDataplexV1DataScan = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3587,6 +3889,8 @@ export const GoogleCloudDataplexV1DataScan = /*@__PURE__*/ S.suspend(() =>
     dataQualitySpec: S.optional(GoogleCloudDataplexV1DataQualitySpec),
     description: S.optional(S.String),
     dataDiscoveryResult: S.optional(GoogleCloudDataplexV1DataDiscoveryResult),
+    unstructuredDataProfileSpec: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileSpec),
+    unstructuredDataProfileResult: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileResult),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataScan",
@@ -6870,7 +7174,8 @@ export type GoogleCloudDataplexV1DataScanJobTypeEnum =
   | "DATA_QUALITY"
   | "DATA_PROFILE"
   | "DATA_DISCOVERY"
-  | "DATA_DOCUMENTATION";
+  | "DATA_DOCUMENTATION"
+  | "UNSTRUCTURED_DATA_PROFILE";
 export const GoogleCloudDataplexV1DataScanJobTypeEnum = S.String;
 
 export type GoogleCloudDataplexV1DataScanJobStateEnum =
@@ -6920,6 +7225,10 @@ export interface GoogleCloudDataplexV1DataScanJob {
   endTime?: string;
   /** Output only. Additional information about the current state. */
   message?: string;
+  /** Output only. The result of an unstructured data profile scan. */
+  unstructuredDataProfileResult?: GoogleCloudDataplexV1UnstructuredDataProfileResult;
+  /** Output only. Settings for an unstructured data profile scan. */
+  unstructuredDataProfileSpec?: GoogleCloudDataplexV1UnstructuredDataProfileSpec;
 }
 export const GoogleCloudDataplexV1DataScanJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6940,6 +7249,8 @@ export const GoogleCloudDataplexV1DataScanJob = /*@__PURE__*/ S.suspend(() =>
     dataProfileResult: S.optional(GoogleCloudDataplexV1DataProfileResult),
     endTime: S.optional(S.String),
     message: S.optional(S.String),
+    unstructuredDataProfileResult: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileResult),
+    unstructuredDataProfileSpec: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileSpec),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataScanJob",
