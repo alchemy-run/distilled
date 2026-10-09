@@ -56,6 +56,15 @@ export class AccountNotFound
     [{ code: 7003 }],
   ) {}
 
+export class InputTooBig
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InputTooBig>()("InputTooBig", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "input too big" } }],
+  ) {}
+
 export class ModelNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ModelNotFound>()("ModelNotFound", {
@@ -840,7 +849,7 @@ export const RunAiRequest = /*@__PURE__*/ S.suspend(() =>
     maxLength: S.optional(S.Number.pipe(T.Body("max_length"))),
     ignoreEos: S.optional(S.Boolean.pipe(T.Body("ignore_eos"))),
   })
-    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai/run/{model_name}", code: 200 }))
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai/run/{model_name+}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "RunAiRequest" }) as any as S.Schema<RunAiRequest>;
 
@@ -1414,7 +1423,7 @@ export const listTasks: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
-export type RunAiError = ModelNotFound | CloudflareOpError;
+export type RunAiError = ModelNotFound | InputTooBig | CloudflareOpError;
 /** Runs the Workers AI model specified in the URL path. Send the model's inputs directly in the request body, without a model/input/options wrapper. Accepts model-specific JSON or binary input. The response format depends on the model and the requested output. See the [model catalog](https://developers.cloudflare.com/workers-ai/models/) for supported models and their input formats. */
 export const runAi: API.OperationMethod<
   RunAiRequest,
@@ -1424,7 +1433,7 @@ export const runAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RunAiRequest,
   output: RunAiResponse,
-  errors: [ModelNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [ModelNotFound, InputTooBig, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
