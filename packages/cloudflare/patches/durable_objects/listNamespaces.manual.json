@@ -1,0 +1,15 @@
+{
+  "description": "Docs gap: GET /accounts/{account_id}/workers/durable_objects/namespaces also returns `dispatch_namespace` for namespaces owned by a Workers for Platforms dispatch-namespace script (absent for account-level scripts). Without it, a dispatch script's namespaces are indistinguishable from those of an account-level script with the same name. Observed on a live listing on 2026-10-09: `{\"id\": \"…\", \"class\": \"Counter\", \"name\": \"<script>_Counter\", \"script\": \"<script>\", \"use_sqlite\": true, \"dispatch_namespace\": \"<namespace>\"}`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.durable_objects#NamespacesListResultItem/members/dispatch_namespace",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Workers for Platforms dispatch namespace of the script that owns this namespace; absent for account-level scripts."
+        }
+      }
+    }
+  ]
+}
