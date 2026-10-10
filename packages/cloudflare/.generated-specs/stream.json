@@ -6622,19 +6622,11 @@
     "com.cloudflare.stream#ListLiveInputsResponse": {
       "type": "structure",
       "members": {
-        "liveInputs": {
-          "target": "com.cloudflare.stream#LiveInputsListResponseLiveInputsList"
-        },
-        "range": {
-          "target": "smithy.api#Double",
+        "result": {
+          "target": "com.cloudflare.stream#LiveInputsListResponseLiveInputsList",
           "traits": {
-            "smithy.api#documentation": "The total number of remaining live inputs based on cursor position."
-          }
-        },
-        "total": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "The total number of live inputs that match the provided filters."
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The live inputs in the account."
           }
         }
       },

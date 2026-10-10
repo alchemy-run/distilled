@@ -2630,19 +2630,12 @@ export const LiveInputsListResponseLiveInputsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<LiveInputsListResponseLiveInputsList>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface ListLiveInputsResponse {
-  liveInputs?: LiveInputsListResponseLiveInputsList | null;
-  /** The total number of remaining live inputs based on cursor position. */
-  range?: number | null;
-  /** The total number of live inputs that match the provided filters. */
-  total?: number | null;
-}
+export type ListLiveInputsResponse = LiveInputsListResponseLiveInputsList;
 export const ListLiveInputsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    liveInputs: S.optional(S.NullOr(LiveInputsListResponseLiveInputsList)),
-    range: S.optional(S.NullOr(S.Number)),
-    total: S.optional(S.NullOr(S.Number)),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  LiveInputsListResponseLiveInputsList.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
 ).annotate({ identifier: "ListLiveInputsResponse" }) as any as S.Schema<ListLiveInputsResponse>;
 
 export type ListRequestStatus =

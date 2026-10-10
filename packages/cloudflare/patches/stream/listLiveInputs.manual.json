@@ -1,0 +1,18 @@
+{
+  "description": "Docs drift: the docs model the list-live-inputs result as an object `{ liveInputs, range, total }`, but the live API returns `result` as a bare array of live inputs (verified 2026-10-09: GET /accounts/{account_id}/stream/live_inputs -> {\"result\":[{\"uid\":...}],\"success\":true}). With the object schema the array decodes to an empty struct and list() silently returns no inputs. Reshape the response into the bare-array envelope payload.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.stream#ListLiveInputsResponse/members",
+      "value": {
+        "result": {
+          "target": "com.cloudflare.stream#LiveInputsListResponseLiveInputsList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The live inputs in the account."
+          }
+        }
+      }
+    }
+  ]
+}
