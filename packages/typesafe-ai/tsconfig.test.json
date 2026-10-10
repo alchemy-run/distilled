@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["test/**/*.ts"],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "outDir": "./.test-types",
+    "rootDir": "./test",
+    "tsBuildInfoFile": "./.test-types/tsconfig.test.tsbuildinfo",
+    // The tests run under bun and assert TYPES as much as behavior
+    // (`query.test.ts` fails to compile if an answer degrades to the
+    // wire union), so they are a checked project, not loose files —
+    // which means opting OUT of the base config's `noCheck`, set there
+    // to skip the generated service modules.
+    "noCheck": false,
+    "rewriteRelativeImportExtensions": false,
+    "customConditions": ["bun"],
+    "paths": {
+      "@distilled.cloud/core/*": ["../core/src/*"]
+    }
+  },
+  "references": [{ "path": "./tsconfig.json" }, { "path": "../core" }]
+}
