@@ -22693,6 +22693,28 @@
         ]
       }
     },
+    "com.cloudflare.workers_for_platforms#WorkerHasNoVersions": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 404,
+            "message": {
+              "includes": "has no versions"
+            }
+          }
+        ]
+      }
+    },
     "com.cloudflare.workers_for_platforms#BulkUpdateDispatchNamespaceScriptSecrets": {
       "type": "operation",
       "input": {
@@ -23680,6 +23702,9 @@
         },
         {
           "target": "com.cloudflare.workers_for_platforms#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.workers_for_platforms#WorkerHasNoVersions"
         }
       ]
     },
