@@ -97,6 +97,28 @@ export class ConflictException
     },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
+export class DeadlineRoleNotAssumable
+  extends /*@__PURE__*/ S.TaggedError<DeadlineRoleNotAssumable>()(
+    "DeadlineRoleNotAssumable",
+    {
+      message: S.String.pipe(T.ErrorMessage()),
+      reason: S.suspend(() => ValidationExceptionReason).annotate({
+        identifier: "ValidationExceptionReason",
+      }),
+      fieldList: S.optional(
+        S.suspend(() => ValidationExceptionFieldList).annotate({
+          identifier: "ValidationExceptionFieldList",
+        }),
+      ),
+      context: S.optional(
+        S.suspend(() => ExceptionContext).annotate({ identifier: "ExceptionContext" }),
+      ),
+    },
+    T.SyntheticError({
+      from: "ValidationException",
+      message: { includes: "Could not sts:AssumeRole" },
+    }),
+  ).pipe(C.withBadRequestError) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
@@ -8919,6 +8941,7 @@ export type CreateFleetError =
   | ThrottlingException
   | ValidationException
   | ConflictException
+  | DeadlineRoleNotAssumable
   | CommonErrors;
 /**
  * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
@@ -8939,6 +8962,7 @@ export const createFleet: API.OperationMethod<
     ThrottlingException,
     ValidationException,
     ConflictException,
+    DeadlineRoleNotAssumable,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11963,6 +11987,7 @@ export type UpdateFleetError =
   | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
+  | DeadlineRoleNotAssumable
   | CommonErrors;
 /**
  * Updates a fleet.
@@ -11984,6 +12009,7 @@ export const updateFleet: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
+    DeadlineRoleNotAssumable,
   ],
   protocol: AwsProtocol,
   retry: Retry,
