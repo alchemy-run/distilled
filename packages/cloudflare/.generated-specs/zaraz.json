@@ -13055,7 +13055,8 @@
         "smithy.api#http": {
           "method": "PUT",
           "uri": "/zones/{zone_id}/settings/zaraz/workflow",
-          "code": 200
+          "code": 200,
+          "bodyMediaType": "text/plain"
         },
         "smithy.api#documentation": "Updates Zaraz workflow for a zone.",
         "smithy.api#idempotent": {}
@@ -13076,7 +13077,8 @@
           "target": "com.cloudflare.zaraz#UpdateRequestWorkflow",
           "traits": {
             "smithy.api#documentation": "Zaraz workflow.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {}
           }
         }
       },

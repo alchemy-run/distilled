@@ -1683,9 +1683,16 @@ export interface PutZarazRequest {
 export const PutZarazRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
-    workflow: UpdateRequestWorkflow,
+    workflow: UpdateRequestWorkflow.pipe(T.HttpBody()),
   })
-    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/settings/zaraz/workflow", code: 200 }))
+    .pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/zones/{zone_id}/settings/zaraz/workflow",
+        code: 200,
+        bodyMediaType: "text/plain",
+      }),
+    )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "PutZarazRequest" }) as any as S.Schema<PutZarazRequest>;
 
