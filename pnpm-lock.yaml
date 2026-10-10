@@ -877,6 +877,19 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
+  packages/linear:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
   packages/meilisearch:
     dependencies:
       '@distilled.cloud/core':
