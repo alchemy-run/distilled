@@ -14,7 +14,7 @@ import * as Credentials from "../credentials.browser.ts";
 import * as Endpoint from "../endpoint.ts";
 import { ParseError } from "../errors.ts";
 import { encodeMessage, stringHeader } from "../eventstream/codec.ts";
-import type * as Region from "../region.ts";
+import * as Region from "../region.ts";
 import * as S3Control from "../services/s3-control.ts";
 import * as S3 from "../services/s3.ts";
 import * as SigV4 from "../sigv4.ts";
@@ -266,6 +266,8 @@ const credentials = {
 const capture = <A, E>(
   operation: Effect.Effect<A, E, Credentials.Credentials | HttpClient.HttpClient>,
   body?: string,
+  // Pinned by default; pass `Region.of(...)` to let the endpoint rules resolve it.
+  endpoint: Layer.Layer<never> = Endpoint.of("https://s3.us-east-1.amazonaws.com"),
 ) =>
   Effect.gen(function* () {
     const requests: HttpClientRequest.HttpClientRequest[] = [];
@@ -294,7 +296,7 @@ const capture = <A, E>(
         Layer.mergeAll(
           Layer.succeed(HttpClient.HttpClient, client),
           Layer.succeed(Credentials.Credentials, Effect.succeed(credentials)),
-          Endpoint.of("https://s3.us-east-1.amazonaws.com"),
+          endpoint,
         ),
       ),
     );
@@ -462,6 +464,25 @@ describe("AwsProtocol REST-XML empty values", () => {
 });
 
 const object = { Bucket: "examplebucket", Key: "reports/part.md" };
+
+// A dotted name cannot be virtual-hosted, so the endpoint rules pick path
+// style and the resolved endpoint already ends in `/{Bucket}`.
+describe("AwsProtocol S3 path-style addressing", () => {
+  const dotted = { Bucket: "my.dotted.bucket" };
+  const region = Region.of("us-east-1");
+
+  it("puts a dotted bucket in the path once", async () => {
+    const { request } = await Effect.runPromise(capture(S3.headBucket(dotted), undefined, region));
+    assert.equal(new URL(request.url).pathname, "/my.dotted.bucket");
+  });
+
+  it("keeps the object key after a dotted bucket", async () => {
+    const { request } = await Effect.runPromise(
+      capture(S3.getObject({ ...dotted, Key: "a.txt" }), undefined, region),
+    );
+    assert.equal(new URL(request.url).pathname, "/my.dotted.bucket/a.txt");
+  });
+});
 
 describe("AwsProtocol REST-XML greedy {Key+} label", () => {
   for (const [Key, path] of [
