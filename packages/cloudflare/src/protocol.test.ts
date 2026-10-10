@@ -13,6 +13,7 @@ import { describe, expect, test } from "vitest";
 import { type Credentials, fromApiKey, fromApiToken, fromOAuth } from "./credentials.ts";
 import {
   BadGateway,
+  BadRequest,
   CloudflareParseError,
   Conflict,
   Forbidden,
@@ -44,7 +45,11 @@ import {
   NamespaceNotFound,
 } from "./services/kv.ts";
 import { sendStreamRecords } from "./services/pipelines.ts";
-import { createAssetUpload } from "./services/workers.ts";
+import {
+  createAssetUpload,
+  createObservabilityDestination,
+  ObservabilityDestinationCreateFailed,
+} from "./services/workers.ts";
 import { getZone, InvalidZoneIdentifier } from "./services/zones.ts";
 
 interface Reply {
@@ -317,6 +322,49 @@ describe("error envelopes", () => {
     expect(error).toBeInstanceOf(UnknownCloudflareError);
     expect(error).toMatchObject({ message: "HTTP 200" });
     expect((error as UnknownCloudflareError).code).toBeUndefined();
+  });
+
+  test("a top-level message is kept when errors carry none", async () => {
+    const error = await failWith(getNamespace(ns), {
+      status: 400,
+      body: JSON.stringify({ success: false, message: "name is invalid", errors: [] }),
+    });
+    expect(error).toBeInstanceOf(BadRequest);
+    expect(error).toMatchObject({ message: "name is invalid" });
+  });
+
+  test("errors entries without a message are kept as JSON", async () => {
+    const error = await failWith(getNamespace(ns), {
+      status: 400,
+      body: JSON.stringify({ success: false, errors: [{ code: 1001, path: ["name"] }] }),
+    });
+    expect(error).toBeInstanceOf(BadRequest);
+    expect(error).toMatchObject({ message: '[{"code":1001,"path":["name"]}]' });
+  });
+
+  test("a JSON body of an unfamiliar shape is kept, truncated", async () => {
+    const body = JSON.stringify({ detail: "x".repeat(2000) });
+    const error = await failWith(getNamespace(ns), { status: 400, body });
+    expect(error).toBeInstanceOf(BadRequest);
+    expect(error).toMatchObject({ message: body.slice(0, 1000) });
+  });
+
+  test("a top-level message lets an operation matcher on message match", async () => {
+    const error = await failWith(
+      createObservabilityDestination({
+        accountId: "acc",
+        name: "a_b",
+        enabled: true,
+        configuration: {
+          type: "logpush",
+          logpushDataset: "opentelemetry-logs",
+          url: "https://example.com",
+          headers: {},
+        },
+      }),
+      { status: 400, body: JSON.stringify({ success: false, message: "Bad Request" }) },
+    );
+    expect(error).toBeInstanceOf(ObservabilityDestinationCreateFailed);
   });
 
   test("only the first envelope error is used", async () => {
