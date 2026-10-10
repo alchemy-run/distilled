@@ -5,8 +5,8 @@
  *
  * Input:  specs/spec-mirror-clerk/specs/openapi.json   (Backend API)
  *         specs/spec-mirror-clerk/specs/platform.json  (Platform API)
- *         patches/<name>/*.patch.json  (RFC-6902 patches, one directory
- *         per model: patches/clerk/, patches/platform/)
+ *         patches/<name>/*.patch.json  (RFC-6902 Smithy-model patches,
+ *         one directory per model: patches/clerk/, patches/platform/)
  * Output: .generated-specs/clerk.json + .generated-specs/platform.json
  *
  * The Platform API is a separate model with its own namespace: `User`,
@@ -64,9 +64,8 @@ await runOpenApiConvert({
       },
     },
   ],
-  // OpenAPI-document patches, per-spec layout: patches/<name>/*.patch.json.
-  // The smithy-model patch chain in generate.ts is disabled
-  // (`patchesDir: false`).
+  // Smithy-model patches apply before operation renaming, per-model layout:
+  // patches/<name>/*.patch.json. Generate compiles the finalized models.
   patchesDir: "patches",
   options: {
     namespace: "com.clerk.api",

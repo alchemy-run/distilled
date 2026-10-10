@@ -3,12 +3,42 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/components/schemas/PlatformConfigResponse",
+      "path": "/shapes/com.clerk.platform#PlatformConfigResponse",
       "value": {
-        "type": "object",
-        "description": "Instance configuration: every config key, plus `config_version` for optimistic concurrency control.",
-        "additionalProperties": true
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Instance configuration: every config key, plus `config_version` for optimistic concurrency control."
+        }
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#GetConfigResponse",
+      "before": "com.clerk.platform#GetConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "com.clerk.platform#PlatformConfigResponse",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clerk.platform#GetConfig/output/target",
+      "value": "com.clerk.platform#GetConfigResponse"
     }
   ]
 }

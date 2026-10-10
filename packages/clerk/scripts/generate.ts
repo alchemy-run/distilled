@@ -112,8 +112,8 @@ const isPlatformModel = (model: any): boolean =>
 runGeneratorCli({
   description: "Generate the Clerk Effect SDK from the Smithy models",
   root: `${import.meta.dirname}/..`,
-  // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
-  // there is no smithy-model patch chain.
+  // Convert applies the Smithy-model patches before operation renaming;
+  // the committed models are already finalized, so generate does not patch.
   patchesDir: false,
   spec: (model) => (isPlatformModel(model) ? platformSpec : clerkSpec),
 });

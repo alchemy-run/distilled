@@ -3,17 +3,28 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1platform~1applications~1{applicationID}~1transfers/post/requestBody",
+      "path": "/shapes/com.clerk.platform#CreateApplicationTransferRequestBodyMap",
+      "before": "com.clerk.platform#CreateApplicationTransferRequest",
       "value": {
-        "required": false,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "description": "Unused by Clerk. Leave unset; the SDK sends `{}` so the request carries `Content-Type: application/json`.",
-              "additionalProperties": true
-            }
-          }
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Unused by Clerk. Leave unset; the SDK sends `{}` so the request carries `Content-Type: application/json`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#CreateApplicationTransferRequest/members/body",
+      "value": {
+        "target": "com.clerk.platform#CreateApplicationTransferRequestBodyMap",
+        "traits": {
+          "smithy.api#httpPayload": {}
         }
       }
     }

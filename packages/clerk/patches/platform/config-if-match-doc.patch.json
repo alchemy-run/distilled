@@ -3,12 +3,12 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/paths/~1platform~1applications~1{applicationID}~1instances~1{envOrInsID}~1config/patch/parameters/5/description",
+      "path": "/shapes/com.clerk.platform#PatchConfigRequest/members/ifMatch/traits/smithy.api#documentation",
       "value": "Config version for optimistic concurrency control. Must be the config_version from getConfig with `keys` set to exactly the keys being written; the config_version of a full-document read is rejected with ConfigVersionConflict."
     },
     {
       "op": "replace",
-      "path": "/paths/~1platform~1applications~1{applicationID}~1instances~1{envOrInsID}~1config/put/parameters/4/description",
+      "path": "/shapes/com.clerk.platform#PutConfigRequest/members/ifMatch/traits/smithy.api#documentation",
       "value": "Config version for optimistic concurrency control. Must be the config_version from getConfig with `keys` set to exactly the keys being written; the config_version of a full-document read is rejected with ConfigVersionConflict."
     }
   ]
