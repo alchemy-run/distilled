@@ -5390,6 +5390,9 @@
         },
         {
           "target": "com.amazonaws.deadline#ConflictException"
+        },
+        {
+          "target": "aws.synthetic#DeadlineRoleNotAssumable"
         }
       ],
       "traits": {
@@ -25156,6 +25159,9 @@
         },
         {
           "target": "com.amazonaws.deadline#ValidationException"
+        },
+        {
+          "target": "aws.synthetic#DeadlineRoleNotAssumable"
         }
       ],
       "traits": {
@@ -27967,6 +27973,44 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>The summary of details for a worker.</p>"
+      }
+    },
+    "aws.synthetic#DeadlineRoleNotAssumable": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "com.amazonaws.deadline#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.amazonaws.deadline#ValidationExceptionReason",
+          "traits": {
+            "smithy.api#documentation": "<p>The reason that the request failed validation.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "fieldList": {
+          "target": "com.amazonaws.deadline#ValidationExceptionFieldList",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of fields that failed validation.</p>"
+          }
+        },
+        "context": {
+          "target": "com.amazonaws.deadline#ExceptionContext",
+          "traits": {
+            "smithy.api#documentation": "<p>Information about the resources in use when the exception was thrown.</p>"
+          }
+        }
+      },
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "ValidationException",
+          "message": {
+            "includes": "Could not sts:AssumeRole"
+          }
+        }
       }
     },
     "aws.patched#InternalServerException": {

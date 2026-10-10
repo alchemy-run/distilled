@@ -3991,6 +3991,12 @@
         },
         {
           "target": "com.amazonaws.databasemigrationservice#StorageQuotaExceededFault"
+        },
+        {
+          "target": "aws.patched#InvalidParameterValueException"
+        },
+        {
+          "target": "aws.synthetic#InvalidReplicationInstanceClass"
         }
       ],
       "traits": {
@@ -14845,6 +14851,12 @@
         },
         {
           "target": "com.amazonaws.databasemigrationservice#UpgradeDependencyFailureFault"
+        },
+        {
+          "target": "aws.patched#InvalidParameterValueException"
+        },
+        {
+          "target": "aws.synthetic#InvalidReplicationInstanceClass"
         }
       ],
       "traits": {
@@ -21756,6 +21768,27 @@
         "target": "com.amazonaws.databasemigrationservice#VpcSecurityGroupMembership",
         "traits": {
           "smithy.api#xmlName": "VpcSecurityGroupMembership"
+        }
+      }
+    },
+    "aws.patched#InvalidParameterValueException": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "aws.synthetic#InvalidReplicationInstanceClass": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "Invalid ReplicationInstance class"
+          }
         }
       }
     }

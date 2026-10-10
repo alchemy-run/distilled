@@ -1166,6 +1166,9 @@
         },
         {
           "target": "com.amazonaws.mwaa#ValidationException"
+        },
+        {
+          "target": "aws.synthetic#MwaaExecutionRoleNotAssumable"
         }
       ],
       "traits": {
@@ -3436,6 +3439,22 @@
             "name": "GRACEFUL"
           }
         ]
+      }
+    },
+    "aws.synthetic#MwaaExecutionRoleNotAssumable": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "ValidationException",
+          "message": {
+            "includes": "Failed to assume role"
+          }
+        }
       }
     }
   }

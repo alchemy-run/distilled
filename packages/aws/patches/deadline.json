@@ -3,10 +3,28 @@
     "createQueue": { "errors": ["ConflictException"] },
     "createStorageProfile": { "errors": ["ConflictException"] },
     "createBudget": { "errors": ["ConflictException"] },
-    "createFleet": { "errors": ["ConflictException"] },
+    "createFleet": {
+      "errors": ["ConflictException"],
+      "syntheticErrors": [
+        {
+          "name": "DeadlineRoleNotAssumable",
+          "from": "ValidationException",
+          "message": { "includes": "Could not sts:AssumeRole" }
+        }
+      ]
+    },
     "createMonitor": { "errors": ["ConflictException"] },
     "updateFarm": { "errors": ["ConflictException"] },
     "updateQueue": { "errors": ["ConflictException"] },
+    "updateFleet": {
+      "syntheticErrors": [
+        {
+          "name": "DeadlineRoleNotAssumable",
+          "from": "ValidationException",
+          "message": { "includes": "Could not sts:AssumeRole" }
+        }
+      ]
+    },
     "updateStorageProfile": { "errors": ["ConflictException"] },
     "updateBudget": {
       "errors": ["ConflictException", "InternalServerException"]
@@ -20,6 +38,7 @@
     "deleteMonitor": { "errors": ["ConflictException"] }
   },
   "errorCategories": {
-    "InternalServerException": ["ServerError", "RetryableError"]
+    "InternalServerException": ["ServerError", "RetryableError"],
+    "DeadlineRoleNotAssumable": ["BadRequestError"]
   }
 }

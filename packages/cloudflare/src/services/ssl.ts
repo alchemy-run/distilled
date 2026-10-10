@@ -60,6 +60,15 @@ export class AdvancedCertificateManagerRequired
     [{ code: 1450 }],
   ) {}
 
+export class CertificatePackNotDeletable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CertificatePackNotDeletable>()("CertificatePackNotDeletable", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "Bad response certificate service" } }],
+  ) {}
+
 export class CertificatePackNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CertificatePackNotFound>()("CertificatePackNotFound", {
@@ -1989,7 +1998,11 @@ export const createCertificatePack: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteCertificatePackError = CertificatePackNotFound | Forbidden | CloudflareOpError;
+export type DeleteCertificatePackError =
+  | CertificatePackNotFound
+  | Forbidden
+  | CertificatePackNotDeletable
+  | CloudflareOpError;
 /** For a given zone, delete an advanced certificate pack. */
 export const deleteCertificatePack: API.OperationMethod<
   DeleteCertificatePackRequest,
@@ -1999,7 +2012,13 @@ export const deleteCertificatePack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCertificatePackRequest,
   output: DeleteCertificatePackResponse,
-  errors: [CertificatePackNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    CertificatePackNotFound,
+    Forbidden,
+    CertificatePackNotDeletable,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

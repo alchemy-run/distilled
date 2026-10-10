@@ -85,6 +85,15 @@ export class ClusterNotFound
       message: { matches: "^Cluster id .* is not valid" },
     }),
   ).pipe(C.withNotFoundError) {}
+export class EmrInstanceProfileNotReady
+  extends /*@__PURE__*/ S.TaggedError<EmrInstanceProfileNotReady>()(
+    "EmrInstanceProfileNotReady",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.SyntheticError({
+      from: "ValidationException",
+      message: { includes: "Invalid InstanceProfile" },
+    }),
+  ).pipe(C.withRetryableError) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
     "InternalServerError",
@@ -5198,7 +5207,7 @@ export const removeTags: API.OperationMethod<
   operationName: "RemoveTags",
 }));
 
-export type RunJobFlowError = InternalServerError | CommonErrors;
+export type RunJobFlowError = InternalServerError | EmrInstanceProfileNotReady | CommonErrors;
 /**
  * RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the
  * steps specified. After the steps complete, the cluster stops and the HDFS partition is
@@ -5234,7 +5243,7 @@ export const runJobFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RunJobFlowInput,
   output: RunJobFlowOutput,
-  errors: [InternalServerError],
+  errors: [InternalServerError, EmrInstanceProfileNotReady],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunJobFlow",

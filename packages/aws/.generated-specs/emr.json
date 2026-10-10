@@ -9645,6 +9645,9 @@
       "errors": [
         {
           "target": "com.amazonaws.emr#InternalServerError"
+        },
+        {
+          "target": "aws.synthetic#EmrInstanceProfileNotReady"
         }
       ],
       "traits": {
@@ -12705,6 +12708,18 @@
           "from": "InvalidRequestException",
           "message": {
             "includes": "Studio does not exist"
+          }
+        }
+      }
+    },
+    "aws.synthetic#EmrInstanceProfileNotReady": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "ValidationException",
+          "message": {
+            "includes": "Invalid InstanceProfile"
           }
         }
       }

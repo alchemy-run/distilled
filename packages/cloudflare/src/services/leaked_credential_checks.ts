@@ -14,6 +14,15 @@ import * as T from "../traits.ts";
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+export class DetectionAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DetectionAlreadyExists>()("DetectionAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "already exists" } }],
+  ) {}
+
 export class DetectionNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DetectionNotFound>()("DetectionNotFound", {
@@ -301,6 +310,7 @@ export type CreateDetectionError =
   | DetectionQuotaExceeded
   | LeakedCredentialChecksDisabled
   | Forbidden
+  | DetectionAlreadyExists
   | CloudflareOpError;
 /** Create a detection location for credentials that the default scan locations do not cover, using Rules language expressions such as `lookup_json_string(http.request.body.raw, "user")`. Only the username expression is required, and Leaked Credential Checks must be enabled on the zone. */
 export const createDetection: API.OperationMethod<
@@ -315,6 +325,7 @@ export const createDetection: API.OperationMethod<
     DetectionQuotaExceeded,
     LeakedCredentialChecksDisabled,
     Forbidden,
+    DetectionAlreadyExists,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -426,6 +437,7 @@ export type UpdateDetectionError =
   | DetectionNotFound
   | LeakedCredentialChecksDisabled
   | Forbidden
+  | DetectionAlreadyExists
   | CloudflareOpError;
 /** Update the username and password expressions of an existing detection location, identified by its detection ID. Both expressions are overwritten, so omitting the password expression clears it. */
 export const updateDetection: API.OperationMethod<
@@ -440,6 +452,7 @@ export const updateDetection: API.OperationMethod<
     DetectionNotFound,
     LeakedCredentialChecksDisabled,
     Forbidden,
+    DetectionAlreadyExists,
     CloudflareRateLimited,
     CloudflareError,
   ],

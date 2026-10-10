@@ -1,0 +1,18 @@
+{
+  "operations": {
+    "createEnvironment": {
+      "syntheticErrors": [
+        {
+          "name": "MwaaExecutionRoleNotAssumable",
+          "from": "ValidationException",
+          "message": {
+            "includes": "Failed to assume role"
+          }
+        }
+      ]
+    }
+  },
+  "errorCategories": {
+    "MwaaExecutionRoleNotAssumable": ["RetryableError"]
+  }
+}

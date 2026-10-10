@@ -138,6 +138,17 @@
           }
         }
       ]
+    },
+    "runJobFlow": {
+      "syntheticErrors": [
+        {
+          "name": "EmrInstanceProfileNotReady",
+          "from": "ValidationException",
+          "message": {
+            "includes": "Invalid InstanceProfile"
+          }
+        }
+      ]
     }
   },
   "errorCategories": {
@@ -147,6 +158,7 @@
     "StudioNotFound": ["NotFoundError"],
     "StudioServiceRoleNotAssumable": ["RetryableError"],
     "StudioServiceRoleMissingS3Access": ["RetryableError"],
-    "JobFlowNotFound": ["NotFoundError"]
+    "JobFlowNotFound": ["NotFoundError"],
+    "EmrInstanceProfileNotReady": ["RetryableError"]
   }
 }

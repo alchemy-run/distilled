@@ -1833,6 +1833,9 @@
         },
         {
           "target": "com.amazonaws.directoryservice#ServiceException"
+        },
+        {
+          "target": "aws.synthetic#SimpleADClosedToNewCustomers"
         }
       ],
       "traits": {
@@ -12413,6 +12416,25 @@
       "type": "string",
       "traits": {
         "smithy.api#pattern": "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$"
+      }
+    },
+    "aws.synthetic#SimpleADClosedToNewCustomers": {
+      "type": "structure",
+      "members": {
+        "Message": {
+          "target": "com.amazonaws.directoryservice#ExceptionMessage"
+        },
+        "RequestId": {
+          "target": "com.amazonaws.directoryservice#RequestId"
+        }
+      },
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "ClientException",
+          "message": {
+            "includes": "Simple AD is no longer open to new customers"
+          }
+        }
       }
     }
   }

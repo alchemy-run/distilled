@@ -235,6 +235,15 @@ export class ReassignmentInProgressException
     },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
+export class ServerlessUnsupported
+  extends /*@__PURE__*/ S.TaggedError<ServerlessUnsupported>()(
+    "ServerlessUnsupported",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.SyntheticError({
+      from: "ServerlessUnsupportedException",
+      message: { includes: "not supported on serverless" },
+    }),
+  ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
@@ -5521,6 +5530,7 @@ export type CreateTopicError =
   | TopicExistsException
   | UnauthorizedException
   | UnknownTopicOrPartitionException
+  | ServerlessUnsupported
   | CommonErrors;
 /**
  * Creates a topic in the specified MSK cluster.
@@ -5550,6 +5560,7 @@ export const createTopic: API.OperationMethod<
     TopicExistsException,
     UnauthorizedException,
     UnknownTopicOrPartitionException,
+    ServerlessUnsupported,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5753,6 +5764,7 @@ export type DeleteTopicError =
   | NotFoundException
   | ReassignmentInProgressException
   | UnknownTopicOrPartitionException
+  | ServerlessUnsupported
   | CommonErrors;
 /**
  * Deletes a topic in the specified MSK cluster.
@@ -5778,6 +5790,7 @@ export const deleteTopic: API.OperationMethod<
     NotFoundException,
     ReassignmentInProgressException,
     UnknownTopicOrPartitionException,
+    ServerlessUnsupported,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6074,6 +6087,7 @@ export type DescribeTopicError =
   | InternalServerErrorException
   | NotFoundException
   | UnauthorizedException
+  | ServerlessUnsupported
   | CommonErrors;
 /**
  * Returns topic details of this topic on a MSK cluster.
@@ -6092,6 +6106,7 @@ export const describeTopic: API.OperationMethod<
     InternalServerErrorException,
     NotFoundException,
     UnauthorizedException,
+    ServerlessUnsupported,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6735,6 +6750,7 @@ export type ListTopicsError =
   | ServiceUnavailableException
   | UnauthorizedException
   | NotFoundException
+  | ServerlessUnsupported
   | CommonErrors;
 /**
  * List topics in a MSK cluster.
@@ -6755,6 +6771,7 @@ export const listTopics: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     UnauthorizedException,
     NotFoundException,
+    ServerlessUnsupported,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7373,6 +7390,7 @@ export type UpdateTopicError =
   | ServiceUnavailableException
   | UnauthorizedException
   | UnknownTopicOrPartitionException
+  | ServerlessUnsupported
   | CommonErrors;
 /**
  * Updates the configuration of the specified topic.
@@ -7400,6 +7418,7 @@ export const updateTopic: API.OperationMethod<
     ServiceUnavailableException,
     UnauthorizedException,
     UnknownTopicOrPartitionException,
+    ServerlessUnsupported,
   ],
   protocol: AwsProtocol,
   retry: Retry,
