@@ -1,0 +1,32 @@
+{
+  "description": "Give CreateApplicationTransfer a JSON request body. The spec declares no requestBody, so the SDK sent a bodiless POST without a Content-Type and Clerk rejected it: live POST .../applications/{id}/transfers on 2026-10-02 returned 415 `unsupported_content_type` (\"You should use application/json instead\"). The same POST with `Content-Type: application/json`, with or without a `{}` body, returned 201. Declaring an optional JSON object body (an open map; Clerk reads no fields from it) gives the operation a body member, and the REST protocol sends `{}` with that content type whenever an operation has one, even when the caller leaves it unset.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#CreateApplicationTransferRequestBodyMap",
+      "before": "com.clerk.platform#CreateApplicationTransferRequest",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Unused by Clerk. Leave unset; the SDK sends `{}` so the request carries `Content-Type: application/json`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#CreateApplicationTransferRequest/members/body",
+      "value": {
+        "target": "com.clerk.platform#CreateApplicationTransferRequestBodyMap",
+        "traits": {
+          "smithy.api#httpPayload": {}
+        }
+      }
+    }
+  ]
+}

@@ -1,20 +1,22 @@
 #!/usr/bin/env node
 /**
- * Mirrors Clerk's Backend API OpenAPI spec into ../specs/.
+ * Mirrors Clerk's Backend API and Platform API OpenAPI specs into ../specs/.
  *
- * Only the one file the distilled clerk generator reads is downloaded,
+ * Only the files the distilled clerk generator reads are downloaded,
  * straight from raw.githubusercontent.com — the upstream repository is
  * never cloned, so the mirror stays exactly as large as the spec itself.
  *
- * Clerk publishes dated Backend API snapshots under `bapi/` in
- * clerk/openapi-specs. This script pins the latest dated version and
- * writes it as deterministic JSON.
+ * Clerk publishes dated Backend API snapshots under `bapi/` and the Platform
+ * API under `platform/` in clerk/openapi-specs. This script pins the latest
+ * dated Backend API version plus the Platform API and writes each as
+ * deterministic JSON.
  *
  * Usage:
  *   node fetch-specs.ts
  *
  * Specs are saved to:
- *   ../specs/openapi.json
+ *   ../specs/openapi.json   (Backend API)
+ *   ../specs/platform.json  (Platform API)
  */
 
 import { mkdirSync } from "fs";
@@ -25,11 +27,16 @@ import YAML from "yaml";
 const REPO = "clerk/openapi-specs";
 /** Branch (or tag/commit) to mirror. */
 const REF = "main";
-/** Dated Backend API snapshot within {@link REPO}. */
-const SPEC_PATH = "bapi/2026-05-12.yml";
 
 const SPECS_DIR = "../specs";
-const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
+
+/** Documents to mirror: `src` within {@link REPO}, `out` within {@link SPECS_DIR}. */
+const SPECS: ReadonlyArray<{ readonly src: string; readonly out: string }> = [
+  // Dated Backend API snapshot.
+  { src: "bapi/2026-05-12.yml", out: "openapi.json" },
+  // Platform API (workspace-key authenticated).
+  { src: "platform/beta.yml", out: "platform.json" },
+];
 
 mkdirSync(SPECS_DIR, { recursive: true });
 
@@ -44,8 +51,8 @@ const rawUrl = (path: string) =>
     .map(encodeURIComponent)
     .join("/")}`;
 
-async function main() {
-  const url = rawUrl(SPEC_PATH);
+async function fetchSpec(src: string, out: string) {
+  const url = rawUrl(src);
   console.log(`Fetching ${url}...`);
 
   const response = await fetch(url, {
@@ -67,12 +74,21 @@ async function main() {
     throw new Error(`${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`);
   }
 
-  console.log(`Writing ${OUTPUT_PATH}...`);
+  const outputPath = `${SPECS_DIR}/${out}`;
+  console.log(`Writing ${outputPath}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff. YAML dates stringify as ISO strings, which is stable.
-  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
+  console.log(
+    `Done! ${out}: OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
+  );
+}
+
+async function main() {
+  for (const { src, out } of SPECS) {
+    await fetchSpec(src, out);
+  }
 }
 
 main().catch((err) => {

@@ -1,0 +1,34 @@
+{
+  "description": "Type the stale-version failure of PatchConfig and PutConfig. The spec documents `If-Match` as optimistic concurrency control but declares no precondition error; the only 409 it declares is the generic ClerkErrors Conflict. Live probes on 2026-10-02 (disposable application, development instance) returned 409 — never 412 — with errors[0].code `config_version_conflict` and meta { current_version, provided_version } for every non-matching If-Match: a fabricated version, a quoted ETag, `*`, a dry_run, and a PUT. The version is scoped to the request's keys: If-Match must be the config_version of a GET with `keys` set to exactly the patched keys, and the full-document GET version is rejected for a single-key delta. A matching version succeeded, including a no-op. The dedicated ConfigVersionConflict tag (status 409 + body /errors/0/code) lets callers re-read and retry without matching message text; other 409s stay Conflict.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#ConfigVersionConflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The If-Match config version is not the current version of the keys being written (Clerk `config_version_conflict`, HTTP 409). Re-read the config with `keys` set to the keys being written and retry with its config_version.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": { "/errors/0/code": "config_version_conflict" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PatchConfig/errors/-",
+      "value": { "target": "com.clerk.platform#ConfigVersionConflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#PutConfig/errors/-",
+      "value": { "target": "com.clerk.platform#ConfigVersionConflict" }
+    }
+  ]
+}
