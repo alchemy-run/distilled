@@ -5755,874 +5755,2318 @@ export interface WorkspaceProjectsConnectionEdge {
   readonly node: Project;
 }
 
-export const AccessGroup: TypeMeta = { name: "AccessGroup", fields: {} };
-export const AccessGroupMember: TypeMeta = { name: "AccessGroupMember", fields: {} };
+export const AccessGroup: TypeMeta = {
+  name: "AccessGroup",
+  get fields() {
+    return AccessGroupFields;
+  },
+};
+export const AccessGroupMember: TypeMeta = {
+  name: "AccessGroupMember",
+  get fields() {
+    return AccessGroupMemberFields;
+  },
+};
 export const AccessGroupMembersConnection: TypeMeta = {
   name: "AccessGroupMembersConnection",
-  fields: {},
+  get fields() {
+    return AccessGroupMembersConnectionFields;
+  },
 };
 export const AccessGroupMembersConnectionEdge: TypeMeta = {
   name: "AccessGroupMembersConnectionEdge",
-  fields: {},
+  get fields() {
+    return AccessGroupMembersConnectionEdgeFields;
+  },
 };
-export const AccessGroupProject: TypeMeta = { name: "AccessGroupProject", fields: {} };
+export const AccessGroupProject: TypeMeta = {
+  name: "AccessGroupProject",
+  get fields() {
+    return AccessGroupProjectFields;
+  },
+};
 export const AccessGroupProjectsConnection: TypeMeta = {
   name: "AccessGroupProjectsConnection",
-  fields: {},
+  get fields() {
+    return AccessGroupProjectsConnectionFields;
+  },
 };
 export const AccessGroupProjectsConnectionEdge: TypeMeta = {
   name: "AccessGroupProjectsConnectionEdge",
-  fields: {},
+  get fields() {
+    return AccessGroupProjectsConnectionEdgeFields;
+  },
 };
-export const AccessRule: TypeMeta = { name: "AccessRule", fields: {} };
-export const AdoptionInfo: TypeMeta = { name: "AdoptionInfo", fields: {} };
-export const AgentUsageSummary: TypeMeta = { name: "AgentUsageSummary", fields: {} };
-export const AggregatedUsage: TypeMeta = { name: "AggregatedUsage", fields: {} };
-export const AllDomains: TypeMeta = { name: "AllDomains", fields: {} };
-export const ApiToken: TypeMeta = { name: "ApiToken", fields: {} };
-export const ApiTokenContext: TypeMeta = { name: "ApiTokenContext", fields: {} };
-export const ApiTokenRateLimit: TypeMeta = { name: "ApiTokenRateLimit", fields: {} };
-export const ApiTokenWorkspace: TypeMeta = { name: "ApiTokenWorkspace", fields: {} };
-export const AppliedByMember: TypeMeta = { name: "AppliedByMember", fields: {} };
-export const AuditLog: TypeMeta = { name: "AuditLog", fields: {} };
-export const AuditLogEventTypeInfo: TypeMeta = { name: "AuditLogEventTypeInfo", fields: {} };
-export const BillingPeriod: TypeMeta = { name: "BillingPeriod", fields: {} };
-export const BotScopeBindingInfo: TypeMeta = { name: "BotScopeBindingInfo", fields: {} };
-export const Bucket: TypeMeta = { name: "Bucket", fields: {} };
-export const BucketInstanceDetails: TypeMeta = { name: "BucketInstanceDetails", fields: {} };
+export const AccessRule: TypeMeta = {
+  name: "AccessRule",
+  get fields() {
+    return AccessRuleFields;
+  },
+};
+export const AdoptionInfo: TypeMeta = {
+  name: "AdoptionInfo",
+  get fields() {
+    return AdoptionInfoFields;
+  },
+};
+export const AgentUsageSummary: TypeMeta = {
+  name: "AgentUsageSummary",
+  get fields() {
+    return AgentUsageSummaryFields;
+  },
+};
+export const AggregatedUsage: TypeMeta = {
+  name: "AggregatedUsage",
+  get fields() {
+    return AggregatedUsageFields;
+  },
+};
+export const AllDomains: TypeMeta = {
+  name: "AllDomains",
+  get fields() {
+    return AllDomainsFields;
+  },
+};
+export const ApiToken: TypeMeta = {
+  name: "ApiToken",
+  get fields() {
+    return ApiTokenFields;
+  },
+};
+export const ApiTokenContext: TypeMeta = {
+  name: "ApiTokenContext",
+  get fields() {
+    return ApiTokenContextFields;
+  },
+};
+export const ApiTokenRateLimit: TypeMeta = {
+  name: "ApiTokenRateLimit",
+  get fields() {
+    return ApiTokenRateLimitFields;
+  },
+};
+export const ApiTokenWorkspace: TypeMeta = {
+  name: "ApiTokenWorkspace",
+  get fields() {
+    return ApiTokenWorkspaceFields;
+  },
+};
+export const AppliedByMember: TypeMeta = {
+  name: "AppliedByMember",
+  get fields() {
+    return AppliedByMemberFields;
+  },
+};
+export const AuditLog: TypeMeta = {
+  name: "AuditLog",
+  get fields() {
+    return AuditLogFields;
+  },
+};
+export const AuditLogEventTypeInfo: TypeMeta = {
+  name: "AuditLogEventTypeInfo",
+  get fields() {
+    return AuditLogEventTypeInfoFields;
+  },
+};
+export const BillingPeriod: TypeMeta = {
+  name: "BillingPeriod",
+  get fields() {
+    return BillingPeriodFields;
+  },
+};
+export const BotScopeBindingInfo: TypeMeta = {
+  name: "BotScopeBindingInfo",
+  get fields() {
+    return BotScopeBindingInfoFields;
+  },
+};
+export const Bucket: TypeMeta = {
+  name: "Bucket",
+  get fields() {
+    return BucketFields;
+  },
+};
+export const BucketInstanceDetails: TypeMeta = {
+  name: "BucketInstanceDetails",
+  get fields() {
+    return BucketInstanceDetailsFields;
+  },
+};
 export const BucketS3CompatibleCredentials: TypeMeta = {
   name: "BucketS3CompatibleCredentials",
-  fields: {},
+  get fields() {
+    return BucketS3CompatibleCredentialsFields;
+  },
 };
-export const CanvasViewMergePreview: TypeMeta = { name: "CanvasViewMergePreview", fields: {} };
-export const CertificatePublicData: TypeMeta = { name: "CertificatePublicData", fields: {} };
-export const ChangeOperationResult: TypeMeta = { name: "ChangeOperationResult", fields: {} };
-export const ChangeSetApplyResult: TypeMeta = { name: "ChangeSetApplyResult", fields: {} };
-export const ChangeSetPreview: TypeMeta = { name: "ChangeSetPreview", fields: {} };
-export const ClearanceToken: TypeMeta = { name: "ClearanceToken", fields: {} };
+export const CanvasViewMergePreview: TypeMeta = {
+  name: "CanvasViewMergePreview",
+  get fields() {
+    return CanvasViewMergePreviewFields;
+  },
+};
+export const CertificatePublicData: TypeMeta = {
+  name: "CertificatePublicData",
+  get fields() {
+    return CertificatePublicDataFields;
+  },
+};
+export const ChangeOperationResult: TypeMeta = {
+  name: "ChangeOperationResult",
+  get fields() {
+    return ChangeOperationResultFields;
+  },
+};
+export const ChangeSetApplyResult: TypeMeta = {
+  name: "ChangeSetApplyResult",
+  get fields() {
+    return ChangeSetApplyResultFields;
+  },
+};
+export const ChangeSetPreview: TypeMeta = {
+  name: "ChangeSetPreview",
+  get fields() {
+    return ChangeSetPreviewFields;
+  },
+};
+export const ClearanceToken: TypeMeta = {
+  name: "ClearanceToken",
+  get fields() {
+    return ClearanceTokenFields;
+  },
+};
 export const ClearanceTokenCreatePayload: TypeMeta = {
   name: "ClearanceTokenCreatePayload",
-  fields: {},
+  get fields() {
+    return ClearanceTokenCreatePayloadFields;
+  },
 };
-export const ClearanceTokenCreator: TypeMeta = { name: "ClearanceTokenCreator", fields: {} };
-export const CloudAgent: TypeMeta = { name: "CloudAgent", fields: {} };
-export const CloudAgentCheckpoint: TypeMeta = { name: "CloudAgentCheckpoint", fields: {} };
-export const CloudAgentDeployResult: TypeMeta = { name: "CloudAgentDeployResult", fields: {} };
-export const CloudAgentDomain: TypeMeta = { name: "CloudAgentDomain", fields: {} };
-export const CloudAgentRepository: TypeMeta = { name: "CloudAgentRepository", fields: {} };
-export const CloudAgentSnapshot: TypeMeta = { name: "CloudAgentSnapshot", fields: {} };
-export const CloudAgentSource: TypeMeta = { name: "CloudAgentSource", fields: {} };
-export const CloudAgentTask: TypeMeta = { name: "CloudAgentTask", fields: {} };
+export const ClearanceTokenCreator: TypeMeta = {
+  name: "ClearanceTokenCreator",
+  get fields() {
+    return ClearanceTokenCreatorFields;
+  },
+};
+export const CloudAgent: TypeMeta = {
+  name: "CloudAgent",
+  get fields() {
+    return CloudAgentFields;
+  },
+};
+export const CloudAgentCheckpoint: TypeMeta = {
+  name: "CloudAgentCheckpoint",
+  get fields() {
+    return CloudAgentCheckpointFields;
+  },
+};
+export const CloudAgentDeployResult: TypeMeta = {
+  name: "CloudAgentDeployResult",
+  get fields() {
+    return CloudAgentDeployResultFields;
+  },
+};
+export const CloudAgentDomain: TypeMeta = {
+  name: "CloudAgentDomain",
+  get fields() {
+    return CloudAgentDomainFields;
+  },
+};
+export const CloudAgentRepository: TypeMeta = {
+  name: "CloudAgentRepository",
+  get fields() {
+    return CloudAgentRepositoryFields;
+  },
+};
+export const CloudAgentSnapshot: TypeMeta = {
+  name: "CloudAgentSnapshot",
+  get fields() {
+    return CloudAgentSnapshotFields;
+  },
+};
+export const CloudAgentSource: TypeMeta = {
+  name: "CloudAgentSource",
+  get fields() {
+    return CloudAgentSourceFields;
+  },
+};
+export const CloudAgentTask: TypeMeta = {
+  name: "CloudAgentTask",
+  get fields() {
+    return CloudAgentTaskFields;
+  },
+};
 export const CloudAgentTaskCancelResult: TypeMeta = {
   name: "CloudAgentTaskCancelResult",
-  fields: {},
+  get fields() {
+    return CloudAgentTaskCancelResultFields;
+  },
 };
-export const CloudAgentTaskHandle: TypeMeta = { name: "CloudAgentTaskHandle", fields: {} };
+export const CloudAgentTaskHandle: TypeMeta = {
+  name: "CloudAgentTaskHandle",
+  get fields() {
+    return CloudAgentTaskHandleFields;
+  },
+};
 export const CloudAgentTaskInteraction: TypeMeta = {
   name: "CloudAgentTaskInteraction",
-  fields: {},
+  get fields() {
+    return CloudAgentTaskInteractionFields;
+  },
 };
-export const CloudAgentTaskPage: TypeMeta = { name: "CloudAgentTaskPage", fields: {} };
-export const CloudAgentTaskProgress: TypeMeta = { name: "CloudAgentTaskProgress", fields: {} };
+export const CloudAgentTaskPage: TypeMeta = {
+  name: "CloudAgentTaskPage",
+  get fields() {
+    return CloudAgentTaskPageFields;
+  },
+};
+export const CloudAgentTaskProgress: TypeMeta = {
+  name: "CloudAgentTaskProgress",
+  get fields() {
+    return CloudAgentTaskProgressFields;
+  },
+};
 export const CloudAgentTaskRespondResult: TypeMeta = {
   name: "CloudAgentTaskRespondResult",
-  fields: {},
+  get fields() {
+    return CloudAgentTaskRespondResultFields;
+  },
 };
-export const CloudAgentTaskResult: TypeMeta = { name: "CloudAgentTaskResult", fields: {} };
-export const CnameCheck: TypeMeta = { name: "CnameCheck", fields: {} };
-export const ComplianceAgreementsInfo: TypeMeta = { name: "ComplianceAgreementsInfo", fields: {} };
-export const ConnectedServiceInstance: TypeMeta = { name: "ConnectedServiceInstance", fields: {} };
-export const Container: TypeMeta = { name: "Container", fields: {} };
-export const Credit: TypeMeta = { name: "Credit", fields: {} };
-export const CustomDomain: TypeMeta = { name: "CustomDomain", fields: {} };
-export const CustomDomainStatus: TypeMeta = { name: "CustomDomainStatus", fields: {} };
-export const Customer: TypeMeta = { name: "Customer", fields: {} };
-export const CustomerAddress: TypeMeta = { name: "CustomerAddress", fields: {} };
+export const CloudAgentTaskResult: TypeMeta = {
+  name: "CloudAgentTaskResult",
+  get fields() {
+    return CloudAgentTaskResultFields;
+  },
+};
+export const CnameCheck: TypeMeta = {
+  name: "CnameCheck",
+  get fields() {
+    return CnameCheckFields;
+  },
+};
+export const ComplianceAgreementsInfo: TypeMeta = {
+  name: "ComplianceAgreementsInfo",
+  get fields() {
+    return ComplianceAgreementsInfoFields;
+  },
+};
+export const ConnectedServiceInstance: TypeMeta = {
+  name: "ConnectedServiceInstance",
+  get fields() {
+    return ConnectedServiceInstanceFields;
+  },
+};
+export const Container: TypeMeta = {
+  name: "Container",
+  get fields() {
+    return ContainerFields;
+  },
+};
+export const Credit: TypeMeta = {
+  name: "Credit",
+  get fields() {
+    return CreditFields;
+  },
+};
+export const CustomDomain: TypeMeta = {
+  name: "CustomDomain",
+  get fields() {
+    return CustomDomainFields;
+  },
+};
+export const CustomDomainStatus: TypeMeta = {
+  name: "CustomDomainStatus",
+  get fields() {
+    return CustomDomainStatusFields;
+  },
+};
+export const Customer: TypeMeta = {
+  name: "Customer",
+  get fields() {
+    return CustomerFields;
+  },
+};
+export const CustomerAddress: TypeMeta = {
+  name: "CustomerAddress",
+  get fields() {
+    return CustomerAddressFields;
+  },
+};
 export const CustomerCreditsConnection: TypeMeta = {
   name: "CustomerCreditsConnection",
-  fields: {},
+  get fields() {
+    return CustomerCreditsConnectionFields;
+  },
 };
 export const CustomerCreditsConnectionEdge: TypeMeta = {
   name: "CustomerCreditsConnectionEdge",
-  fields: {},
+  get fields() {
+    return CustomerCreditsConnectionEdgeFields;
+  },
 };
-export const CustomerInvoice: TypeMeta = { name: "CustomerInvoice", fields: {} };
-export const CustomerSubscription: TypeMeta = { name: "CustomerSubscription", fields: {} };
-export const CustomerTaxId: TypeMeta = { name: "CustomerTaxId", fields: {} };
-export const DNSRecords: TypeMeta = { name: "DNSRecords", fields: {} };
-export const Deployment: TypeMeta = { name: "Deployment", fields: {} };
-export const DeploymentCreator: TypeMeta = { name: "DeploymentCreator", fields: {} };
+export const CustomerInvoice: TypeMeta = {
+  name: "CustomerInvoice",
+  get fields() {
+    return CustomerInvoiceFields;
+  },
+};
+export const CustomerSubscription: TypeMeta = {
+  name: "CustomerSubscription",
+  get fields() {
+    return CustomerSubscriptionFields;
+  },
+};
+export const CustomerTaxId: TypeMeta = {
+  name: "CustomerTaxId",
+  get fields() {
+    return CustomerTaxIdFields;
+  },
+};
+export const DNSRecords: TypeMeta = {
+  name: "DNSRecords",
+  get fields() {
+    return DNSRecordsFields;
+  },
+};
+export const Deployment: TypeMeta = {
+  name: "Deployment",
+  get fields() {
+    return DeploymentFields;
+  },
+};
+export const DeploymentCreator: TypeMeta = {
+  name: "DeploymentCreator",
+  get fields() {
+    return DeploymentCreatorFields;
+  },
+};
 export const DeploymentDeploymentInstance: TypeMeta = {
   name: "DeploymentDeploymentInstance",
-  fields: {},
+  get fields() {
+    return DeploymentDeploymentInstanceFields;
+  },
 };
-export const DeploymentEvent: TypeMeta = { name: "DeploymentEvent", fields: {} };
-export const DeploymentEventPayload: TypeMeta = { name: "DeploymentEventPayload", fields: {} };
+export const DeploymentEvent: TypeMeta = {
+  name: "DeploymentEvent",
+  get fields() {
+    return DeploymentEventFields;
+  },
+};
+export const DeploymentEventPayload: TypeMeta = {
+  name: "DeploymentEventPayload",
+  get fields() {
+    return DeploymentEventPayloadFields;
+  },
+};
 export const DeploymentInstanceExecution: TypeMeta = {
   name: "DeploymentInstanceExecution",
-  fields: {},
+  get fields() {
+    return DeploymentInstanceExecutionFields;
+  },
 };
-export const DeploymentSnapshot: TypeMeta = { name: "DeploymentSnapshot", fields: {} };
-export const DeploymentSocket: TypeMeta = { name: "DeploymentSocket", fields: {} };
-export const DeploymentTrigger: TypeMeta = { name: "DeploymentTrigger", fields: {} };
-export const DnsQueryLog: TypeMeta = { name: "DnsQueryLog", fields: {} };
-export const DockerComposeImport: TypeMeta = { name: "DockerComposeImport", fields: {} };
-export const Domain: TypeMeta = { name: "Domain", fields: {} };
-export const DomainAvailable: TypeMeta = { name: "DomainAvailable", fields: {} };
-export const DomainWithStatus: TypeMeta = { name: "DomainWithStatus", fields: {} };
-export const EdgeCachingConfig: TypeMeta = { name: "EdgeCachingConfig", fields: {} };
-export const EdgeConfig: TypeMeta = { name: "EdgeConfig", fields: {} };
-export const EdgeRuleDiagnostic: TypeMeta = { name: "EdgeRuleDiagnostic", fields: {} };
-export const EdgeTracingConfig: TypeMeta = { name: "EdgeTracingConfig", fields: {} };
-export const EgressGateway: TypeMeta = { name: "EgressGateway", fields: {} };
+export const DeploymentSnapshot: TypeMeta = {
+  name: "DeploymentSnapshot",
+  get fields() {
+    return DeploymentSnapshotFields;
+  },
+};
+export const DeploymentSocket: TypeMeta = {
+  name: "DeploymentSocket",
+  get fields() {
+    return DeploymentSocketFields;
+  },
+};
+export const DeploymentTrigger: TypeMeta = {
+  name: "DeploymentTrigger",
+  get fields() {
+    return DeploymentTriggerFields;
+  },
+};
+export const DnsQueryLog: TypeMeta = {
+  name: "DnsQueryLog",
+  get fields() {
+    return DnsQueryLogFields;
+  },
+};
+export const DockerComposeImport: TypeMeta = {
+  name: "DockerComposeImport",
+  get fields() {
+    return DockerComposeImportFields;
+  },
+};
+export const Domain: TypeMeta = {
+  name: "Domain",
+  get fields() {
+    return DomainFields;
+  },
+};
+export const DomainAvailable: TypeMeta = {
+  name: "DomainAvailable",
+  get fields() {
+    return DomainAvailableFields;
+  },
+};
+export const DomainWithStatus: TypeMeta = {
+  name: "DomainWithStatus",
+  get fields() {
+    return DomainWithStatusFields;
+  },
+};
+export const EdgeCachingConfig: TypeMeta = {
+  name: "EdgeCachingConfig",
+  get fields() {
+    return EdgeCachingConfigFields;
+  },
+};
+export const EdgeConfig: TypeMeta = {
+  name: "EdgeConfig",
+  get fields() {
+    return EdgeConfigFields;
+  },
+};
+export const EdgeRuleDiagnostic: TypeMeta = {
+  name: "EdgeRuleDiagnostic",
+  get fields() {
+    return EdgeRuleDiagnosticFields;
+  },
+};
+export const EdgeTracingConfig: TypeMeta = {
+  name: "EdgeTracingConfig",
+  get fields() {
+    return EdgeTracingConfigFields;
+  },
+};
+export const EgressGateway: TypeMeta = {
+  name: "EgressGateway",
+  get fields() {
+    return EgressGatewayFields;
+  },
+};
 export const EgressMigrationEnvironmentResult: TypeMeta = {
   name: "EgressMigrationEnvironmentResult",
-  fields: {},
+  get fields() {
+    return EgressMigrationEnvironmentResultFields;
+  },
 };
-export const EgressMigrationResult: TypeMeta = { name: "EgressMigrationResult", fields: {} };
-export const Environment: TypeMeta = { name: "Environment", fields: {} };
+export const EgressMigrationResult: TypeMeta = {
+  name: "EgressMigrationResult",
+  get fields() {
+    return EgressMigrationResultFields;
+  },
+};
+export const Environment: TypeMeta = {
+  name: "Environment",
+  get fields() {
+    return EnvironmentFields;
+  },
+};
 export const EnvironmentClearanceServiceCounts: TypeMeta = {
   name: "EnvironmentClearanceServiceCounts",
-  fields: {},
+  get fields() {
+    return EnvironmentClearanceServiceCountsFields;
+  },
 };
 export const EnvironmentConfigPlanCommentUpsertResult: TypeMeta = {
   name: "EnvironmentConfigPlanCommentUpsertResult",
-  fields: {},
+  get fields() {
+    return EnvironmentConfigPlanCommentUpsertResultFields;
+  },
 };
 export const EnvironmentDeploymentTriggersConnection: TypeMeta = {
   name: "EnvironmentDeploymentTriggersConnection",
-  fields: {},
+  get fields() {
+    return EnvironmentDeploymentTriggersConnectionFields;
+  },
 };
 export const EnvironmentDeploymentTriggersConnectionEdge: TypeMeta = {
   name: "EnvironmentDeploymentTriggersConnectionEdge",
-  fields: {},
+  get fields() {
+    return EnvironmentDeploymentTriggersConnectionEdgeFields;
+  },
 };
 export const EnvironmentDeploymentsConnection: TypeMeta = {
   name: "EnvironmentDeploymentsConnection",
-  fields: {},
+  get fields() {
+    return EnvironmentDeploymentsConnectionFields;
+  },
 };
 export const EnvironmentDeploymentsConnectionEdge: TypeMeta = {
   name: "EnvironmentDeploymentsConnectionEdge",
-  fields: {},
+  get fields() {
+    return EnvironmentDeploymentsConnectionEdgeFields;
+  },
 };
-export const EnvironmentMeta: TypeMeta = { name: "EnvironmentMeta", fields: {} };
-export const EnvironmentPatch: TypeMeta = { name: "EnvironmentPatch", fields: {} };
+export const EnvironmentMeta: TypeMeta = {
+  name: "EnvironmentMeta",
+  get fields() {
+    return EnvironmentMetaFields;
+  },
+};
+export const EnvironmentPatch: TypeMeta = {
+  name: "EnvironmentPatch",
+  get fields() {
+    return EnvironmentPatchFields;
+  },
+};
 export const EnvironmentServiceInstancesConnection: TypeMeta = {
   name: "EnvironmentServiceInstancesConnection",
-  fields: {},
+  get fields() {
+    return EnvironmentServiceInstancesConnectionFields;
+  },
 };
 export const EnvironmentServiceInstancesConnectionEdge: TypeMeta = {
   name: "EnvironmentServiceInstancesConnectionEdge",
-  fields: {},
+  get fields() {
+    return EnvironmentServiceInstancesConnectionEdgeFields;
+  },
 };
 export const EnvironmentVariablesConnection: TypeMeta = {
   name: "EnvironmentVariablesConnection",
-  fields: {},
+  get fields() {
+    return EnvironmentVariablesConnectionFields;
+  },
 };
 export const EnvironmentVariablesConnectionEdge: TypeMeta = {
   name: "EnvironmentVariablesConnectionEdge",
-  fields: {},
+  get fields() {
+    return EnvironmentVariablesConnectionEdgeFields;
+  },
 };
 export const EnvironmentVolumeInstancesConnection: TypeMeta = {
   name: "EnvironmentVolumeInstancesConnection",
-  fields: {},
+  get fields() {
+    return EnvironmentVolumeInstancesConnectionFields;
+  },
 };
 export const EnvironmentVolumeInstancesConnectionEdge: TypeMeta = {
   name: "EnvironmentVolumeInstancesConnectionEdge",
-  fields: {},
+  get fields() {
+    return EnvironmentVolumeInstancesConnectionEdgeFields;
+  },
 };
-export const EstimatedUsage: TypeMeta = { name: "EstimatedUsage", fields: {} };
-export const Event: TypeMeta = { name: "Event", fields: {} };
-export const ExternalWorkspace: TypeMeta = { name: "ExternalWorkspace", fields: {} };
-export const FunctionRuntime: TypeMeta = { name: "FunctionRuntime", fields: {} };
-export const FunctionRuntimeVersion: TypeMeta = { name: "FunctionRuntimeVersion", fields: {} };
-export const GitHubAccess: TypeMeta = { name: "GitHubAccess", fields: {} };
-export const GitHubBranch: TypeMeta = { name: "GitHubBranch", fields: {} };
-export const GitHubCheck: TypeMeta = { name: "GitHubCheck", fields: {} };
-export const GitHubPRInfo: TypeMeta = { name: "GitHubPRInfo", fields: {} };
-export const GitHubPRInfoResult: TypeMeta = { name: "GitHubPRInfoResult", fields: {} };
-export const GitHubRepo: TypeMeta = { name: "GitHubRepo", fields: {} };
+export const EstimatedUsage: TypeMeta = {
+  name: "EstimatedUsage",
+  get fields() {
+    return EstimatedUsageFields;
+  },
+};
+export const Event: TypeMeta = {
+  name: "Event",
+  get fields() {
+    return EventFields;
+  },
+};
+export const ExternalWorkspace: TypeMeta = {
+  name: "ExternalWorkspace",
+  get fields() {
+    return ExternalWorkspaceFields;
+  },
+};
+export const FunctionRuntime: TypeMeta = {
+  name: "FunctionRuntime",
+  get fields() {
+    return FunctionRuntimeFields;
+  },
+};
+export const FunctionRuntimeVersion: TypeMeta = {
+  name: "FunctionRuntimeVersion",
+  get fields() {
+    return FunctionRuntimeVersionFields;
+  },
+};
+export const GitHubAccess: TypeMeta = {
+  name: "GitHubAccess",
+  get fields() {
+    return GitHubAccessFields;
+  },
+};
+export const GitHubBranch: TypeMeta = {
+  name: "GitHubBranch",
+  get fields() {
+    return GitHubBranchFields;
+  },
+};
+export const GitHubCheck: TypeMeta = {
+  name: "GitHubCheck",
+  get fields() {
+    return GitHubCheckFields;
+  },
+};
+export const GitHubPRInfo: TypeMeta = {
+  name: "GitHubPRInfo",
+  get fields() {
+    return GitHubPRInfoFields;
+  },
+};
+export const GitHubPRInfoResult: TypeMeta = {
+  name: "GitHubPRInfoResult",
+  get fields() {
+    return GitHubPRInfoResultFields;
+  },
+};
+export const GitHubRepo: TypeMeta = {
+  name: "GitHubRepo",
+  get fields() {
+    return GitHubRepoFields;
+  },
+};
 export const GitHubRepoWithoutInstallation: TypeMeta = {
   name: "GitHubRepoWithoutInstallation",
-  fields: {},
+  get fields() {
+    return GitHubRepoWithoutInstallationFields;
+  },
 };
-export const GitHubSshKey: TypeMeta = { name: "GitHubSshKey", fields: {} };
-export const Group: TypeMeta = { name: "Group", fields: {} };
-export const HerokuApp: TypeMeta = { name: "HerokuApp", fields: {} };
+export const GitHubSshKey: TypeMeta = {
+  name: "GitHubSshKey",
+  get fields() {
+    return GitHubSshKeyFields;
+  },
+};
+export const Group: TypeMeta = {
+  name: "Group",
+  get fields() {
+    return GroupFields;
+  },
+};
+export const HerokuApp: TypeMeta = {
+  name: "HerokuApp",
+  get fields() {
+    return HerokuAppFields;
+  },
+};
 export const HttpDurationMetricsResult: TypeMeta = {
   name: "HttpDurationMetricsResult",
-  fields: {},
+  get fields() {
+    return HttpDurationMetricsResultFields;
+  },
 };
 export const HttpDurationMetricsSample: TypeMeta = {
   name: "HttpDurationMetricsSample",
-  fields: {},
+  get fields() {
+    return HttpDurationMetricsSampleFields;
+  },
 };
-export const HttpLog: TypeMeta = { name: "HttpLog", fields: {} };
+export const HttpLog: TypeMeta = {
+  name: "HttpLog",
+  get fields() {
+    return HttpLogFields;
+  },
+};
 export const HttpMetricsByStatusResult: TypeMeta = {
   name: "HttpMetricsByStatusResult",
-  fields: {},
+  get fields() {
+    return HttpMetricsByStatusResultFields;
+  },
 };
-export const HttpMetricsResult: TypeMeta = { name: "HttpMetricsResult", fields: {} };
-export const HttpMetricsSample: TypeMeta = { name: "HttpMetricsSample", fields: {} };
+export const HttpMetricsResult: TypeMeta = {
+  name: "HttpMetricsResult",
+  get fields() {
+    return HttpMetricsResultFields;
+  },
+};
+export const HttpMetricsSample: TypeMeta = {
+  name: "HttpMetricsSample",
+  get fields() {
+    return HttpMetricsSampleFields;
+  },
+};
 export const IacPartialOwnershipResult: TypeMeta = {
   name: "IacPartialOwnershipResult",
-  fields: {},
+  get fields() {
+    return IacPartialOwnershipResultFields;
+  },
 };
-export const Incident: TypeMeta = { name: "Incident", fields: {} };
-export const Integration: TypeMeta = { name: "Integration", fields: {} };
-export const IntegrationAuth: TypeMeta = { name: "IntegrationAuth", fields: {} };
+export const Incident: TypeMeta = {
+  name: "Incident",
+  get fields() {
+    return IncidentFields;
+  },
+};
+export const Integration: TypeMeta = {
+  name: "Integration",
+  get fields() {
+    return IntegrationFields;
+  },
+};
+export const IntegrationAuth: TypeMeta = {
+  name: "IntegrationAuth",
+  get fields() {
+    return IntegrationAuthFields;
+  },
+};
 export const IntegrationAuthIntegrationsConnection: TypeMeta = {
   name: "IntegrationAuthIntegrationsConnection",
-  fields: {},
+  get fields() {
+    return IntegrationAuthIntegrationsConnectionFields;
+  },
 };
 export const IntegrationAuthIntegrationsConnectionEdge: TypeMeta = {
   name: "IntegrationAuthIntegrationsConnectionEdge",
-  fields: {},
+  get fields() {
+    return IntegrationAuthIntegrationsConnectionEdgeFields;
+  },
 };
-export const InviteCode: TypeMeta = { name: "InviteCode", fields: {} };
-export const Log: TypeMeta = { name: "Log", fields: {} };
-export const LogAttribute: TypeMeta = { name: "LogAttribute", fields: {} };
-export const LogTags: TypeMeta = { name: "LogTags", fields: {} };
-export const MaintainerWorkspace: TypeMeta = { name: "MaintainerWorkspace", fields: {} };
-export const Maintenance: TypeMeta = { name: "Maintenance", fields: {} };
-export const Metric: TypeMeta = { name: "Metric", fields: {} };
-export const MetricTags: TypeMeta = { name: "MetricTags", fields: {} };
-export const MetricsResult: TypeMeta = { name: "MetricsResult", fields: {} };
-export const MonitorThresholdConfig: TypeMeta = { name: "MonitorThresholdConfig", fields: {} };
+export const InviteCode: TypeMeta = {
+  name: "InviteCode",
+  get fields() {
+    return InviteCodeFields;
+  },
+};
+export const Log: TypeMeta = {
+  name: "Log",
+  get fields() {
+    return LogFields;
+  },
+};
+export const LogAttribute: TypeMeta = {
+  name: "LogAttribute",
+  get fields() {
+    return LogAttributeFields;
+  },
+};
+export const LogTags: TypeMeta = {
+  name: "LogTags",
+  get fields() {
+    return LogTagsFields;
+  },
+};
+export const MaintainerWorkspace: TypeMeta = {
+  name: "MaintainerWorkspace",
+  get fields() {
+    return MaintainerWorkspaceFields;
+  },
+};
+export const Maintenance: TypeMeta = {
+  name: "Maintenance",
+  get fields() {
+    return MaintenanceFields;
+  },
+};
+export const Metric: TypeMeta = {
+  name: "Metric",
+  get fields() {
+    return MetricFields;
+  },
+};
+export const MetricTags: TypeMeta = {
+  name: "MetricTags",
+  get fields() {
+    return MetricTagsFields;
+  },
+};
+export const MetricsResult: TypeMeta = {
+  name: "MetricsResult",
+  get fields() {
+    return MetricsResultFields;
+  },
+};
+export const MonitorThresholdConfig: TypeMeta = {
+  name: "MonitorThresholdConfig",
+  get fields() {
+    return MonitorThresholdConfigFields;
+  },
+};
 export const MysqlPitrRestorableWindow: TypeMeta = {
   name: "MysqlPitrRestorableWindow",
-  fields: {},
+  get fields() {
+    return MysqlPitrRestorableWindowFields;
+  },
 };
-export const NetworkFlowLog: TypeMeta = { name: "NetworkFlowLog", fields: {} };
-export const Node: TypeMeta = { name: "Node", fields: {} };
-export const NotificationChannel: TypeMeta = { name: "NotificationChannel", fields: {} };
-export const NotificationDelivery: TypeMeta = { name: "NotificationDelivery", fields: {} };
+export const NetworkFlowLog: TypeMeta = {
+  name: "NetworkFlowLog",
+  get fields() {
+    return NetworkFlowLogFields;
+  },
+};
+export const Node: TypeMeta = {
+  name: "Node",
+  get fields() {
+    return NodeFields;
+  },
+};
+export const NotificationChannel: TypeMeta = {
+  name: "NotificationChannel",
+  get fields() {
+    return NotificationChannelFields;
+  },
+};
+export const NotificationDelivery: TypeMeta = {
+  name: "NotificationDelivery",
+  get fields() {
+    return NotificationDeliveryFields;
+  },
+};
 export const NotificationDeliveryCreated: TypeMeta = {
   name: "NotificationDeliveryCreated",
-  fields: {},
+  get fields() {
+    return NotificationDeliveryCreatedFields;
+  },
 };
 export const NotificationDeliveryResolved: TypeMeta = {
   name: "NotificationDeliveryResolved",
-  fields: {},
+  get fields() {
+    return NotificationDeliveryResolvedFields;
+  },
 };
-export const NotificationInstance: TypeMeta = { name: "NotificationInstance", fields: {} };
-export const NotificationRule: TypeMeta = { name: "NotificationRule", fields: {} };
-export const ObservabilityDashboard: TypeMeta = { name: "ObservabilityDashboard", fields: {} };
+export const NotificationInstance: TypeMeta = {
+  name: "NotificationInstance",
+  get fields() {
+    return NotificationInstanceFields;
+  },
+};
+export const NotificationRule: TypeMeta = {
+  name: "NotificationRule",
+  get fields() {
+    return NotificationRuleFields;
+  },
+};
+export const ObservabilityDashboard: TypeMeta = {
+  name: "ObservabilityDashboard",
+  get fields() {
+    return ObservabilityDashboardFields;
+  },
+};
 export const ObservabilityDashboardAlert: TypeMeta = {
   name: "ObservabilityDashboardAlert",
-  fields: {},
+  get fields() {
+    return ObservabilityDashboardAlertFields;
+  },
 };
 export const ObservabilityDashboardItem: TypeMeta = {
   name: "ObservabilityDashboardItem",
-  fields: {},
+  get fields() {
+    return ObservabilityDashboardItemFields;
+  },
 };
 export const ObservabilityDashboardItemConfig: TypeMeta = {
   name: "ObservabilityDashboardItemConfig",
-  fields: {},
+  get fields() {
+    return ObservabilityDashboardItemConfigFields;
+  },
 };
 export const ObservabilityDashboardItemInstance: TypeMeta = {
   name: "ObservabilityDashboardItemInstance",
-  fields: {},
+  get fields() {
+    return ObservabilityDashboardItemInstanceFields;
+  },
 };
 export const ObservabilityDashboardMonitor: TypeMeta = {
   name: "ObservabilityDashboardMonitor",
-  fields: {},
+  get fields() {
+    return ObservabilityDashboardMonitorFields;
+  },
 };
-export const PageInfo: TypeMeta = { name: "PageInfo", fields: {} };
-export const PartnerProfile: TypeMeta = { name: "PartnerProfile", fields: {} };
-export const Passkey: TypeMeta = { name: "Passkey", fields: {} };
-export const PaymentMethod: TypeMeta = { name: "PaymentMethod", fields: {} };
-export const PaymentMethodCard: TypeMeta = { name: "PaymentMethodCard", fields: {} };
+export const PageInfo: TypeMeta = {
+  name: "PageInfo",
+  get fields() {
+    return PageInfoFields;
+  },
+};
+export const PartnerProfile: TypeMeta = {
+  name: "PartnerProfile",
+  get fields() {
+    return PartnerProfileFields;
+  },
+};
+export const Passkey: TypeMeta = {
+  name: "Passkey",
+  get fields() {
+    return PasskeyFields;
+  },
+};
+export const PaymentMethod: TypeMeta = {
+  name: "PaymentMethod",
+  get fields() {
+    return PaymentMethodFields;
+  },
+};
+export const PaymentMethodCard: TypeMeta = {
+  name: "PaymentMethodCard",
+  get fields() {
+    return PaymentMethodCardFields;
+  },
+};
 export const PitrHaClusterReplicationHealth: TypeMeta = {
   name: "PitrHaClusterReplicationHealth",
-  fields: {},
+  get fields() {
+    return PitrHaClusterReplicationHealthFields;
+  },
 };
 export const PitrHaMemberReplicationHealth: TypeMeta = {
   name: "PitrHaMemberReplicationHealth",
-  fields: {},
+  get fields() {
+    return PitrHaMemberReplicationHealthFields;
+  },
 };
 export const PitrHaWorkflowMemberProgress: TypeMeta = {
   name: "PitrHaWorkflowMemberProgress",
-  fields: {},
+  get fields() {
+    return PitrHaWorkflowMemberProgressFields;
+  },
 };
-export const PitrHaWorkflowProgress: TypeMeta = { name: "PitrHaWorkflowProgress", fields: {} };
+export const PitrHaWorkflowProgress: TypeMeta = {
+  name: "PitrHaWorkflowProgress",
+  get fields() {
+    return PitrHaWorkflowProgressFields;
+  },
+};
 export const PitrRestoreScratchEstimate: TypeMeta = {
   name: "PitrRestoreScratchEstimate",
-  fields: {},
+  get fields() {
+    return PitrRestoreScratchEstimateFields;
+  },
 };
-export const PlanLimitOverride: TypeMeta = { name: "PlanLimitOverride", fields: {} };
+export const PlanLimitOverride: TypeMeta = {
+  name: "PlanLimitOverride",
+  get fields() {
+    return PlanLimitOverrideFields;
+  },
+};
 export const PlatformFeatureFlagStatus: TypeMeta = {
   name: "PlatformFeatureFlagStatus",
-  fields: {},
+  get fields() {
+    return PlatformFeatureFlagStatusFields;
+  },
 };
-export const PlatformStatus: TypeMeta = { name: "PlatformStatus", fields: {} };
-export const Plugin: TypeMeta = { name: "Plugin", fields: {} };
+export const PlatformStatus: TypeMeta = {
+  name: "PlatformStatus",
+  get fields() {
+    return PlatformStatusFields;
+  },
+};
+export const Plugin: TypeMeta = {
+  name: "Plugin",
+  get fields() {
+    return PluginFields;
+  },
+};
 export const PluginContainersConnection: TypeMeta = {
   name: "PluginContainersConnection",
-  fields: {},
+  get fields() {
+    return PluginContainersConnectionFields;
+  },
 };
 export const PluginContainersConnectionEdge: TypeMeta = {
   name: "PluginContainersConnectionEdge",
-  fields: {},
+  get fields() {
+    return PluginContainersConnectionEdgeFields;
+  },
 };
 export const PluginVariablesConnection: TypeMeta = {
   name: "PluginVariablesConnection",
-  fields: {},
+  get fields() {
+    return PluginVariablesConnectionFields;
+  },
 };
 export const PluginVariablesConnectionEdge: TypeMeta = {
   name: "PluginVariablesConnectionEdge",
-  fields: {},
+  get fields() {
+    return PluginVariablesConnectionEdgeFields;
+  },
 };
-export const Preferences: TypeMeta = { name: "Preferences", fields: {} };
-export const PrivateNetwork: TypeMeta = { name: "PrivateNetwork", fields: {} };
-export const PrivateNetworkEndpoint: TypeMeta = { name: "PrivateNetworkEndpoint", fields: {} };
-export const Project: TypeMeta = { name: "Project", fields: {} };
-export const ProjectBucketsConnection: TypeMeta = { name: "ProjectBucketsConnection", fields: {} };
+export const Preferences: TypeMeta = {
+  name: "Preferences",
+  get fields() {
+    return PreferencesFields;
+  },
+};
+export const PrivateNetwork: TypeMeta = {
+  name: "PrivateNetwork",
+  get fields() {
+    return PrivateNetworkFields;
+  },
+};
+export const PrivateNetworkEndpoint: TypeMeta = {
+  name: "PrivateNetworkEndpoint",
+  get fields() {
+    return PrivateNetworkEndpointFields;
+  },
+};
+export const Project: TypeMeta = {
+  name: "Project",
+  get fields() {
+    return ProjectFields;
+  },
+};
+export const ProjectBucketsConnection: TypeMeta = {
+  name: "ProjectBucketsConnection",
+  get fields() {
+    return ProjectBucketsConnectionFields;
+  },
+};
 export const ProjectBucketsConnectionEdge: TypeMeta = {
   name: "ProjectBucketsConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectBucketsConnectionEdgeFields;
+  },
 };
-export const ProjectComplianceInfo: TypeMeta = { name: "ProjectComplianceInfo", fields: {} };
+export const ProjectComplianceInfo: TypeMeta = {
+  name: "ProjectComplianceInfo",
+  get fields() {
+    return ProjectComplianceInfoFields;
+  },
+};
 export const ProjectDeploymentTriggersConnection: TypeMeta = {
   name: "ProjectDeploymentTriggersConnection",
-  fields: {},
+  get fields() {
+    return ProjectDeploymentTriggersConnectionFields;
+  },
 };
 export const ProjectDeploymentTriggersConnectionEdge: TypeMeta = {
   name: "ProjectDeploymentTriggersConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectDeploymentTriggersConnectionEdgeFields;
+  },
 };
 export const ProjectDeploymentsConnection: TypeMeta = {
   name: "ProjectDeploymentsConnection",
-  fields: {},
+  get fields() {
+    return ProjectDeploymentsConnectionFields;
+  },
 };
 export const ProjectDeploymentsConnectionEdge: TypeMeta = {
   name: "ProjectDeploymentsConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectDeploymentsConnectionEdgeFields;
+  },
 };
 export const ProjectEnvironmentsConnection: TypeMeta = {
   name: "ProjectEnvironmentsConnection",
-  fields: {},
+  get fields() {
+    return ProjectEnvironmentsConnectionFields;
+  },
 };
 export const ProjectEnvironmentsConnectionEdge: TypeMeta = {
   name: "ProjectEnvironmentsConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectEnvironmentsConnectionEdgeFields;
+  },
 };
-export const ProjectGroupsConnection: TypeMeta = { name: "ProjectGroupsConnection", fields: {} };
+export const ProjectGroupsConnection: TypeMeta = {
+  name: "ProjectGroupsConnection",
+  get fields() {
+    return ProjectGroupsConnectionFields;
+  },
+};
 export const ProjectGroupsConnectionEdge: TypeMeta = {
   name: "ProjectGroupsConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectGroupsConnectionEdgeFields;
+  },
 };
-export const ProjectHistoryConnection: TypeMeta = { name: "ProjectHistoryConnection", fields: {} };
-export const ProjectHistoryEntry: TypeMeta = { name: "ProjectHistoryEntry", fields: {} };
-export const ProjectHistoryEntryEdge: TypeMeta = { name: "ProjectHistoryEntryEdge", fields: {} };
-export const ProjectHistoryPageInfo: TypeMeta = { name: "ProjectHistoryPageInfo", fields: {} };
-export const ProjectInvitation: TypeMeta = { name: "ProjectInvitation", fields: {} };
-export const ProjectInvitationInviter: TypeMeta = { name: "ProjectInvitationInviter", fields: {} };
-export const ProjectMember: TypeMeta = { name: "ProjectMember", fields: {} };
+export const ProjectHistoryConnection: TypeMeta = {
+  name: "ProjectHistoryConnection",
+  get fields() {
+    return ProjectHistoryConnectionFields;
+  },
+};
+export const ProjectHistoryEntry: TypeMeta = {
+  name: "ProjectHistoryEntry",
+  get fields() {
+    return ProjectHistoryEntryFields;
+  },
+};
+export const ProjectHistoryEntryEdge: TypeMeta = {
+  name: "ProjectHistoryEntryEdge",
+  get fields() {
+    return ProjectHistoryEntryEdgeFields;
+  },
+};
+export const ProjectHistoryPageInfo: TypeMeta = {
+  name: "ProjectHistoryPageInfo",
+  get fields() {
+    return ProjectHistoryPageInfoFields;
+  },
+};
+export const ProjectInvitation: TypeMeta = {
+  name: "ProjectInvitation",
+  get fields() {
+    return ProjectInvitationFields;
+  },
+};
+export const ProjectInvitationInviter: TypeMeta = {
+  name: "ProjectInvitationInviter",
+  get fields() {
+    return ProjectInvitationInviterFields;
+  },
+};
+export const ProjectMember: TypeMeta = {
+  name: "ProjectMember",
+  get fields() {
+    return ProjectMemberFields;
+  },
+};
 export const ProjectMemberPermissionsInfo: TypeMeta = {
   name: "ProjectMemberPermissionsInfo",
-  fields: {},
+  get fields() {
+    return ProjectMemberPermissionsInfoFields;
+  },
 };
 export const ProjectMemberTwoFactorInfo: TypeMeta = {
   name: "ProjectMemberTwoFactorInfo",
-  fields: {},
+  get fields() {
+    return ProjectMemberTwoFactorInfoFields;
+  },
 };
-export const ProjectOperation: TypeMeta = { name: "ProjectOperation", fields: {} };
-export const ProjectOperationActor: TypeMeta = { name: "ProjectOperationActor", fields: {} };
-export const ProjectPermission: TypeMeta = { name: "ProjectPermission", fields: {} };
-export const ProjectPluginsConnection: TypeMeta = { name: "ProjectPluginsConnection", fields: {} };
+export const ProjectOperation: TypeMeta = {
+  name: "ProjectOperation",
+  get fields() {
+    return ProjectOperationFields;
+  },
+};
+export const ProjectOperationActor: TypeMeta = {
+  name: "ProjectOperationActor",
+  get fields() {
+    return ProjectOperationActorFields;
+  },
+};
+export const ProjectPermission: TypeMeta = {
+  name: "ProjectPermission",
+  get fields() {
+    return ProjectPermissionFields;
+  },
+};
+export const ProjectPluginsConnection: TypeMeta = {
+  name: "ProjectPluginsConnection",
+  get fields() {
+    return ProjectPluginsConnectionFields;
+  },
+};
 export const ProjectPluginsConnectionEdge: TypeMeta = {
   name: "ProjectPluginsConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectPluginsConnectionEdgeFields;
+  },
 };
 export const ProjectProjectPermissionsConnection: TypeMeta = {
   name: "ProjectProjectPermissionsConnection",
-  fields: {},
+  get fields() {
+    return ProjectProjectPermissionsConnectionFields;
+  },
 };
 export const ProjectProjectPermissionsConnectionEdge: TypeMeta = {
   name: "ProjectProjectPermissionsConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectProjectPermissionsConnectionEdgeFields;
+  },
 };
-export const ProjectResourceAccess: TypeMeta = { name: "ProjectResourceAccess", fields: {} };
-export const ProjectServiceUsagePage: TypeMeta = { name: "ProjectServiceUsagePage", fields: {} };
+export const ProjectResourceAccess: TypeMeta = {
+  name: "ProjectResourceAccess",
+  get fields() {
+    return ProjectResourceAccessFields;
+  },
+};
+export const ProjectServiceUsagePage: TypeMeta = {
+  name: "ProjectServiceUsagePage",
+  get fields() {
+    return ProjectServiceUsagePageFields;
+  },
+};
 export const ProjectServiceUsagePageInfo: TypeMeta = {
   name: "ProjectServiceUsagePageInfo",
-  fields: {},
+  get fields() {
+    return ProjectServiceUsagePageInfoFields;
+  },
 };
 export const ProjectServicesConnection: TypeMeta = {
   name: "ProjectServicesConnection",
-  fields: {},
+  get fields() {
+    return ProjectServicesConnectionFields;
+  },
 };
 export const ProjectServicesConnectionEdge: TypeMeta = {
   name: "ProjectServicesConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectServicesConnectionEdgeFields;
+  },
 };
-export const ProjectToken: TypeMeta = { name: "ProjectToken", fields: {} };
-export const ProjectVolumesConnection: TypeMeta = { name: "ProjectVolumesConnection", fields: {} };
+export const ProjectToken: TypeMeta = {
+  name: "ProjectToken",
+  get fields() {
+    return ProjectTokenFields;
+  },
+};
+export const ProjectVolumesConnection: TypeMeta = {
+  name: "ProjectVolumesConnection",
+  get fields() {
+    return ProjectVolumesConnectionFields;
+  },
+};
 export const ProjectVolumesConnectionEdge: TypeMeta = {
   name: "ProjectVolumesConnectionEdge",
-  fields: {},
+  get fields() {
+    return ProjectVolumesConnectionEdgeFields;
+  },
 };
-export const ProjectWorkspaceMember: TypeMeta = { name: "ProjectWorkspaceMember", fields: {} };
+export const ProjectWorkspaceMember: TypeMeta = {
+  name: "ProjectWorkspaceMember",
+  get fields() {
+    return ProjectWorkspaceMemberFields;
+  },
+};
 export const ProjectWorkspaceMembersResponse: TypeMeta = {
   name: "ProjectWorkspaceMembersResponse",
-  fields: {},
+  get fields() {
+    return ProjectWorkspaceMembersResponseFields;
+  },
 };
-export const ProviderAuth: TypeMeta = { name: "ProviderAuth", fields: {} };
-export const PublicProjectInformation: TypeMeta = { name: "PublicProjectInformation", fields: {} };
-export const PublicStats: TypeMeta = { name: "PublicStats", fields: {} };
-export const QueryApiTokensConnection: TypeMeta = { name: "QueryApiTokensConnection", fields: {} };
+export const ProviderAuth: TypeMeta = {
+  name: "ProviderAuth",
+  get fields() {
+    return ProviderAuthFields;
+  },
+};
+export const PublicProjectInformation: TypeMeta = {
+  name: "PublicProjectInformation",
+  get fields() {
+    return PublicProjectInformationFields;
+  },
+};
+export const PublicStats: TypeMeta = {
+  name: "PublicStats",
+  get fields() {
+    return PublicStatsFields;
+  },
+};
+export const QueryApiTokensConnection: TypeMeta = {
+  name: "QueryApiTokensConnection",
+  get fields() {
+    return QueryApiTokensConnectionFields;
+  },
+};
 export const QueryApiTokensConnectionEdge: TypeMeta = {
   name: "QueryApiTokensConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryApiTokensConnectionEdgeFields;
+  },
 };
-export const QueryAuditLogsConnection: TypeMeta = { name: "QueryAuditLogsConnection", fields: {} };
+export const QueryAuditLogsConnection: TypeMeta = {
+  name: "QueryAuditLogsConnection",
+  get fields() {
+    return QueryAuditLogsConnectionFields;
+  },
+};
 export const QueryAuditLogsConnectionEdge: TypeMeta = {
   name: "QueryAuditLogsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryAuditLogsConnectionEdgeFields;
+  },
 };
 export const QueryCloudAgentCheckpointsConnection: TypeMeta = {
   name: "QueryCloudAgentCheckpointsConnection",
-  fields: {},
+  get fields() {
+    return QueryCloudAgentCheckpointsConnectionFields;
+  },
 };
 export const QueryCloudAgentCheckpointsConnectionEdge: TypeMeta = {
   name: "QueryCloudAgentCheckpointsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryCloudAgentCheckpointsConnectionEdgeFields;
+  },
 };
 export const QueryCloudAgentConsoleSessionsConnection: TypeMeta = {
   name: "QueryCloudAgentConsoleSessionsConnection",
-  fields: {},
+  get fields() {
+    return QueryCloudAgentConsoleSessionsConnectionFields;
+  },
 };
 export const QueryCloudAgentConsoleSessionsConnectionEdge: TypeMeta = {
   name: "QueryCloudAgentConsoleSessionsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryCloudAgentConsoleSessionsConnectionEdgeFields;
+  },
 };
 export const QueryDeploymentEventsConnection: TypeMeta = {
   name: "QueryDeploymentEventsConnection",
-  fields: {},
+  get fields() {
+    return QueryDeploymentEventsConnectionFields;
+  },
 };
 export const QueryDeploymentEventsConnectionEdge: TypeMeta = {
   name: "QueryDeploymentEventsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryDeploymentEventsConnectionEdgeFields;
+  },
 };
 export const QueryDeploymentInstanceExecutionsConnection: TypeMeta = {
   name: "QueryDeploymentInstanceExecutionsConnection",
-  fields: {},
+  get fields() {
+    return QueryDeploymentInstanceExecutionsConnectionFields;
+  },
 };
 export const QueryDeploymentInstanceExecutionsConnectionEdge: TypeMeta = {
   name: "QueryDeploymentInstanceExecutionsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryDeploymentInstanceExecutionsConnectionEdgeFields;
+  },
 };
 export const QueryDeploymentTriggersConnection: TypeMeta = {
   name: "QueryDeploymentTriggersConnection",
-  fields: {},
+  get fields() {
+    return QueryDeploymentTriggersConnectionFields;
+  },
 };
 export const QueryDeploymentTriggersConnectionEdge: TypeMeta = {
   name: "QueryDeploymentTriggersConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryDeploymentTriggersConnectionEdgeFields;
+  },
 };
 export const QueryDeploymentsConnection: TypeMeta = {
   name: "QueryDeploymentsConnection",
-  fields: {},
+  get fields() {
+    return QueryDeploymentsConnectionFields;
+  },
 };
 export const QueryDeploymentsConnectionEdge: TypeMeta = {
   name: "QueryDeploymentsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryDeploymentsConnectionEdgeFields;
+  },
 };
 export const QueryEnvironmentPatchesConnection: TypeMeta = {
   name: "QueryEnvironmentPatchesConnection",
-  fields: {},
+  get fields() {
+    return QueryEnvironmentPatchesConnectionFields;
+  },
 };
 export const QueryEnvironmentPatchesConnectionEdge: TypeMeta = {
   name: "QueryEnvironmentPatchesConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryEnvironmentPatchesConnectionEdgeFields;
+  },
 };
 export const QueryEnvironmentsConnection: TypeMeta = {
   name: "QueryEnvironmentsConnection",
-  fields: {},
+  get fields() {
+    return QueryEnvironmentsConnectionFields;
+  },
 };
 export const QueryEnvironmentsConnectionEdge: TypeMeta = {
   name: "QueryEnvironmentsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryEnvironmentsConnectionEdgeFields;
+  },
 };
-export const QueryEventsConnection: TypeMeta = { name: "QueryEventsConnection", fields: {} };
+export const QueryEventsConnection: TypeMeta = {
+  name: "QueryEventsConnection",
+  get fields() {
+    return QueryEventsConnectionFields;
+  },
+};
 export const QueryEventsConnectionEdge: TypeMeta = {
   name: "QueryEventsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryEventsConnectionEdgeFields;
+  },
 };
 export const QueryIntegrationAuthsConnection: TypeMeta = {
   name: "QueryIntegrationAuthsConnection",
-  fields: {},
+  get fields() {
+    return QueryIntegrationAuthsConnectionFields;
+  },
 };
 export const QueryIntegrationAuthsConnectionEdge: TypeMeta = {
   name: "QueryIntegrationAuthsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryIntegrationAuthsConnectionEdgeFields;
+  },
 };
 export const QueryIntegrationsConnection: TypeMeta = {
   name: "QueryIntegrationsConnection",
-  fields: {},
+  get fields() {
+    return QueryIntegrationsConnectionFields;
+  },
 };
 export const QueryIntegrationsConnectionEdge: TypeMeta = {
   name: "QueryIntegrationsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryIntegrationsConnectionEdgeFields;
+  },
 };
 export const QueryNotificationDeliveriesConnection: TypeMeta = {
   name: "QueryNotificationDeliveriesConnection",
-  fields: {},
+  get fields() {
+    return QueryNotificationDeliveriesConnectionFields;
+  },
 };
 export const QueryNotificationDeliveriesConnectionEdge: TypeMeta = {
   name: "QueryNotificationDeliveriesConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryNotificationDeliveriesConnectionEdgeFields;
+  },
 };
 export const QueryObservabilityDashboardsConnection: TypeMeta = {
   name: "QueryObservabilityDashboardsConnection",
-  fields: {},
+  get fields() {
+    return QueryObservabilityDashboardsConnectionFields;
+  },
 };
 export const QueryObservabilityDashboardsConnectionEdge: TypeMeta = {
   name: "QueryObservabilityDashboardsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryObservabilityDashboardsConnectionEdgeFields;
+  },
 };
-export const QueryPasskeysConnection: TypeMeta = { name: "QueryPasskeysConnection", fields: {} };
+export const QueryPasskeysConnection: TypeMeta = {
+  name: "QueryPasskeysConnection",
+  get fields() {
+    return QueryPasskeysConnectionFields;
+  },
+};
 export const QueryPasskeysConnectionEdge: TypeMeta = {
   name: "QueryPasskeysConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryPasskeysConnectionEdgeFields;
+  },
 };
 export const QueryProjectTokensConnection: TypeMeta = {
   name: "QueryProjectTokensConnection",
-  fields: {},
+  get fields() {
+    return QueryProjectTokensConnectionFields;
+  },
 };
 export const QueryProjectTokensConnectionEdge: TypeMeta = {
   name: "QueryProjectTokensConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryProjectTokensConnectionEdgeFields;
+  },
 };
-export const QueryProjectsConnection: TypeMeta = { name: "QueryProjectsConnection", fields: {} };
+export const QueryProjectsConnection: TypeMeta = {
+  name: "QueryProjectsConnection",
+  get fields() {
+    return QueryProjectsConnectionFields;
+  },
+};
 export const QueryProjectsConnectionEdge: TypeMeta = {
   name: "QueryProjectsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryProjectsConnectionEdgeFields;
+  },
 };
 export const QuerySandboxSessionsConnection: TypeMeta = {
   name: "QuerySandboxSessionsConnection",
-  fields: {},
+  get fields() {
+    return QuerySandboxSessionsConnectionFields;
+  },
 };
 export const QuerySandboxSessionsConnectionEdge: TypeMeta = {
   name: "QuerySandboxSessionsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QuerySandboxSessionsConnectionEdgeFields;
+  },
 };
-export const QuerySandboxesConnection: TypeMeta = { name: "QuerySandboxesConnection", fields: {} };
+export const QuerySandboxesConnection: TypeMeta = {
+  name: "QuerySandboxesConnection",
+  get fields() {
+    return QuerySandboxesConnectionFields;
+  },
+};
 export const QuerySandboxesConnectionEdge: TypeMeta = {
   name: "QuerySandboxesConnectionEdge",
-  fields: {},
+  get fields() {
+    return QuerySandboxesConnectionEdgeFields;
+  },
 };
-export const QuerySessionsConnection: TypeMeta = { name: "QuerySessionsConnection", fields: {} };
+export const QuerySessionsConnection: TypeMeta = {
+  name: "QuerySessionsConnection",
+  get fields() {
+    return QuerySessionsConnectionFields;
+  },
+};
 export const QuerySessionsConnectionEdge: TypeMeta = {
   name: "QuerySessionsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QuerySessionsConnectionEdgeFields;
+  },
 };
 export const QuerySshPublicKeysConnection: TypeMeta = {
   name: "QuerySshPublicKeysConnection",
-  fields: {},
+  get fields() {
+    return QuerySshPublicKeysConnectionFields;
+  },
 };
 export const QuerySshPublicKeysConnectionEdge: TypeMeta = {
   name: "QuerySshPublicKeysConnectionEdge",
-  fields: {},
+  get fields() {
+    return QuerySshPublicKeysConnectionEdgeFields;
+  },
 };
 export const QueryTeamTemplatesConnection: TypeMeta = {
   name: "QueryTeamTemplatesConnection",
-  fields: {},
+  get fields() {
+    return QueryTeamTemplatesConnectionFields;
+  },
 };
 export const QueryTeamTemplatesConnectionEdge: TypeMeta = {
   name: "QueryTeamTemplatesConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryTeamTemplatesConnectionEdgeFields;
+  },
 };
 export const QueryTemplateSearchConnection: TypeMeta = {
   name: "QueryTemplateSearchConnection",
-  fields: {},
+  get fields() {
+    return QueryTemplateSearchConnectionFields;
+  },
 };
 export const QueryTemplateSearchConnectionEdge: TypeMeta = {
   name: "QueryTemplateSearchConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryTemplateSearchConnectionEdgeFields;
+  },
 };
-export const QueryTemplatesConnection: TypeMeta = { name: "QueryTemplatesConnection", fields: {} };
+export const QueryTemplatesConnection: TypeMeta = {
+  name: "QueryTemplatesConnection",
+  get fields() {
+    return QueryTemplatesConnectionFields;
+  },
+};
 export const QueryTemplatesConnectionEdge: TypeMeta = {
   name: "QueryTemplatesConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryTemplatesConnectionEdgeFields;
+  },
 };
 export const QueryTrustedDomainsConnection: TypeMeta = {
   name: "QueryTrustedDomainsConnection",
-  fields: {},
+  get fields() {
+    return QueryTrustedDomainsConnectionFields;
+  },
 };
 export const QueryTrustedDomainsConnectionEdge: TypeMeta = {
   name: "QueryTrustedDomainsConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryTrustedDomainsConnectionEdgeFields;
+  },
 };
 export const QueryUserTemplatesConnection: TypeMeta = {
   name: "QueryUserTemplatesConnection",
-  fields: {},
+  get fields() {
+    return QueryUserTemplatesConnectionFields;
+  },
 };
 export const QueryUserTemplatesConnectionEdge: TypeMeta = {
   name: "QueryUserTemplatesConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryUserTemplatesConnectionEdgeFields;
+  },
 };
 export const QueryWorkspaceIdentityProvidersConnection: TypeMeta = {
   name: "QueryWorkspaceIdentityProvidersConnection",
-  fields: {},
+  get fields() {
+    return QueryWorkspaceIdentityProvidersConnectionFields;
+  },
 };
 export const QueryWorkspaceIdentityProvidersConnectionEdge: TypeMeta = {
   name: "QueryWorkspaceIdentityProvidersConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryWorkspaceIdentityProvidersConnectionEdgeFields;
+  },
 };
 export const QueryWorkspaceTemplatesConnection: TypeMeta = {
   name: "QueryWorkspaceTemplatesConnection",
-  fields: {},
+  get fields() {
+    return QueryWorkspaceTemplatesConnectionFields;
+  },
 };
 export const QueryWorkspaceTemplatesConnectionEdge: TypeMeta = {
   name: "QueryWorkspaceTemplatesConnectionEdge",
-  fields: {},
+  get fields() {
+    return QueryWorkspaceTemplatesConnectionEdgeFields;
+  },
 };
-export const RailwayDomain: TypeMeta = { name: "RailwayDomain", fields: {} };
-export const RailwayDomainDnsRecord: TypeMeta = { name: "RailwayDomainDnsRecord", fields: {} };
+export const RailwayDomain: TypeMeta = {
+  name: "RailwayDomain",
+  get fields() {
+    return RailwayDomainFields;
+  },
+};
+export const RailwayDomainDnsRecord: TypeMeta = {
+  name: "RailwayDomainDnsRecord",
+  get fields() {
+    return RailwayDomainDnsRecordFields;
+  },
+};
 export const RailwayDomainEmailForwardingLimits: TypeMeta = {
   name: "RailwayDomainEmailForwardingLimits",
-  fields: {},
+  get fields() {
+    return RailwayDomainEmailForwardingLimitsFields;
+  },
 };
 export const RailwayDomainEmailForwardingRule: TypeMeta = {
   name: "RailwayDomainEmailForwardingRule",
-  fields: {},
+  get fields() {
+    return RailwayDomainEmailForwardingRuleFields;
+  },
 };
 export const RailwayDomainEmailForwardingTeardown: TypeMeta = {
   name: "RailwayDomainEmailForwardingTeardown",
-  fields: {},
+  get fields() {
+    return RailwayDomainEmailForwardingTeardownFields;
+  },
 };
-export const RailwayDomainNameservers: TypeMeta = { name: "RailwayDomainNameservers", fields: {} };
-export const RecoveryCodes: TypeMeta = { name: "RecoveryCodes", fields: {} };
-export const ReferralInfo: TypeMeta = { name: "ReferralInfo", fields: {} };
-export const ReferralStats: TypeMeta = { name: "ReferralStats", fields: {} };
-export const ReferralUser: TypeMeta = { name: "ReferralUser", fields: {} };
-export const Region: TypeMeta = { name: "Region", fields: {} };
+export const RailwayDomainNameservers: TypeMeta = {
+  name: "RailwayDomainNameservers",
+  get fields() {
+    return RailwayDomainNameserversFields;
+  },
+};
+export const RecoveryCodes: TypeMeta = {
+  name: "RecoveryCodes",
+  get fields() {
+    return RecoveryCodesFields;
+  },
+};
+export const ReferralInfo: TypeMeta = {
+  name: "ReferralInfo",
+  get fields() {
+    return ReferralInfoFields;
+  },
+};
+export const ReferralStats: TypeMeta = {
+  name: "ReferralStats",
+  get fields() {
+    return ReferralStatsFields;
+  },
+};
+export const ReferralUser: TypeMeta = {
+  name: "ReferralUser",
+  get fields() {
+    return ReferralUserFields;
+  },
+};
+export const Region: TypeMeta = {
+  name: "Region",
+  get fields() {
+    return RegionFields;
+  },
+};
 export const RegionDeploymentConstraints: TypeMeta = {
   name: "RegionDeploymentConstraints",
-  fields: {},
+  get fields() {
+    return RegionDeploymentConstraintsFields;
+  },
 };
-export const RegionDeprecationInfo: TypeMeta = { name: "RegionDeprecationInfo", fields: {} };
-export const ResolvedFileConfig: TypeMeta = { name: "ResolvedFileConfig", fields: {} };
-export const ResourceAccess: TypeMeta = { name: "ResourceAccess", fields: {} };
+export const RegionDeprecationInfo: TypeMeta = {
+  name: "RegionDeprecationInfo",
+  get fields() {
+    return RegionDeprecationInfoFields;
+  },
+};
+export const ResolvedFileConfig: TypeMeta = {
+  name: "ResolvedFileConfig",
+  get fields() {
+    return ResolvedFileConfigFields;
+  },
+};
+export const ResourceAccess: TypeMeta = {
+  name: "ResourceAccess",
+  get fields() {
+    return ResourceAccessFields;
+  },
+};
 export const SSHSignupClaimableWorkspace: TypeMeta = {
   name: "SSHSignupClaimableWorkspace",
-  fields: {},
+  get fields() {
+    return SSHSignupClaimableWorkspaceFields;
+  },
 };
-export const SSHSignupInfo: TypeMeta = { name: "SSHSignupInfo", fields: {} };
-export const SSHSignupTrial: TypeMeta = { name: "SSHSignupTrial", fields: {} };
-export const Sandbox: TypeMeta = { name: "Sandbox", fields: {} };
-export const SandboxCheckpoint: TypeMeta = { name: "SandboxCheckpoint", fields: {} };
-export const SandboxDomain: TypeMeta = { name: "SandboxDomain", fields: {} };
-export const SandboxExecResult: TypeMeta = { name: "SandboxExecResult", fields: {} };
-export const SandboxSession: TypeMeta = { name: "SandboxSession", fields: {} };
-export const SandboxSessionRunState: TypeMeta = { name: "SandboxSessionRunState", fields: {} };
-export const SandboxTemplateBuild: TypeMeta = { name: "SandboxTemplateBuild", fields: {} };
-export const Service: TypeMeta = { name: "Service", fields: {} };
-export const ServiceBackupInfo: TypeMeta = { name: "ServiceBackupInfo", fields: {} };
+export const SSHSignupInfo: TypeMeta = {
+  name: "SSHSignupInfo",
+  get fields() {
+    return SSHSignupInfoFields;
+  },
+};
+export const SSHSignupTrial: TypeMeta = {
+  name: "SSHSignupTrial",
+  get fields() {
+    return SSHSignupTrialFields;
+  },
+};
+export const Sandbox: TypeMeta = {
+  name: "Sandbox",
+  get fields() {
+    return SandboxFields;
+  },
+};
+export const SandboxCheckpoint: TypeMeta = {
+  name: "SandboxCheckpoint",
+  get fields() {
+    return SandboxCheckpointFields;
+  },
+};
+export const SandboxDomain: TypeMeta = {
+  name: "SandboxDomain",
+  get fields() {
+    return SandboxDomainFields;
+  },
+};
+export const SandboxExecResult: TypeMeta = {
+  name: "SandboxExecResult",
+  get fields() {
+    return SandboxExecResultFields;
+  },
+};
+export const SandboxSession: TypeMeta = {
+  name: "SandboxSession",
+  get fields() {
+    return SandboxSessionFields;
+  },
+};
+export const SandboxSessionRunState: TypeMeta = {
+  name: "SandboxSessionRunState",
+  get fields() {
+    return SandboxSessionRunStateFields;
+  },
+};
+export const SandboxTemplateBuild: TypeMeta = {
+  name: "SandboxTemplateBuild",
+  get fields() {
+    return SandboxTemplateBuildFields;
+  },
+};
+export const Service: TypeMeta = {
+  name: "Service",
+  get fields() {
+    return ServiceFields;
+  },
+};
+export const ServiceBackupInfo: TypeMeta = {
+  name: "ServiceBackupInfo",
+  get fields() {
+    return ServiceBackupInfoFields;
+  },
+};
 export const ServiceDeploymentsConnection: TypeMeta = {
   name: "ServiceDeploymentsConnection",
-  fields: {},
+  get fields() {
+    return ServiceDeploymentsConnectionFields;
+  },
 };
 export const ServiceDeploymentsConnectionEdge: TypeMeta = {
   name: "ServiceDeploymentsConnectionEdge",
-  fields: {},
+  get fields() {
+    return ServiceDeploymentsConnectionEdgeFields;
+  },
 };
-export const ServiceDomain: TypeMeta = { name: "ServiceDomain", fields: {} };
-export const ServiceInstance: TypeMeta = { name: "ServiceInstance", fields: {} };
+export const ServiceDomain: TypeMeta = {
+  name: "ServiceDomain",
+  get fields() {
+    return ServiceDomainFields;
+  },
+};
+export const ServiceInstance: TypeMeta = {
+  name: "ServiceInstance",
+  get fields() {
+    return ServiceInstanceFields;
+  },
+};
 export const ServiceInstanceAutoDeployStatus: TypeMeta = {
   name: "ServiceInstanceAutoDeployStatus",
-  fields: {},
+  get fields() {
+    return ServiceInstanceAutoDeployStatusFields;
+  },
 };
 export const ServiceInstanceAutoDeployUpdateResult: TypeMeta = {
   name: "ServiceInstanceAutoDeployUpdateResult",
-  fields: {},
+  get fields() {
+    return ServiceInstanceAutoDeployUpdateResultFields;
+  },
 };
 export const ServiceRepoTriggersConnection: TypeMeta = {
   name: "ServiceRepoTriggersConnection",
-  fields: {},
+  get fields() {
+    return ServiceRepoTriggersConnectionFields;
+  },
 };
 export const ServiceRepoTriggersConnectionEdge: TypeMeta = {
   name: "ServiceRepoTriggersConnectionEdge",
-  fields: {},
+  get fields() {
+    return ServiceRepoTriggersConnectionEdgeFields;
+  },
 };
 export const ServiceServiceInstancesConnection: TypeMeta = {
   name: "ServiceServiceInstancesConnection",
-  fields: {},
+  get fields() {
+    return ServiceServiceInstancesConnectionFields;
+  },
 };
 export const ServiceServiceInstancesConnectionEdge: TypeMeta = {
   name: "ServiceServiceInstancesConnectionEdge",
-  fields: {},
+  get fields() {
+    return ServiceServiceInstancesConnectionEdgeFields;
+  },
 };
-export const ServiceSource: TypeMeta = { name: "ServiceSource", fields: {} };
-export const ServiceTracingStatus: TypeMeta = { name: "ServiceTracingStatus", fields: {} };
-export const Session: TypeMeta = { name: "Session", fields: {} };
-export const Signal: TypeMeta = { name: "Signal", fields: {} };
-export const SignalChange: TypeMeta = { name: "SignalChange", fields: {} };
-export const SignalEvaluation: TypeMeta = { name: "SignalEvaluation", fields: {} };
-export const SimilarTemplate: TypeMeta = { name: "SimilarTemplate", fields: {} };
-export const SpendCommitment: TypeMeta = { name: "SpendCommitment", fields: {} };
-export const SshPublicKey: TypeMeta = { name: "SshPublicKey", fields: {} };
+export const ServiceSource: TypeMeta = {
+  name: "ServiceSource",
+  get fields() {
+    return ServiceSourceFields;
+  },
+};
+export const ServiceTracingStatus: TypeMeta = {
+  name: "ServiceTracingStatus",
+  get fields() {
+    return ServiceTracingStatusFields;
+  },
+};
+export const Session: TypeMeta = {
+  name: "Session",
+  get fields() {
+    return SessionFields;
+  },
+};
+export const Signal: TypeMeta = {
+  name: "Signal",
+  get fields() {
+    return SignalFields;
+  },
+};
+export const SignalChange: TypeMeta = {
+  name: "SignalChange",
+  get fields() {
+    return SignalChangeFields;
+  },
+};
+export const SignalEvaluation: TypeMeta = {
+  name: "SignalEvaluation",
+  get fields() {
+    return SignalEvaluationFields;
+  },
+};
+export const SimilarTemplate: TypeMeta = {
+  name: "SimilarTemplate",
+  get fields() {
+    return SimilarTemplateFields;
+  },
+};
+export const SpendCommitment: TypeMeta = {
+  name: "SpendCommitment",
+  get fields() {
+    return SpendCommitmentFields;
+  },
+};
+export const SshPublicKey: TypeMeta = {
+  name: "SshPublicKey",
+  get fields() {
+    return SshPublicKeyFields;
+  },
+};
 export const StaleWhileRevalidateConfig: TypeMeta = {
   name: "StaleWhileRevalidateConfig",
-  fields: {},
+  get fields() {
+    return StaleWhileRevalidateConfigFields;
+  },
 };
-export const SubscriptionDiscount: TypeMeta = { name: "SubscriptionDiscount", fields: {} };
-export const SubscriptionItem: TypeMeta = { name: "SubscriptionItem", fields: {} };
-export const TCPProxy: TypeMeta = { name: "TCPProxy", fields: {} };
-export const Team: TypeMeta = { name: "Team", fields: {} };
-export const TeamMember: TypeMeta = { name: "TeamMember", fields: {} };
-export const TeamPermission: TypeMeta = { name: "TeamPermission", fields: {} };
-export const TeamProjectsConnection: TypeMeta = { name: "TeamProjectsConnection", fields: {} };
+export const SubscriptionDiscount: TypeMeta = {
+  name: "SubscriptionDiscount",
+  get fields() {
+    return SubscriptionDiscountFields;
+  },
+};
+export const SubscriptionItem: TypeMeta = {
+  name: "SubscriptionItem",
+  get fields() {
+    return SubscriptionItemFields;
+  },
+};
+export const TCPProxy: TypeMeta = {
+  name: "TCPProxy",
+  get fields() {
+    return TCPProxyFields;
+  },
+};
+export const Team: TypeMeta = {
+  name: "Team",
+  get fields() {
+    return TeamFields;
+  },
+};
+export const TeamMember: TypeMeta = {
+  name: "TeamMember",
+  get fields() {
+    return TeamMemberFields;
+  },
+};
+export const TeamPermission: TypeMeta = {
+  name: "TeamPermission",
+  get fields() {
+    return TeamPermissionFields;
+  },
+};
+export const TeamProjectsConnection: TypeMeta = {
+  name: "TeamProjectsConnection",
+  get fields() {
+    return TeamProjectsConnectionFields;
+  },
+};
 export const TeamProjectsConnectionEdge: TypeMeta = {
   name: "TeamProjectsConnectionEdge",
-  fields: {},
+  get fields() {
+    return TeamProjectsConnectionEdgeFields;
+  },
 };
-export const Template: TypeMeta = { name: "Template", fields: {} };
-export const TemplateCreator: TypeMeta = { name: "TemplateCreator", fields: {} };
-export const TemplateDeployPayload: TypeMeta = { name: "TemplateDeployPayload", fields: {} };
-export const TemplateGuide: TypeMeta = { name: "TemplateGuide", fields: {} };
-export const TemplateMetrics: TypeMeta = { name: "TemplateMetrics", fields: {} };
-export const TemplateSearchResult: TypeMeta = { name: "TemplateSearchResult", fields: {} };
-export const TemplateService: TypeMeta = { name: "TemplateService", fields: {} };
+export const Template: TypeMeta = {
+  name: "Template",
+  get fields() {
+    return TemplateFields;
+  },
+};
+export const TemplateCreator: TypeMeta = {
+  name: "TemplateCreator",
+  get fields() {
+    return TemplateCreatorFields;
+  },
+};
+export const TemplateDeployPayload: TypeMeta = {
+  name: "TemplateDeployPayload",
+  get fields() {
+    return TemplateDeployPayloadFields;
+  },
+};
+export const TemplateGuide: TypeMeta = {
+  name: "TemplateGuide",
+  get fields() {
+    return TemplateGuideFields;
+  },
+};
+export const TemplateMetrics: TypeMeta = {
+  name: "TemplateMetrics",
+  get fields() {
+    return TemplateMetricsFields;
+  },
+};
+export const TemplateSearchResult: TypeMeta = {
+  name: "TemplateSearchResult",
+  get fields() {
+    return TemplateSearchResultFields;
+  },
+};
+export const TemplateService: TypeMeta = {
+  name: "TemplateService",
+  get fields() {
+    return TemplateServiceFields;
+  },
+};
 export const TemplateServicesConnection: TypeMeta = {
   name: "TemplateServicesConnection",
-  fields: {},
+  get fields() {
+    return TemplateServicesConnectionFields;
+  },
 };
 export const TemplateServicesConnectionEdge: TypeMeta = {
   name: "TemplateServicesConnectionEdge",
-  fields: {},
+  get fields() {
+    return TemplateServicesConnectionEdgeFields;
+  },
 };
-export const TraceSpan: TypeMeta = { name: "TraceSpan", fields: {} };
-export const TraceSpanEvent: TypeMeta = { name: "TraceSpanEvent", fields: {} };
-export const TraceSpanLink: TypeMeta = { name: "TraceSpanLink", fields: {} };
-export const TraceSummary: TypeMeta = { name: "TraceSummary", fields: {} };
-export const TrustedDomain: TypeMeta = { name: "TrustedDomain", fields: {} };
+export const TraceSpan: TypeMeta = {
+  name: "TraceSpan",
+  get fields() {
+    return TraceSpanFields;
+  },
+};
+export const TraceSpanEvent: TypeMeta = {
+  name: "TraceSpanEvent",
+  get fields() {
+    return TraceSpanEventFields;
+  },
+};
+export const TraceSpanLink: TypeMeta = {
+  name: "TraceSpanLink",
+  get fields() {
+    return TraceSpanLinkFields;
+  },
+};
+export const TraceSummary: TypeMeta = {
+  name: "TraceSummary",
+  get fields() {
+    return TraceSummaryFields;
+  },
+};
+export const TrustedDomain: TypeMeta = {
+  name: "TrustedDomain",
+  get fields() {
+    return TrustedDomainFields;
+  },
+};
 export const TrustedDomainVerificationData: TypeMeta = {
   name: "TrustedDomainVerificationData",
-  fields: {},
+  get fields() {
+    return TrustedDomainVerificationDataFields;
+  },
 };
-export const TwoFactorInfo: TypeMeta = { name: "TwoFactorInfo", fields: {} };
-export const TwoFactorInfoSecret: TypeMeta = { name: "TwoFactorInfoSecret", fields: {} };
-export const UsageLimit: TypeMeta = { name: "UsageLimit", fields: {} };
-export const User: TypeMeta = { name: "User", fields: {} };
-export const UserKickbackEarnings: TypeMeta = { name: "UserKickbackEarnings", fields: {} };
-export const UserProfile: TypeMeta = { name: "UserProfile", fields: {} };
-export const UserProfileResponse: TypeMeta = { name: "UserProfileResponse", fields: {} };
+export const TwoFactorInfo: TypeMeta = {
+  name: "TwoFactorInfo",
+  get fields() {
+    return TwoFactorInfoFields;
+  },
+};
+export const TwoFactorInfoSecret: TypeMeta = {
+  name: "TwoFactorInfoSecret",
+  get fields() {
+    return TwoFactorInfoSecretFields;
+  },
+};
+export const UsageLimit: TypeMeta = {
+  name: "UsageLimit",
+  get fields() {
+    return UsageLimitFields;
+  },
+};
+export const User: TypeMeta = {
+  name: "User",
+  get fields() {
+    return UserFields;
+  },
+};
+export const UserKickbackEarnings: TypeMeta = {
+  name: "UserKickbackEarnings",
+  get fields() {
+    return UserKickbackEarningsFields;
+  },
+};
+export const UserProfile: TypeMeta = {
+  name: "UserProfile",
+  get fields() {
+    return UserProfileFields;
+  },
+};
+export const UserProfileResponse: TypeMeta = {
+  name: "UserProfileResponse",
+  get fields() {
+    return UserProfileResponseFields;
+  },
+};
 export const UserProfileResponsePublicProjectsConnection: TypeMeta = {
   name: "UserProfileResponsePublicProjectsConnection",
-  fields: {},
+  get fields() {
+    return UserProfileResponsePublicProjectsConnectionFields;
+  },
 };
 export const UserProfileResponsePublicProjectsConnectionEdge: TypeMeta = {
   name: "UserProfileResponsePublicProjectsConnectionEdge",
-  fields: {},
+  get fields() {
+    return UserProfileResponsePublicProjectsConnectionEdgeFields;
+  },
 };
-export const UserProjectsConnection: TypeMeta = { name: "UserProjectsConnection", fields: {} };
+export const UserProjectsConnection: TypeMeta = {
+  name: "UserProjectsConnection",
+  get fields() {
+    return UserProjectsConnectionFields;
+  },
+};
 export const UserProjectsConnectionEdge: TypeMeta = {
   name: "UserProjectsConnectionEdge",
-  fields: {},
+  get fields() {
+    return UserProjectsConnectionEdgeFields;
+  },
 };
 export const UserProviderAuthsConnection: TypeMeta = {
   name: "UserProviderAuthsConnection",
-  fields: {},
+  get fields() {
+    return UserProviderAuthsConnectionFields;
+  },
 };
 export const UserProviderAuthsConnectionEdge: TypeMeta = {
   name: "UserProviderAuthsConnectionEdge",
-  fields: {},
+  get fields() {
+    return UserProviderAuthsConnectionEdgeFields;
+  },
 };
-export const Variable: TypeMeta = { name: "Variable", fields: {} };
-export const VercelAccount: TypeMeta = { name: "VercelAccount", fields: {} };
-export const VercelInfo: TypeMeta = { name: "VercelInfo", fields: {} };
-export const VercelProject: TypeMeta = { name: "VercelProject", fields: {} };
-export const Volume: TypeMeta = { name: "Volume", fields: {} };
-export const VolumeInstance: TypeMeta = { name: "VolumeInstance", fields: {} };
-export const VolumeInstanceBackup: TypeMeta = { name: "VolumeInstanceBackup", fields: {} };
+export const Variable: TypeMeta = {
+  name: "Variable",
+  get fields() {
+    return VariableFields;
+  },
+};
+export const VercelAccount: TypeMeta = {
+  name: "VercelAccount",
+  get fields() {
+    return VercelAccountFields;
+  },
+};
+export const VercelInfo: TypeMeta = {
+  name: "VercelInfo",
+  get fields() {
+    return VercelInfoFields;
+  },
+};
+export const VercelProject: TypeMeta = {
+  name: "VercelProject",
+  get fields() {
+    return VercelProjectFields;
+  },
+};
+export const Volume: TypeMeta = {
+  name: "Volume",
+  get fields() {
+    return VolumeFields;
+  },
+};
+export const VolumeInstance: TypeMeta = {
+  name: "VolumeInstance",
+  get fields() {
+    return VolumeInstanceFields;
+  },
+};
+export const VolumeInstanceBackup: TypeMeta = {
+  name: "VolumeInstanceBackup",
+  get fields() {
+    return VolumeInstanceBackupFields;
+  },
+};
 export const VolumeInstanceBackupSchedule: TypeMeta = {
   name: "VolumeInstanceBackupSchedule",
-  fields: {},
+  get fields() {
+    return VolumeInstanceBackupScheduleFields;
+  },
 };
 export const VolumeInstanceReplicationProgress: TypeMeta = {
   name: "VolumeInstanceReplicationProgress",
-  fields: {},
+  get fields() {
+    return VolumeInstanceReplicationProgressFields;
+  },
 };
 export const VolumeReplicationProgressUpdate: TypeMeta = {
   name: "VolumeReplicationProgressUpdate",
-  fields: {},
+  get fields() {
+    return VolumeReplicationProgressUpdateFields;
+  },
 };
 export const VolumeSnapshotReplicationProgressUpdate: TypeMeta = {
   name: "VolumeSnapshotReplicationProgressUpdate",
-  fields: {},
+  get fields() {
+    return VolumeSnapshotReplicationProgressUpdateFields;
+  },
 };
 export const VolumeVolumeInstancesConnection: TypeMeta = {
   name: "VolumeVolumeInstancesConnection",
-  fields: {},
+  get fields() {
+    return VolumeVolumeInstancesConnectionFields;
+  },
 };
 export const VolumeVolumeInstancesConnectionEdge: TypeMeta = {
   name: "VolumeVolumeInstancesConnectionEdge",
-  fields: {},
+  get fields() {
+    return VolumeVolumeInstancesConnectionEdgeFields;
+  },
 };
-export const WorkflowId: TypeMeta = { name: "WorkflowId", fields: {} };
-export const WorkflowResult: TypeMeta = { name: "WorkflowResult", fields: {} };
-export const Workspace: TypeMeta = { name: "Workspace", fields: {} };
+export const WorkflowId: TypeMeta = {
+  name: "WorkflowId",
+  get fields() {
+    return WorkflowIdFields;
+  },
+};
+export const WorkflowResult: TypeMeta = {
+  name: "WorkflowResult",
+  get fields() {
+    return WorkflowResultFields;
+  },
+};
+export const Workspace: TypeMeta = {
+  name: "Workspace",
+  get fields() {
+    return WorkspaceFields;
+  },
+};
 export const WorkspaceAccessGroupsConnection: TypeMeta = {
   name: "WorkspaceAccessGroupsConnection",
-  fields: {},
+  get fields() {
+    return WorkspaceAccessGroupsConnectionFields;
+  },
 };
 export const WorkspaceAccessGroupsConnectionEdge: TypeMeta = {
   name: "WorkspaceAccessGroupsConnectionEdge",
-  fields: {},
+  get fields() {
+    return WorkspaceAccessGroupsConnectionEdgeFields;
+  },
 };
-export const WorkspaceIdPConnection: TypeMeta = { name: "WorkspaceIdPConnection", fields: {} };
+export const WorkspaceIdPConnection: TypeMeta = {
+  name: "WorkspaceIdPConnection",
+  get fields() {
+    return WorkspaceIdPConnectionFields;
+  },
+};
 export const WorkspaceIdentityProvider: TypeMeta = {
   name: "WorkspaceIdentityProvider",
-  fields: {},
+  get fields() {
+    return WorkspaceIdentityProviderFields;
+  },
 };
 export const WorkspaceIdentityProvidersConnection: TypeMeta = {
   name: "WorkspaceIdentityProvidersConnection",
-  fields: {},
+  get fields() {
+    return WorkspaceIdentityProvidersConnectionFields;
+  },
 };
 export const WorkspaceIdentityProvidersConnectionEdge: TypeMeta = {
   name: "WorkspaceIdentityProvidersConnectionEdge",
-  fields: {},
+  get fields() {
+    return WorkspaceIdentityProvidersConnectionEdgeFields;
+  },
 };
-export const WorkspaceMember: TypeMeta = { name: "WorkspaceMember", fields: {} };
-export const WorkspacePolicy: TypeMeta = { name: "WorkspacePolicy", fields: {} };
+export const WorkspaceMember: TypeMeta = {
+  name: "WorkspaceMember",
+  get fields() {
+    return WorkspaceMemberFields;
+  },
+};
+export const WorkspacePolicy: TypeMeta = {
+  name: "WorkspacePolicy",
+  get fields() {
+    return WorkspacePolicyFields;
+  },
+};
 export const WorkspacePolicyDeploySourceAllowlist: TypeMeta = {
   name: "WorkspacePolicyDeploySourceAllowlist",
-  fields: {},
+  get fields() {
+    return WorkspacePolicyDeploySourceAllowlistFields;
+  },
 };
 export const WorkspacePolicyDeploySourceAllowlistConnection: TypeMeta = {
   name: "WorkspacePolicyDeploySourceAllowlistConnection",
-  fields: {},
+  get fields() {
+    return WorkspacePolicyDeploySourceAllowlistConnectionFields;
+  },
 };
 export const WorkspacePolicyDeploySourceAllowlistConnectionEdge: TypeMeta = {
   name: "WorkspacePolicyDeploySourceAllowlistConnectionEdge",
-  fields: {},
+  get fields() {
+    return WorkspacePolicyDeploySourceAllowlistConnectionEdgeFields;
+  },
 };
 export const WorkspacePolicySelectableDeploySource: TypeMeta = {
   name: "WorkspacePolicySelectableDeploySource",
-  fields: {},
+  get fields() {
+    return WorkspacePolicySelectableDeploySourceFields;
+  },
 };
 export const WorkspaceProjectsConnection: TypeMeta = {
   name: "WorkspaceProjectsConnection",
-  fields: {},
+  get fields() {
+    return WorkspaceProjectsConnectionFields;
+  },
 };
 export const WorkspaceProjectsConnectionEdge: TypeMeta = {
   name: "WorkspaceProjectsConnectionEdge",
-  fields: {},
+  get fields() {
+    return WorkspaceProjectsConnectionEdgeFields;
+  },
 };
 export const NotificationDeliveryUpdate: TypeMeta = {
   name: "NotificationDeliveryUpdate",
-  fields: {},
+  fields: { __typename: scalarField("__typename") },
 };
 export const ObservabilityDashboardMonitorConfig: TypeMeta = {
   name: "ObservabilityDashboardMonitorConfig",
-  fields: {},
+  fields: { __typename: scalarField("__typename") },
 };
-export const PublicProjectInvitation: TypeMeta = { name: "PublicProjectInvitation", fields: {} };
+export const PublicProjectInvitation: TypeMeta = {
+  name: "PublicProjectInvitation",
+  fields: { __typename: scalarField("__typename") },
+};
 
-Object.assign(AccessGroup.fields, {
+const AccessGroupFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   members: connectionField("members", AccessGroupMember, {
@@ -6643,9 +8087,9 @@ Object.assign(AccessGroup.fields, {
   updatedAt: scalarField("updatedAt"),
   workspace: objectField("workspace", Workspace),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(AccessGroupMember.fields, {
+const AccessGroupMemberFields: TypeMeta["fields"] = {
   accessGroup: objectField("accessGroup", AccessGroup),
   accessGroupId: scalarField("accessGroupId"),
   createdAt: scalarField("createdAt"),
@@ -6653,19 +8097,19 @@ Object.assign(AccessGroupMember.fields, {
   updatedAt: scalarField("updatedAt"),
   user: objectField("user", User),
   userId: scalarField("userId"),
-});
+};
 
-Object.assign(AccessGroupMembersConnection.fields, {
+const AccessGroupMembersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", AccessGroupMembersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(AccessGroupMembersConnectionEdge.fields, {
+const AccessGroupMembersConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", AccessGroupMember),
-});
+};
 
-Object.assign(AccessGroupProject.fields, {
+const AccessGroupProjectFields: TypeMeta["fields"] = {
   accessGroup: objectField("accessGroup", AccessGroup),
   accessGroupId: scalarField("accessGroupId"),
   createdAt: scalarField("createdAt"),
@@ -6673,23 +8117,23 @@ Object.assign(AccessGroupProject.fields, {
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(AccessGroupProjectsConnection.fields, {
+const AccessGroupProjectsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", AccessGroupProjectsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(AccessGroupProjectsConnectionEdge.fields, {
+const AccessGroupProjectsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", AccessGroupProject),
-});
+};
 
-Object.assign(AccessRule.fields, {
+const AccessRuleFields: TypeMeta["fields"] = {
   disallowed: scalarField("disallowed"),
-});
+};
 
-Object.assign(AdoptionInfo.fields, {
+const AdoptionInfoFields: TypeMeta["fields"] = {
   adoptionLevel: scalarField("adoptionLevel"),
   createdAt: scalarField("createdAt"),
   deltaLevel: scalarField("deltaLevel"),
@@ -6715,59 +8159,59 @@ Object.assign(AdoptionInfo.fields, {
   totalNetwork: scalarField("totalNetwork"),
   updatedAt: scalarField("updatedAt"),
   workspace: objectField("workspace", Workspace),
-});
+};
 
-Object.assign(AgentUsageSummary.fields, {
+const AgentUsageSummaryFields: TypeMeta["fields"] = {
   billingPeriodEnd: scalarField("billingPeriodEnd"),
   hardLimitCents: scalarField("hardLimitCents"),
   hasCustomHardLimit: scalarField("hasCustomHardLimit"),
   softLimitCents: scalarField("softLimitCents"),
   totalUsedCents: scalarField("totalUsedCents"),
   usageRemaining: scalarField("usageRemaining"),
-});
+};
 
-Object.assign(AggregatedUsage.fields, {
+const AggregatedUsageFields: TypeMeta["fields"] = {
   measurement: scalarField("measurement"),
   tags: objectField("tags", MetricTags),
   value: scalarField("value"),
-});
+};
 
-Object.assign(AllDomains.fields, {
+const AllDomainsFields: TypeMeta["fields"] = {
   customDomains: listField("customDomains", CustomDomain),
   serviceDomains: listField("serviceDomains", ServiceDomain),
-});
+};
 
-Object.assign(ApiToken.fields, {
+const ApiTokenFields: TypeMeta["fields"] = {
   displayToken: scalarField("displayToken"),
   expiresAt: scalarField("expiresAt"),
   id: scalarField("id"),
   name: scalarField("name"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(ApiTokenContext.fields, {
+const ApiTokenContextFields: TypeMeta["fields"] = {
   workspaces: listField("workspaces", ApiTokenWorkspace),
-});
+};
 
-Object.assign(ApiTokenRateLimit.fields, {
+const ApiTokenRateLimitFields: TypeMeta["fields"] = {
   remainingPoints: scalarField("remainingPoints"),
   resetsAt: scalarField("resetsAt"),
-});
+};
 
-Object.assign(ApiTokenWorkspace.fields, {
+const ApiTokenWorkspaceFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(AppliedByMember.fields, {
+const AppliedByMemberFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   email: scalarField("email"),
   id: scalarField("id"),
   name: scalarField("name"),
   username: scalarField("username"),
-});
+};
 
-Object.assign(AuditLog.fields, {
+const AuditLogFields: TypeMeta["fields"] = {
   context: scalarField("context"),
   createdAt: scalarField("createdAt"),
   environment: objectField("environment", Environment),
@@ -6778,19 +8222,19 @@ Object.assign(AuditLog.fields, {
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(AuditLogEventTypeInfo.fields, {
+const AuditLogEventTypeInfoFields: TypeMeta["fields"] = {
   description: scalarField("description"),
   eventType: scalarField("eventType"),
-});
+};
 
-Object.assign(BillingPeriod.fields, {
+const BillingPeriodFields: TypeMeta["fields"] = {
   end: scalarField("end"),
   start: scalarField("start"),
-});
+};
 
-Object.assign(BotScopeBindingInfo.fields, {
+const BotScopeBindingInfoFields: TypeMeta["fields"] = {
   canRemove: scalarField("canRemove"),
   id: scalarField("id"),
   platform: scalarField("platform"),
@@ -6799,9 +8243,9 @@ Object.assign(BotScopeBindingInfo.fields, {
   scopeType: scalarField("scopeType"),
   workspaceId: scalarField("workspaceId"),
   workspaceName: scalarField("workspaceName"),
-});
+};
 
-Object.assign(Bucket.fields, {
+const BucketFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
   groupId: scalarField("groupId"),
@@ -6811,14 +8255,14 @@ Object.assign(Bucket.fields, {
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(BucketInstanceDetails.fields, {
+const BucketInstanceDetailsFields: TypeMeta["fields"] = {
   objectCount: scalarField("objectCount"),
   sizeBytes: scalarField("sizeBytes"),
-});
+};
 
-Object.assign(BucketS3CompatibleCredentials.fields, {
+const BucketS3CompatibleCredentialsFields: TypeMeta["fields"] = {
   accessKeyId: scalarField("accessKeyId"),
   bucketName: scalarField("bucketName"),
   createdAt: scalarField("createdAt"),
@@ -6826,30 +8270,30 @@ Object.assign(BucketS3CompatibleCredentials.fields, {
   region: scalarField("region"),
   secretAccessKey: scalarField("secretAccessKey", { sensitive: true }),
   urlStyle: scalarField("urlStyle"),
-});
+};
 
-Object.assign(CanvasViewMergePreview.fields, {
+const CanvasViewMergePreviewFields: TypeMeta["fields"] = {
   mutations: scalarField("mutations"),
   state: scalarField("state"),
-});
+};
 
-Object.assign(CertificatePublicData.fields, {
+const CertificatePublicDataFields: TypeMeta["fields"] = {
   domainNames: scalarField("domainNames"),
   expiresAt: scalarField("expiresAt"),
   fingerprintSha256: scalarField("fingerprintSha256"),
   issuedAt: scalarField("issuedAt"),
   keyType: scalarField("keyType"),
-});
+};
 
-Object.assign(ChangeOperationResult.fields, {
+const ChangeOperationResultFields: TypeMeta["fields"] = {
   kind: scalarField("kind"),
   outputs: scalarField("outputs"),
   path: scalarField("path"),
   status: scalarField("status"),
   summary: scalarField("summary"),
-});
+};
 
-Object.assign(ChangeSetApplyResult.fields, {
+const ChangeSetApplyResultFields: TypeMeta["fields"] = {
   changes: listField("changes", ChangeOperationResult),
   deploymentId: scalarField("deploymentId"),
   diagnostics: scalarField("diagnostics"),
@@ -6857,15 +8301,15 @@ Object.assign(ChangeSetApplyResult.fields, {
   operationId: scalarField("operationId"),
   stagedPatchId: scalarField("stagedPatchId"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(ChangeSetPreview.fields, {
+const ChangeSetPreviewFields: TypeMeta["fields"] = {
   changeSet: scalarField("changeSet"),
   diagnostics: scalarField("diagnostics"),
   effects: scalarField("effects"),
-});
+};
 
-Object.assign(ClearanceToken.fields, {
+const ClearanceTokenFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   creator: objectField("creator", ClearanceTokenCreator),
   environmentId: scalarField("environmentId"),
@@ -6873,21 +8317,21 @@ Object.assign(ClearanceToken.fields, {
   expiresAt: scalarField("expiresAt"),
   id: scalarField("id"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(ClearanceTokenCreatePayload.fields, {
+const ClearanceTokenCreatePayloadFields: TypeMeta["fields"] = {
   clearanceToken: objectField("clearanceToken", ClearanceToken),
   token: scalarField("token", { sensitive: true }),
-});
+};
 
-Object.assign(ClearanceTokenCreator.fields, {
+const ClearanceTokenCreatorFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   email: scalarField("email"),
   id: scalarField("id"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(CloudAgent.fields, {
+const CloudAgentFields: TypeMeta["fields"] = {
   agentWsUrl: scalarField("agentWsUrl"),
   consoleTargetId: scalarField("consoleTargetId"),
   createdAt: scalarField("createdAt"),
@@ -6902,9 +8346,9 @@ Object.assign(CloudAgent.fields, {
   sessions: listField("sessions", CloudAgentSnapshot),
   source: objectField("source", CloudAgentSource),
   status: scalarField("status"),
-});
+};
 
-Object.assign(CloudAgentCheckpoint.fields, {
+const CloudAgentCheckpointFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   environmentId: scalarField("environmentId"),
   failureReason: scalarField("failureReason"),
@@ -6912,25 +8356,25 @@ Object.assign(CloudAgentCheckpoint.fields, {
   name: scalarField("name"),
   region: scalarField("region"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(CloudAgentDeployResult.fields, {
+const CloudAgentDeployResultFields: TypeMeta["fields"] = {
   deploymentId: scalarField("deploymentId"),
   serviceId: scalarField("serviceId"),
-});
+};
 
-Object.assign(CloudAgentDomain.fields, {
+const CloudAgentDomainFields: TypeMeta["fields"] = {
   domain: scalarField("domain"),
   port: scalarField("port"),
   prefix: scalarField("prefix"),
-});
+};
 
-Object.assign(CloudAgentRepository.fields, {
+const CloudAgentRepositoryFields: TypeMeta["fields"] = {
   path: scalarField("path"),
   repo: scalarField("repo"),
-});
+};
 
-Object.assign(CloudAgentSnapshot.fields, {
+const CloudAgentSnapshotFields: TypeMeta["fields"] = {
   harness: scalarField("harness"),
   lastEventKind: scalarField("lastEventKind"),
   latestPrompt: scalarField("latestPrompt"),
@@ -6942,18 +8386,18 @@ Object.assign(CloudAgentSnapshot.fields, {
   terminal: scalarField("terminal"),
   title: scalarField("title"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(CloudAgentSource.fields, {
+const CloudAgentSourceFields: TypeMeta["fields"] = {
   branch: scalarField("branch"),
   dir: scalarField("dir"),
   repo: scalarField("repo"),
   repos: listField("repos", CloudAgentRepository),
   serviceId: scalarField("serviceId"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(CloudAgentTask.fields, {
+const CloudAgentTaskFields: TypeMeta["fields"] = {
   cloudAgentId: scalarField("cloudAgentId"),
   completedAt: scalarField("completedAt"),
   createdAt: scalarField("createdAt"),
@@ -6969,22 +8413,22 @@ Object.assign(CloudAgentTask.fields, {
   status: scalarField("status"),
   structuredOutput: scalarField("structuredOutput"),
   text: scalarField("text"),
-});
+};
 
-Object.assign(CloudAgentTaskCancelResult.fields, {
+const CloudAgentTaskCancelResultFields: TypeMeta["fields"] = {
   status: scalarField("status"),
   taskId: scalarField("taskId"),
-});
+};
 
-Object.assign(CloudAgentTaskHandle.fields, {
+const CloudAgentTaskHandleFields: TypeMeta["fields"] = {
   cloudAgentId: scalarField("cloudAgentId"),
   replayed: scalarField("replayed"),
   sessionId: scalarField("sessionId"),
   status: scalarField("status"),
   taskId: scalarField("taskId"),
-});
+};
 
-Object.assign(CloudAgentTaskInteraction.fields, {
+const CloudAgentTaskInteractionFields: TypeMeta["fields"] = {
   actions: scalarField("actions"),
   expiresAt: scalarField("expiresAt"),
   fields: scalarField("fields"),
@@ -6995,27 +8439,27 @@ Object.assign(CloudAgentTaskInteraction.fields, {
   server: scalarField("server"),
   summary: scalarField("summary"),
   tool: scalarField("tool"),
-});
+};
 
-Object.assign(CloudAgentTaskPage.fields, {
+const CloudAgentTaskPageFields: TypeMeta["fields"] = {
   nextCursor: scalarField("nextCursor"),
   tasks: listField("tasks", CloudAgentTask),
-});
+};
 
-Object.assign(CloudAgentTaskProgress.fields, {
+const CloudAgentTaskProgressFields: TypeMeta["fields"] = {
   attempt: scalarField("attempt"),
   steps: scalarField("steps"),
   todos: scalarField("todos"),
   tools: scalarField("tools"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(CloudAgentTaskRespondResult.fields, {
+const CloudAgentTaskRespondResultFields: TypeMeta["fields"] = {
   outcome: scalarField("outcome"),
   taskId: scalarField("taskId"),
-});
+};
 
-Object.assign(CloudAgentTaskResult.fields, {
+const CloudAgentTaskResultFields: TypeMeta["fields"] = {
   cloudAgentId: scalarField("cloudAgentId"),
   completedAt: scalarField("completedAt"),
   error: scalarField("error"),
@@ -7029,27 +8473,27 @@ Object.assign(CloudAgentTaskResult.fields, {
   structuredOutput: scalarField("structuredOutput"),
   taskId: scalarField("taskId"),
   text: scalarField("text"),
-});
+};
 
-Object.assign(CnameCheck.fields, {
+const CnameCheckFields: TypeMeta["fields"] = {
   link: scalarField("link"),
   message: scalarField("message"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(ComplianceAgreementsInfo.fields, {
+const ComplianceAgreementsInfoFields: TypeMeta["fields"] = {
   hasBAA: scalarField("hasBAA"),
   hasDPA: scalarField("hasDPA"),
-});
+};
 
-Object.assign(ConnectedServiceInstance.fields, {
+const ConnectedServiceInstanceFields: TypeMeta["fields"] = {
   environmentId: scalarField("environmentId"),
   projectId: scalarField("projectId"),
   serviceId: scalarField("serviceId"),
   serviceName: scalarField("serviceName"),
-});
+};
 
-Object.assign(Container.fields, {
+const ContainerFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
   environment: objectField("environment", Environment),
@@ -7058,9 +8502,9 @@ Object.assign(Container.fields, {
   migratedAt: scalarField("migratedAt"),
   plugin: objectField("plugin", Plugin),
   pluginId: scalarField("pluginId"),
-});
+};
 
-Object.assign(Credit.fields, {
+const CreditFields: TypeMeta["fields"] = {
   amount: scalarField("amount"),
   createdAt: scalarField("createdAt"),
   customerId: scalarField("customerId"),
@@ -7068,9 +8512,9 @@ Object.assign(Credit.fields, {
   memo: scalarField("memo"),
   type: scalarField("type"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(CustomDomain.fields, {
+const CustomDomainFields: TypeMeta["fields"] = {
   cdnMode: scalarField("cdnMode"),
   cnameCheck: objectField("cnameCheck", CnameCheck),
   createdAt: scalarField("createdAt"),
@@ -7086,9 +8530,9 @@ Object.assign(CustomDomain.fields, {
   syncStatus: scalarField("syncStatus"),
   targetPort: scalarField("targetPort"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(CustomDomainStatus.fields, {
+const CustomDomainStatusFields: TypeMeta["fields"] = {
   cdnProvider: scalarField("cdnProvider"),
   certificateErrorMessage: scalarField("certificateErrorMessage"),
   certificateErrorType: scalarField("certificateErrorType"),
@@ -7100,9 +8544,9 @@ Object.assign(CustomDomainStatus.fields, {
   verificationDnsHost: scalarField("verificationDnsHost"),
   verificationToken: scalarField("verificationToken"),
   verified: scalarField("verified"),
-});
+};
 
-Object.assign(Customer.fields, {
+const CustomerFields: TypeMeta["fields"] = {
   appliedCredits: scalarField("appliedCredits"),
   billingAddress: objectField("billingAddress", CustomerAddress),
   billingEmail: scalarField("billingEmail"),
@@ -7135,9 +8579,9 @@ Object.assign(Customer.fields, {
   trialDaysRemaining: scalarField("trialDaysRemaining"),
   usageLimit: objectField("usageLimit", UsageLimit),
   workspace: objectField("workspace", Workspace),
-});
+};
 
-Object.assign(CustomerAddress.fields, {
+const CustomerAddressFields: TypeMeta["fields"] = {
   city: scalarField("city"),
   country: scalarField("country"),
   line1: scalarField("line1"),
@@ -7145,19 +8589,19 @@ Object.assign(CustomerAddress.fields, {
   name: scalarField("name"),
   postalCode: scalarField("postalCode"),
   state: scalarField("state"),
-});
+};
 
-Object.assign(CustomerCreditsConnection.fields, {
+const CustomerCreditsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", CustomerCreditsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(CustomerCreditsConnectionEdge.fields, {
+const CustomerCreditsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Credit),
-});
+};
 
-Object.assign(CustomerInvoice.fields, {
+const CustomerInvoiceFields: TypeMeta["fields"] = {
   amountDue: scalarField("amountDue"),
   amountPaid: scalarField("amountPaid"),
   hostedURL: scalarField("hostedURL"),
@@ -7175,9 +8619,9 @@ Object.assign(CustomerInvoice.fields, {
   subscriptionId: scalarField("subscriptionId"),
   subscriptionStatus: scalarField("subscriptionStatus"),
   total: scalarField("total"),
-});
+};
 
-Object.assign(CustomerSubscription.fields, {
+const CustomerSubscriptionFields: TypeMeta["fields"] = {
   billingCycleAnchor: scalarField("billingCycleAnchor"),
   cancelAt: scalarField("cancelAt"),
   cancelAtPeriodEnd: scalarField("cancelAtPeriodEnd"),
@@ -7189,15 +8633,15 @@ Object.assign(CustomerSubscription.fields, {
   nextInvoiceCurrentTotal: scalarField("nextInvoiceCurrentTotal"),
   nextInvoiceDate: scalarField("nextInvoiceDate"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(CustomerTaxId.fields, {
+const CustomerTaxIdFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   type: scalarField("type"),
   value: scalarField("value"),
-});
+};
 
-Object.assign(DNSRecords.fields, {
+const DNSRecordsFields: TypeMeta["fields"] = {
   currentValue: scalarField("currentValue"),
   fqdn: scalarField("fqdn"),
   hostlabel: scalarField("hostlabel"),
@@ -7206,9 +8650,9 @@ Object.assign(DNSRecords.fields, {
   requiredValue: scalarField("requiredValue"),
   status: scalarField("status"),
   zone: scalarField("zone"),
-});
+};
 
-Object.assign(Deployment.fields, {
+const DeploymentFields: TypeMeta["fields"] = {
   canRedeploy: scalarField("canRedeploy"),
   canRollback: scalarField("canRollback"),
   createdAt: scalarField("createdAt"),
@@ -7231,29 +8675,29 @@ Object.assign(Deployment.fields, {
   suggestAddServiceDomain: scalarField("suggestAddServiceDomain"),
   updatedAt: scalarField("updatedAt"),
   url: scalarField("url"),
-});
+};
 
-Object.assign(DeploymentCreator.fields, {
+const DeploymentCreatorFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   email: scalarField("email"),
   id: scalarField("id"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(DeploymentDeploymentInstance.fields, {
+const DeploymentDeploymentInstanceFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(DeploymentEvent.fields, {
+const DeploymentEventFields: TypeMeta["fields"] = {
   completedAt: scalarField("completedAt"),
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   payload: objectField("payload", DeploymentEventPayload),
   step: scalarField("step"),
-});
+};
 
-Object.assign(DeploymentEventPayload.fields, {
+const DeploymentEventPayloadFields: TypeMeta["fields"] = {
   attempt: scalarField("attempt"),
   detail: scalarField("detail"),
   durationMs: scalarField("durationMs"),
@@ -7261,9 +8705,9 @@ Object.assign(DeploymentEventPayload.fields, {
   maxAttempts: scalarField("maxAttempts"),
   reason: scalarField("reason"),
   skipped: scalarField("skipped"),
-});
+};
 
-Object.assign(DeploymentInstanceExecution.fields, {
+const DeploymentInstanceExecutionFields: TypeMeta["fields"] = {
   completedAt: scalarField("completedAt"),
   createdAt: scalarField("createdAt"),
   deploymentId: scalarField("deploymentId"),
@@ -7271,23 +8715,23 @@ Object.assign(DeploymentInstanceExecution.fields, {
   id: scalarField("id"),
   status: scalarField("status"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(DeploymentSnapshot.fields, {
+const DeploymentSnapshotFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   updatedAt: scalarField("updatedAt"),
   variables: scalarField("variables"),
-});
+};
 
-Object.assign(DeploymentSocket.fields, {
+const DeploymentSocketFields: TypeMeta["fields"] = {
   ipv6: scalarField("ipv6"),
   port: scalarField("port"),
   processName: scalarField("processName"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(DeploymentTrigger.fields, {
+const DeploymentTriggerFields: TypeMeta["fields"] = {
   baseEnvironmentOverrideId: scalarField("baseEnvironmentOverrideId"),
   branch: scalarField("branch"),
   checkSuites: scalarField("checkSuites"),
@@ -7298,9 +8742,9 @@ Object.assign(DeploymentTrigger.fields, {
   repository: scalarField("repository"),
   serviceId: scalarField("serviceId"),
   validCheckSuites: scalarField("validCheckSuites"),
-});
+};
 
-Object.assign(DnsQueryLog.fields, {
+const DnsQueryLogFields: TypeMeta["fields"] = {
   answers: scalarField("answers"),
   cnameChain: scalarField("cnameChain"),
   deploymentId: scalarField("deploymentId"),
@@ -7311,14 +8755,14 @@ Object.assign(DnsQueryLog.fields, {
   queryZone: scalarField("queryZone"),
   rcode: scalarField("rcode"),
   serviceId: scalarField("serviceId"),
-});
+};
 
-Object.assign(DockerComposeImport.fields, {
+const DockerComposeImportFields: TypeMeta["fields"] = {
   errors: scalarField("errors"),
   patch: scalarField("patch"),
-});
+};
 
-Object.assign(Domain.fields, {
+const DomainFields: TypeMeta["fields"] = {
   cdnMode: scalarField("cdnMode"),
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
@@ -7330,14 +8774,14 @@ Object.assign(Domain.fields, {
   serviceId: scalarField("serviceId"),
   targetPort: scalarField("targetPort"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(DomainAvailable.fields, {
+const DomainAvailableFields: TypeMeta["fields"] = {
   available: scalarField("available"),
   message: scalarField("message"),
-});
+};
 
-Object.assign(DomainWithStatus.fields, {
+const DomainWithStatusFields: TypeMeta["fields"] = {
   cdnProvider: scalarField("cdnProvider"),
   certificateErrorMessage: scalarField("certificateErrorMessage"),
   certificateErrorType: scalarField("certificateErrorType"),
@@ -7347,17 +8791,17 @@ Object.assign(DomainWithStatus.fields, {
   certificateStatusDetailed: scalarField("certificateStatusDetailed"),
   dnsRecords: listField("dnsRecords", DNSRecords),
   domain: objectField("domain", Domain),
-});
+};
 
-Object.assign(EdgeCachingConfig.fields, {
+const EdgeCachingConfigFields: TypeMeta["fields"] = {
   defaultTtlSeconds: scalarField("defaultTtlSeconds"),
   htmlCaching: scalarField("htmlCaching"),
   mode: scalarField("mode"),
   purgeOnDeploy: scalarField("purgeOnDeploy"),
   staleWhileRevalidate: objectField("staleWhileRevalidate", StaleWhileRevalidateConfig),
-});
+};
 
-Object.assign(EdgeConfig.fields, {
+const EdgeConfigFields: TypeMeta["fields"] = {
   caching: objectField("caching", EdgeCachingConfig),
   edgeRules: scalarField("edgeRules"),
   enabled: scalarField("enabled"),
@@ -7367,39 +8811,39 @@ Object.assign(EdgeConfig.fields, {
   purgeEpochByKind: scalarField("purgeEpochByKind"),
   tracing: objectField("tracing", EdgeTracingConfig),
   underAttackModeUntil: scalarField("underAttackModeUntil"),
-});
+};
 
-Object.assign(EdgeRuleDiagnostic.fields, {
+const EdgeRuleDiagnosticFields: TypeMeta["fields"] = {
   code: scalarField("code"),
   message: scalarField("message"),
   path: scalarField("path"),
-});
+};
 
-Object.assign(EdgeTracingConfig.fields, {
+const EdgeTracingConfigFields: TypeMeta["fields"] = {
   enabled: scalarField("enabled"),
   sampleRate: scalarField("sampleRate"),
-});
+};
 
-Object.assign(EgressGateway.fields, {
+const EgressGatewayFields: TypeMeta["fields"] = {
   ipv4: scalarField("ipv4"),
   region: scalarField("region"),
   zone: scalarField("zone"),
-});
+};
 
-Object.assign(EgressMigrationEnvironmentResult.fields, {
+const EgressMigrationEnvironmentResultFields: TypeMeta["fields"] = {
   environmentId: scalarField("environmentId"),
   environmentName: scalarField("environmentName"),
   error: scalarField("error"),
   gateways: listField("gateways", EgressGateway),
   success: scalarField("success"),
-});
+};
 
-Object.assign(EgressMigrationResult.fields, {
+const EgressMigrationResultFields: TypeMeta["fields"] = {
   environments: listField("environments", EgressMigrationEnvironmentResult),
   ips: listField("ips", EgressGateway),
-});
+};
 
-Object.assign(Environment.fields, {
+const EnvironmentFields: TypeMeta["fields"] = {
   canAccess: scalarField("canAccess"),
   canvasGroupRefs: scalarField("canvasGroupRefs"),
   clearanceCachingTurnedOff: scalarField("clearanceCachingTurnedOff"),
@@ -7451,40 +8895,40 @@ Object.assign(Environment.fields, {
     first: "Int",
     last: "Int",
   }),
-});
+};
 
-Object.assign(EnvironmentClearanceServiceCounts.fields, {
+const EnvironmentClearanceServiceCountsFields: TypeMeta["fields"] = {
   inheriting: scalarField("inheriting"),
   off: scalarField("off"),
   on: scalarField("on"),
-});
+};
 
-Object.assign(EnvironmentConfigPlanCommentUpsertResult.fields, {
+const EnvironmentConfigPlanCommentUpsertResultFields: TypeMeta["fields"] = {
   commentId: scalarField("commentId"),
   url: scalarField("url"),
-});
+};
 
-Object.assign(EnvironmentDeploymentTriggersConnection.fields, {
+const EnvironmentDeploymentTriggersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", EnvironmentDeploymentTriggersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(EnvironmentDeploymentTriggersConnectionEdge.fields, {
+const EnvironmentDeploymentTriggersConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", DeploymentTrigger),
-});
+};
 
-Object.assign(EnvironmentDeploymentsConnection.fields, {
+const EnvironmentDeploymentsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", EnvironmentDeploymentsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(EnvironmentDeploymentsConnectionEdge.fields, {
+const EnvironmentDeploymentsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Deployment),
-});
+};
 
-Object.assign(EnvironmentMeta.fields, {
+const EnvironmentMetaFields: TypeMeta["fields"] = {
   baseBranch: scalarField("baseBranch"),
   branch: scalarField("branch"),
   latestSuccessfulGitHubDeploymentId: scalarField("latestSuccessfulGitHubDeploymentId"),
@@ -7493,9 +8937,9 @@ Object.assign(EnvironmentMeta.fields, {
   prRepo: scalarField("prRepo"),
   prTitle: scalarField("prTitle"),
   skippedResourceIds: scalarField("skippedResourceIds"),
-});
+};
 
-Object.assign(EnvironmentPatch.fields, {
+const EnvironmentPatchFields: TypeMeta["fields"] = {
   appliedAt: scalarField("appliedAt"),
   appliedBy: objectField("appliedBy", AppliedByMember),
   createdAt: scalarField("createdAt"),
@@ -7507,45 +8951,45 @@ Object.assign(EnvironmentPatch.fields, {
   patch: scalarField("patch"),
   status: scalarField("status"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(EnvironmentServiceInstancesConnection.fields, {
+const EnvironmentServiceInstancesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", EnvironmentServiceInstancesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(EnvironmentServiceInstancesConnectionEdge.fields, {
+const EnvironmentServiceInstancesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", ServiceInstance),
-});
+};
 
-Object.assign(EnvironmentVariablesConnection.fields, {
+const EnvironmentVariablesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", EnvironmentVariablesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(EnvironmentVariablesConnectionEdge.fields, {
+const EnvironmentVariablesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Variable),
-});
+};
 
-Object.assign(EnvironmentVolumeInstancesConnection.fields, {
+const EnvironmentVolumeInstancesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", EnvironmentVolumeInstancesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(EnvironmentVolumeInstancesConnectionEdge.fields, {
+const EnvironmentVolumeInstancesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", VolumeInstance),
-});
+};
 
-Object.assign(EstimatedUsage.fields, {
+const EstimatedUsageFields: TypeMeta["fields"] = {
   estimatedValue: scalarField("estimatedValue"),
   measurement: scalarField("measurement"),
   projectId: scalarField("projectId"),
-});
+};
 
-Object.assign(Event.fields, {
+const EventFields: TypeMeta["fields"] = {
   action: scalarField("action"),
   activityPayload: scalarField("activityPayload"),
   createdAt: scalarField("createdAt"),
@@ -7557,9 +9001,9 @@ Object.assign(Event.fields, {
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
   severity: scalarField("severity"),
-});
+};
 
-Object.assign(ExternalWorkspace.fields, {
+const ExternalWorkspaceFields: TypeMeta["fields"] = {
   allowDeprecatedRegions: scalarField("allowDeprecatedRegions"),
   avatar: scalarField("avatar"),
   banReason: scalarField("banReason"),
@@ -7583,35 +9027,35 @@ Object.assign(ExternalWorkspace.fields, {
   redactedDueTo2FAPending: scalarField("redactedDueTo2FAPending"),
   subscriptionPlanLimit: scalarField("subscriptionPlanLimit"),
   teamId: scalarField("teamId"),
-});
+};
 
-Object.assign(FunctionRuntime.fields, {
+const FunctionRuntimeFields: TypeMeta["fields"] = {
   image: scalarField("image"),
   latestVersion: objectField("latestVersion", FunctionRuntimeVersion),
   name: scalarField("name"),
   versions: listField("versions", FunctionRuntimeVersion),
-});
+};
 
-Object.assign(FunctionRuntimeVersion.fields, {
+const FunctionRuntimeVersionFields: TypeMeta["fields"] = {
   image: scalarField("image"),
   tag: scalarField("tag"),
-});
+};
 
-Object.assign(GitHubAccess.fields, {
+const GitHubAccessFields: TypeMeta["fields"] = {
   hasAccess: scalarField("hasAccess"),
   isPublic: scalarField("isPublic"),
-});
+};
 
-Object.assign(GitHubBranch.fields, {
+const GitHubBranchFields: TypeMeta["fields"] = {
   name: scalarField("name"),
-});
+};
 
-Object.assign(GitHubCheck.fields, {
+const GitHubCheckFields: TypeMeta["fields"] = {
   name: scalarField("name"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(GitHubPRInfo.fields, {
+const GitHubPRInfoFields: TypeMeta["fields"] = {
   additions: scalarField("additions"),
   author: scalarField("author"),
   body: scalarField("body"),
@@ -7621,14 +9065,14 @@ Object.assign(GitHubPRInfo.fields, {
   mergeable: scalarField("mergeable"),
   state: scalarField("state"),
   title: scalarField("title"),
-});
+};
 
-Object.assign(GitHubPRInfoResult.fields, {
+const GitHubPRInfoResultFields: TypeMeta["fields"] = {
   error: scalarField("error"),
   prInfo: objectField("prInfo", GitHubPRInfo),
-});
+};
 
-Object.assign(GitHubRepo.fields, {
+const GitHubRepoFields: TypeMeta["fields"] = {
   defaultBranch: scalarField("defaultBranch"),
   description: scalarField("description"),
   fullName: scalarField("fullName"),
@@ -7637,24 +9081,24 @@ Object.assign(GitHubRepo.fields, {
   isPrivate: scalarField("isPrivate"),
   name: scalarField("name"),
   ownerAvatarUrl: scalarField("ownerAvatarUrl"),
-});
+};
 
-Object.assign(GitHubRepoWithoutInstallation.fields, {
+const GitHubRepoWithoutInstallationFields: TypeMeta["fields"] = {
   defaultBranch: scalarField("defaultBranch"),
   description: scalarField("description"),
   fullName: scalarField("fullName"),
   id: scalarField("id"),
   isPrivate: scalarField("isPrivate"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(GitHubSshKey.fields, {
+const GitHubSshKeyFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   key: scalarField("key"),
   title: scalarField("title"),
-});
+};
 
-Object.assign(Group.fields, {
+const GroupFields: TypeMeta["fields"] = {
   color: scalarField("color"),
   groupId: scalarField("groupId"),
   icon: scalarField("icon"),
@@ -7663,26 +9107,26 @@ Object.assign(Group.fields, {
   name: scalarField("name"),
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
-});
+};
 
-Object.assign(HerokuApp.fields, {
+const HerokuAppFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(HttpDurationMetricsResult.fields, {
+const HttpDurationMetricsResultFields: TypeMeta["fields"] = {
   samples: listField("samples", HttpDurationMetricsSample),
-});
+};
 
-Object.assign(HttpDurationMetricsSample.fields, {
+const HttpDurationMetricsSampleFields: TypeMeta["fields"] = {
   p50: scalarField("p50"),
   p90: scalarField("p90"),
   p95: scalarField("p95"),
   p99: scalarField("p99"),
   ts: scalarField("ts"),
-});
+};
 
-Object.assign(HttpLog.fields, {
+const HttpLogFields: TypeMeta["fields"] = {
   clientUa: scalarField("clientUa"),
   deploymentId: scalarField("deploymentId"),
   deploymentInstanceId: scalarField("deploymentInstanceId"),
@@ -7703,43 +9147,43 @@ Object.assign(HttpLog.fields, {
   upstreamErrors: scalarField("upstreamErrors"),
   upstreamProto: scalarField("upstreamProto"),
   upstreamRqDuration: scalarField("upstreamRqDuration"),
-});
+};
 
-Object.assign(HttpMetricsByStatusResult.fields, {
+const HttpMetricsByStatusResultFields: TypeMeta["fields"] = {
   samples: listField("samples", HttpMetricsSample),
   statusCode: scalarField("statusCode"),
-});
+};
 
-Object.assign(HttpMetricsResult.fields, {
+const HttpMetricsResultFields: TypeMeta["fields"] = {
   samples: listField("samples", HttpMetricsSample),
-});
+};
 
-Object.assign(HttpMetricsSample.fields, {
+const HttpMetricsSampleFields: TypeMeta["fields"] = {
   ts: scalarField("ts"),
   value: scalarField("value"),
-});
+};
 
-Object.assign(IacPartialOwnershipResult.fields, {
+const IacPartialOwnershipResultFields: TypeMeta["fields"] = {
   affectedResources: scalarField("affectedResources"),
   iacPartials: scalarField("iacPartials"),
-});
+};
 
-Object.assign(Incident.fields, {
+const IncidentFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   message: scalarField("message"),
   status: scalarField("status"),
   url: scalarField("url"),
-});
+};
 
-Object.assign(Integration.fields, {
+const IntegrationFields: TypeMeta["fields"] = {
   config: scalarField("config"),
   id: scalarField("id"),
   name: scalarField("name"),
   projectId: scalarField("projectId"),
-});
+};
 
-Object.assign(IntegrationAuth.fields, {
+const IntegrationAuthFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   integrations: connectionField("integrations", Integration, {
     after: "String",
@@ -7749,41 +9193,41 @@ Object.assign(IntegrationAuth.fields, {
   }),
   provider: scalarField("provider"),
   providerId: scalarField("providerId"),
-});
+};
 
-Object.assign(IntegrationAuthIntegrationsConnection.fields, {
+const IntegrationAuthIntegrationsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", IntegrationAuthIntegrationsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(IntegrationAuthIntegrationsConnectionEdge.fields, {
+const IntegrationAuthIntegrationsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Integration),
-});
+};
 
-Object.assign(InviteCode.fields, {
+const InviteCodeFields: TypeMeta["fields"] = {
   code: scalarField("code", { sensitive: true }),
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
   role: scalarField("role"),
-});
+};
 
-Object.assign(Log.fields, {
+const LogFields: TypeMeta["fields"] = {
   attributes: listField("attributes", LogAttribute),
   message: scalarField("message"),
   severity: scalarField("severity"),
   tags: objectField("tags", LogTags),
   timestamp: scalarField("timestamp"),
-});
+};
 
-Object.assign(LogAttribute.fields, {
+const LogAttributeFields: TypeMeta["fields"] = {
   key: scalarField("key"),
   value: scalarField("value"),
-});
+};
 
-Object.assign(LogTags.fields, {
+const LogTagsFields: TypeMeta["fields"] = {
   deploymentId: scalarField("deploymentId"),
   deploymentInstanceId: scalarField("deploymentInstanceId"),
   environmentId: scalarField("environmentId"),
@@ -7791,29 +9235,29 @@ Object.assign(LogTags.fields, {
   projectId: scalarField("projectId"),
   serviceId: scalarField("serviceId"),
   snapshotId: scalarField("snapshotId"),
-});
+};
 
-Object.assign(MaintainerWorkspace.fields, {
+const MaintainerWorkspaceFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   id: scalarField("id"),
   name: scalarField("name"),
   partnerProfile: objectField("partnerProfile", PartnerProfile),
-});
+};
 
-Object.assign(Maintenance.fields, {
+const MaintenanceFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   message: scalarField("message"),
   start: scalarField("start"),
   status: scalarField("status"),
   url: scalarField("url"),
-});
+};
 
-Object.assign(Metric.fields, {
+const MetricFields: TypeMeta["fields"] = {
   ts: scalarField("ts"),
   value: scalarField("value"),
-});
+};
 
-Object.assign(MetricTags.fields, {
+const MetricTagsFields: TypeMeta["fields"] = {
   deploymentId: scalarField("deploymentId"),
   deploymentInstanceId: scalarField("deploymentInstanceId"),
   environmentId: scalarField("environmentId"),
@@ -7823,22 +9267,22 @@ Object.assign(MetricTags.fields, {
   serviceId: scalarField("serviceId"),
   volumeId: scalarField("volumeId"),
   volumeInstanceId: scalarField("volumeInstanceId"),
-});
+};
 
-Object.assign(MetricsResult.fields, {
+const MetricsResultFields: TypeMeta["fields"] = {
   measurement: scalarField("measurement"),
   tags: objectField("tags", MetricTags),
   values: listField("values", Metric),
-});
+};
 
-Object.assign(MonitorThresholdConfig.fields, {
+const MonitorThresholdConfigFields: TypeMeta["fields"] = {
   condition: scalarField("condition"),
   measurement: scalarField("measurement"),
   threshold: scalarField("threshold"),
   type: scalarField("type"),
-});
+};
 
-Object.assign(MysqlPitrRestorableWindow.fields, {
+const MysqlPitrRestorableWindowFields: TypeMeta["fields"] = {
   archiveConfigured: scalarField("archiveConfigured"),
   ceilingAt: scalarField("ceilingAt"),
   fetchedAt: scalarField("fetchedAt"),
@@ -7847,9 +9291,9 @@ Object.assign(MysqlPitrRestorableWindow.fields, {
   fullBackupsTakenAt: scalarField("fullBackupsTakenAt"),
   lineageCount: scalarField("lineageCount"),
   listingTruncated: scalarField("listingTruncated"),
-});
+};
 
-Object.assign(NetworkFlowLog.fields, {
+const NetworkFlowLogFields: TypeMeta["fields"] = {
   byteCount: scalarField("byteCount"),
   captureEnd: scalarField("captureEnd"),
   captureStart: scalarField("captureStart"),
@@ -7869,21 +9313,21 @@ Object.assign(NetworkFlowLog.fields, {
   serviceId: scalarField("serviceId"),
   srcAddr: scalarField("srcAddr"),
   srcPort: scalarField("srcPort"),
-});
+};
 
-Object.assign(Node.fields, {
+const NodeFields: TypeMeta["fields"] = {
   id: scalarField("id"),
-});
+};
 
-Object.assign(NotificationChannel.fields, {
+const NotificationChannelFields: TypeMeta["fields"] = {
   config: scalarField("config"),
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   updatedAt: scalarField("updatedAt"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(NotificationDelivery.fields, {
+const NotificationDeliveryFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   notificationInstance: objectField("notificationInstance", NotificationInstance),
@@ -7892,19 +9336,19 @@ Object.assign(NotificationDelivery.fields, {
   type: scalarField("type"),
   updatedAt: scalarField("updatedAt"),
   userId: scalarField("userId"),
-});
+};
 
-Object.assign(NotificationDeliveryCreated.fields, {
+const NotificationDeliveryCreatedFields: TypeMeta["fields"] = {
   delivery: objectField("delivery", NotificationDelivery),
   type: scalarField("type"),
-});
+};
 
-Object.assign(NotificationDeliveryResolved.fields, {
+const NotificationDeliveryResolvedFields: TypeMeta["fields"] = {
   deliveryIds: scalarField("deliveryIds"),
   type: scalarField("type"),
-});
+};
 
-Object.assign(NotificationInstance.fields, {
+const NotificationInstanceFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   environmentId: scalarField("environmentId"),
   event: objectField("event", Event),
@@ -7922,9 +9366,9 @@ Object.assign(NotificationInstance.fields, {
   updatedAt: scalarField("updatedAt"),
   volumeId: scalarField("volumeId"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(NotificationRule.fields, {
+const NotificationRuleFields: TypeMeta["fields"] = {
   channels: listField("channels", NotificationChannel),
   createdAt: scalarField("createdAt"),
   environmentId: scalarField("environmentId"),
@@ -7936,46 +9380,46 @@ Object.assign(NotificationRule.fields, {
   severities: scalarField("severities"),
   updatedAt: scalarField("updatedAt"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(ObservabilityDashboard.fields, {
+const ObservabilityDashboardFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   items: listField("items", ObservabilityDashboardItemInstance),
-});
+};
 
-Object.assign(ObservabilityDashboardAlert.fields, {
+const ObservabilityDashboardAlertFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   resolvedAt: scalarField("resolvedAt"),
   resourceId: scalarField("resourceId"),
   resourceType: scalarField("resourceType"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(ObservabilityDashboardItem.fields, {
+const ObservabilityDashboardItemFields: TypeMeta["fields"] = {
   config: objectField("config", ObservabilityDashboardItemConfig),
   description: scalarField("description"),
   id: scalarField("id"),
   monitors: listField("monitors", ObservabilityDashboardMonitor),
   name: scalarField("name"),
   type: scalarField("type"),
-});
+};
 
-Object.assign(ObservabilityDashboardItemConfig.fields, {
+const ObservabilityDashboardItemConfigFields: TypeMeta["fields"] = {
   httpMetric: scalarField("httpMetric"),
   logsFilter: scalarField("logsFilter"),
   measurements: scalarField("measurements"),
   projectUsageProperties: scalarField("projectUsageProperties"),
   resourceIds: scalarField("resourceIds"),
-});
+};
 
-Object.assign(ObservabilityDashboardItemInstance.fields, {
+const ObservabilityDashboardItemInstanceFields: TypeMeta["fields"] = {
   dashboardItem: objectField("dashboardItem", ObservabilityDashboardItem),
   displayConfig: scalarField("displayConfig"),
   id: scalarField("id"),
-});
+};
 
-Object.assign(ObservabilityDashboardMonitor.fields, {
+const ObservabilityDashboardMonitorFields: TypeMeta["fields"] = {
   alerts: listField("alerts", ObservabilityDashboardAlert, {
     endDate: "DateTime",
     startDate: "DateTime",
@@ -7984,24 +9428,24 @@ Object.assign(ObservabilityDashboardMonitor.fields, {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(PageInfo.fields, {
+const PageInfoFields: TypeMeta["fields"] = {
   endCursor: scalarField("endCursor"),
   hasNextPage: scalarField("hasNextPage"),
   hasPreviousPage: scalarField("hasPreviousPage"),
   startCursor: scalarField("startCursor"),
-});
+};
 
-Object.assign(PartnerProfile.fields, {
+const PartnerProfileFields: TypeMeta["fields"] = {
   category: scalarField("category"),
   description: scalarField("description"),
   slug: scalarField("slug"),
   type: scalarField("type"),
   website: scalarField("website"),
-});
+};
 
-Object.assign(Passkey.fields, {
+const PasskeyFields: TypeMeta["fields"] = {
   aaguid: scalarField("aaguid"),
   backedUp: scalarField("backedUp"),
   createdAt: scalarField("createdAt"),
@@ -8014,29 +9458,29 @@ Object.assign(Passkey.fields, {
   lastUsedDevice: scalarField("lastUsedDevice"),
   transports: scalarField("transports"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(PaymentMethod.fields, {
+const PaymentMethodFields: TypeMeta["fields"] = {
   card: objectField("card", PaymentMethodCard),
   id: scalarField("id"),
-});
+};
 
-Object.assign(PaymentMethodCard.fields, {
+const PaymentMethodCardFields: TypeMeta["fields"] = {
   brand: scalarField("brand"),
   country: scalarField("country"),
   last4: scalarField("last4"),
-});
+};
 
-Object.assign(PitrHaClusterReplicationHealth.fields, {
+const PitrHaClusterReplicationHealthFields: TypeMeta["fields"] = {
   allHealthy: scalarField("allHealthy"),
   checkedAt: scalarField("checkedAt"),
   environmentId: scalarField("environmentId"),
   members: listField("members", PitrHaMemberReplicationHealth),
   reachable: scalarField("reachable"),
   rootServiceId: scalarField("rootServiceId"),
-});
+};
 
-Object.assign(PitrHaMemberReplicationHealth.fields, {
+const PitrHaMemberReplicationHealthFields: TypeMeta["fields"] = {
   healthy: scalarField("healthy"),
   isLeader: scalarField("isLeader"),
   lagMb: scalarField("lagMb"),
@@ -8044,16 +9488,16 @@ Object.assign(PitrHaMemberReplicationHealth.fields, {
   serviceId: scalarField("serviceId"),
   serviceName: scalarField("serviceName"),
   state: scalarField("state"),
-});
+};
 
-Object.assign(PitrHaWorkflowMemberProgress.fields, {
+const PitrHaWorkflowMemberProgressFields: TypeMeta["fields"] = {
   isLeader: scalarField("isLeader"),
   serviceId: scalarField("serviceId"),
   serviceName: scalarField("serviceName"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(PitrHaWorkflowProgress.fields, {
+const PitrHaWorkflowProgressFields: TypeMeta["fields"] = {
   clusterMutated: scalarField("clusterMutated"),
   completedAt: scalarField("completedAt"),
   currentMemberServiceId: scalarField("currentMemberServiceId"),
@@ -8070,36 +9514,36 @@ Object.assign(PitrHaWorkflowProgress.fields, {
   startedAt: scalarField("startedAt"),
   updatedAt: scalarField("updatedAt"),
   workflowId: scalarField("workflowId"),
-});
+};
 
-Object.assign(PitrRestoreScratchEstimate.fields, {
+const PitrRestoreScratchEstimateFields: TypeMeta["fields"] = {
   baseBackupLabel: scalarField("baseBackupLabel"),
   dataMB: scalarField("dataMB"),
   estimatedScratchMB: scalarField("estimatedScratchMB"),
   likelyToFit: scalarField("likelyToFit"),
   planMaxSizeMB: scalarField("planMaxSizeMB"),
   walMB: scalarField("walMB"),
-});
+};
 
-Object.assign(PlanLimitOverride.fields, {
+const PlanLimitOverrideFields: TypeMeta["fields"] = {
   config: scalarField("config"),
   id: scalarField("id"),
-});
+};
 
-Object.assign(PlatformFeatureFlagStatus.fields, {
+const PlatformFeatureFlagStatusFields: TypeMeta["fields"] = {
   flag: scalarField("flag"),
   rolloutPercentage: scalarField("rolloutPercentage"),
   status: scalarField("status"),
   type: scalarField("type"),
-});
+};
 
-Object.assign(PlatformStatus.fields, {
+const PlatformStatusFields: TypeMeta["fields"] = {
   incident: objectField("incident", Incident),
   isStable: scalarField("isStable"),
   maintenance: objectField("maintenance", Maintenance),
-});
+};
 
-Object.assign(Plugin.fields, {
+const PluginFields: TypeMeta["fields"] = {
   containers: connectionField("containers", Container, {
     after: "String",
     before: "String",
@@ -8122,29 +9566,29 @@ Object.assign(Plugin.fields, {
     first: "Int",
     last: "Int",
   }),
-});
+};
 
-Object.assign(PluginContainersConnection.fields, {
+const PluginContainersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", PluginContainersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(PluginContainersConnectionEdge.fields, {
+const PluginContainersConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Container),
-});
+};
 
-Object.assign(PluginVariablesConnection.fields, {
+const PluginVariablesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", PluginVariablesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(PluginVariablesConnectionEdge.fields, {
+const PluginVariablesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Variable),
-});
+};
 
-Object.assign(Preferences.fields, {
+const PreferencesFields: TypeMeta["fields"] = {
   buildFailedEmail: scalarField("buildFailedEmail"),
   changelogEmail: scalarField("changelogEmail"),
   communityEmail: scalarField("communityEmail"),
@@ -8155,9 +9599,9 @@ Object.assign(Preferences.fields, {
   subprocessorUpdatesEmail: scalarField("subprocessorUpdatesEmail"),
   templateQueueEmail: scalarField("templateQueueEmail"),
   usageEmail: scalarField("usageEmail"),
-});
+};
 
-Object.assign(PrivateNetwork.fields, {
+const PrivateNetworkFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
   dnsName: scalarField("dnsName"),
@@ -8167,9 +9611,9 @@ Object.assign(PrivateNetwork.fields, {
   projectId: scalarField("projectId"),
   publicId: scalarField("publicId"),
   tags: scalarField("tags"),
-});
+};
 
-Object.assign(PrivateNetworkEndpoint.fields, {
+const PrivateNetworkEndpointFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
   dnsName: scalarField("dnsName"),
@@ -8179,9 +9623,9 @@ Object.assign(PrivateNetworkEndpoint.fields, {
   serviceInstanceId: scalarField("serviceInstanceId"),
   syncStatus: scalarField("syncStatus"),
   tags: scalarField("tags"),
-});
+};
 
-Object.assign(Project.fields, {
+const ProjectFields: TypeMeta["fields"] = {
   baseEnvironment: objectField("baseEnvironment", Environment),
   baseEnvironmentId: scalarField("baseEnvironmentId"),
   botPrEnvironments: scalarField("botPrEnvironments"),
@@ -8266,73 +9710,73 @@ Object.assign(Project.fields, {
   }),
   workspace: objectField("workspace", Workspace),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(ProjectBucketsConnection.fields, {
+const ProjectBucketsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectBucketsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectBucketsConnectionEdge.fields, {
+const ProjectBucketsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Bucket),
-});
+};
 
-Object.assign(ProjectComplianceInfo.fields, {
+const ProjectComplianceInfoFields: TypeMeta["fields"] = {
   memberPermissions: listField("memberPermissions", ProjectMemberPermissionsInfo),
   projectId: scalarField("projectId"),
   projectName: scalarField("projectName"),
   serviceBackups: listField("serviceBackups", ServiceBackupInfo),
   twoFactorMembers: listField("twoFactorMembers", ProjectMemberTwoFactorInfo),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(ProjectDeploymentTriggersConnection.fields, {
+const ProjectDeploymentTriggersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectDeploymentTriggersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectDeploymentTriggersConnectionEdge.fields, {
+const ProjectDeploymentTriggersConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", DeploymentTrigger),
-});
+};
 
-Object.assign(ProjectDeploymentsConnection.fields, {
+const ProjectDeploymentsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectDeploymentsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectDeploymentsConnectionEdge.fields, {
+const ProjectDeploymentsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Deployment),
-});
+};
 
-Object.assign(ProjectEnvironmentsConnection.fields, {
+const ProjectEnvironmentsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectEnvironmentsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectEnvironmentsConnectionEdge.fields, {
+const ProjectEnvironmentsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Environment),
-});
+};
 
-Object.assign(ProjectGroupsConnection.fields, {
+const ProjectGroupsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectGroupsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectGroupsConnectionEdge.fields, {
+const ProjectGroupsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Group),
-});
+};
 
-Object.assign(ProjectHistoryConnection.fields, {
+const ProjectHistoryConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectHistoryEntryEdge),
   pageInfo: objectField("pageInfo", ProjectHistoryPageInfo),
-});
+};
 
-Object.assign(ProjectHistoryEntry.fields, {
+const ProjectHistoryEntryFields: TypeMeta["fields"] = {
   action: scalarField("action"),
   activityPayload: scalarField("activityPayload"),
   actor: objectField("actor", ProjectOperationActor),
@@ -8348,54 +9792,54 @@ Object.assign(ProjectHistoryEntry.fields, {
   severity: scalarField("severity"),
   source: scalarField("source"),
   workflowId: scalarField("workflowId"),
-});
+};
 
-Object.assign(ProjectHistoryEntryEdge.fields, {
+const ProjectHistoryEntryEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", ProjectHistoryEntry),
-});
+};
 
-Object.assign(ProjectHistoryPageInfo.fields, {
+const ProjectHistoryPageInfoFields: TypeMeta["fields"] = {
   endCursor: scalarField("endCursor"),
   hasNextPage: scalarField("hasNextPage"),
-});
+};
 
-Object.assign(ProjectInvitation.fields, {
+const ProjectInvitationFields: TypeMeta["fields"] = {
   email: scalarField("email"),
   expiresAt: scalarField("expiresAt"),
   id: scalarField("id"),
   inviter: objectField("inviter", ProjectInvitationInviter),
   isExpired: scalarField("isExpired"),
   project: objectField("project", PublicProjectInformation),
-});
+};
 
-Object.assign(ProjectInvitationInviter.fields, {
+const ProjectInvitationInviterFields: TypeMeta["fields"] = {
   email: scalarField("email"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(ProjectMember.fields, {
+const ProjectMemberFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   email: scalarField("email"),
   id: scalarField("id"),
   name: scalarField("name"),
   role: scalarField("role"),
-});
+};
 
-Object.assign(ProjectMemberPermissionsInfo.fields, {
+const ProjectMemberPermissionsInfoFields: TypeMeta["fields"] = {
   email: scalarField("email"),
   name: scalarField("name"),
   role: scalarField("role"),
-});
+};
 
-Object.assign(ProjectMemberTwoFactorInfo.fields, {
+const ProjectMemberTwoFactorInfoFields: TypeMeta["fields"] = {
   email: scalarField("email"),
   enabledMethods: scalarField("enabledMethods"),
   name: scalarField("name"),
   twoFactorAuthEnabled: scalarField("twoFactorAuthEnabled"),
-});
+};
 
-Object.assign(ProjectOperation.fields, {
+const ProjectOperationFields: TypeMeta["fields"] = {
   actor: objectField("actor", ProjectOperationActor),
   changes: scalarField("changes"),
   children: listField("children", ProjectOperation),
@@ -8407,71 +9851,71 @@ Object.assign(ProjectOperation.fields, {
   startedAt: scalarField("startedAt"),
   status: scalarField("status"),
   workflowId: scalarField("workflowId"),
-});
+};
 
-Object.assign(ProjectOperationActor.fields, {
+const ProjectOperationActorFields: TypeMeta["fields"] = {
   onBehalfOf: scalarField("onBehalfOf"),
   principal: scalarField("principal"),
   surface: scalarField("surface"),
-});
+};
 
-Object.assign(ProjectPermission.fields, {
+const ProjectPermissionFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   projectId: scalarField("projectId"),
   role: scalarField("role"),
   userId: scalarField("userId"),
-});
+};
 
-Object.assign(ProjectPluginsConnection.fields, {
+const ProjectPluginsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectPluginsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectPluginsConnectionEdge.fields, {
+const ProjectPluginsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Plugin),
-});
+};
 
-Object.assign(ProjectProjectPermissionsConnection.fields, {
+const ProjectProjectPermissionsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectProjectPermissionsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectProjectPermissionsConnectionEdge.fields, {
+const ProjectProjectPermissionsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", ProjectPermission),
-});
+};
 
-Object.assign(ProjectResourceAccess.fields, {
+const ProjectResourceAccessFields: TypeMeta["fields"] = {
   customDomain: objectField("customDomain", AccessRule),
   databaseDeployment: objectField("databaseDeployment", AccessRule),
   deployment: objectField("deployment", AccessRule),
   environment: objectField("environment", AccessRule),
   plugin: objectField("plugin", AccessRule),
   sandbox: objectField("sandbox", AccessRule),
-});
+};
 
-Object.assign(ProjectServiceUsagePage.fields, {
+const ProjectServiceUsagePageFields: TypeMeta["fields"] = {
   pageInfo: objectField("pageInfo", ProjectServiceUsagePageInfo),
   usage: listField("usage", AggregatedUsage),
-});
+};
 
-Object.assign(ProjectServiceUsagePageInfo.fields, {
+const ProjectServiceUsagePageInfoFields: TypeMeta["fields"] = {
   endCursor: scalarField("endCursor"),
   hasNextPage: scalarField("hasNextPage"),
-});
+};
 
-Object.assign(ProjectServicesConnection.fields, {
+const ProjectServicesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectServicesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectServicesConnectionEdge.fields, {
+const ProjectServicesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Service),
-});
+};
 
-Object.assign(ProjectToken.fields, {
+const ProjectTokenFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   displayToken: scalarField("displayToken"),
   environment: objectField("environment", Environment),
@@ -8480,346 +9924,346 @@ Object.assign(ProjectToken.fields, {
   name: scalarField("name"),
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
-});
+};
 
-Object.assign(ProjectVolumesConnection.fields, {
+const ProjectVolumesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ProjectVolumesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ProjectVolumesConnectionEdge.fields, {
+const ProjectVolumesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Volume),
-});
+};
 
-Object.assign(ProjectWorkspaceMember.fields, {
+const ProjectWorkspaceMemberFields: TypeMeta["fields"] = {
   email: scalarField("email"),
   enabledMethods: scalarField("enabledMethods"),
   name: scalarField("name"),
   twoFactorAuthEnabled: scalarField("twoFactorAuthEnabled"),
-});
+};
 
-Object.assign(ProjectWorkspaceMembersResponse.fields, {
+const ProjectWorkspaceMembersResponseFields: TypeMeta["fields"] = {
   members: listField("members", ProjectWorkspaceMember),
   projectId: scalarField("projectId"),
   projectName: scalarField("projectName"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(ProviderAuth.fields, {
+const ProviderAuthFields: TypeMeta["fields"] = {
   email: scalarField("email"),
   id: scalarField("id"),
   isAuthEnabled: scalarField("isAuthEnabled"),
   metadata: scalarField("metadata"),
   provider: scalarField("provider"),
   userId: scalarField("userId"),
-});
+};
 
-Object.assign(PublicProjectInformation.fields, {
+const PublicProjectInformationFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(PublicStats.fields, {
+const PublicStatsFields: TypeMeta["fields"] = {
   totalDeploymentsLastMonth: scalarField("totalDeploymentsLastMonth"),
   totalLogsLastMonth: scalarField("totalLogsLastMonth"),
   totalProjects: scalarField("totalProjects"),
   totalRequestsLastMonth: scalarField("totalRequestsLastMonth"),
   totalServices: scalarField("totalServices"),
   totalUsers: scalarField("totalUsers"),
-});
+};
 
-Object.assign(QueryApiTokensConnection.fields, {
+const QueryApiTokensConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryApiTokensConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryApiTokensConnectionEdge.fields, {
+const QueryApiTokensConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", ApiToken),
-});
+};
 
-Object.assign(QueryAuditLogsConnection.fields, {
+const QueryAuditLogsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryAuditLogsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryAuditLogsConnectionEdge.fields, {
+const QueryAuditLogsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", AuditLog),
-});
+};
 
-Object.assign(QueryCloudAgentCheckpointsConnection.fields, {
+const QueryCloudAgentCheckpointsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryCloudAgentCheckpointsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryCloudAgentCheckpointsConnectionEdge.fields, {
+const QueryCloudAgentCheckpointsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", CloudAgentCheckpoint),
-});
+};
 
-Object.assign(QueryCloudAgentConsoleSessionsConnection.fields, {
+const QueryCloudAgentConsoleSessionsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryCloudAgentConsoleSessionsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryCloudAgentConsoleSessionsConnectionEdge.fields, {
+const QueryCloudAgentConsoleSessionsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", SandboxSession),
-});
+};
 
-Object.assign(QueryDeploymentEventsConnection.fields, {
+const QueryDeploymentEventsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryDeploymentEventsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryDeploymentEventsConnectionEdge.fields, {
+const QueryDeploymentEventsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", DeploymentEvent),
-});
+};
 
-Object.assign(QueryDeploymentInstanceExecutionsConnection.fields, {
+const QueryDeploymentInstanceExecutionsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryDeploymentInstanceExecutionsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryDeploymentInstanceExecutionsConnectionEdge.fields, {
+const QueryDeploymentInstanceExecutionsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", DeploymentInstanceExecution),
-});
+};
 
-Object.assign(QueryDeploymentTriggersConnection.fields, {
+const QueryDeploymentTriggersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryDeploymentTriggersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryDeploymentTriggersConnectionEdge.fields, {
+const QueryDeploymentTriggersConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", DeploymentTrigger),
-});
+};
 
-Object.assign(QueryDeploymentsConnection.fields, {
+const QueryDeploymentsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryDeploymentsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryDeploymentsConnectionEdge.fields, {
+const QueryDeploymentsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Deployment),
-});
+};
 
-Object.assign(QueryEnvironmentPatchesConnection.fields, {
+const QueryEnvironmentPatchesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryEnvironmentPatchesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryEnvironmentPatchesConnectionEdge.fields, {
+const QueryEnvironmentPatchesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", EnvironmentPatch),
-});
+};
 
-Object.assign(QueryEnvironmentsConnection.fields, {
+const QueryEnvironmentsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryEnvironmentsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryEnvironmentsConnectionEdge.fields, {
+const QueryEnvironmentsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Environment),
-});
+};
 
-Object.assign(QueryEventsConnection.fields, {
+const QueryEventsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryEventsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryEventsConnectionEdge.fields, {
+const QueryEventsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Event),
-});
+};
 
-Object.assign(QueryIntegrationAuthsConnection.fields, {
+const QueryIntegrationAuthsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryIntegrationAuthsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryIntegrationAuthsConnectionEdge.fields, {
+const QueryIntegrationAuthsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", IntegrationAuth),
-});
+};
 
-Object.assign(QueryIntegrationsConnection.fields, {
+const QueryIntegrationsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryIntegrationsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryIntegrationsConnectionEdge.fields, {
+const QueryIntegrationsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Integration),
-});
+};
 
-Object.assign(QueryNotificationDeliveriesConnection.fields, {
+const QueryNotificationDeliveriesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryNotificationDeliveriesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryNotificationDeliveriesConnectionEdge.fields, {
+const QueryNotificationDeliveriesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", NotificationDelivery),
-});
+};
 
-Object.assign(QueryObservabilityDashboardsConnection.fields, {
+const QueryObservabilityDashboardsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryObservabilityDashboardsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryObservabilityDashboardsConnectionEdge.fields, {
+const QueryObservabilityDashboardsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", ObservabilityDashboard),
-});
+};
 
-Object.assign(QueryPasskeysConnection.fields, {
+const QueryPasskeysConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryPasskeysConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryPasskeysConnectionEdge.fields, {
+const QueryPasskeysConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Passkey),
-});
+};
 
-Object.assign(QueryProjectTokensConnection.fields, {
+const QueryProjectTokensConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryProjectTokensConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryProjectTokensConnectionEdge.fields, {
+const QueryProjectTokensConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", ProjectToken),
-});
+};
 
-Object.assign(QueryProjectsConnection.fields, {
+const QueryProjectsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryProjectsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryProjectsConnectionEdge.fields, {
+const QueryProjectsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Project),
-});
+};
 
-Object.assign(QuerySandboxSessionsConnection.fields, {
+const QuerySandboxSessionsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QuerySandboxSessionsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QuerySandboxSessionsConnectionEdge.fields, {
+const QuerySandboxSessionsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", SandboxSession),
-});
+};
 
-Object.assign(QuerySandboxesConnection.fields, {
+const QuerySandboxesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QuerySandboxesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QuerySandboxesConnectionEdge.fields, {
+const QuerySandboxesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Sandbox),
-});
+};
 
-Object.assign(QuerySessionsConnection.fields, {
+const QuerySessionsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QuerySessionsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QuerySessionsConnectionEdge.fields, {
+const QuerySessionsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Session),
-});
+};
 
-Object.assign(QuerySshPublicKeysConnection.fields, {
+const QuerySshPublicKeysConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QuerySshPublicKeysConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QuerySshPublicKeysConnectionEdge.fields, {
+const QuerySshPublicKeysConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", SshPublicKey),
-});
+};
 
-Object.assign(QueryTeamTemplatesConnection.fields, {
+const QueryTeamTemplatesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryTeamTemplatesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryTeamTemplatesConnectionEdge.fields, {
+const QueryTeamTemplatesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Template),
-});
+};
 
-Object.assign(QueryTemplateSearchConnection.fields, {
+const QueryTemplateSearchConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryTemplateSearchConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryTemplateSearchConnectionEdge.fields, {
+const QueryTemplateSearchConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", TemplateSearchResult),
-});
+};
 
-Object.assign(QueryTemplatesConnection.fields, {
+const QueryTemplatesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryTemplatesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryTemplatesConnectionEdge.fields, {
+const QueryTemplatesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Template),
-});
+};
 
-Object.assign(QueryTrustedDomainsConnection.fields, {
+const QueryTrustedDomainsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryTrustedDomainsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryTrustedDomainsConnectionEdge.fields, {
+const QueryTrustedDomainsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", TrustedDomain),
-});
+};
 
-Object.assign(QueryUserTemplatesConnection.fields, {
+const QueryUserTemplatesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryUserTemplatesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryUserTemplatesConnectionEdge.fields, {
+const QueryUserTemplatesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Template),
-});
+};
 
-Object.assign(QueryWorkspaceIdentityProvidersConnection.fields, {
+const QueryWorkspaceIdentityProvidersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryWorkspaceIdentityProvidersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryWorkspaceIdentityProvidersConnectionEdge.fields, {
+const QueryWorkspaceIdentityProvidersConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", WorkspaceIdentityProvider),
-});
+};
 
-Object.assign(QueryWorkspaceTemplatesConnection.fields, {
+const QueryWorkspaceTemplatesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryWorkspaceTemplatesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(QueryWorkspaceTemplatesConnectionEdge.fields, {
+const QueryWorkspaceTemplatesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Template),
-});
+};
 
-Object.assign(RailwayDomain.fields, {
+const RailwayDomainFields: TypeMeta["fields"] = {
   autoRenewEnabled: scalarField("autoRenewEnabled"),
   connectedServiceInstances: listField("connectedServiceInstances", ConnectedServiceInstance),
   createdAt: scalarField("createdAt"),
@@ -8833,9 +10277,9 @@ Object.assign(RailwayDomain.fields, {
   status: scalarField("status"),
   workspaceId: scalarField("workspaceId"),
   workspaceName: scalarField("workspaceName"),
-});
+};
 
-Object.assign(RailwayDomainDnsRecord.fields, {
+const RailwayDomainDnsRecordFields: TypeMeta["fields"] = {
   answer: scalarField("answer"),
   domainName: scalarField("domainName"),
   fqdn: scalarField("fqdn"),
@@ -8844,50 +10288,50 @@ Object.assign(RailwayDomainDnsRecord.fields, {
   priority: scalarField("priority"),
   ttl: scalarField("ttl"),
   type: scalarField("type"),
-});
+};
 
-Object.assign(RailwayDomainEmailForwardingLimits.fields, {
+const RailwayDomainEmailForwardingLimitsFields: TypeMeta["fields"] = {
   maxAliases: scalarField("maxAliases"),
-});
+};
 
-Object.assign(RailwayDomainEmailForwardingRule.fields, {
+const RailwayDomainEmailForwardingRuleFields: TypeMeta["fields"] = {
   alias: scalarField("alias"),
   destination: scalarField("destination"),
-});
+};
 
-Object.assign(RailwayDomainEmailForwardingTeardown.fields, {
+const RailwayDomainEmailForwardingTeardownFields: TypeMeta["fields"] = {
   addressesRemoved: scalarField("addressesRemoved"),
   mailRecordsRemoved: scalarField("mailRecordsRemoved"),
-});
+};
 
-Object.assign(RailwayDomainNameservers.fields, {
+const RailwayDomainNameserversFields: TypeMeta["fields"] = {
   isDefault: scalarField("isDefault"),
   nameservers: scalarField("nameservers"),
-});
+};
 
-Object.assign(RecoveryCodes.fields, {
+const RecoveryCodesFields: TypeMeta["fields"] = {
   recoveryCodes: scalarField("recoveryCodes", { sensitive: true }),
-});
+};
 
-Object.assign(ReferralInfo.fields, {
+const ReferralInfoFields: TypeMeta["fields"] = {
   code: scalarField("code"),
   id: scalarField("id"),
   referralStats: objectField("referralStats", ReferralStats),
   status: scalarField("status"),
-});
+};
 
-Object.assign(ReferralStats.fields, {
+const ReferralStatsFields: TypeMeta["fields"] = {
   credited: scalarField("credited"),
   pending: scalarField("pending"),
-});
+};
 
-Object.assign(ReferralUser.fields, {
+const ReferralUserFields: TypeMeta["fields"] = {
   code: scalarField("code"),
   id: scalarField("id"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(Region.fields, {
+const RegionFields: TypeMeta["fields"] = {
   country: scalarField("country"),
   deploymentConstraints: objectField("deploymentConstraints", RegionDeploymentConstraints),
   id: scalarField("id"),
@@ -8895,18 +10339,18 @@ Object.assign(Region.fields, {
   name: scalarField("name"),
   region: scalarField("region"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(RegionDeploymentConstraints.fields, {
+const RegionDeploymentConstraintsFields: TypeMeta["fields"] = {
   deprecationInfo: objectField("deprecationInfo", RegionDeprecationInfo),
-});
+};
 
-Object.assign(RegionDeprecationInfo.fields, {
+const RegionDeprecationInfoFields: TypeMeta["fields"] = {
   isDeprecated: scalarField("isDeprecated"),
   replacementRegion: scalarField("replacementRegion"),
-});
+};
 
-Object.assign(ResolvedFileConfig.fields, {
+const ResolvedFileConfigFields: TypeMeta["fields"] = {
   commitHash: scalarField("commitHash"),
   configFile: scalarField("configFile"),
   deploymentId: scalarField("deploymentId"),
@@ -8914,32 +10358,32 @@ Object.assign(ResolvedFileConfig.fields, {
   propertyFileMapping: scalarField("propertyFileMapping"),
   repo: scalarField("repo"),
   resolvedAt: scalarField("resolvedAt"),
-});
+};
 
-Object.assign(ResourceAccess.fields, {
+const ResourceAccessFields: TypeMeta["fields"] = {
   deployment: objectField("deployment", AccessRule),
   project: objectField("project", AccessRule),
-});
+};
 
-Object.assign(SSHSignupClaimableWorkspace.fields, {
+const SSHSignupClaimableWorkspaceFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(SSHSignupInfo.fields, {
+const SSHSignupInfoFields: TypeMeta["fields"] = {
   claimableWorkspaces: listField("claimableWorkspaces", SSHSignupClaimableWorkspace),
   fingerprint: scalarField("fingerprint"),
   trial: objectField("trial", SSHSignupTrial),
-});
+};
 
-Object.assign(SSHSignupTrial.fields, {
+const SSHSignupTrialFields: TypeMeta["fields"] = {
   buildExpiresAt: scalarField("buildExpiresAt"),
   cloudAgentId: scalarField("cloudAgentId"),
   projectId: scalarField("projectId"),
   projectName: scalarField("projectName"),
-});
+};
 
-Object.assign(Sandbox.fields, {
+const SandboxFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   domains: listField("domains", SandboxDomain),
   environmentId: scalarField("environmentId"),
@@ -8948,30 +10392,30 @@ Object.assign(Sandbox.fields, {
   networkIsolation: scalarField("networkIsolation"),
   region: scalarField("region"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(SandboxCheckpoint.fields, {
+const SandboxCheckpointFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   environmentId: scalarField("environmentId"),
   id: scalarField("id"),
   key: scalarField("key"),
-});
+};
 
-Object.assign(SandboxDomain.fields, {
+const SandboxDomainFields: TypeMeta["fields"] = {
   domain: scalarField("domain"),
   port: scalarField("port"),
   prefix: scalarField("prefix"),
-});
+};
 
-Object.assign(SandboxExecResult.fields, {
+const SandboxExecResultFields: TypeMeta["fields"] = {
   exitCode: scalarField("exitCode"),
   stderr: scalarField("stderr"),
   stdout: scalarField("stdout"),
   timedOut: scalarField("timedOut"),
   truncated: scalarField("truncated"),
-});
+};
 
-Object.assign(SandboxSession.fields, {
+const SandboxSessionFields: TypeMeta["fields"] = {
   attached: scalarField("attached"),
   command: scalarField("command"),
   createdAt: scalarField("createdAt"),
@@ -8979,21 +10423,21 @@ Object.assign(SandboxSession.fields, {
   kind: scalarField("kind"),
   name: scalarField("name"),
   runState: objectField("runState", SandboxSessionRunState),
-});
+};
 
-Object.assign(SandboxSessionRunState.fields, {
+const SandboxSessionRunStateFields: TypeMeta["fields"] = {
   exitCode: scalarField("exitCode"),
   exitedAt: scalarField("exitedAt"),
   running: scalarField("running"),
-});
+};
 
-Object.assign(SandboxTemplateBuild.fields, {
+const SandboxTemplateBuildFields: TypeMeta["fields"] = {
   environmentId: scalarField("environmentId"),
   id: scalarField("id"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(Service.fields, {
+const ServiceFields: TypeMeta["fields"] = {
   autoInstrumentationEnabled: scalarField("autoInstrumentationEnabled"),
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
@@ -9029,25 +10473,25 @@ Object.assign(Service.fields, {
   templateThreadSlug: scalarField("templateThreadSlug"),
   tracingEnabled: scalarField("tracingEnabled"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(ServiceBackupInfo.fields, {
+const ServiceBackupInfoFields: TypeMeta["fields"] = {
   schedules: scalarField("schedules"),
   serviceId: scalarField("serviceId"),
   serviceName: scalarField("serviceName"),
-});
+};
 
-Object.assign(ServiceDeploymentsConnection.fields, {
+const ServiceDeploymentsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ServiceDeploymentsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ServiceDeploymentsConnectionEdge.fields, {
+const ServiceDeploymentsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Deployment),
-});
+};
 
-Object.assign(ServiceDomain.fields, {
+const ServiceDomainFields: TypeMeta["fields"] = {
   cdnMode: scalarField("cdnMode"),
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
@@ -9063,9 +10507,9 @@ Object.assign(ServiceDomain.fields, {
   syncStatus: scalarField("syncStatus"),
   targetPort: scalarField("targetPort"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(ServiceInstance.fields, {
+const ServiceInstanceFields: TypeMeta["fields"] = {
   activeDeployments: listField("activeDeployments", Deployment),
   autoInstrumentationEnabled: scalarField("autoInstrumentationEnabled"),
   buildCommand: scalarField("buildCommand"),
@@ -9110,50 +10554,50 @@ Object.assign(ServiceInstance.fields, {
   updatedAt: scalarField("updatedAt"),
   upstreamUrl: scalarField("upstreamUrl"),
   watchPatterns: scalarField("watchPatterns"),
-});
+};
 
-Object.assign(ServiceInstanceAutoDeployStatus.fields, {
+const ServiceInstanceAutoDeployStatusFields: TypeMeta["fields"] = {
   canEnable: scalarField("canEnable"),
   enabled: scalarField("enabled"),
   reason: scalarField("reason"),
-});
+};
 
-Object.assign(ServiceInstanceAutoDeployUpdateResult.fields, {
+const ServiceInstanceAutoDeployUpdateResultFields: TypeMeta["fields"] = {
   enabled: scalarField("enabled"),
-});
+};
 
-Object.assign(ServiceRepoTriggersConnection.fields, {
+const ServiceRepoTriggersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ServiceRepoTriggersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ServiceRepoTriggersConnectionEdge.fields, {
+const ServiceRepoTriggersConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", DeploymentTrigger),
-});
+};
 
-Object.assign(ServiceServiceInstancesConnection.fields, {
+const ServiceServiceInstancesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", ServiceServiceInstancesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(ServiceServiceInstancesConnectionEdge.fields, {
+const ServiceServiceInstancesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", ServiceInstance),
-});
+};
 
-Object.assign(ServiceSource.fields, {
+const ServiceSourceFields: TypeMeta["fields"] = {
   image: scalarField("image"),
   repo: scalarField("repo"),
-});
+};
 
-Object.assign(ServiceTracingStatus.fields, {
+const ServiceTracingStatusFields: TypeMeta["fields"] = {
   lastEdgeSpanAt: scalarField("lastEdgeSpanAt"),
   lastServiceSpanAt: scalarField("lastServiceSpanAt"),
   serviceId: scalarField("serviceId"),
-});
+};
 
-Object.assign(Session.fields, {
+const SessionFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   expiredAt: scalarField("expiredAt"),
   id: scalarField("id"),
@@ -9161,9 +10605,9 @@ Object.assign(Session.fields, {
   name: scalarField("name"),
   type: scalarField("type"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(Signal.fields, {
+const SignalFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   createdBy: scalarField("createdBy"),
   default: scalarField("default"),
@@ -9175,9 +10619,9 @@ Object.assign(Signal.fields, {
   updatedAt: scalarField("updatedAt"),
   version: scalarField("version"),
   writableBy: scalarField("writableBy"),
-});
+};
 
-Object.assign(SignalChange.fields, {
+const SignalChangeFields: TypeMeta["fields"] = {
   authorId: scalarField("authorId"),
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
@@ -9186,15 +10630,15 @@ Object.assign(SignalChange.fields, {
   prevState: scalarField("prevState"),
   seq: scalarField("seq"),
   signalId: scalarField("signalId"),
-});
+};
 
-Object.assign(SignalEvaluation.fields, {
+const SignalEvaluationFields: TypeMeta["fields"] = {
   reason: scalarField("reason"),
   trace: scalarField("trace"),
   value: scalarField("value"),
-});
+};
 
-Object.assign(SimilarTemplate.fields, {
+const SimilarTemplateFields: TypeMeta["fields"] = {
   code: scalarField("code"),
   createdAt: scalarField("createdAt"),
   creator: objectField("creator", TemplateCreator),
@@ -9206,15 +10650,15 @@ Object.assign(SimilarTemplate.fields, {
   teamId: scalarField("teamId"),
   userId: scalarField("userId"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(SpendCommitment.fields, {
+const SpendCommitmentFields: TypeMeta["fields"] = {
   features: scalarField("features"),
   id: scalarField("id"),
   minSpendAmountCents: scalarField("minSpendAmountCents"),
-});
+};
 
-Object.assign(SshPublicKey.fields, {
+const SshPublicKeyFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   fingerprint: scalarField("fingerprint"),
   id: scalarField("id"),
@@ -9223,26 +10667,26 @@ Object.assign(SshPublicKey.fields, {
   updatedAt: scalarField("updatedAt"),
   userId: scalarField("userId"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(StaleWhileRevalidateConfig.fields, {
+const StaleWhileRevalidateConfigFields: TypeMeta["fields"] = {
   enabled: scalarField("enabled"),
-});
+};
 
-Object.assign(SubscriptionDiscount.fields, {
+const SubscriptionDiscountFields: TypeMeta["fields"] = {
   couponId: scalarField("couponId"),
   couponName: scalarField("couponName"),
-});
+};
 
-Object.assign(SubscriptionItem.fields, {
+const SubscriptionItemFields: TypeMeta["fields"] = {
   itemId: scalarField("itemId"),
   priceDollars: scalarField("priceDollars"),
   priceId: scalarField("priceId"),
   productId: scalarField("productId"),
   quantity: scalarField("quantity"),
-});
+};
 
-Object.assign(TCPProxy.fields, {
+const TCPProxyFields: TypeMeta["fields"] = {
   applicationPort: scalarField("applicationPort"),
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
@@ -9253,9 +10697,9 @@ Object.assign(TCPProxy.fields, {
   serviceId: scalarField("serviceId"),
   syncStatus: scalarField("syncStatus"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(Team.fields, {
+const TeamFields: TypeMeta["fields"] = {
   adoptionHistory: listField("adoptionHistory", AdoptionInfo),
   adoptionLevel: scalarField("adoptionLevel"),
   apiTokenRateLimit: objectField("apiTokenRateLimit", ApiTokenRateLimit),
@@ -9276,37 +10720,37 @@ Object.assign(Team.fields, {
   teamPermissions: listField("teamPermissions", TeamPermission),
   updatedAt: scalarField("updatedAt"),
   workspace: objectField("workspace", Workspace),
-});
+};
 
-Object.assign(TeamMember.fields, {
+const TeamMemberFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   email: scalarField("email"),
   featureFlags: scalarField("featureFlags"),
   id: scalarField("id"),
   name: scalarField("name"),
   role: scalarField("role"),
-});
+};
 
-Object.assign(TeamPermission.fields, {
+const TeamPermissionFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   role: scalarField("role"),
   updatedAt: scalarField("updatedAt"),
   userId: scalarField("userId"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(TeamProjectsConnection.fields, {
+const TeamProjectsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", TeamProjectsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(TeamProjectsConnectionEdge.fields, {
+const TeamProjectsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Project),
-});
+};
 
-Object.assign(Template.fields, {
+const TemplateFields: TypeMeta["fields"] = {
   activeProjects: scalarField("activeProjects"),
   canvasConfig: scalarField("canvasConfig"),
   category: scalarField("category"),
@@ -9347,27 +10791,27 @@ Object.assign(Template.fields, {
   totalPayout: scalarField("totalPayout"),
   updatedAt: scalarField("updatedAt"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(TemplateCreator.fields, {
+const TemplateCreatorFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   hasPublicProfile: scalarField("hasPublicProfile"),
   name: scalarField("name"),
   username: scalarField("username"),
-});
+};
 
-Object.assign(TemplateDeployPayload.fields, {
+const TemplateDeployPayloadFields: TypeMeta["fields"] = {
   operationId: scalarField("operationId"),
   projectId: scalarField("projectId"),
   workflowId: scalarField("workflowId"),
-});
+};
 
-Object.assign(TemplateGuide.fields, {
+const TemplateGuideFields: TypeMeta["fields"] = {
   post: scalarField("post"),
   video: scalarField("video"),
-});
+};
 
-Object.assign(TemplateMetrics.fields, {
+const TemplateMetricsFields: TypeMeta["fields"] = {
   activeDeployments: scalarField("activeDeployments"),
   deploymentsLast90Days: scalarField("deploymentsLast90Days"),
   earningsLast30Days: scalarField("earningsLast30Days"),
@@ -9377,9 +10821,9 @@ Object.assign(TemplateMetrics.fields, {
   templateHealth: scalarField("templateHealth"),
   totalDeployments: scalarField("totalDeployments"),
   totalEarnings: scalarField("totalEarnings"),
-});
+};
 
-Object.assign(TemplateSearchResult.fields, {
+const TemplateSearchResultFields: TypeMeta["fields"] = {
   code: scalarField("code"),
   creatorName: scalarField("creatorName"),
   deploymentCount: scalarField("deploymentCount"),
@@ -9389,27 +10833,27 @@ Object.assign(TemplateSearchResult.fields, {
   image: scalarField("image"),
   isVerified: scalarField("isVerified"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(TemplateService.fields, {
+const TemplateServiceFields: TypeMeta["fields"] = {
   config: scalarField("config"),
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   templateId: scalarField("templateId"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(TemplateServicesConnection.fields, {
+const TemplateServicesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", TemplateServicesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(TemplateServicesConnectionEdge.fields, {
+const TemplateServicesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", TemplateService),
-});
+};
 
-Object.assign(TraceSpan.fields, {
+const TraceSpanFields: TypeMeta["fields"] = {
   component: scalarField("component"),
   deploymentId: scalarField("deploymentId"),
   deploymentInstanceId: scalarField("deploymentInstanceId"),
@@ -9428,20 +10872,20 @@ Object.assign(TraceSpan.fields, {
   statusCode: scalarField("statusCode"),
   statusMessage: scalarField("statusMessage"),
   traceId: scalarField("traceId"),
-});
+};
 
-Object.assign(TraceSpanEvent.fields, {
+const TraceSpanEventFields: TypeMeta["fields"] = {
   attributes: scalarField("attributes"),
   name: scalarField("name"),
   timestamp: scalarField("timestamp"),
-});
+};
 
-Object.assign(TraceSpanLink.fields, {
+const TraceSpanLinkFields: TypeMeta["fields"] = {
   spanId: scalarField("spanId"),
   traceId: scalarField("traceId"),
-});
+};
 
-Object.assign(TraceSummary.fields, {
+const TraceSummaryFields: TypeMeta["fields"] = {
   durationMs: scalarField("durationMs"),
   errorCount: scalarField("errorCount"),
   hasEdge: scalarField("hasEdge"),
@@ -9455,9 +10899,9 @@ Object.assign(TraceSummary.fields, {
   spanCount: scalarField("spanCount"),
   startedAt: scalarField("startedAt"),
   traceId: scalarField("traceId"),
-});
+};
 
-Object.assign(TrustedDomain.fields, {
+const TrustedDomainFields: TypeMeta["fields"] = {
   domainName: scalarField("domainName"),
   id: scalarField("id"),
   role: scalarField("role"),
@@ -9465,26 +10909,26 @@ Object.assign(TrustedDomain.fields, {
   verificationData: objectField("verificationData", TrustedDomainVerificationData),
   verificationType: scalarField("verificationType"),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(TrustedDomainVerificationData.fields, {
+const TrustedDomainVerificationDataFields: TypeMeta["fields"] = {
   dnsHost: scalarField("dnsHost"),
   domainMatch: objectField("domainMatch", Domain),
   domainStatus: objectField("domainStatus", CustomDomainStatus),
   token: scalarField("token"),
-});
+};
 
-Object.assign(TwoFactorInfo.fields, {
+const TwoFactorInfoFields: TypeMeta["fields"] = {
   hasRecoveryCodes: scalarField("hasRecoveryCodes"),
   isVerified: scalarField("isVerified"),
-});
+};
 
-Object.assign(TwoFactorInfoSecret.fields, {
+const TwoFactorInfoSecretFields: TypeMeta["fields"] = {
   secret: scalarField("secret", { sensitive: true }),
   uri: scalarField("uri", { sensitive: true }),
-});
+};
 
-Object.assign(UsageLimit.fields, {
+const UsageLimitFields: TypeMeta["fields"] = {
   agentHardLimitCents: scalarField("agentHardLimitCents"),
   agentSoftLimitCents: scalarField("agentSoftLimitCents"),
   customerId: scalarField("customerId"),
@@ -9492,9 +10936,9 @@ Object.assign(UsageLimit.fields, {
   id: scalarField("id"),
   isOverLimit: scalarField("isOverLimit"),
   softLimit: scalarField("softLimit"),
-});
+};
 
-Object.assign(User.fields, {
+const UserFields: TypeMeta["fields"] = {
   agreedFairUse: scalarField("agreedFairUse"),
   apiTokenRateLimit: objectField("apiTokenRateLimit", ApiTokenRateLimit),
   avatar: scalarField("avatar"),
@@ -9533,19 +10977,19 @@ Object.assign(User.fields, {
   username: scalarField("username"),
   workspace: objectField("workspace", Workspace),
   workspaces: listField("workspaces", Workspace),
-});
+};
 
-Object.assign(UserKickbackEarnings.fields, {
+const UserKickbackEarningsFields: TypeMeta["fields"] = {
   total_amount: scalarField("total_amount"),
-});
+};
 
-Object.assign(UserProfile.fields, {
+const UserProfileFields: TypeMeta["fields"] = {
   bio: scalarField("bio"),
   isPublic: scalarField("isPublic"),
   website: scalarField("website"),
-});
+};
 
-Object.assign(UserProfileResponse.fields, {
+const UserProfileResponseFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
@@ -9560,39 +11004,39 @@ Object.assign(UserProfileResponse.fields, {
   publishedTemplates: listField("publishedTemplates", SimilarTemplate),
   totalDeploys: scalarField("totalDeploys"),
   username: scalarField("username"),
-});
+};
 
-Object.assign(UserProfileResponsePublicProjectsConnection.fields, {
+const UserProfileResponsePublicProjectsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", UserProfileResponsePublicProjectsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(UserProfileResponsePublicProjectsConnectionEdge.fields, {
+const UserProfileResponsePublicProjectsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Project),
-});
+};
 
-Object.assign(UserProjectsConnection.fields, {
+const UserProjectsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", UserProjectsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(UserProjectsConnectionEdge.fields, {
+const UserProjectsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Project),
-});
+};
 
-Object.assign(UserProviderAuthsConnection.fields, {
+const UserProviderAuthsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", UserProviderAuthsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(UserProviderAuthsConnectionEdge.fields, {
+const UserProviderAuthsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", ProviderAuth),
-});
+};
 
-Object.assign(Variable.fields, {
+const VariableFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   environment: objectField("environment", Environment),
   environmentId: scalarField("environmentId"),
@@ -9605,28 +11049,28 @@ Object.assign(Variable.fields, {
   service: objectField("service", Service),
   serviceId: scalarField("serviceId"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(VercelAccount.fields, {
+const VercelAccountFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   integrationAuthId: scalarField("integrationAuthId"),
   isUser: scalarField("isUser"),
   name: scalarField("name"),
   projects: listField("projects", VercelProject),
   slug: scalarField("slug"),
-});
+};
 
-Object.assign(VercelInfo.fields, {
+const VercelInfoFields: TypeMeta["fields"] = {
   accounts: listField("accounts", VercelAccount),
-});
+};
 
-Object.assign(VercelProject.fields, {
+const VercelProjectFields: TypeMeta["fields"] = {
   accountId: scalarField("accountId"),
   id: scalarField("id"),
   name: scalarField("name"),
-});
+};
 
-Object.assign(Volume.fields, {
+const VolumeFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   name: scalarField("name"),
@@ -9638,9 +11082,9 @@ Object.assign(Volume.fields, {
     first: "Int",
     last: "Int",
   }),
-});
+};
 
-Object.assign(VolumeInstance.fields, {
+const VolumeInstanceFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   currentSizeMB: scalarField("currentSizeMB"),
   deletedAt: scalarField("deletedAt"),
@@ -9657,9 +11101,9 @@ Object.assign(VolumeInstance.fields, {
   state: scalarField("state"),
   volume: objectField("volume", Volume),
   volumeId: scalarField("volumeId"),
-});
+};
 
-Object.assign(VolumeInstanceBackup.fields, {
+const VolumeInstanceBackupFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   creatorId: scalarField("creatorId"),
   expiresAt: scalarField("expiresAt"),
@@ -9670,25 +11114,25 @@ Object.assign(VolumeInstanceBackup.fields, {
   scheduleId: scalarField("scheduleId"),
   usedMB: scalarField("usedMB"),
   volumeInstanceSizeMB: scalarField("volumeInstanceSizeMB"),
-});
+};
 
-Object.assign(VolumeInstanceBackupSchedule.fields, {
+const VolumeInstanceBackupScheduleFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   cron: scalarField("cron"),
   id: scalarField("id"),
   kind: scalarField("kind"),
   name: scalarField("name"),
   retentionSeconds: scalarField("retentionSeconds"),
-});
+};
 
-Object.assign(VolumeInstanceReplicationProgress.fields, {
+const VolumeInstanceReplicationProgressFields: TypeMeta["fields"] = {
   bytesTransferred: scalarField("bytesTransferred"),
   percentComplete: scalarField("percentComplete"),
   timestamp: scalarField("timestamp"),
   transferRateMbps: scalarField("transferRateMbps"),
-});
+};
 
-Object.assign(VolumeReplicationProgressUpdate.fields, {
+const VolumeReplicationProgressUpdateFields: TypeMeta["fields"] = {
   currentSnapshot: objectField("currentSnapshot", VolumeSnapshotReplicationProgressUpdate),
   destExternalId: scalarField("destExternalId"),
   destRegion: scalarField("destRegion"),
@@ -9708,9 +11152,9 @@ Object.assign(VolumeReplicationProgressUpdate.fields, {
   srcStackerId: scalarField("srcStackerId"),
   status: scalarField("status"),
   transferRateMbps: scalarField("transferRateMbps"),
-});
+};
 
-Object.assign(VolumeSnapshotReplicationProgressUpdate.fields, {
+const VolumeSnapshotReplicationProgressUpdateFields: TypeMeta["fields"] = {
   bytesTransferred: scalarField("bytesTransferred"),
   compressedBytesTransferred: scalarField("compressedBytesTransferred"),
   compressedTransferRateMbps: scalarField("compressedTransferRateMbps"),
@@ -9723,30 +11167,30 @@ Object.assign(VolumeSnapshotReplicationProgressUpdate.fields, {
   status: scalarField("status"),
   totalBytes: scalarField("totalBytes"),
   transferRateMbps: scalarField("transferRateMbps"),
-});
+};
 
-Object.assign(VolumeVolumeInstancesConnection.fields, {
+const VolumeVolumeInstancesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", VolumeVolumeInstancesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(VolumeVolumeInstancesConnectionEdge.fields, {
+const VolumeVolumeInstancesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", VolumeInstance),
-});
+};
 
-Object.assign(WorkflowId.fields, {
+const WorkflowIdFields: TypeMeta["fields"] = {
   archiveContinuityUnverifiedReason: scalarField("archiveContinuityUnverifiedReason"),
   archiveContinuityVerified: scalarField("archiveContinuityVerified"),
   workflowId: scalarField("workflowId"),
-});
+};
 
-Object.assign(WorkflowResult.fields, {
+const WorkflowResultFields: TypeMeta["fields"] = {
   error: scalarField("error"),
   status: scalarField("status"),
-});
+};
 
-Object.assign(Workspace.fields, {
+const WorkspaceFields: TypeMeta["fields"] = {
   accessGroups: connectionField("accessGroups", AccessGroup, {
     after: "String",
     before: "String",
@@ -9795,26 +11239,26 @@ Object.assign(Workspace.fields, {
   team: objectField("team", Team),
   updatedAt: scalarField("updatedAt"),
   usersWithout2FA: scalarField("usersWithout2FA"),
-});
+};
 
-Object.assign(WorkspaceAccessGroupsConnection.fields, {
+const WorkspaceAccessGroupsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", WorkspaceAccessGroupsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(WorkspaceAccessGroupsConnectionEdge.fields, {
+const WorkspaceAccessGroupsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", AccessGroup),
-});
+};
 
-Object.assign(WorkspaceIdPConnection.fields, {
+const WorkspaceIdPConnectionFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   provider: scalarField("provider"),
   status: scalarField("status"),
   updatedAt: scalarField("updatedAt"),
-});
+};
 
-Object.assign(WorkspaceIdentityProvider.fields, {
+const WorkspaceIdentityProviderFields: TypeMeta["fields"] = {
   connection: objectField("connection", WorkspaceIdPConnection),
   createdAt: scalarField("createdAt"),
   enforcementEnabledAt: scalarField("enforcementEnabledAt"),
@@ -9822,19 +11266,19 @@ Object.assign(WorkspaceIdentityProvider.fields, {
   updatedAt: scalarField("updatedAt"),
   workspace: objectField("workspace", Workspace),
   workspaceId: scalarField("workspaceId"),
-});
+};
 
-Object.assign(WorkspaceIdentityProvidersConnection.fields, {
+const WorkspaceIdentityProvidersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", WorkspaceIdentityProvidersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(WorkspaceIdentityProvidersConnectionEdge.fields, {
+const WorkspaceIdentityProvidersConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", WorkspaceIdentityProvider),
-});
+};
 
-Object.assign(WorkspaceMember.fields, {
+const WorkspaceMemberFields: TypeMeta["fields"] = {
   avatar: scalarField("avatar"),
   email: scalarField("email"),
   featureFlags: scalarField("featureFlags"),
@@ -9842,9 +11286,9 @@ Object.assign(WorkspaceMember.fields, {
   name: scalarField("name"),
   role: scalarField("role"),
   twoFactorAuthEnabled: scalarField("twoFactorAuthEnabled"),
-});
+};
 
-Object.assign(WorkspacePolicy.fields, {
+const WorkspacePolicyFields: TypeMeta["fields"] = {
   deploySourceAllowlist: connectionField(
     "deploySourceAllowlist",
     WorkspacePolicyDeploySourceAllowlist,
@@ -9854,9 +11298,9 @@ Object.assign(WorkspacePolicy.fields, {
   restrictDeploysToAllowedSources: scalarField("restrictDeploysToAllowedSources"),
   restrictPublicTcpProxies: scalarField("restrictPublicTcpProxies"),
   restrictRailwayDomainGeneration: scalarField("restrictRailwayDomainGeneration"),
-});
+};
 
-Object.assign(WorkspacePolicyDeploySourceAllowlist.fields, {
+const WorkspacePolicyDeploySourceAllowlistFields: TypeMeta["fields"] = {
   addedBy: objectField("addedBy", User),
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
@@ -9864,42 +11308,34 @@ Object.assign(WorkspacePolicyDeploySourceAllowlist.fields, {
   sourceId: scalarField("sourceId"),
   sourceName: scalarField("sourceName"),
   sourceType: scalarField("sourceType"),
-});
+};
 
-Object.assign(WorkspacePolicyDeploySourceAllowlistConnection.fields, {
+const WorkspacePolicyDeploySourceAllowlistConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", WorkspacePolicyDeploySourceAllowlistConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(WorkspacePolicyDeploySourceAllowlistConnectionEdge.fields, {
+const WorkspacePolicyDeploySourceAllowlistConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", WorkspacePolicyDeploySourceAllowlist),
-});
+};
 
-Object.assign(WorkspacePolicySelectableDeploySource.fields, {
+const WorkspacePolicySelectableDeploySourceFields: TypeMeta["fields"] = {
   sourceIcon: scalarField("sourceIcon"),
   sourceId: scalarField("sourceId"),
   sourceName: scalarField("sourceName"),
   sourceType: scalarField("sourceType"),
-});
+};
 
-Object.assign(WorkspaceProjectsConnection.fields, {
+const WorkspaceProjectsConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", WorkspaceProjectsConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
-});
+};
 
-Object.assign(WorkspaceProjectsConnectionEdge.fields, {
+const WorkspaceProjectsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Project),
-});
-
-Object.assign(NotificationDeliveryUpdate.fields, { __typename: scalarField("__typename") });
-
-Object.assign(ObservabilityDashboardMonitorConfig.fields, {
-  __typename: scalarField("__typename"),
-});
-
-Object.assign(PublicProjectInvitation.fields, { __typename: scalarField("__typename") });
+};
 
 export const Railway = {
   adminVolumeInstancesForVolume: (args: {

@@ -91,6 +91,7 @@ const fixture = {
       ],
     },
     { kind: "SCALAR", name: "Boolean" },
+    { kind: "UNION", name: "SearchResult", possibleTypes: [named("Project"), named("User")] },
   ],
 };
 
@@ -107,7 +108,9 @@ describe("GraphQL Query SDK generator", () => {
     const output = generateGraphQLClient(model, options);
     expect(output).toContain("export interface Project");
     expect(output).toContain("export interface User");
-    expect(output).toContain('export const Project: TypeMeta = { name: "Project", fields: {} };');
+    expect(output).toContain(
+      'export const Project: TypeMeta = { name: "Project", get fields() { return ProjectFields; } };',
+    );
     expect(output).toContain("export const Railway = {");
     expect(output).toContain('root("query", "me", User, undefined, undefined, globalErrors)');
     expect(output).toContain('root("query", "project", Project');
@@ -122,6 +125,75 @@ describe("GraphQL Query SDK generator", () => {
     expect(output).toContain("args?: { readonly first?: number | null }");
     expect(output).toContain('from "@distilled.cloud/core/graphql"');
     expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("declares every field table without top-level statements", () => {
+    const output = generateGraphQLClient(convertGraphQLClient(fixture), options);
+    const statements = output.split("\n").filter((line) => /^[\w$.]+\(/.test(line));
+    expect(statements).toEqual([]);
+    expect(output).toContain('const ProjectFields: TypeMeta["fields"] = {');
+    expect(output).toContain(
+      'export const SearchResult: TypeMeta = { name: "SearchResult", fields: { __typename: scalarField("__typename") } };',
+    );
+  });
+
+  test("names field tables apart from types and imports", () => {
+    const output = generateGraphQLClient(
+      convertGraphQLClient({
+        ...fixture,
+        types: [
+          ...fixture.types,
+          {
+            kind: "OBJECT",
+            name: "ProjectFields",
+            fields: [field("id", required(named("String", "SCALAR")))],
+          },
+          {
+            kind: "OBJECT",
+            name: "error",
+            fields: [field("message", required(named("String", "SCALAR")))],
+          },
+        ],
+      }),
+      options,
+    );
+    const declared = [...output.matchAll(/^(?:export )?(?:const|class) (\w+)/gm)].map(
+      ([, name]) => name,
+    );
+    expect(declared.filter((name, index) => declared.indexOf(name) !== index)).toEqual([]);
+    expect(declared).not.toContain("errorFields");
+    expect(output).toContain("get fields() { return ProjectFields_; }");
+    expect(output).toContain("get fields() { return ProjectFieldsFields; }");
+    expect(output).toContain("get fields() { return errorFields_; }");
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("keeps schema types named FieldMeta or Record apart from imports and generics", () => {
+    const output = generateGraphQLClient(
+      convertGraphQLClient({
+        ...fixture,
+        types: [
+          ...fixture.types,
+          ...["FieldMeta", "Record"].map((name) => ({
+            kind: "OBJECT",
+            name,
+            fields: [field("id", required(named("String", "SCALAR")))],
+          })),
+        ],
+      }),
+      options,
+    );
+    const imported = output
+      .match(/^import \{([^}]*)\} from "@distilled.cloud\/core\/graphql";/m)![1]!
+      .split(",")
+      .map((name) => name.replace("type ", "").trim());
+    const declared = [...output.matchAll(/^(?:export )?(?:const|class|interface) (\w+)/gm)].map(
+      ([, name]) => name!,
+    );
+    expect(declared).toContain("FieldMeta");
+    expect(declared).toContain("Record");
+    expect(declared.filter((name) => imported.includes(name))).toEqual([]);
+    expect(declared.filter((name) => new RegExp(`(?<![\\w.])${name}<`).test(output))).toEqual([]);
   });
 
   test("emits error classes and scopes them to roots", () => {
