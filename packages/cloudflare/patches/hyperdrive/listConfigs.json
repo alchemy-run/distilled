@@ -1,5 +1,5 @@
 {
-  "description": "Align hyperdrive#ConfigsList with distilled cloudflare/hyperdrive listConfigs",
+  "description": "Align hyperdrive#ConfigsList with distilled cloudflare/hyperdrive listConfigs. The endpoint pages its results (20 per page by default, `result_info.page` / `total_pages`; observed 2026-10-06 on an account with 387 configs), so it paginates by page rather than returning a single page.",
   "patches": [
     {
       "op": "move",
@@ -30,8 +30,11 @@
       "op": "add",
       "path": "/shapes/com.cloudflare.hyperdrive#ListConfigs/traits/smithy.api#paginated",
       "value": {
-        "mode": "single",
-        "items": "result"
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "resultInfo.page",
+        "items": "result",
+        "pageSize": "perPage"
       }
     },
     {

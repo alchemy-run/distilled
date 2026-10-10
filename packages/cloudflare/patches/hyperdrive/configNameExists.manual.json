@@ -1,0 +1,27 @@
+{
+  "description": "Type the error createConfig returns when the account already has a Hyperdrive config with the requested name: HTTP 400 with code 2017, `A Hyperdrive config with the given name already exists` (observed 2026-10-06 by creating a config, then POSTing a second one with the same name).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.hyperdrive#HyperdriveConfigAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [{ "code": 2017 }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.hyperdrive#CreateConfig/errors/-",
+      "value": {
+        "target": "com.cloudflare.hyperdrive#HyperdriveConfigAlreadyExists"
+      }
+    }
+  ]
+}
