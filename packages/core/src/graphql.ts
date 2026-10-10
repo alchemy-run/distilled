@@ -57,6 +57,7 @@ import * as Option from "effect/Option";
 import * as Schedule from "effect/Schedule";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
+import { unwrapRedactedDeep } from "./protocol-rest.ts";
 
 export const QuerySymbol = Symbol.for("@distilled.cloud/graphql/Query");
 const inspect = Symbol.for("nodejs.util.inspect.custom");
@@ -746,7 +747,8 @@ const ensureChild = (
     isList?: boolean;
   },
 ): SelNode => {
-  const key = options.args === undefined ? field : `${field}:${stableStringify(options.args)}`;
+  const args = unwrapRedactedDeep(options.args) as Record<string, unknown> | undefined;
+  const key = args === undefined ? field : `${field}:${stableStringify(args)}`;
   const existing = parent.children.get(key);
   if (existing) return existing;
   const taken = new Set([...parent.children.values()].map((c) => c.alias ?? c.field));
@@ -759,7 +761,7 @@ const ensureChild = (
   const sel: SelNode = {
     field,
     alias,
-    args: bindArgs(forest, options.args, options.argTypes),
+    args: bindArgs(forest, args, options.argTypes),
     children: new Map(),
     isScalar: options.isScalar ?? false,
     isList: options.isList ?? false,
