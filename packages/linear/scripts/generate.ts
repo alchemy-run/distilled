@@ -7,6 +7,7 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { stampGeneratedAt } from "../../core/src/codegen/generated-at.ts";
 import { generateGraphQLClient, type GraphQLModel } from "../../core/src/codegen/graphql-client.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -20,6 +21,7 @@ const code = generateGraphQLClient(model, {
   sdkName: "Linear",
 });
 await fs.writeFile(path.join(root, "src/graphql.ts"), code);
+stampGeneratedAt(root);
 console.log(
   `GraphQL: generated Query SDK (${Object.keys(model.types).length} types) → src/graphql.ts`,
 );
