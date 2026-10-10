@@ -2,6 +2,18 @@
   "operations": {
     "listTagsForResource": {
       "errors": ["ResourceNotFoundException"]
+    },
+    "createIndex": {
+      "errors": ["NotAuthorizedException"],
+      "syntheticErrors": [
+        {
+          "name": "KendraClosedToNewCustomers",
+          "from": "NotAuthorizedException",
+          "message": {
+            "includes": "no longer accepting new customers"
+          }
+        }
+      ]
     }
   },
   "structures": {
@@ -12,5 +24,16 @@
         }
       }
     }
+  },
+  "errors": {
+    "NotAuthorizedException": {
+      "message": {
+        "type": "string"
+      }
+    }
+  },
+  "errorCategories": {
+    "NotAuthorizedException": ["AuthError"],
+    "KendraClosedToNewCustomers": ["AuthError"]
   }
 }

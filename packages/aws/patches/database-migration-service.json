@@ -1,0 +1,39 @@
+{
+  "operations": {
+    "createReplicationInstance": {
+      "errors": ["InvalidParameterValueException"],
+      "syntheticErrors": [
+        {
+          "name": "InvalidReplicationInstanceClass",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "Invalid ReplicationInstance class"
+          }
+        }
+      ]
+    },
+    "modifyReplicationInstance": {
+      "errors": ["InvalidParameterValueException"],
+      "syntheticErrors": [
+        {
+          "name": "InvalidReplicationInstanceClass",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "Invalid ReplicationInstance class"
+          }
+        }
+      ]
+    }
+  },
+  "errors": {
+    "InvalidParameterValueException": {
+      "message": {
+        "type": "string"
+      }
+    }
+  },
+  "errorCategories": {
+    "InvalidParameterValueException": ["BadRequestError"],
+    "InvalidReplicationInstanceClass": ["BadRequestError"]
+  }
+}

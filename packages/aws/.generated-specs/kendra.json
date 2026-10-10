@@ -4104,6 +4104,12 @@
         },
         {
           "target": "com.amazonaws.kendra#ValidationException"
+        },
+        {
+          "target": "aws.patched#NotAuthorizedException"
+        },
+        {
+          "target": "aws.synthetic#KendraClosedToNewCustomers"
         }
       ],
       "traits": {
@@ -16394,6 +16400,27 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Provides the configuration information to connect to WorkDocs \n            as your data source.</p>\n         <p>WorkDocs connector is available in Oregon, North Virginia, Sydney, Singapore and Ireland \n            regions.</p>"
+      }
+    },
+    "aws.patched#NotAuthorizedException": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "aws.synthetic#KendraClosedToNewCustomers": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "NotAuthorizedException",
+          "message": {
+            "includes": "no longer accepting new customers"
+          }
+        }
       }
     }
   }

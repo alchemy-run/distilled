@@ -108,6 +108,20 @@ export class InvalidOperationFault
   extends /*@__PURE__*/ S.TaggedError<InvalidOperationFault>()("InvalidOperationFault", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
   }) {}
+export class InvalidParameterValueException
+  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
+    "InvalidParameterValueException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ).pipe(C.withBadRequestError) {}
+export class InvalidReplicationInstanceClass
+  extends /*@__PURE__*/ S.TaggedError<InvalidReplicationInstanceClass>()(
+    "InvalidReplicationInstanceClass",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.SyntheticError({
+      from: "InvalidParameterValueException",
+      message: { includes: "Invalid ReplicationInstance class" },
+    }),
+  ).pipe(C.withBadRequestError) {}
 export class InvalidResourceStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateFault>()("InvalidResourceStateFault", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
@@ -6718,6 +6732,8 @@ export type CreateReplicationInstanceError =
   | ResourceNotFoundFault
   | ResourceQuotaExceededFault
   | StorageQuotaExceededFault
+  | InvalidParameterValueException
+  | InvalidReplicationInstanceClass
   | CommonErrors;
 /**
  * Creates the replication instance using the specified parameters.
@@ -6750,6 +6766,8 @@ export const createReplicationInstance: API.OperationMethod<
     ResourceNotFoundFault,
     ResourceQuotaExceededFault,
     StorageQuotaExceededFault,
+    InvalidParameterValueException,
+    InvalidReplicationInstanceClass,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8773,6 +8791,8 @@ export type ModifyReplicationInstanceError =
   | ResourceNotFoundFault
   | StorageQuotaExceededFault
   | UpgradeDependencyFailureFault
+  | InvalidParameterValueException
+  | InvalidReplicationInstanceClass
   | CommonErrors;
 /**
  * Modifies the replication instance to apply new settings. You can change one or more
@@ -8796,6 +8816,8 @@ export const modifyReplicationInstance: API.OperationMethod<
     ResourceNotFoundFault,
     StorageQuotaExceededFault,
     UpgradeDependencyFailureFault,
+    InvalidParameterValueException,
+    InvalidReplicationInstanceClass,
   ],
   protocol: AwsProtocol,
   retry: Retry,

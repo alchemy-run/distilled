@@ -2644,6 +2644,9 @@
         },
         {
           "target": "com.amazonaws.kafka#UnknownTopicOrPartitionException"
+        },
+        {
+          "target": "aws.synthetic#ServerlessUnsupported"
         }
       ],
       "traits": {
@@ -3370,6 +3373,9 @@
         },
         {
           "target": "com.amazonaws.kafka#UnknownTopicOrPartitionException"
+        },
+        {
+          "target": "aws.synthetic#ServerlessUnsupported"
         }
       ],
       "traits": {
@@ -4344,6 +4350,9 @@
         },
         {
           "target": "com.amazonaws.kafka#UnauthorizedException"
+        },
+        {
+          "target": "aws.synthetic#ServerlessUnsupported"
         }
       ],
       "traits": {
@@ -8560,6 +8569,9 @@
         },
         {
           "target": "com.amazonaws.kafka#NotFoundException"
+        },
+        {
+          "target": "aws.synthetic#ServerlessUnsupported"
         }
       ],
       "traits": {
@@ -12553,6 +12565,9 @@
         },
         {
           "target": "com.amazonaws.kafka#UnknownTopicOrPartitionException"
+        },
+        {
+          "target": "aws.synthetic#ServerlessUnsupported"
         }
       ],
       "traits": {
@@ -13392,6 +13407,18 @@
       "type": "timestamp",
       "traits": {
         "smithy.api#timestampFormat": "date-time"
+      }
+    },
+    "aws.synthetic#ServerlessUnsupported": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "ServerlessUnsupportedException",
+          "message": {
+            "includes": "not supported on serverless"
+          }
+        }
       }
     }
   }

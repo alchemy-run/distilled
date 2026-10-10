@@ -82,6 +82,15 @@ export class InternalServerException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
+export class MwaaExecutionRoleNotAssumable
+  extends /*@__PURE__*/ S.TaggedError<MwaaExecutionRoleNotAssumable>()(
+    "MwaaExecutionRoleNotAssumable",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.SyntheticError({
+      from: "ValidationException",
+      message: { includes: "Failed to assume role" },
+    }),
+  ).pipe(C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -718,6 +727,7 @@ export type CreateEnvironmentError =
   | InternalServerException
   | ServiceUnavailableException
   | ValidationException
+  | MwaaExecutionRoleNotAssumable
   | CommonErrors;
 /**
  * Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
@@ -730,7 +740,12 @@ export const createEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEnvironmentInput,
   output: CreateEnvironmentOutput,
-  errors: [InternalServerException, ServiceUnavailableException, ValidationException],
+  errors: [
+    InternalServerException,
+    ServiceUnavailableException,
+    ValidationException,
+    MwaaExecutionRoleNotAssumable,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
