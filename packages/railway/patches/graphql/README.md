@@ -85,3 +85,15 @@ preserve the captured response shapes and verify classification scope, trace
 retention, scalar representations, and the absence of automatic mutation
 retries. The numeric-string BigInt fixture is a compatibility case, explicitly
 separate from the observed numeric IDs.
+
+## Sensitive fields
+
+A string field that returns a credential is marked with
+`{ "op": "add", "path": "/types/<Type>/fields/<field>/sensitive", "value": true }`
+([90-sensitive-fields.json](90-sensitive-fields.json)). The generated type
+becomes `Redacted.Redacted<string>`, and the client wraps the value in
+`Redacted` when it reads the response. Conversion rejects the mark on an
+argument or input field, and on an output field that is not a string scalar,
+so fields typed `EnvironmentVariables`
+(`variables`, `variablesForServiceDeployment`, `DeploymentSnapshot.variables`)
+and JSON fields such as `Environment.config` stay unmarked.
