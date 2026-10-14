@@ -1,0 +1,70 @@
+{
+  "description": "These fields return credentials: API, project, login-session, clearance and short-lived WebSocket tokens, a bucket's S3 secret access key, plugin credentials, a two-factor seed and its otpauth URI, recovery codes, and project and workspace invite codes, which let whoever holds one join. Mark them sensitive so the client returns them wrapped in Redacted. The S3 access key ID is an identifier, not a secret, and stays plain. The mark applies only to string fields, so fields typed `EnvironmentVariables` (`Query.variables`, `Query.variablesForServiceDeployment`, `Environment.variables`, `DeploymentSnapshot.variables`) stay plain with the values inside them, and so do JSON fields such as `Environment.config` that can hold variable values.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/types/BucketS3CompatibleCredentials/fields/secretAccessKey/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/ClearanceTokenCreatePayload/fields/token/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/InviteCode/fields/code/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/apiTokenCreate/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/cloudAgentHarnessToken/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/generateShellToken/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/loginSessionConsume/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/pluginResetCredentials/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/projectTokenCreate/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/workspaceInviteCodeCreate/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/RecoveryCodes/fields/recoveryCodes/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/TwoFactorInfoSecret/fields/secret/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/TwoFactorInfoSecret/fields/uri/sensitive",
+      "value": true
+    }
+  ]
+}

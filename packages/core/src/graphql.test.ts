@@ -1,14 +1,23 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
+import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
 import {
   GqlTransport,
+  GraphQLFailure,
   connectionField,
+  errorFields,
+  errorSpec,
   listField,
   objectField,
   root,
   rootConnection,
+  rootLeaf,
+  rootList,
   scalarField,
+  type GraphQLResponse,
   type TypeMeta,
 } from "./graphql.ts";
 import { Query } from "./query.ts";
@@ -194,5 +203,214 @@ describe("Query.fn", () => {
       name: "web",
       deployment: null,
     });
+  });
+});
+
+describe("sensitive fields", () => {
+  type Secret = Redacted.Redacted<string>;
+  type CredentialsRow = { accessKeyId: string; secretAccessKey: Secret };
+  const Credentials: TypeMeta = { name: "Credentials", fields: {} };
+  Object.assign(Credentials.fields, {
+    accessKeyId: scalarField("accessKeyId"),
+    secretAccessKey: scalarField("secretAccessKey", { sensitive: true }),
+  });
+  class NotFound extends S.TaggedError<NotFound>()("NotFound", errorFields) {}
+  class Forbidden extends S.TaggedError<Forbidden>()("Forbidden", errorFields) {}
+  const errors = [
+    errorSpec(NotFound, "NotFound", [{ code: "NOT_FOUND" }]),
+    errorSpec(Forbidden, "Forbidden", [{ code: "FORBIDDEN" }]),
+  ];
+  const credentials = () => rootList<CredentialsRow>("query", "credentials", Credentials);
+  const respond = (response: GraphQLResponse) =>
+    Layer.succeed(GqlTransport, { execute: () => Effect.succeed(response) });
+  const rows = [{ accessKeyId: "AKID", secretAccessKey: "secret-value" }];
+
+  test("a marked field decodes as Redacted and other fields stay plain", async () => {
+    const program = Query.fn(() => ({
+      rows: credentials().pipe(
+        Query.map((row) => ({
+          accessKeyId: row.accessKeyId,
+          secretAccessKey: row.secretAccessKey,
+        })),
+      ),
+    }))();
+    const result = await Effect.runPromise(
+      program.pipe(Effect.provide(respond({ data: { credentials: rows } }))),
+    );
+    const [row] = result.rows;
+    expect(row!.accessKeyId).toBe("AKID");
+    expect(Redacted.isRedacted(row!.secretAccessKey)).toBe(true);
+    expect(Redacted.value(row!.secretAccessKey)).toBe("secret-value");
+    expect(JSON.stringify(result)).not.toContain("secret-value");
+  });
+
+  test("rows returned whole keep a marked field as Redacted", async () => {
+    const program = Query.fn(() => ({
+      filtered: credentials().pipe(
+        Query.filter((row) =>
+          row.secretAccessKey.pipe(Query.map((secret) => Redacted.isRedacted(secret))),
+        ),
+      ),
+      whole: credentials().pipe(Query.map((row) => ({ id: row.accessKeyId, row }))),
+    }))();
+    const result = await Effect.runPromise(
+      program.pipe(Effect.provide(respond({ data: { credentials: rows } }))),
+    );
+    expect(result.filtered).toHaveLength(1);
+    expect(Redacted.isRedacted(result.filtered[0]!.secretAccessKey)).toBe(true);
+    expect(Redacted.isRedacted(result.whole[0]!.row.secretAccessKey)).toBe(true);
+    expect(JSON.stringify(result)).not.toContain("secret-value");
+  });
+
+  test("a marked field under a nested object, an alias and a connection decodes as Redacted", async () => {
+    type BucketRow = { name: string; credentials: CredentialsRow };
+    const Bucket: TypeMeta = { name: "Bucket", fields: {} };
+    Object.assign(Bucket.fields, {
+      name: scalarField("name"),
+      credentials: objectField("credentials", Credentials),
+    });
+    const node = (name: string, secret: string) => ({
+      name,
+      credentials: { accessKeyId: `${name}-key`, secretAccessKey: secret },
+    });
+    const requests: Array<Record<string, unknown>> = [];
+    const layer = Layer.succeed(GqlTransport, {
+      execute: (request) =>
+        Effect.sync(() => {
+          requests.push(request.variables);
+          if (!request.document.includes("buckets")) {
+            return {
+              data: { bucket: node("one", "secret-one"), bucket_0: node("two", "secret-two") },
+            };
+          }
+          const first = requests.length === 2;
+          return {
+            data: {
+              buckets: {
+                edges: [{ node: first ? node("a", "secret-a") : node("b", "secret-b") }],
+                pageInfo: { hasNextPage: first, endCursor: first ? "c1" : null },
+              },
+            },
+          };
+        }),
+    });
+    const bucket = (token: string) =>
+      root<BucketRow>(
+        "query",
+        "bucket",
+        Bucket,
+        { token: Redacted.make(token) },
+        { token: "String!" },
+      );
+    const secrets = await Effect.runPromise(
+      Query.fn(() => ({
+        one: bucket("t-one").pipe(
+          Query.map((row) => ({ name: row.name, secret: row.credentials.secretAccessKey })),
+        ),
+        two: bucket("t-two").credentials.secretAccessKey,
+      }))().pipe(Effect.provide(layer)),
+    );
+    expect(requests[0]).toEqual({ v0: "t-one", v1: "t-two" });
+    expect(secrets.one.name).toBe("one");
+    expect(Redacted.value(secrets.one.secret)).toBe("secret-one");
+    expect(Redacted.value(secrets.two)).toBe("secret-two");
+    const items = await Effect.runPromise(
+      Stream.runCollect(
+        Query.items(
+          rootConnection<BucketRow>(
+            "query",
+            "buckets",
+            Bucket,
+            { first: 1 },
+            { first: "Int", after: "String" },
+          ).pipe(Query.map((row) => row.credentials.secretAccessKey)),
+        ),
+      ).pipe(Effect.provide(layer)),
+    );
+    expect(requests).toHaveLength(3);
+    expect(Array.from(items, (secret) => Redacted.value(secret))).toEqual(["secret-a", "secret-b"]);
+  });
+
+  test("a marked leaf root decodes each string as Redacted and keeps null", async () => {
+    const token = (list: boolean) =>
+      Query.fn(() =>
+        rootLeaf<Secret | ReadonlyArray<Secret> | null>(
+          "mutation",
+          "tokenCreate",
+          list,
+          undefined,
+          undefined,
+          [],
+          { sensitive: true },
+        ),
+      )();
+    const one = await Effect.runPromise(
+      token(false).pipe(Effect.provide(respond({ data: { tokenCreate: "token-value" } }))),
+    );
+    expect(Redacted.value(one as Redacted.Redacted<string>)).toBe("token-value");
+    const many = await Effect.runPromise(
+      token(true).pipe(Effect.provide(respond({ data: { tokenCreate: ["a-code", "b-code"] } }))),
+    );
+    expect((many as ReadonlyArray<Secret>).map((code) => Redacted.isRedacted(code))).toEqual([
+      true,
+      true,
+    ]);
+    const none = await Effect.runPromise(
+      token(false).pipe(Effect.provide(respond({ data: { tokenCreate: null } }))),
+    );
+    expect(none).toBeNull();
+  });
+
+  test("a failure keeps the response data with marked fields as Redacted", async () => {
+    const response: GraphQLResponse = {
+      data: { credentials: rows },
+      errors: [
+        { message: "missing", path: ["credentials", 1], extensions: { code: "NOT_FOUND" } },
+        { message: "denied", path: ["credentials", 2], extensions: { code: "FORBIDDEN" } },
+      ],
+    };
+    const failure = await Effect.runPromise(
+      Query.fn(() =>
+        rootList<CredentialsRow>("query", "credentials", Credentials, {}, {}, errors).pipe(
+          Query.map((row) => row.secretAccessKey),
+        ),
+      )().pipe(Effect.flip, Effect.provide(respond(response))),
+    );
+    expect(failure).toBeInstanceOf(GraphQLFailure);
+    const data = (failure as GraphQLFailure).data as { credentials: Array<CredentialsRow> };
+    expect(data.credentials[0]!.accessKeyId).toBe("AKID");
+    expect(Redacted.isRedacted(data.credentials[0]!.secretAccessKey)).toBe(true);
+    expect(JSON.stringify(data)).not.toContain("secret-value");
+  });
+});
+
+describe("Redacted arguments", () => {
+  test("a Redacted value in a request argument is sent as its plain value", async () => {
+    let variables: Record<string, unknown> = {};
+    const layer = Layer.succeed(GqlTransport, {
+      execute: (request) =>
+        Effect.sync(() => {
+          variables = request.variables;
+          return { data: { a: true, b: true } };
+        }),
+    });
+    const upsert = (secret: Redacted.Redacted<string>) =>
+      rootLeaf<boolean>(
+        "mutation",
+        "variableCollectionUpsert",
+        false,
+        { input: { variables: { S3_SECRET: secret } } },
+        { input: "VariableCollectionUpsertInput!" },
+      );
+    await Effect.runPromise(
+      Query.fn(() => ({
+        a: upsert(Redacted.make("first-secret")),
+        b: upsert(Redacted.make("second-secret")),
+      }))().pipe(Effect.provide(layer)),
+    );
+    expect(Object.values(variables)).toEqual([
+      { variables: { S3_SECRET: "first-secret" } },
+      { variables: { S3_SECRET: "second-secret" } },
+    ]);
   });
 });
