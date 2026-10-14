@@ -786,7 +786,8 @@
         "next_continuation_token": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Token for fetching the next page of results"
+            "smithy.api#documentation": "Token for fetching the next page of results",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "running": {
