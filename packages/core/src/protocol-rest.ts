@@ -153,6 +153,37 @@ export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
   return value;
 };
 
+const sensitiveOutputs = new WeakMap<AST.AST, boolean>();
+
+/**
+ * Whether any member reachable from `ast` is marked {@link SensitiveValue}.
+ * Parse errors for such an output withhold the response body (see
+ * {@link RestParseErrorInfo}); hand-written protocols use this to do the same.
+ */
+export const hasSensitiveMember = (ast: AST.AST): boolean => {
+  const cached = sensitiveOutputs.get(ast);
+  if (cached !== undefined) return cached;
+  const seen = new Set<AST.AST>();
+  const visit = (node: AST.AST): boolean => {
+    node = resolveNode(node);
+    if (seen.has(node)) return false;
+    seen.add(node);
+    if (node._tag === "Union") return node.types.some(visit);
+    if (node._tag === "Arrays") {
+      return [...node.elements, ...node.rest].some(
+        (e) => getAnn(e, sensitiveValueSymbol) !== undefined || visit(e),
+      );
+    }
+    if (node._tag !== "Objects") return false;
+    return [...node.propertySignatures, ...node.indexSignatures].some(
+      (member) => getAnn(member.type, sensitiveValueSymbol) !== undefined || visit(member.type),
+    );
+  };
+  const result = visit(ast);
+  sensitiveOutputs.set(ast, result);
+  return result;
+};
+
 // =============================================================================
 // Protocol factory
 // =============================================================================
@@ -168,8 +199,12 @@ export interface RestErrorInfo {
   readonly headers: Record<string, string | undefined>;
 }
 
-/** A 2xx body that failed strict validation, for the `parseError` option. */
+/**
+ * A 2xx body that failed strict validation, or a non-JSON 2xx body for an
+ * output with sensitive members, for the `parseError` option.
+ */
 export interface RestParseErrorInfo {
+  /** `"[REDACTED]"` when the output has sensitive members. */
   readonly body: unknown;
   readonly cause: unknown;
 }
@@ -223,8 +258,11 @@ export interface RestProtocolOptions<C> {
   /**
    * The SDK's `<Sdk>ParseError`, raised when a 2xx body does not match the
    * operation's output schema in strict mode (see
-   * `core/response-validation`). `body` is the parsed JSON, or the raw text
-   * when the body wasn't JSON; `cause` is the schema error.
+   * `core/response-validation`), and in every mode when a 2xx body for an
+   * output with sensitive members is not JSON. `body` is the parsed JSON, or
+   * the raw text when the body wasn't JSON, and `"[REDACTED]"` for an output
+   * with sensitive members; `cause` is the schema error, or `"Invalid JSON
+   * response"`.
    */
   readonly parseError: (info: RestParseErrorInfo) => unknown;
   /** Transform the parsed 2xx JSON before decoding (e.g. stripNulls). */
@@ -379,13 +417,25 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       // verbatim (mapKeys handles arrays/scalars structurally either way).
       // Strict mode (core/response-validation) checks the mapped body against
       // the output schema — a non-JSON body reaches it as a string and fails
-      // there unless the operation's output is itself a string.
+      // there unless the operation's output is itself a string. For an output
+      // with sensitive members, a non-JSON body fails in every mode and parse
+      // errors withhold the body.
+      const sensitive = hasSensitiveMember(outputAst);
+      const reported = sensitive ? "[REDACTED]" : nonJson ? text : json;
+      if (nonJson && sensitive) {
+        return yield* fail(
+          options.parseError({
+            body: "[REDACTED]",
+            cause: "Invalid JSON response",
+          }),
+        );
+      }
       let body: unknown = nonJson ? text : (json ?? {});
       if (options.transformResponse) body = options.transformResponse(body);
       const mapped = yield* validateResponse(
         outputAst,
         mapKeys(outputAst, body, "decode"),
-        (cause) => options.parseError({ body: nonJson ? text : json, cause }),
+        (cause) => options.parseError({ body: reported, cause }),
       ).pipe(Effect.catch(fail));
       return wrapSensitive(outputAst, mapped);
     });

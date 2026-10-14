@@ -20,7 +20,11 @@ import {
   matchTypedError,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import {
+  hasSensitiveMember,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
@@ -539,11 +543,23 @@ const decode = ({
     // 2xx: the response body IS the payload (no envelope). Wire→TS key
     // mapping is schema-driven; sensitive members come back Redacted.
     // Strict mode checks the mapped body against the output schema first.
+    // For an output with sensitive members, a non-JSON body fails in every
+    // mode and parse errors withhold the body.
+    const sensitive = hasSensitiveMember(outputAst);
+    const reported = sensitive ? "[REDACTED]" : nonJson ? text : json;
+    if (nonJson && sensitive) {
+      return yield* fail(
+        new StripeParseError({
+          body: "[REDACTED]",
+          cause: "Invalid JSON response",
+        }),
+      );
+    }
     const body: unknown = nonJson ? text : (json ?? {});
     const mapped = yield* validateResponse(
       outputAst,
       mapKeys(outputAst, body, "decode"),
-      (cause) => new StripeParseError({ body: nonJson ? text : json, cause }),
+      (cause) => new StripeParseError({ body: reported, cause }),
     ).pipe(Effect.catch(fail));
     return wrapSensitive(outputAst, mapped);
   });
