@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -9,7 +10,7 @@ import { credentials } from "./credentials.ts";
 import { BadRequest, FlyIoParseError, UnknownFlyIoError } from "./errors.ts";
 import type { FlyIoOpContext } from "./protocol.ts";
 import * as Retry from "./retry.ts";
-import { agreedToProviderTos } from "./services/addons.ts";
+import { addOn, agreedToProviderTos } from "./services/addons.ts";
 import {
   MachineStartFromCreatedState,
   MachineWaitTimeout,
@@ -17,10 +18,12 @@ import {
   stopMachine,
   waitMachine,
 } from "./services/machines.ts";
+import { createOrganizationToken, deleteSprite } from "./services/sprites.ts";
 
 const recordedMessage =
   "failed_precondition: unable to start machine from current state: 'created'";
 const machine = { app_name: "decoder-test", machine_id: "machine-test" };
+const SECRET = "sentinel-secret-7f3a";
 
 const respondWith = (status: number, body: string) =>
   Layer.mergeAll(
@@ -210,5 +213,89 @@ describe("GraphQL response validation", () => {
       call.pipe(Effect.provide(ResponseValidation.strict), Effect.flip),
     );
     expect(error).toBeInstanceOf(FlyIoParseError);
+  });
+
+  // `AddOnResponse` marks `password` and `publicUrl` sensitive.
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    const call = addOn({ name: "decoder-test" });
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const error = await decodeError(
+        call.pipe(Effect.provide(mode)),
+        200,
+        `{"data":{"addOn":{"id":"a","password":"${SECRET}`,
+      );
+      expect(error).toBeInstanceOf(FlyIoParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const error = await decodeError(
+      addOn({ name: "decoder-test" }).pipe(Effect.provide(ResponseValidation.strict)),
+      200,
+      JSON.stringify({ data: { addOn: { password: SECRET } } }),
+    );
+    expect(error).toBeInstanceOf(FlyIoParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+  });
+});
+
+describe("Sprites success decoding", () => {
+  const mint = createOrganizationToken({ org: "personal" });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const error = await decodeError(mint.pipe(Effect.provide(mode)), 200, `{"token":"${SECRET}`);
+      expect(error).toBeInstanceOf(FlyIoParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const error = await decodeError(
+      mint.pipe(Effect.provide(ResponseValidation.strict)),
+      200,
+      JSON.stringify({ token: [SECRET] }),
+    );
+    expect(error).toBeInstanceOf(FlyIoParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+  });
+
+  test("an operation whose token mint reply is cut off fails without exposing it", async () => {
+    // Every Sprites operation but the mint itself first mints a bearer.
+    const mintCutOff = Layer.mergeAll(
+      Layer.succeed(
+        HttpClient.HttpClient,
+        HttpClient.make((request) =>
+          Effect.sync(() => {
+            const body = request.url.endsWith("/v1/tokens/current")
+              ? JSON.stringify({ tokens: [{ org_slug: "personal" }] })
+              : `{"token":"${SECRET}`;
+            return HttpClientResponse.fromWeb(request, new Response(body, { status: 200 }));
+          }),
+        ),
+      ),
+      credentials({
+        apiKey: Redacted.make("decoder-test-mint"),
+        apiBaseUrl: "https://fly.test",
+      }),
+    );
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const error = await Effect.runPromise(
+        deleteSprite({ name: "decoder-test" }).pipe(
+          Retry.none,
+          Effect.provide(mode),
+          Effect.provide(mintCutOff),
+          Effect.flip,
+        ),
+      );
+      expect(error).toBeInstanceOf(FlyIoParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
   });
 });
