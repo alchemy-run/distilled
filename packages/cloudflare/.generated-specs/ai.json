@@ -1832,6 +1832,28 @@
         "smithy.api#output": {}
       }
     },
+    "com.cloudflare.ai#InputTooBig": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "input too big"
+            }
+          }
+        ]
+      }
+    },
     "com.cloudflare.ai#RunAi": {
       "type": "operation",
       "input": {
@@ -1843,7 +1865,7 @@
       "traits": {
         "smithy.api#http": {
           "method": "POST",
-          "uri": "/accounts/{account_id}/ai/run/{model_name}",
+          "uri": "/accounts/{account_id}/ai/run/{model_name+}",
           "code": 200
         },
         "smithy.api#documentation": "Runs the Workers AI model specified in the URL path. Send the model's inputs directly in the request body, without a model/input/options wrapper. Accepts model-specific JSON or binary input. The response format depends on the model and the requested output. See the [model catalog](https://developers.cloudflare.com/workers-ai/models/) for supported models and their input formats."
@@ -1851,6 +1873,9 @@
       "errors": [
         {
           "target": "com.cloudflare.ai#ModelNotFound"
+        },
+        {
+          "target": "com.cloudflare.ai#InputTooBig"
         }
       ]
     },
