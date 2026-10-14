@@ -1,5 +1,6 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import {
   GqlTransport,
@@ -8,6 +9,7 @@ import {
   objectField,
   root,
   rootConnection,
+  rootLeaf,
   scalarField,
   type TypeMeta,
 } from "./graphql.ts";
@@ -194,5 +196,36 @@ describe("Query.fn", () => {
       name: "web",
       deployment: null,
     });
+  });
+});
+
+describe("Redacted arguments", () => {
+  test("a Redacted value in a request argument is sent as its plain value", async () => {
+    let variables: Record<string, unknown> = {};
+    const layer = Layer.succeed(GqlTransport, {
+      execute: (request) =>
+        Effect.sync(() => {
+          variables = request.variables;
+          return { data: { a: true, b: true } };
+        }),
+    });
+    const upsert = (secret: Redacted.Redacted<string>) =>
+      rootLeaf<boolean>(
+        "mutation",
+        "variableCollectionUpsert",
+        false,
+        { input: { variables: { S3_SECRET: secret } } },
+        { input: "VariableCollectionUpsertInput!" },
+      );
+    await Effect.runPromise(
+      Query.fn(() => ({
+        a: upsert(Redacted.make("first-secret")),
+        b: upsert(Redacted.make("second-secret")),
+      }))().pipe(Effect.provide(layer)),
+    );
+    expect(Object.values(variables)).toEqual([
+      { variables: { S3_SECRET: "first-secret" } },
+      { variables: { S3_SECRET: "second-secret" } },
+    ]);
   });
 });
