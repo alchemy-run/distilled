@@ -55,8 +55,12 @@ const digitaloceanSpec: SdkSpec = {
     `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
-  // Converter-stamped pagination: page-number (`page` / `next_page`) and
-  // cursor (`cursor` / `pagination.cursor`) when the spec carries either.
+  // Pagination is stamped on the Smithy model by patches/*.patch.json
+  // (`smithy.api#paginated` ops under `/shapes`, applied after conversion) —
+  // the OpenAPI spec carries no pagination metadata. Page-number ops
+  // (`page` / `per_page` in, `links.pages.next` URL out) select the `page`
+  // profile; a cursor-stamped op would select `cursor`.
+  paginationProfileFor: (trait) => (trait.mode === "page" ? "page" : "cursor"),
   paginationProfiles: {
     cursor: {
       strategy: "paginateCursor",

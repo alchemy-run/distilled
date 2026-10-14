@@ -37,18 +37,23 @@ export const fromApiKey = (config: {
   );
 
 /**
- * Reads DIGITALOCEAN_ACCESS_TOKEN or DIGITALOCEAN_API_KEY (required) and
- * DIGITALOCEAN_API_BASE_URL (optional). `doctl` uses DIGITALOCEAN_ACCESS_TOKEN.
+ * Reads the API token from DIGITALOCEAN_TOKEN, DIGITALOCEAN_ACCESS_TOKEN or
+ * DIGITALOCEAN_API_KEY (first set wins; one is required) and
+ * DIGITALOCEAN_API_BASE_URL (optional). DIGITALOCEAN_TOKEN is what the
+ * Terraform provider reads; `doctl` uses DIGITALOCEAN_ACCESS_TOKEN.
  */
 export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
   Credentials,
   Effect.gen(function* () {
-    const apiKey = process.env.DIGITALOCEAN_ACCESS_TOKEN ?? process.env.DIGITALOCEAN_API_KEY;
+    const apiKey =
+      process.env.DIGITALOCEAN_TOKEN ??
+      process.env.DIGITALOCEAN_ACCESS_TOKEN ??
+      process.env.DIGITALOCEAN_API_KEY;
 
     if (!apiKey) {
       return yield* new ConfigError({
         message:
-          "DIGITALOCEAN_ACCESS_TOKEN or DIGITALOCEAN_API_KEY environment variable is required",
+          "DIGITALOCEAN_TOKEN, DIGITALOCEAN_ACCESS_TOKEN or DIGITALOCEAN_API_KEY environment variable is required",
       });
     }
 
