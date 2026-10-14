@@ -123,6 +123,27 @@ describe("greedy labels", () => {
   });
 });
 
+describe("dot-segment labels", () => {
+  const schema = S.Struct({ id: S.String.pipe(T.Label()) }).pipe(
+    T.Http({ method: "DELETE", uri: "/things/{id}" }),
+  );
+  const build = (id: string) =>
+    buildRequest({ input: { id }, inputAst: schema.ast, baseUrl: "https://example.test" });
+
+  // The URL parser resolves a `.` or `..` segment, so `DELETE /things/..`
+  // would go out as `DELETE /`.
+  test("a `.` or `..` label throws before anything is sent", () => {
+    for (const id of [".", ".."]) {
+      expect(() => build(id)).toThrow(/: id$/);
+    }
+  });
+
+  test("other dotted labels are sent as written", () => {
+    expect(build("...").url).toBe("https://example.test/things/...");
+    expect(build("a.b").url).toBe("https://example.test/things/a.b");
+  });
+});
+
 describe("multipart binary parts", () => {
   const schema = S.Struct({ zip: S.Unknown, environment: S.String }).pipe(
     T.Http({ method: "POST", uri: "/deployments", contentType: "multipart" }),
