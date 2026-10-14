@@ -1237,7 +1237,10 @@
       "type": "structure",
       "members": {
         "token": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
         }
       },
       "traits": {}

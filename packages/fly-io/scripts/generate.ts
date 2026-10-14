@@ -63,7 +63,7 @@ const restSpec = (opts: {
   errorType: string;
   sourceNote: string;
   pagination?: boolean;
-  /** Surface sensitive strings as `string | Redacted`. Off for machines (leave generated file stable). */
+  /** Surface sensitive strings as `string | Redacted`. */
   sensitiveTs?: boolean;
   /** Type httpPayload Blob members as `Uint8Array | string` (Sprites writeFile / exec stdin). */
   blobBody?: boolean;
@@ -245,6 +245,7 @@ const machinesSpec = restSpec({
   contextType: "FlyIoOpContext",
   errorType: "FlyIoOpError",
   sourceNote: ".generated-specs",
+  sensitiveTs: true,
 });
 
 runGeneratorCli({
