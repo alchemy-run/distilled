@@ -1,0 +1,284 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.hosted_tools#GetProjectHostedToolPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.hosted_tools#ProjectHostedToolPermissions": {
+      "type": "structure",
+      "members": {
+        "file_search": {
+          "target": "com.openai.hosted_tools#HostedToolPermission",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "web_search": {
+          "target": "com.openai.hosted_tools#HostedToolPermission",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "image_generation": {
+          "target": "com.openai.hosted_tools#HostedToolPermission",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mcp": {
+          "target": "com.openai.hosted_tools#HostedToolPermission",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "code_interpreter": {
+          "target": "com.openai.hosted_tools#HostedToolPermission",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents hosted tool permissions for a project."
+      }
+    },
+    "com.openai.hosted_tools#HostedToolPermission": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the hosted tool is enabled for the project.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Permission state for a single hosted tool on a project."
+      }
+    },
+    "com.openai.hosted_tools#GetProjectHostedToolPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.hosted_tools#GetProjectHostedToolPermissionsRequest"
+      },
+      "output": {
+        "target": "com.openai.hosted_tools#ProjectHostedToolPermissions"
+      },
+      "errors": [
+        {
+          "target": "com.openai.hosted_tools#BadRequest"
+        },
+        {
+          "target": "com.openai.hosted_tools#Forbidden"
+        },
+        {
+          "target": "com.openai.hosted_tools#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/hosted_tool_permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project hosted tool permissions\n\nReturns hosted tool permissions for a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.hosted_tools#HostedToolPermissionUpdate": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to enable the hosted tool for the project.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.hosted_tools#UpdateProjectHostedToolPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "file_search": {
+          "target": "com.openai.hosted_tools#HostedToolPermissionUpdate",
+          "traits": {
+            "smithy.api#documentation": "The file search permission update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "web_search": {
+          "target": "com.openai.hosted_tools#HostedToolPermissionUpdate",
+          "traits": {
+            "smithy.api#documentation": "The web search permission update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image_generation": {
+          "target": "com.openai.hosted_tools#HostedToolPermissionUpdate",
+          "traits": {
+            "smithy.api#documentation": "The image generation permission update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mcp": {
+          "target": "com.openai.hosted_tools#HostedToolPermissionUpdate",
+          "traits": {
+            "smithy.api#documentation": "The MCP permission update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "code_interpreter": {
+          "target": "com.openai.hosted_tools#HostedToolPermissionUpdate",
+          "traits": {
+            "smithy.api#documentation": "The code interpreter permission update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.hosted_tools#UpdateProjectHostedToolPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.hosted_tools#UpdateProjectHostedToolPermissionsRequest"
+      },
+      "output": {
+        "target": "com.openai.hosted_tools#ProjectHostedToolPermissions"
+      },
+      "errors": [
+        {
+          "target": "com.openai.hosted_tools#BadRequest"
+        },
+        {
+          "target": "com.openai.hosted_tools#Forbidden"
+        },
+        {
+          "target": "com.openai.hosted_tools#NotFound"
+        },
+        {
+          "target": "com.openai.hosted_tools#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/hosted_tool_permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modify project hosted tool permissions\n\nUpdates hosted tool permissions for a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.hosted_tools#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.hosted_tools#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.hosted_tools#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.hosted_tools#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.openai.hosted_tools#HostedTools": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.hosted_tools#GetProjectHostedToolPermissions"
+        },
+        {
+          "target": "com.openai.hosted_tools#UpdateProjectHostedToolPermissions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

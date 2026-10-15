@@ -1,0 +1,2648 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.vector_stores#ListVectorStoresRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ListVectorStoresRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "order": {
+          "target": "com.openai.vector_stores#ListVectorStoresRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#ListVectorStoresResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.vector_stores#ListVectorStoresResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreObject": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vector_stores#VectorStoreObjectObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `vector_store`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the vector store was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the vector store.",
+            "smithy.api#required": {}
+          }
+        },
+        "usage_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of bytes used by the files in the vector store.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_counts": {
+          "target": "com.openai.vector_stores#VectorStoreObjectFileCounts",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.vector_stores#VectorStoreObjectStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_after": {
+          "target": "com.openai.vector_stores#VectorStoreExpirationAfter"
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_active_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.openai.vector_stores#MetadataMap",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A vector store is a collection of processed files can be used by the `file_search` tool."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreObjectObject": {
+      "type": "enum",
+      "members": {
+        "VECTOR_STORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vector_store"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `vector_store`."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreObjectFileCounts": {
+      "type": "structure",
+      "members": {
+        "in_progress": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of files that are currently being processed.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of files that have been successfully processed.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of files that have failed to process.",
+            "smithy.api#required": {}
+          }
+        },
+        "cancelled": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of files that were cancelled.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of files.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreObjectStatus": {
+      "type": "enum",
+      "members": {
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreExpirationAfter": {
+      "type": "structure",
+      "members": {
+        "anchor": {
+          "target": "com.openai.vector_stores#VectorStoreExpirationAfterAnchor",
+          "traits": {
+            "smithy.api#documentation": "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`.",
+            "smithy.api#required": {}
+          }
+        },
+        "days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days after the anchor time that the vector store will expire.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The expiration policy for a vector store."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreExpirationAfterAnchor": {
+      "type": "enum",
+      "members": {
+        "LAST_ACTIVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_active_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."
+      }
+    },
+    "com.openai.vector_stores#MetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Set of 16 key-value pairs that can be attached to an object. This can be\nuseful for storing additional information about the object in a structured\nformat, and querying for objects via API or the dashboard.\n\nKeys are strings with a maximum length of 64 characters. Values are strings\nwith a maximum length of 512 characters.\n"
+      }
+    },
+    "com.openai.vector_stores#ListVectorStoresResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vector_stores#VectorStoreObject"
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ListVectorStores": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#ListVectorStoresRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#ListVectorStoresResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vector_stores",
+          "code": 200
+        },
+        "smithy.api#documentation": "List vector stores\n\nReturns a list of vector stores.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStoreRequestFileIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of [File](https://developers.openai.com/api/reference/resources/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."
+      }
+    },
+    "com.openai.vector_stores#AutoChunkingStrategyRequestParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vector_stores#AutoChunkingStrategyRequestParamType",
+          "traits": {
+            "smithy.api#documentation": "Always `auto`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."
+      }
+    },
+    "com.openai.vector_stores#AutoChunkingStrategyRequestParamType": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `auto`."
+      }
+    },
+    "com.openai.vector_stores#StaticChunkingStrategyRequestParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vector_stores#StaticChunkingStrategyRequestParamType",
+          "traits": {
+            "smithy.api#documentation": "Always `static`.",
+            "smithy.api#required": {}
+          }
+        },
+        "static": {
+          "target": "com.openai.vector_stores#StaticChunkingStrategy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Customize your own chunking strategy by setting chunk size and chunk overlap."
+      }
+    },
+    "com.openai.vector_stores#StaticChunkingStrategyRequestParamType": {
+      "type": "enum",
+      "members": {
+        "STATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "static"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `static`."
+      }
+    },
+    "com.openai.vector_stores#StaticChunkingStrategy": {
+      "type": "structure",
+      "members": {
+        "max_chunk_size_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.",
+            "smithy.api#required": {}
+          }
+        },
+        "chunk_overlap_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#CreateVectorStoreRequestChunkingStrategy": {
+      "type": "union",
+      "members": {
+        "AutoChunkingStrategyRequestParam": {
+          "target": "com.openai.vector_stores#AutoChunkingStrategyRequestParam"
+        },
+        "StaticChunkingStrategyRequestParam": {
+          "target": "com.openai.vector_stores#StaticChunkingStrategyRequestParam"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStoreRequest": {
+      "type": "structure",
+      "members": {
+        "file_ids": {
+          "target": "com.openai.vector_stores#CreateVectorStoreRequestFileIdsList",
+          "traits": {
+            "smithy.api#documentation": "A list of [File](https://developers.openai.com/api/reference/resources/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the vector store."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description for the vector store. Can be used to describe the vector store's purpose."
+          }
+        },
+        "expires_after": {
+          "target": "com.openai.vector_stores#VectorStoreExpirationAfter"
+        },
+        "chunking_strategy": {
+          "target": "com.openai.vector_stores#CreateVectorStoreRequestChunkingStrategy",
+          "traits": {
+            "smithy.api#documentation": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."
+          }
+        },
+        "metadata": {
+          "target": "com.openai.vector_stores#MetadataMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#CreateVectorStoreRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vector_stores",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create vector store\n\nCreate a vector store."
+      }
+    },
+    "com.openai.vector_stores#GetVectorStoreRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#GetVectorStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#GetVectorStoreRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vector_stores/{vector_store_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve vector store\n\nRetrieves a vector store."
+      }
+    },
+    "com.openai.vector_stores#ModifyVectorStoreRequestExpiresAfterAnchor": {
+      "type": "enum",
+      "members": {
+        "LAST_ACTIVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "last_active_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."
+      }
+    },
+    "com.openai.vector_stores#ModifyVectorStoreRequestExpiresAfter": {
+      "type": "structure",
+      "members": {
+        "anchor": {
+          "target": "com.openai.vector_stores#ModifyVectorStoreRequestExpiresAfterAnchor",
+          "traits": {
+            "smithy.api#documentation": "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`.",
+            "smithy.api#required": {}
+          }
+        },
+        "days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of days after the anchor time that the vector store will expire.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ModifyVectorStoreRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store to modify."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the vector store.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_after": {
+          "target": "com.openai.vector_stores#ModifyVectorStoreRequestExpiresAfter"
+        },
+        "metadata": {
+          "target": "com.openai.vector_stores#MetadataMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#ModifyVectorStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#ModifyVectorStoreRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#Forbidden"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vector_stores/{vector_store_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modify vector store\n\nModifies a vector store."
+      }
+    },
+    "com.openai.vector_stores#DeleteVectorStoreRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#DeleteVectorStoreResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vector_stores#DeleteVectorStoreResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#DeleteVectorStoreResponseObject": {
+      "type": "enum",
+      "members": {
+        "VECTOR_STORE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vector_store.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#DeleteVectorStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#DeleteVectorStoreRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#DeleteVectorStoreResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        },
+        {
+          "target": "com.openai.vector_stores#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vector_stores/{vector_store_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete vector store\n\nDelete a vector store."
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStoreFileBatchRequestFileIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of [File](https://developers.openai.com/api/reference/resources/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files. If `attributes` or `chunking_strategy` are provided, they will be applied to all files in the batch. The maximum batch size is 2000 files. This endpoint is recommended for multi-file ingestion and helps reduce per-vector-store write request pressure. Mutually exclusive with `files`."
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStoreFileRequest": {
+      "type": "structure",
+      "members": {
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A [File](https://developers.openai.com/api/reference/resources/files) ID that the vector store should use. Useful for tools like `file_search` that can access files. For multi-file ingestion, we recommend [`file_batches`](https://developers.openai.com/api/reference/resources/vector_stores/subresources/file_batches/methods/create) to minimize per-vector-store write requests.",
+            "smithy.api#required": {}
+          }
+        },
+        "chunking_strategy": {
+          "target": "com.openai.vector_stores#ChunkingStrategyRequestParam"
+        },
+        "attributes": {
+          "target": "com.openai.vector_stores#VectorStoreFileAttributesMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ChunkingStrategyRequestParam": {
+      "type": "union",
+      "members": {
+        "AutoChunkingStrategyRequestParam": {
+          "target": "com.openai.vector_stores#AutoChunkingStrategyRequestParam"
+        },
+        "StaticChunkingStrategyRequestParam": {
+          "target": "com.openai.vector_stores#StaticChunkingStrategyRequestParam"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileAttributesValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreFileAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.openai.vector_stores#VectorStoreFileAttributesValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Set of 16 key-value pairs that can be attached to an object. This can be\nuseful for storing additional information about the object in a structured\nformat, and querying for objects via API or the dashboard. Keys are strings\nwith a maximum length of 64 characters. Values are strings with a maximum\nlength of 512 characters, booleans, or numbers.\n"
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStoreFileBatchRequestFilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vector_stores#CreateVectorStoreFileRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of objects that each include a `file_id` plus optional `attributes` or `chunking_strategy`. Use this when you need to override metadata for specific files. The global `attributes` or `chunking_strategy` will be ignored and must be specified for each file. The maximum batch size is 2000 files. This endpoint is recommended for multi-file ingestion and helps reduce per-vector-store write request pressure. Mutually exclusive with `file_ids`."
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStoreFileBatchRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store for which to create a File Batch.\n"
+          }
+        },
+        "file_ids": {
+          "target": "com.openai.vector_stores#CreateVectorStoreFileBatchRequestFileIdsList",
+          "traits": {
+            "smithy.api#documentation": "A list of [File](https://developers.openai.com/api/reference/resources/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files. If `attributes` or `chunking_strategy` are provided, they will be applied to all files in the batch. The maximum batch size is 2000 files. This endpoint is recommended for multi-file ingestion and helps reduce per-vector-store write request pressure. Mutually exclusive with `files`."
+          }
+        },
+        "files": {
+          "target": "com.openai.vector_stores#CreateVectorStoreFileBatchRequestFilesList",
+          "traits": {
+            "smithy.api#documentation": "A list of objects that each include a `file_id` plus optional `attributes` or `chunking_strategy`. Use this when you need to override metadata for specific files. The global `attributes` or `chunking_strategy` will be ignored and must be specified for each file. The maximum batch size is 2000 files. This endpoint is recommended for multi-file ingestion and helps reduce per-vector-store write request pressure. Mutually exclusive with `file_ids`."
+          }
+        },
+        "chunking_strategy": {
+          "target": "com.openai.vector_stores#ChunkingStrategyRequestParam"
+        },
+        "attributes": {
+          "target": "com.openai.vector_stores#VectorStoreFileAttributesMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileBatchObject": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vector_stores#VectorStoreFileBatchObjectObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `vector_store.file_batch`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the vector store files batch was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the [vector store](https://developers.openai.com/api/reference/resources/vector_stores) that the [File](https://developers.openai.com/api/reference/resources/files) is attached to.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.vector_stores#VectorStoreFileBatchObjectStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_counts": {
+          "target": "com.openai.vector_stores#VectorStoreFileBatchObjectFileCounts",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A batch of files attached to a vector store."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileBatchObjectObject": {
+      "type": "enum",
+      "members": {
+        "VECTOR_STORE_FILE_BATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vector_store.file_batch"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `vector_store.file_batch`."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileBatchObjectStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileBatchObjectFileCounts": {
+      "type": "structure",
+      "members": {
+        "in_progress": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of files that are currently being processed.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of files that have been processed.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of files that have failed to process.",
+            "smithy.api#required": {}
+          }
+        },
+        "cancelled": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of files that where cancelled.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of files.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#CreateVectorStoreFileBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#CreateVectorStoreFileBatchRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreFileBatchObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        },
+        {
+          "target": "com.openai.vector_stores#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vector_stores/{vector_store_id}/file_batches",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create vector store file batch\n\nCreate a vector store file batch."
+      }
+    },
+    "com.openai.vector_stores#GetVectorStoreFileBatchRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store that the file batch belongs to."
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the file batch being retrieved."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#GetVectorStoreFileBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#GetVectorStoreFileBatchRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreFileBatchObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vector_stores/{vector_store_id}/file_batches/{batch_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve vector store file batch\n\nRetrieves a vector store file batch."
+      }
+    },
+    "com.openai.vector_stores#CancelVectorStoreFileBatchRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store that the file batch belongs to."
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the file batch to cancel."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#CancelVectorStoreFileBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#CancelVectorStoreFileBatchRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreFileBatchObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        },
+        {
+          "target": "com.openai.vector_stores#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vector_stores/{vector_store_id}/file_batches/{batch_id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel vector store file batch\n\nCancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible."
+      }
+    },
+    "com.openai.vector_stores#ListFilesInVectorStoreBatchRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ListFilesInVectorStoreBatchRequestFilter": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ListFilesInVectorStoreBatchRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store that the files belong to."
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the file batch that the files belong to."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "order": {
+          "target": "com.openai.vector_stores#ListFilesInVectorStoreBatchRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.\n"
+          }
+        },
+        "filter": {
+          "target": "com.openai.vector_stores#ListFilesInVectorStoreBatchRequestFilter",
+          "traits": {
+            "smithy.api#httpQuery": "filter",
+            "smithy.api#documentation": "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#ListVectorStoreFilesResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.vector_stores#ListVectorStoreFilesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreFileObject": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vector_stores#VectorStoreFileObjectObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `vector_store.file`.",
+            "smithy.api#required": {}
+          }
+        },
+        "usage_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total vector store usage in bytes. Note that this may be different from the original file size.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the vector store file was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the [vector store](https://developers.openai.com/api/reference/resources/vector_stores) that the [File](https://developers.openai.com/api/reference/resources/files) is attached to.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.vector_stores#VectorStoreFileObjectStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_error": {
+          "target": "com.openai.vector_stores#VectorStoreFileObjectLastError",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "chunking_strategy": {
+          "target": "com.openai.vector_stores#VectorStoreFileObjectChunkingStrategy",
+          "traits": {
+            "smithy.api#documentation": "The strategy used to chunk the file."
+          }
+        },
+        "attributes": {
+          "target": "com.openai.vector_stores#VectorStoreFileAttributesMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of files attached to a vector store."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileObjectObject": {
+      "type": "enum",
+      "members": {
+        "VECTOR_STORE_FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vector_store.file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `vector_store.file`."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileObjectStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileObjectLastErrorCode": {
+      "type": "enum",
+      "members": {
+        "SERVER_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "server_error"
+          }
+        },
+        "UNSUPPORTED_FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unsupported_file"
+          }
+        },
+        "INVALID_FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid_file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of `server_error`, `unsupported_file`, or `invalid_file`."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileObjectLastError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "com.openai.vector_stores#VectorStoreFileObjectLastErrorCode",
+          "traits": {
+            "smithy.api#documentation": "One of `server_error`, `unsupported_file`, or `invalid_file`.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of the error.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The last error associated with this vector store file. Will be `null` if there are no errors."
+      }
+    },
+    "com.openai.vector_stores#StaticChunkingStrategyResponseParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vector_stores#StaticChunkingStrategyResponseParamType",
+          "traits": {
+            "smithy.api#documentation": "Always `static`.",
+            "smithy.api#required": {}
+          }
+        },
+        "static": {
+          "target": "com.openai.vector_stores#StaticChunkingStrategy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#StaticChunkingStrategyResponseParamType": {
+      "type": "enum",
+      "members": {
+        "STATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "static"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `static`."
+      }
+    },
+    "com.openai.vector_stores#OtherChunkingStrategyResponseParam": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vector_stores#OtherChunkingStrategyResponseParamType",
+          "traits": {
+            "smithy.api#documentation": "Always `other`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This is returned when the chunking strategy is unknown. Typically, this is because the file was indexed before the `chunking_strategy` concept was introduced in the API."
+      }
+    },
+    "com.openai.vector_stores#OtherChunkingStrategyResponseParamType": {
+      "type": "enum",
+      "members": {
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `other`."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileObjectChunkingStrategy": {
+      "type": "union",
+      "members": {
+        "StaticChunkingStrategyResponseParam": {
+          "target": "com.openai.vector_stores#StaticChunkingStrategyResponseParam"
+        },
+        "OtherChunkingStrategyResponseParam": {
+          "target": "com.openai.vector_stores#OtherChunkingStrategyResponseParam"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The strategy used to chunk the file."
+      }
+    },
+    "com.openai.vector_stores#ListVectorStoreFilesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vector_stores#VectorStoreFileObject"
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ListFilesInVectorStoreBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#ListFilesInVectorStoreBatchRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#ListVectorStoreFilesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vector_stores/{vector_store_id}/file_batches/{batch_id}/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "List vector store files in a batch\n\nReturns a list of vector store files in a batch.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.vector_stores#ListVectorStoreFilesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ListVectorStoreFilesRequestFilter": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ListVectorStoreFilesRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store that the files belong to."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "order": {
+          "target": "com.openai.vector_stores#ListVectorStoreFilesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.\n"
+          }
+        },
+        "filter": {
+          "target": "com.openai.vector_stores#ListVectorStoreFilesRequestFilter",
+          "traits": {
+            "smithy.api#httpQuery": "filter",
+            "smithy.api#documentation": "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#ListVectorStoreFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#ListVectorStoreFilesRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#ListVectorStoreFilesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vector_stores/{vector_store_id}/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "List vector store files\n\nReturns a list of vector store files.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStoreFileRequest2": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store for which to create a File.\n"
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A [File](https://developers.openai.com/api/reference/resources/files) ID that the vector store should use. Useful for tools like `file_search` that can access files. For multi-file ingestion, we recommend [`file_batches`](https://developers.openai.com/api/reference/resources/vector_stores/subresources/file_batches/methods/create) to minimize per-vector-store write requests.",
+            "smithy.api#required": {}
+          }
+        },
+        "chunking_strategy": {
+          "target": "com.openai.vector_stores#ChunkingStrategyRequestParam"
+        },
+        "attributes": {
+          "target": "com.openai.vector_stores#VectorStoreFileAttributesMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#CreateVectorStoreFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#CreateVectorStoreFileRequest2"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreFileObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        },
+        {
+          "target": "com.openai.vector_stores#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vector_stores/{vector_store_id}/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create vector store file\n\nCreate a vector store file by attaching a [File](https://developers.openai.com/api/reference/resources/files) to a [vector store](https://developers.openai.com/api/reference/resources/vector_stores)."
+      }
+    },
+    "com.openai.vector_stores#GetVectorStoreFileRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store that the file belongs to."
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the file being retrieved."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#GetVectorStoreFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#GetVectorStoreFileRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreFileObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vector_stores/{vector_store_id}/files/{file_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve vector store file\n\nRetrieves a vector store file."
+      }
+    },
+    "com.openai.vector_stores#UpdateVectorStoreFileAttributesRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store the file belongs to."
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the file to update attributes."
+          }
+        },
+        "attributes": {
+          "target": "com.openai.vector_stores#VectorStoreFileAttributesMap",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#UpdateVectorStoreFileAttributes": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#UpdateVectorStoreFileAttributesRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreFileObject"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        },
+        {
+          "target": "com.openai.vector_stores#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vector_stores/{vector_store_id}/files/{file_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update vector store file attributes\n\nUpdate attributes on a vector store file."
+      }
+    },
+    "com.openai.vector_stores#DeleteVectorStoreFileRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store that the file belongs to."
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the file to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#DeleteVectorStoreFileResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vector_stores#DeleteVectorStoreFileResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#DeleteVectorStoreFileResponseObject": {
+      "type": "enum",
+      "members": {
+        "VECTOR_STORE_FILE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vector_store.file.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#DeleteVectorStoreFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#DeleteVectorStoreFileRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#DeleteVectorStoreFileResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        },
+        {
+          "target": "com.openai.vector_stores#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vector_stores/{vector_store_id}/files/{file_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete vector store file\n\nDelete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the [delete file](https://developers.openai.com/api/reference/resources/files/methods/delete) endpoint."
+      }
+    },
+    "com.openai.vector_stores#GetVectorStoreFileContentRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store."
+          }
+        },
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the file within the vector store."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileContentResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.vector_stores#VectorStoreFileContentResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `vector_store.file_content.page`",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.vector_stores#VectorStoreFileContentResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "Parsed content of the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if there are more content pages to fetch.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents the parsed content of a vector store file."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileContentResponseObject": {
+      "type": "enum",
+      "members": {
+        "VECTOR_STORE_FILE_CONTENT_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vector_store.file_content.page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `vector_store.file_content.page`"
+      }
+    },
+    "com.openai.vector_stores#VectorStoreFileContentResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The content type (currently only `\"text\"`)"
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text content"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreFileContentResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vector_stores#VectorStoreFileContentResponseDataItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Parsed content of the file."
+      }
+    },
+    "com.openai.vector_stores#GetVectorStoreFileContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#GetVectorStoreFileContentRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreFileContentResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vector_stores/{vector_store_id}/files/{file_id}/content",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve vector store file content\n\nRetrieve the parsed contents of a vector store file."
+      }
+    },
+    "com.openai.vector_stores#SearchVectorStoreRequestQueryCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#SearchVectorStoreRequestQuery": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.vector_stores#SearchVectorStoreRequestQueryCase1List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A query string for a search"
+      }
+    },
+    "com.openai.vector_stores#ComparisonFilter": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vector_stores#ComparisonFilterType",
+          "traits": {
+            "smithy.api#documentation": "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n- `in`: in\n- `nin`: not in\n",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key to compare against the value.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.openai.vector_stores#ComparisonFilterValue",
+          "traits": {
+            "smithy.api#documentation": "The value to compare against the attribute key; supports string, number, or boolean types.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A filter used to compare a specified attribute key to a given value using a defined comparison operation.\n"
+      }
+    },
+    "com.openai.vector_stores#ComparisonFilterType": {
+      "type": "enum",
+      "members": {
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ne"
+          }
+        },
+        "GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gt"
+          }
+        },
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lt"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        },
+        "IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in"
+          }
+        },
+        "NIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nin"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n- `in`: in\n- `nin`: not in\n"
+      }
+    },
+    "com.openai.vector_stores#ComparisonFilterValueCase3Item": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ComparisonFilterValueCase3List": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vector_stores#ComparisonFilterValueCase3Item"
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#ComparisonFilterValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case3": {
+          "target": "com.openai.vector_stores#ComparisonFilterValueCase3List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The value to compare against the attribute key; supports string, number, or boolean types."
+      }
+    },
+    "com.openai.vector_stores#CompoundFilter": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vector_stores#CompoundFilterType",
+          "traits": {
+            "smithy.api#documentation": "Type of operation: `and` or `or`.",
+            "smithy.api#required": {}
+          }
+        },
+        "filters": {
+          "target": "com.openai.vector_stores#CompoundFilterFiltersList",
+          "traits": {
+            "smithy.api#documentation": "Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Combine multiple filters using `and` or `or`."
+      }
+    },
+    "com.openai.vector_stores#CompoundFilterType": {
+      "type": "enum",
+      "members": {
+        "AND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "and"
+          }
+        },
+        "OR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "or"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of operation: `and` or `or`."
+      }
+    },
+    "com.openai.vector_stores#CompoundFilterFiltersItem": {
+      "type": "union",
+      "members": {
+        "ComparisonFilter": {
+          "target": "com.openai.vector_stores#ComparisonFilter"
+        },
+        "CompoundFilter": {
+          "target": "com.openai.vector_stores#CompoundFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#CompoundFilterFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vector_stores#CompoundFilterFiltersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`."
+      }
+    },
+    "com.openai.vector_stores#SearchVectorStoreRequestFilters": {
+      "type": "union",
+      "members": {
+        "ComparisonFilter": {
+          "target": "com.openai.vector_stores#ComparisonFilter"
+        },
+        "CompoundFilter": {
+          "target": "com.openai.vector_stores#CompoundFilter"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A filter to apply based on file attributes."
+      }
+    },
+    "com.openai.vector_stores#SearchVectorStoreRequestRankingOptionsRanker": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "DEFAULT_2024_11_15": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default-2024-11-15"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Enable re-ranking; set to `none` to disable, which can help reduce latency."
+      }
+    },
+    "com.openai.vector_stores#SearchVectorStoreRequestRankingOptions": {
+      "type": "structure",
+      "members": {
+        "ranker": {
+          "target": "com.openai.vector_stores#SearchVectorStoreRequestRankingOptionsRanker",
+          "traits": {
+            "smithy.api#documentation": "Enable re-ranking; set to `none` to disable, which can help reduce latency."
+          }
+        },
+        "score_threshold": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ranking options for search."
+      }
+    },
+    "com.openai.vector_stores#SearchVectorStoreRequest": {
+      "type": "structure",
+      "members": {
+        "vector_store_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vector store to search."
+          }
+        },
+        "query": {
+          "target": "com.openai.vector_stores#SearchVectorStoreRequestQuery",
+          "traits": {
+            "smithy.api#documentation": "A query string for a search",
+            "smithy.api#required": {}
+          }
+        },
+        "rewrite_query": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to rewrite the natural language query for vector search."
+          }
+        },
+        "max_num_results": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of results to return. This number should be between 1 and 50 inclusive."
+          }
+        },
+        "filters": {
+          "target": "com.openai.vector_stores#SearchVectorStoreRequestFilters",
+          "traits": {
+            "smithy.api#documentation": "A filter to apply based on file attributes."
+          }
+        },
+        "ranking_options": {
+          "target": "com.openai.vector_stores#SearchVectorStoreRequestRankingOptions",
+          "traits": {
+            "smithy.api#documentation": "Ranking options for search."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vector_stores#VectorStoreSearchResultsPage": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.vector_stores#VectorStoreSearchResultsPageObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `vector_store.search_results.page`",
+            "smithy.api#required": {}
+          }
+        },
+        "search_query": {
+          "target": "com.openai.vector_stores#VectorStoreSearchResultsPageSearchQueryList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.vector_stores#VectorStoreSearchResultsPageDataList",
+          "traits": {
+            "smithy.api#documentation": "The list of search result items.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if there are more results to fetch.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreSearchResultsPageObject": {
+      "type": "enum",
+      "members": {
+        "VECTOR_STORE_SEARCH_RESULTS_PAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vector_store.search_results.page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `vector_store.search_results.page`"
+      }
+    },
+    "com.openai.vector_stores#VectorStoreSearchResultsPageSearchQueryList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreSearchResultItem": {
+      "type": "structure",
+      "members": {
+        "file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the vector store file.",
+            "smithy.api#required": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the vector store file.",
+            "smithy.api#required": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The similarity score for the result.",
+            "smithy.api#required": {}
+          }
+        },
+        "attributes": {
+          "target": "com.openai.vector_stores#VectorStoreFileAttributesMap",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "content": {
+          "target": "com.openai.vector_stores#VectorStoreSearchResultItemContentList",
+          "traits": {
+            "smithy.api#documentation": "Content chunks from the file.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreSearchResultContentObject": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vector_stores#VectorStoreSearchResultContentObjectType",
+          "traits": {
+            "smithy.api#documentation": "The type of content.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text content returned from search.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.vector_stores#VectorStoreSearchResultContentObjectType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of content."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreSearchResultItemContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vector_stores#VectorStoreSearchResultContentObject"
+      },
+      "traits": {
+        "smithy.api#documentation": "Content chunks from the file."
+      }
+    },
+    "com.openai.vector_stores#VectorStoreSearchResultsPageDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vector_stores#VectorStoreSearchResultItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of search result items."
+      }
+    },
+    "com.openai.vector_stores#SearchVectorStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vector_stores#SearchVectorStoreRequest"
+      },
+      "output": {
+        "target": "com.openai.vector_stores#VectorStoreSearchResultsPage"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vector_stores#BadRequest"
+        },
+        {
+          "target": "com.openai.vector_stores#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vector_stores/{vector_store_id}/search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Search vector store\n\nSearch a vector store for relevant chunks based on a query and file attributes filter."
+      }
+    },
+    "com.openai.vector_stores#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.vector_stores#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.vector_stores#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.vector_stores#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.openai.vector_stores#VectorStores": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.vector_stores#ListVectorStores"
+        },
+        {
+          "target": "com.openai.vector_stores#CreateVectorStore"
+        },
+        {
+          "target": "com.openai.vector_stores#GetVectorStore"
+        },
+        {
+          "target": "com.openai.vector_stores#ModifyVectorStore"
+        },
+        {
+          "target": "com.openai.vector_stores#DeleteVectorStore"
+        },
+        {
+          "target": "com.openai.vector_stores#CreateVectorStoreFileBatch"
+        },
+        {
+          "target": "com.openai.vector_stores#GetVectorStoreFileBatch"
+        },
+        {
+          "target": "com.openai.vector_stores#CancelVectorStoreFileBatch"
+        },
+        {
+          "target": "com.openai.vector_stores#ListFilesInVectorStoreBatch"
+        },
+        {
+          "target": "com.openai.vector_stores#ListVectorStoreFiles"
+        },
+        {
+          "target": "com.openai.vector_stores#CreateVectorStoreFile"
+        },
+        {
+          "target": "com.openai.vector_stores#GetVectorStoreFile"
+        },
+        {
+          "target": "com.openai.vector_stores#UpdateVectorStoreFileAttributes"
+        },
+        {
+          "target": "com.openai.vector_stores#DeleteVectorStoreFile"
+        },
+        {
+          "target": "com.openai.vector_stores#GetVectorStoreFileContent"
+        },
+        {
+          "target": "com.openai.vector_stores#SearchVectorStore"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

@@ -1,0 +1,634 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.invites#ListInvitesRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.invites#InviteListResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.invites#InviteListResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `list`",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.invites#InviteListResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The first `invite_id` in the retrieved `list`",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last `invite_id` in the retrieved `list`",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The `has_more` property is used for pagination to indicate there are additional results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.invites#InviteListResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `list`"
+      }
+    },
+    "com.openai.invites#Invite": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.invites#InviteObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.invite`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the individual to whom the invite was sent",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.openai.invites#InviteRole",
+          "traits": {
+            "smithy.api#documentation": "`owner` or `reader`",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.invites#InviteStatus",
+          "traits": {
+            "smithy.api#documentation": "`accepted`,`expired`, or `pending`",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the invite was sent.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the invite expires.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "accepted_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the invite was accepted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projects": {
+          "target": "com.openai.invites#InviteProjectsList",
+          "traits": {
+            "smithy.api#documentation": "The projects that were granted membership upon acceptance of the invite.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual `invite` to the organization."
+      }
+    },
+    "com.openai.invites#InviteObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_INVITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.invite"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.invite`"
+      }
+    },
+    "com.openai.invites#InviteRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "READER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reader"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`owner` or `reader`"
+      }
+    },
+    "com.openai.invites#InviteStatus": {
+      "type": "enum",
+      "members": {
+        "ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`accepted`,`expired`, or `pending`"
+      }
+    },
+    "com.openai.invites#InviteProjectsItemRole": {
+      "type": "enum",
+      "members": {
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        },
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Project membership role"
+      }
+    },
+    "com.openai.invites#InviteProjectsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project's public ID",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.openai.invites#InviteProjectsItemRole",
+          "traits": {
+            "smithy.api#documentation": "Project membership role",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.invites#InviteProjectsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.invites#InviteProjectsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The projects that were granted membership upon acceptance of the invite."
+      }
+    },
+    "com.openai.invites#InviteListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.invites#Invite"
+      },
+      "traits": {}
+    },
+    "com.openai.invites#ListInvites": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.invites#ListInvitesRequest"
+      },
+      "output": {
+        "target": "com.openai.invites#InviteListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.invites#BadRequest"
+        },
+        {
+          "target": "com.openai.invites#Forbidden"
+        },
+        {
+          "target": "com.openai.invites#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/invites",
+          "code": 200
+        },
+        "smithy.api#documentation": "List invites\n\nReturns a list of invites in the organization.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.invites#InviteUserRequestRole": {
+      "type": "enum",
+      "members": {
+        "READER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reader"
+          }
+        },
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`owner` or `reader`"
+      }
+    },
+    "com.openai.invites#InviteUserRequestProjectsItemRole": {
+      "type": "enum",
+      "members": {
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        },
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Project membership role"
+      }
+    },
+    "com.openai.invites#InviteUserRequestProjectsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project's public ID",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.openai.invites#InviteUserRequestProjectsItemRole",
+          "traits": {
+            "smithy.api#documentation": "Project membership role",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.invites#InviteUserRequestProjectsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.invites#InviteUserRequestProjectsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of projects to which membership is granted at the same time the org invite is accepted. If omitted, the user will be invited to the default project for compatibility with legacy behavior. If empty list is passed, the user will not be invited to any projects, including the default one."
+      }
+    },
+    "com.openai.invites#InviteUserRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Send an email to this address",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.openai.invites#InviteUserRequestRole",
+          "traits": {
+            "smithy.api#documentation": "`owner` or `reader`",
+            "smithy.api#required": {}
+          }
+        },
+        "projects": {
+          "target": "com.openai.invites#InviteUserRequestProjectsList",
+          "traits": {
+            "smithy.api#documentation": "An array of projects to which membership is granted at the same time the org invite is accepted. If omitted, the user will be invited to the default project for compatibility with legacy behavior. If empty list is passed, the user will not be invited to any projects, including the default one."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.invites#InviteUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.invites#InviteUserRequest"
+      },
+      "output": {
+        "target": "com.openai.invites#Invite"
+      },
+      "errors": [
+        {
+          "target": "com.openai.invites#BadRequest"
+        },
+        {
+          "target": "com.openai.invites#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/invites",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create invite\n\nCreate an invite for a user to the organization. The invite must be accepted by the user before they have access to the organization.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.invites#GetInviteRequest": {
+      "type": "structure",
+      "members": {
+        "invite_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the invite to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.invites#GetInvite": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.invites#GetInviteRequest"
+      },
+      "output": {
+        "target": "com.openai.invites#Invite"
+      },
+      "errors": [
+        {
+          "target": "com.openai.invites#BadRequest"
+        },
+        {
+          "target": "com.openai.invites#Forbidden"
+        },
+        {
+          "target": "com.openai.invites#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/invites/{invite_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve invite\n\nRetrieves an invite.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.invites#DeleteInviteRequest": {
+      "type": "structure",
+      "members": {
+        "invite_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the invite to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.invites#InviteDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.invites#InviteDeleteResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.invite.deleted`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.invites#InviteDeleteResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_INVITE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.invite.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.invite.deleted`"
+      }
+    },
+    "com.openai.invites#DeleteInvite": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.invites#DeleteInviteRequest"
+      },
+      "output": {
+        "target": "com.openai.invites#InviteDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.invites#BadRequest"
+        },
+        {
+          "target": "com.openai.invites#Forbidden"
+        },
+        {
+          "target": "com.openai.invites#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/invites/{invite_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete invite\n\nDelete an invite. If the invite has already been accepted, it cannot be deleted.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.invites#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.invites#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.invites#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.invites#Invites": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.invites#ListInvites"
+        },
+        {
+          "target": "com.openai.invites#InviteUser"
+        },
+        {
+          "target": "com.openai.invites#GetInvite"
+        },
+        {
+          "target": "com.openai.invites#DeleteInvite"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

@@ -32,6 +32,9 @@ await runOpenApiConvert({
       // `provider.auth` would emit a `ProviderAuthError` union alias that
       // collides with the spec's own ProviderAuthError schema.
       "GET /provider/auth": "listProviderAuthMethods",
+      // An event stream typed by the `GlobalEvent` component; the default
+      // `globalEvent` name would collide with that shape.
+      "GET /global/event": "subscribeGlobalEvent",
     },
   },
 });

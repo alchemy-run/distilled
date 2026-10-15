@@ -1,0 +1,824 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.batch#ListBatchesRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.batch#ListBatchesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.openai.batch#ListBatchesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String"
+        },
+        "last_id": {
+          "target": "smithy.api#String"
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.batch#ListBatchesResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.batch#Batch2": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.batch#BatchObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `batch`.",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OpenAI API endpoint used by the batch.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model ID used to process the batch, like `gpt-6-astra`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model\nguide](https://developers.openai.com/api/docs/models) to browse and compare available models.\n"
+          }
+        },
+        "errors": {
+          "target": "com.openai.batch#BatchErrors",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "input_file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the input file for the batch.",
+            "smithy.api#required": {}
+          }
+        },
+        "completion_window": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time frame within which the batch should be processed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.batch#BatchStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the batch.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the file containing the outputs of successfully executed requests.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the file containing the outputs of requests with errors.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "in_progress_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch started processing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch will expire.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finalizing_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch started finalizing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch was completed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failed_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expired_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch expired.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancelling_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch started cancelling.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancelled_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the batch was cancelled.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "request_counts": {
+          "target": "com.openai.batch#BatchRequestCounts"
+        },
+        "usage": {
+          "target": "com.openai.batch#BatchUsage",
+          "traits": {
+            "smithy.api#documentation": "Represents token usage details including input tokens, output tokens, a\nbreakdown of output tokens, and the total tokens used. Only populated on\nbatches created after September 7, 2025.\n"
+          }
+        },
+        "metadata": {
+          "target": "com.openai.batch#MetadataMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.batch#BatchObject": {
+      "type": "enum",
+      "members": {
+        "BATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `batch`."
+      }
+    },
+    "com.openai.batch#BatchError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An error code identifying the error type."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable message providing more details about the error."
+          }
+        },
+        "param": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "line": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.batch#BatchErrorsDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.batch#BatchError"
+      },
+      "traits": {}
+    },
+    "com.openai.batch#BatchErrors": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `list`."
+          }
+        },
+        "data": {
+          "target": "com.openai.batch#BatchErrorsDataList"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.batch#BatchStatus": {
+      "type": "enum",
+      "members": {
+        "VALIDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validating"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "FINALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finalizing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "CANCELLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelling"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the batch."
+      }
+    },
+    "com.openai.batch#BatchRequestCounts": {
+      "type": "structure",
+      "members": {
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of requests in the batch.",
+            "smithy.api#required": {}
+          }
+        },
+        "completed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of requests that have been completed successfully.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of requests that have failed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The request counts for different statuses within the batch."
+      }
+    },
+    "com.openai.batch#BatchUsageInputTokensDetails": {
+      "type": "structure",
+      "members": {
+        "cached_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of tokens that were retrieved from the cache. [More on\nprompt caching](https://developers.openai.com/api/docs/guides/prompt-caching).\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A detailed breakdown of the input tokens."
+      }
+    },
+    "com.openai.batch#BatchUsageOutputTokensDetails": {
+      "type": "structure",
+      "members": {
+        "reasoning_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of reasoning tokens.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A detailed breakdown of the output tokens."
+      }
+    },
+    "com.openai.batch#BatchUsage": {
+      "type": "structure",
+      "members": {
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of input tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_tokens_details": {
+          "target": "com.openai.batch#BatchUsageInputTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "A detailed breakdown of the input tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of output tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_tokens_details": {
+          "target": "com.openai.batch#BatchUsageOutputTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "A detailed breakdown of the output tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of tokens used.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents token usage details including input tokens, output tokens, a\nbreakdown of output tokens, and the total tokens used. Only populated on\nbatches created after September 7, 2025.\n"
+      }
+    },
+    "com.openai.batch#MetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Set of 16 key-value pairs that can be attached to an object. This can be\nuseful for storing additional information about the object in a structured\nformat, and querying for objects via API or the dashboard.\n\nKeys are strings with a maximum length of 64 characters. Values are strings\nwith a maximum length of 512 characters.\n"
+      }
+    },
+    "com.openai.batch#ListBatchesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.batch#Batch2"
+      },
+      "traits": {}
+    },
+    "com.openai.batch#ListBatchesResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.batch#ListBatches": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.batch#ListBatchesRequest"
+      },
+      "output": {
+        "target": "com.openai.batch#ListBatchesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.batch#BadRequest"
+        },
+        {
+          "target": "com.openai.batch#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/batches",
+          "code": 200
+        },
+        "smithy.api#documentation": "List batches\n\nList your organization's batches.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.batch#CreateBatchRequestEndpoint": {
+      "type": "enum",
+      "members": {
+        "V1_RESPONSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "/v1/responses"
+          }
+        },
+        "V1_CHAT_COMPLETIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "/v1/chat/completions"
+          }
+        },
+        "V1_EMBEDDINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "/v1/embeddings"
+          }
+        },
+        "V1_COMPLETIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "/v1/completions"
+          }
+        },
+        "V1_MODERATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "/v1/moderations"
+          }
+        },
+        "V1_IMAGES_GENERATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "/v1/images/generations"
+          }
+        },
+        "V1_IMAGES_EDITS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "/v1/images/edits"
+          }
+        },
+        "V1_VIDEOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "/v1/videos"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The endpoint to be used for all requests in the batch. Currently `/v1/responses`, `/v1/chat/completions`, `/v1/embeddings`, `/v1/completions`, `/v1/moderations`, `/v1/images/generations`, `/v1/images/edits`, and `/v1/videos` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch."
+      }
+    },
+    "com.openai.batch#CreateBatchRequestCompletionWindow": {
+      "type": "enum",
+      "members": {
+        "_24H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "24h"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time frame within which the batch should be processed. Currently only `24h` is supported."
+      }
+    },
+    "com.openai.batch#BatchFileExpirationAfter": {
+      "type": "structure",
+      "members": {
+        "anchor": {
+          "target": "com.openai.batch#BatchFileExpirationAfterAnchor",
+          "traits": {
+            "smithy.api#documentation": "Anchor timestamp after which the expiration policy applies. Supported anchors: `created_at`. Note that the anchor is the file creation time, not the time the batch is created.",
+            "smithy.api#required": {}
+          }
+        },
+        "seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of seconds after the anchor time that the file will expire. Must be between 3600 (1 hour) and 2592000 (30 days).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The expiration policy for the output and/or error file that are generated for a batch."
+      }
+    },
+    "com.openai.batch#BatchFileExpirationAfterAnchor": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anchor timestamp after which the expiration policy applies. Supported anchors: `created_at`. Note that the anchor is the file creation time, not the time the batch is created."
+      }
+    },
+    "com.openai.batch#CreateBatchRequest": {
+      "type": "structure",
+      "members": {
+        "input_file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an uploaded file that contains requests for the new batch.\n\nSee [upload file](https://developers.openai.com/api/reference/resources/files/methods/create) for how to upload a file.\n\nYour input file must be formatted as a [JSONL file](https://developers.openai.com/api/docs/guides/batch#1-prepare-your-batch-file), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "com.openai.batch#CreateBatchRequestEndpoint",
+          "traits": {
+            "smithy.api#documentation": "The endpoint to be used for all requests in the batch. Currently `/v1/responses`, `/v1/chat/completions`, `/v1/embeddings`, `/v1/completions`, `/v1/moderations`, `/v1/images/generations`, `/v1/images/edits`, and `/v1/videos` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch.",
+            "smithy.api#required": {}
+          }
+        },
+        "completion_window": {
+          "target": "com.openai.batch#CreateBatchRequestCompletionWindow",
+          "traits": {
+            "smithy.api#documentation": "The time frame within which the batch should be processed. Currently only `24h` is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.openai.batch#MetadataMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "output_expires_after": {
+          "target": "com.openai.batch#BatchFileExpirationAfter"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.batch#CreateBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.batch#CreateBatchRequest"
+      },
+      "output": {
+        "target": "com.openai.batch#Batch2"
+      },
+      "errors": [
+        {
+          "target": "com.openai.batch#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/batches",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create batch\n\nCreates and executes a batch from an uploaded file of requests"
+      }
+    },
+    "com.openai.batch#GetBatchRequest": {
+      "type": "structure",
+      "members": {
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the batch to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.batch#GetBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.batch#GetBatchRequest"
+      },
+      "output": {
+        "target": "com.openai.batch#Batch2"
+      },
+      "errors": [
+        {
+          "target": "com.openai.batch#BadRequest"
+        },
+        {
+          "target": "com.openai.batch#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/batches/{batch_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve batch\n\nRetrieves a batch."
+      }
+    },
+    "com.openai.batch#CancelBatchRequest": {
+      "type": "structure",
+      "members": {
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the batch to cancel."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.batch#CancelBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.batch#CancelBatchRequest"
+      },
+      "output": {
+        "target": "com.openai.batch#Batch2"
+      },
+      "errors": [
+        {
+          "target": "com.openai.batch#BadRequest"
+        },
+        {
+          "target": "com.openai.batch#NotFound"
+        },
+        {
+          "target": "com.openai.batch#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/batches/{batch_id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel batch\n\nCancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file."
+      }
+    },
+    "com.openai.batch#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.batch#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.batch#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.openai.batch#Batch": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.batch#ListBatches"
+        },
+        {
+          "target": "com.openai.batch#CreateBatch"
+        },
+        {
+          "target": "com.openai.batch#GetBatch"
+        },
+        {
+          "target": "com.openai.batch#CancelBatch"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

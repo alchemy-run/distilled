@@ -1,0 +1,661 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.users#ListUsersRequestEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.users#ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "emails": {
+          "target": "com.openai.users#ListUsersRequestEmailsList",
+          "traits": {
+            "smithy.api#httpQuery": "emails",
+            "smithy.api#documentation": "Filter by the email address of users."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.users#UserListResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.users#UserListResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.users#UserListResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.users#UserListResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.users#User": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.users#UserObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.user`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`owner` or `reader`",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "added_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the user was added.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is the organization's default user."
+          }
+        },
+        "created": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the user was created."
+          }
+        },
+        "user": {
+          "target": "com.openai.users#UserUser",
+          "traits": {
+            "smithy.api#documentation": "Nested user details."
+          }
+        },
+        "is_service_account": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user is a service account."
+          }
+        },
+        "is_scale_tier_authorized_purchaser": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user is an authorized purchaser for Scale Tier.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_scim_managed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user is managed through SCIM."
+          }
+        },
+        "api_key_last_used_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of the user's last API key usage.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The technical level metadata for the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "developer_persona": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The developer persona metadata for the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projects": {
+          "target": "com.openai.users#UserProjects",
+          "traits": {
+            "smithy.api#documentation": "Projects associated with the user, if included.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual `user` within an organization."
+      }
+    },
+    "com.openai.users#UserObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.user`"
+      }
+    },
+    "com.openai.users#UserUserObject": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.users#UserUser": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.users#UserUserObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "picture": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "banned": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "banned_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Nested user details."
+      }
+    },
+    "com.openai.users#UserProjectsObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.users#UserProjectsDataItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.users#UserProjectsDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.users#UserProjectsDataItem"
+      },
+      "traits": {}
+    },
+    "com.openai.users#UserProjects": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.users#UserProjectsObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.users#UserProjectsDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.users#UserListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.users#User"
+      },
+      "traits": {}
+    },
+    "com.openai.users#ListUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.users#ListUsersRequest"
+      },
+      "output": {
+        "target": "com.openai.users#UserListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.users#BadRequest"
+        },
+        {
+          "target": "com.openai.users#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/users",
+          "code": 200
+        },
+        "smithy.api#documentation": "List users\n\nLists all of the users in the organization.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.users#GetUserRequest": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.users#GetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.users#GetUserRequest"
+      },
+      "output": {
+        "target": "com.openai.users#User"
+      },
+      "errors": [
+        {
+          "target": "com.openai.users#Forbidden"
+        },
+        {
+          "target": "com.openai.users#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve user\n\nRetrieves a user by their identifier.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.users#ModifyUserRequest": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`owner` or `reader`",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Role ID to assign to the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Technical level metadata.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "developer_persona": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Developer persona metadata.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.users#ModifyUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.users#ModifyUserRequest"
+      },
+      "output": {
+        "target": "com.openai.users#User"
+      },
+      "errors": [
+        {
+          "target": "com.openai.users#BadRequest"
+        },
+        {
+          "target": "com.openai.users#Forbidden"
+        },
+        {
+          "target": "com.openai.users#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modify user\n\nModifies a user's role in the organization.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.users#DeleteUserRequest": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.users#UserDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.users#UserDeleteResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.users#UserDeleteResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_USER_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.user.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.users#DeleteUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.users#DeleteUserRequest"
+      },
+      "output": {
+        "target": "com.openai.users#UserDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.users#BadRequest"
+        },
+        {
+          "target": "com.openai.users#Forbidden"
+        },
+        {
+          "target": "com.openai.users#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete user\n\nDeletes a user from the organization.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.users#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.users#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.users#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.users#Users": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.users#ListUsers"
+        },
+        {
+          "target": "com.openai.users#GetUser"
+        },
+        {
+          "target": "com.openai.users#ModifyUser"
+        },
+        {
+          "target": "com.openai.users#DeleteUser"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

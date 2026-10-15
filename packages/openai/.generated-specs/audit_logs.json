@@ -1,0 +1,3771 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.audit_logs#ListAuditLogsRequestEffectiveAt": {
+      "type": "structure",
+      "members": {
+        "gt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Return only events whose `effective_at` (Unix seconds) is greater than this value."
+          }
+        },
+        "gte": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Return only events whose `effective_at` (Unix seconds) is greater than or equal to this value."
+          }
+        },
+        "lt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Return only events whose `effective_at` (Unix seconds) is less than this value."
+          }
+        },
+        "lte": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Return only events whose `effective_at` (Unix seconds) is less than or equal to this value."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#ListAuditLogsRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLogEventType": {
+      "type": "enum",
+      "members": {
+        "API_KEY_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key.created"
+          }
+        },
+        "API_KEY_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key.updated"
+          }
+        },
+        "API_KEY_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key.deleted"
+          }
+        },
+        "CERTIFICATE_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "certificate.created"
+          }
+        },
+        "CERTIFICATE_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "certificate.updated"
+          }
+        },
+        "CERTIFICATE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "certificate.deleted"
+          }
+        },
+        "CERTIFICATES_ACTIVATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "certificates.activated"
+          }
+        },
+        "CERTIFICATES_DEACTIVATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "certificates.deactivated"
+          }
+        },
+        "CHECKPOINT_PERMISSION_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkpoint.permission.created"
+          }
+        },
+        "CHECKPOINT_PERMISSION_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkpoint.permission.deleted"
+          }
+        },
+        "EXTERNAL_KEY_REGISTERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_key.registered"
+          }
+        },
+        "EXTERNAL_KEY_REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_key.removed"
+          }
+        },
+        "EXTERNAL_STORAGE_REGISTERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_storage.registered"
+          }
+        },
+        "EXTERNAL_STORAGE_REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external_storage.removed"
+          }
+        },
+        "GROUP_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group.created"
+          }
+        },
+        "GROUP_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group.updated"
+          }
+        },
+        "GROUP_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "group.deleted"
+          }
+        },
+        "INVITE_SENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invite.sent"
+          }
+        },
+        "INVITE_ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invite.accepted"
+          }
+        },
+        "INVITE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invite.deleted"
+          }
+        },
+        "IP_ALLOWLIST_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_allowlist.created"
+          }
+        },
+        "IP_ALLOWLIST_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_allowlist.updated"
+          }
+        },
+        "IP_ALLOWLIST_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_allowlist.deleted"
+          }
+        },
+        "IP_ALLOWLIST_CONFIG_ACTIVATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_allowlist.config.activated"
+          }
+        },
+        "IP_ALLOWLIST_CONFIG_DEACTIVATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_allowlist.config.deactivated"
+          }
+        },
+        "LOGIN_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "login.succeeded"
+          }
+        },
+        "LOGIN_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "login.failed"
+          }
+        },
+        "LOGOUT_SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "logout.succeeded"
+          }
+        },
+        "LOGOUT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "logout.failed"
+          }
+        },
+        "ORGANIZATION_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.updated"
+          }
+        },
+        "PROJECT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.created"
+          }
+        },
+        "PROJECT_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.updated"
+          }
+        },
+        "PROJECT_ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.archived"
+          }
+        },
+        "PROJECT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.deleted"
+          }
+        },
+        "RATE_LIMIT_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rate_limit.updated"
+          }
+        },
+        "RATE_LIMIT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rate_limit.deleted"
+          }
+        },
+        "RESOURCE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resource.deleted"
+          }
+        },
+        "TUNNEL_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tunnel.created"
+          }
+        },
+        "TUNNEL_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tunnel.updated"
+          }
+        },
+        "TUNNEL_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tunnel.deleted"
+          }
+        },
+        "WORKLOAD_IDENTITY_PROVIDER_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workload_identity_provider.created"
+          }
+        },
+        "WORKLOAD_IDENTITY_PROVIDER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workload_identity_provider.updated"
+          }
+        },
+        "WORKLOAD_IDENTITY_PROVIDER_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workload_identity_provider.deleted"
+          }
+        },
+        "WORKLOAD_IDENTITY_PROVIDER_MAPPING_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workload_identity_provider_mapping.created"
+          }
+        },
+        "WORKLOAD_IDENTITY_PROVIDER_MAPPING_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workload_identity_provider_mapping.updated"
+          }
+        },
+        "WORKLOAD_IDENTITY_PROVIDER_MAPPING_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workload_identity_provider_mapping.deleted"
+          }
+        },
+        "ROLE_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role.created"
+          }
+        },
+        "ROLE_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role.updated"
+          }
+        },
+        "ROLE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role.deleted"
+          }
+        },
+        "ROLE_ASSIGNMENT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role.assignment.created"
+          }
+        },
+        "ROLE_ASSIGNMENT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role.assignment.deleted"
+          }
+        },
+        "ROLE_BOUND_TO_RESOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role.bound_to_resource"
+          }
+        },
+        "ROLE_UNBOUND_FROM_RESOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role.unbound_from_resource"
+          }
+        },
+        "SCIM_ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scim.enabled"
+          }
+        },
+        "SCIM_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scim.disabled"
+          }
+        },
+        "SERVICE_ACCOUNT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service_account.created"
+          }
+        },
+        "SERVICE_ACCOUNT_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service_account.updated"
+          }
+        },
+        "SERVICE_ACCOUNT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service_account.deleted"
+          }
+        },
+        "USER_ADDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user.added"
+          }
+        },
+        "USER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user.updated"
+          }
+        },
+        "USER_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user.deleted"
+          }
+        },
+        "TENANT_METADATA_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.metadata.updated"
+          }
+        },
+        "TENANT_MICROSOFT_ENTRA_MAPPING_UPSERTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.microsoft_entra_mapping.upserted"
+          }
+        },
+        "TENANT_MICROSOFT_ENTRA_MAPPING_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.microsoft_entra_mapping.deleted"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_PROVIDER_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.provider.created"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_PROVIDER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.provider.updated"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_PROVIDER_ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.provider.archived"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_MAPPING_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.mapping.created"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_MAPPING_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.mapping.updated"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_MAPPING_ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.mapping.archived"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_BINDING_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.binding.created"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_PRINCIPAL_PROVISIONED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.principal.provisioned"
+          }
+        },
+        "TENANT_WORKLOAD_IDENTITY_ACCESS_TOKEN_ISSUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workload_identity.access_token.issued"
+          }
+        },
+        "TENANT_ADMIN_API_KEY_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.admin_api_key.created"
+          }
+        },
+        "TENANT_ADMIN_API_KEY_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.admin_api_key.updated"
+          }
+        },
+        "TENANT_ADMIN_API_KEY_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.admin_api_key.deleted"
+          }
+        },
+        "TENANT_PROJECT_API_KEY_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.project_api_key.created"
+          }
+        },
+        "TENANT_TRUSTED_ACCESS_BUSINESS_VERIFICATION_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.trusted_access.business_verification.started"
+          }
+        },
+        "TENANT_TRUSTED_ACCESS_APPLICATION_SUBMITTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.trusted_access.application.submitted"
+          }
+        },
+        "TENANT_CHATGPT_ACCESS_TOKEN_REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.chatgpt_access_token.revoked"
+          }
+        },
+        "TENANT_MIGRATION_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.migration.completed"
+          }
+        },
+        "TENANT_SSO_MIGRATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.sso.migrated"
+          }
+        },
+        "TENANT_DOMAINS_MIGRATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.domains.migrated"
+          }
+        },
+        "TENANT_SSO_CONNECTION_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.sso_connection.created"
+          }
+        },
+        "TENANT_SSO_CONNECTION_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.sso_connection.updated"
+          }
+        },
+        "TENANT_SSO_CONNECTION_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.sso_connection.deleted"
+          }
+        },
+        "TENANT_SSO_CONNECTION_SETUP_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.sso_connection.setup.started"
+          }
+        },
+        "TENANT_POLICY_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.policy.created"
+          }
+        },
+        "TENANT_POLICY_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.policy.updated"
+          }
+        },
+        "TENANT_POLICY_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.policy.deleted"
+          }
+        },
+        "TENANT_POLICY_ATTACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.policy.attached"
+          }
+        },
+        "TENANT_POLICY_DETACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.policy.detached"
+          }
+        },
+        "TENANT_PRINCIPAL_AUTHENTICATION_POLICY_RESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.principal_authentication_policy.resolved"
+          }
+        },
+        "TENANT_SCIM_SETUP_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.scim.setup.started"
+          }
+        },
+        "TENANT_SCIM_DELETION_REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.scim.deletion.requested"
+          }
+        },
+        "TENANT_SCIM_DIRECTORY_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.scim.directory.created"
+          }
+        },
+        "TENANT_PRODUCT_ACCESS_POLICY_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.product_access_policy.updated"
+          }
+        },
+        "TENANT_RESOURCE_SHARE_GRANT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_share_grant.created"
+          }
+        },
+        "TENANT_RESOURCE_SHARE_GRANT_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_share_grant.updated"
+          }
+        },
+        "TENANT_RESOURCE_SHARE_GRANT_ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_share_grant.accepted"
+          }
+        },
+        "TENANT_RESOURCE_SHARE_GRANT_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_share_grant.declined"
+          }
+        },
+        "TENANT_RESOURCE_SHARE_GRANT_REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_share_grant.revoked"
+          }
+        },
+        "TENANT_RESOURCE_SHARE_GRANT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_share_grant.deleted"
+          }
+        },
+        "TENANT_SERVICE_ACCOUNT_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.service_account.updated"
+          }
+        },
+        "TENANT_SERVICE_ACCOUNT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.service_account.deleted"
+          }
+        },
+        "TENANT_SERVICE_ACCOUNT_TOKEN_REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.service_account.token.revoked"
+          }
+        },
+        "TENANT_BILLING_OVERAGE_LIMIT_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.billing.overage_limit.updated"
+          }
+        },
+        "TENANT_BILLING_ALERTS_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.billing.alerts.updated"
+          }
+        },
+        "TENANT_BILLING_INFO_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.billing.info.updated"
+          }
+        },
+        "TENANT_USAGE_LIMIT_WORKSPACE_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.usage_limit.workspace.updated"
+          }
+        },
+        "TENANT_USAGE_LIMIT_GROUP_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.usage_limit.group.updated"
+          }
+        },
+        "TENANT_USAGE_LIMIT_USER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.usage_limit.user.updated"
+          }
+        },
+        "TENANT_USAGE_LIMIT_INCREASE_REQUEST_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.usage_limit.increase_request.updated"
+          }
+        },
+        "TENANT_USAGE_LIMIT_INCREASE_REQUEST_RESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.usage_limit.increase_request.resolved"
+          }
+        },
+        "TENANT_GROUP_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.group.created"
+          }
+        },
+        "TENANT_GROUP_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.group.updated"
+          }
+        },
+        "TENANT_GROUP_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.group.deleted"
+          }
+        },
+        "TENANT_GROUP_MEMBER_ADDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.group.member.added"
+          }
+        },
+        "TENANT_GROUP_MEMBER_REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.group.member.removed"
+          }
+        },
+        "TENANT_MIGRATION_ROLLOUT_STATUS_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.migration_rollout.status.updated"
+          }
+        },
+        "TENANT_MIGRATION_ROLLOUT_TIER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.migration_rollout.tier.updated"
+          }
+        },
+        "TENANT_ROLE_METADATA_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.role.metadata.updated"
+          }
+        },
+        "TENANT_CUSTOM_ROLE_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.custom_role.created"
+          }
+        },
+        "TENANT_CUSTOM_ROLE_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.custom_role.updated"
+          }
+        },
+        "TENANT_CUSTOM_ROLE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.custom_role.deleted"
+          }
+        },
+        "TENANT_ROLE_ASSIGNMENT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.role_assignment.created"
+          }
+        },
+        "TENANT_ROLE_ASSIGNMENT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.role_assignment.deleted"
+          }
+        },
+        "TENANT_RESOURCE_ROLE_ASSIGNMENT_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_role_assignment.created"
+          }
+        },
+        "TENANT_RESOURCE_ROLE_ASSIGNMENT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_role_assignment.deleted"
+          }
+        },
+        "TENANT_RESOURCE_ACCESS_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_access.updated"
+          }
+        },
+        "TENANT_RESOURCE_ACCESS_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.resource_access.deleted"
+          }
+        },
+        "TENANT_ADS_ACCOUNT_ONBOARDING_REDEMPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.ads_account.onboarding.redemption"
+          }
+        },
+        "TENANT_SESSION_POLICY_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.session_policy.created"
+          }
+        },
+        "TENANT_SESSION_POLICY_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.session_policy.updated"
+          }
+        },
+        "TENANT_SESSION_POLICY_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.session_policy.deleted"
+          }
+        },
+        "TENANT_SESSION_REVOCATION_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.session_revocation.started"
+          }
+        },
+        "TENANT_THIRD_PARTY_APP_POLICY_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.third_party_app_policy.updated"
+          }
+        },
+        "TENANT_USER_ADDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.user.added"
+          }
+        },
+        "TENANT_USER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.user.updated"
+          }
+        },
+        "TENANT_USER_REMOVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.user.removed"
+          }
+        },
+        "TENANT_USER_LOOKED_UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.user.looked_up"
+          }
+        },
+        "TENANT_USER_INVITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.user.invited"
+          }
+        },
+        "TENANT_MEMBERSHIP_REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.membership.revoked"
+          }
+        },
+        "TENANT_API_ORGANIZATION_INVITE_UPSERTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.api_organization_invite.upserted"
+          }
+        },
+        "TENANT_API_ORGANIZATION_INVITE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.api_organization_invite.deleted"
+          }
+        },
+        "TENANT_CHATGPT_WORKSPACE_INVITE_UPSERTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.chatgpt_workspace_invite.upserted"
+          }
+        },
+        "TENANT_MEMBERSHIP_ACCEPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.membership.accepted"
+          }
+        },
+        "TENANT_MEMBERSHIP_DECLINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.membership.declined"
+          }
+        },
+        "TENANT_WORKSPACE_INVITE_EMAIL_SETTINGS_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tenant.workspace_invite_email_settings.updated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The event type."
+      }
+    },
+    "com.openai.audit_logs#ListAuditLogsRequestEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audit_logs#AuditLogEventType"
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#ListAuditLogsRequestActorIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#ListAuditLogsRequestActorEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#ListAuditLogsRequestResourceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#ListAuditLogsRequest": {
+      "type": "structure",
+      "members": {
+        "effective_at": {
+          "target": "com.openai.audit_logs#ListAuditLogsRequestEffectiveAt",
+          "traits": {
+            "smithy.api#httpQuery": "effective_at",
+            "smithy.api#documentation": "Return only events whose `effective_at` (Unix seconds) is in this range."
+          }
+        },
+        "project_ids__": {
+          "target": "com.openai.audit_logs#ListAuditLogsRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids[]",
+            "smithy.api#documentation": "Return only events for these projects."
+          }
+        },
+        "event_types__": {
+          "target": "com.openai.audit_logs#ListAuditLogsRequestEventTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "event_types[]",
+            "smithy.api#documentation": "Return only events with a `type` in one of these values. For example, `project.created`. For all options, see the documentation for the [audit log object](https://developers.openai.com/api/reference/resources/admin/subresources/organization/subresources/audit_logs)."
+          }
+        },
+        "actor_ids__": {
+          "target": "com.openai.audit_logs#ListAuditLogsRequestActorIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "actor_ids[]",
+            "smithy.api#documentation": "Return only events performed by these actors. Can be a user ID, a service account ID, or an api key tracking ID."
+          }
+        },
+        "actor_emails__": {
+          "target": "com.openai.audit_logs#ListAuditLogsRequestActorEmailsList",
+          "traits": {
+            "smithy.api#httpQuery": "actor_emails[]",
+            "smithy.api#documentation": "Return only events performed by users with these emails."
+          }
+        },
+        "resource_ids__": {
+          "target": "com.openai.audit_logs#ListAuditLogsRequestResourceIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "resource_ids[]",
+            "smithy.api#documentation": "Return only events performed on these targets. For example, a project ID updated. For ChatGPT connector role events, use the workspace connector resource ID shown in `details.id`, such as `<workspace_id>__<connector_id>`."
+          }
+        },
+        "tenant_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "tenant_only",
+            "smithy.api#documentation": "Return only tenant-scoped events associated with this organization. Required for tenant-scoped events such as `role.bound_to_resource` and `role.unbound_from_resource`. When `true`, all supplied event types must be tenant-scoped."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audit_logs#ListAuditLogsResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.audit_logs#ListAuditLogsResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#ListAuditLogsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#ListAuditLogsResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLog": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of this log.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.audit_logs#AuditLogEventType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "effective_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "com.openai.audit_logs#AuditLogProject",
+          "traits": {
+            "smithy.api#documentation": "The project that the action was scoped to. Absent for actions not scoped to projects. Note that any admin actions taken via Admin API keys are associated with the default project."
+          }
+        },
+        "actor": {
+          "target": "com.openai.audit_logs#AuditLogActor",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_key_created": {
+          "target": "com.openai.audit_logs#AuditLogApiKeyCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "api_key.created"
+          }
+        },
+        "api_key_updated": {
+          "target": "com.openai.audit_logs#AuditLogApiKeyUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "api_key.updated"
+          }
+        },
+        "api_key_deleted": {
+          "target": "com.openai.audit_logs#AuditLogApiKeyDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "api_key.deleted"
+          }
+        },
+        "checkpoint_permission_created": {
+          "target": "com.openai.audit_logs#AuditLogCheckpointPermissionCreated",
+          "traits": {
+            "smithy.api#documentation": "The project and fine-tuned model checkpoint that the checkpoint permission was created for.",
+            "smithy.api#jsonName": "checkpoint.permission.created"
+          }
+        },
+        "checkpoint_permission_deleted": {
+          "target": "com.openai.audit_logs#AuditLogCheckpointPermissionDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "checkpoint.permission.deleted"
+          }
+        },
+        "external_key_registered": {
+          "target": "com.openai.audit_logs#AuditLogExternalKeyRegistered",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "external_key.registered"
+          }
+        },
+        "external_key_removed": {
+          "target": "com.openai.audit_logs#AuditLogExternalKeyRemoved",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "external_key.removed"
+          }
+        },
+        "external_storage_registered": {
+          "target": "com.openai.audit_logs#AuditLogExternalStorageRegistered",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "external_storage.registered"
+          }
+        },
+        "external_storage_removed": {
+          "target": "com.openai.audit_logs#AuditLogExternalStorageRemoved",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "external_storage.removed"
+          }
+        },
+        "group_created": {
+          "target": "com.openai.audit_logs#AuditLogGroupCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "group.created"
+          }
+        },
+        "group_updated": {
+          "target": "com.openai.audit_logs#AuditLogGroupUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "group.updated"
+          }
+        },
+        "group_deleted": {
+          "target": "com.openai.audit_logs#AuditLogGroupDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "group.deleted"
+          }
+        },
+        "scim_enabled": {
+          "target": "com.openai.audit_logs#AuditLogScimEnabled",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "scim.enabled"
+          }
+        },
+        "scim_disabled": {
+          "target": "com.openai.audit_logs#AuditLogScimDisabled",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "scim.disabled"
+          }
+        },
+        "invite_sent": {
+          "target": "com.openai.audit_logs#AuditLogInviteSent",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "invite.sent"
+          }
+        },
+        "invite_accepted": {
+          "target": "com.openai.audit_logs#AuditLogInviteAccepted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "invite.accepted"
+          }
+        },
+        "invite_deleted": {
+          "target": "com.openai.audit_logs#AuditLogInviteDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "invite.deleted"
+          }
+        },
+        "ip_allowlist_created": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "ip_allowlist.created"
+          }
+        },
+        "ip_allowlist_updated": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "ip_allowlist.updated"
+          }
+        },
+        "ip_allowlist_deleted": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "ip_allowlist.deleted"
+          }
+        },
+        "ip_allowlist_config_activated": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistConfigActivated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "ip_allowlist.config.activated"
+          }
+        },
+        "ip_allowlist_config_deactivated": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistConfigDeactivated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "ip_allowlist.config.deactivated"
+          }
+        },
+        "login_succeeded": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "This event has no additional fields beyond the standard audit log attributes.",
+            "smithy.api#jsonName": "login.succeeded"
+          }
+        },
+        "login_failed": {
+          "target": "com.openai.audit_logs#AuditLogLoginFailed",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "login.failed"
+          }
+        },
+        "logout_succeeded": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "This event has no additional fields beyond the standard audit log attributes.",
+            "smithy.api#jsonName": "logout.succeeded"
+          }
+        },
+        "logout_failed": {
+          "target": "com.openai.audit_logs#AuditLogLogoutFailed",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "logout.failed"
+          }
+        },
+        "organization_updated": {
+          "target": "com.openai.audit_logs#AuditLogOrganizationUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "organization.updated"
+          }
+        },
+        "project_created": {
+          "target": "com.openai.audit_logs#AuditLogProjectCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "project.created"
+          }
+        },
+        "project_updated": {
+          "target": "com.openai.audit_logs#AuditLogProjectUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "project.updated"
+          }
+        },
+        "project_archived": {
+          "target": "com.openai.audit_logs#AuditLogProjectArchived",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "project.archived"
+          }
+        },
+        "project_deleted": {
+          "target": "com.openai.audit_logs#AuditLogProjectDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "project.deleted"
+          }
+        },
+        "rate_limit_updated": {
+          "target": "com.openai.audit_logs#AuditLogRateLimitUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "rate_limit.updated"
+          }
+        },
+        "rate_limit_deleted": {
+          "target": "com.openai.audit_logs#AuditLogRateLimitDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "rate_limit.deleted"
+          }
+        },
+        "role_created": {
+          "target": "com.openai.audit_logs#AuditLogRoleCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "role.created"
+          }
+        },
+        "role_updated": {
+          "target": "com.openai.audit_logs#AuditLogRoleUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "role.updated"
+          }
+        },
+        "role_deleted": {
+          "target": "com.openai.audit_logs#AuditLogRoleDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "role.deleted"
+          }
+        },
+        "role_assignment_created": {
+          "target": "com.openai.audit_logs#AuditLogRoleAssignmentCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "role.assignment.created"
+          }
+        },
+        "role_assignment_deleted": {
+          "target": "com.openai.audit_logs#AuditLogRoleAssignmentDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "role.assignment.deleted"
+          }
+        },
+        "role_bound_to_resource": {
+          "target": "com.openai.audit_logs#AuditLogRoleBoundToResource",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "role.bound_to_resource"
+          }
+        },
+        "role_unbound_from_resource": {
+          "target": "com.openai.audit_logs#AuditLogRoleUnboundFromResource",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "role.unbound_from_resource"
+          }
+        },
+        "service_account_created": {
+          "target": "com.openai.audit_logs#AuditLogServiceAccountCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "service_account.created"
+          }
+        },
+        "service_account_updated": {
+          "target": "com.openai.audit_logs#AuditLogServiceAccountUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "service_account.updated"
+          }
+        },
+        "service_account_deleted": {
+          "target": "com.openai.audit_logs#AuditLogServiceAccountDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "service_account.deleted"
+          }
+        },
+        "workload_identity_provider_created": {
+          "target": "com.openai.audit_logs#AuditLogWorkloadIdentityProviderCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "workload_identity_provider.created"
+          }
+        },
+        "workload_identity_provider_updated": {
+          "target": "com.openai.audit_logs#AuditLogWorkloadIdentityProviderUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "workload_identity_provider.updated"
+          }
+        },
+        "workload_identity_provider_deleted": {
+          "target": "com.openai.audit_logs#AuditLogWorkloadIdentityProviderDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "workload_identity_provider.deleted"
+          }
+        },
+        "workload_identity_provider_mapping_created": {
+          "target": "com.openai.audit_logs#AuditLogWorkloadIdentityProviderMappingCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "workload_identity_provider_mapping.created"
+          }
+        },
+        "workload_identity_provider_mapping_updated": {
+          "target": "com.openai.audit_logs#AuditLogWorkloadIdentityProviderMappingUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "workload_identity_provider_mapping.updated"
+          }
+        },
+        "workload_identity_provider_mapping_deleted": {
+          "target": "com.openai.audit_logs#AuditLogWorkloadIdentityProviderMappingDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "workload_identity_provider_mapping.deleted"
+          }
+        },
+        "user_added": {
+          "target": "com.openai.audit_logs#AuditLogUserAdded",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "user.added"
+          }
+        },
+        "user_updated": {
+          "target": "com.openai.audit_logs#AuditLogUserUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "user.updated"
+          }
+        },
+        "user_deleted": {
+          "target": "com.openai.audit_logs#AuditLogUserDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "user.deleted"
+          }
+        },
+        "certificate_created": {
+          "target": "com.openai.audit_logs#AuditLogCertificateCreated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "certificate.created"
+          }
+        },
+        "certificate_updated": {
+          "target": "com.openai.audit_logs#AuditLogCertificateUpdated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "certificate.updated"
+          }
+        },
+        "certificate_deleted": {
+          "target": "com.openai.audit_logs#AuditLogCertificateDeleted",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "certificate.deleted"
+          }
+        },
+        "certificates_activated": {
+          "target": "com.openai.audit_logs#AuditLogCertificatesActivated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "certificates.activated"
+          }
+        },
+        "certificates_deactivated": {
+          "target": "com.openai.audit_logs#AuditLogCertificatesDeactivated",
+          "traits": {
+            "smithy.api#documentation": "The details for events with this `type`.",
+            "smithy.api#jsonName": "certificates.deactivated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A log of a user action or configuration change within this organization."
+      }
+    },
+    "com.openai.audit_logs#AuditLogProject": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project title."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The project that the action was scoped to. Absent for actions not scoped to projects. Note that any admin actions taken via Admin API keys are associated with the default project."
+      }
+    },
+    "com.openai.audit_logs#AuditLogActor": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audit_logs#AuditLogActorType",
+          "traits": {
+            "smithy.api#documentation": "The type of actor. Is either `session` or `api_key`."
+          }
+        },
+        "session": {
+          "target": "com.openai.audit_logs#AuditLogActorSession"
+        },
+        "api_key": {
+          "target": "com.openai.audit_logs#AuditLogActorApiKey"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The actor who performed the audit logged action."
+      }
+    },
+    "com.openai.audit_logs#AuditLogActorType": {
+      "type": "enum",
+      "members": {
+        "SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "session"
+          }
+        },
+        "API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of actor. Is either `session` or `api_key`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogActorSession": {
+      "type": "structure",
+      "members": {
+        "user": {
+          "target": "com.openai.audit_logs#AuditLogActorUser"
+        },
+        "ip_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP address from which the action was performed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The session in which the audit logged action was performed."
+      }
+    },
+    "com.openai.audit_logs#AuditLogActorUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user id."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user email."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user who performed the audit logged action."
+      }
+    },
+    "com.openai.audit_logs#AuditLogActorApiKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tracking id of the API key."
+          }
+        },
+        "type": {
+          "target": "com.openai.audit_logs#AuditLogActorApiKeyType",
+          "traits": {
+            "smithy.api#documentation": "The type of API key. Can be either `user` or `service_account`."
+          }
+        },
+        "user": {
+          "target": "com.openai.audit_logs#AuditLogActorUser"
+        },
+        "service_account": {
+          "target": "com.openai.audit_logs#AuditLogActorServiceAccount"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The API Key used to perform the audit logged action."
+      }
+    },
+    "com.openai.audit_logs#AuditLogActorApiKeyType": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "SERVICE_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service_account"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of API key. Can be either `user` or `service_account`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogActorServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service account id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The service account that performed the audit logged action."
+      }
+    },
+    "com.openai.audit_logs#AuditLogApiKeyCreatedDataScopesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of scopes allowed for the API key, e.g. `[\"api.model.request\"]`"
+      }
+    },
+    "com.openai.audit_logs#AuditLogApiKeyCreatedData": {
+      "type": "structure",
+      "members": {
+        "scopes": {
+          "target": "com.openai.audit_logs#AuditLogApiKeyCreatedDataScopesList",
+          "traits": {
+            "smithy.api#documentation": "A list of scopes allowed for the API key, e.g. `[\"api.model.request\"]`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to create the API key."
+      }
+    },
+    "com.openai.audit_logs#AuditLogApiKeyCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tracking ID of the API key."
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#AuditLogApiKeyCreatedData",
+          "traits": {
+            "smithy.api#documentation": "The payload used to create the API key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogApiKeyUpdatedChangesRequestedScopesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of scopes allowed for the API key, e.g. `[\"api.model.request\"]`"
+      }
+    },
+    "com.openai.audit_logs#AuditLogApiKeyUpdatedChangesRequested": {
+      "type": "structure",
+      "members": {
+        "scopes": {
+          "target": "com.openai.audit_logs#AuditLogApiKeyUpdatedChangesRequestedScopesList",
+          "traits": {
+            "smithy.api#documentation": "A list of scopes allowed for the API key, e.g. `[\"api.model.request\"]`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to update the API key."
+      }
+    },
+    "com.openai.audit_logs#AuditLogApiKeyUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tracking ID of the API key."
+          }
+        },
+        "changes_requested": {
+          "target": "com.openai.audit_logs#AuditLogApiKeyUpdatedChangesRequested",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the API key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogApiKeyDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tracking ID of the API key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogCheckpointPermissionCreatedData": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the project that the checkpoint permission was created for."
+          }
+        },
+        "fine_tuned_model_checkpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the fine-tuned model checkpoint."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to create the checkpoint permission."
+      }
+    },
+    "com.openai.audit_logs#AuditLogCheckpointPermissionCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the checkpoint permission."
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#AuditLogCheckpointPermissionCreatedData",
+          "traits": {
+            "smithy.api#documentation": "The payload used to create the checkpoint permission."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The project and fine-tuned model checkpoint that the checkpoint permission was created for."
+      }
+    },
+    "com.openai.audit_logs#AuditLogCheckpointPermissionDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the checkpoint permission."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogExternalKeyRegistered": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the external key configuration."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The configuration for the external key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogExternalKeyRemoved": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the external key configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#Provider": {
+      "type": "union",
+      "members": {
+        "AwsExternalStorageProviderResponse": {
+          "target": "com.openai.audit_logs#AwsExternalStorageProviderResponse"
+        },
+        "AzureExternalStorageProviderResponse": {
+          "target": "com.openai.audit_logs#AzureExternalStorageProviderResponse"
+        },
+        "GcpExternalStorageProviderResponse": {
+          "target": "com.openai.audit_logs#GcpExternalStorageProviderResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AwsExternalStorageProviderResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audit_logs#AwsExternalStorageProviderResponseType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "role_arn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AwsExternalStorageProviderResponseType": {
+      "type": "enum",
+      "members": {
+        "AWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aws"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AzureExternalStorageProviderResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audit_logs#AzureExternalStorageProviderResponseType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tenant_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resource_group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "account_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "container": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AzureExternalStorageProviderResponseType": {
+      "type": "enum",
+      "members": {
+        "AZURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "azure"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#GcpExternalStorageProviderResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audit_logs#GcpExternalStorageProviderResponseType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workload_identity_project_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workload_identity_pool_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workload_identity_provider_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#GcpExternalStorageProviderResponseType": {
+      "type": "enum",
+      "members": {
+        "GCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLogExternalStorageRegisteredData": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "com.openai.audit_logs#Provider",
+          "traits": {
+            "smithy.api#documentation": "The external storage provider configuration."
+          }
+        },
+        "geography": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OpenAI geography derived from the storage region."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The configuration for the external storage."
+      }
+    },
+    "com.openai.audit_logs#AuditLogExternalStorageRegistered": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the external storage configuration."
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#AuditLogExternalStorageRegisteredData",
+          "traits": {
+            "smithy.api#documentation": "The configuration for the external storage."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogExternalStorageRemoved": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the external storage configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogGroupCreatedData": {
+      "type": "structure",
+      "members": {
+        "group_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The group name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about the created group."
+      }
+    },
+    "com.openai.audit_logs#AuditLogGroupCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the group."
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#AuditLogGroupCreatedData",
+          "traits": {
+            "smithy.api#documentation": "Information about the created group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogGroupUpdatedChangesRequested": {
+      "type": "structure",
+      "members": {
+        "group_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated group name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to update the group."
+      }
+    },
+    "com.openai.audit_logs#AuditLogGroupUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the group."
+          }
+        },
+        "changes_requested": {
+          "target": "com.openai.audit_logs#AuditLogGroupUpdatedChangesRequested",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogGroupDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogScimEnabled": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the SCIM was enabled for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogScimDisabled": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the SCIM was disabled for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogInviteSentData": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email invited to the organization."
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role the email was invited to be. Is either `owner` or `member`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to create the invite."
+      }
+    },
+    "com.openai.audit_logs#AuditLogInviteSent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the invite."
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#AuditLogInviteSentData",
+          "traits": {
+            "smithy.api#documentation": "The payload used to create the invite."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogInviteAccepted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the invite."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogInviteDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the invite."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistCreatedAllowedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The IP addresses or CIDR ranges included in the configuration."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the IP allowlist configuration."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the IP allowlist configuration."
+          }
+        },
+        "allowed_ips": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistCreatedAllowedIpsList",
+          "traits": {
+            "smithy.api#documentation": "The IP addresses or CIDR ranges included in the configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistUpdatedAllowedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The updated set of IP addresses or CIDR ranges in the configuration."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the IP allowlist configuration."
+          }
+        },
+        "allowed_ips": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistUpdatedAllowedIpsList",
+          "traits": {
+            "smithy.api#documentation": "The updated set of IP addresses or CIDR ranges in the configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistDeletedAllowedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The IP addresses or CIDR ranges that were in the configuration."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the IP allowlist configuration."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the IP allowlist configuration."
+          }
+        },
+        "allowed_ips": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistDeletedAllowedIpsList",
+          "traits": {
+            "smithy.api#documentation": "The IP addresses or CIDR ranges that were in the configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistConfigActivatedConfigsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the IP allowlist configuration."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the IP allowlist configuration."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistConfigActivatedConfigsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audit_logs#AuditLogIpAllowlistConfigActivatedConfigsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The configurations that were activated."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistConfigActivated": {
+      "type": "structure",
+      "members": {
+        "configs": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistConfigActivatedConfigsList",
+          "traits": {
+            "smithy.api#documentation": "The configurations that were activated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistConfigDeactivatedConfigsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the IP allowlist configuration."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the IP allowlist configuration."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistConfigDeactivatedConfigsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audit_logs#AuditLogIpAllowlistConfigDeactivatedConfigsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The configurations that were deactivated."
+      }
+    },
+    "com.openai.audit_logs#AuditLogIpAllowlistConfigDeactivated": {
+      "type": "structure",
+      "members": {
+        "configs": {
+          "target": "com.openai.audit_logs#AuditLogIpAllowlistConfigDeactivatedConfigsList",
+          "traits": {
+            "smithy.api#documentation": "The configurations that were deactivated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogLoginFailed": {
+      "type": "structure",
+      "members": {
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error code of the failure."
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error message of the failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogLogoutFailed": {
+      "type": "structure",
+      "members": {
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error code of the failure."
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error message of the failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogOrganizationUpdatedChangesRequested": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization title."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization description."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization name."
+          }
+        },
+        "threads_ui_visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Visibility of the threads page which shows messages created with the Assistants API and Playground. One of `ANY_ROLE`, `OWNERS`, or `NONE`."
+          }
+        },
+        "usage_dashboard_visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Visibility of the usage dashboard which shows activity and costs for your organization. One of `ANY_ROLE` or `OWNERS`."
+          }
+        },
+        "api_call_logging": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How your organization logs data from supported API calls. One of `disabled`, `enabled_per_call`, `enabled_for_all_projects`, or `enabled_for_selected_projects`"
+          }
+        },
+        "api_call_logging_project_ids": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The list of project ids if api_call_logging is set to `enabled_for_selected_projects`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to update the organization settings."
+      }
+    },
+    "com.openai.audit_logs#AuditLogOrganizationUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization ID."
+          }
+        },
+        "changes_requested": {
+          "target": "com.openai.audit_logs#AuditLogOrganizationUpdatedChangesRequested",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the organization settings."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogProjectCreatedData": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project name."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the project as seen on the dashboard."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to create the project."
+      }
+    },
+    "com.openai.audit_logs#AuditLogProjectCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID."
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#AuditLogProjectCreatedData",
+          "traits": {
+            "smithy.api#documentation": "The payload used to create the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogProjectUpdatedChangesRequested": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the project as seen on the dashboard."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to update the project."
+      }
+    },
+    "com.openai.audit_logs#AuditLogProjectUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID."
+          }
+        },
+        "changes_requested": {
+          "target": "com.openai.audit_logs#AuditLogProjectUpdatedChangesRequested",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogProjectArchived": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogProjectDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRateLimitUpdatedChangesRequested": {
+      "type": "structure",
+      "members": {
+        "max_requests_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum requests per minute."
+          }
+        },
+        "max_tokens_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum tokens per minute."
+          }
+        },
+        "max_images_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum images per minute. Only relevant for certain models."
+          }
+        },
+        "max_audio_megabytes_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum audio megabytes per minute. Only relevant for certain models."
+          }
+        },
+        "max_requests_per_1_day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum requests per day. Only relevant for certain models."
+          }
+        },
+        "batch_1_day_max_input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum batch input tokens per day. Only relevant for certain models."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to update the rate limits."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRateLimitUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The rate limit ID"
+          }
+        },
+        "changes_requested": {
+          "target": "com.openai.audit_logs#AuditLogRateLimitUpdatedChangesRequested",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the rate limits."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRateLimitDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The rate limit ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleCreatedPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions granted by the role."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role ID."
+          }
+        },
+        "role_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the role."
+          }
+        },
+        "permissions": {
+          "target": "com.openai.audit_logs#AuditLogRoleCreatedPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The permissions granted by the role."
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the role belongs to."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource the role is scoped to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleUpdatedChangesRequestedPermissionsAddedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions added to the role."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleUpdatedChangesRequestedPermissionsRemovedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions removed from the role."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleUpdatedChangesRequested": {
+      "type": "structure",
+      "members": {
+        "role_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated role name, when provided."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource the role is scoped to."
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the role belongs to."
+          }
+        },
+        "permissions_added": {
+          "target": "com.openai.audit_logs#AuditLogRoleUpdatedChangesRequestedPermissionsAddedList",
+          "traits": {
+            "smithy.api#documentation": "The permissions added to the role."
+          }
+        },
+        "permissions_removed": {
+          "target": "com.openai.audit_logs#AuditLogRoleUpdatedChangesRequestedPermissionsRemovedList",
+          "traits": {
+            "smithy.api#documentation": "The permissions removed from the role."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated role description, when provided."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Additional metadata stored on the role."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to update the role."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role ID."
+          }
+        },
+        "changes_requested": {
+          "target": "com.openai.audit_logs#AuditLogRoleUpdatedChangesRequested",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the role."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleAssignmentCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the role assignment."
+          }
+        },
+        "principal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The principal (user or group) that received the role."
+          }
+        },
+        "principal_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of principal (user or group) that received the role."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource the role assignment is scoped to."
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the role assignment is scoped to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleAssignmentDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the role assignment."
+          }
+        },
+        "principal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The principal (user or group) that had the role removed."
+          }
+        },
+        "principal_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of principal (user or group) that had the role removed."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource the role assignment was scoped to."
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the role assignment was scoped to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleBoundToResourcePermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions granted to the role for the resource."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleBoundToResourceSource": {
+      "type": "enum",
+      "members": {
+        "ROLE_TOGGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role_toggle"
+          }
+        },
+        "ROLE_CONNECTOR_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role_connector_update"
+          }
+        },
+        "ROLE_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role_delete"
+          }
+        },
+        "WORKSPACE_PERMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workspace_permissions"
+          }
+        },
+        "CONNECTOR_PUBLISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connector_publish"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The connector role mutation path that produced the event."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleBoundToResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the resource the role was bound to. ChatGPT workspace connector resources use `<workspace_id>__<connector_id>`."
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the role that was bound to the resource."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the resource the role was bound to."
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the role was bound to."
+          }
+        },
+        "permissions": {
+          "target": "com.openai.audit_logs#AuditLogRoleBoundToResourcePermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The permissions granted to the role for the resource."
+          }
+        },
+        "workspace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workspace ID for a ChatGPT workspace connector resource."
+          }
+        },
+        "connector_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The connector ID for a ChatGPT workspace connector resource."
+          }
+        },
+        "connector_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The connector display name for a ChatGPT workspace connector resource, or the connector ID when the display name could not be resolved."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the connector is enabled for the role."
+          }
+        },
+        "source": {
+          "target": "com.openai.audit_logs#AuditLogRoleBoundToResourceSource",
+          "traits": {
+            "smithy.api#documentation": "The connector role mutation path that produced the event."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleUnboundFromResourcePermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions remaining for the role after the change."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleUnboundFromResourceSource": {
+      "type": "enum",
+      "members": {
+        "ROLE_TOGGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role_toggle"
+          }
+        },
+        "ROLE_CONNECTOR_UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role_connector_update"
+          }
+        },
+        "ROLE_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role_delete"
+          }
+        },
+        "WORKSPACE_PERMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workspace_permissions"
+          }
+        },
+        "CONNECTOR_PUBLISH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connector_publish"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The connector role mutation path that produced the event."
+      }
+    },
+    "com.openai.audit_logs#AuditLogRoleUnboundFromResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the resource the role was unbound from. ChatGPT workspace connector resources use `<workspace_id>__<connector_id>`."
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the role that was unbound from the resource."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the resource the role was unbound from."
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of resource the role was unbound from."
+          }
+        },
+        "permissions": {
+          "target": "com.openai.audit_logs#AuditLogRoleUnboundFromResourcePermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The permissions remaining for the role after the change."
+          }
+        },
+        "workspace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workspace ID for a ChatGPT workspace connector resource."
+          }
+        },
+        "connector_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The connector ID for a ChatGPT workspace connector resource."
+          }
+        },
+        "connector_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The connector display name for a ChatGPT workspace connector resource, or the connector ID when the display name could not be resolved."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the connector is enabled for the role."
+          }
+        },
+        "source": {
+          "target": "com.openai.audit_logs#AuditLogRoleUnboundFromResourceSource",
+          "traits": {
+            "smithy.api#documentation": "The connector role mutation path that produced the event."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogServiceAccountCreatedData": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role of the service account. Is either `owner` or `member`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to create the service account."
+      }
+    },
+    "com.openai.audit_logs#AuditLogServiceAccountCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service account ID."
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#AuditLogServiceAccountCreatedData",
+          "traits": {
+            "smithy.api#documentation": "The payload used to create the service account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogServiceAccountUpdatedChangesRequested": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role of the service account. Is either `owner` or `member`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to updated the service account."
+      }
+    },
+    "com.openai.audit_logs#AuditLogServiceAccountUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service account ID."
+          }
+        },
+        "changes_requested": {
+          "target": "com.openai.audit_logs#AuditLogServiceAccountUpdatedChangesRequested",
+          "traits": {
+            "smithy.api#documentation": "The payload used to updated the service account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogServiceAccountDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service account ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogWorkloadIdentityProviderCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider ID."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The payload used to create the workload identity provider."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogWorkloadIdentityProviderUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider ID."
+          }
+        },
+        "changes_requested": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the workload identity provider."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogWorkloadIdentityProviderDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogWorkloadIdentityProviderMappingCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider mapping ID."
+          }
+        },
+        "identity_provider_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider ID."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The payload used to create the workload identity provider mapping."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogWorkloadIdentityProviderMappingUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider mapping ID."
+          }
+        },
+        "identity_provider_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider ID."
+          }
+        },
+        "changes_requested": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the workload identity provider mapping."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogWorkloadIdentityProviderMappingDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider mapping ID."
+          }
+        },
+        "identity_provider_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The workload identity provider ID."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID."
+          }
+        },
+        "service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mapped service account ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogUserAddedData": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role of the user. Is either `owner` or `member`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to add the user to the project."
+      }
+    },
+    "com.openai.audit_logs#AuditLogUserAdded": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user ID."
+          }
+        },
+        "data": {
+          "target": "com.openai.audit_logs#AuditLogUserAddedData",
+          "traits": {
+            "smithy.api#documentation": "The payload used to add the user to the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogUserUpdatedChangesRequested": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role of the user. Is either `owner` or `member`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The payload used to update the user."
+      }
+    },
+    "com.openai.audit_logs#AuditLogUserUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID."
+          }
+        },
+        "changes_requested": {
+          "target": "com.openai.audit_logs#AuditLogUserUpdatedChangesRequested",
+          "traits": {
+            "smithy.api#documentation": "The payload used to update the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogUserDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogCertificateCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the certificate."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogCertificateUpdated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the certificate."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogCertificateDeleted": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the certificate."
+          }
+        },
+        "certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate content in PEM format."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogCertificatesActivatedCertificatesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the certificate."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLogCertificatesActivatedCertificatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audit_logs#AuditLogCertificatesActivatedCertificatesItem"
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLogCertificatesActivated": {
+      "type": "structure",
+      "members": {
+        "certificates": {
+          "target": "com.openai.audit_logs#AuditLogCertificatesActivatedCertificatesList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#AuditLogCertificatesDeactivatedCertificatesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the certificate."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLogCertificatesDeactivatedCertificatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audit_logs#AuditLogCertificatesDeactivatedCertificatesItem"
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#AuditLogCertificatesDeactivated": {
+      "type": "structure",
+      "members": {
+        "certificates": {
+          "target": "com.openai.audit_logs#AuditLogCertificatesDeactivatedCertificatesList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The details for events with this `type`."
+      }
+    },
+    "com.openai.audit_logs#ListAuditLogsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audit_logs#AuditLog"
+      },
+      "traits": {}
+    },
+    "com.openai.audit_logs#ListAuditLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audit_logs#ListAuditLogsRequest"
+      },
+      "output": {
+        "target": "com.openai.audit_logs#ListAuditLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audit_logs#BadRequest"
+        },
+        {
+          "target": "com.openai.audit_logs#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/audit_logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List audit logs\n\nList user actions and configuration changes within this organization.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.audit_logs#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.audit_logs#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.audit_logs#AuditLogs": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.audit_logs#ListAuditLogs"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

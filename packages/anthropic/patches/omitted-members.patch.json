@@ -1,0 +1,71 @@
+{
+  "description": "Members the spec lists as `required` that the live API omits (observed 2026-10-05 against api.anthropic.com with an inference key, claude-haiku-4-5-20251001): a plain text reply leaves out `usage.output_tokens_details` and `usage.server_tool_use` on POST /v1/messages and `content[].citations` on its text blocks; the beta route (POST /v1/messages?beta=true) additionally leaves out `context_management` and `usage.fallback_credit` / `iterations` / `speed`; GET /v1/models?beta=true leaves out `allowed_fallback_models`. Each is nullable with `default: null` in the spec — the server omits it rather than sending null. Dropped from the `required` lists (nullability unchanged) so strict response validation accepts the real responses: Usage −output_tokens_details −server_tool_use; ResponseTextBlock −citations; BetaMessage −context_management; BetaResponseTextBlock −citations; BetaUsage −fallback_credit −iterations −output_tokens_details −server_tool_use −speed; BetaModelInfo −allowed_fallback_models.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/components/schemas/Usage/required",
+      "value": [
+        "cache_creation",
+        "cache_creation_input_tokens",
+        "cache_read_input_tokens",
+        "inference_geo",
+        "input_tokens",
+        "output_tokens",
+        "service_tier"
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/ResponseTextBlock/required",
+      "value": ["text", "type"]
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/BetaMessage/required",
+      "value": [
+        "id",
+        "type",
+        "role",
+        "content",
+        "model",
+        "stop_reason",
+        "stop_sequence",
+        "stop_details",
+        "usage",
+        "diagnostics",
+        "container"
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/BetaResponseTextBlock/required",
+      "value": ["text", "type"]
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/BetaUsage/required",
+      "value": [
+        "cache_creation",
+        "cache_creation_input_tokens",
+        "cache_read_input_tokens",
+        "inference_geo",
+        "input_tokens",
+        "output_tokens",
+        "service_tier"
+      ]
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/BetaModelInfo/required",
+      "value": [
+        "capabilities",
+        "created_at",
+        "display_name",
+        "id",
+        "max_input_tokens",
+        "max_tokens",
+        "type"
+      ]
+    }
+  ]
+}

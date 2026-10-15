@@ -1,0 +1,404 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.embeddings#CreateEmbeddingRequestInputArrayList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The array of strings that will be turned into an embedding."
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingRequestInputArrayList2": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The array of integers that will be turned into an embedding."
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingRequestInputArrayItemList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.openai.embeddings#CreateEmbeddingRequestInputArrayList3": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.embeddings#CreateEmbeddingRequestInputArrayItemList"
+      },
+      "traits": {
+        "smithy.api#documentation": "The array of arrays containing integers that will be turned into an embedding."
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingRequestInput": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Array": {
+          "target": "com.openai.embeddings#CreateEmbeddingRequestInputArrayList"
+        },
+        "Array_2": {
+          "target": "com.openai.embeddings#CreateEmbeddingRequestInputArrayList2"
+        },
+        "Array_3": {
+          "target": "com.openai.embeddings#CreateEmbeddingRequestInputArrayList3"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for all embedding models), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens. In addition to the per-input token limit, all embedding models enforce a maximum of 300,000 tokens summed across all inputs in a single request.\n"
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingRequestModelCase1": {
+      "type": "enum",
+      "members": {
+        "TEXT_EMBEDDING_ADA_002": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-embedding-ada-002"
+          }
+        },
+        "TEXT_EMBEDDING_3_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-embedding-3-small"
+          }
+        },
+        "TEXT_EMBEDDING_3_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-embedding-3-large"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.embeddings#CreateEmbeddingRequestModel": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.embeddings#CreateEmbeddingRequestModelCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ID of the model to use. You can use the [List models](https://developers.openai.com/api/reference/resources/models/methods/list) API to see all of your available models, or see our [Model overview](https://developers.openai.com/api/docs/models) for descriptions of them.\n"
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingRequestEncodingFormat": {
+      "type": "enum",
+      "members": {
+        "FLOAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "float"
+          }
+        },
+        "BASE64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base64"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingRequest": {
+      "type": "structure",
+      "members": {
+        "input": {
+          "target": "com.openai.embeddings#CreateEmbeddingRequestInput",
+          "traits": {
+            "smithy.api#documentation": "Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for all embedding models), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens. In addition to the per-input token limit, all embedding models enforce a maximum of 300,000 tokens summed across all inputs in a single request.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "com.openai.embeddings#CreateEmbeddingRequestModel",
+          "traits": {
+            "smithy.api#documentation": "ID of the model to use. You can use the [List models](https://developers.openai.com/api/reference/resources/models/methods/list) API to see all of your available models, or see our [Model overview](https://developers.openai.com/api/docs/models) for descriptions of them.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "encoding_format": {
+          "target": "com.openai.embeddings#CreateEmbeddingRequestEncodingFormat",
+          "traits": {
+            "smithy.api#documentation": "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."
+          }
+        },
+        "dimensions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.\n"
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://developers.openai.com/api/docs/guides/safety-best-practices#implement-safety-identifiers).\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.openai.embeddings#CreateEmbeddingResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "The list of embeddings generated by the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the model used to generate the embedding.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.embeddings#CreateEmbeddingResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"list\".",
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "com.openai.embeddings#CreateEmbeddingResponseUsage",
+          "traits": {
+            "smithy.api#documentation": "The usage information for the request.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.embeddings#Embedding": {
+      "type": "structure",
+      "members": {
+        "index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The index of the embedding in the list of embeddings.",
+            "smithy.api#required": {}
+          }
+        },
+        "embedding": {
+          "target": "com.openai.embeddings#EmbeddingEmbedding",
+          "traits": {
+            "smithy.api#documentation": "The embedding vector, returned as a list of floats when `encoding_format` is `float` (the default), or as a base64-encoded string when `encoding_format` is `base64`. The length of the vector depends on the model as listed in the [embedding guide](https://developers.openai.com/api/docs/guides/embeddings).\n",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.embeddings#EmbeddingObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"embedding\".",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an embedding vector returned by embedding endpoint.\n"
+      }
+    },
+    "com.openai.embeddings#EmbeddingEmbeddingCase0List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.openai.embeddings#EmbeddingEmbedding": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.embeddings#EmbeddingEmbeddingCase0List"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The embedding vector, returned as a list of floats when `encoding_format` is `float` (the default), or as a base64-encoded string when `encoding_format` is `base64`. The length of the vector depends on the model as listed in the [embedding guide](https://developers.openai.com/api/docs/guides/embeddings).\n"
+      }
+    },
+    "com.openai.embeddings#EmbeddingObject": {
+      "type": "enum",
+      "members": {
+        "EMBEDDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "embedding"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"embedding\"."
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.embeddings#Embedding"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of embeddings generated by the model."
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"list\"."
+      }
+    },
+    "com.openai.embeddings#CreateEmbeddingResponseUsage": {
+      "type": "structure",
+      "members": {
+        "prompt_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of tokens used by the prompt.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of tokens used by the request.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The usage information for the request."
+      }
+    },
+    "com.openai.embeddings#CreateEmbedding": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.embeddings#CreateEmbeddingRequest"
+      },
+      "output": {
+        "target": "com.openai.embeddings#CreateEmbeddingResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.embeddings#BadRequest"
+        },
+        {
+          "target": "com.openai.embeddings#Forbidden"
+        },
+        {
+          "target": "com.openai.embeddings#ContextLengthExceeded"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/embeddings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create embeddings\n\nCreates an embedding vector representing the input text."
+      }
+    },
+    "com.openai.embeddings#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.embeddings#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.embeddings#Embeddings": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.embeddings#CreateEmbedding"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    },
+    "com.openai.embeddings#ContextLengthExceeded": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400,
+            "body": {
+              "/error/code": "context_length_exceeded"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

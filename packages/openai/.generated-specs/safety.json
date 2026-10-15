@@ -1,0 +1,335 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.safety#GetSafetyCaseRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Safety case ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.safety#SafetyCaseResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.safety#SafetyCaseResourceObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "entity_identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notice": {
+          "target": "com.openai.safety#SafetyCaseNotice",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.safety#SafetyCaseResourceObject": {
+      "type": "enum",
+      "members": {
+        "SAFETY_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "safety.case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.safety#SafetyCaseNotice": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.safety#SafetyCaseNoticeType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.safety#SafetyCaseNoticeType": {
+      "type": "enum",
+      "members": {
+        "WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning"
+          }
+        },
+        "DEACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deactivation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.safety#GetSafetyCase": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.safety#GetSafetyCaseRequest"
+      },
+      "output": {
+        "target": "com.openai.safety#SafetyCaseResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.safety#BadRequest"
+        },
+        {
+          "target": "com.openai.safety#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/safety/cases/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get safety case\n\nGet a safety case by ID."
+      }
+    },
+    "com.openai.safety#GetProjectSafetyAlertRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project safety alert ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.safety#SafetyAlertResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.safety#SafetyAlertResourceObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "response_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "request_paused": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether block registration succeeded for this request. This does not confirm that response execution stopped.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_type": {
+          "target": "com.openai.safety#SafetyAlertErrorType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.safety#SafetyAlertResourceObject": {
+      "type": "enum",
+      "members": {
+        "SAFETY_ALERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "safety.alert"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.safety#SafetyAlertErrorType": {
+      "type": "enum",
+      "members": {
+        "POTENTIALLY_UNINTENDED_DATA_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "potentially_unintended_data_transfer"
+          }
+        },
+        "POTENTIALLY_UNINTENDED_DATA_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "potentially_unintended_data_access"
+          }
+        },
+        "POTENTIALLY_UNINTENDED_DESTRUCTIVE_ACTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "potentially_unintended_destructive_activity"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.safety#GetProjectSafetyAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.safety#GetProjectSafetyAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.safety#SafetyAlertResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.safety#BadRequest"
+        },
+        {
+          "target": "com.openai.safety#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/safety/alerts/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get project safety alert\n\nGet a safety alert belonging to the authenticated API project."
+      }
+    },
+    "com.openai.safety#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.safety#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.safety#Safety": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.safety#GetSafetyCase"
+        },
+        {
+          "target": "com.openai.safety#GetProjectSafetyAlert"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

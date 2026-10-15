@@ -43,7 +43,9 @@ export const repositoryName = (specRepo: SpecRepo) => `spec-mirror-${mirrorId(sp
 
 export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "acme" },
+  { package: "acp" },
   { package: "adyen" },
+  { package: "anthropic" },
   { package: "apache-superset" },
   { package: "archil" },
   { package: "argocd" },
@@ -58,6 +60,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "chronosphere" },
   { package: "clerk" },
   { package: "cloudflare" },
+  { package: "codex" },
   { package: "coinbase" },
   { package: "coolify" },
   { package: "customerio" },
@@ -96,7 +99,9 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "notion" },
   { package: "okta" },
   { package: "onepassword" },
+  { package: "openai" },
   { package: "opencode" },
+  { package: "openrouter" },
   { package: "ovh" },
   { package: "paypal" },
   { package: "plaid" },

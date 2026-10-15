@@ -1,0 +1,945 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.roles#ListRolesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.roles#ListRolesRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of roles to return. Defaults to 1000."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for pagination. Provide the value from the previous response's `next` field to continue listing roles."
+          }
+        },
+        "order": {
+          "target": "com.openai.roles#ListRolesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order for the returned roles."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#PublicRoleListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.roles#PublicRoleListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.roles#PublicRoleListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "Roles returned in the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether more roles are available when paginating.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor to fetch the next page of results, or `null` when there are no additional roles.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of roles available on an organization or project."
+      }
+    },
+    "com.openai.roles#PublicRoleListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `list`."
+      }
+    },
+    "com.openai.roles#Role": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.roles#RoleObject",
+          "traits": {
+            "smithy.api#documentation": "Always `role`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the role.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permissions": {
+          "target": "com.openai.roles#RolePermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Permissions granted by the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource type the role is bound to (for example `api.organization` or `api.project`).",
+            "smithy.api#required": {}
+          }
+        },
+        "predefined_role": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the role is predefined and managed by OpenAI.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about a role that can be assigned through the public Roles API."
+      }
+    },
+    "com.openai.roles#RoleObject": {
+      "type": "enum",
+      "members": {
+        "ROLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `role`."
+      }
+    },
+    "com.openai.roles#RolePermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Permissions granted by the role."
+      }
+    },
+    "com.openai.roles#PublicRoleListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.roles#Role"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles returned in the current page."
+      }
+    },
+    "com.openai.roles#ListRoles": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#ListRolesRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#PublicRoleListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#BadRequest"
+        },
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organization roles\n\nLists the roles configured for the organization.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "next",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.roles#CreateRoleRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Permissions to grant to the role."
+      }
+    },
+    "com.openai.roles#CreateRoleRequest": {
+      "type": "structure",
+      "members": {
+        "role_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.openai.roles#CreateRoleRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Permissions to grant to the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#CreateRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#CreateRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#Role"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#BadRequest"
+        },
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create organization role\n\nCreates a custom role for the organization.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.roles#GetRoleRequest": {
+      "type": "structure",
+      "members": {
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the role to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#GetRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#GetRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#Role"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/roles/{role_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve organization role\n\nRetrieves an organization role.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.roles#UpdateRoleRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.roles#UpdateRoleRequest": {
+      "type": "structure",
+      "members": {
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the role to update."
+          }
+        },
+        "permissions": {
+          "target": "com.openai.roles#UpdateRoleRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Updated set of permissions for the role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New description for the role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#UpdateRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#UpdateRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#Role"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#BadRequest"
+        },
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/roles/{role_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update organization role\n\nUpdates an existing organization role.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.roles#DeleteRoleRequest": {
+      "type": "structure",
+      "members": {
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the role to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#RoleDeletedResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.roles#RoleDeletedResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `role.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the deleted role.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the role was deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after deleting a role."
+      }
+    },
+    "com.openai.roles#RoleDeletedResourceObject": {
+      "type": "enum",
+      "members": {
+        "ROLE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "role.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `role.deleted`."
+      }
+    },
+    "com.openai.roles#DeleteRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#DeleteRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#RoleDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#BadRequest"
+        },
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/roles/{role_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete organization role\n\nDeletes a custom role from the organization.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.roles#ListProjectRolesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.roles#ListProjectRolesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to inspect."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of roles to return. Defaults to 1000."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for pagination. Provide the value from the previous response's `next` field to continue listing roles."
+          }
+        },
+        "order": {
+          "target": "com.openai.roles#ListProjectRolesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order for the returned roles."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#ListProjectRoles": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#ListProjectRolesRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#PublicRoleListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#BadRequest"
+        },
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/projects/{project_id}/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project roles\n\nLists the roles configured for a project.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "next",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.roles#CreateProjectRoleRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Permissions to grant to the role."
+      }
+    },
+    "com.openai.roles#CreateProjectRoleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "role_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique name for the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.openai.roles#CreateProjectRoleRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Permissions to grant to the role.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#CreateProjectRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#CreateProjectRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#Role"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#BadRequest"
+        },
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/projects/{project_id}/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create project role\n\nCreates a custom role for a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.roles#GetProjectRoleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the role to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#GetProjectRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#GetProjectRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#Role"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/projects/{project_id}/roles/{role_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project role\n\nRetrieves a project role.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.roles#UpdateProjectRoleRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.roles#UpdateProjectRoleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the role to update."
+          }
+        },
+        "permissions": {
+          "target": "com.openai.roles#UpdateProjectRoleRequestPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Updated set of permissions for the role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New description for the role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the role.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#UpdateProjectRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#UpdateProjectRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#Role"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#BadRequest"
+        },
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/projects/{project_id}/roles/{role_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update project role\n\nUpdates an existing project role.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.roles#DeleteProjectRoleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "role_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the role to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.roles#DeleteProjectRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.roles#DeleteProjectRoleRequest"
+      },
+      "output": {
+        "target": "com.openai.roles#RoleDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.roles#BadRequest"
+        },
+        {
+          "target": "com.openai.roles#Forbidden"
+        },
+        {
+          "target": "com.openai.roles#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/projects/{project_id}/roles/{role_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete project role\n\nDeletes a custom role from a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.roles#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.roles#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.roles#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.roles#Roles": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.roles#ListRoles"
+        },
+        {
+          "target": "com.openai.roles#CreateRole"
+        },
+        {
+          "target": "com.openai.roles#GetRole"
+        },
+        {
+          "target": "com.openai.roles#UpdateRole"
+        },
+        {
+          "target": "com.openai.roles#DeleteRole"
+        },
+        {
+          "target": "com.openai.roles#ListProjectRoles"
+        },
+        {
+          "target": "com.openai.roles#CreateProjectRole"
+        },
+        {
+          "target": "com.openai.roles#GetProjectRole"
+        },
+        {
+          "target": "com.openai.roles#UpdateProjectRole"
+        },
+        {
+          "target": "com.openai.roles#DeleteProjectRole"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

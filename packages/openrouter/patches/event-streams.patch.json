@@ -1,0 +1,61 @@
+{
+  "description": "OpenRouter's text/event-stream response schemas describe the whole SSE frame in Speakeasy's convention (`{ data: <payload>, event? }`), but distilled decodes each event's `data` field against the stream operation's output, so each schema is replaced with the `data` payload schema (ChatStreamChunk, StreamEvents, MessagesStreamEvents, the image-generation event union, the intern chat chunk). /embeddings and /rerank declare a text/event-stream response whose schema says 'Not used \u2014 does not support streaming'; it is removed so no unusable *Stream sibling is generated. Source: https://openrouter.ai/openapi.json (fetched 2026-10-05) and https://openrouter.ai/docs/api-reference/streaming.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/paths/~1chat~1completions/post/responses/200/content/text~1event-stream/schema",
+      "value": {
+        "$ref": "#/components/schemas/ChatStreamChunk"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/paths/~1responses/post/responses/200/content/text~1event-stream/schema",
+      "value": {
+        "$ref": "#/components/schemas/StreamEvents"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/paths/~1messages/post/responses/200/content/text~1event-stream/schema",
+      "value": {
+        "$ref": "#/components/schemas/MessagesStreamEvents"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/paths/~1images/post/responses/200/content/text~1event-stream/schema",
+      "value": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/ImageGenPartialImageEvent"
+          },
+          {
+            "$ref": "#/components/schemas/ImageGenTextChunkEvent"
+          },
+          {
+            "$ref": "#/components/schemas/ImageGenCompletedEvent"
+          },
+          {
+            "$ref": "#/components/schemas/ImageGenStreamErrorEvent"
+          }
+        ]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/paths/~1interns~1{internId}~1chat~1completions/post/responses/200/content/text~1event-stream/schema",
+      "value": {
+        "$ref": "#/components/schemas/InternChatCompletionChunk"
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/paths/~1embeddings/post/responses/200/content/text~1event-stream"
+    },
+    {
+      "op": "remove",
+      "path": "/paths/~1rerank/post/responses/200/content/text~1event-stream"
+    }
+  ]
+}

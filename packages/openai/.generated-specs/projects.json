@@ -1,0 +1,3046 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.projects#ListProjectsRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "include_archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_archived",
+            "smithy.api#documentation": "If `true` returns all projects including those that have been `archived`. Archived projects are not included by default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectListResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectListResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.projects#ProjectListResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectListResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#Project": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.projects#ProjectObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.project`",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the project. This appears in reporting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the project was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "archived_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`active` or `archived`",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external key associated with the project.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "residency": {
+          "target": "com.openai.projects#PublicProjectResidency",
+          "traits": {
+            "smithy.api#documentation": "The residency configuration for the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual project."
+      }
+    },
+    "com.openai.projects#ProjectObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.project`"
+      }
+    },
+    "com.openai.projects#PublicProjectResidency": {
+      "type": "enum",
+      "members": {
+        "GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GLOBAL"
+          }
+        },
+        "US_STORAGE_PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "US_STORAGE_PROCESSING"
+          }
+        },
+        "EU_STORAGE_PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EU_STORAGE_PROCESSING"
+          }
+        },
+        "JP_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JP_STORAGE"
+          }
+        },
+        "KR_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KR_STORAGE"
+          }
+        },
+        "CA_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CA_STORAGE"
+          }
+        },
+        "SG_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SG_STORAGE"
+          }
+        },
+        "IN_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IN_STORAGE"
+          }
+        },
+        "AU_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AU_STORAGE"
+          }
+        },
+        "GB_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GB_STORAGE"
+          }
+        },
+        "AE_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AE_STORAGE"
+          }
+        },
+        "AE_STORAGE_PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AE_STORAGE_PROCESSING"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.projects#Project"
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ListProjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#ListProjectsRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects",
+          "code": 200
+        },
+        "smithy.api#documentation": "List projects\n\nReturns a list of projects.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.projects#CreateProjectRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The friendly name of the project, this name appears in reports.",
+            "smithy.api#required": {}
+          }
+        },
+        "geography": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Create the project with the specified data residency region. Your organization must have access to Data residency functionality in order to use. See [data residency controls](https://developers.openai.com/api/docs/guides/your-data#data-residency-controls) to review the functionality and limitations of setting this field.\nDeprecated: use `residency` instead. Do not provide both `geography` and `residency`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "residency": {
+          "target": "com.openai.projects#PublicProjectResidency",
+          "traits": {
+            "smithy.api#documentation": "Create the project with the specified residency configuration. Your organization must have access to the requested residency configuration in order to use it. See [data residency controls](https://developers.openai.com/api/docs/guides/your-data#data-residency-controls) to review the functionality and limitations of setting this field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External key ID to associate with the project.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#CreateProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#CreateProjectRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#Project"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create project\n\nCreate a new project in the organization. Projects can be created and archived, but cannot be deleted.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#GetProjectRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#GetProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#GetProjectRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#Project"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project\n\nRetrieves a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#ModifyProjectRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated name of the project, this name appears in reports.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External key ID to associate with the project.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "geography": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Geography for the project.\nDeprecated: use `residency` when creating a project to configure data residency. This field is retained for backward compatibility.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ModifyProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#ModifyProjectRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#Project"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modify project\n\nModifies a project in the organization.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#ListProjectApiKeysRequestOwnerProjectAccess": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ListProjectApiKeysRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "owner_project_access": {
+          "target": "com.openai.projects#ListProjectApiKeysRequestOwnerProjectAccess",
+          "traits": {
+            "smithy.api#httpQuery": "owner_project_access",
+            "smithy.api#documentation": "Filter API keys by whether the owner currently has effective access to the project. Use `active` for owners with access, `inactive` for owners without access, or `any` for all enabled project API keys. If omitted, the endpoint applies its existing membership-based visibility rules, which may exclude some enabled keys.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectApiKeyListResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectApiKeyListResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.projects#ProjectApiKeyListResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectApiKeyListResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectApiKey": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectApiKeyObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.project.api_key`",
+            "smithy.api#required": {}
+          }
+        },
+        "redacted_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The redacted value of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the API key was created",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_used_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the API key was last used.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "owner_project_access": {
+          "target": "com.openai.projects#ProjectApiKeyOwnerProjectAccess",
+          "traits": {
+            "smithy.api#documentation": "Whether the API key's owner currently has effective access to the project.",
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "com.openai.projects#ProjectApiKeyOwner",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual API key in a project."
+      }
+    },
+    "com.openai.projects#ProjectApiKeyObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.api_key"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.project.api_key`"
+      }
+    },
+    "com.openai.projects#ProjectApiKeyOwnerProjectAccess": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the API key's owner currently has effective access to the project."
+      }
+    },
+    "com.openai.projects#ProjectApiKeyOwnerType": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "SERVICE_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service_account"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`user` or `service_account`"
+      }
+    },
+    "com.openai.projects#ProjectApiKeyOwnerUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the user was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's project role.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The user that owns a project API key."
+      }
+    },
+    "com.openai.projects#ProjectApiKeyOwnerServiceAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the service account.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the service account was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service account's project role.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The service account that owns a project API key."
+      }
+    },
+    "com.openai.projects#ProjectApiKeyOwner": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.projects#ProjectApiKeyOwnerType",
+          "traits": {
+            "smithy.api#documentation": "`user` or `service_account`"
+          }
+        },
+        "user": {
+          "target": "com.openai.projects#ProjectApiKeyOwnerUser"
+        },
+        "service_account": {
+          "target": "com.openai.projects#ProjectApiKeyOwnerServiceAccount"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectApiKeyListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.projects#ProjectApiKey"
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ListProjectApiKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#ListProjectApiKeysRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectApiKeyListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/api_keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project API keys\n\nReturns a list of API keys in the project.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.projects#GetProjectApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the API key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#GetProjectApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#GetProjectApiKeyRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectApiKey"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#ProjectApiKeyNotFound"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/api_keys/{api_key_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project API key\n\nRetrieves an API key in the project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#DeleteProjectApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "api_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the API key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectApiKeyDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectApiKeyDeleteResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectApiKeyDeleteResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_API_KEY_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.api_key.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#DeleteProjectApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#DeleteProjectApiKeyRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectApiKeyDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/projects/{project_id}/api_keys/{api_key_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete project API key\n\nDeletes an API key from the project.\n\nReturns confirmation of the key deletion, or an error if the key belonged to\na service account.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#ArchiveProjectRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ArchiveProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#ArchiveProjectRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#Project"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/archive",
+          "code": 200
+        },
+        "smithy.api#documentation": "Archive project\n\nArchives a project in the organization. Archived projects cannot be used or updated.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#GetProjectModelPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectModelPermissions": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectModelPermissionsObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `project.model_permissions`.",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.openai.projects#ProjectModelPermissionsMode",
+          "traits": {
+            "smithy.api#documentation": "Whether the project uses an allowlist or a denylist.",
+            "smithy.api#required": {}
+          }
+        },
+        "model_ids": {
+          "target": "com.openai.projects#ProjectModelPermissionsModelIdsList",
+          "traits": {
+            "smithy.api#documentation": "The model IDs included in the model permissions policy.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents the model allowlist or denylist policy for a project."
+      }
+    },
+    "com.openai.projects#ProjectModelPermissionsObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_MODEL_PERMISSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.model_permissions"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `project.model_permissions`."
+      }
+    },
+    "com.openai.projects#ProjectModelPermissionsMode": {
+      "type": "enum",
+      "members": {
+        "ALLOW_LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow_list"
+          }
+        },
+        "DENY_LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny_list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the project uses an allowlist or a denylist."
+      }
+    },
+    "com.openai.projects#ProjectModelPermissionsModelIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The model IDs included in the model permissions policy."
+      }
+    },
+    "com.openai.projects#GetProjectModelPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#GetProjectModelPermissionsRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectModelPermissions"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/model_permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project model permissions\n\nReturns model permissions for a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#UpdateProjectModelPermissionsRequestMode": {
+      "type": "enum",
+      "members": {
+        "ALLOW_LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow_list"
+          }
+        },
+        "DENY_LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny_list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The model permissions mode to apply."
+      }
+    },
+    "com.openai.projects#UpdateProjectModelPermissionsRequestModelIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The model IDs included in this permissions policy."
+      }
+    },
+    "com.openai.projects#UpdateProjectModelPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "mode": {
+          "target": "com.openai.projects#UpdateProjectModelPermissionsRequestMode",
+          "traits": {
+            "smithy.api#documentation": "The model permissions mode to apply.",
+            "smithy.api#required": {}
+          }
+        },
+        "model_ids": {
+          "target": "com.openai.projects#UpdateProjectModelPermissionsRequestModelIdsList",
+          "traits": {
+            "smithy.api#documentation": "The model IDs included in this permissions policy.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#UpdateProjectModelPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#UpdateProjectModelPermissionsRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectModelPermissions"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/model_permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modify project model permissions\n\nUpdates model permissions for a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#DeleteProjectModelPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectModelPermissionsDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectModelPermissionsDeleteResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `project.model_permissions.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the project model permissions were deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after deleting project model permissions."
+      }
+    },
+    "com.openai.projects#ProjectModelPermissionsDeleteResponseObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_MODEL_PERMISSIONS_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.model_permissions.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `project.model_permissions.deleted`."
+      }
+    },
+    "com.openai.projects#DeleteProjectModelPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#DeleteProjectModelPermissionsRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectModelPermissionsDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/projects/{project_id}/model_permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete project model permissions\n\nDeletes model permissions for a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#ListProjectRateLimitsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. The default is 100.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, beginning with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectRateLimitListResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectRateLimitListResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.projects#ProjectRateLimitListResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectRateLimitListResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectRateLimit": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectRateLimitObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `project.rate_limit`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model this rate limit applies to.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_requests_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum requests per minute.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_tokens_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum tokens per minute.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_images_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum images per minute. Only present for relevant models."
+          }
+        },
+        "max_audio_megabytes_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum audio megabytes per minute. Only present for relevant models."
+          }
+        },
+        "max_requests_per_1_day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum requests per day. Only present for relevant models."
+          }
+        },
+        "batch_1_day_max_input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum batch input tokens per day. Only present for relevant models."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a project rate limit config."
+      }
+    },
+    "com.openai.projects#ProjectRateLimitObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_RATE_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.rate_limit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `project.rate_limit`"
+      }
+    },
+    "com.openai.projects#ProjectRateLimitListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.projects#ProjectRateLimit"
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ListProjectRateLimits": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#ListProjectRateLimitsRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectRateLimitListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/rate_limits",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project rate limits\n\nReturns the rate limits per model for a project.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.projects#UpdateProjectRateLimitsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "rate_limit_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the rate limit."
+          }
+        },
+        "max_requests_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum requests per minute."
+          }
+        },
+        "max_tokens_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum tokens per minute."
+          }
+        },
+        "max_images_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum images per minute. Only relevant for certain models."
+          }
+        },
+        "max_audio_megabytes_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum audio megabytes per minute. Only relevant for certain models."
+          }
+        },
+        "max_requests_per_1_day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum requests per day. Only relevant for certain models."
+          }
+        },
+        "batch_1_day_max_input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum batch input tokens per day. Only relevant for certain models."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#UpdateProjectRateLimits": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#UpdateProjectRateLimitsRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectRateLimit"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/rate_limits/{rate_limit_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modify project rate limit\n\nUpdates a project rate limit.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#ListProjectServiceAccountsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectServiceAccountListResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectServiceAccountListResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.projects#ProjectServiceAccountListResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectServiceAccountListResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectServiceAccount": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectServiceAccountObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.project.service_account`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the service account",
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.openai.projects#ProjectServiceAccountRole",
+          "traits": {
+            "smithy.api#documentation": "`owner`, `member`, or `none`",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the service account was created",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual service account in a project."
+      }
+    },
+    "com.openai.projects#ProjectServiceAccountObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_SERVICE_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.service_account"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.project.service_account`"
+      }
+    },
+    "com.openai.projects#ProjectServiceAccountRole": {
+      "type": "enum",
+      "members": {
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`owner`, `member`, or `none`"
+      }
+    },
+    "com.openai.projects#ProjectServiceAccountListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.projects#ProjectServiceAccount"
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ListProjectServiceAccounts": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#ListProjectServiceAccountsRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectServiceAccountListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/service_accounts",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project service accounts\n\nReturns a list of service accounts in the project.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.projects#CreateProjectServiceAccountRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the service account being created.",
+            "smithy.api#required": {}
+          }
+        },
+        "create_service_account_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_in_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of seconds until the initial API key expires. If omitted or null, the key does not expire unless the effective organization or project policy requires an expiration. When a policy sets a maximum lifetime, this value must be provided and must not exceed that limit. A non-null value cannot be used when `create_service_account_only` is true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectServiceAccountCreateResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectServiceAccountCreateResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.openai.projects#ProjectServiceAccountCreateResponseRole",
+          "traits": {
+            "smithy.api#documentation": "Service accounts created with default project membership have role `member`. Accounts created with `create_service_account_only` have role `none`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "api_key": {
+          "target": "com.openai.projects#ProjectServiceAccountApiKey",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectServiceAccountCreateResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_SERVICE_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.service_account"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectServiceAccountCreateResponseRole": {
+      "type": "enum",
+      "members": {
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Service accounts created with default project membership have role `member`. Accounts created with `create_service_account_only` have role `none`.\n"
+      }
+    },
+    "com.openai.projects#ProjectServiceAccountApiKey": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectServiceAccountApiKeyObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.project.service_account.api_key`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) when the API key expires, or null if it does not expire.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectServiceAccountApiKeyObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_SERVICE_ACCOUNT_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.service_account.api_key"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.project.service_account.api_key`"
+      }
+    },
+    "com.openai.projects#CreateProjectServiceAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#CreateProjectServiceAccountRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectServiceAccountCreateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/service_accounts",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create project service account\n\nCreates a new service account in the project. By default, this also returns an unredacted API key for the service account.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#GetProjectServiceAccountRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the service account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#GetProjectServiceAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#GetProjectServiceAccountRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectServiceAccount"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#ServiceAccountNotFound"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/service_accounts/{service_account_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project service account\n\nRetrieves a service account in the project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#UpdateProjectServiceAccountRequestRole": {
+      "type": "enum",
+      "members": {
+        "MEMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "member"
+          }
+        },
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The updated service account role."
+      }
+    },
+    "com.openai.projects#UpdateProjectServiceAccountRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the service account."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated service account name."
+          }
+        },
+        "role": {
+          "target": "com.openai.projects#UpdateProjectServiceAccountRequestRole",
+          "traits": {
+            "smithy.api#documentation": "The updated service account role."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#UpdateProjectServiceAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#UpdateProjectServiceAccountRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectServiceAccount"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#ServiceAccountNotFound"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/service_accounts/{service_account_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update project service account\n\nUpdates a service account in the project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#DeleteProjectServiceAccountRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the service account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectServiceAccountDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectServiceAccountDeleteResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectServiceAccountDeleteResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_SERVICE_ACCOUNT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.service_account.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#DeleteProjectServiceAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#DeleteProjectServiceAccountRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectServiceAccountDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#ServiceAccountNotFound"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/projects/{project_id}/service_accounts/{service_account_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete project service account\n\nDeletes a service account from the project.\n\nReturns confirmation of service account deletion, or an error if the project\nis archived (archived projects have no service accounts).",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#ListProjectUsersRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectUserListResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.projects#ProjectUserListResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectUser": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectUserObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.project.user`",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`owner` or `member`",
+            "smithy.api#required": {}
+          }
+        },
+        "added_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the project was added.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual user in a project."
+      }
+    },
+    "com.openai.projects#ProjectUserObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.user"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.project.user`"
+      }
+    },
+    "com.openai.projects#ProjectUserListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.projects#ProjectUser"
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ListProjectUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#ListProjectUsersRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectUserListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/users",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project users\n\nReturns a list of users in the project.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.projects#CreateProjectUserRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user to add.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`owner` or `member`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#CreateProjectUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#CreateProjectUserRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectUser"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        },
+        {
+          "target": "com.openai.projects#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/users",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create project user\n\nAdds a user to the project. Users must already be members of the organization to be added to a project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#GetProjectUserRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#GetProjectUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#GetProjectUserRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectUser"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project user\n\nRetrieves a user in the project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#ModifyProjectUserRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`owner` or `member`",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ModifyProjectUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#ModifyProjectUserRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectUser"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modify project user\n\nModifies a user's role in the project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#DeleteProjectUserRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ProjectUserDeleteResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ProjectUserDeleteResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ProjectUserDeleteResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_USER_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.user.deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#DeleteProjectUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#DeleteProjectUserRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ProjectUserDeleteResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/projects/{project_id}/users/{user_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete project user\n\nDeletes a user from the project.\n\nReturns confirmation of project user deletion, or an error if the project is\narchived (archived projects have no users).",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#CreateServiceAccountApiKeyRequestScopesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "API key scopes."
+      }
+    },
+    "com.openai.projects#CreateServiceAccountApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "service_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the service account."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "API key name."
+          }
+        },
+        "scopes": {
+          "target": "com.openai.projects#CreateServiceAccountApiKeyRequestScopesList",
+          "traits": {
+            "smithy.api#documentation": "API key scopes."
+          }
+        },
+        "expires_in_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.projects#ServiceAccountApiKeyBody": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.projects#ServiceAccountApiKeyBodyObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.project.service_account.api_key`",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unredacted API key value.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the API key.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) when the API key was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the API key.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.projects#ServiceAccountApiKeyBodyObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_SERVICE_ACCOUNT_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.service_account.api_key"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.project.service_account.api_key`"
+      }
+    },
+    "com.openai.projects#CreateServiceAccountApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.projects#CreateServiceAccountApiKeyRequest"
+      },
+      "output": {
+        "target": "com.openai.projects#ServiceAccountApiKeyBody"
+      },
+      "errors": [
+        {
+          "target": "com.openai.projects#BadRequest"
+        },
+        {
+          "target": "com.openai.projects#Forbidden"
+        },
+        {
+          "target": "com.openai.projects#ServiceAccountNotFound"
+        },
+        {
+          "target": "com.openai.projects#Conflict"
+        },
+        {
+          "target": "com.openai.projects#ProjectNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/service_accounts/{service_account_id}/api_keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an API key for a service account\n\nCreates an API key for a service account in the project.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.projects#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.projects#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.projects#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.projects#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.openai.projects#Projects": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.projects#ListProjects"
+        },
+        {
+          "target": "com.openai.projects#CreateProject"
+        },
+        {
+          "target": "com.openai.projects#GetProject"
+        },
+        {
+          "target": "com.openai.projects#ModifyProject"
+        },
+        {
+          "target": "com.openai.projects#ListProjectApiKeys"
+        },
+        {
+          "target": "com.openai.projects#GetProjectApiKey"
+        },
+        {
+          "target": "com.openai.projects#DeleteProjectApiKey"
+        },
+        {
+          "target": "com.openai.projects#ArchiveProject"
+        },
+        {
+          "target": "com.openai.projects#GetProjectModelPermissions"
+        },
+        {
+          "target": "com.openai.projects#UpdateProjectModelPermissions"
+        },
+        {
+          "target": "com.openai.projects#DeleteProjectModelPermissions"
+        },
+        {
+          "target": "com.openai.projects#ListProjectRateLimits"
+        },
+        {
+          "target": "com.openai.projects#UpdateProjectRateLimits"
+        },
+        {
+          "target": "com.openai.projects#ListProjectServiceAccounts"
+        },
+        {
+          "target": "com.openai.projects#CreateProjectServiceAccount"
+        },
+        {
+          "target": "com.openai.projects#GetProjectServiceAccount"
+        },
+        {
+          "target": "com.openai.projects#UpdateProjectServiceAccount"
+        },
+        {
+          "target": "com.openai.projects#DeleteProjectServiceAccount"
+        },
+        {
+          "target": "com.openai.projects#ListProjectUsers"
+        },
+        {
+          "target": "com.openai.projects#CreateProjectUser"
+        },
+        {
+          "target": "com.openai.projects#GetProjectUser"
+        },
+        {
+          "target": "com.openai.projects#ModifyProjectUser"
+        },
+        {
+          "target": "com.openai.projects#DeleteProjectUser"
+        },
+        {
+          "target": "com.openai.projects#CreateServiceAccountApiKey"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    },
+    "com.openai.projects#ProjectNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The project does not exist in the organization.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404,
+            "body": {
+              "/error/code": "project_not_found"
+            }
+          },
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.projects#ServiceAccountNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The project service account does not exist.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.projects#ProjectApiKeyNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The project API key does not exist.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    }
+  }
+}

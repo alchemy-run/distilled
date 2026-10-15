@@ -1,0 +1,10 @@
+{
+  "description": "Chat Completions streams end with a literal `data: [DONE]` event, not a JSON chunk (documented on CreateChatCompletionRequest.stream; observed on the live API). Mark it as the stream terminator so it is not decoded as a CreateChatCompletionStreamResponse.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.openai.chat#CreateChatCompletionStream/traits/com.distilled#eventStream/done",
+      "value": "[DONE]"
+    }
+  ]
+}

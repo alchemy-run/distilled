@@ -1,0 +1,161 @@
+{
+  "description": "The key and guardrail routes declare a single 404 (`NotFound`, body `{ error: { code: 404, message: \"Resource not found\" } }`) whose only subject is the resource named in the path: GET/PATCH/DELETE /keys/{hash} -> the key, GET/PATCH/DELETE /guardrails/{id} and GET /guardrails/{id}/assignments/{keys,members} -> the guardrail (\"Guardrail not found, or the workspace default guardrail has not been configured yet.\"). Replace that NotFound with resource-specific KeyNotFound / GuardrailNotFound so callers can tell which resource is gone. The bulk assign/unassign routes (POST /guardrails/{id}/assignments/...) keep the generic NotFound: their 404 can name either the guardrail or a key/member in the body (a just-created key briefly 404s on assignment, observed by alchemy's OpenRouter.Guardrail), and the response carries no discriminator. Source: OpenRouter OpenAPI spec (404 responses and examples), 2026-10-06; not probed live (no OpenRouter management key available).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#KeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "No API key with this hash exists (or it was deleted).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.openrouter.api#GuardrailNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "No guardrail with this id exists (or it was deleted).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openrouter.api#GetKey/errors/1",
+      "value": {
+        "target": "com.openrouter.api#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openrouter.api#GetKey/errors/1",
+      "value": {
+        "target": "com.openrouter.api#KeyNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openrouter.api#UpdateKey/errors/2",
+      "value": {
+        "target": "com.openrouter.api#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openrouter.api#UpdateKey/errors/2",
+      "value": {
+        "target": "com.openrouter.api#KeyNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openrouter.api#DeleteKey/errors/1",
+      "value": {
+        "target": "com.openrouter.api#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openrouter.api#DeleteKey/errors/1",
+      "value": {
+        "target": "com.openrouter.api#KeyNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openrouter.api#GetGuardrail/errors/1",
+      "value": {
+        "target": "com.openrouter.api#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openrouter.api#GetGuardrail/errors/1",
+      "value": {
+        "target": "com.openrouter.api#GuardrailNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openrouter.api#UpdateGuardrail/errors/3",
+      "value": {
+        "target": "com.openrouter.api#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openrouter.api#UpdateGuardrail/errors/3",
+      "value": {
+        "target": "com.openrouter.api#GuardrailNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openrouter.api#DeleteGuardrail/errors/1",
+      "value": {
+        "target": "com.openrouter.api#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openrouter.api#DeleteGuardrail/errors/1",
+      "value": {
+        "target": "com.openrouter.api#GuardrailNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openrouter.api#ListGuardrailKeyAssignments/errors/1",
+      "value": {
+        "target": "com.openrouter.api#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openrouter.api#ListGuardrailKeyAssignments/errors/1",
+      "value": {
+        "target": "com.openrouter.api#GuardrailNotFound"
+      }
+    },
+    {
+      "op": "test",
+      "path": "/shapes/com.openrouter.api#ListGuardrailMemberAssignments/errors/1",
+      "value": {
+        "target": "com.openrouter.api#NotFound"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.openrouter.api#ListGuardrailMemberAssignments/errors/1",
+      "value": {
+        "target": "com.openrouter.api#GuardrailNotFound"
+      }
+    }
+  ]
+}
