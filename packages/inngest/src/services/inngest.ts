@@ -11,6 +11,45 @@ import * as T from "../traits.ts";
 
 export type { InngestOpError, InngestOpContext };
 
+/** The SDK served at the sync URL reports a different app id than the one being synced (Inngest `app_mismatch`, HTTP 422). */
+export class AppIdMismatch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AppIdMismatch>()("AppIdMismatch", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 422, body: { "/errors/0/code": "app_mismatch" } }],
+  ) {}
+
+/** The app does not exist in the environment (Inngest `not_found`, HTTP 404). */
+export class AppNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AppNotFound>()("AppNotFound", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404, body: { "/errors/0/code": "not_found" } }],
+  ) {}
+
+/** The app at the sync URL rejected Inngest because it signs with a different signing key (Inngest `unauthorized`, HTTP 422). */
+export class AppUnauthorized
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AppUnauthorized>()("AppUnauthorized", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 422, body: { "/errors/0/code": "unauthorized" } }],
+  ) {}
+
+/** Inngest could not reach the sync URL (HTTP 422 `http_unreachable`, or "We could not reach your URL"). */
+export class AppUnreachable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AppUnreachable>()("AppUnreachable", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [
+      { status: 422, body: { "/errors/0/code": "http_unreachable" } },
+      { status: 422, message: { includes: "could not reach your URL" } },
+    ],
+  ) {}
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -29,6 +68,15 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
+/** No environment has the given id (Inngest `env_not_found`, HTTP 404). */
+export class EnvironmentNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404, body: { "/errors/0/code": "env_not_found" } }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -36,6 +84,15 @@ export class Forbidden
       message: S.String,
     }).pipe(C.withAuthError),
     [{ status: 403 }],
+  ) {}
+
+/** The function (or its app) does not exist in the environment (Inngest `not_found`, HTTP 404). */
+export class FunctionNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<FunctionNotFound>()("FunctionNotFound", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404, body: { "/errors/0/code": "not_found" } }],
   ) {}
 
 export class NotFound
@@ -395,6 +452,8 @@ export const V2EventFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "V2EventFilter" }) as any as S.Schema<V2EventFilter>;
 
 export interface CreateV2WebhookRequest {
+  /** Target environment for the webhook (e.g., 'production', 'staging', 'development') */
+  xInngestEnv?: string;
   eventFilter?: V2EventFilter;
   /** Descriptive name for the webhook */
   name?: string;
@@ -405,6 +464,7 @@ export interface CreateV2WebhookRequest {
 }
 export const CreateV2WebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
     eventFilter: S.optional(V2EventFilter),
     name: S.optional(S.String),
     response: S.optional(S.String),
@@ -540,11 +600,14 @@ export interface FetchV2AccountEnvsRequest {
   cursor?: string;
   /** Number of environments to return per page (min: 1, max: 250) */
   limit?: number;
+  /** Scope the request to an environment by name (e.g. a branch environment) */
+  xInngestEnv?: string;
 }
 export const FetchV2AccountEnvsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
   }).pipe(T.Http({ method: "GET", uri: "/envs", code: 200 })),
 ).annotate({
   identifier: "FetchV2AccountEnvsRequest",
@@ -588,11 +651,14 @@ export interface FetchV2AccountEventKeysRequest {
   cursor?: string;
   /** Number of event keys to return per page (min: 1, max: 100) */
   limit?: number;
+  /** Filter event keys by environment (e.g., 'production', 'staging', 'development') */
+  xInngestEnv?: string;
 }
 export const FetchV2AccountEventKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
   }).pipe(T.Http({ method: "GET", uri: "/keys/events", code: 200 })),
 ).annotate({
   identifier: "FetchV2AccountEventKeysRequest",
@@ -640,11 +706,14 @@ export interface FetchV2AccountSigningKeysRequest {
   cursor?: string;
   /** Number of signing keys to return per page (min: 1, max: 100) */
   limit?: number;
+  /** Filter signing keys by environment (e.g., 'production', 'staging', 'development') */
+  xInngestEnv?: string;
 }
 export const FetchV2AccountSigningKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
   }).pipe(T.Http({ method: "GET", uri: "/keys/signing", code: 200 })),
 ).annotate({
   identifier: "FetchV2AccountSigningKeysRequest",
@@ -709,10 +778,13 @@ export const V2FetchAccountsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetV2AppRequest {
   /** The user-defined app ID */
   appId: string;
+  /** Scope the request to an environment by name (e.g. a branch environment) */
+  xInngestEnv?: string;
 }
 export const GetV2AppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
   }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}", code: 200 })),
 ).annotate({ identifier: "GetV2AppRequest" }) as any as S.Schema<GetV2AppRequest>;
 
@@ -804,12 +876,15 @@ export interface GetV2AppsRequest {
   limit?: number;
   /** Whether to return archived apps instead of active apps */
   archived?: boolean;
+  /** Scope the request to an environment by name (e.g. a branch environment) */
+  xInngestEnv?: string;
 }
 export const GetV2AppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     archived: S.optional(S.Boolean.pipe(T.Query())),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
   }).pipe(T.Http({ method: "GET", uri: "/apps", code: 200 })),
 ).annotate({ identifier: "GetV2AppsRequest" }) as any as S.Schema<GetV2AppsRequest>;
 
@@ -1065,11 +1140,14 @@ export const V2GetExperimentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetV2FunctionRequest {
   appId: string;
   functionId: string;
+  /** Scope the request to an environment by name (e.g. a branch environment) */
+  xInngestEnv?: string;
 }
 export const GetV2FunctionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
     functionId: S.String.pipe(T.Label()),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
   }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}/functions/{functionId}", code: 200 })),
 ).annotate({ identifier: "GetV2FunctionRequest" }) as any as S.Schema<GetV2FunctionRequest>;
 
@@ -1342,12 +1420,15 @@ export interface GetV2FunctionsRequest {
   cursor?: string;
   /** Number of functions to return per page (min: 1, max: 100) */
   limit?: number;
+  /** Scope the request to an environment by name (e.g. a branch environment) */
+  xInngestEnv?: string;
 }
 export const GetV2FunctionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
   }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}/functions", code: 200 })),
 ).annotate({ identifier: "GetV2FunctionsRequest" }) as any as S.Schema<GetV2FunctionsRequest>;
 
@@ -2290,11 +2371,14 @@ export interface ListV2WebhooksRequest {
   cursor?: string;
   /** Number of webhooks to return per page (min: 1, max: 100) */
   limit?: number;
+  /** Target environment for the webhooks (e.g., 'production', 'staging', 'development') */
+  xInngestEnv?: string;
 }
 export const ListV2WebhooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
   }).pipe(T.Http({ method: "GET", uri: "/env/webhooks", code: 200 })),
 ).annotate({ identifier: "ListV2WebhooksRequest" }) as any as S.Schema<ListV2WebhooksRequest>;
 
@@ -2319,12 +2403,15 @@ export const V2ListWebhooksResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PatchV2EnvRequest {
   /** The ID of the environment to update */
   id: string;
+  /** Scope the request to an environment by name (e.g. a branch environment) */
+  xInngestEnv?: string;
   /** Updates the archived status of the environment. Set to true to archive the environment or false to unarchive it. */
   isArchived?: boolean;
 }
 export const PatchV2EnvRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
     isArchived: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/envs/{id}", code: 200 })),
 ).annotate({ identifier: "PatchV2EnvRequest" }) as any as S.Schema<PatchV2EnvRequest>;
@@ -2475,12 +2562,15 @@ export const V2StartSandboxProcessResponse = /*@__PURE__*/ S.suspend(() =>
 export interface SyncV2AppRequest {
   /** App ID */
   appId: string;
+  /** Scope the request to an environment by name (e.g. a branch environment) */
+  xInngestEnv?: string;
   /** URL for the Inngest endpoint in the app */
   url?: string;
 }
 export const SyncV2AppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
+    xInngestEnv: S.optional(S.String.pipe(T.Header("X-Inngest-Env"))),
     url: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps/{appId}/syncs", code: 200 })),
 ).annotate({ identifier: "SyncV2AppRequest" }) as any as S.Schema<SyncV2AppRequest>;
@@ -3186,7 +3276,7 @@ export const fetchV2PartnerAccounts: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type GetV2AppError = InngestOpError;
+export type GetV2AppError = AppNotFound | InngestOpError;
 /** Get app Fetches details for a single app, including sync metadata and function count */
 export const getV2App: API.OperationMethod<
   GetV2AppRequest,
@@ -3196,7 +3286,7 @@ export const getV2App: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetV2AppRequest,
   output: V2GetAppResponse,
-  errors: [UnknownInngestError],
+  errors: [AppNotFound, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
 }));
@@ -3268,7 +3358,7 @@ export const getV2Experiment: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetV2FunctionError = InngestOpError;
+export type GetV2FunctionError = FunctionNotFound | InngestOpError;
 /** Get function Fetches function configuration and status details for a function within an app */
 export const getV2Function: API.OperationMethod<
   GetV2FunctionRequest,
@@ -3278,7 +3368,7 @@ export const getV2Function: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetV2FunctionRequest,
   output: V2GetFunctionResponse,
-  errors: [UnknownInngestError],
+  errors: [FunctionNotFound, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
 }));
@@ -3711,6 +3801,7 @@ export type PatchV2EnvError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | EnvironmentNotFound
   | InngestOpError;
 /** Update environment Partially updates an environment. Only the provided fields will be modified. */
 export const patchV2Env: API.OperationMethod<
@@ -3721,7 +3812,14 @@ export const patchV2Env: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchV2EnvRequest,
   output: V2PatchEnvsResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInngestError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    EnvironmentNotFound,
+    UnknownInngestError,
+  ],
   protocol: InngestProtocol,
   retry: Retry.Retry,
 }));
@@ -3791,6 +3889,9 @@ export type SyncV2AppError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | AppIdMismatch
+  | AppUnreachable
+  | AppUnauthorized
   | InngestOpError;
 /** Sync app Sync an app at the provided URL. */
 export const syncV2App: API.OperationMethod<
@@ -3801,7 +3902,16 @@ export const syncV2App: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SyncV2AppRequest,
   output: V2SyncAppResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInngestError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    AppIdMismatch,
+    AppUnreachable,
+    AppUnauthorized,
+    UnknownInngestError,
+  ],
   protocol: InngestProtocol,
   retry: Retry.Retry,
 }));

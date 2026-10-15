@@ -1,0 +1,37 @@
+{
+  "description": "The spec documents no coded error bodies for PATCH /envs/{id}. Live probes against https://api.inngest.com/v2 on 2026-10-06: PATCH /envs/{id} with an unknown id answers 404 {errors:[{code:\"env_not_found\",message:\"Environment not found\"}]}.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#EnvironmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "No environment has the given id (Inngest `env_not_found`, HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/errors/0/code": "env_not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#V2PatchEnv/errors/-",
+      "value": {
+        "target": "com.inngest.api#EnvironmentNotFound"
+      }
+    }
+  ]
+}
