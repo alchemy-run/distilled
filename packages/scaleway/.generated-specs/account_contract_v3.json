@@ -1,0 +1,635 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.account_contract_v3#ListContractSignaturesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "SIGNED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "signed_at_asc"
+          }
+        },
+        "SIGNED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "signed_at_desc"
+          }
+        },
+        "EXPIRES_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expires_at_asc"
+          }
+        },
+        "EXPIRES_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expires_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#ListContractSignaturesRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number for the returned contracts."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "The maximum number of contracts per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.account_contract_v3#ListContractSignaturesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "How the contracts are ordered in the response."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter on Organization ID. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_contract_v3#ListContractSignaturesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of contract signatures."
+          }
+        },
+        "contract_signatures": {
+          "target": "com.scaleway.account_contract_v3#ListContractSignaturesResponseContractSignaturesList",
+          "traits": {
+            "smithy.api#documentation": "The paginated returned contract signatures."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#ContractSignature": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the contract signature. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Organization ID which signed the contract. (UUID format)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the contract signature. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "signed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signing date of the contract signature. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The expiration date of the contract signature. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "contract": {
+          "target": "com.scaleway.account_contract_v3#Contract",
+          "traits": {
+            "smithy.api#documentation": "The contract signed."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#Contract": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the contract. (UUID format)"
+          }
+        },
+        "type": {
+          "target": "com.scaleway.account_contract_v3#ContractType",
+          "traits": {
+            "smithy.api#documentation": "The type of the contract."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the contract."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The version of the contract."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the contract. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last modification date of the contract. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the contract."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#ContractType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "global"
+          }
+        },
+        "K8S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "k8s"
+          }
+        },
+        "INSTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "BAREMETAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baremetal"
+          }
+        },
+        "NETWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "network"
+          }
+        },
+        "CORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "core"
+          }
+        },
+        "VPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vps"
+          }
+        },
+        "STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage"
+          }
+        },
+        "TRANSACTIONAL_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transactional_email"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#ListContractSignaturesResponseContractSignaturesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_contract_v3#ContractSignature"
+      },
+      "traits": {
+        "smithy.api#documentation": "The paginated returned contract signatures."
+      }
+    },
+    "com.scaleway.account_contract_v3#ListContractSignatures": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_contract_v3#ListContractSignaturesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_contract_v3#ListContractSignaturesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/contract-signatures",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List contract signatures for an Organization",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "contract_signatures",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.account_contract_v3#CreateContractSignatureRequest": {
+      "type": "structure",
+      "members": {
+        "contract_type": {
+          "target": "com.scaleway.account_contract_v3#ContractType",
+          "traits": {
+            "smithy.api#documentation": "The type of the contract."
+          }
+        },
+        "contract_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the contract."
+          }
+        },
+        "validated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the contract is validated at creation."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_contract_v3#CreateContractSignature": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_contract_v3#CreateContractSignatureRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_contract_v3#ContractSignature"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/contract-signatures",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a signature for your Organization for the latest version of the requested contract"
+      }
+    },
+    "com.scaleway.account_contract_v3#ScalewayStdLanguageCode": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LANGUAGE_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_language_code"
+          }
+        },
+        "EN_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en_US"
+          }
+        },
+        "FR_FR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr_FR"
+          }
+        },
+        "DE_DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de_DE"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#DownloadContractSignatureRequest": {
+      "type": "structure",
+      "members": {
+        "contract_signature_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The contract signature ID. (UUID format)"
+          }
+        },
+        "locale": {
+          "target": "com.scaleway.account_contract_v3#ScalewayStdLanguageCode",
+          "traits": {
+            "smithy.api#httpQuery": "locale",
+            "smithy.api#documentation": "The locale requested for the content of the contract."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_contract_v3#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#DownloadContractSignature": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_contract_v3#DownloadContractSignatureRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_contract_v3#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/contract-signatures/{contract_signature_id}/download",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Download a contract content"
+      }
+    },
+    "com.scaleway.account_contract_v3#ValidateContractSignatureRequest": {
+      "type": "structure",
+      "members": {
+        "contract_signature_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The contract linked to your Organization you want to sign. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_contract_v3#ValidateContractSignature": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_contract_v3#ValidateContractSignatureRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_contract_v3#ContractSignature"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/contract-signatures/{contract_signature_id}/validate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Sign a contract for your Organization"
+      }
+    },
+    "com.scaleway.account_contract_v3#CheckContractSignatureRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization to check the contract signature for. (UUID format)"
+          }
+        },
+        "contract_type": {
+          "target": "com.scaleway.account_contract_v3#ContractType",
+          "traits": {
+            "smithy.api#documentation": "Filter on contract type."
+          }
+        },
+        "contract_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter on contract name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_contract_v3#CheckContractSignatureResponse": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a signature has been requested for this contract."
+          }
+        },
+        "validated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the signature for this contract has been validated."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#CheckContractSignature": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_contract_v3#CheckContractSignatureRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_contract_v3#CheckContractSignatureResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/contract-signatures/check",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Check if a contract is signed for your Organization"
+      }
+    },
+    "com.scaleway.account_contract_v3#AccountContractV3": {
+      "type": "service",
+      "version": "v3",
+      "operations": [
+        {
+          "target": "com.scaleway.account_contract_v3#ListContractSignatures"
+        },
+        {
+          "target": "com.scaleway.account_contract_v3#CreateContractSignature"
+        },
+        {
+          "target": "com.scaleway.account_contract_v3#DownloadContractSignature"
+        },
+        {
+          "target": "com.scaleway.account_contract_v3#ValidateContractSignature"
+        },
+        {
+          "target": "com.scaleway.account_contract_v3#CheckContractSignature"
+        },
+        {
+          "target": "com.scaleway.account_contract_v3#DownloadContractSignatureRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Contract API",
+        "smithy.api#documentation": "The Contract API allows you to manage contracts."
+      }
+    },
+    "com.scaleway.account_contract_v3#DownloadContractSignatureRawRequest": {
+      "type": "structure",
+      "members": {
+        "contract_signature_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The contract signature ID. (UUID format)"
+          }
+        },
+        "locale": {
+          "target": "com.scaleway.account_contract_v3#ScalewayStdLanguageCode",
+          "traits": {
+            "smithy.api#httpQuery": "locale",
+            "smithy.api#documentation": "The locale requested for the content of the contract."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_contract_v3#DownloadContractSignatureRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_contract_v3#DownloadContractSignatureRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_contract_v3#DownloadContractSignatureRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_contract_v3#DownloadContractSignatureRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/contract-signatures/{contract_signature_id}/download",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Download a contract content\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

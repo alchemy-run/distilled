@@ -1,0 +1,3480 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.redis_v1#GetAclRuleRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#GetAclRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#GetAclRuleRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "acl_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the ACL rule you want to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#ACLRule": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the rule. (UUID format)"
+          }
+        },
+        "ip_cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IPv4 network address of the rule. (IP network)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the rule.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#GetAclRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#GetAclRuleRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#ACLRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/acls/{acl_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an ACL rule\n\nRetrieve information about an ACL rule of a Redis™ Database Instance (Redis™ cluster). You must specify the `acl_id` of the rule in your request."
+      }
+    },
+    "com.scaleway.redis_v1#DeleteAclRuleRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#DeleteAclRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#DeleteAclRuleRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "acl_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the ACL rule you want to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#Cluster": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Database Instance. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Database Instance."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID the Database Instance belongs to. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.redis_v1#ClusterStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the Database Instance."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Redis™ engine version of the Database Instance."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.redis_v1#ClusterEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "List of Database Instance endpoints."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.redis_v1#ClusterTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the Database Instance."
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type of the Database Instance."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date (Format ISO 8601). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Update date (Format ISO 8601). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tls_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether or not TLS is enabled."
+          }
+        },
+        "cluster_settings": {
+          "target": "com.scaleway.redis_v1#ClusterClusterSettingsList",
+          "traits": {
+            "smithy.api#documentation": "List of Database Instance settings."
+          }
+        },
+        "acl_rules": {
+          "target": "com.scaleway.redis_v1#ClusterAclRulesList",
+          "traits": {
+            "smithy.api#documentation": "List of ACL rules."
+          }
+        },
+        "cluster_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of nodes of the Database Instance cluster."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the Database Instance."
+          }
+        },
+        "user_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user associated to the cluster."
+          }
+        },
+        "upgradable_versions": {
+          "target": "com.scaleway.redis_v1#ClusterUpgradableVersionsList",
+          "traits": {
+            "smithy.api#documentation": "List of engine versions the Database Instance can upgrade to."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Resource Name of the Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ClusterStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "AUTOHEALING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "autohealing"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "SUSPENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suspended"
+          }
+        },
+        "INITIALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "initializing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#Endpoint": {
+      "type": "structure",
+      "members": {
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "TCP port of the endpoint."
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.redis_v1#PrivateNetwork",
+          "traits": {
+            "smithy.api#documentation": "Private Network details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Public network details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ips": {
+          "target": "com.scaleway.redis_v1#EndpointIpsList",
+          "traits": {
+            "smithy.api#documentation": "List of IPv4 addresses of the endpoint. (IP address)"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the endpoint. (UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#PrivateNetwork": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network. (UUID format)"
+          }
+        },
+        "service_ips": {
+          "target": "com.scaleway.redis_v1#PrivateNetworkServiceIpsList",
+          "traits": {
+            "smithy.api#documentation": "List of IPv4 CIDR notation addresses of the endpoint. (IP network)"
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the Private Network."
+          }
+        },
+        "provisioning_mode": {
+          "target": "com.scaleway.redis_v1#PrivateNetworkProvisioningMode",
+          "traits": {
+            "smithy.api#documentation": "How your endpoint ips are provisioned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#PrivateNetworkServiceIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IPv4 CIDR notation addresses of the endpoint. (IP network)"
+      }
+    },
+    "com.scaleway.redis_v1#PrivateNetworkProvisioningMode": {
+      "type": "enum",
+      "members": {
+        "STATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "static"
+          }
+        },
+        "IPAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipam"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#EndpointIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IPv4 addresses of the endpoint. (IP address)"
+      }
+    },
+    "com.scaleway.redis_v1#ClusterEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Database Instance endpoints."
+      }
+    },
+    "com.scaleway.redis_v1#ClusterTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#ClusterSetting": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of the setting."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the setting."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ClusterClusterSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ClusterSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Database Instance settings."
+      }
+    },
+    "com.scaleway.redis_v1#ClusterAclRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ACLRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of ACL rules."
+      }
+    },
+    "com.scaleway.redis_v1#ClusterUpgradableVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of engine versions the Database Instance can upgrade to."
+      }
+    },
+    "com.scaleway.redis_v1#DeleteAclRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#DeleteAclRuleRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/redis/v1/zones/{zone}/acls/{acl_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an ACL rule for a cluster\n\nDelete an ACL rule of a Redis™ Database Instance (Redis™ cluster). You must specify the `acl_id` of the rule you want to delete in your request."
+      }
+    },
+    "com.scaleway.redis_v1#ListClusterVersionsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ListClusterVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#ListClusterVersionsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "include_disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_disabled",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Defines whether or not to include disabled Redis™ engine versions."
+          }
+        },
+        "include_beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_beta",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Defines whether or not to include beta Redis™ engine versions."
+          }
+        },
+        "include_deprecated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_deprecated",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Defines whether or not to include deprecated Redis™ engine versions."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#documentation": "List Redis™ engine versions that match a given name pattern."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#ListClusterVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.scaleway.redis_v1#ListClusterVersionsResponseVersionsList",
+          "traits": {
+            "smithy.api#documentation": "List of available Redis™ engine versions."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of available Redis™ engine versions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ClusterVersion": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Redis™ engine version."
+          }
+        },
+        "end_of_life_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of End of Life. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "available_settings": {
+          "target": "com.scaleway.redis_v1#ClusterVersionAvailableSettingsList",
+          "traits": {
+            "smithy.api#documentation": "Cluster settings available to be updated."
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Redis™ logo url."
+          }
+        },
+        "released_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of Release. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the Redis™ Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#AvailableClusterSetting": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the setting."
+          }
+        },
+        "default_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default value of the setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.scaleway.redis_v1#AvailableClusterSettingPropertyType",
+          "traits": {
+            "smithy.api#documentation": "Type of setting."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the setting."
+          }
+        },
+        "max_value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional maximum value of the setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional minimum value of the setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "regex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional validation rule of the setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deprecated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether or not the setting is deprecated."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#AvailableClusterSettingPropertyType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        },
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN"
+          }
+        },
+        "INT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ClusterVersionAvailableSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#AvailableClusterSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "Cluster settings available to be updated."
+      }
+    },
+    "com.scaleway.redis_v1#ListClusterVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ClusterVersion"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of available Redis™ engine versions."
+      }
+    },
+    "com.scaleway.redis_v1#ListClusterVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#ListClusterVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#ListClusterVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/cluster-versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available Redis™ versions\n\nList the Redis™ database engine versions available. You can define additional parameters for your query, such as `include_disabled`, `include_beta`, `include_deprecated` and `version`.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "versions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.redis_v1#ListClustersRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ListClustersRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ListClustersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ListClustersRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#ListClustersRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.redis_v1#ListClustersRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter by Database Instance tags."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by Database Instance names."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.redis_v1#ListClustersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering the list."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by Organization ID. (UUID format)"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#documentation": "Filter by Redis™ engine version."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#ListClustersResponse": {
+      "type": "structure",
+      "members": {
+        "clusters": {
+          "target": "com.scaleway.redis_v1#ListClustersResponseClustersList",
+          "traits": {
+            "smithy.api#documentation": "List all Database Instances."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of Database Instances."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ListClustersResponseClustersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#documentation": "List all Database Instances."
+      }
+    },
+    "com.scaleway.redis_v1#ListClusters": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#ListClustersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#ListClustersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/clusters",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Redis™ Database Instances\n\nList all Redis™ Database Instances (Redis™ cluster) in the specified zone. By default, the Database Instances returned in the list are ordered by creation date in ascending order, though this can be modified via the order_by field. You can define additional parameters for your query, such as `tags`, `name`, `organization_id` and `version`.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "clusters",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.redis_v1#CreateClusterRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#CreateClusterRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to apply to the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#ACLRuleSpec": {
+      "type": "structure",
+      "members": {
+        "ip_cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IPv4 network address of the rule. (IP network)"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the rule."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#CreateClusterRequestAclRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ACLRuleSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of ACLRuleSpec used to secure your publicly exposed cluster."
+      }
+    },
+    "com.scaleway.redis_v1#EndpointSpec": {
+      "type": "structure",
+      "members": {
+        "private_network": {
+          "target": "com.scaleway.redis_v1#EndpointSpecPrivateNetworkSpec",
+          "traits": {
+            "smithy.api#documentation": "Private Network specification details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Public network specification details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#EndpointSpecPrivateNetworkSpec": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network to connect to the Database Instance. (UUID format)"
+          }
+        },
+        "service_ips": {
+          "target": "com.scaleway.redis_v1#EndpointSpecPrivateNetworkSpecServiceIpsList",
+          "traits": {
+            "smithy.api#documentation": "Endpoint IPv4 address with a CIDR notation. You must provide at least one IPv4 per node. (IP network)"
+          }
+        },
+        "ipam_config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Automated configuration of your Private Network endpoint with Scaleway IPAM service."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#EndpointSpecPrivateNetworkSpecServiceIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Endpoint IPv4 address with a CIDR notation. You must provide at least one IPv4 per node. (IP network)"
+      }
+    },
+    "com.scaleway.redis_v1#CreateClusterRequestEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#EndpointSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "Zero or multiple EndpointSpec used to expose your cluster publicly and inside Private Networks.\nZero or multiple EndpointSpec used to expose your cluster publicly and inside private networks. If no EndpoindSpec is given the cluster will be publicly exposed by default."
+      }
+    },
+    "com.scaleway.redis_v1#CreateClusterRequestClusterSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ClusterSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of advanced settings to be set upon Database Instance initialization."
+      }
+    },
+    "com.scaleway.redis_v1#CreateClusterRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#CreateClusterRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID in which to create the Database Instance. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Database Instance."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Redis™ engine version of the Database Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.redis_v1#CreateClusterRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to apply to the Database Instance."
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of node to use for the Database Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user created upon Database Instance creation.",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the user.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "cluster_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of nodes in the Redis™ cluster.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "acl_rules": {
+          "target": "com.scaleway.redis_v1#CreateClusterRequestAclRulesList",
+          "traits": {
+            "smithy.api#documentation": "List of ACLRuleSpec used to secure your publicly exposed cluster."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.redis_v1#CreateClusterRequestEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Zero or multiple EndpointSpec used to expose your cluster publicly and inside Private Networks.\nZero or multiple EndpointSpec used to expose your cluster publicly and inside private networks. If no EndpoindSpec is given the cluster will be publicly exposed by default."
+          }
+        },
+        "tls_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether or not TLS is enabled."
+          }
+        },
+        "cluster_settings": {
+          "target": "com.scaleway.redis_v1#CreateClusterRequestClusterSettingsList",
+          "traits": {
+            "smithy.api#documentation": "List of advanced settings to be set upon Database Instance initialization."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#CreateCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#CreateClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/redis/v1/zones/{zone}/clusters",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a Redis™ Database Instance\n\nCreate a new Redis™ Database Instance (Redis™ cluster). You must set the `zone`, `project_id`, `version`, `node_type`, `user_name` and `password` parameters. Optionally you can define `acl_rules`, `endpoints`, `tls_enabled` and `cluster_settings`."
+      }
+    },
+    "com.scaleway.redis_v1#GetClusterRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#GetClusterRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#GetClusterRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the cluster. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#GetCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#GetClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a Redis™ Database Instance\n\nRetrieve information about a Redis™ Database Instance (Redis™ cluster). Specify the `cluster_id` and `region` in your request to get information such as `id`, `status`, `version`, `tls_enabled`, `cluster_settings`, `upgradable_versions` and `endpoints` about your cluster in the response."
+      }
+    },
+    "com.scaleway.redis_v1#UpdateClusterRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#UpdateClusterRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Database Instance tags."
+      }
+    },
+    "com.scaleway.redis_v1#UpdateClusterRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#UpdateClusterRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Database Instance.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.redis_v1#UpdateClusterRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Database Instance tags.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Database Instance user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the Database Instance user.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#UpdateCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#UpdateClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a Redis™ Database Instance\n\nUpdate the parameters of a Redis™ Database Instance (Redis™ cluster), including `name`, `tags`, `user_name` and `password`."
+      }
+    },
+    "com.scaleway.redis_v1#DeleteClusterRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#DeleteClusterRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#DeleteClusterRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#DeleteCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#DeleteClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Redis™ Database Instance\n\nDelete a Redis™ Database Instance (Redis™ cluster), specified by the `region` and `cluster_id` parameters. Deleting a Database Instance is permanent, and cannot be undone. Note that upon deletion all your data will be lost."
+      }
+    },
+    "com.scaleway.redis_v1#AddAclRulesRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#AddAclRulesRequestAclRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ACLRuleSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "ACLs rules to add to the cluster."
+      }
+    },
+    "com.scaleway.redis_v1#AddAclRulesRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#AddAclRulesRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance you want to add ACL rules to. (UUID format)"
+          }
+        },
+        "acl_rules": {
+          "target": "com.scaleway.redis_v1#AddAclRulesRequestAclRulesList",
+          "traits": {
+            "smithy.api#documentation": "ACLs rules to add to the cluster.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#AddAclRulesResponse": {
+      "type": "structure",
+      "members": {
+        "acl_rules": {
+          "target": "com.scaleway.redis_v1#AddAclRulesResponseAclRulesList",
+          "traits": {
+            "smithy.api#documentation": "ACL Rules enabled for the Database Instance."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of ACL rules of the Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#AddAclRulesResponseAclRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ACLRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "ACL Rules enabled for the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#AddAclRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#AddAclRulesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#AddAclRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/acls",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Add ACL rules for a cluster\n\nAdd an additional ACL rule to a Redis™ Database Instance (Redis™ cluster)."
+      }
+    },
+    "com.scaleway.redis_v1#SetAclRulesRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#SetAclRulesRequestAclRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ACLRuleSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "ACLs rules to define for the cluster."
+      }
+    },
+    "com.scaleway.redis_v1#SetAclRulesRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#SetAclRulesRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance where the ACL rules have to be set. (UUID format)"
+          }
+        },
+        "acl_rules": {
+          "target": "com.scaleway.redis_v1#SetAclRulesRequestAclRulesList",
+          "traits": {
+            "smithy.api#documentation": "ACLs rules to define for the cluster.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#SetAclRulesResponse": {
+      "type": "structure",
+      "members": {
+        "acl_rules": {
+          "target": "com.scaleway.redis_v1#SetAclRulesResponseAclRulesList",
+          "traits": {
+            "smithy.api#documentation": "ACL Rules enabled for the Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#SetAclRulesResponseAclRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ACLRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "ACL Rules enabled for the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#SetAclRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#SetAclRulesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#SetAclRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/acls",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set ACL rules for a cluster\n\nReplace all the ACL rules of a Redis™ Database Instance (Redis™ cluster)."
+      }
+    },
+    "com.scaleway.redis_v1#GetClusterCertificateRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#GetClusterCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#GetClusterCertificateRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the cluster. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#GetClusterCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#GetClusterCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the TLS certificate of a cluster\n\nRetrieve information about the TLS certificate of a Redis™ Database Instance (Redis™ cluster). Details like name and content are returned in the response."
+      }
+    },
+    "com.scaleway.redis_v1#AddEndpointsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#AddEndpointsRequestEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#EndpointSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "Endpoints to add to the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#AddEndpointsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#AddEndpointsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance you want to add endpoints to. (UUID format)"
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.redis_v1#AddEndpointsRequestEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Endpoints to add to the Database Instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#AddEndpointsResponse": {
+      "type": "structure",
+      "members": {
+        "endpoints": {
+          "target": "com.scaleway.redis_v1#AddEndpointsResponseEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Endpoints defined on the Database Instance."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of endpoints of the Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#AddEndpointsResponseEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "Endpoints defined on the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#AddEndpoints": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#AddEndpointsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#AddEndpointsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/endpoints",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Add endpoints for a cluster\n\nAdd a new endpoint for a Redis™ Database Instance (Redis™ cluster). You can add `private_network` or `public_network` specifications to the body of the request."
+      }
+    },
+    "com.scaleway.redis_v1#SetEndpointsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#SetEndpointsRequestEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#EndpointSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "Endpoints to define for the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#SetEndpointsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#SetEndpointsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance where the endpoints have to be set. (UUID format)"
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.redis_v1#SetEndpointsRequestEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Endpoints to define for the Database Instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#SetEndpointsResponse": {
+      "type": "structure",
+      "members": {
+        "endpoints": {
+          "target": "com.scaleway.redis_v1#SetEndpointsResponseEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Endpoints defined on the Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#SetEndpointsResponseEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "Endpoints defined on the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#SetEndpoints": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#SetEndpointsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#SetEndpointsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/endpoints",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set endpoints for a cluster\n\nUpdate an endpoint for a Redis™ Database Instance (Redis™ cluster). You must specify the `cluster_id` and the `endpoints` parameters in your request."
+      }
+    },
+    "com.scaleway.redis_v1#GetClusterMetricsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#GetClusterMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#GetClusterMetricsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the cluster. (UUID format)"
+          }
+        },
+        "start_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_at",
+            "smithy.api#documentation": "Start date. (RFC 3339 format)"
+          }
+        },
+        "end_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end_at",
+            "smithy.api#documentation": "End date. (RFC 3339 format)"
+          }
+        },
+        "metric_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "metric_name",
+            "smithy.api#documentation": "Name of the metric to gather."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#ClusterMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "timeseries": {
+          "target": "com.scaleway.redis_v1#ClusterMetricsResponseTimeseriesList",
+          "traits": {
+            "smithy.api#documentation": "Time series of metrics of a given cluster."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ScalewayStdTimeSeries": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "points": {
+          "target": "com.scaleway.redis_v1#ScalewayStdTimeSeriesPointsList"
+        },
+        "metadata": {
+          "target": "com.scaleway.redis_v1#ScalewayStdTimeSeriesMetadataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ScalewayStdTimeSeriesPoint": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ScalewayStdTimeSeriesPointItem"
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ScalewayStdTimeSeriesPointItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ScalewayStdTimeSeriesPointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ScalewayStdTimeSeriesPoint"
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ScalewayStdTimeSeriesMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ClusterMetricsResponseTimeseriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ScalewayStdTimeSeries"
+      },
+      "traits": {
+        "smithy.api#documentation": "Time series of metrics of a given cluster."
+      }
+    },
+    "com.scaleway.redis_v1#GetClusterMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#GetClusterMetricsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#ClusterMetricsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/metrics",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get metrics of a Redis™ Database Instance\n\nRetrieve the metrics of a Redis™ Database Instance (Redis™ cluster). You can define the period from which to retrieve metrics by specifying the `start_date` and `end_date`."
+      }
+    },
+    "com.scaleway.redis_v1#MigrateClusterRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#MigrateClusterRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#MigrateClusterRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance to update. (UUID format)"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Redis™ engine version of the Database Instance.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of node to use for the Database Instance.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cluster_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of nodes for the Database Instance.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#MigrateCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#MigrateClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/migrate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Scale up a Redis™ Database Instance\n\nUpgrade your Redis™ Database Instance, either by upgrading to a bigger node type (vertical scaling) or by adding more nodes to your Database Instance to increase your number of endpoints and distribute cache (horizontal scaling, available for clusters only). Note that scaling horizontally your Redis™ Database Instance will not renew its TLS certificate. In order to refresh the TLS certificate, you must use the Renew TLS certificate endpoint."
+      }
+    },
+    "com.scaleway.redis_v1#RenewClusterCertificateRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#RenewClusterCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#RenewClusterCertificateRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the cluster. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#RenewClusterCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#RenewClusterCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/renew-certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Renew the TLS certificate of a cluster\n\nRenew a TLS certificate for a Redis™ Database Instance (Redis™ cluster). Renewing a certificate means that you will not be able to connect to your Database Instance using the previous certificate. You will also need to download and update the new certificate for all database clients."
+      }
+    },
+    "com.scaleway.redis_v1#AddClusterSettingsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#AddClusterSettingsRequestSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ClusterSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "Settings to add to the cluster."
+      }
+    },
+    "com.scaleway.redis_v1#AddClusterSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#AddClusterSettingsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance you want to add settings to. (UUID format)"
+          }
+        },
+        "settings": {
+          "target": "com.scaleway.redis_v1#AddClusterSettingsRequestSettingsList",
+          "traits": {
+            "smithy.api#documentation": "Settings to add to the cluster.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#ClusterSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "settings": {
+          "target": "com.scaleway.redis_v1#ClusterSettingsResponseSettingsList",
+          "traits": {
+            "smithy.api#documentation": "Settings configured for a given Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ClusterSettingsResponseSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ClusterSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "Settings configured for a given Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#AddClusterSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#AddClusterSettingsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#ClusterSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/settings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Add advanced settings\n\nAdd an advanced setting to a Redis™ Database Instance (Redis™ cluster). You must set the `name` and the `value` of each setting."
+      }
+    },
+    "com.scaleway.redis_v1#SetClusterSettingsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#SetClusterSettingsRequestSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#ClusterSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "Settings to define for the Database Instance."
+      }
+    },
+    "com.scaleway.redis_v1#SetClusterSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#SetClusterSettingsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance where the settings must be set. (UUID format)"
+          }
+        },
+        "settings": {
+          "target": "com.scaleway.redis_v1#SetClusterSettingsRequestSettingsList",
+          "traits": {
+            "smithy.api#documentation": "Settings to define for the Database Instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#SetClusterSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#SetClusterSettingsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#ClusterSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/settings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set advanced settings\n\nUpdate an advanced setting for a Redis™ Database Instance (Redis™ cluster). Settings added upon database engine initialization can only be defined once, and cannot, therefore, be updated."
+      }
+    },
+    "com.scaleway.redis_v1#DeleteClusterSettingRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#DeleteClusterSettingRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#DeleteClusterSettingRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance where the settings must be set. (UUID format)"
+          }
+        },
+        "setting_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Setting name to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#DeleteClusterSetting": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#DeleteClusterSettingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/settings/{setting_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete advanced setting\n\nDelete an advanced setting in a Redis™ Database Instance (Redis™ cluster). You must specify the names of the settings you want to delete in the request body."
+      }
+    },
+    "com.scaleway.redis_v1#GetEndpointRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#GetEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#GetEndpointRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the endpoint you want to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#GetEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#GetEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an endpoint\n\nRetrieve information about a Redis™ Database Instance (Redis™ cluster) endpoint. Full details about the endpoint, like `ips`, `port`, `private_network` and `public_network` specifications are returned in the response."
+      }
+    },
+    "com.scaleway.redis_v1#UpdateEndpointRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#UpdateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#UpdateEndpointRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the endpoint you want to get. (UUID format)"
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.redis_v1#EndpointSpecPrivateNetworkSpec",
+          "traits": {
+            "smithy.api#documentation": "Private Network details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Public network details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#UpdateEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#UpdateEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/redis/v1/zones/{zone}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an endpoint\n\nUpdate information about a Redis™ Database Instance (Redis™ cluster) endpoint. Full details about the endpoint, like `ips`, `port`, `private_network` and `public_network` specifications are returned in the response."
+      }
+    },
+    "com.scaleway.redis_v1#DeleteEndpointRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#DeleteEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#DeleteEndpointRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the endpoint you want to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#DeleteEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#DeleteEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/redis/v1/zones/{zone}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an endpoint for a cluster\n\nDelete the endpoint of a Redis™ Database Instance (Redis™ cluster). You must specify the `region` and `endpoint_id` parameters of the endpoint you want to delete. Note that might need to update any environment configurations that point to the deleted endpoint."
+      }
+    },
+    "com.scaleway.redis_v1#ListNodeTypesRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ListNodeTypesRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#ListNodeTypesRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "include_disabled_types": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_disabled_types",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Defines whether or not to include disabled types."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#ListNodeTypesResponse": {
+      "type": "structure",
+      "members": {
+        "node_types": {
+          "target": "com.scaleway.redis_v1#ListNodeTypesResponseNodeTypesList",
+          "traits": {
+            "smithy.api#documentation": "Types of node."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of node types available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#NodeType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type name."
+          }
+        },
+        "stock_status": {
+          "target": "com.scaleway.redis_v1#NodeTypeStock",
+          "traits": {
+            "smithy.api#documentation": "Current stock status of the node type."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current specifications of the offer."
+          }
+        },
+        "vcpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of virtual CPUs."
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Quantity of RAM. (in bytes)"
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether node type is currently disabled or not."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether node type is currently in beta."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the node type."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#NodeTypeStock": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "LOW_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low_stock"
+          }
+        },
+        "OUT_OF_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_of_stock"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#ListNodeTypesResponseNodeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.redis_v1#NodeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Types of node."
+      }
+    },
+    "com.scaleway.redis_v1#ListNodeTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#ListNodeTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#ListNodeTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/node-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available node types\n\nList all available node types. By default, the node types returned in the list are ordered by creation date in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "node_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.redis_v1#RedisV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.redis_v1#GetAclRule"
+        },
+        {
+          "target": "com.scaleway.redis_v1#DeleteAclRule"
+        },
+        {
+          "target": "com.scaleway.redis_v1#ListClusterVersions"
+        },
+        {
+          "target": "com.scaleway.redis_v1#ListClusters"
+        },
+        {
+          "target": "com.scaleway.redis_v1#CreateCluster"
+        },
+        {
+          "target": "com.scaleway.redis_v1#GetCluster"
+        },
+        {
+          "target": "com.scaleway.redis_v1#UpdateCluster"
+        },
+        {
+          "target": "com.scaleway.redis_v1#DeleteCluster"
+        },
+        {
+          "target": "com.scaleway.redis_v1#AddAclRules"
+        },
+        {
+          "target": "com.scaleway.redis_v1#SetAclRules"
+        },
+        {
+          "target": "com.scaleway.redis_v1#GetClusterCertificate"
+        },
+        {
+          "target": "com.scaleway.redis_v1#AddEndpoints"
+        },
+        {
+          "target": "com.scaleway.redis_v1#SetEndpoints"
+        },
+        {
+          "target": "com.scaleway.redis_v1#GetClusterMetrics"
+        },
+        {
+          "target": "com.scaleway.redis_v1#MigrateCluster"
+        },
+        {
+          "target": "com.scaleway.redis_v1#RenewClusterCertificate"
+        },
+        {
+          "target": "com.scaleway.redis_v1#AddClusterSettings"
+        },
+        {
+          "target": "com.scaleway.redis_v1#SetClusterSettings"
+        },
+        {
+          "target": "com.scaleway.redis_v1#DeleteClusterSetting"
+        },
+        {
+          "target": "com.scaleway.redis_v1#GetEndpoint"
+        },
+        {
+          "target": "com.scaleway.redis_v1#UpdateEndpoint"
+        },
+        {
+          "target": "com.scaleway.redis_v1#DeleteEndpoint"
+        },
+        {
+          "target": "com.scaleway.redis_v1#ListNodeTypes"
+        },
+        {
+          "target": "com.scaleway.redis_v1#GetClusterCertificateRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Managed Database for Redis™ API",
+        "smithy.api#documentation": "Managed Database for Redis™ is a low-latency caching solution. It allows you to easily set up a secure cache and lighten the load on your main database. Based on the in-memory data storage, Managed Database for Redis™ improves your application response time and helps you provide a better experience to your users.\n\nUsing Managed Database for Redis™ as a cache optimizes the speed of your requests as copies of the most frequently used data are stored in memory, making them accessible in milliseconds.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-databases-for-redis/concepts/) to find definitions of the different terms referring to Managed Database for Redis™.\n\n## Quickstart\n\n1. Configure your environment variables.\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the APIs\n   </Message>\n\n    ```bash\n    export ACCESS_KEY=\"<access-key>\"\n    export SECRET_KEY=\"<secret-key>\"\n    export SCW_ZONE=\"<zone>\"\n    ```\n\n2. Edit the POST request payload you will use to create your Redis™ Database Instance cluster. Replace the parameters in the following example:\n\n    ```json\n    {\n    \"project_id\":\"50e8d5d3-c623-4df8-a5ef-1972a5432001\",\n    \"name\":\"cluster1\",\n    \"version\":\"7.0.5\",\n    \"tags\":[\n        \"tag1\"\n    ],\n    \"node_type\":\"RED1-micro\",\n    \"user_name\":\"redis-user\",\n    \"password\":\"lxbemloZiPT1l37*\",\n    \"cluster_size\": 3,\n    \"tls_enabled\": true\n    }\n    ```\n\n\n3. Create a Redis™ Database Instance by running the following command. Make sure you include the payload you edited in the previous step.\n\n    ```bash\n    curl -X POST \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" https://api.scaleway.com/redis/v1/zones/$SCW_ZONE/clusters \\\n      -d  '{\n        \"project_id\":\"50e8d5d3-c623-4df8-a5ef-1972a5432001\",\n        \"name\":\"cluster1\",\n        \"version\":\"7.0.5\",\n        \"tags\":[\n            \"tag1\"\n        ],\n        \"node_type\":\"RED1-micro\",\n        \"user_name\":\"redis-user\",\n        \"password\":\"lxbemloZiPT1l37*\",\n        \"cluster_size\": 2,\n        \"tls_enabled\": true\n      }'\n    ```\n\n4. List your Redis™ Database Instances.\n\n    ```bash\n    curl -X GET\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" https://api.scaleway.com/redis/v1/zones/$SCW_ZONE/clusters\n    ```\n\n5. Retrieve your Redis™ Database Instance IP and port from the response.\n   <Message type=\"note\">\n   In this tutorial, we will use `192.0.2.0` and `6379` as the IP and port, respectively\n   </Message>\n6. Connect to your Database Instance with the Redis™ client.\n   <Message type=\"note\">\n   You can use only one of your node IP addresses at a time to connect to your Redis™ Database Instance, as the Redis™ CLI does not support cluster mode.\n   </Message>\n\n    ```bash\n    redis-cli -h 192.0.2.0 -p 6379 --user redis-user --askpass --tls --cacert SSL_redis-cluster1.pem\n    ```\n\n   <Message type=\"note\">\n   The command above uses TLS to add an extra layer of security to your connection. The TLS certificate is generated automatically if you set tls_enabled to true. The certificates take on the following name structure: `SSL_redis-<name-of-your-redis-database-instance>.pem`. When using connectors other than redis-cli, you might need to specify the path to your certificate.\n   </Message>\n\n   <Message type=\"important\">\n   Scaleway supports TLS1.2 and TLS1.3. If you use older versions of `libssl`, you might encounter connexion issues when using `redis-cli`. If this is the case, we recommend you check the libssl versions installed on your local machine and update if necessary.\n   </Message>\n7. Enter the database password that you defined upon creation.\n\nYou are now connected to your Managed Database for Redis™.\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n  - you have an account and are logged into the [Scaleway console](https://console.scaleway.com/organization)\n  - you have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page.\n  - you have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Going Further\n\nFor more information about Managed Database for Redis™, you can check out the following pages:\n\n- [Managed Database for Redis™ Documentation](https://www.scaleway.com/en/docs/managed-databases-for-redis/quickstart/)\n- [Managed Database for Redis™ FAQ](https://www.scaleway.com/en/docs/managed-databases-for-redis/faq/)\n- [Scaleway Slack Community](https://scaleway-community.slack.com/) join the #database channel\n- [Contact our support team](https://console.scaleway.com/support/tickets/)."
+      }
+    },
+    "com.scaleway.redis_v1#GetClusterCertificateRawRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.redis_v1#GetClusterCertificateRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the cluster. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.redis_v1#GetClusterCertificateRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.redis_v1#GetClusterCertificateRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.redis_v1#GetClusterCertificateRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.redis_v1#GetClusterCertificateRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/redis/v1/zones/{zone}/clusters/{cluster_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Get the TLS certificate of a cluster\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

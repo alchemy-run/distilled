@@ -1,0 +1,2559 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.domain_v2beta1#ListDNSZonesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "DOMAIN_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_asc"
+          }
+        },
+        "DOMAIN_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_desc"
+          }
+        },
+        "SUBDOMAIN_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subdomain_asc"
+          }
+        },
+        "SUBDOMAIN_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subdomain_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZonesRequestDnsZonesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZonesRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID on which to filter the returned DNS zones."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID on which to filter the returned DNS zones."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZonesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned DNS zones."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of DNS zones to return per page."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Domain on which to filter the returned DNS zones."
+          }
+        },
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dns_zone",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone on which to filter the returned DNS zones."
+          }
+        },
+        "dns_zones": {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZonesRequestDnsZonesList",
+          "traits": {
+            "smithy.api#httpQuery": "dns_zones",
+            "smithy.api#documentation": "DNS zones on which to filter the returned DNS zones."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only list DNS zones created after this date. (RFC 3339 format)"
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Only list DNS zones created before this date. (RFC 3339 format)"
+          }
+        },
+        "updated_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updated_after",
+            "smithy.api#documentation": "Only list DNS zones updated after this date. (RFC 3339 format)"
+          }
+        },
+        "updated_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updated_before",
+            "smithy.api#documentation": "Only list DNS zones updated before this date. (RFC 3339 format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZonesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of DNS zones matching the requested criteria."
+          }
+        },
+        "dns_zones": {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZonesResponseDnsZonesList",
+          "traits": {
+            "smithy.api#documentation": "Paginated returned DNS zones."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#DNSZone": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "subdomain": {
+          "target": "smithy.api#String"
+        },
+        "ns": {
+          "target": "com.scaleway.domain_v2beta1#DNSZoneNsList"
+        },
+        "ns_default": {
+          "target": "com.scaleway.domain_v2beta1#DNSZoneNsDefaultList"
+        },
+        "ns_master": {
+          "target": "com.scaleway.domain_v2beta1#DNSZoneNsMasterList"
+        },
+        "status": {
+          "target": "com.scaleway.domain_v2beta1#DNSZoneStatus"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "linked_products": {
+          "target": "com.scaleway.domain_v2beta1#DNSZoneLinkedProductsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#DNSZoneNsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#DNSZoneNsDefaultList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#DNSZoneNsMasterList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#DNSZoneStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#LinkedProduct": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_product"
+          }
+        },
+        "VPC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#DNSZoneLinkedProductsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#LinkedProduct"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZonesResponseDnsZonesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#DNSZone"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated returned DNS zones."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZones": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZonesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZonesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List DNS zones\n\nRetrieve the list of DNS zones you can manage and filter DNS zones associated with specific domain names.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "dns_zones",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_v2beta1#CreateDNSZoneRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain in which to create the DNS zone.",
+            "smithy.api#required": {}
+          }
+        },
+        "subdomain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subdomain of the DNS zone to create.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID in which to create the DNS zone.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#CreateDNSZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#CreateDNSZoneRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#DNSZone"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/dns-zones",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a DNS zone\n\nCreate a new DNS zone specified by the domain name, the subdomain and the Project ID."
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The full name of the DNS zone to modify. For a root zone (e.g., example.com), enter `example.com`. For a specific sub-zone (e.g., prod.example.com), enter `prod.example.com`."
+          }
+        },
+        "new_dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the new DNS zone to create.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID in which to create the new DNS zone.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#DNSZone"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a DNS zone\n\nUpdate the name and/or the Organizations for a DNS zone."
+      }
+    },
+    "com.scaleway.domain_v2beta1#DeleteDNSZoneRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone to delete."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the DNS zone to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#DeleteDNSZoneResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#DeleteDNSZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#DeleteDNSZoneRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#DeleteDNSZoneResponse2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a DNS zone\n\nDelete a DNS zone and all its records."
+      }
+    },
+    "com.scaleway.domain_v2beta1#CloneDNSZoneRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone to clone."
+          }
+        },
+        "dest_dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination DNS zone in which to clone the chosen DNS zone.",
+            "smithy.api#required": {}
+          }
+        },
+        "overwrite": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether or not the destination DNS zone will be overwritten."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the destination DNS zone.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#CloneDNSZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#CloneDNSZoneRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#DNSZone"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/clone",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Clone a DNS zone\n\nClone an existing DNS zone with all its records into a new DNS zone."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ImportProviderDNSZoneRequestOnlineV1": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ImportProviderDNSZoneRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "online_v1": {
+          "target": "com.scaleway.domain_v2beta1#ImportProviderDNSZoneRequestOnlineV1",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ImportProviderDNSZoneResponse": {
+      "type": "structure",
+      "members": {
+        "records": {
+          "target": "com.scaleway.domain_v2beta1#ImportProviderDNSZoneResponseRecordsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#Record": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "priority": {
+          "target": "smithy.api#Integer"
+        },
+        "ttl": {
+          "target": "smithy.api#Integer"
+        },
+        "type": {
+          "target": "com.scaleway.domain_v2beta1#RecordType"
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "geo_ip_config": {
+          "target": "com.scaleway.domain_v2beta1#RecordGeoIPConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "http_service_config": {
+          "target": "com.scaleway.domain_v2beta1#RecordHTTPServiceConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "weighted_config": {
+          "target": "com.scaleway.domain_v2beta1#RecordWeightedConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "view_config": {
+          "target": "com.scaleway.domain_v2beta1#RecordViewConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "A"
+          }
+        },
+        "AAAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AAAA"
+          }
+        },
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "TXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TXT"
+          }
+        },
+        "SRV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SRV"
+          }
+        },
+        "TLSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TLSA"
+          }
+        },
+        "MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MX"
+          }
+        },
+        "NS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NS"
+          }
+        },
+        "PTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTR"
+          }
+        },
+        "CAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CAA"
+          }
+        },
+        "ALIAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ALIAS"
+          }
+        },
+        "LOC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOC"
+          }
+        },
+        "SSHFP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SSHFP"
+          }
+        },
+        "HINFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HINFO"
+          }
+        },
+        "RP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RP"
+          }
+        },
+        "URI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "URI"
+          }
+        },
+        "DS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DS"
+          }
+        },
+        "NAPTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NAPTR"
+          }
+        },
+        "DNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DNAME"
+          }
+        },
+        "SVCB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SVCB"
+          }
+        },
+        "HTTPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTTPS"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordGeoIPConfig": {
+      "type": "structure",
+      "members": {
+        "matches": {
+          "target": "com.scaleway.domain_v2beta1#RecordGeoIPConfigMatchesList"
+        },
+        "default": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordGeoIPConfigMatch": {
+      "type": "structure",
+      "members": {
+        "countries": {
+          "target": "com.scaleway.domain_v2beta1#RecordGeoIPConfigMatchCountriesList"
+        },
+        "continents": {
+          "target": "com.scaleway.domain_v2beta1#RecordGeoIPConfigMatchContinentsList"
+        },
+        "data": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordGeoIPConfigMatchCountriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordGeoIPConfigMatchContinentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordGeoIPConfigMatchesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#RecordGeoIPConfigMatch"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordHTTPServiceConfig": {
+      "type": "structure",
+      "members": {
+        "ips": {
+          "target": "com.scaleway.domain_v2beta1#RecordHTTPServiceConfigIpsList",
+          "traits": {
+            "smithy.api#documentation": "(IP address)"
+          }
+        },
+        "must_contain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "user_agent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strategy": {
+          "target": "com.scaleway.domain_v2beta1#RecordHTTPServiceConfigStrategy"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordHTTPServiceConfigIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "(IP address)"
+      }
+    },
+    "com.scaleway.domain_v2beta1#RecordHTTPServiceConfigStrategy": {
+      "type": "enum",
+      "members": {
+        "RANDOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "random"
+          }
+        },
+        "HASHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hashed"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordWeightedConfig": {
+      "type": "structure",
+      "members": {
+        "weighted_ips": {
+          "target": "com.scaleway.domain_v2beta1#RecordWeightedConfigWeightedIpsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordWeightedConfigWeightedIP": {
+      "type": "structure",
+      "members": {
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(IP address)"
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordWeightedConfigWeightedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#RecordWeightedConfigWeightedIP"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordViewConfig": {
+      "type": "structure",
+      "members": {
+        "views": {
+          "target": "com.scaleway.domain_v2beta1#RecordViewConfigViewsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordViewConfigView": {
+      "type": "structure",
+      "members": {
+        "subnet": {
+          "target": "smithy.api#String"
+        },
+        "data": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordViewConfigViewsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#RecordViewConfigView"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ImportProviderDNSZoneResponseRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Record"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ImportProviderDNSZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ImportProviderDNSZoneRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ImportProviderDNSZoneResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/import-provider",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Import a DNS zone from another provider\n\nImport and replace the format of records from a given provider, with default name servers."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneNameserversRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone on which to filter the returned DNS zone name servers."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID on which to filter the returned DNS zone name servers."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneNameserversResponse": {
+      "type": "structure",
+      "members": {
+        "ns": {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneNameserversResponseNsList",
+          "traits": {
+            "smithy.api#documentation": "DNS zone name servers returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#Nameserver": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "ip": {
+          "target": "com.scaleway.domain_v2beta1#NameserverIpList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#NameserverIpList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneNameserversResponseNsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Nameserver"
+      },
+      "traits": {
+        "smithy.api#documentation": "DNS zone name servers returned."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneNameservers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZoneNameserversRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZoneNameserversResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/nameservers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List name servers within a DNS zone\n\nRetrieve a list of name servers within a DNS zone and their optional glue records."
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneNameserversRequestNsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Nameserver"
+      },
+      "traits": {
+        "smithy.api#documentation": "New DNS zone name servers."
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneNameserversRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone in which to update the DNS zone name servers."
+          }
+        },
+        "ns": {
+          "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneNameserversRequestNsList",
+          "traits": {
+            "smithy.api#documentation": "New DNS zone name servers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneNameserversResponse": {
+      "type": "structure",
+      "members": {
+        "ns": {
+          "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneNameserversResponseNsList",
+          "traits": {
+            "smithy.api#documentation": "DNS zone name servers returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneNameserversResponseNsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Nameserver"
+      },
+      "traits": {
+        "smithy.api#documentation": "DNS zone name servers returned."
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneNameservers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneNameserversRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneNameserversResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/nameservers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update name servers within a DNS zone\n\nUpdate name servers within a DNS zone and set optional glue records."
+      }
+    },
+    "com.scaleway.domain_v2beta1#RawFormat": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_RAW_FORMAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_raw_format"
+          }
+        },
+        "BIND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bind"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ExportRawDNSZoneRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone to export."
+          }
+        },
+        "format": {
+          "target": "com.scaleway.domain_v2beta1#RawFormat",
+          "traits": {
+            "smithy.api#httpQuery": "format",
+            "smithy.api#documentation": "DNS zone format."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ExportRawDNSZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ExportRawDNSZoneRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/raw",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Export a raw DNS zone\n\nExport a DNS zone with default name servers, in a specific format."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ImportRawDNSZoneRequestBindSource": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ImportRawDNSZoneRequestAXFRSource": {
+      "type": "structure",
+      "members": {
+        "name_server": {
+          "target": "smithy.api#String"
+        },
+        "tsig_key": {
+          "target": "com.scaleway.domain_v2beta1#ImportRawDNSZoneRequestTsigKey"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ImportRawDNSZoneRequestTsigKey": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "algorithm": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ImportRawDNSZoneRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone to import."
+          }
+        },
+        "content": {
+          "target": "smithy.api#String"
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "format": {
+          "target": "com.scaleway.domain_v2beta1#RawFormat"
+        },
+        "bind_source": {
+          "target": "com.scaleway.domain_v2beta1#ImportRawDNSZoneRequestBindSource",
+          "traits": {
+            "smithy.api#documentation": "Import a bind file format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "axfr_source": {
+          "target": "com.scaleway.domain_v2beta1#ImportRawDNSZoneRequestAXFRSource",
+          "traits": {
+            "smithy.api#documentation": "Import from the name server given with TSIG, to use or not.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ImportRawDNSZoneResponse": {
+      "type": "structure",
+      "members": {
+        "records": {
+          "target": "com.scaleway.domain_v2beta1#ImportRawDNSZoneResponseRecordsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ImportRawDNSZoneResponseRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Record"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ImportRawDNSZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ImportRawDNSZoneRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ImportRawDNSZoneResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/raw",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Import a raw DNS zone\n\nImport and replace the format of records from a given provider, with default name servers."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneRecordsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneRecordsRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone on which to filter the returned DNS zone records."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID on which to filter the returned DNS zone records."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneRecordsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned DNS zone records."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of DNS zone records per page."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name on which to filter the returned DNS zone records."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.domain_v2beta1#RecordType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "Record type on which to filter the returned DNS zone records."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "id",
+            "smithy.api#documentation": "Record ID on which to filter the returned DNS zone records."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneRecordsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of DNS zone records."
+          }
+        },
+        "records": {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneRecordsResponseRecordsList",
+          "traits": {
+            "smithy.api#documentation": "Paginated returned DNS zone records."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneRecordsResponseRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Record"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated returned DNS zone records."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneRecords": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZoneRecordsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZoneRecordsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/records",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List records within a DNS zone\n\nRetrieve a list of DNS records within a DNS zone that has default name servers.\nYou can filter records by type and name.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "records",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_v2beta1#RecordChange": {
+      "type": "structure",
+      "members": {
+        "add": {
+          "target": "com.scaleway.domain_v2beta1#RecordChangeAdd",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "set": {
+          "target": "com.scaleway.domain_v2beta1#RecordChangeSet",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "delete": {
+          "target": "com.scaleway.domain_v2beta1#RecordChangeDelete",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "clear": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordChangeAdd": {
+      "type": "structure",
+      "members": {
+        "records": {
+          "target": "com.scaleway.domain_v2beta1#RecordChangeAddRecordsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordChangeAddRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Record"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordChangeSet": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id_fields": {
+          "target": "com.scaleway.domain_v2beta1#RecordIdentifier",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "records": {
+          "target": "com.scaleway.domain_v2beta1#RecordChangeSetRecordsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordIdentifier": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "com.scaleway.domain_v2beta1#RecordType"
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordChangeSetRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Record"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RecordChangeDelete": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id_fields": {
+          "target": "com.scaleway.domain_v2beta1#RecordIdentifier",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneRecordsRequestChangesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#RecordChange"
+      },
+      "traits": {
+        "smithy.api#documentation": "Changes made to the records."
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneRecordsRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone in which to update the DNS zone records."
+          }
+        },
+        "changes": {
+          "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneRecordsRequestChangesList",
+          "traits": {
+            "smithy.api#documentation": "Changes made to the records.",
+            "smithy.api#required": {}
+          }
+        },
+        "return_all_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether or not to return all the records.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "disallow_new_zone_creation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable the creation of the target zone if it does not exist. Target zone creation is disabled by default."
+          }
+        },
+        "serial": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Use the provided serial (0) instead of the auto-increment serial.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneRecordsResponse": {
+      "type": "structure",
+      "members": {
+        "records": {
+          "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneRecordsResponseRecordsList",
+          "traits": {
+            "smithy.api#documentation": "DNS zone records returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneRecordsResponseRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Record"
+      },
+      "traits": {
+        "smithy.api#documentation": "DNS zone records returned."
+      }
+    },
+    "com.scaleway.domain_v2beta1#UpdateDNSZoneRecords": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneRecordsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneRecordsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/records",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update records within a DNS zone\n\nUpdate records within a DNS zone that has default name servers and perform several actions on your records.\n\nActions include:\n - add: allows you to add a new record or add a new IP to an existing A record, for example\n - set: allows you to edit a record or edit an IP from an existing A record, for example\n - delete: allows you to delete a record or delete an IP from an existing A record, for example\n - clear: allows you to delete all records from a DNS zone\n\nAll edits will be versioned."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ClearDNSZoneRecordsRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone to clear."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ClearDNSZoneRecordsResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ClearDNSZoneRecords": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ClearDNSZoneRecordsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ClearDNSZoneRecordsResponse2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/records",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Clear records within a DNS zone\n\nDelete all records within a DNS zone that has default name servers.<br/>\nAll edits will be versioned."
+      }
+    },
+    "com.scaleway.domain_v2beta1#RefreshDNSZoneRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone to refresh."
+          }
+        },
+        "recreate_dns_zone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether or not to recreate the DNS zone."
+          }
+        },
+        "recreate_sub_dns_zone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether or not to recreate the sub DNS zone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#RefreshDNSZoneResponse": {
+      "type": "structure",
+      "members": {
+        "dns_zones": {
+          "target": "com.scaleway.domain_v2beta1#RefreshDNSZoneResponseDnsZonesList",
+          "traits": {
+            "smithy.api#documentation": "DNS zones returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#RefreshDNSZoneResponseDnsZonesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#DNSZone"
+      },
+      "traits": {
+        "smithy.api#documentation": "DNS zones returned."
+      }
+    },
+    "com.scaleway.domain_v2beta1#RefreshDNSZone": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#RefreshDNSZoneRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#RefreshDNSZoneResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/refresh",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Refresh a DNS zone\n\nRefresh an SOA DNS zone to reload the records in the DNS zone and update the SOA serial.\nYou can recreate the given DNS zone and its sub DNS zone if needed."
+      }
+    },
+    "com.scaleway.domain_v2beta1#GetDNSZoneTsigKeyRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#GetDNSZoneTsigKeyResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "algorithm": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#GetDNSZoneTsigKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#GetDNSZoneTsigKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#GetDNSZoneTsigKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/tsig-key",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the DNS zone's TSIG key\n\nRetrieve information about the TSIG key of a given DNS zone to allow AXFR requests."
+      }
+    },
+    "com.scaleway.domain_v2beta1#DeleteDNSZoneTsigKeyRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#DeleteDNSZoneTsigKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#DeleteDNSZoneTsigKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/tsig-key",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete the DNS zone's TSIG key\n\nDelete an existing TSIG key specified by its DNS zone. Deleting a TSIG key is permanent and cannot be undone."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of DNS zones versions per page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of DNS zones versions."
+          }
+        },
+        "versions": {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneVersionsResponseVersionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#DNSZoneVersion": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#DNSZoneVersion"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZoneVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZoneVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List versions of a DNS zone\n\nRetrieve a list of a DNS zone's versions.<br/>\nThe maximum version count is 100. If the count reaches this limit, the oldest version will be deleted after each new modification.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "versions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneVersionRecordsRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of DNS zones versions records per page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneVersionRecordsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of DNS zones versions records."
+          }
+        },
+        "records": {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneVersionRecordsResponseRecordsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneVersionRecordsResponseRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#Record"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListDNSZoneVersionRecords": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZoneVersionRecordsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ListDNSZoneVersionRecordsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones/version/{dns_zone_version_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List records from a given version of a specific DNS zone\n\nRetrieve a list of records from a specific DNS zone version.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "records",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_v2beta1#GetDNSZoneVersionDiffRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#GetDNSZoneVersionDiffResponse": {
+      "type": "structure",
+      "members": {
+        "changes": {
+          "target": "com.scaleway.domain_v2beta1#GetDNSZoneVersionDiffResponseChangesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#GetDNSZoneVersionDiffResponseChangesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#RecordChange"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#GetDNSZoneVersionDiff": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#GetDNSZoneVersionDiffRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#GetDNSZoneVersionDiffResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones/version/{dns_zone_version_id}/diff",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Access differences from a specific DNS zone version\n\nAccess a previous DNS zone version to see the differences from another specific version."
+      }
+    },
+    "com.scaleway.domain_v2beta1#RestoreDNSZoneVersionRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#RestoreDNSZoneVersionResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#RestoreDNSZoneVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#RestoreDNSZoneVersionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#RestoreDNSZoneVersionResponse2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/dns-zones/version/{dns_zone_version_id}/restore",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Restore a DNS zone version\n\nRestore and activate a version of a specific DNS zone."
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListSSLCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dns_zone",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ListSSLCertificatesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "certificates": {
+          "target": "com.scaleway.domain_v2beta1#ListSSLCertificatesResponseCertificatesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#SSLCertificate": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String"
+        },
+        "alternative_dns_zones": {
+          "target": "com.scaleway.domain_v2beta1#SSLCertificateAlternativeDnsZonesList"
+        },
+        "status": {
+          "target": "com.scaleway.domain_v2beta1#SSLCertificateStatus"
+        },
+        "private_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "certificate_chain": {
+          "target": "smithy.api#String"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expired_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#SSLCertificateAlternativeDnsZonesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#SSLCertificateStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "NEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "success"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListSSLCertificatesResponseCertificatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_v2beta1#SSLCertificate"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ListSSLCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ListSSLCertificatesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ListSSLCertificatesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/ssl-certificates",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List a user's TLS certificates\n\nList all the TLS certificates a user has created, specified by the user's Project ID and the DNS zone.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "certificates",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_v2beta1#CreateSSLCertificateRequestAlternativeDnsZonesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#CreateSSLCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String"
+        },
+        "alternative_dns_zones": {
+          "target": "com.scaleway.domain_v2beta1#CreateSSLCertificateRequestAlternativeDnsZonesList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#CreateSSLCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#CreateSSLCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#SSLCertificate"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/ssl-certificates",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create or get the DNS zone's TLS certificate\n\nCreate a new TLS certificate or retrieve information about an existing TLS certificate."
+      }
+    },
+    "com.scaleway.domain_v2beta1#GetSSLCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#GetSSLCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#GetSSLCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#SSLCertificate"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/ssl-certificates/{dns_zone}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a DNS zone's TLS certificate\n\nGet the DNS zone's TLS certificate. If you do not have a certificate, the output returns `no certificate found`."
+      }
+    },
+    "com.scaleway.domain_v2beta1#DeleteSSLCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#DeleteSSLCertificateResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#DeleteSSLCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#DeleteSSLCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#DeleteSSLCertificateResponse2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/domain/v2beta1/ssl-certificates/{dns_zone}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a TLS certificate\n\nDelete an existing TLS certificate specified by its DNS zone. Deleting a TLS certificate is permanent and cannot be undone."
+      }
+    },
+    "com.scaleway.domain_v2beta1#DomainV2beta1": {
+      "type": "service",
+      "version": "v2beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZones"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#CreateDNSZone"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#UpdateDNSZone"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#DeleteDNSZone"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#CloneDNSZone"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ImportProviderDNSZone"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneNameservers"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneNameservers"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ExportRawDNSZone"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ImportRawDNSZone"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneRecords"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#UpdateDNSZoneRecords"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ClearDNSZoneRecords"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#RefreshDNSZone"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#GetDNSZoneTsigKey"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#DeleteDNSZoneTsigKey"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneVersions"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ListDNSZoneVersionRecords"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#GetDNSZoneVersionDiff"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#RestoreDNSZoneVersion"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ListSSLCertificates"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#CreateSSLCertificate"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#GetSSLCertificate"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#DeleteSSLCertificate"
+        },
+        {
+          "target": "com.scaleway.domain_v2beta1#ExportRawDNSZoneRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "DNS zones and records API",
+        "smithy.api#documentation": "The DNS zones and records API documentation allows you to configure and manage your domains DNS zones and records. You can also use dynamic records to optimize and easily use your infrastructure as code.\nRead our [reference content documentation](https://www.scaleway.com/en/docs/network/domains-and-dns/reference-content/) for more information about domains.\n\nRefer to the [Domain names - Registrar API documentation](https://www.scaleway.com/en/developers/api/domains-and-dns/registrar-api/) to find out how to buy, transfer and manage your domains and contacts (DNSSEC included).\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/network/domains-and-dns/concepts/) to find definitions of the different terms referring to Scaleway Domains and DNS.\n\n## Quickstart\n\n1. **Configure your environment variables.**\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Register an external domain.**\n\n   Run the following command to register your domain:\n\n    ```bash\n    curl https://api.scaleway.com/domain/v2beta1/external-domains \\\n      -X POST \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{\n        \"domain\": \"my-external-domain.test\",\n        \"project_id\": \"<Scaleway Project ID>\"\n    }'\n    ```\n\n3. **Set up a TXT record.**\n\n   <Message type=\"important\">\n   After you register your external domain, you must set up a TXT record **within 48 hours**. This step is optional if you have an internal domain.\n   </Message>\n\n   Set up your TXT record as explained in **step 4** of our [documentation on how to add an external domain](https://www.scaleway.com/en/docs/network/domains-and-dns/how-to/add-external-domain/) to confirm you are the owner of the domain registered.\n\n   <Message type=\"note\">\n   You will receive a confirmation email once your domain is validated. Your domain will then be available on the API.\n   </Message>\n4. **Update your DNS name servers.**\n\n   [Update your DNS name servers](https://www.scaleway.com/en/docs/network/domains-and-dns/how-to/manage-nameservers-internal-domain) to Scaleway's DNS name servers: `ns0.dom.scw.cloud` and `ns1.dom.scw.cloud`.\n\n    - For your domain: update the name servers at your registrar to point your domain to Scaleway's DNS servers\n    - For your subdomain: update the name servers at your parent DNS server to point your subdomain to Scaleway's DNS servers\n5. **Set up your domain's DNSSEC.**\n\n   You need to set up your domain's DNSSEC on the registry by your registrar and on the DNS server with the same information.\n\n   To set up the DNSSEC:\n    - use the [Domain names - Registrar API](https://www.scaleway.com/en/developers/api/domains-and-dns/registrar-api/#path-domains-update-domain-dnssec) `EnableDomainDNSSEC` to generate the setup on the DNS servers\n    - if your domain is not registered on Scaleway but on another registrar, use the DS or public key information to configure the DNSSEC on your registrar\n\n   <Message type=\"tip\">\n   You can remove your DNSSEC settings on your registrar before you migrate to our service. You will be able to set it up again afterwards.\n   </Message>\n\n6. **List your domains.**\n\n   Run the following command to retrieve the list of your domains:\n\n    ```bash\n    curl https://api.scaleway.com/domain/v2beta1/domains \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\"\n    ```\n\n   The following output displays:\n\n    ```bash\n    {\n      \"total_count\": 1,\n      \"domains\": [\n        {\n          \"domain\": \"domain-external.test\",\n          \"organization_id\": \"<Scaleway Organization ID>\",\n          \"project_id\": \"<Scaleway Project ID>\",\n          \"auto_renew_status\": \"disabled\",\n          \"dnssec_status\": \"disabled\",\n          \"epp_code\": [],\n          \"expired_at\": null,\n          \"updated_at\": \"1970-01-01T00:00:00Z\",\n          \"registrar\": \"EXTERNAL\",\n          \"is_external\": true,\n          \"status\": \"active\"\n        }\n      ]\n    }\n    ```\n\n7. **List the zones you can manage.**\n\n   Run the following command to list the DNS zones you can manage:\n\n    ```bash\n    curl https://api.scaleway.com/domain/v2beta1/dns-zones/ \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\"\n    ```\n\n   An output similar to the following displays:\n\n    ```bash\n    {\n      \"total_count\": 3,\n      \"dns_zones\": [\n        {\n          \"domain\": \"domain-external.test\",\n          \"subdomain\": \"\",\n          \"ns\": [\n            \"ns0.dom.scw.cloud\",\n            \"ns1.dom.scw.cloud\"\n          ],\n          \"ns_default\": [\n            \"ns0.dom.scw.cloud\",\n            \"ns1.dom.scw.cloud\"\n          ],\n          \"ns_master\": [],\n          \"status\": \"active\",\n          \"message\": null,\n          \"updated_at\": \"2022-06-21T01:34:55Z\",\n          \"project_id\": \"<Scaleway Project ID>\"\n        },\n        {\n          \"domain\": \"domain-external.test\",\n          \"subdomain\": \"test-zone\",\n          \"ns\": [\n            \"ns0.dom.scw.cloud\",\n            \"ns1.dom.scw.cloud\"\n          ],\n          \"ns_default\": [\n            \"ns0.dom.scw.cloud\",\n            \"ns1.dom.scw.cloud\"\n          ],\n          \"ns_master\": [],\n          \"status\": \"active\",\n          \"message\": null,\n          \"updated_at\": \"2022-06-21T01:34:55Z\",\n          \"project_id\": \"<Scaleway Project ID>\"\n        },\n        {\n          \"domain\": \"other-domain-external.test\",\n          \"subdomain\": \"\",\n          \"ns\": [\n            \"ns0.dom.scw.cloud\",\n            \"ns1.dom.scw.cloud\"\n          ],\n          \"ns_default\": [\n            \"ns0.dom.scw.cloud\",\n            \"ns1.dom.scw.cloud\"\n          ],\n          \"ns_master\": [],\n          \"status\": \"active\",\n          \"message\": null,\n          \"updated_at\": \"2022-06-21T01:34:55Z\",\n          \"project_id\": \"<Scaleway Project ID>\"\n        }\n      ]\n    }\n\n    ```\n\n8. **Update a zone's record(s).**\n\n   <Message type=\"important\">\n      - The `clear` command clears all your records. You will have to setup your records again\n      - If the zone you want to update does not exist but is included in a managed zone, the API will create the new (sub) zone\n   </Message>\n\n   Run the following command to update a zone's record:\n\n    ```bash\n    curl https://api.scaleway.com/domain/v2beta1/dns-zones/subdomain.domain-external.test/records \\\n      -X PATCH \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{\n        \"changes\": [\n          {\n            \"clear\": {}\n          },\n          {\n            \"add\": {\n              \"records\": [\n                {\n                  \"name\": \"test1\",\n                  \"data\": \"127.0.0.1\",\n                  \"type\": \"A\",\n                  \"ttl\": 3600\n                },\n                {\n                  \"name\": \"test2\",\n                  \"data\": \"127.0.0.1\",\n                  \"type\": \"A\",\n                  \"ttl\": 3600\n                }\n              ]\n            }\n          },\n          {\n            \"set\": {\n              \"id_fields\": {\n                \"type\": \"A\",\n                \"name\": \"test2\"\n              },\n              \"records\": [\n                {\n                  \"name\": \"test2\",\n                  \"data\": \"127.0.0.2\",\n                  \"type\": \"A\",\n                  \"ttl\": 3600\n                }\n              ]\n            }\n          },\n          {\n            \"add\": {\n              \"records\": [\n                {\n                  \"name\": \"test3\",\n                  \"data\": \"127.0.0.3\",\n                  \"type\": \"A\",\n                  \"ttl\": 3600\n                },\n                {\n                  \"name\": \"test3\",\n                  \"data\": \"127.0.0.4\",\n                  \"type\": \"A\",\n                  \"ttl\": 3600\n                }\n              ]\n            }\n          },\n          {\n            \"delete\": {\n              \"id_fields\": {\n                \"name\": \"test3\",\n                \"data\": \"127.0.0.4\",\n                \"type\": \"A\",\n                \"ttl\": 3600\n              }\n            }\n          }\n        ]\n      }'\n    ```\n\n   An output similar to the following displays:\n\n    ```bash\n    {\n      \"records\": [\n        {\n          \"id\": \"<UUID>\",\n          \"data\": \"127.0.0.1\",\n          \"name\": \"test1\",\n          \"priority\": 0,\n          \"ttl\": 3600,\n          \"type\": \"A\"\n        },\n        {\n          \"id\": \"<UUID>\",\n          \"data\": \"127.0.0.1\",\n          \"name\": \"test2\",\n          \"priority\": 0,\n          \"ttl\": 3600,\n          \"type\": \"A\"\n        },\n        {\n          \"id\": \"<UUID>\",\n          \"data\": \"127.0.0.2\",\n          \"name\": \"test2\",\n          \"priority\": 0,\n          \"ttl\": 3600,\n          \"type\": \"A\"\n        },\n        {\n          \"id\": \"<UUID>\",\n          \"data\": \"127.0.0.3\",\n          \"name\": \"test3\",\n          \"priority\": 0,\n          \"ttl\": 3600,\n          \"type\": \"A\"\n        }\n      ]\n    }\n    ```\n\n9. **Enable DNSSEC for external domains.**\n\n    - Run the following command if you have not set up DNSSEC at your registrar:\n\n    ```bash\n    curl https://api.scaleway.com/domain/v2beta1/domains/example.com/enable-dnssec \\\n      -X POST \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{}'\n    ```\n\n   An output similar to the following displays:\n\n    ```json\n    {\n      \"domain\":{\n          \"domain\":\"example.fr\",\n          \"auto_renew_status\":\"enabled\",\n          \"dnssec_status\":\"disabled\",\n          \"ds_records\":[\n            {\n                \"key_id\":49071,\n                \"algorithm\":\"ecdsap256sha256\",\n                \"digest\":{\n                  \"type\":\"sha_384\",\n                  \"digest\":\"c14421f739e35b62e3383d5972263f93610dea31da48a1990453752cf1b4f4f0314f75ecd0bc9061c51ee41ec7692204\"\n                }\n            }\n          ],\n          \"epp\":[\n            \"clientTransferProhibited\"\n          ],\n          \"expired_at\":\"2021-04-04T12:46:29Z\",\n          \"updated_at\":\"2020-07-07T13:24:27Z\",\n          \"registrar\":\"EXTERNAL\",\n          \"is_external\":true,\n          \"status\":\"active\",\n          \"......\"\n      }\n    ```\n\n   <Message type=\"important\">\n   Set up the information returned under `ds_records` in the output, in your registrar to configure DNSSEC for your external domain.\n   </Message>\n\n    - Run the following command if you have already set up DNSSEC at your registrar:\n\n    ```bash\n    curl https://api.scaleway.com/domain/v2beta1/domains/example.com/enable-dnssec \\\n      -X POST \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{\n        \"ds_record\": {\n          \"algorithm\": \"rsamd5\",\n          \"digest\":\n          {\n            \"type\": \"sha_1\",\n            \"digest\": \"ABCD\"\n          }\n        }\n      }'\n    ```\n\n10. **Enable DNSSEC for internal domains.**\n\n    Find out how to enable DNSSEC for your internal domains in our [dedicated documentation](https://www.scaleway.com/en/docs/network/domains-and-dns/how-to/configure-dnssec-internal-domain/).\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have [created an API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have your [Organization ID](https://console.scaleway.com/organization/settings)\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical information\n\n### Regional availability\n\nScaleway Domains and DNS is currently available globally. Find out about [product availability in our dedicated documentation](https://www.scaleway.com/en/docs/account/reference-content/products-availability).\n\n### Format\n\n- The format of record names is always in \"short\" format (i.e.\"test\" instead of the FQDN \"test.mydomain.com\")\n- If a data value is not in RFC format, quotes will be added for `TXT`records. If `CNAME`records are not in FQDDN, the zone will be added\n\n## Technical limitations\n\n- Only the owner of a domain can use and configure it with Domains and DNS\n- Each zone supports the creation of sub-zones, which inherit the parent's Project ID\n- We provide the following record types: `A`, `AAAA`, `CNAME`, `CAA`, `DNAME`, `HTTPS`, `MX`, `NAPTR`, `NS`, `SRV`, `SVCB`, `TLSA` and `TXT`\n- We support the following dynamic records: `http(s)` `health check` and `views`\n\n## Going further\n\nFor more information about Domains and DNS, you can check out the following pages:\n\n- [Domains and DNS Documentation](https://www.scaleway.com/en/docs/network/domains-and-dns/)\n- [Scaleway Slack Community](http://slack.scaleway.com) join the #domains channel\n- [Contact our support team](https://console.scaleway.com/support/tickets)\n\n### Test if the service is up\n\nRun the following command to test if an `http` or `https` service is up on a provided list of IPs:\n\n```bash\ncurl https://api.scaleway.com/domain/v2beta1/dns-zones/dom.example.com/records \\\n  -X PATCH \\\n  -H \"Content-Type: application/json\" \\\n  -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n  -d '{\n    \"return_all_records\": false,\n    \"changes\": [\n      {\n        \"add\": {\n          \"records\": [\n            {\n              \"name\": \"service-www\",\n              \"data\": \"10.51.2.8\",\n              \"type\": \"A\",\n              \"ttl\": 600,\n              \"http_service_config\": {\n                \"ips\": [\n                  \"10.51.2.8\",\n                  \"10.51.3.7\",\n                  \"10.51.2.9\"\n                ],\n                \"must_contain\": \"I am fine\",\n                \"url\": \"https://www.domain-test.test\"\n              }\n            }\n          ]\n        }\n      }\n    ]\n  }'\n```\n\n<Message type=\"note\">\n  An IP is considered healthy if the query response contains the text specified in `must_contain`. The record type can be one of `A` and `AAAA`.\n</Message>\n\n### View\n\nRun the following command to view responses depending on the requester's or resolver's IP:\n\n```bash\ncurl https://api.scaleway.com/domain/v2beta1/dns-zones/dom.example.com/records \\\n  -X PATCH \\\n  -H \"Content-Type: application/json\" \\\n  -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n  -d '{\n    \"return_all_records\": false,\n    \"changes\": [\n      {\n        \"set\": {\n          \"id_fields\": {\n            \"name\": \"test\",\n            \"type\": \"CNAME\"\n          },\n          \"records\": [\n            {\n              \"name\": \"test\",\n              \"data\": \"default-domain.com.\",\n              \"type\": \"CNAME\",\n              \"ttl\": 600,\n              \"view_config\": {\n                \"views\": [\n                  {\n                    \"subnet\": \"10.51.0.0/16\",\n                    \"data\": \"filtered-domain.com.\"\n                  }\n                ]\n              }\n            }\n          ]\n        }\n      }\n    ]\n  }'\n```\n\n<Message type=\"note\">\n  Record types include `A`, `AAAA`, `CNAME` and `TXT`.\n</Message>"
+      }
+    },
+    "com.scaleway.domain_v2beta1#ExportRawDNSZoneRawRequest": {
+      "type": "structure",
+      "members": {
+        "dns_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS zone to export."
+          }
+        },
+        "format": {
+          "target": "com.scaleway.domain_v2beta1#RawFormat",
+          "traits": {
+            "smithy.api#httpQuery": "format",
+            "smithy.api#documentation": "DNS zone format."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_v2beta1#ExportRawDNSZoneRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_v2beta1#ExportRawDNSZoneRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_v2beta1#ExportRawDNSZoneRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_v2beta1#ExportRawDNSZoneRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/dns-zones/{dns_zone}/raw",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Export a raw DNS zone\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

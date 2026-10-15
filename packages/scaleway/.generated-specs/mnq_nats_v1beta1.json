@@ -1,0 +1,930 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Include only NATS accounts in this Project."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of NATS accounts to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of existing NATS accounts (matching any filters specified)."
+          }
+        },
+        "nats_accounts": {
+          "target": "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsResponseNatsAccountsList",
+          "traits": {
+            "smithy.api#documentation": "NATS accounts on this page."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#NatsAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS account ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS account name."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint of the NATS service for this account."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the Project containing the NATS account."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region where the NATS account is deployed."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS account creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS account last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsResponseNatsAccountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mnq_nats_v1beta1#NatsAccount"
+      },
+      "traits": {
+        "smithy.api#documentation": "NATS accounts on this page."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsAccounts": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_nats_v1beta1#ListNatsAccountsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-accounts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List NATS accounts\n\nList all NATS accounts in the specified region, for a Scaleway Organization or Project. By default, the NATS accounts returned in the list are ordered by creation date in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "nats_accounts",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#CreateNatsAccountRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#CreateNatsAccountRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#CreateNatsAccountRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS account name."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project containing the NATS account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#CreateNatsAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#CreateNatsAccountRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_nats_v1beta1#NatsAccount"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-accounts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a NATS account\n\nCreate a NATS account associated with a Project."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#GetNatsAccountRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#GetNatsAccountRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#GetNatsAccountRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "nats_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the NATS account to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#GetNatsAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#GetNatsAccountRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_nats_v1beta1#NatsAccount"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-accounts/{nats_account_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a NATS account\n\nRetrieve information about an existing NATS account identified by its NATS account ID. Its full details, including name and endpoint, are returned in the response."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#UpdateNatsAccountRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#UpdateNatsAccountRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#UpdateNatsAccountRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "nats_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the NATS account to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS account name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#UpdateNatsAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#UpdateNatsAccountRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_nats_v1beta1#NatsAccount"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-accounts/{nats_account_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update the name of a NATS account\n\nUpdate the name of a NATS account, specified by its NATS account ID."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#DeleteNatsAccountRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#DeleteNatsAccountRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#DeleteNatsAccountRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "nats_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the NATS account to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#DeleteNatsAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#DeleteNatsAccountRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-accounts/{nats_account_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a NATS account\n\nDelete a NATS account, specified by its NATS account ID. Note that deleting a NATS account is irreversible, and any credentials, streams, consumer and stored messages belonging to this NATS account will also be deleted."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Include only NATS accounts in this Project."
+          }
+        },
+        "nats_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "nats_account_id",
+            "smithy.api#documentation": "Include only credentials for this NATS account."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of credentials to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of existing credentials (matching any filters specified)."
+          }
+        },
+        "nats_credentials": {
+          "target": "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsResponseNatsCredentialsList",
+          "traits": {
+            "smithy.api#documentation": "Credentials on this page."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#NatsCredentials": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the credentials."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the credentials."
+          }
+        },
+        "nats_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS account containing the credentials."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region where the NATS account is deployed."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS credentials creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS credentials last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "credentials": {
+          "target": "com.scaleway.mnq_nats_v1beta1#File",
+          "traits": {
+            "smithy.api#documentation": "Object containing the credentials file (Only returned by **Create Nats Credentials** call)."
+          }
+        },
+        "checksum": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checksum of the credentials file."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#File": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File name."
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "File content.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsResponseNatsCredentialsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mnq_nats_v1beta1#NatsCredentials"
+      },
+      "traits": {
+        "smithy.api#documentation": "Credentials on this page."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#ListNatsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_nats_v1beta1#ListNatsCredentialsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-credentials",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List NATS credentials\n\nList existing credentials in the specified NATS account. The response contains only the metadata for the credentials, not the credentials themselves, which are only returned after a **Create Credentials** call.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "nats_credentials",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#CreateNatsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#CreateNatsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#CreateNatsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "nats_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NATS account containing the credentials.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the credentials."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#CreateNatsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#CreateNatsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_nats_v1beta1#NatsCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-credentials",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create NATS credentials\n\nCreate a set of credentials for a NATS account, specified by its NATS account ID."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#GetNatsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#GetNatsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#GetNatsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "nats_credentials_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the credentials to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#GetNatsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#GetNatsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_nats_v1beta1#NatsCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-credentials/{nats_credentials_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get NATS credentials\n\nRetrieve an existing set of credentials, identified by the `nats_credentials_id`. The credentials themselves are NOT returned, only their metadata (NATS account ID, credentials name, etc), are returned in the response."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#DeleteNatsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_nats_v1beta1#DeleteNatsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_nats_v1beta1#DeleteNatsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "nats_credentials_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the credentials to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#DeleteNatsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_nats_v1beta1#DeleteNatsCredentialsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mnq/v1beta1/regions/{region}/nats-credentials/{nats_credentials_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete NATS credentials\n\nDelete a set of credentials, specified by their credentials ID. Deleting credentials is irreversible and cannot be undone. The credentials can no longer be used to access the NATS account, and active connections using this credentials will be closed."
+      }
+    },
+    "com.scaleway.mnq_nats_v1beta1#MnqNatsV1beta1": {
+      "type": "service",
+      "version": "v1beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#ListNatsAccounts"
+        },
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#CreateNatsAccount"
+        },
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#GetNatsAccount"
+        },
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#UpdateNatsAccount"
+        },
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#DeleteNatsAccount"
+        },
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#ListNatsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#CreateNatsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#GetNatsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_nats_v1beta1#DeleteNatsCredentials"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "NATS API",
+        "smithy.api#documentation": "The Neural Autonomic Transport System, or **NATS**, is an open-source messaging system written in Go. It is part of the Cloud Native Computing Foundation (CNCF) and has more than 40 client language implementations. The application has been designed with performance, scalability, and ease of use in mind.\nIf you're new to NATS, you can learn more about it on our [NATS overview](https://www.scaleway.com/en/docs/nats/reference-content/nats-overview/) page.\n\n(switchcolumn)\n<Message type=\"tip\">\nIf NATS is not the service you're looking for, check out our [Queues](https://www.scaleway.com/en/developers/api/queues/sqs-api/) or [Topics and Events](https://www.scaleway.com/en/developers/api/topics-and-events/sns-api/) services.\n</Message>\n(switchcolumn)\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/nats/concepts/) to find definitions of all terminology related to NATS.\n\n(switchcolumn)\n(switchcolumn)\n\n## Quickstart\n\n1. Configure your environment variables\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Create a NATS account.** A NATS account provides a scope for your NATS streams, messages and credentials.\n\n    ```bash\n    curl --silent -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/nats-accounts\" \\\n        -d '{\n          \"name\": \"my-nats-account\",\n          \"project_id\": \"'$SCW_PROJECT_ID'\"\n        }' | tee my-nats-account.json | jq\n    ```\n\n   <Message type=\"tip\">\n    - `| tee my-nats-account.json` saves the JSON object returned by the API to a file (used by next steps)\n    - `| jq` displays the output nicely\n   </Message>\n\n3. **Create credentials**. Credentials are necessary to authenticate a client to the NATS service. The `nats_account_id` field is automatically set to the value of `id` returned by the previous command:\n\n    ```bash\n    curl --silent -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/nats-credentials\" \\\n        -d '{\n          \"name\": \"my-credentials\",\n          \"nats_account_id\": \"'$(jq -r .id my-nats-account.json)'\"\n        }' | tee my-nats-credentials.json | jq\n    ```\n\n4. **Extract the credentials** you created in the previous step:\n\n    ```bash\n    jq -r .credentials.content my-nats-credentials.json > nats.creds\n    ```\n\n5. **Publish your first message with the NATS CLI**. Open two terminals for this purpose.\n\n    - On terminal 1: subscribe to a subject\n\n         ```bash\n        nats sub -s $(jq -r .endpoint my-nats-account.json) --creds nats.creds my-subject\n        ```\n\n    - On terminal 2: publish a message to this subject:\n\n        ```bash\n        nats pub -s $(jq -r .endpoint my-nats-account.json) --creds nats.creds my-subject 'Hi there!'\n        ```\n\n   The \"Hi there!\" message should appear on the terminal 1.\n   You can now abort the subscription by typing \"CTRL+C\" on terminal 1.\n\n6. **Delete the NATS account**\n\n    ```bash\n    curl --silent -X DELETE \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/nats-accounts/$(jq -r .id my-nats-account.json)\" | jq\n    ```\n\n(switchcolumn)\n<Message type=\"requirement\">\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have installed [natscli](https://github.com/nats-io/natscli/#installation) (choose your installation method between `go install`, `.zip` download or `.deb` installation)\n- You have installed [jq](https://stedolan.github.io/jq/download/)\n\n</Message>\n(switchcolumn)\n\n## Technical limitations\n\nThe maximum storage capacity of a NATS account is 300 MB.\nBe aware that replicates are counted into this quota.\n\n## Technical information\n\n### Regional availability\n\nScaleway NATS is currently available in the following regions:\n\n- Paris, France (`fr-par`)\n- Amsterdam, Netherlands (`nl-ams`)\n\n### NATS credentials\n\nCredentials give full access to the NATS account.\nIsolation can be handled by using several NATS accounts.\n\n### TLS\n\nNote that the Scaleway NATS server is configured with TLS, and as such will require all clients to connect with TLS. In the case of the NATS SDK however, the SDK abstracts this and handles the TLS connection itself.\n\n## Going further\n\nFor more help using Scaleway NATS, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/nats/)\n- The `#messaging-queuing` channel on our [Slack community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)\n\nYou can also read the official NATS documentation:\n\n- [What is NATS](https://docs.nats.io/nats-concepts/what-is-nats)\n- [Installing & using the NATS CLI](https://docs.nats.io/using-nats/nats-tools/nats_cli)\n- [JetStream official documentation](https://docs.nats.io/nats-concepts/jetstream) (JetStream is enabled with [quotas](https://www.scaleway.com/en/docs/organizations-and-projects/additional-content/organization-quotas/#nats) on our servers)\n- [Official NATS GitHub](https://github.com/nats-io): official client library for many languages ([golang](https://github.com/nats-io/nats.go), [python](https://github.com/nats-io/nats.py), [rust](https://github.com/nats-io/nats.rs) etc.) and many other coding resources\n- [NATS community Slack channel](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)."
+      }
+    }
+  }
+}

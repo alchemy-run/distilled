@@ -1,0 +1,27 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, so `ListForwardings` lose filters the API takes. The official JS SDK sends them through `resolveOneOf` in `urlParams` \u2014 scaleway-sdk-js packages_generated/mailbox/src/v1alpha1/api.gen.ts \u2014 with the types in the sibling types.gen.ts. They are added as optional query members; the API enforces the one-of.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.mailbox_v1alpha1#ListForwardingsRequest/members/project_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "project_id",
+          "smithy.api#documentation": "List forwardings of this Project. One-of `scope`: at most one of `project_id`, `organization_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.mailbox_v1alpha1#ListForwardingsRequest/members/organization_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "organization_id",
+          "smithy.api#documentation": "List forwardings of this Organization. One-of `scope`: at most one of `project_id`, `organization_id`."
+        }
+      }
+    }
+  ]
+}

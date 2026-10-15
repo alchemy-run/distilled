@@ -1,0 +1,5458 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.baremetal_v1#BatchCreateServersRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestZone",
+          "traits": {
+            "smithy.api#documentation": "The zone you want to target",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer ID of the new server.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID with which the server will be created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID with which the server will be created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the server (≠hostname).",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description associated with the server, max 255 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to associate to the server."
+          }
+        },
+        "install": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestInstall",
+          "traits": {
+            "smithy.api#documentation": "Object describing the configuration details of the OS installation on the server."
+          }
+        },
+        "option_ids": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestOptionIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of options to enable on server."
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If enabled, the server can not be deleted."
+          }
+        },
+        "user_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configuration data to pass to cloud-init such as a YAML cloud config data or a user-data script.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The zone you want to target"
+      }
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to associate to the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequestInstall": {
+      "type": "structure",
+      "members": {
+        "os_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the OS to installation on the server."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname of the server."
+          }
+        },
+        "ssh_key_ids": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestInstallSshKeyIdsList",
+          "traits": {
+            "smithy.api#documentation": "SSH key IDs authorized on the server."
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User for the installation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password for the installation.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "service_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular user that runs the service to be installed on the server.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "service_password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password used for the service to install.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "partitioning_schema": {
+          "target": "com.scaleway.baremetal_v1#Schema",
+          "traits": {
+            "smithy.api#documentation": "Partitioning schema."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequestInstallSshKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "SSH key IDs authorized on the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#Schema": {
+      "type": "structure",
+      "members": {
+        "disks": {
+          "target": "com.scaleway.baremetal_v1#SchemaDisksList"
+        },
+        "raids": {
+          "target": "com.scaleway.baremetal_v1#SchemaRaidsList"
+        },
+        "filesystems": {
+          "target": "com.scaleway.baremetal_v1#SchemaFilesystemsList"
+        },
+        "zfs": {
+          "target": "com.scaleway.baremetal_v1#SchemaZFS"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaDisk": {
+      "type": "structure",
+      "members": {
+        "device": {
+          "target": "smithy.api#String"
+        },
+        "partitions": {
+          "target": "com.scaleway.baremetal_v1#SchemaDiskPartitionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaPartition": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "com.scaleway.baremetal_v1#SchemaPartitionLabel"
+        },
+        "number": {
+          "target": "smithy.api#Integer"
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(in bytes)"
+          }
+        },
+        "use_all_available_space": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaPartitionLabel": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PARTITION_LABEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_partition_label"
+          }
+        },
+        "UEFI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uefi"
+          }
+        },
+        "LEGACY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacy"
+          }
+        },
+        "ROOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "root"
+          }
+        },
+        "BOOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boot"
+          }
+        },
+        "SWAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap"
+          }
+        },
+        "DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "data"
+          }
+        },
+        "HOME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "home"
+          }
+        },
+        "RAID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raid"
+          }
+        },
+        "ZFS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zfs"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaDiskPartitionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#SchemaPartition"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaDisksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#SchemaDisk"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaRAID": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "level": {
+          "target": "com.scaleway.baremetal_v1#SchemaRAIDLevel"
+        },
+        "devices": {
+          "target": "com.scaleway.baremetal_v1#SchemaRAIDDevicesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaRAIDLevel": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_RAID_LEVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_raid_level"
+          }
+        },
+        "RAID_LEVEL_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raid_level_0"
+          }
+        },
+        "RAID_LEVEL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raid_level_1"
+          }
+        },
+        "RAID_LEVEL_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raid_level_5"
+          }
+        },
+        "RAID_LEVEL_6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raid_level_6"
+          }
+        },
+        "RAID_LEVEL_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raid_level_10"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaRAIDDevicesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaRaidsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#SchemaRAID"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaFilesystem": {
+      "type": "structure",
+      "members": {
+        "device": {
+          "target": "smithy.api#String"
+        },
+        "format": {
+          "target": "com.scaleway.baremetal_v1#SchemaFilesystemFormat"
+        },
+        "mountpoint": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaFilesystemFormat": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_FORMAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_format"
+          }
+        },
+        "FAT32": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fat32"
+          }
+        },
+        "EXT4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ext4"
+          }
+        },
+        "SWAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "swap"
+          }
+        },
+        "ZFS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zfs"
+          }
+        },
+        "XFS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xfs"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaFilesystemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#SchemaFilesystem"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaZFS": {
+      "type": "structure",
+      "members": {
+        "pools": {
+          "target": "com.scaleway.baremetal_v1#SchemaZFSPoolsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaPool": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "com.scaleway.baremetal_v1#SchemaPoolType"
+        },
+        "devices": {
+          "target": "com.scaleway.baremetal_v1#SchemaPoolDevicesList"
+        },
+        "options": {
+          "target": "com.scaleway.baremetal_v1#SchemaPoolOptionsList"
+        },
+        "filesystem_options": {
+          "target": "com.scaleway.baremetal_v1#SchemaPoolFilesystemOptionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaPoolType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "NO_RAID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_raid"
+          }
+        },
+        "MIRROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mirror"
+          }
+        },
+        "RAIDZ1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raidz1"
+          }
+        },
+        "RAIDZ2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "raidz2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaPoolDevicesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaPoolOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaPoolFilesystemOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SchemaZFSPoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#SchemaPool"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequestOptionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of options to enable on server."
+      }
+    },
+    "com.scaleway.baremetal_v1#BatchCreateServersRequestServerConfig": {
+      "type": "structure",
+      "members": {
+        "hostname": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "tags": {
+          "target": "com.scaleway.baremetal_v1#BatchCreateServersRequestServerConfigTagsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#BatchCreateServersRequestServerConfigTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#BatchCreateServersRequestServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#BatchCreateServersRequestServerConfig"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of servers to create."
+      }
+    },
+    "com.scaleway.baremetal_v1#BatchCreateServersRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#BatchCreateServersRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "common_configuration": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequest",
+          "traits": {
+            "smithy.api#documentation": "Configuration wanted for the servers to create."
+          }
+        },
+        "servers": {
+          "target": "com.scaleway.baremetal_v1#BatchCreateServersRequestServersList",
+          "traits": {
+            "smithy.api#documentation": "List of servers to create."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#BatchCreateServersResponse": {
+      "type": "structure",
+      "members": {
+        "servers": {
+          "target": "com.scaleway.baremetal_v1#BatchCreateServersResponseServersList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#Server": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the server."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID the server is attached to."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID the server is attached to."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the server."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the server."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the server. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the server. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.baremetal_v1#ServerStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the server."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer ID of the server."
+          }
+        },
+        "offer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer name of the server."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.baremetal_v1#ServerTagsList",
+          "traits": {
+            "smithy.api#documentation": "Array of custom tags attached to the server."
+          }
+        },
+        "ips": {
+          "target": "com.scaleway.baremetal_v1#ServerIpsList",
+          "traits": {
+            "smithy.api#documentation": "Array of IPs attached to the server."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain of the server."
+          }
+        },
+        "boot_type": {
+          "target": "com.scaleway.baremetal_v1#ServerBootType",
+          "traits": {
+            "smithy.api#documentation": "Boot type of the server."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone in which is the server located."
+          }
+        },
+        "install": {
+          "target": "com.scaleway.baremetal_v1#ServerInstall",
+          "traits": {
+            "smithy.api#documentation": "Configuration of the installation."
+          }
+        },
+        "ping_status": {
+          "target": "com.scaleway.baremetal_v1#ServerPingStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of server ping."
+          }
+        },
+        "options": {
+          "target": "com.scaleway.baremetal_v1#ServerOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Options enabled on the server."
+          }
+        },
+        "rescue_server": {
+          "target": "com.scaleway.baremetal_v1#ServerRescueServer",
+          "traits": {
+            "smithy.api#documentation": "Configuration of rescue boot."
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If enabled, the server can not be deleted."
+          }
+        },
+        "user_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional configuration data passed to cloud-init.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "DELIVERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delivering"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "STOPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopping"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "STARTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "OUT_OF_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_of_stock"
+          }
+        },
+        "ORDERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ordered"
+          }
+        },
+        "RESETTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resetting"
+          }
+        },
+        "MIGRATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "migrating"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of custom tags attached to the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#IP": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the IP."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address of the IP. (IP address)"
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse IP value."
+          }
+        },
+        "version": {
+          "target": "com.scaleway.baremetal_v1#IPVersion",
+          "traits": {
+            "smithy.api#documentation": "Version of IP (v4 or v6)."
+          }
+        },
+        "reverse_status": {
+          "target": "com.scaleway.baremetal_v1#IPReverseStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the reverse."
+          }
+        },
+        "reverse_status_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A message related to the reverse status, e.g. in case of an error."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#IPVersion": {
+      "type": "enum",
+      "members": {
+        "IPV4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IPv4"
+          }
+        },
+        "IPV6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IPv6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#IPReverseStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#IP"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of IPs attached to the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#ServerBootType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_BOOT_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_boot_type"
+          }
+        },
+        "NORMAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "normal"
+          }
+        },
+        "RESCUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rescue"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerInstall": {
+      "type": "structure",
+      "members": {
+        "os_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the OS."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Host defined during the server installation."
+          }
+        },
+        "ssh_key_ids": {
+          "target": "com.scaleway.baremetal_v1#ServerInstallSshKeyIdsList",
+          "traits": {
+            "smithy.api#documentation": "SSH public key IDs defined during server installation."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.baremetal_v1#ServerInstallStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the server installation."
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User defined in the server installation, or the default user if none were specified."
+          }
+        },
+        "service_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service user defined in the server installation, or the default user if none were specified."
+          }
+        },
+        "service_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address of the installed service."
+          }
+        },
+        "partitioning_schema": {
+          "target": "com.scaleway.baremetal_v1#Schema",
+          "traits": {
+            "smithy.api#documentation": "Partitioning schema."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerInstallSshKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "SSH public key IDs defined during server installation."
+      }
+    },
+    "com.scaleway.baremetal_v1#ServerInstallStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "TO_INSTALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "to_install"
+          }
+        },
+        "INSTALLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "installing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerPingStatus": {
+      "type": "enum",
+      "members": {
+        "PING_STATUS_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ping_status_unknown"
+          }
+        },
+        "PING_STATUS_UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ping_status_up"
+          }
+        },
+        "PING_STATUS_DOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ping_status_down"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerOption": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the option."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the option."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.baremetal_v1#ServerOptionOptionStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the option on this server."
+          }
+        },
+        "manageable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the option can be managed (added or removed)."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Auto expiration date for compatible options. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "license": {
+          "target": "com.scaleway.baremetal_v1#LicenseOption",
+          "traits": {
+            "smithy.api#documentation": "License option, contains the ID of the OS linked to the option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_bandwidth": {
+          "target": "com.scaleway.baremetal_v1#PublicBandwidthOption",
+          "traits": {
+            "smithy.api#documentation": "Public_bandwidth option, contains the bandwidth_in_bps.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.baremetal_v1#PrivateNetworkOption",
+          "traits": {
+            "smithy.api#documentation": "Private_network option, contains the bandwidth_in_bps.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "remote_access": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Remote_access option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "certification": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Certification option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerOptionOptionStatus": {
+      "type": "enum",
+      "members": {
+        "OPTION_STATUS_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "option_status_unknown"
+          }
+        },
+        "OPTION_STATUS_ENABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "option_status_enable"
+          }
+        },
+        "OPTION_STATUS_ENABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "option_status_enabling"
+          }
+        },
+        "OPTION_STATUS_DISABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "option_status_disabling"
+          }
+        },
+        "OPTION_STATUS_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "option_status_error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#LicenseOption": {
+      "type": "structure",
+      "members": {
+        "os_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#PublicBandwidthOption": {
+      "type": "structure",
+      "members": {
+        "bandwidth_in_bps": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#PrivateNetworkOption": {
+      "type": "structure",
+      "members": {
+        "bandwidth_in_bps": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#ServerOption"
+      },
+      "traits": {
+        "smithy.api#documentation": "Options enabled on the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#ServerRescueServer": {
+      "type": "structure",
+      "members": {
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rescue user name."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rescue password.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#BatchCreateServersResponseServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#BatchCreateServers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#BatchCreateServersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#BatchCreateServersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/batch-create-servers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create multiple Elastic Metal servers\n\nCreate multiple new Elastic Metal servers. Once the servers are created, proceed with the [installation of an OS](#post-3e949e)."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOffersRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferSubscriptionPeriod": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUBSCRIPTION_PERIOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_subscription_period"
+          }
+        },
+        "HOURLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hourly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListOffersRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#ListOffersRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of offers per page."
+          }
+        },
+        "subscription_period": {
+          "target": "com.scaleway.baremetal_v1#OfferSubscriptionPeriod",
+          "traits": {
+            "smithy.api#httpQuery": "subscription_period",
+            "smithy.api#documentation": "Subscription period type to filter offers by."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Offer name to filter offers by."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOffersResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of matching offers."
+          }
+        },
+        "offers": {
+          "target": "com.scaleway.baremetal_v1#ListOffersResponseOffersList",
+          "traits": {
+            "smithy.api#documentation": "Offers that match filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#Offer": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the offer."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the offer."
+          }
+        },
+        "stock": {
+          "target": "com.scaleway.baremetal_v1#OfferStock",
+          "traits": {
+            "smithy.api#documentation": "Stock level."
+          }
+        },
+        "bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Public bandwidth available (in bits/s) with the offer."
+          }
+        },
+        "max_bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum public bandwidth available (in bits/s) depending on available options."
+          }
+        },
+        "commercial_range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commercial range of the offer."
+          }
+        },
+        "price_per_hour": {
+          "target": "com.scaleway.baremetal_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the offer for the next 60 minutes (a server order at 11h32 will be paid until 12h32)."
+          }
+        },
+        "price_per_month": {
+          "target": "com.scaleway.baremetal_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Monthly price of the offer, if subscribing on a monthly basis."
+          }
+        },
+        "disks": {
+          "target": "com.scaleway.baremetal_v1#OfferDisksList",
+          "traits": {
+            "smithy.api#documentation": "Disks specifications of the offer."
+          }
+        },
+        "enable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the offer is currently available."
+          }
+        },
+        "cpus": {
+          "target": "com.scaleway.baremetal_v1#OfferCpusList",
+          "traits": {
+            "smithy.api#documentation": "CPU specifications of the offer."
+          }
+        },
+        "memories": {
+          "target": "com.scaleway.baremetal_v1#OfferMemoriesList",
+          "traits": {
+            "smithy.api#documentation": "Memory specifications of the offer."
+          }
+        },
+        "quota_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the quota associated to the offer."
+          }
+        },
+        "persistent_memories": {
+          "target": "com.scaleway.baremetal_v1#OfferPersistentMemoriesList",
+          "traits": {
+            "smithy.api#documentation": "Persistent memory specifications of the offer."
+          }
+        },
+        "raid_controllers": {
+          "target": "com.scaleway.baremetal_v1#OfferRaidControllersList",
+          "traits": {
+            "smithy.api#documentation": "Raid controller specifications of the offer."
+          }
+        },
+        "incompatible_os_ids": {
+          "target": "com.scaleway.baremetal_v1#OfferIncompatibleOsIdsList",
+          "traits": {
+            "smithy.api#documentation": "Array of OS images IDs incompatible with the server."
+          }
+        },
+        "subscription_period": {
+          "target": "com.scaleway.baremetal_v1#OfferSubscriptionPeriod",
+          "traits": {
+            "smithy.api#documentation": "Period of subscription for the offer."
+          }
+        },
+        "operation_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Operation path of the service."
+          }
+        },
+        "fee": {
+          "target": "com.scaleway.baremetal_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "One time fee invoiced by Scaleway for the setup and activation of the server."
+          }
+        },
+        "options": {
+          "target": "com.scaleway.baremetal_v1#OfferOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Available options for customization of the server."
+          }
+        },
+        "private_bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Private bandwidth available in bits/s with the offer."
+          }
+        },
+        "shared_bandwidth": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the offer's bandwidth is shared or not."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.baremetal_v1#OfferTagsList",
+          "traits": {
+            "smithy.api#documentation": "Array of tags attached to the offer."
+          }
+        },
+        "gpus": {
+          "target": "com.scaleway.baremetal_v1#OfferGpusList",
+          "traits": {
+            "smithy.api#documentation": "GPU specifications of the offer."
+          }
+        },
+        "monthly_offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exist only for hourly offers, to migrate to the monthly offer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone in which is the offer is available."
+          }
+        },
+        "dual_attach": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Describe the network topology of the offer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferStock": {
+      "type": "enum",
+      "members": {
+        "EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "empty"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#Disk": {
+      "type": "structure",
+      "members": {
+        "capacity": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Capacity of the disk in bytes. (in bytes)"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the disk."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferDisksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#Disk"
+      },
+      "traits": {
+        "smithy.api#documentation": "Disks specifications of the offer."
+      }
+    },
+    "com.scaleway.baremetal_v1#CPU": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the CPU."
+          }
+        },
+        "core_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of CPU cores."
+          }
+        },
+        "thread_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number CPU threads."
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Frequency of the CPU in MHz."
+          }
+        },
+        "benchmark": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Benchmark of the CPU."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferCpusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#CPU"
+      },
+      "traits": {
+        "smithy.api#documentation": "CPU specifications of the offer."
+      }
+    },
+    "com.scaleway.baremetal_v1#Memory": {
+      "type": "structure",
+      "members": {
+        "capacity": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Capacity of the memory in bytes. (in bytes)"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the memory."
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Frequency of the memory in MHz."
+          }
+        },
+        "is_ecc": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the memory is an error-correcting code memory."
+          }
+        },
+        "ecc_type": {
+          "target": "com.scaleway.baremetal_v1#MemoryEccType",
+          "traits": {
+            "smithy.api#documentation": "Type of ECC memory."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#MemoryEccType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ECC_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_ecc_type"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "ON_DIE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on_die"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferMemoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#Memory"
+      },
+      "traits": {
+        "smithy.api#documentation": "Memory specifications of the offer."
+      }
+    },
+    "com.scaleway.baremetal_v1#PersistentMemory": {
+      "type": "structure",
+      "members": {
+        "capacity": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Capacity of the memory in bytes. (in bytes)"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the memory."
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Frequency of the memory in MHz."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferPersistentMemoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#PersistentMemory"
+      },
+      "traits": {
+        "smithy.api#documentation": "Persistent memory specifications of the offer."
+      }
+    },
+    "com.scaleway.baremetal_v1#RaidController": {
+      "type": "structure",
+      "members": {
+        "model": {
+          "target": "smithy.api#String"
+        },
+        "raid_level": {
+          "target": "com.scaleway.baremetal_v1#RaidControllerRaidLevelList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#RaidControllerRaidLevelList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferRaidControllersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#RaidController"
+      },
+      "traits": {
+        "smithy.api#documentation": "Raid controller specifications of the offer."
+      }
+    },
+    "com.scaleway.baremetal_v1#OfferIncompatibleOsIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of OS images IDs incompatible with the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#OfferOptionOffer": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the option."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the option."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If true the option is enabled and included by default in the offer.\nIf true the option is enabled and included by default in the offer\nIf false the option is available for the offer but not included by default."
+          }
+        },
+        "subscription_period": {
+          "target": "com.scaleway.baremetal_v1#OfferSubscriptionPeriod",
+          "traits": {
+            "smithy.api#documentation": "Period of subscription for the offer."
+          }
+        },
+        "price": {
+          "target": "com.scaleway.baremetal_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the option."
+          }
+        },
+        "manageable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean to know if option could be managed."
+          }
+        },
+        "os_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated, use LicenseOptionVars.os_id instead.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "license": {
+          "target": "com.scaleway.baremetal_v1#LicenseOption",
+          "traits": {
+            "smithy.api#documentation": "License option, contains the ID of the OS linked to the option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_bandwidth": {
+          "target": "com.scaleway.baremetal_v1#PublicBandwidthOption",
+          "traits": {
+            "smithy.api#documentation": "Public_bandwidth option, contains the bandwidth_in_bps.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.baremetal_v1#PrivateNetworkOption",
+          "traits": {
+            "smithy.api#documentation": "Private_network option, contains the bandwidth_in_bps.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "remote_access": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Remote_access option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "certification": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Certification option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#OfferOptionOffer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available options for customization of the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#OfferTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of tags attached to the offer."
+      }
+    },
+    "com.scaleway.baremetal_v1#GPU": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the GPU."
+          }
+        },
+        "vram": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Capacity of the vram in bytes."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OfferGpusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#GPU"
+      },
+      "traits": {
+        "smithy.api#documentation": "GPU specifications of the offer."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOffersResponseOffersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#Offer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Offers that match filters."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOffers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#ListOffersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#ListOffersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/offers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List offers\n\nList all available Elastic Metal server configurations.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "offers",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.baremetal_v1#GetOfferRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetOfferRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#GetOfferRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the researched Offer."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#GetOffer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#GetOfferRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Offer"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/offers/{offer_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get offer\n\nGet details of an offer identified by its offer ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOptionsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListOptionsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#ListOptionsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of options per page."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "offer_id",
+            "smithy.api#documentation": "Offer ID to filter options for."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Name to filter options for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOptionsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of matching options."
+          }
+        },
+        "options": {
+          "target": "com.scaleway.baremetal_v1#ListOptionsResponseOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Options that match filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#Option": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the option."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the option."
+          }
+        },
+        "manageable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the option is manageable (could be added or removed)."
+          }
+        },
+        "license": {
+          "target": "com.scaleway.baremetal_v1#LicenseOption",
+          "traits": {
+            "smithy.api#documentation": "License option, contains the ID of the OS linked to the option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_bandwidth": {
+          "target": "com.scaleway.baremetal_v1#PublicBandwidthOption",
+          "traits": {
+            "smithy.api#documentation": "Public_bandwidth option, contains the bandwidth_in_bps.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.baremetal_v1#PrivateNetworkOption",
+          "traits": {
+            "smithy.api#documentation": "Private_network option, contains the bandwidth_in_bps.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "remote_access": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Remote_access option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "certification": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Certification option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListOptionsResponseOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#Option"
+      },
+      "traits": {
+        "smithy.api#documentation": "Options that match filters."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#ListOptionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#ListOptionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/options",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List options\n\nList all options matching with filters.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "options",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.baremetal_v1#GetOptionRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetOptionRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#GetOptionRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "option_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the option."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#GetOption": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#GetOptionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Option"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/options/{option_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get option\n\nReturn specific option for the ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOSRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListOSRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#ListOSRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of OS per page."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "offer_id",
+            "smithy.api#documentation": "Offer IDs to filter OSes for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOSResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of matching OS."
+          }
+        },
+        "os": {
+          "target": "com.scaleway.baremetal_v1#ListOSResponseOsList",
+          "traits": {
+            "smithy.api#documentation": "OS that match filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OS": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the OS."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the OS."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the OS."
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of this OS's logo."
+          }
+        },
+        "ssh": {
+          "target": "com.scaleway.baremetal_v1#OSOSField",
+          "traits": {
+            "smithy.api#documentation": "Object defining the SSH requirements to install the OS."
+          }
+        },
+        "user": {
+          "target": "com.scaleway.baremetal_v1#OSOSField",
+          "traits": {
+            "smithy.api#documentation": "Object defining the username requirements to install the OS."
+          }
+        },
+        "password": {
+          "target": "com.scaleway.baremetal_v1#OSOSField",
+          "traits": {
+            "smithy.api#documentation": "Object defining the password requirements to install the OS."
+          }
+        },
+        "service_user": {
+          "target": "com.scaleway.baremetal_v1#OSOSField",
+          "traits": {
+            "smithy.api#documentation": "Object defining the username requirements to install the service."
+          }
+        },
+        "service_password": {
+          "target": "com.scaleway.baremetal_v1#OSOSField",
+          "traits": {
+            "smithy.api#documentation": "Object defining the password requirements to install the service."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines if the operating system is enabled or not."
+          }
+        },
+        "license_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "License required (check server options for pricing details)."
+          }
+        },
+        "allowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines if a specific Organization is allowed to install this OS type."
+          }
+        },
+        "custom_partitioning_supported": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines if custom partitioning is supported by this OS."
+          }
+        },
+        "cloud_init_supported": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines if cloud-init is supported by this OS."
+          }
+        },
+        "cloud_init_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the cloud-init API version used by this OS.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone in which is the OS is available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#OSOSField": {
+      "type": "structure",
+      "members": {
+        "editable": {
+          "target": "smithy.api#Boolean"
+        },
+        "required": {
+          "target": "smithy.api#Boolean"
+        },
+        "default_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListOSResponseOsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#OS"
+      },
+      "traits": {
+        "smithy.api#documentation": "OS that match filters."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListOS": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#ListOSRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#ListOSResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/os",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available OSes\n\nList all OSes that are available for installation on Elastic Metal servers.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "os",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.baremetal_v1#GetOSRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetOSRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#GetOSRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "os_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the OS."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#GetOS": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#GetOSRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#OS"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/os/{os_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get OS with an ID\n\nReturn the specific OS for the ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#GetDefaultPartitioningSchemaRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetDefaultPartitioningSchemaRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#GetDefaultPartitioningSchemaRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "offer_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the offer."
+          }
+        },
+        "os_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "os_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the OS."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#GetDefaultPartitioningSchema": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#GetDefaultPartitioningSchemaRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Schema"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/partitioning-schemas/default",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get default partitioning schema\n\nGet the default partitioning schema for the given offer ID and OS ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#ValidatePartitioningSchemaRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ValidatePartitioningSchemaRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#ValidatePartitioningSchemaRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "partitioning_schema": {
+          "target": "com.scaleway.baremetal_v1#Schema",
+          "traits": {
+            "smithy.api#documentation": "Partitioning schema."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer ID of the server."
+          }
+        },
+        "os_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OS ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#ValidatePartitioningSchema": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#ValidatePartitioningSchemaRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/partitioning-schemas/validate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Validate client partitioning schema\n\nValidate the incoming partitioning schema from a user before installing the server. Return default ErrorCode if invalid."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListServersRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListServersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListServersRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListServersRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListServersRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#ListServersRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of servers per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.baremetal_v1#ListServersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order of the servers."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.baremetal_v1#ListServersRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.baremetal_v1#ListServersRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Status to filter for."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Names to filter for."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for."
+          }
+        },
+        "option_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "option_id",
+            "smithy.api#documentation": "Option ID to filter for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#ListServersResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of matching servers."
+          }
+        },
+        "servers": {
+          "target": "com.scaleway.baremetal_v1#ListServersResponseServersList",
+          "traits": {
+            "smithy.api#documentation": "Array of Elastic Metal server objects matching the filters in the request."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListServersResponseServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of Elastic Metal server objects matching the filters in the request."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListServers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#ListServersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#ListServersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/servers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Elastic Metal servers for an Organization\n\nList Elastic Metal servers for a specific Organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "servers",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequestZone2": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequestTagsList2": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to associate to the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequestOptionIdsList2": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of options to enable on server."
+      }
+    },
+    "com.scaleway.baremetal_v1#CreateServerRequest2": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestZone2",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer ID of the new server.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID with which the server will be created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID with which the server will be created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the server (≠hostname).",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description associated with the server, max 255 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestTagsList2",
+          "traits": {
+            "smithy.api#documentation": "Tags to associate to the server."
+          }
+        },
+        "install": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestInstall",
+          "traits": {
+            "smithy.api#documentation": "Object describing the configuration details of the OS installation on the server."
+          }
+        },
+        "option_ids": {
+          "target": "com.scaleway.baremetal_v1#CreateServerRequestOptionIdsList2",
+          "traits": {
+            "smithy.api#documentation": "IDs of options to enable on server."
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If enabled, the server can not be deleted."
+          }
+        },
+        "user_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configuration data to pass to cloud-init such as a YAML cloud config data or a user-data script.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#CreateServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#CreateServerRequest2"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/servers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create an Elastic Metal server\n\nCreate a new Elastic Metal server. Once the server is created, proceed with the [installation of an OS](#post-3e949e)."
+      }
+    },
+    "com.scaleway.baremetal_v1#GetServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#GetServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#GetServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#GetServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a specific Elastic Metal server\n\nGet full details of an existing Elastic Metal server associated with the ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#UpdateServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#UpdateServerRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the server, not updated if null."
+      }
+    },
+    "com.scaleway.baremetal_v1#UpdateServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#UpdateServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the server (≠hostname), not updated if null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description associated with the server, max 255 characters, not updated if null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.baremetal_v1#UpdateServerRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the server, not updated if null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If enabled, the server can not be deleted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configuration data to pass to cloud-init such as a YAML cloud config data or a user-data script.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#UpdateServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#UpdateServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an Elastic Metal server\n\nUpdate the server associated with the ID. You can update parameters such as the server's name, tags, description and protection flag. Any parameters left null in the request body are not updated."
+      }
+    },
+    "com.scaleway.baremetal_v1#DeleteServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#DeleteServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#DeleteServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#DeleteServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#DeleteServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an Elastic Metal server\n\nDelete the server associated with the ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#GetBMCAccessRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetBMCAccessRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#GetBMCAccessRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#BMCAccess": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to access to the server console."
+          }
+        },
+        "login": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The login to use for the BMC (Baseboard Management Controller) access authentication."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password to use for the BMC (Baseboard Management Controller) access authentication.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date after which the BMC (Baseboard Management Controller) access will be closed. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetBMCAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#GetBMCAccessRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#BMCAccess"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/bmc-access",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get BMC access\n\nGet the BMC (Baseboard Management Controller) access associated with the ID, including the URL and login information needed to connect."
+      }
+    },
+    "com.scaleway.baremetal_v1#StartBMCAccessRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#StartBMCAccessRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#StartBMCAccessRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server."
+          }
+        },
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP authorized to connect to the server. (IPv4 address)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#StartBMCAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#StartBMCAccessRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#BMCAccess"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/bmc-access",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Start BMC access\n\nStart BMC (Baseboard Management Controller) access associated with the ID.\nThe BMC (Baseboard Management Controller) access is available one hour after the installation of the server.\nYou need first to create an option Remote Access. You will find the ID and the price with a call to listOffers (https://developers.scaleway.com/en/products/baremetal/api/#get-78db92). Then add the option https://developers.scaleway.com/en/products/baremetal/api/#post-b14abd.\nAfter adding the BMC option, you need to Get Remote Access to get the login/password https://developers.scaleway.com/en/products/baremetal/api/#get-cefc0f. Do not forget to delete the Option after use."
+      }
+    },
+    "com.scaleway.baremetal_v1#StopBMCAccessRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#StopBMCAccessRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#StopBMCAccessRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#StopBMCAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#StopBMCAccessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/bmc-access",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Stop BMC access\n\nStop BMC (Baseboard Management Controller) access associated with the ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListServerEventsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListServerEventsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListServerEventsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#ListServerEventsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server events searched."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of server events per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.baremetal_v1#ListServerEventsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order of the server events."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#ListServerEventsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of matching events."
+          }
+        },
+        "events": {
+          "target": "com.scaleway.baremetal_v1#ListServerEventsResponseEventsList",
+          "traits": {
+            "smithy.api#documentation": "Server events that match filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ServerEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the server to which the action will be applied."
+          }
+        },
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The action that will be applied to the server."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of last modification of the action. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of creation of the action. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListServerEventsResponseEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#ServerEvent"
+      },
+      "traits": {
+        "smithy.api#documentation": "Server events that match filters."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListServerEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#ListServerEventsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#ListServerEventsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/events",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List server events\n\nList event (i.e. start/stop/reboot) associated to the server ID.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "events",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.baremetal_v1#InstallServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#InstallServerRequestSshKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "SSH key IDs authorized on the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#InstallServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#InstallServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server ID to install."
+          }
+        },
+        "os_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the OS to installation on the server.",
+            "smithy.api#required": {}
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname of the server.",
+            "smithy.api#required": {}
+          }
+        },
+        "ssh_key_ids": {
+          "target": "com.scaleway.baremetal_v1#InstallServerRequestSshKeyIdsList",
+          "traits": {
+            "smithy.api#documentation": "SSH key IDs authorized on the server.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User used for the installation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password used for the installation.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "service_user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User used for the service to install.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "service_password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password used for the service to install.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "partitioning_schema": {
+          "target": "com.scaleway.baremetal_v1#Schema",
+          "traits": {
+            "smithy.api#documentation": "Partitioning schema."
+          }
+        },
+        "user_data": {
+          "target": "com.scaleway.baremetal_v1#ScalewayStdFile",
+          "traits": {
+            "smithy.api#documentation": "Configuration data to pass to cloud-init such as a YAML cloud config data or a user-data script."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#InstallServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#InstallServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/install",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Install an Elastic Metal server\n\nInstall an Operating System (OS) on the Elastic Metal server with a specific ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#UpdateIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#UpdateIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#UpdateIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server."
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the IP to update."
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New reverse IP to update, not updated if null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#UpdateIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#UpdateIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/ips/{ip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update IP\n\nConfigure the IP address associated with the server ID and IP ID. You can use this method to set a reverse DNS for an IP address."
+      }
+    },
+    "com.scaleway.baremetal_v1#GetServerMetricsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetServerMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#GetServerMetricsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server ID to get the metrics."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#GetServerMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "pings": {
+          "target": "com.scaleway.baremetal_v1#ScalewayStdTimeSeries",
+          "traits": {
+            "smithy.api#documentation": "Timeseries object representing pings on the server."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ScalewayStdTimeSeries": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "points": {
+          "target": "com.scaleway.baremetal_v1#ScalewayStdTimeSeriesPointsList"
+        },
+        "metadata": {
+          "target": "com.scaleway.baremetal_v1#ScalewayStdTimeSeriesMetadataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ScalewayStdTimeSeriesPoint": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#ScalewayStdTimeSeriesPointItem"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ScalewayStdTimeSeriesPointItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ScalewayStdTimeSeriesPointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#ScalewayStdTimeSeriesPoint"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ScalewayStdTimeSeriesMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#GetServerMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#GetServerMetricsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#GetServerMetricsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/metrics",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Return server metrics\n\nGet the ping status of the server associated with the ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#MigrateServerToMonthlyOfferRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#MigrateServerToMonthlyOfferRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#MigrateServerToMonthlyOfferRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#MigrateServerToMonthlyOffer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#MigrateServerToMonthlyOfferRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/migrate-offer-monthly",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Migrate server offer\n\nMigrate server with hourly offer to monthly offer."
+      }
+    },
+    "com.scaleway.baremetal_v1#AddOptionServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#AddOptionServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#AddOptionServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server."
+          }
+        },
+        "option_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the option to add."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Auto expire the option after this date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#AddOptionServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#AddOptionServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/options/{option_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Add server option\n\nAdd an option, such as Private Networks, to a specific server."
+      }
+    },
+    "com.scaleway.baremetal_v1#DeleteOptionServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#DeleteOptionServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#DeleteOptionServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server."
+          }
+        },
+        "option_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the option to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#DeleteOptionServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#DeleteOptionServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/options/{option_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete server option\n\nDelete an option from a specific server."
+      }
+    },
+    "com.scaleway.baremetal_v1#RebootServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#RebootServerRequestSshKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Additional SSH public key IDs to configure on rescue image."
+      }
+    },
+    "com.scaleway.baremetal_v1#RebootServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#RebootServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server to reboot."
+          }
+        },
+        "boot_type": {
+          "target": "com.scaleway.baremetal_v1#ServerBootType",
+          "traits": {
+            "smithy.api#documentation": "The type of boot."
+          }
+        },
+        "ssh_key_ids": {
+          "target": "com.scaleway.baremetal_v1#RebootServerRequestSshKeyIdsList",
+          "traits": {
+            "smithy.api#documentation": "Additional SSH public key IDs to configure on rescue image."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#RebootServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#RebootServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/reboot",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Reboot an Elastic Metal server\n\nReboot the Elastic Metal server associated with the ID, use the `boot_type` `rescue` to reboot the server in rescue mode."
+      }
+    },
+    "com.scaleway.baremetal_v1#StartServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#StartServerRequestSshKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Additional SSH public key IDs to configure on rescue image."
+      }
+    },
+    "com.scaleway.baremetal_v1#StartServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#StartServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server to start."
+          }
+        },
+        "boot_type": {
+          "target": "com.scaleway.baremetal_v1#ServerBootType",
+          "traits": {
+            "smithy.api#documentation": "The type of boot."
+          }
+        },
+        "ssh_key_ids": {
+          "target": "com.scaleway.baremetal_v1#StartServerRequestSshKeyIdsList",
+          "traits": {
+            "smithy.api#documentation": "Additional SSH public key IDs to configure on rescue image."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#StartServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#StartServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/start",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Start an Elastic Metal server\n\nStart the server associated with the ID."
+      }
+    },
+    "com.scaleway.baremetal_v1#StopServerRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#StopServerRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#StopServerRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the server to stop."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#StopServer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#StopServerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Server"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v1/zones/{zone}/servers/{server_id}/stop",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Stop an Elastic Metal server\n\nStop the server associated with the ID. The server remains allocated to your account and all data remains on the local storage of the server."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListSettingsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListSettingsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#ListSettingsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Set the maximum list size."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.baremetal_v1#ListSettingsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order for items in the response."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "ID of the Project. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#ListSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of matching settings."
+          }
+        },
+        "settings": {
+          "target": "com.scaleway.baremetal_v1#ListSettingsResponseSettingsList",
+          "traits": {
+            "smithy.api#documentation": "Settings that match filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#Setting": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the setting."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.baremetal_v1#SettingType",
+          "traits": {
+            "smithy.api#documentation": "Type of the setting."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project ID."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the setting is enabled."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#SettingType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "SMTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "smtp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#ListSettingsResponseSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_v1#Setting"
+      },
+      "traits": {
+        "smithy.api#documentation": "Settings that match filters."
+      }
+    },
+    "com.scaleway.baremetal_v1#ListSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#ListSettingsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#ListSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v1/zones/{zone}/settings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all settings\n\nReturn all settings for a Project ID.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "settings",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.baremetal_v1#UpdateSettingRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_v1#UpdateSettingRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_v1#UpdateSettingRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "setting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the setting."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the setting is enabled.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_v1#UpdateSetting": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_v1#UpdateSettingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_v1#Setting"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/baremetal/v1/zones/{zone}/settings/{setting_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update setting\n\nUpdate a setting for a Project ID (enable or disable)."
+      }
+    },
+    "com.scaleway.baremetal_v1#BaremetalV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.baremetal_v1#BatchCreateServers"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#ListOffers"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#GetOffer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#ListOptions"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#GetOption"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#ListOS"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#GetOS"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#GetDefaultPartitioningSchema"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#ValidatePartitioningSchema"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#ListServers"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#CreateServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#GetServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#UpdateServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#DeleteServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#GetBMCAccess"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#StartBMCAccess"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#StopBMCAccess"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#ListServerEvents"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#InstallServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#UpdateIP"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#GetServerMetrics"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#MigrateServerToMonthlyOffer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#AddOptionServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#DeleteOptionServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#RebootServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#StartServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#StopServer"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#ListSettings"
+        },
+        {
+          "target": "com.scaleway.baremetal_v1#UpdateSetting"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Elastic Metal API",
+        "smithy.api#documentation": "Scaleway Elastic Metal servers are dedicated physical servers that you can order on-demand, like Instances.\nYou can install an OS or other images on your Elastic Metal server and connect to it via SSH to use it as you require.\nYou can power off the server when you are not using or delete it from your account once you have finished using it.\nElastic Metal servers are ideal for large workloads, big data, and applications that require increased security and dedicated resources.\n\n<Message type=\"tip\">\n  Check out our dedicated APIs to manage [Private Networks](https://www.scaleway.com/en/developers/api/elastic-metal/private-network-api/) and [Flexible IPs](https://www.scaleway.com/en/developers/api/elastic-metal-flexible-ip/) for Elastic Metal servers.\n</Message>\n\n## Concepts\n\nRefer to our [dedicated concepts](https://www.scaleway.com/en/docs/elastic-metal/concepts/) page to find definitions of the different terms referring to Elastic Metal servers.\n\n## Quickstart\n\n1. **Configure your environment variables.**\n\n    ```bash\n    export PROJECT_ID=\"<project-id>\"\n    export ACCESS_KEY=\"<access-key>\"\n    export SECRET_KEY=\"<secret-key>\"\n    export ZONE=\"<availability-zone>\"\n    ```\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Bare Metal API.\n   </Message>\n\n2. **Edit the POST request payload** that we will use in the next step to create an Elastic Metal server. Modify the values in the example according to your needs, using the information in the table to help.\n\n    ```json\n    {\n    \"offer_id\": \"string\",\n    \"project_id\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"tags\": [\n        \"tag1\", \"tag2\"\n    ],\n    \"install\": {\n        \"os_id\": \"string\",\n        \"hostname\": \"string\",\n        \"ssh_key_ids\": [\n        \"string\"\n        ],\n        \"user\": \"string\",\n        \"password\": \"string\",\n        \"service_user\": \"string\",\n        \"service_password\": \"string\"\n    },\n    \"option_ids\": [\n        \"string\"\n    ]\n    }\n    ```\n\n\n   <Message type=\"tip\">\n   [To find your Project ID you can either use the [Account API](https://www.scaleway.com/en/developers/api/account/project-api/#path-projects-list-all-projects-of-an-organization) or the [Scaleway console](https://console.scaleway.com/project/settings):\n   </Message>\n\n3. **Run the following command** to create an Elastic Metal server. Make sure you include the payload you edited in the previous step.\n\n    ```bash\n    curl -X POST \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SECRET_KEY\" https://api.scaleway.com/baremetal/v1/zones/$ZONE/servers \\\n      -d '{\n        \"offer_id\": \"bd757ca3-a71b-4158-9ef5-39436b6db2a4\",\n        \"project_id\": \"cc6d123a-bc09-4e24-b5d9-3310f2104e13\",\n        \"name\": \"MyElasticMetal\",\n        \"description\": \"My_Elastic_Metal_Server\",\n        \"tags\": [\n            \"Ubuntu22\", \"Dedicated\"\n        ],\n        \"install\": {\n            \"os_id\": \"96e5f0f2-d216-4de2-8a15-68730d877885\",\n            \"hostname\": \"elasticmetal.example.com\",\n            \"ssh_key_ids\": [\n            \"fa05e77f-66b7-43b9-bc21-4dfe3c5bb624\"\n            ],\n            \"user\": \"ubuntu\",\n            \"password\": \"mySecretPa$$word\"\n        \"option_ids\": [\n            \"string\"\n        ]\n      }\"\n    ```\n\n4. **List your Elastic Metal servers.**\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SECRET_KEY\" https://api.scaleway.com/baremetal/v1/zones/$ZONE/servers\n    ```\n\n5. **Retrieve your Elastic Metal server IP** from the response.\n\n6. **Connect to your Elastic Metal server** using SSH\n\n    ```bash\n    ssh root@my-elastic-metal-server-ip\n    ```\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n  - you have an account and are logged into the [Scaleway console](https://console.scaleway.com/organization)\n  - you have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page.\n  - you have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical information\n\n### Features\n\n- Installation (Server is installed by preseed [preseed: complete install from a virtual media], you must define at least one ssh key to install your server)\n- Start/Stop/Reboot\n- Rescue Reboot, a rescue image is an operating system image designed to help you diagnose and fix OS experiencing failures. When your server boot on rescue, you can mount your disks and start diagnosing/fixing your image.\n- Billed by the minute (billing starts when the server is delivered and stops when the server is deleted)\n- IPv6, all servers are available with a /128 IPv6 subnet\n- ReverseIP, You can configure your reverse IP (IPv4 and IPv6), you must register the server IP in your DNS records before calling the endpoint\n- Basic monitoring with ping status\n- Flexible IP is available ([documentation](https://www.scaleway.com/en/developers/api/elastic-metal-flexible-ip/))\n\n### Availability Zones\n\nScaleway's infrastructure is spread across different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nElastic Metal servers are available in Paris, Amsterdam, and Warsaw regions, with product availability in the following AZs:\n\n\n## Technical limitations\n\n- Failover IPs are not available in API `v1`, use the API `v1alpha1`\n\n## Going further\n\nFor more help using Scaleway Elastic Metal servers, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/elastic-metal/)\n- The #elastic-metal channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)\n\n### Troubleshooting\n\n#### How is the installation of Elastic Metal servers done?\n\n- The installation of Elastic Metal servers is done by preseed (± 10min) (preseed: complete install from a virtual media)\n\n#### How can I retrieve my secret key and Project ID?\n\nYou can find your [secret key](https://console.scaleway.com/iam/api-keys) and your [Project ID](https://console.scaleway.com/project/credentials) in the Scaleway console.\n\n#### How can I add my server to a Private Network?\n\nSee [our dedicated documentation](/en/developers/api/elastic-metal-flexible-ip)."
+      }
+    }
+  }
+}

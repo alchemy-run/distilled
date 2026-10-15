@@ -1,0 +1,3662 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.cockpit_regional_v1#GetAlertManagerRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetAlertManagerRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#GetAlertManagerRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the requested Alert manager."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#AlertManager": {
+      "type": "structure",
+      "members": {
+        "alert_manager_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alert manager URL.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "alert_manager_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The Alert manager is enabled."
+          }
+        },
+        "managed_alerts_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Managed alerts are enabled."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regions where the Alert manager is enabled."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetAlertManager": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#GetAlertManagerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#AlertManager"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the Alert manager\n\nRetrieve information about the Alert manager which is unique per Project and region. By default the Alert manager is disabled.\nThe output returned displays a URL to access the Alert manager, and whether the Alert manager and managed alerts are enabled."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListContactPointsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListContactPointsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#ListContactPointsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Project containing the contact points to list."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Total count of contact points to return per page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListContactPointsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of contact points associated with the default receiver."
+          }
+        },
+        "contact_points": {
+          "target": "com.scaleway.cockpit_regional_v1#ListContactPointsResponseContactPointsList",
+          "traits": {
+            "smithy.api#documentation": "List of contact points associated with the default receiver."
+          }
+        },
+        "has_additional_receivers": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the Alert manager has other receivers than the default one."
+          }
+        },
+        "has_additional_contact_points": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether there are unmanaged contact points on the default receiver."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ContactPoint": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "com.scaleway.cockpit_regional_v1#ContactPointEmail",
+          "traits": {
+            "smithy.api#documentation": "Email address to send alerts to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region."
+          }
+        },
+        "send_resolved_notifications": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Send an email notification when an alert is marked as resolved."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ContactPointEmail": {
+      "type": "structure",
+      "members": {
+        "to": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListContactPointsResponseContactPointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#ContactPoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of contact points associated with the default receiver."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListContactPoints": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#ListContactPointsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#ListContactPointsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/contact-points",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List contact points\n\nRetrieve a list of contact points for the specified Project. The response lists all contact points and receivers created in Grafana or via the API.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "contact_points",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateContactPointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#CreateContactPointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#CreateContactPointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to create the contact point in.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "com.scaleway.cockpit_regional_v1#ContactPointEmail",
+          "traits": {
+            "smithy.api#documentation": "Email address of the contact point to create.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "send_resolved_notifications": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Send an email notification when an alert is marked as resolved.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateContactPoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#CreateContactPointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#ContactPoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/contact-points",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a contact point\n\nContact points are email addresses associated with the default receiver, that the Alert manager sends alerts to.\nThe source of the alerts are data sources within the same Project and region as the Alert manager.\nIf you need to receive alerts for other receivers, you can create additional contact points and receivers in Grafana. Make sure that you select the Scaleway Alert manager."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateContactPointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateContactPointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#UpdateContactPointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project containing the contact point to update.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "com.scaleway.cockpit_regional_v1#ContactPointEmail",
+          "traits": {
+            "smithy.api#documentation": "Email address of the contact point to update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "send_resolved_notifications": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable or disable notifications when alert is resolved.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateContactPoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#UpdateContactPointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#ContactPoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/contact-points",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteContactPointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteContactPointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#DeleteContactPointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project containing the contact point to delete.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "com.scaleway.cockpit_regional_v1#ContactPointEmail",
+          "traits": {
+            "smithy.api#documentation": "Email address of the contact point to delete.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteContactPoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#DeleteContactPointRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/contact-points/delete",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a contact point\n\nDelete a contact point associated with the default receiver."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertManagerRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertManagerRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#DisableAlertManagerRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to disable the Alert manager in.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertManager": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#DisableAlertManagerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#AlertManager"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/disable",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable the Alert manager\n\nDisabling the Alert manager deletes the contact points you have created and disables managed alerts in the specified Project and region."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertRulesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertRulesRequestRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IDs of the rules to enable. If empty, disables all preconfigured rules. (UUID format)"
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertRulesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#DisableAlertRulesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project.",
+            "smithy.api#required": {}
+          }
+        },
+        "rule_ids": {
+          "target": "com.scaleway.cockpit_regional_v1#DisableAlertRulesRequestRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of IDs of the rules to enable. If empty, disables all preconfigured rules. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertRulesResponse": {
+      "type": "structure",
+      "members": {
+        "disabled_rule_ids": {
+          "target": "com.scaleway.cockpit_regional_v1#DisableAlertRulesResponseDisabledRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of IDs of the rules that were disabled.\nOnly newly disabled rules are listed. Rules that were already disabled are not returned in the output. (UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertRulesResponseDisabledRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IDs of the rules that were disabled.\nOnly newly disabled rules are listed. Rules that were already disabled are not returned in the output. (UUID format)"
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DisableAlertRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#DisableAlertRulesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#DisableAlertRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/disable-alert-rules",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable preconfigured alert rules\n\nDisable alert rules from the list of available preconfigured rules."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertManagerRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertManagerRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#EnableAlertManagerRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to enable the Alert manager in.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertManager": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#EnableAlertManagerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#AlertManager"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/enable",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Enable the Alert manager\n\nEnabling the Alert manager allows you to enable managed alerts and create contact points in the specified Project and region, to be notified when your Scaleway resources may require your attention."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertRulesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertRulesRequestRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IDs of the rules to enable. If empty, enables all preconfigured rules. (UUID format)"
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertRulesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#EnableAlertRulesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project.",
+            "smithy.api#required": {}
+          }
+        },
+        "rule_ids": {
+          "target": "com.scaleway.cockpit_regional_v1#EnableAlertRulesRequestRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of IDs of the rules to enable. If empty, enables all preconfigured rules. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertRulesResponse": {
+      "type": "structure",
+      "members": {
+        "enabled_rule_ids": {
+          "target": "com.scaleway.cockpit_regional_v1#EnableAlertRulesResponseEnabledRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of IDs of the rules that were enabled.\nOnly newly enabled rules are listed. Rules that were already enabled are not returned in the output. (UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertRulesResponseEnabledRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IDs of the rules that were enabled.\nOnly newly enabled rules are listed. Rules that were already enabled are not returned in the output. (UUID format)"
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#EnableAlertRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#EnableAlertRulesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#EnableAlertRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/enable-alert-rules",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Enable preconfigured alert rules\n\nEnable alert rules from the list of available preconfigured rules."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#TriggerTestAlertRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#TriggerTestAlertRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#TriggerTestAlertRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#TriggerTestAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#TriggerTestAlertRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/alert-manager/trigger-test-alert",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Trigger a test alert\n\nSend a test alert to the Alert manager to make sure your contact points get notified."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListAlertsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#AlertStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "ENABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabling"
+          }
+        },
+        "DISABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabling"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#AlertState": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_state"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "FIRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "firing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListAlertsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#ListAlertsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID to filter for, only alerts from this Project will be returned."
+          }
+        },
+        "rule_status": {
+          "target": "com.scaleway.cockpit_regional_v1#AlertStatus",
+          "traits": {
+            "smithy.api#httpQuery": "rule_status",
+            "smithy.api#documentation": "Filter alerts based on their activation status. Optional.\nReturns only alerts with the given activation status. If omitted, no alert filtering is applied. Other filters may still apply."
+          }
+        },
+        "is_preconfigured": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "is_preconfigured",
+            "smithy.api#documentation": "Filter alerts based on their types (preconfigured or custom). Optional.\nTrue returns only preconfigured alerts. False returns only custom alerts. If omitted, no filtering is applied on alert types. Other filters may still apply."
+          }
+        },
+        "state": {
+          "target": "com.scaleway.cockpit_regional_v1#AlertState",
+          "traits": {
+            "smithy.api#httpQuery": "state",
+            "smithy.api#documentation": "Filter alerts based on their state. Optional.\nValid values to filter on are `inactive`, `pending` and `firing`. If omitted, no filtering is applied on alert states. Other filters may still apply."
+          }
+        },
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "data_source_id",
+            "smithy.api#documentation": "Filter alerts from a specific data source. Optional.\nIf omitted, only alerts from the default Scaleway metrics data source will be listed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListAlertsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of alerts matching the request."
+          }
+        },
+        "alerts": {
+          "target": "com.scaleway.cockpit_regional_v1#ListAlertsResponseAlertsList",
+          "traits": {
+            "smithy.api#documentation": "List of alerts matching the applied filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#Alert": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region in which the alert is defined."
+          }
+        },
+        "preconfigured": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the alert is preconfigured or custom."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the alert."
+          }
+        },
+        "rule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rule defining the alert condition."
+          }
+        },
+        "duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Duration for which the alert must be active before firing. The format of this duration follows the prometheus duration format."
+          }
+        },
+        "rule_status": {
+          "target": "com.scaleway.cockpit_regional_v1#AlertStatus",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the alert is enabled, enabling, disabled or disabling. Preconfigured alerts can have any of these values, whereas custom alerts can only have the status \"enabled\"."
+          }
+        },
+        "state": {
+          "target": "com.scaleway.cockpit_regional_v1#AlertState",
+          "traits": {
+            "smithy.api#documentation": "Current state of the alert. Possible states are `inactive`, `pending`, and `firing`."
+          }
+        },
+        "annotations": {
+          "target": "com.scaleway.cockpit_regional_v1#AlertAnnotationsMap",
+          "traits": {
+            "smithy.api#documentation": "Annotations for the alert, used to provide additional information about the alert."
+          }
+        },
+        "preconfigured_data": {
+          "target": "com.scaleway.cockpit_regional_v1#PreconfiguredAlertData",
+          "traits": {
+            "smithy.api#documentation": "Contains additional data for preconfigured alerts, such as the rule ID, display name, and description. Only present if the alert is preconfigured."
+          }
+        },
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the data source containing the alert rule. (UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#AlertAnnotationsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Annotations for the alert, used to provide additional information about the alert."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#PreconfiguredAlertData": {
+      "type": "structure",
+      "members": {
+        "preconfigured_rule_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the preconfigured rule if the alert is preconfigured. (UUID format)"
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human readable name of the alert."
+          }
+        },
+        "display_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human readable description of the alert."
+          }
+        },
+        "product_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product associated with the alert."
+          }
+        },
+        "product_family": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Family of the product associated with the alert."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListAlertsResponseAlertsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#Alert"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of alerts matching the applied filters."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListAlerts": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#ListAlertsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#ListAlertsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/alerts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List alerts\n\nList preconfigured and/or custom alerts for the specified Project and data source."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetConfigRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetConfigRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#GetConfigRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetConfigResponse": {
+      "type": "structure",
+      "members": {
+        "custom_metrics_retention": {
+          "target": "com.scaleway.cockpit_regional_v1#GetConfigResponseRetention",
+          "traits": {
+            "smithy.api#documentation": "Custom metrics retention configuration."
+          }
+        },
+        "custom_logs_retention": {
+          "target": "com.scaleway.cockpit_regional_v1#GetConfigResponseRetention",
+          "traits": {
+            "smithy.api#documentation": "Custom logs retention configuration."
+          }
+        },
+        "custom_traces_retention": {
+          "target": "com.scaleway.cockpit_regional_v1#GetConfigResponseRetention",
+          "traits": {
+            "smithy.api#documentation": "Custom traces retention configuration."
+          }
+        },
+        "product_metrics_retention": {
+          "target": "com.scaleway.cockpit_regional_v1#GetConfigResponseRetention",
+          "traits": {
+            "smithy.api#documentation": "Scaleway metrics retention configuration."
+          }
+        },
+        "product_logs_retention": {
+          "target": "com.scaleway.cockpit_regional_v1#GetConfigResponseRetention",
+          "traits": {
+            "smithy.api#documentation": "Scaleway logs retention configuration."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetConfigResponseRetention": {
+      "type": "structure",
+      "members": {
+        "min_days": {
+          "target": "smithy.api#Integer"
+        },
+        "max_days": {
+          "target": "smithy.api#Integer"
+        },
+        "default_days": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#GetConfigRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#GetConfigResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/config",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the Cockpit configuration"
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListDataSourcesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DataSourceOrigin": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_origin"
+          }
+        },
+        "SCALEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaleway"
+          }
+        },
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DataSourceType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "METRICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "metrics"
+          }
+        },
+        "LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "logs"
+          }
+        },
+        "TRACES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "traces"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListDataSourcesRequestTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#DataSourceType"
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListDataSourcesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListDataSourcesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#ListDataSourcesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID to filter for, only data sources from this Project will be returned."
+          }
+        },
+        "origin": {
+          "target": "com.scaleway.cockpit_regional_v1#DataSourceOrigin",
+          "traits": {
+            "smithy.api#httpQuery": "origin",
+            "smithy.api#documentation": "Origin to filter for, only data sources with matching origin will be returned. If omitted, all types will be returned."
+          }
+        },
+        "types": {
+          "target": "com.scaleway.cockpit_regional_v1#ListDataSourcesRequestTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "types",
+            "smithy.api#documentation": "Types to filter for (metrics, logs, traces), only data sources with matching types will be returned. If omitted, all types will be returned."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of data sources to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.cockpit_regional_v1#ListDataSourcesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order for data sources in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListDataSourcesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of data sources matching the request."
+          }
+        },
+        "data_sources": {
+          "target": "com.scaleway.cockpit_regional_v1#ListDataSourcesResponseDataSourcesList",
+          "traits": {
+            "smithy.api#documentation": "Data sources matching the request within the pagination."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DataSource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the data source. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project the data source belongs to. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data source name."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data source URL."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.cockpit_regional_v1#DataSourceType",
+          "traits": {
+            "smithy.api#documentation": "Data source type."
+          }
+        },
+        "origin": {
+          "target": "com.scaleway.cockpit_regional_v1#DataSourceOrigin",
+          "traits": {
+            "smithy.api#documentation": "Data source origin."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the data source was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the data source was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "synchronized_with_grafana": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the data source is synchronized with Grafana."
+          }
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration for which the data will be retained in the data source."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the data source."
+          }
+        },
+        "current_month_usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Usage of the month in bytes. (in bytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListDataSourcesResponseDataSourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#DataSource"
+      },
+      "traits": {
+        "smithy.api#documentation": "Data sources matching the request within the pagination."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListDataSources": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#ListDataSourcesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#ListDataSourcesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/data-sources",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List data sources\n\nRetrieve the list of data sources available in the specified region. By default, the data sources returned in the list are ordered by creation date, in ascending order.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "data_sources",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateDataSourceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#CreateDataSourceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#CreateDataSourceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project the data source belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data source name.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.scaleway.cockpit_regional_v1#DataSourceType",
+          "traits": {
+            "smithy.api#documentation": "Data source type.",
+            "smithy.api#required": {}
+          }
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration for which the data will be retained in the data source.\nDefault values are 31 days for metrics, 7 days for logs and traces.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateDataSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#CreateDataSourceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#DataSource"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/data-sources",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a data source\n\nYou must specify the data source name and type (metrics, logs, traces) upon creation.\nThe name of the data source will then be used as reference to name the associated Grafana data source."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetDataSourceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetDataSourceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#GetDataSourceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the relevant data source."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetDataSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#GetDataSourceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#DataSource"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/data-sources/{data_source_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a data source\n\nRetrieve information about a given data source, specified by the data source ID. The data source's information such as its name, type, URL, origin, and retention period, is returned."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateDataSourceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateDataSourceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#UpdateDataSourceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the data source to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated name of the data source.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration for which the data will be retained in the data source.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateDataSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#UpdateDataSourceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#DataSource"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/cockpit/v1/regions/{region}/data-sources/{data_source_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a data source\n\nUpdate a given data source attributes (name and/or retention_days)."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteDataSourceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteDataSourceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#DeleteDataSourceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the data source to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteDataSource": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#DeleteDataSourceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/cockpit/v1/regions/{region}/data-sources/{data_source_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a data source\n\nDelete a given data source. Note that this action will permanently delete this data source and any data associated with it."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListExportersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListExportersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListExportersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#ListExportersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID to filter for. Only data exports from this Project will be returned."
+          }
+        },
+        "datasource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "datasource_id",
+            "smithy.api#documentation": "Data source ID to filter for. Only data exports linked to this data source will be returned."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of data exports to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.cockpit_regional_v1#ListExportersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order for data exports in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListExportersResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of data exports matching the request."
+          }
+        },
+        "exporters": {
+          "target": "com.scaleway.cockpit_regional_v1#ListExportersResponseExportersList",
+          "traits": {
+            "smithy.api#documentation": "Data exports matching the request within the pagination."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#Exporter": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the data export. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the data export."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the data export."
+          }
+        },
+        "datasource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the data source linked to the data export. (UUID format)"
+          }
+        },
+        "datadog_destination": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterDatadogDestination",
+          "traits": {
+            "smithy.api#documentation": "Datadog destination configuration for the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "otlp_destination": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterOTLPDestination",
+          "traits": {
+            "smithy.api#documentation": "OTLP destination configuration for the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the data export."
+          }
+        },
+        "exported_products": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterExportedProductsList",
+          "traits": {
+            "smithy.api#documentation": "List of Scaleway products name exported by the data export."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A timestamp of the creation date of the data export. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A timestamp of the last update date of the data export. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region in which the export is located."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ExporterDatadogDestination": {
+      "type": "structure",
+      "members": {
+        "api_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ExporterOTLPDestination": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String"
+        },
+        "headers": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterOTLPDestinationHeadersMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ExporterOTLPDestinationHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ExporterStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "IDLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "idle"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ExporterExportedProductsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Scaleway products name exported by the data export."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListExportersResponseExportersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#Exporter"
+      },
+      "traits": {
+        "smithy.api#documentation": "Data exports matching the request within the pagination."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListExporters": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#ListExportersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#ListExportersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/exporters",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List data exports\n\nList all data exports within a given Scaleway Project, specified by its ID.\nOptionally, specify a Scaleway data source ID to retrieve only data exports associated with that data source.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "exporters",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateExporterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#CreateExporterRequestExportedProductsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of products name your data export send to the destination.\nTo include all products in your data export, you can use an array containing \"all\"\nYou can retrieve the complete list of product names using the `ListProducts` endpoint."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateExporterRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#CreateExporterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "datasource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the data source linked to the data export.",
+            "smithy.api#required": {}
+          }
+        },
+        "datadog_destination": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterDatadogDestination",
+          "traits": {
+            "smithy.api#documentation": "Datadog destination configuration for the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "otlp_destination": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterOTLPDestination",
+          "traits": {
+            "smithy.api#documentation": "OTLP destination configuration for the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exported_products": {
+          "target": "com.scaleway.cockpit_regional_v1#CreateExporterRequestExportedProductsList",
+          "traits": {
+            "smithy.api#documentation": "The list of products name your data export send to the destination.\nTo include all products in your data export, you can use an array containing \"all\"\nYou can retrieve the complete list of product names using the `ListProducts` endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the data export.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateExporter": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#CreateExporterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#Exporter"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/exporters",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a data export\n\nCreate an export to send your metrics/logs from a Scaleway data source to an external destination.\nCurrent supported destination for data exports are Datadog and OTLP endpoints.\nThis feature is in Beta phase. During Beta phase, exporter can take up to 30 min to be effectively active."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetExporterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetExporterRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#GetExporterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "exporter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the data export to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetExporter": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#GetExporterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#Exporter"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/exporters/{exporter_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a data export\n\nRetrieve information about a given data export, specified by its ID."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateExporterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateExporterRequestExportedProductsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Updated list of Scaleway products to export.\nTo include all products in your data export, you can use an array containing \"all\"\nYou can retrieve the complete list of product names using the `ListProducts` endpoint."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateExporterRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#UpdateExporterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "exporter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the data export to update."
+          }
+        },
+        "datadog_destination": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterDatadogDestination",
+          "traits": {
+            "smithy.api#documentation": "Updated Datadog destination configuration for the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "otlp_destination": {
+          "target": "com.scaleway.cockpit_regional_v1#ExporterOTLPDestination",
+          "traits": {
+            "smithy.api#documentation": "Updated OTLP destination configuration for the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated name of the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated description of the data export.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exported_products": {
+          "target": "com.scaleway.cockpit_regional_v1#UpdateExporterRequestExportedProductsList",
+          "traits": {
+            "smithy.api#documentation": "Updated list of Scaleway products to export.\nTo include all products in your data export, you can use an array containing \"all\"\nYou can retrieve the complete list of product names using the `ListProducts` endpoint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#UpdateExporter": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#UpdateExporterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#Exporter"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/cockpit/v1/regions/{region}/exporters/{exporter_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a data export\n\nUpdate a data export attributes. Changes are effective immediately even during Beta phase.\nNote that you can not change the data source linked to the export. If you need to do so, you will need to re-create the export."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteExporterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteExporterRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#DeleteExporterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "exporter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the data export to update."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteExporter": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#DeleteExporterRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/cockpit/v1/regions/{region}/exporters/{exporter_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a data export\n\nDelete a given data export, specified by its ID.\nNote that this action will immediately and permanently delete this data exports."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListProductsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListProductsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "DISPLAY_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "display_name_asc"
+          }
+        },
+        "DISPLAY_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "display_name_desc"
+          }
+        },
+        "FAMILY_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "family_name_asc"
+          }
+        },
+        "FAMILY_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "family_name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListProductsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#ListProductsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of products to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.cockpit_regional_v1#ListProductsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order for products in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListProductsResponse": {
+      "type": "structure",
+      "members": {
+        "products_list": {
+          "target": "com.scaleway.cockpit_regional_v1#ListProductsResponseProductsListList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#Product": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "display_name": {
+          "target": "smithy.api#String"
+        },
+        "family_name": {
+          "target": "smithy.api#String"
+        },
+        "resource_types": {
+          "target": "com.scaleway.cockpit_regional_v1#ProductResourceTypesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ProductResourceTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListProductsResponseProductsListList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#Product"
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListProducts": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#ListProductsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#ListProductsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/products",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Scaleway products\n\nList all Scaleway products that send metrics and/or logs to Cockpit.\nNote that all of those products send at least metrics, but only a subset send logs to Cockpit.\nFor more information, see https://www.scaleway.com/en/docs/cockpit/reference-content/cockpit-product-integration/.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "products_list",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetRulesCountRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetRulesCountRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#GetRulesCountRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Project to retrieve the rule count for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetRulesCountResponse": {
+      "type": "structure",
+      "members": {
+        "rules_count_by_datasource": {
+          "target": "com.scaleway.cockpit_regional_v1#GetRulesCountResponseRulesCountByDatasourceList",
+          "traits": {
+            "smithy.api#documentation": "Total count of rules grouped by data source."
+          }
+        },
+        "preconfigured_rules_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of preconfigured rules."
+          }
+        },
+        "custom_rules_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of custom rules."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#RulesCount": {
+      "type": "structure",
+      "members": {
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the data source. (UUID format)"
+          }
+        },
+        "data_source_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the data source."
+          }
+        },
+        "rules_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of rules associated with this data source."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetRulesCountResponseRulesCountByDatasourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#RulesCount"
+      },
+      "traits": {
+        "smithy.api#documentation": "Total count of rules grouped by data source."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetRulesCount": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#GetRulesCountRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#GetRulesCountResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/rules/count",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the number of enabled rules\n\nGet a detailed count of enabled rules in the specified Project. Includes preconfigured and custom alerting and recording rules."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListTokensRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#TokenScope": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SCOPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_scope"
+          }
+        },
+        "READ_ONLY_METRICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_only_metrics"
+          }
+        },
+        "WRITE_ONLY_METRICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write_only_metrics"
+          }
+        },
+        "FULL_ACCESS_METRICS_RULES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full_access_metrics_rules"
+          }
+        },
+        "READ_ONLY_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_only_logs"
+          }
+        },
+        "WRITE_ONLY_LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write_only_logs"
+          }
+        },
+        "FULL_ACCESS_LOGS_RULES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full_access_logs_rules"
+          }
+        },
+        "FULL_ACCESS_ALERT_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full_access_alert_manager"
+          }
+        },
+        "READ_ONLY_TRACES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_only_traces"
+          }
+        },
+        "WRITE_ONLY_TRACES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write_only_traces"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListTokensRequestTokenScopesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#TokenScope"
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListTokensRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#ListTokensRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#ListTokensRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Project the tokens belong to."
+          }
+        },
+        "token_scopes": {
+          "target": "com.scaleway.cockpit_regional_v1#ListTokensRequestTokenScopesList",
+          "traits": {
+            "smithy.api#httpQuery": "token_scopes",
+            "smithy.api#documentation": "Token scopes to filter for."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of tokens to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.cockpit_regional_v1#ListTokensRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListTokensResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of tokens matching the request."
+          }
+        },
+        "tokens": {
+          "target": "com.scaleway.cockpit_regional_v1#ListTokensResponseTokensList",
+          "traits": {
+            "smithy.api#documentation": "Tokens matching the request within the pagination."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#Token": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the token."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project the token belongs to."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the token."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scopes": {
+          "target": "com.scaleway.cockpit_regional_v1#TokenScopesList",
+          "traits": {
+            "smithy.api#documentation": "Token permission scopes."
+          }
+        },
+        "secret_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token secret key.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regions where the token is located."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#TokenScopesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#TokenScope"
+      },
+      "traits": {
+        "smithy.api#documentation": "Token permission scopes."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListTokensResponseTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#Token"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tokens matching the request within the pagination."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#ListTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#ListTokensRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#ListTokensResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/tokens",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List tokens\n\nRetrieve a list of all tokens in the specified region. By default, tokens returned in the list are ordered by creation date, in ascending order.\nYou can filter tokens by Project ID and token scopes.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "tokens",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateTokenRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#CreateTokenRequestTokenScopesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_regional_v1#TokenScope"
+      },
+      "traits": {
+        "smithy.api#documentation": "Token permission scopes."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateTokenRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#CreateTokenRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project the token belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the token.",
+            "smithy.api#required": {}
+          }
+        },
+        "token_scopes": {
+          "target": "com.scaleway.cockpit_regional_v1#CreateTokenRequestTokenScopesList",
+          "traits": {
+            "smithy.api#documentation": "Token permission scopes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CreateToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#CreateTokenRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#Token"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/regions/{region}/tokens",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a token\n\nGive your token the relevant scopes to ensure it has the right permissions to interact with your data sources and the Alert manager. Make sure that you create your token in the same regions as the data sources you want to use it for.\nUpon creation, your token's secret key display only once. Make sure that you save it."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetTokenRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetTokenRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#GetTokenRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Token ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#GetTokenRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#Token"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/tokens/{token_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a token\n\nRetrieve information about a given token, specified by the token ID. The token's information such as its scopes, is returned."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteTokenRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteTokenRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#DeleteTokenRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the token to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#DeleteToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#DeleteTokenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/cockpit/v1/regions/{region}/tokens/{token_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a token\n\nDelete a given token, specified by the token ID. Deleting a token is irreversible and cannot be undone."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#GetUsageOverviewRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetUsageOverviewRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.cockpit_regional_v1#GetUsageOverviewRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "interval",
+            "smithy.api#documentation": "(in seconds)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#UsageOverview": {
+      "type": "structure",
+      "members": {
+        "scaleway_metrics_usage": {
+          "target": "com.scaleway.cockpit_regional_v1#Usage"
+        },
+        "scaleway_logs_usage": {
+          "target": "com.scaleway.cockpit_regional_v1#Usage"
+        },
+        "external_metrics_usage": {
+          "target": "com.scaleway.cockpit_regional_v1#Usage"
+        },
+        "external_logs_usage": {
+          "target": "com.scaleway.cockpit_regional_v1#Usage"
+        },
+        "external_traces_usage": {
+          "target": "com.scaleway.cockpit_regional_v1#Usage"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#Usage": {
+      "type": "structure",
+      "members": {
+        "data_source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the data source.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project the data source belongs to. (UUID format)"
+          }
+        },
+        "data_source_origin": {
+          "target": "com.scaleway.cockpit_regional_v1#DataSourceOrigin",
+          "traits": {
+            "smithy.api#documentation": "Origin of the data source."
+          }
+        },
+        "data_source_type": {
+          "target": "com.scaleway.cockpit_regional_v1#DataSourceType",
+          "traits": {
+            "smithy.api#documentation": "Type of the data source."
+          }
+        },
+        "unit": {
+          "target": "com.scaleway.cockpit_regional_v1#UsageUnit",
+          "traits": {
+            "smithy.api#documentation": "Unit of the data source usage."
+          }
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interval for the data source usage. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quantity_over_interval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Data source usage for the given interval."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the data source usage."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#UsageUnit": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_UNIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_unit"
+          }
+        },
+        "BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bytes"
+          }
+        },
+        "SAMPLES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "samples"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_regional_v1#GetUsageOverview": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_regional_v1#GetUsageOverviewRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_regional_v1#UsageOverview"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/regions/{region}/usage-overview",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get data source usage overview\n\nRetrieve the volume of data ingested for each of your data sources in the specified project and region."
+      }
+    },
+    "com.scaleway.cockpit_regional_v1#CockpitRegionalV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.cockpit_regional_v1#GetAlertManager"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#ListContactPoints"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#CreateContactPoint"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#UpdateContactPoint"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#DeleteContactPoint"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#DisableAlertManager"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#DisableAlertRules"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#EnableAlertManager"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#EnableAlertRules"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#TriggerTestAlert"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#ListAlerts"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#GetConfig"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#ListDataSources"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#CreateDataSource"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#GetDataSource"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#UpdateDataSource"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#DeleteDataSource"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#ListExporters"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#CreateExporter"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#GetExporter"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#UpdateExporter"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#DeleteExporter"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#ListProducts"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#GetRulesCount"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#ListTokens"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#CreateToken"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#GetToken"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#DeleteToken"
+        },
+        {
+          "target": "com.scaleway.cockpit_regional_v1#GetUsageOverview"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Cockpit API",
+        "smithy.api#documentation": "Scaleway Cockpit allows you to monitor your applications and their infrastructure by giving you insights and context into their behavior. Cockpit also enables you to visualize your metrics, logs, and traces through a Grafana dashboard. With Cockpit, you can also push data from your Scaleway resources, if they are [integrated with Cockpit](https://www.scaleway.com/en/docs/cockpit/reference-content/cockpit-product-integration/).\n\nCockpit provides you with two Prometheus Remote Write endpoints for pushing metrics and logs. You can push metrics with any `Prometheus Remote Write` compatible agent such as [Prometheus](https://prometheus.io/docs/introduction/overview/), [Grafana](https://grafana.com/docs/agent/latest/), or [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/).\n\nYou can push logs with any Loki compatible agent such as [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/), [Fluentd](https://docs.fluentd.org/), [Fluent Bit](https://docs.fluentbit.io/manual/), [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/), or [Logstash](https://www.elastic.co/guide/en/logstash/current/introduction.html).\n\nRefer to the [Cockpit Global API](https://www.scaleway.com/en/developers/api/cockpit/global-api/) for information on how to perform Cockpit visualization actions such as retrieving your dashboard URLs, managing Grafana users, and synchronizing your data through Grafana dashboards.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/cockpit/concepts/) to learn about the different concepts and terms related to Cockpit.\n\n## Quickstart\n\n<Message type=\"requirement\">\n - You have a [Scaleway account](https://console.scaleway.com/)\n - You have [created an API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n - You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n1. **Configure your environment variables.**\n\n   <Message type=\"note\">\n   This is an optional step that aims to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Retrieve push URLs.**\n\n   Retrieve your endpoints for metrics, logs, and traces from the [Data sources tab](https://console.scaleway.com/cockpit/dataSource) of the Scaleway console.\n   The `metrics_url` is a domain that exposes a Prometheus-like API to manage metrics, and the `logs_url` exposes a Loki API to manage logs.\n\n    - The Prometheus Remote Write endpoint to push your metrics is the following: `https://xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.metrics.cockpit.fr-par.scw.cloud/api/v1/push`.\n    - The Remote Write endpoint to push your logs is the following: `https://xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.logs.cockpit.fr-par.scw.cloud/loki/api/v1/push`\n    - Traces have different endpoints depending on the [push path](https://www.scaleway.com/en/docs/cockpit/how-to/activate-push-traces/#retrieve-traces-push-paths) you use. The traces endpoint for the OpenTelemetry agent is: `https://xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.traces.cockpit.fr-par.scw.cloud/otlp`.\n\n3. Create your Cockpit token to push metrics, logs, and traces.\n\n   Find out [how to create your Cockpit token via the console](https://www.scaleway.com/en/docs/cockpit/how-to/create-token/) or run the following command to create it via the API.\n\n    ```bash\n    curl -X POST \\\n    \"https://api.scaleway.com/cockpit/v1beta1/tokens\" \\\n    -H \"Content-Type: application/json\" \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    -d '{\n      \"project_id\": \"<Scaleway Project ID>\",\n      \"name\": \"token-name\",\n      \"scopes\": {\n        \"query_metrics\": false,\n        \"write_metrics\": true,\n        \"setup_metrics_rules\": false,\n        \"query_logs\": false,\n        \"write_logs\": true,\n        \"setup_logs_rules\": false,\n        \"setup_alerts\": false,\n        \"query_traces\": false,\n        \"write_traces\": true\n      }\n    }'\n    ```\n\n   <Message type=\"important\">\n   The `secret_key` of your Cockpit token is displayed only once. Make sure that you save it. Scaleway strongly recommends giving your token only the minimal permissions required.\n   </Message>\n\n4. **Configure the Grafana alloy agent.**\n\n   Find out [how to configure the Grafana alloy agent](https://www.scaleway.com/en/docs/cockpit/how-to/send-metrics-with-grafana-alloy/) to push your data to Cockpit.\n\n5. **Configure rules and alerts.**\n\n   Upon creation, your Grafana instance is already configured by default with your logs and metrics data sources and with the alert manager data source. This means that you will be able to configure and manage advanced alerting rules for metrics and logs, configure contact points and notification policies, from Grafana.\n\n   To do so, [access your Grafana dashboard](https://www.scaleway.com/en/docs/cockpit/how-to/access-grafana-and-managed-dashboards/) and follow instructions in our documentation about [how to configure alert rules for Scaleway resources](https://www.scaleway.com/en/docs/cockpit/how-to/configure-alerts-for-scw-resources/). Refer to the **External links** section of this page if you are not familiar with the alert manager or alert rules.\n\n   <Message type=\"important\">\n     - Make sure that you select the `Scaleway Alerting` alert manager, as Scaleway does not support the `Grafana` alert manager.\n     - Make sure that you create rules on the data source containing the data you wish to be alerted on rather than on Grafana (`datasource-managed-alerts`).\n   </Message>\n\n## Technical information\n\n### Regional availability\n\nScaleway's infrastructure is spread across different [regions](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\nYour Cockpit resources are available in all regions.\n\n### Current supported endpoints\n\nCockpit supports telemetry ingestion and querying using the following open-source technologies:\n\n- [Mimir](https://grafana.com/oss/mimir/) for metrics\n- [Loki](https://grafana.com/oss/loki/) for logs\n- [Tempo](https://grafana.com/oss/tempo/) for traces\n- [Prometheus](https://prometheus.io/docs/alerting/latest/alertmanager/) for the alert manager\n\nCockpit exposes a subset of their HTTP APIs so users can push, query, and manage telemetry data from Cockpit.\n\nRefer to the [dedicated documentation](https://www.scaleway.com/en/docs/cockpit/reference-content/cockpit-supported-endpoints/) to find out which API endpoints are supported by Cockpit for data source management.\n\n### Troubleshooting\n\nRefer to our troubleshooting documentation if [your pusher does not support HTTP headers](https://www.scaleway.com/en/docs/cockpit/troubleshooting/pusher-does-not-support-custom-http-headers/) or if [no data is showing up on Grafana dashboards](https://www.scaleway.com/en/docs/cockpit/troubleshooting/synchronize-grafana-data-sources/).\n\n## Technical limitations\n\n- Metrics and logs data is retained for **31 days**. After this period, data older than 31 days is deleted.\n- The number of **active metrics time series** is limited to **250,000 per Cockpit** by default.\n- The number of **active log streams** is limited to **5,000 per Cockpit**.\n- It is not yet possible to downsample metrics.\n\n## Going further\n\nFor more information about Cockpit, you can check out the following pages:\n\n- [Cockpit documentation](https://www.scaleway.com/en/docs/cockpit/)\n- [Scaleway Slack Community](https://join.slack.com/t/scaleway-community/shared_invite/zt-3ebz5f4as-9OBggVAbUgBksSvCCwqksA) join the #observability-beta and the #observability channels\n- [Contact our Support team](https://console.scaleway.com/support/tickets)\n\n### External links\n\nIf you are interested in learning more, you can check out the following pages:\n\n- [Pushing logs using Fluentbit](https://docs.fluentbit.io/manual/pipeline/outputs/loki). Fluentbit is another commonly used agent that collects and forwards logs.\n- [Pushing metrics using Prometheus's agent mode](https://prometheus.io/blog/2021/11/16/agent/). Prometheus can be used in an \"agent-mode\" that can scrape local targets and forward them using remote-write. This is useful for scenarios where targets are exposed in a private network (like a VPN or a single host) but need to be forwarded outside of it.\n- [How to create a Mimir or Loki managed alerting rule using Grafana](https://grafana.com/docs/grafana/latest/alerting/alerting-rules/create-mimir-loki-managed-rule/)."
+      }
+    }
+  }
+}

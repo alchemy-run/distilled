@@ -1,0 +1,49 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, so `ListPublicCatalogProducts` lose filters the API takes. The official JS SDK sends them through `resolveOneOf` in `urlParams` \u2014 scaleway-sdk-js packages_generated/product_catalog/src/v2alpha1/api.gen.ts \u2014 with the types in the sibling types.gen.ts. They are added as optional query members; the API enforces the one-of.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequest/members/global",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#httpQuery": "global",
+          "smithy.api#documentation": "Only products that are not tied to a location. One-of `locality`: at most one of `global`, `region`, `zone`, `datacenter`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequest/members/region",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "region",
+          "smithy.api#documentation": "Only products available in this region. One-of `locality`: at most one of `global`, `region`, `zone`, `datacenter`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequest/members/zone",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "zone",
+          "smithy.api#documentation": "Only products available in this zone. One-of `locality`: at most one of `global`, `region`, `zone`, `datacenter`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequest/members/datacenter",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "datacenter",
+          "smithy.api#documentation": "Only products available in this datacenter. One-of `locality`: at most one of `global`, `region`, `zone`, `datacenter`."
+        }
+      }
+    }
+  ]
+}

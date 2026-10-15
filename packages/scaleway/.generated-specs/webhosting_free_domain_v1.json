@@ -1,0 +1,308 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailabilityRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailabilityRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailabilityRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom prefix used for the free domain."
+          }
+        },
+        "root_domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free root domain provided by Web Hosting, selected from the list returned by `ListFreeRootDomains`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailabilityResponse": {
+      "type": "structure",
+      "members": {
+        "free_domain": {
+          "target": "com.scaleway.webhosting_free_domain_v1#FreeDomain",
+          "traits": {
+            "smithy.api#documentation": "The free domain that was checked."
+          }
+        },
+        "is_available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the free domain is available."
+          }
+        },
+        "reason": {
+          "target": "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailabilityResponseUnavailableReason",
+          "traits": {
+            "smithy.api#documentation": "Reason the domain is unavailable, if applicable."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_free_domain_v1#FreeDomain": {
+      "type": "structure",
+      "members": {
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom prefix used for the free domain."
+          }
+        },
+        "root_domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free root domain provided by Web Hosting, selected from the list returned by `ListFreeRootDomains`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailabilityResponseUnavailableReason": {
+      "type": "enum",
+      "members": {
+        "UNAVAILABLE_REASON_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable_reason_unknown"
+          }
+        },
+        "UNAVAILABLE_REASON_ALREADY_USED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable_reason_already_used"
+          }
+        },
+        "UNAVAILABLE_REASON_TOO_SHORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable_reason_too_short"
+          }
+        },
+        "UNAVAILABLE_REASON_TOO_LONG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable_reason_too_long"
+          }
+        },
+        "UNAVAILABLE_REASON_INVALID_CHARACTERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable_reason_invalid_characters"
+          }
+        },
+        "UNAVAILABLE_REASON_STARTS_OR_ENDS_WITH_HYPHEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable_reason_starts_or_ends_with_hyphen"
+          }
+        },
+        "UNAVAILABLE_REASON_CONTAINS_DOTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable_reason_contains_dots"
+          }
+        },
+        "UNAVAILABLE_REASON_CONTAINS_RESERVED_KEYWORD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable_reason_contains_reserved_keyword"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailability": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailabilityRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailabilityResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/free-domains/check-availability",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Check whether a given slug and free domain combination is available."
+      }
+    },
+    "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomainsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomainsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results (must be a positive integer)."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of free root domains to return (must be a positive integer lower or equal to 100)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "root_domains": {
+          "target": "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomainsResponseRootDomainsList",
+          "traits": {
+            "smithy.api#documentation": "List of free root domains available for the Web Hosting."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of free root domains available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomainsResponseRootDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of free root domains available for the Web Hosting."
+      }
+    },
+    "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/free-domains/root-domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve the list of free root domains available for a Web Hosting.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "root_domains",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.webhosting_free_domain_v1#WebhostingFreeDomainV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.webhosting_free_domain_v1#CheckFreeDomainAvailability"
+        },
+        {
+          "target": "com.scaleway.webhosting_free_domain_v1#ListFreeRootDomains"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Web Hosting free domain API",
+        "smithy.api#documentation": "Scaleway provides several Web Hosting plans for individuals, professionals, and everyone in between. Our Web Hosting plans include:\n\n- A domain name\n- A configurable webhosting service\n- The management of your emails, including anti-spam, antivirus and filter systems\n- Unlimited sub-domains\n- An FTP account to upload your website\n- At least one database\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-services/webhosting/concepts/) to find definitions of all Web Hosting-related terminology.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Web Hosting API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Choose a Web Hosting offer**: run the following command to list all Web Hosting offers. The `| jq` appendage at the end of the command makes the output easier to read.\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/offers?without_options=true\" | jq\n    ```\n\n   <Message type=\"note\">\n   In the above example, we choose to get offers only. Adjust the query parameter if you would also like to get information about the different options you can add to offers.\n   </Message>\n\n3. **Order a Web Hosting plan**: run the following command to create a Web Hosting plan. You can customize the details in the payload to your needs, using the table below to help.\n\n    ```bash\n    curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/hostings\" \\\n        -d '{\n        \"domain\": \"mydomain.net\",\n        \"offer_id\": \"f5c2ae8f-7625-4bca-b711-b44bb3d08694\",\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"tags\": [\"my-tag\"]\n    }'\n    ```\n\n\n   <Message type=\"tip\">\n   Once you've ordered your Web Hosting plan, check out our [dedicated documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/) to get started with your configuration.\n   </Message>\n\n4. **Delete your Web Hosting plan**: run the following command to delete your Web Hosting plan. Ensure that you replace `{hosting-id}` in the URL with the ID of the Web Hosting plan you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n        -H \"Content-Type: application/json\" \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        \"https://api.scaleway.com/rest-of-endpoint/{hosting-id}\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have [installaed `jq`](https://stedolan.github.io/jq/download/)\n</Message>\n\n## Technical information\n\nAll Scaleway Web Hosting plans now offer a choice between cPanel and Plesk for website management. Both tools provide a graphical interface and fast access icons, allowing you to configure and monitor your hosting solutions with ease. You can access cPanel or Plesk via the [Scaleway console](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/#how-to-access-the-web-hosting-control-panel-from-the-scaleway-console).\n\n### Regions\n\nThe Scaleway Web Hosting API is a **regional** API, meaning that each call must specify in its path parameters the region for the resources concerned by the call.\n\nScaleway Web Hosting is available only in the `fr-par` region.\n\n## Going further\n\nFor more help using Scaleway Web Hosting, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/)\n- The #webhosting-early-access channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

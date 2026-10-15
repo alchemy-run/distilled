@@ -1,0 +1,1896 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.account_organization_v3#OrganizationUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_use_case"
+          }
+        },
+        "HOST_PRIVATE_OR_HYBRID_CLOUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "host_private_or_hybrid_cloud"
+          }
+        },
+        "BUILD_AND_HOST_SAAS_APPLICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build_and_host_saas_application"
+          }
+        },
+        "HOST_WEB_APPS_AND_WEBSITES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "host_web_apps_and_websites"
+          }
+        },
+        "MANAGE_INFRASTRUCTURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage_infrastructure"
+          }
+        },
+        "STORE_DATA_AND_AUTOMATE_PROCESSES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "store_data_and_automate_processes"
+          }
+        },
+        "TRAIN_ML_MODELS_AND_RUN_AI_INFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "train_ml_models_and_run_ai_inference"
+          }
+        },
+        "DONT_KNOW_YET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dont_know_yet"
+          }
+        },
+        "OTHER_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#SetOrganizationUseCasesRequestUseCasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_organization_v3#OrganizationUseCase"
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#SetOrganizationUseCasesRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String"
+        },
+        "use_cases": {
+          "target": "com.scaleway.account_organization_v3#SetOrganizationUseCasesRequestUseCasesList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#SetOrganizationUseCasesResponse": {
+      "type": "structure",
+      "members": {
+        "use_cases": {
+          "target": "com.scaleway.account_organization_v3#SetOrganizationUseCasesResponseUseCasesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#SetOrganizationUseCasesResponseUseCasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_organization_v3#OrganizationUseCase"
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#SetOrganizationUseCases": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#SetOrganizationUseCasesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_organization_v3#SetOrganizationUseCasesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/account/v3/organization-use-cases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.account_organization_v3#GetOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#Organization": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Organization."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the Organization. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the Organization. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "address": {
+          "target": "com.scaleway.account_organization_v3#OrganizationAddress",
+          "traits": {
+            "smithy.api#documentation": "Postal address of the Organization."
+          }
+        },
+        "vat_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VAT number for tax exemption.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.scaleway.account_organization_v3#OrganizationType",
+          "traits": {
+            "smithy.api#documentation": "Type of this Organization (personal or professional)."
+          }
+        },
+        "sub_type": {
+          "target": "com.scaleway.account_organization_v3#OrganizationSubType",
+          "traits": {
+            "smithy.api#documentation": "Subtype of this Organization."
+          }
+        },
+        "currency": {
+          "target": "com.scaleway.account_organization_v3#OrganizationCurrency",
+          "traits": {
+            "smithy.api#documentation": "Currency defined in the signed Terms of Service."
+          }
+        },
+        "warnings": {
+          "target": "com.scaleway.account_organization_v3#OrganizationWarningsList",
+          "traits": {
+            "smithy.api#documentation": "All warnings attached to this Organization."
+          }
+        },
+        "payment_mode": {
+          "target": "com.scaleway.account_organization_v3#OrganizationPaymentMode",
+          "traits": {
+            "smithy.api#documentation": "Deprecated, use payment API instead."
+          }
+        },
+        "billing_email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email on which invoices are sent Email to which invoices are sent. If empty, the Owner's email is used. Replaced by the Notification manager."
+          }
+        },
+        "mfa_enforced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to true if MFA is required for the Organization."
+          }
+        },
+        "dedibox_account": {
+          "target": "com.scaleway.account_organization_v3#OrganizationDediboxAccount",
+          "traits": {
+            "smithy.api#documentation": "Contains ID and link creation date if a dedibox account is linked."
+          }
+        },
+        "is_startup": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Set to true if the Organization is identified as a startup."
+          }
+        },
+        "corporate_industry": {
+          "target": "com.scaleway.account_organization_v3#OrganizationCorporateIndustry",
+          "traits": {
+            "smithy.api#documentation": "Corporate industry of the Organization."
+          }
+        },
+        "duns_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DUNS number.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "use_cases": {
+          "target": "com.scaleway.account_organization_v3#OrganizationUseCasesList",
+          "traits": {
+            "smithy.api#documentation": "Use cases of the Organization."
+          }
+        },
+        "picture_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Link to the Organization's picture.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reseller_customer_profile": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reseller customer profile.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "badges": {
+          "target": "com.scaleway.account_organization_v3#OrganizationBadgesList",
+          "traits": {
+            "smithy.api#documentation": "All badges attached to this Organization."
+          }
+        },
+        "reseller_customer_config": {
+          "target": "com.scaleway.account_organization_v3#OrganizationResellerCustomerConfig",
+          "traits": {
+            "smithy.api#documentation": "Reseller customer config."
+          }
+        },
+        "onboarding_step": {
+          "target": "com.scaleway.account_organization_v3#OrganizationOnboardingStep",
+          "traits": {
+            "smithy.api#documentation": "Organization onboarding process step."
+          }
+        },
+        "origin": {
+          "target": "com.scaleway.account_organization_v3#OrganizationOrigin",
+          "traits": {
+            "smithy.api#documentation": "Organization origin."
+          }
+        },
+        "tax_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tax code for if required for your country.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "certified_email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certified email address if required for your country.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recipient_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recipient Code if required for your country (e.g SDI, PPF).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "legal_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal name of the organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company_registration_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The primary identification number for the legal entity.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "establishment_registration_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identification number for a specific branch, operating unit, or physical location of the company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the organization."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationAddress": {
+      "type": "structure",
+      "members": {
+        "line1": {
+          "target": "smithy.api#String"
+        },
+        "line2": {
+          "target": "smithy.api#String"
+        },
+        "city_name": {
+          "target": "smithy.api#String"
+        },
+        "zip_code": {
+          "target": "smithy.api#String"
+        },
+        "subdivision_code": {
+          "target": "smithy.api#String"
+        },
+        "country_code": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "PROFESSIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "professional"
+          }
+        },
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationSubType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_type"
+          }
+        },
+        "STANDARD_SUB_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard_sub_type"
+          }
+        },
+        "STARTUP_SUB_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "startup_sub_type"
+          }
+        },
+        "CONSULTANT_SUB_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consultant_sub_type"
+          }
+        },
+        "PERSONAL_SUB_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personal_sub_type"
+          }
+        },
+        "ASSOCIATION_SUB_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "association_sub_type"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationCurrency": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_CURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_currency"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationWarning": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "reason": {
+          "target": "com.scaleway.account_organization_v3#OrganizationWarningReason"
+        },
+        "locking": {
+          "target": "smithy.api#Boolean"
+        },
+        "closed": {
+          "target": "smithy.api#Boolean"
+        },
+        "opened_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationWarningReason": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_REASON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_reason"
+          }
+        },
+        "SECURITY_CONCERNS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "security_concerns"
+          }
+        },
+        "SECURITY_ISSUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "security_issue"
+          }
+        },
+        "CRITICAL_SECURITY_ISSUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "critical_security_issue"
+          }
+        },
+        "LOCKED_FOR_ABUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked_for_abuse"
+          }
+        },
+        "NETWORK_ABUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "network_abuse"
+          }
+        },
+        "INVOICE_PAYMENT_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_payment_failure"
+          }
+        },
+        "GOT_CHARGEBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "got_chargeback"
+          }
+        },
+        "VALIDATE_TOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validate_tos"
+          }
+        },
+        "VALIDATE_KYC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validate_kyc"
+          }
+        },
+        "PAYMENT_INFO_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_info_missing"
+          }
+        },
+        "BILLING_INFO_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billing_info_missing"
+          }
+        },
+        "ACCOUNT_CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_closed"
+          }
+        },
+        "CARD_EXPIRED_OR_SOON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card_expired_or_soon"
+          }
+        },
+        "CONFIRM_EMAIL_CHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "confirm_email_change"
+          }
+        },
+        "GDPR_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gdpr_delete"
+          }
+        },
+        "RATE_LIMITING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rate_limiting"
+          }
+        },
+        "TRUSTED_LEVEL_SECURITY_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trusted_level_security_check"
+          }
+        },
+        "ONLINE_INVOICE_PAYMENT_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "online_invoice_payment_failure"
+          }
+        },
+        "VALIDATE_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validate_email"
+          }
+        },
+        "ULTRA_SECURITY_ISSUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ultra_security_issue"
+          }
+        },
+        "MISSING_VAT_NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "missing_vat_number"
+          }
+        },
+        "INVALID_VAT_NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid_vat_number"
+          }
+        },
+        "LOCKED_BY_RESELLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked_by_reseller"
+          }
+        },
+        "VALIDATE_PHONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validate_phone"
+          }
+        },
+        "E_INVOICING_INFO_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "e_invoicing_info_missing"
+          }
+        },
+        "E_INVOICING_INFO_INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "e_invoicing_info_invalid"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationWarningsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_organization_v3#OrganizationWarning"
+      },
+      "traits": {
+        "smithy.api#documentation": "All warnings attached to this Organization."
+      }
+    },
+    "com.scaleway.account_organization_v3#OrganizationPaymentMode": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PAYMENT_MODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_payment_mode"
+          }
+        },
+        "CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "card"
+          }
+        },
+        "SEPA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sepa"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationDediboxAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "linked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "migrated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationCorporateIndustry": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_CORPORATE_INDUSTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_corporate_industry"
+          }
+        },
+        "CONSULTING_SERVICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consulting_services"
+          }
+        },
+        "CYBERSECURITY_SOFTWARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cybersecurity_software"
+          }
+        },
+        "ECOMMERCE_RETAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecommerce_retail"
+          }
+        },
+        "EDUCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education"
+          }
+        },
+        "ENERGY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "energy"
+          }
+        },
+        "FINANCIAL_SERVICES_INSURANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_services_insurance"
+          }
+        },
+        "GAMING_ENTERTAINMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gaming_entertainment"
+          }
+        },
+        "HOSPITALITY_LEISURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hospitality_leisure"
+          }
+        },
+        "LIFESCIENCE_HEALTHCARE_PHARMACEUTICALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lifescience_healthcare_pharmaceuticals"
+          }
+        },
+        "MANUFACTURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manufacturing"
+          }
+        },
+        "MEDIA_PRESS_TV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media_press_tv"
+          }
+        },
+        "PUBLIC_SECTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_sector"
+          }
+        },
+        "TELECOMMUNICATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "telecommunications"
+          }
+        },
+        "TECHNOLOGY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "technology"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationUseCasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_organization_v3#OrganizationUseCase"
+      },
+      "traits": {
+        "smithy.api#documentation": "Use cases of the Organization."
+      }
+    },
+    "com.scaleway.account_organization_v3#OrganizationBadge": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_BADGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_badge"
+          }
+        },
+        "BADGE_HDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "badge_hds"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationBadgesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_organization_v3#OrganizationBadge"
+      },
+      "traits": {
+        "smithy.api#documentation": "All badges attached to this Organization."
+      }
+    },
+    "com.scaleway.account_organization_v3#OrganizationResellerCustomerConfig": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_RESELLER_CUSTOMER_CONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_reseller_customer_config"
+          }
+        },
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "BILLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billing"
+          }
+        },
+        "BILLING_SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billing_support"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationOnboardingStep": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ONBOARDING_STEP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_onboarding_step"
+          }
+        },
+        "ACCOUNT_DETAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_details"
+          }
+        },
+        "PHONE_DETAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone_details"
+          }
+        },
+        "ADDRESS_DETAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "address_details"
+          }
+        },
+        "BILLING_DETAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "billing_details"
+          }
+        },
+        "DEFAULT_PROJECT_DETAILS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default_project_details"
+          }
+        },
+        "DEFAULT_PROJECT_QUALIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default_project_qualification"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#OrganizationOrigin": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_origin"
+          }
+        },
+        "DIRECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "direct"
+          }
+        },
+        "INVITATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invitation"
+          }
+        },
+        "ORIGIN_INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "origin_internal"
+          }
+        },
+        "RESELLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reseller"
+          }
+        },
+        "DEDIBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedibox"
+          }
+        },
+        "DEDIBOX_ONE_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedibox_one_account"
+          }
+        },
+        "WEB_CLOUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web_cloud"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "BOOK_MY_NAME_ONE_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "book_my_name_one_account"
+          }
+        },
+        "BOOK_MY_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "book_my_name"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#GetOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#GetOrganizationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_organization_v3#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/organizations/{organization_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the Organization with the given ID"
+      }
+    },
+    "com.scaleway.account_organization_v3#GetActiveSupportPlanRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#ActiveSupportPlan": {
+      "type": "structure",
+      "members": {
+        "support_plan": {
+          "target": "com.scaleway.account_organization_v3#SupportPlan",
+          "traits": {
+            "smithy.api#documentation": "Active support plan information."
+          }
+        },
+        "support_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Support id of the Organization."
+          }
+        },
+        "support_pin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Support pin of the Organization."
+          }
+        },
+        "technical_account_manager": {
+          "target": "com.scaleway.account_organization_v3#TechnicalAccountManager",
+          "traits": {
+            "smithy.api#documentation": "Technical account manager attached to the Organization."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#SupportPlan": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the support plan. (UUID format)"
+          }
+        },
+        "level": {
+          "target": "com.scaleway.account_organization_v3#SupportPlanLevel",
+          "traits": {
+            "smithy.api#documentation": "Level of the support plan."
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the support plan. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stopped_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End date of the support plan. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the support plan."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#SupportPlanLevel": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LEVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_level"
+          }
+        },
+        "BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basic"
+          }
+        },
+        "DEVELOPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer"
+          }
+        },
+        "BRONZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bronze"
+          }
+        },
+        "SILVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "silver"
+          }
+        },
+        "GOLD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gold"
+          }
+        },
+        "PLATINUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platinum"
+          }
+        },
+        "ADVANCED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advanced"
+          }
+        },
+        "BUSINESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "business"
+          }
+        },
+        "ENTERPRISE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enterprise"
+          }
+        },
+        "CUSTOM_LVMH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom_lvmh"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#TechnicalAccountManager": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the TAM. (UUID format)"
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name of the TAM."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name of the TAM."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the TAM."
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number of the TAM."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the TAM."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#GetActiveSupportPlan": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#GetActiveSupportPlanRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_organization_v3#ActiveSupportPlan"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/organizations/{organization_id}/active-support-plan",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the active support plan for the Organization Get the support plan for the Organization along with the Technical Account Manager contact information."
+      }
+    },
+    "com.scaleway.account_organization_v3#CloseOrganizationRequestReason": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_REASON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_reason"
+          }
+        },
+        "NO_LONGER_NEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_longer_needed"
+          }
+        },
+        "TOO_EXPENSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "too_expensive"
+          }
+        },
+        "MISSING_FEATURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "missing_feature"
+          }
+        },
+        "TECHNICAL_ISSUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "technical_issue"
+          }
+        },
+        "TEST_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "test_only"
+          }
+        },
+        "DIFFICULT_TO_USE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "difficult_to_use"
+          }
+        },
+        "USING_ANOTHER_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "using_another_account"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#CloseOrganizationRequestReasonsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_organization_v3#CloseOrganizationRequestReason"
+      },
+      "traits": {
+        "smithy.api#documentation": "Reasons to close the Organization."
+      }
+    },
+    "com.scaleway.account_organization_v3#CloseOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization."
+          }
+        },
+        "reasons": {
+          "target": "com.scaleway.account_organization_v3#CloseOrganizationRequestReasonsList",
+          "traits": {
+            "smithy.api#documentation": "Reasons to close the Organization."
+          }
+        },
+        "details": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "More details about why the Organization is being closed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#CloseOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#CloseOrganizationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/organizations/{organization_id}/close",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Close Organization Close the Organization associated with the given ID."
+      }
+    },
+    "com.scaleway.account_organization_v3#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#SetPictureRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization."
+          }
+        },
+        "file": {
+          "target": "com.scaleway.account_organization_v3#ScalewayStdFile",
+          "traits": {
+            "smithy.api#documentation": "Picture to upload."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#SetPicture": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#SetPictureRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/account/v3/organizations/{organization_id}/picture",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set picture Set a picture for the Organization."
+      }
+    },
+    "com.scaleway.account_organization_v3#ReopenOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#ReopenOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#ReopenOrganizationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/organizations/{organization_id}/reopen",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Reopen Organization Reopen a previously closed Organization associated with the given ID."
+      }
+    },
+    "com.scaleway.account_organization_v3#SendMFAEnableReminderEmailRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization."
+          }
+        },
+        "sender_account_root_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the user sending the email."
+          }
+        },
+        "account_root_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the user receiving the email."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#SendMFAEnableReminderEmail": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#SendMFAEnableReminderEmailRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/organizations/{organization_id}/send-mfa-enable-reminder-email",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Send MFA enable reminder email\n\nSend an email to the specified user to remind them to enable MFA on their account. Useful for Organizations where MFA is enforced for members."
+      }
+    },
+    "com.scaleway.account_organization_v3#SkipOnboardingBillingDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#SkipOnboardingBillingDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#SkipOnboardingBillingDetailsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_organization_v3#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/organizations/{organization_id}/skip-onboarding-billing-details",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Skip billing details during onboarding Skip the billing details step during the onboarding process. The onboarding step will be advanced to the next step."
+      }
+    },
+    "com.scaleway.account_organization_v3#ListSupportPlansRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "STARTED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started_at_asc"
+          }
+        },
+        "STARTED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started_at_desc"
+          }
+        },
+        "STOPPED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped_at_asc"
+          }
+        },
+        "STOPPED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#ListSupportPlansRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter by Organization ID. (UUID format)"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.account_organization_v3#ListSupportPlansRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of support plans."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Requested page number. Value must be greater or equals to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of items per page. Value must be between 1 and 1000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#ListSupportPlansResponse": {
+      "type": "structure",
+      "members": {
+        "support_plans": {
+          "target": "com.scaleway.account_organization_v3#ListSupportPlansResponseSupportPlansList",
+          "traits": {
+            "smithy.api#documentation": "List of support plans."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of support plans."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_organization_v3#ListSupportPlansResponseSupportPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_organization_v3#SupportPlan"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of support plans."
+      }
+    },
+    "com.scaleway.account_organization_v3#ListSupportPlans": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#ListSupportPlansRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_organization_v3#ListSupportPlansResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/organizations/{organization_id}/support-plans",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List the support plans for the Organization",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "support_plans",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.account_organization_v3#ChangeSupportPlanRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization. (UUID format)"
+          }
+        },
+        "level": {
+          "target": "com.scaleway.account_organization_v3#SupportPlanLevel",
+          "traits": {
+            "smithy.api#documentation": "Level of support plan The level of support plan. Can only be basic, silver or gold."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#ChangeSupportPlan": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#ChangeSupportPlanRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_organization_v3#SupportPlan"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/organizations/{organization_id}/support-plans",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Change the support plan for the Organization Change the support plan by supplying the level of support wanted and the Organization ID."
+      }
+    },
+    "com.scaleway.account_organization_v3#UpdateOrganizationBillingDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization."
+          }
+        },
+        "vat_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VAT number for tax exemption.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "address": {
+          "target": "com.scaleway.account_organization_v3#OrganizationAddress",
+          "traits": {
+            "smithy.api#documentation": "Address object."
+          }
+        },
+        "duns_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DUNS number.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tax_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tax code for if required for your country.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "certified_email_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certified email address if required for your country.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "legal_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legal name of the organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "recipient_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recipient Code if required for your country (e.g SDI, PPF).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company_registration_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The primary identification number for the legal entity.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "establishment_registration_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identification number for a specific branch, operating unit, or physical location of the company.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#UpdateOrganizationBillingDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#UpdateOrganizationBillingDetailsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_organization_v3#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/organizations/{organization_id}/update-billing-details",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update the billing details of the Organization with the given ID"
+      }
+    },
+    "com.scaleway.account_organization_v3#UpdateOrganizationDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Organization."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.scaleway.account_organization_v3#OrganizationType",
+          "traits": {
+            "smithy.api#documentation": "Organization type."
+          }
+        },
+        "mfa_enforced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to true to ensure MFA is required for the Organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_organization_v3#UpdateOrganizationDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_organization_v3#UpdateOrganizationDetailsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_organization_v3#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/organizations/{organization_id}/update-details",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update the details of the Organization details with the given ID"
+      }
+    },
+    "com.scaleway.account_organization_v3#AccountOrganizationV3": {
+      "type": "service",
+      "version": "v3",
+      "operations": [
+        {
+          "target": "com.scaleway.account_organization_v3#SetOrganizationUseCases"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#GetOrganization"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#GetActiveSupportPlan"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#CloseOrganization"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#SetPicture"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#ReopenOrganization"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#SendMFAEnableReminderEmail"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#SkipOnboardingBillingDetails"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#ListSupportPlans"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#ChangeSupportPlan"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#UpdateOrganizationBillingDetails"
+        },
+        {
+          "target": "com.scaleway.account_organization_v3#UpdateOrganizationDetails"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Organization API",
+        "smithy.api#documentation": "Organization API allows you to manage the personal data of an Organization."
+      }
+    }
+  }
+}

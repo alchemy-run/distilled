@@ -1,0 +1,3726 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.qaas_v1alpha1#ApplicationType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "VQE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vqe"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListApplicationsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListApplicationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "List applications with this name."
+          }
+        },
+        "application_type": {
+          "target": "com.scaleway.qaas_v1alpha1#ApplicationType",
+          "traits": {
+            "smithy.api#httpQuery": "application_type",
+            "smithy.api#documentation": "List applications with this type."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of applications a to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListApplicationsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned applications."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListApplicationsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of applications."
+          }
+        },
+        "applications": {
+          "target": "com.scaleway.qaas_v1alpha1#ListApplicationsResponseApplicationsList",
+          "traits": {
+            "smithy.api#documentation": "List of applications."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#Application": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the application."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the application."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.qaas_v1alpha1#ApplicationType",
+          "traits": {
+            "smithy.api#documentation": "Type of the application."
+          }
+        },
+        "compatible_platform_ids": {
+          "target": "com.scaleway.qaas_v1alpha1#ApplicationCompatiblePlatformIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of compatible platform (by IDs) able to run this application."
+          }
+        },
+        "input_template": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON format describing the expected input."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ApplicationCompatiblePlatformIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of compatible platform (by IDs) able to run this application."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListApplicationsResponseApplicationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#Application"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of applications."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListApplications": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListApplicationsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListApplicationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/applications",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all available applications\n\nRetrieve information about all applications.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "applications",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "application_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the application."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetApplication": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#GetApplicationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Application"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/applications/{application_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get application information\n\nRetrieve information about the provided **application ID**, such as name, type and compatible platforms."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListBookingsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "STARTED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started_at_desc"
+          }
+        },
+        "STARTED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListBookingsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "List bookings belonging to this project ID. (UUID format)"
+          }
+        },
+        "platform_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "platform_id",
+            "smithy.api#documentation": "List bookings attached to this platform ID."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of results to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListBookingsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListBookingsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of bookings."
+          }
+        },
+        "bookings": {
+          "target": "com.scaleway.qaas_v1alpha1#ListBookingsResponseBookingsList",
+          "traits": {
+            "smithy.api#documentation": "List of bookings."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#Booking": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the booking."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the booking was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the booking starts. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the booking was updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the booking finishes. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.qaas_v1alpha1#BookingStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the booking."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the booking slot."
+          }
+        },
+        "progress_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Any progress message of the booking."
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time zone for the booking schedule, in tz database format (e.g. 'Europe/Paris').",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#BookingStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "WAITING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting"
+          }
+        },
+        "VALIDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validating"
+          }
+        },
+        "VALIDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validated"
+          }
+        },
+        "CANCELLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelling"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListBookingsResponseBookingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#Booking"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of bookings."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListBookings": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListBookingsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListBookingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/bookings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all bookings according the filter\n\nRetrieve information about all bookings of the provided **project ID** or ** platform ID**.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "bookings",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetBookingRequest": {
+      "type": "structure",
+      "members": {
+        "booking_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the booking."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetBooking": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#GetBookingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Booking"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/bookings/{booking_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get booking information\n\nRetrieve information about the provided **booking ID**, such as description, status and progress message."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateBookingRequest": {
+      "type": "structure",
+      "members": {
+        "booking_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the booking."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the booking slot.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateBooking": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#UpdateBookingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Booking"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/qaas/v1alpha1/bookings/{booking_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update booking information\n\nUpdate booking information of the provided **booking ID**."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        },
+        "PLATFORM_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_name_asc"
+          }
+        },
+        "PLATFORM_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "platform_name_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "SESSION_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "session_name_asc"
+          }
+        },
+        "SESSION_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "session_name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobsRequest": {
+      "type": "structure",
+      "members": {
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#ListJobsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "List jobs with these tags."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of jobs to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListJobsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned jobs."
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "session_id",
+            "smithy.api#documentation": "List jobs of this session. One-of `resource_id` with `session_id` / `project_id`; the API requires `session_id` in practice (a call with only `project_id` is rejected)."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "List jobs of this Project. One-of `resource_id` with `session_id` / `project_id`; the API requires `session_id` in practice (a call with only `project_id` is rejected)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of jobs."
+          }
+        },
+        "jobs": {
+          "target": "com.scaleway.qaas_v1alpha1#ListJobsResponseJobsList",
+          "traits": {
+            "smithy.api#documentation": "List of jobs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#Job": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the job."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Job name."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#JobTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Session ID in which the job is executed."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the job was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the job was started. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the job was updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.qaas_v1alpha1#JobStatus",
+          "traits": {
+            "smithy.api#documentation": "Job status."
+          }
+        },
+        "progress_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last progress message, if the job has started.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "job_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Duration of the job, if the job is finished. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_distribution": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Result of the job, if the job is finished.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Computation model ID executed by the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Execution parameters for this job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#JobTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the job."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#JobStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "WAITING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelling"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobsResponseJobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#Job"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of jobs."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListJobsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListJobsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/jobs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all jobs within a project or session\n\nRetrieve information about all jobs within a given session.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "jobs",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateJobRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the job."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#JobCircuit": {
+      "type": "structure",
+      "members": {
+        "perceval_circuit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Circuit generated by Perceval that should be executed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "qiskit_circuit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Circuit generated by Qiskit that should be executed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#CreateJobRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the job.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#CreateJobRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Session in which the job is executed.",
+            "smithy.api#required": {}
+          }
+        },
+        "circuit": {
+          "target": "com.scaleway.qaas_v1alpha1#JobCircuit",
+          "traits": {
+            "smithy.api#documentation": "Quantum circuit that should be executed.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum duration of the job. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Computation model ID to be executed by the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Execution parameters for this job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#CreateJobRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Job"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/qaas/v1alpha1/jobs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a job\n\nCreate a job to be executed inside a QPU session."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetJobRequest": {
+      "type": "structure",
+      "members": {
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the job you want to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#GetJobRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Job"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/jobs/{job_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get job information\n\nRetrieve information about the provided **job ID**, mainly used to get the current status."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateJobRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the job."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateJobRequest": {
+      "type": "structure",
+      "members": {
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the job."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#UpdateJobRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#UpdateJobRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Job"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/qaas/v1alpha1/jobs/{job_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update job information\n\nUpdate job information about the provided **job ID**."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#DeleteJobRequest": {
+      "type": "structure",
+      "members": {
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the job."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#DeleteJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#DeleteJobRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/qaas/v1alpha1/jobs/{job_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a job\n\nDelete the job corresponding to the provided **job ID**."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CancelJobRequest": {
+      "type": "structure",
+      "members": {
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the job."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CancelJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#CancelJobRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Job"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/qaas/v1alpha1/jobs/{job_id}/cancel",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Cancel a job\n\nCancel the job corresponding to the provided **job ID**."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetJobCircuitRequest": {
+      "type": "structure",
+      "members": {
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the job."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetJobCircuit": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#GetJobCircuitRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#JobCircuit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/jobs/{job_id}/circuit",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a job circuit\n\nRetrieve the circuit of the provided **job ID**."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobResultsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobResultsRequest": {
+      "type": "structure",
+      "members": {
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the job."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of results to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListJobResultsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobResultsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of results."
+          }
+        },
+        "job_results": {
+          "target": "com.scaleway.qaas_v1alpha1#ListJobResultsResponseJobResultsList",
+          "traits": {
+            "smithy.api#documentation": "List of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#JobResult": {
+      "type": "structure",
+      "members": {
+        "job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the parent job."
+          }
+        },
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Result in JSON format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to download a large result (optional).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation time of the result. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobResultsResponseJobResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#JobResult"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of results."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListJobResults": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListJobResultsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListJobResultsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/jobs/{job_id}/results",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all results of a job\n\nRetrieve all intermediate and final results of a job.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "job_results",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListModelsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListModelsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "List models belonging to this project ID."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of results to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListModelsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListModelsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of models."
+          }
+        },
+        "models": {
+          "target": "com.scaleway.qaas_v1alpha1#ListModelsResponseModelsList",
+          "traits": {
+            "smithy.api#documentation": "List of models."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#Model": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the model."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the model was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage URL of the model.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID in which the model has been created."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListModelsResponseModelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#Model"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of models."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListModels": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListModelsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListModelsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/models",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all models attached to the **project ID**\n\nRetrieve information about all models of the provided **project ID**.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "models",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateModelRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID to attach this model."
+          }
+        },
+        "payload": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The serialized model data.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#CreateModelRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Model"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/qaas/v1alpha1/models",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new model\n\nCreate and register a new model that can be executed through next jobs. A model can also be assigned to a Session."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetModelRequest": {
+      "type": "structure",
+      "members": {
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the model."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#GetModelRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Model"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/models/{model_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get model information\n\nRetrieve information about of the provided **model ID**."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#PlatformType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "SIMULATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "simulator"
+          }
+        },
+        "QPU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "qpu"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#PlatformTechnology": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TECHNOLOGY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_technology"
+          }
+        },
+        "PHOTONIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "photonic"
+          }
+        },
+        "GENERAL_PURPOSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "general_purpose"
+          }
+        },
+        "TRAPPED_ION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trapped_ion"
+          }
+        },
+        "SUPERCONDUCTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superconducting"
+          }
+        },
+        "NEUTRAL_ATOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "neutral_atom"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListPlatformsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "PROVIDER_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provider_name_asc"
+          }
+        },
+        "PROVIDER_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provider_name_desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        },
+        "TECHNOLOGY_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "technology_asc"
+          }
+        },
+        "TECHNOLOGY_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "technology_desc"
+          }
+        },
+        "BACKEND_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backend_name_asc"
+          }
+        },
+        "BACKEND_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backend_name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListPlatformsRequest": {
+      "type": "structure",
+      "members": {
+        "provider_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "provider_name",
+            "smithy.api#documentation": "List platforms with this provider name."
+          }
+        },
+        "backend_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "backend_name",
+            "smithy.api#documentation": "List platforms with this backend name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "List platforms with this name."
+          }
+        },
+        "platform_type": {
+          "target": "com.scaleway.qaas_v1alpha1#PlatformType",
+          "traits": {
+            "smithy.api#httpQuery": "platform_type",
+            "smithy.api#documentation": "List platforms with this type."
+          }
+        },
+        "platform_technology": {
+          "target": "com.scaleway.qaas_v1alpha1#PlatformTechnology",
+          "traits": {
+            "smithy.api#httpQuery": "platform_technology",
+            "smithy.api#documentation": "List platforms with this technology."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of platforms to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListPlatformsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned platforms."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListPlatformsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of platforms."
+          }
+        },
+        "platforms": {
+          "target": "com.scaleway.qaas_v1alpha1#ListPlatformsResponsePlatformsList",
+          "traits": {
+            "smithy.api#documentation": "List of platforms."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#Platform": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the platform."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the platform."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the platform."
+          }
+        },
+        "provider_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the technological provider of the platform in lowercase (quandela, pasqal...)."
+          }
+        },
+        "backend_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the running emulation backend or QPU model of the platform in lowercase (mosaiq, qsim, aer...)."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.qaas_v1alpha1#PlatformType",
+          "traits": {
+            "smithy.api#documentation": "Type of the platform (emulator or qpu)."
+          }
+        },
+        "technology": {
+          "target": "com.scaleway.qaas_v1alpha1#PlatformTechnology",
+          "traits": {
+            "smithy.api#documentation": "Quantum technology used by the platform (trapped-ion, photonic, superconducting qubits...)."
+          }
+        },
+        "max_qubit_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of qubits supported by the platform (estimated for emulator)."
+          }
+        },
+        "max_shot_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of shots during a circuit execution."
+          }
+        },
+        "max_circuit_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of circuit that can be executed in one call."
+          }
+        },
+        "availability": {
+          "target": "com.scaleway.qaas_v1alpha1#PlatformAvailability",
+          "traits": {
+            "smithy.api#documentation": "Availability of the platform."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metadata provided by the platform."
+          }
+        },
+        "price_per_hour": {
+          "target": "com.scaleway.qaas_v1alpha1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price to be paid per hour (excluding free tiers)."
+          }
+        },
+        "price_per_shot": {
+          "target": "com.scaleway.qaas_v1alpha1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price to be paid per shot (excluding free tiers)."
+          }
+        },
+        "price_per_circuit": {
+          "target": "com.scaleway.qaas_v1alpha1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price to be paid per circuit setup before its execution (excluding free tiers)."
+          }
+        },
+        "hardware": {
+          "target": "com.scaleway.qaas_v1alpha1#PlatformHardware",
+          "traits": {
+            "smithy.api#documentation": "Specifications of the underlying hardware."
+          }
+        },
+        "booking_requirement": {
+          "target": "com.scaleway.qaas_v1alpha1#PlatformBookingRequirement",
+          "traits": {
+            "smithy.api#documentation": "Booking constraints to fit if the platform is bookable."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "English description of the platform."
+          }
+        },
+        "documentation_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Documentation link to external documentation to learn more on this platform."
+          }
+        },
+        "is_bookable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specify if the platform is bookable."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#PlatformAvailability": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_AVAILABILITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_availability"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "SHORTAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shortage"
+          }
+        },
+        "SCARCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scarce"
+          }
+        },
+        "MAINTENANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maintenance"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#PlatformHardware": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product name of the hardware."
+          }
+        },
+        "vcpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of vCPUs available."
+          }
+        },
+        "gpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of GPUs available (0 if no GPU)."
+          }
+        },
+        "gpus_network": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Network topology of GPUs (PCIe, NVLink...)."
+          }
+        },
+        "ram": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Amount of RAM available in byte."
+          }
+        },
+        "vram": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Amount of VRAM available in byte (0 if no GPU)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#PlatformBookingRequirement": {
+      "type": "structure",
+      "members": {
+        "min_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimal duration of any booking based on this platform. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximal duration of any bookings based on this platform. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_cancellation_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Allowed time to cancel a booking attached to this platform before the beginning of the session. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_planification_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Allowed planification time from now where the platform can be booked in the future. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_planification_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimum planification time before a platform can be booked. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_booking_per_week": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum amount of booking allowed for one organization per week."
+          }
+        },
+        "max_booking_per_day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum amount of booking allowed for one organization per day."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListPlatformsResponsePlatformsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#Platform"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of platforms."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListPlatforms": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListPlatformsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListPlatformsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/platforms",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all available platforms\n\nRetrieve information about all platforms.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "platforms",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetPlatformRequest": {
+      "type": "structure",
+      "members": {
+        "platform_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the platform."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetPlatform": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#GetPlatformRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Platform"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/platforms/{platform_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get platform information\n\nRetrieve information about the provided **platform ID**, such as provider name, technology, and type."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessesRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STARTED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started_at_asc"
+          }
+        },
+        "STARTED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started_at_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessesRequest": {
+      "type": "structure",
+      "members": {
+        "application_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "application_id",
+            "smithy.api#documentation": "List processes that have been created for this application."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#ListProcessesRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "List processes with these tags."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of processes to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListProcessesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned processes."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "List processes belonging to this project ID. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of processes."
+          }
+        },
+        "processes": {
+          "target": "com.scaleway.qaas_v1alpha1#ListProcessesResponseProcessesList",
+          "traits": {
+            "smithy.api#documentation": "List of processes."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#Process": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the process."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the process."
+          }
+        },
+        "application_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application ID for which the process has been created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Platform ID for which the process has been created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attached_session_ids": {
+          "target": "com.scaleway.qaas_v1alpha1#ProcessAttachedSessionIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of sessions generated by the process."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the process was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the process started. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the process was updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time at which the process was finished. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.qaas_v1alpha1#ProcessStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the process."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID in which the process has been created. (UUID format)"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#ProcessTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the process."
+          }
+        },
+        "progress": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Progress of the process, from 0 to 1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "progress_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Any progress of the process.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Input payload of the process as JSON string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ProcessAttachedSessionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of sessions generated by the process."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ProcessStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "STARTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starting"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelling"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ProcessTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the process."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessesResponseProcessesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#Process"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of processes."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcesses": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListProcessesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListProcessesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/processes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all processes\n\nRetrieve information about all processes.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "processes",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateProcessRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the process."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateProcessRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project in which the process was created. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "platform_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the platform for which the process was created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "application_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the application for which the process was created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the process."
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Process parameters in JSON format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#CreateProcessRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the process."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateProcess": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#CreateProcessRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Process"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/qaas/v1alpha1/processes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a process\n\nCreate a new process for the specified application on a specified platform."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetProcessRequest": {
+      "type": "structure",
+      "members": {
+        "process_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the process."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetProcess": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#GetProcessRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Process"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/processes/{process_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get process information\n\nRetrieve information about the provided **process ID**, such as name, status and progress."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateProcessRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the process."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateProcessRequest": {
+      "type": "structure",
+      "members": {
+        "process_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the process."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the process.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#UpdateProcessRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the process.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateProcess": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#UpdateProcessRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Process"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/qaas/v1alpha1/processes/{process_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update process information\n\nUpdate process information of the provided **process ID**."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#DeleteProcessRequest": {
+      "type": "structure",
+      "members": {
+        "process_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the process."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#DeleteProcess": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#DeleteProcessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/qaas/v1alpha1/processes/{process_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing process\n\nDelete a process by its unique ID and delete all its data."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CancelProcessRequest": {
+      "type": "structure",
+      "members": {
+        "process_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the process."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CancelProcess": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#CancelProcessRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Process"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/qaas/v1alpha1/processes/{process_id}/cancel",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Cancel a running process\n\nCancel a process by its unique ID. Intermediate results are still available."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessResultsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessResultsRequest": {
+      "type": "structure",
+      "members": {
+        "process_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the process."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of results to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListProcessResultsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessResultsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of results."
+          }
+        },
+        "process_results": {
+          "target": "com.scaleway.qaas_v1alpha1#ListProcessResultsResponseProcessResultsList",
+          "traits": {
+            "smithy.api#documentation": "List of results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ProcessResult": {
+      "type": "structure",
+      "members": {
+        "process_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the parent process."
+          }
+        },
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Result in JSON format."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation time of the result. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessResultsResponseProcessResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#ProcessResult"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of results."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListProcessResults": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListProcessResultsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListProcessResultsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/processes/{process_id}/results",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all results of a process\n\nRetrieve all intermediate and final result of a process.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "process_results",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STARTED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started_at_asc"
+          }
+        },
+        "STARTED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started_at_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionsRequest": {
+      "type": "structure",
+      "members": {
+        "platform_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "platform_id",
+            "smithy.api#documentation": "List sessions that have been created for this platform."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#ListSessionsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "List sessions with these tags."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of sessions to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListSessionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned sessions."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "List sessions belonging to this project ID. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of sessions."
+          }
+        },
+        "sessions": {
+          "target": "com.scaleway.qaas_v1alpha1#ListSessionsResponseSessionsList",
+          "traits": {
+            "smithy.api#documentation": "List of sessions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#Session": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the session."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the session."
+          }
+        },
+        "platform_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Platform ID for which the session has been created."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the session was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the session started. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the session was updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "terminated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the session was terminated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_idle_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum idle time before the session ends. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum duration before the session ends. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "waiting_job_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of waiting jobs linked to the session."
+          }
+        },
+        "finished_job_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of finished jobs linked to the session."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.qaas_v1alpha1#SessionStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the session."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID in which the session has been created."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#SessionTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deduplication_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deduplication ID of the session."
+          }
+        },
+        "origin_type": {
+          "target": "com.scaleway.qaas_v1alpha1#SessionOriginType",
+          "traits": {
+            "smithy.api#documentation": "Resource type that creates the session."
+          }
+        },
+        "origin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the session's origin resource (if exists).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "progress_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Any progress of the session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "booking_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional booking unique ID of an attached booking.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default computation model ID to be executed by job assigned to this session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Platform configuration parameters applied to this session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#SessionStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "STARTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starting"
+          }
+        },
+        "STOPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopping"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#SessionTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the session."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#SessionOriginType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ORIGIN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_origin_type"
+          }
+        },
+        "CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer"
+          }
+        },
+        "PROCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "process"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionsResponseSessionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#Session"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of sessions."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListSessionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListSessionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/sessions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all sessions\n\nRetrieve information about all QPU sessions.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "sessions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateSessionRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the session."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateSessionRequestBookingDemand": {
+      "type": "structure",
+      "members": {
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#CreateSessionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project in which the session was created. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "platform_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Platform for which the session was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_idle_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum idle duration before the session ends. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum duration before the session ends. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#CreateSessionRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deduplication_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deduplication ID of the session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "booking_demand": {
+          "target": "com.scaleway.qaas_v1alpha1#CreateSessionRequestBookingDemand",
+          "traits": {
+            "smithy.api#documentation": "A booking demand to schedule the session, only applicable if the platform is bookable."
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default computation model ID to be executed by job assigned to this session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional platform configuration parameters applied to this session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#CreateSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#CreateSessionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Session"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/qaas/v1alpha1/sessions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a session\n\nCreate a new QPU session for the specified platform. Once ready, jobs can be sent to this session."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetSessionRequest": {
+      "type": "structure",
+      "members": {
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the session."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#GetSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#GetSessionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Session"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/sessions/{session_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get session information\n\nRetrieve information about the provided **session ID**, such as name and status."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateSessionRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the session."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateSessionRequest": {
+      "type": "structure",
+      "members": {
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the session."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_idle_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum idle duration before the session ends. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum time before the session ends. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.qaas_v1alpha1#UpdateSessionRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#UpdateSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#UpdateSessionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Session"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/qaas/v1alpha1/sessions/{session_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update session information\n\nUpdate session information of the provided **session ID**."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#DeleteSessionRequest": {
+      "type": "structure",
+      "members": {
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the session."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#DeleteSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#DeleteSessionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/qaas/v1alpha1/sessions/{session_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing session\n\nDelete a session by its unique ID and delete all its attached jobs and bookings."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionACLsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "ACCESS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_asc"
+          }
+        },
+        "ACCESS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionACLsRequest": {
+      "type": "structure",
+      "members": {
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.qaas_v1alpha1#ListSessionACLsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionACLsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "acls": {
+          "target": "com.scaleway.qaas_v1alpha1#ListSessionACLsResponseAclsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#SessionAccess": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_access"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        },
+        "READ_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_session"
+          }
+        },
+        "READ_WRITE_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_write_session"
+          }
+        },
+        "READ_JOB_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_job_result"
+          }
+        },
+        "READ_JOB_CIRCUIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_job_circuit"
+          }
+        },
+        "READ_JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_job"
+          }
+        },
+        "READ_WRITE_JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_write_job"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionACLsResponseAclsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.qaas_v1alpha1#SessionAccess"
+      },
+      "traits": {}
+    },
+    "com.scaleway.qaas_v1alpha1#ListSessionACLs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#ListSessionACLsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#ListSessionACLsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/qaas/v1alpha1/sessions/{session_id}/acls",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "acls",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#TerminateSessionRequest": {
+      "type": "structure",
+      "members": {
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the session."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#TerminateSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.qaas_v1alpha1#TerminateSessionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.qaas_v1alpha1#Session"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/qaas/v1alpha1/sessions/{session_id}/terminate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Terminate an existing session\n\nTerminate a session by its unique ID and cancel all its attached jobs and bookings."
+      }
+    },
+    "com.scaleway.qaas_v1alpha1#QaasV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListApplications"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#GetApplication"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListBookings"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#GetBooking"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#UpdateBooking"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListJobs"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#CreateJob"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#GetJob"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#UpdateJob"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#DeleteJob"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#CancelJob"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#GetJobCircuit"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListJobResults"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListModels"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#CreateModel"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#GetModel"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListPlatforms"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#GetPlatform"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListProcesses"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#CreateProcess"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#GetProcess"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#UpdateProcess"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#DeleteProcess"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#CancelProcess"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListProcessResults"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListSessions"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#CreateSession"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#GetSession"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#UpdateSession"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#DeleteSession"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#ListSessionACLs"
+        },
+        {
+          "target": "com.scaleway.qaas_v1alpha1#TerminateSession"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Quantum as a Service API",
+        "smithy.api#documentation": "Quantum as a Service (QaaS) allows you to access and program on diverse Quantum Processing Units (QPUs).\n\n## Quickstart\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n\n- You have a Scaleway account and are logged in to the [Scaleway console](https://console.scaleway.com/organization)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n<Message type=\"important\">\nScaleway QaaS is primarily designed to be used from dedicated quantum computing SDKs. For more information, see the [Quantum Computing - Quickstart](https://www.scaleway.com/en/docs/quantum-computing/quickstart/) documentation.\n</Message>\n\n1. Configure your environment variables.\n   <Message type=\"note\">\n   This is an optional step that aims to simplify your usage of the APIs.\n   </Message>\n\n    ```bash\n    export ACCESS_KEY=\"<access-key>\"\n    export SECRET_KEY=\"<secret-key>\"\n    ```\n\n2. List the available Quantum-as-a-Service platforms. A platform is a formal definition of an allocatable hardware, QPU or GPU with a pre-installed emulator. You can select the one from the list that best fits your use case.\n\n    ```bash\n    curl -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/qaas/v1alpha1/platforms\"\n    ```\n\n   You should get a response like the following:\n\n   <Message type=\"important\">\n   Take note of the UUID of your platform of choice, it will be used in the next step.\n   </Message>\n\n    ```json\n    {\n      \"total_count\": 17,\n      \"platforms\": [\n        {\n          \"id\": \"282e9874-1761-499d-b0dc-004d0e334837\",\n          \"version\": \"0.2\",\n          \"name\": \"QPU-BELENOS-12PQ\",\n          \"provider_name\": \"quandela\",\n          \"type\": \"qpu\",\n          \"technology\": \"photonic\",\n          \"max_qubit_count\": 12,\n        },\n        {\n          \"id\": \"5e52c364-03fd-4bf7-93e2-e1597e28fb83\",\n          \"version\": \"0.1\",\n          \"name\": \"QPU-EMERALD-54PQ\",\n          \"provider_name\": \"iqm\",\n          \"type\": \" qpu\",\n          \"technology\": \"supraconductor\",\n          \"max_qubit_count\": 54,\n        },\n        {\n          \"id\": \"2pai198s-918b-6bf8-13en-y15wqe7epb88\",\n          \"version\": \"0.17\",\n          \"name\": \"EMU-AER-8L40S\",\n          \"provider_name\": \"aer\",\n          \"type\": \" simulator\",\n          \"technology\": \"general-purpose\",\n          \"max_qubit_count\": 36,\n        }\n        [...]\n      ]\n    }\n    ```\n\n3. Run the following command to create a QPU session. A session is a time window where a user can execute quantum jobs on a specific platform.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n        \"project_id\": \"3j336ee9-dff0-4732-8c5a-bc4f2031ddd3\",\n        \"platform_id\": \"2pai198s-918b-6bf8-13en-y15wqe7epb88\"\n      }'\\\n      \"https://api.scaleway.com/qaas/v1alpha1/sessions\"\n    ```\n\n   Edit the request payload according to the following information:\n\n\n   If the operation was successful, you will see a response like the following:\n\n    ```json\n    {\n    \"id\": \"6a134dca-5743-4ba6-9999-b84c295d591c\",\n    \"name\": \"Justina\",\n    \"platform_id\": \"5e52c364-03fd-4bf7-93e2-e1597e28fb83\",\n    \"started_at\": {\n        \"seconds\": \"-62135596800\",\n        \"nanos\": 0\n    },\n    \"updated_at\": {\n        \"seconds\": \"1700063831\",\n        \"nanos\": 389384664\n    },\n    \"terminated_at\": {\n        \"seconds\": \"-62135596800\",\n        \"nanos\": 0\n    },\n    \"max_idle_duration\": {\n        \"seconds\": \"600\",\n        \"nanos\": 0\n    },\n    \"max_duration\": {\n        \"seconds\": \"1800\",\n        \"nanos\": 0\n    },\n    \"waiting_job_count\": \"0\",\n    \"finished_job_count\": \"0\",\n    \"status\": \"starting\",\n    \"project_id\": \"3j336ee9-dff0-4732-8c5a-bc4f2031ddd3\",\n    \"tags\": {\n        \"value\": []\n    },\n    \"deduplication_id\": \"\",\n    \"created_at\": {\n        \"seconds\": \"1700063831\",\n        \"nanos\": 389384664\n    }\n    }\n    ```\n\n   <Message type=\"important\">\n   Take note of the UUID of your session, it will be used in the next step.\n   </Message>\n4. Create a job to execute your quantum circuit.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n          \"circuit\": {\n          \"perceval_circuit\": \":PCVL:zip:eJyzCnAO87FydM4sSi7NLLFydfTM9K9wdI7MSg52DsyO9AkNCtWu9DANqMj3cg50hAPP9GwvBM+xEKgWwXPxRFELAAdTHXM=\"\n          },\n          \"name\": \"my_job\",\n          \"session_id\": \"3j336ee9-dff0-4732-8c5a-bc4f2031ddd3\"\n          }'\\\n      \"https://api.scaleway.com/qaas/v1alpha1/jobs\"\n    ```\n\n   Edit the request payload according to the following information:\n\n\n   If the operation was successful, you will see a response like the following:\n\n    ```json\n    {\n    \"id\": \"f0febf59-14b8-4759-b342-09ab061691a3\",\n    \"name\": \"Loremipsumconsequatdo\",\n    \"tags\": {\n        \"value\": []\n    },\n    \"session_id\": \"f49a7157-93e9-4125-bd3c-b864bb93f6bc\",\n    \"created_at\": {\n        \"seconds\": \"1700064966\",\n        \"nanos\": 251006133\n    },\n    \"updated_at\": {\n        \"seconds\": \"1700064966\",\n        \"nanos\": 251006133\n    },\n    \"started_at\": {\n        \"seconds\": \"-62135596800\",\n        \"nanos\": 0\n    },\n    \"status\": \"waiting\",\n    \"progress_message\": {\n        \"value\": \"\"\n    },\n    \"job_duration\": {\n        \"seconds\": \"0\",\n        \"nanos\": 0\n    },\n    \"result_distribution\": {\n        \"value\": \"\"\n    }\n    }\n    ```\n\n5. Terminate your session once the job is complete. Make sure you specify the `session_ID` in the endpoint.\n\n   <Message type=\"note\">\n   This is an optional step, as all sessions have by default a set timeout of 30 minutes.\n   </Message>\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/qaas/v1alpha1/sessions/$SESSION_ID/terminate\"\n    ```\n\n   If the operation was successful, you will see a response like the following:\n\n    ```json\n    {\n    \"id\": \"6a134dca-5743-4ba6-9999-b84c295d591c\",\n    \"name\": \"Justina\",\n    \"platform_id\": \"5e52c364-03fd-4bf7-93e2-e1597e28fb83\",\n    \"started_at\": {\n        \"seconds\": \"1700064968\",\n        \"nanos\": 219871003\n    },\n    \"updated_at\": {\n        \"seconds\": \"1700064975\",\n        \"nanos\": 489339876\n    },\n    \"terminated_at\": {\n        \"seconds\": \"1700064975\",\n        \"nanos\": 489339876\n    },\n    \"max_idle_duration\": {\n        \"seconds\": \"600\",\n        \"nanos\": 0\n    },\n    \"max_duration\": {\n        \"seconds\": \"1800\",\n        \"nanos\": 0\n    },\n    \"waiting_job_count\": \"0\",\n    \"finished_job_count\": \"0\",\n    \"status\": \"stopping\",\n    \"project_id\": \"3j336ee9-dff0-4732-8c5a-bc4f2031ddd3\",\n    \"tags\": {\n        \"value\": []\n    },\n    \"deduplication_id\": \"\",\n    \"created_at\": {\n        \"seconds\": \"1700063831\",\n        \"nanos\": 389384664\n    }\n    }\n    ```\n\n## Technical information\n\n### Regions\n\nScaleway Quantum as a Service is currently available globally. Refer to our [product availability documentation page](https://www.scaleway.com/en/docs/account/reference-content/products-availability) for more information.\n\n### 0% SLA\n\nScaleway strives to provide the best possible experience on Quantum as a Service. However, as this is an experimental service, we cannot offer a contractual Service Level Agreement (0% SLA).\nFor details on the guarantees of [Labs offers](https://labs.scaleway.com/en/), review the special conditions for BETA services.\n\n### Client\n\nScaleway Quantum as a Service is available from many different SDKs to design and run quantum circuits: [Perceval](https://perceval.quandela.net/), [Qiskit](https://github.com/scaleway/qiskit-scaleway), [Cirq](https://github.com/scaleway/cirq-scaleway), [Pulser](https://github.com/scaleway/pulser-scaleway) and [PennyLane](https://github.com/scaleway/pennylane-scaleway)."
+      }
+    }
+  }
+}

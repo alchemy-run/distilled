@@ -1,0 +1,804 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.billing_v2#ListBudgetsRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by organization ID."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Positive integer to select the number of items to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#ListBudgetsResponse": {
+      "type": "structure",
+      "members": {
+        "budgets": {
+          "target": "com.scaleway.billing_v2#ListBudgetsResponseBudgetsList",
+          "traits": {
+            "smithy.api#documentation": "Detailed budget list."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total number of items."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2#Budget": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Budget's ID."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the budget."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last modification date of the budget."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization ID of the budget."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the budget is enabled or not."
+          }
+        },
+        "consumption_limit": {
+          "target": "com.scaleway.billing_v2#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Cost limit for this budget expressed in the embedded currency code."
+          }
+        },
+        "alerts": {
+          "target": "com.scaleway.billing_v2#BudgetAlertsList",
+          "traits": {
+            "smithy.api#documentation": "Alerts defined for this budget."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2#BudgetAlert": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alert's ID."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the alert."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last modification date of the alert."
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percentage threshold of the budget's limit for which the alert is triggered."
+          }
+        },
+        "notifications": {
+          "target": "com.scaleway.billing_v2#BudgetAlertNotificationsList",
+          "traits": {
+            "smithy.api#documentation": "Notifications to send when the alert is triggered."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2#BudgetAlertNotification": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alert notification's ID."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the alert notification."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last modification date of the alert notification."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.billing_v2#BudgetAlertNotificationType",
+          "traits": {
+            "smithy.api#documentation": "Kind of notification."
+          }
+        },
+        "recipients": {
+          "target": "com.scaleway.billing_v2#BudgetAlertNotificationRecipientsList",
+          "traits": {
+            "smithy.api#documentation": "List of recipients for this alert."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2#BudgetAlertNotificationType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "SMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sms"
+          }
+        },
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "WEBHOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2#BudgetAlertNotificationRecipientsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of recipients for this alert."
+      }
+    },
+    "com.scaleway.billing_v2#BudgetAlertNotificationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_v2#BudgetAlertNotification"
+      },
+      "traits": {
+        "smithy.api#documentation": "Notifications to send when the alert is triggered."
+      }
+    },
+    "com.scaleway.billing_v2#BudgetAlertsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_v2#BudgetAlert"
+      },
+      "traits": {
+        "smithy.api#documentation": "Alerts defined for this budget."
+      }
+    },
+    "com.scaleway.billing_v2#ListBudgetsResponseBudgetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_v2#Budget"
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed budget list."
+      }
+    },
+    "com.scaleway.billing_v2#ListBudgets": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#ListBudgetsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2#ListBudgetsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2/budgets",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List your budgets, filtering by `organization_id`\n\nDerived from scaleway-sdk-js (`API.listBudgets`): Scaleway publishes no OpenAPI document for this route.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "budgets",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudgetRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Organization ID of the budget."
+          }
+        },
+        "consumption_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost limit for the budget expressed in the invoiced currency (no cents allowed).",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the budget is enabled or not.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudget": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#CreateBudgetRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2#Budget"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/billing/v2/budgets",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new budget\n\nDerived from scaleway-sdk-js (`API.createBudget`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#GetBudgetRequest": {
+      "type": "structure",
+      "members": {
+        "budget_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the budget."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#GetBudget": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#GetBudgetRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2#Budget"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2/budgets/{budget_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Fetch a budget\n\nDerived from scaleway-sdk-js (`API.getBudget`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudgetRequest": {
+      "type": "structure",
+      "members": {
+        "budget_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the budget to update."
+          }
+        },
+        "consumption_limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cost limit for the budget expressed in the invoiced currency (no cents allowed)."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the budget will be enabled or not."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudget": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#UpdateBudgetRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2#Budget"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/billing/v2/budgets/{budget_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a budget\n\nDerived from scaleway-sdk-js (`API.updateBudget`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#DeleteBudgetRequest": {
+      "type": "structure",
+      "members": {
+        "budget_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the budget to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#DeleteBudget": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#DeleteBudgetRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/billing/v2/budgets/{budget_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a budget\n\nDerived from scaleway-sdk-js (`API.deleteBudget`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudgetAlertRequest": {
+      "type": "structure",
+      "members": {
+        "budget_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the budget to create alert for.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Threshold above which the alert is sent.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudgetAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#CreateBudgetAlertRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2#BudgetAlert"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/billing/v2/budget-alerts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new budget alert\n\nDerived from scaleway-sdk-js (`API.createBudgetAlert`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudgetAlertRequest": {
+      "type": "structure",
+      "members": {
+        "budget_alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the budget alert to update."
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Threshold above which the alert is sent.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudgetAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#UpdateBudgetAlertRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2#BudgetAlert"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/billing/v2/budget-alerts/{budget_alert_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a budget alert\n\nDerived from scaleway-sdk-js (`API.updateBudgetAlert`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#DeleteBudgetAlertRequest": {
+      "type": "structure",
+      "members": {
+        "budget_alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the budget alert to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#DeleteBudgetAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#DeleteBudgetAlertRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/billing/v2/budget-alerts/{budget_alert_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a budget alert\n\nDerived from scaleway-sdk-js (`API.deleteBudgetAlert`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudgetAlertNotificationRequestSmsPhoneNumbersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of phone numbers to receive sms notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudgetAlertNotificationRequestEmailAddressesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of email addresses to receive email notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudgetAlertNotificationRequestWebhookUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of webhook url to receive webhook notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudgetAlertNotificationRequest": {
+      "type": "structure",
+      "members": {
+        "budget_alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the budget alert to create notification for.",
+            "smithy.api#required": {}
+          }
+        },
+        "sms_phone_numbers": {
+          "target": "com.scaleway.billing_v2#CreateBudgetAlertNotificationRequestSmsPhoneNumbersList",
+          "traits": {
+            "smithy.api#documentation": "List of phone numbers to receive sms notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+          }
+        },
+        "email_addresses": {
+          "target": "com.scaleway.billing_v2#CreateBudgetAlertNotificationRequestEmailAddressesList",
+          "traits": {
+            "smithy.api#documentation": "List of email addresses to receive email notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+          }
+        },
+        "webhook_urls": {
+          "target": "com.scaleway.billing_v2#CreateBudgetAlertNotificationRequestWebhookUrlsList",
+          "traits": {
+            "smithy.api#documentation": "List of webhook url to receive webhook notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#CreateBudgetAlertNotification": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#CreateBudgetAlertNotificationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2#BudgetAlertNotification"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/billing/v2/budget-alert-notifications",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new budget alert notification\n\nDerived from scaleway-sdk-js (`API.createBudgetAlertNotification`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudgetAlertNotificationRequestSmsPhoneNumbersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of phone numbers to receive sms notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudgetAlertNotificationRequestEmailAddressesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of email addresses to receive email notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudgetAlertNotificationRequestWebhookUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of webhook url to receive webhook notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudgetAlertNotificationRequest": {
+      "type": "structure",
+      "members": {
+        "budget_alert_notification_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the budget alert notification to update."
+          }
+        },
+        "sms_phone_numbers": {
+          "target": "com.scaleway.billing_v2#UpdateBudgetAlertNotificationRequestSmsPhoneNumbersList",
+          "traits": {
+            "smithy.api#documentation": "List of phone numbers to receive sms notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+          }
+        },
+        "email_addresses": {
+          "target": "com.scaleway.billing_v2#UpdateBudgetAlertNotificationRequestEmailAddressesList",
+          "traits": {
+            "smithy.api#documentation": "List of email addresses to receive email notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+          }
+        },
+        "webhook_urls": {
+          "target": "com.scaleway.billing_v2#UpdateBudgetAlertNotificationRequestWebhookUrlsList",
+          "traits": {
+            "smithy.api#documentation": "List of webhook url to receive webhook notifications.\nOne-of ('recipientType'): at most one of 'smsPhoneNumbers', 'emailAddresses', 'webhookUrls' could be set."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#UpdateBudgetAlertNotification": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#UpdateBudgetAlertNotificationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2#BudgetAlertNotification"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/billing/v2/budget-alert-notifications/{budget_alert_notification_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a budget alert notification\n\nDerived from scaleway-sdk-js (`API.updateBudgetAlertNotification`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#DeleteBudgetAlertNotificationRequest": {
+      "type": "structure",
+      "members": {
+        "budget_alert_notification_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the budget alert notification to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2#DeleteBudgetAlertNotification": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2#DeleteBudgetAlertNotificationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/billing/v2/budget-alert-notifications/{budget_alert_notification_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a budget alert notification\n\nDerived from scaleway-sdk-js (`API.deleteBudgetAlertNotification`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_v2#BillingV2": {
+      "type": "service",
+      "version": "v2",
+      "operations": [
+        {
+          "target": "com.scaleway.billing_v2#ListBudgets"
+        },
+        {
+          "target": "com.scaleway.billing_v2#CreateBudget"
+        },
+        {
+          "target": "com.scaleway.billing_v2#GetBudget"
+        },
+        {
+          "target": "com.scaleway.billing_v2#UpdateBudget"
+        },
+        {
+          "target": "com.scaleway.billing_v2#DeleteBudget"
+        },
+        {
+          "target": "com.scaleway.billing_v2#CreateBudgetAlert"
+        },
+        {
+          "target": "com.scaleway.billing_v2#UpdateBudgetAlert"
+        },
+        {
+          "target": "com.scaleway.billing_v2#DeleteBudgetAlert"
+        },
+        {
+          "target": "com.scaleway.billing_v2#CreateBudgetAlertNotification"
+        },
+        {
+          "target": "com.scaleway.billing_v2#UpdateBudgetAlertNotification"
+        },
+        {
+          "target": "com.scaleway.billing_v2#DeleteBudgetAlertNotification"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "scaleway.billing.v2.Api (derived)",
+        "smithy.api#documentation": "Derived from scaleway/scaleway-sdk-js packages_generated/billing/src/v2 — the portal publishes no OpenAPI document for these routes."
+      }
+    }
+  }
+}

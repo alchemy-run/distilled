@@ -1,0 +1,1103 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.webhosting_database_v1#ListDatabaseUsersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabaseUsersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "USERNAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "username_asc"
+          }
+        },
+        "USERNAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "username_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabaseUsersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#ListDatabaseUsersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (must be a positive integer)."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of database users to return (must be a positive integer lower or equal to 100)."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.webhosting_database_v1#ListDatabaseUsersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of database users in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabaseUsersResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of database users."
+          }
+        },
+        "users": {
+          "target": "com.scaleway.webhosting_database_v1#ListDatabaseUsersResponseUsersList",
+          "traits": {
+            "smithy.api#documentation": "List of database users."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#DatabaseUser": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database user."
+          }
+        },
+        "databases": {
+          "target": "com.scaleway.webhosting_database_v1#DatabaseUserDatabasesList",
+          "traits": {
+            "smithy.api#documentation": "List of databases accessible by the user."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#DatabaseUserDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of databases accessible by the user."
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabaseUsersResponseUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_database_v1#DatabaseUser"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of database users."
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabaseUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#ListDatabaseUsersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#ListDatabaseUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/database-users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"List all database users\"",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "users",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.webhosting_database_v1#DeleteDatabaseUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#DeleteDatabaseUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#DeleteDatabaseUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database user to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#DeleteDatabaseUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#DeleteDatabaseUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#DatabaseUser"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/database-users/{username}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Delete a database user\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabasesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabasesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "DATABASE_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_name_asc"
+          }
+        },
+        "DATABASE_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabasesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#ListDatabasesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (must be a positive integer)."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of databases to return (must be a positive integer lower or equal to 100)."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.webhosting_database_v1#ListDatabasesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of databases in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabasesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of databases."
+          }
+        },
+        "databases": {
+          "target": "com.scaleway.webhosting_database_v1#ListDatabasesResponseDatabasesList",
+          "traits": {
+            "smithy.api#documentation": "List of databases."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#Database": {
+      "type": "structure",
+      "members": {
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database."
+          }
+        },
+        "users": {
+          "target": "com.scaleway.webhosting_database_v1#DatabaseUsersList",
+          "traits": {
+            "smithy.api#documentation": "List of users who have access to the database."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#DatabaseUsersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of users who have access to the database."
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabasesResponseDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_database_v1#Database"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of databases."
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ListDatabases": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#ListDatabasesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#ListDatabasesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"List all databases within your hosting plan\"",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "databases",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.webhosting_database_v1#CreateDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#CreateDatabaseRequestUser": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String"
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#CreateDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#CreateDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan where the database will be created."
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database to be created."
+          }
+        },
+        "new_user": {
+          "target": "com.scaleway.webhosting_database_v1#CreateDatabaseRequestUser",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Username and password to create a user and link to the database.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "existing_username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Username to link an existing user to the database.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#CreateDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#CreateDatabaseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Create a new database within your hosting plan\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#CreateDatabaseUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#CreateDatabaseUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#CreateDatabaseUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user to create."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the user to create.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#CreateDatabaseUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#CreateDatabaseUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#DatabaseUser"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases-users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Create a new database user\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#GetDatabaseUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#GetDatabaseUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#GetDatabaseUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database user to retrieve details."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#GetDatabaseUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#GetDatabaseUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#DatabaseUser"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases-users/{username}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Get details of a database user\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ChangeDatabaseUserPasswordRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#ChangeDatabaseUserPasswordRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#ChangeDatabaseUserPasswordRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the user to update."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New password.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#ChangeDatabaseUserPassword": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#ChangeDatabaseUserPasswordRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#DatabaseUser"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases-users/{username}/change-password",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Change the password of a database user\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#GetDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#GetDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#GetDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#GetDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#GetDatabaseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases/{database_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Get details of a database within your hosting plan\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#DeleteDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#DeleteDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#DeleteDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#DeleteDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#DeleteDatabaseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases/{database_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Delete a database within your hosting plan\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#AssignDatabaseUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#AssignDatabaseUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#AssignDatabaseUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database to be assigned."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user to assign."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#AssignDatabaseUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#AssignDatabaseUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#DatabaseUser"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases/{database_name}/assign-user",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Assign a database user to a database\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#UnassignDatabaseUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_database_v1#UnassignDatabaseUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_database_v1#UnassignDatabaseUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database to be unassigned."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user to unassign."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_database_v1#UnassignDatabaseUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_database_v1#UnassignDatabaseUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_database_v1#DatabaseUser"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/databases/{database_name}/unassign-user",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "\"Unassign a database user from a database\""
+      }
+    },
+    "com.scaleway.webhosting_database_v1#WebhostingDatabaseV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.webhosting_database_v1#ListDatabaseUsers"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#DeleteDatabaseUser"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#ListDatabases"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#CreateDatabase"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#CreateDatabaseUser"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#GetDatabaseUser"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#ChangeDatabaseUserPassword"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#GetDatabase"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#DeleteDatabase"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#AssignDatabaseUser"
+        },
+        {
+          "target": "com.scaleway.webhosting_database_v1#UnassignDatabaseUser"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Web Hosting Database API",
+        "smithy.api#documentation": "Scaleway provides several Web Hosting plans for individuals, professionals, and everyone in between. Our Web Hosting plans include:\n\n- A domain name\n- A configurable webhosting service\n- The management of your emails, including anti-spam, antivirus and filter systems\n- Unlimited sub-domains\n- An FTP account to upload your website\n- At least one database\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-services/webhosting/concepts/) to find definitions of all Web Hosting-related terminology.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Web Hosting API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Choose a Web Hosting offer**: run the following command to list all Web Hosting offers. The `| jq` appendage at the end of the command makes the output easier to read.\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/offers?without_options=true\" | jq\n    ```\n\n   <Message type=\"note\">\n   In the above example, we choose to get offers only. Adjust the query parameter if you would also like to get information about the different options you can add to offers.\n   </Message>\n\n3. **Order a Web Hosting plan**: run the following command to create a Web Hosting plan. You can customize the details in the payload to your needs, using the table below to help.\n\n    ```bash\n    curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/hostings\" \\\n        -d '{\n        \"domain\": \"mydomain.net\",\n        \"offer_id\": \"f5c2ae8f-7625-4bca-b711-b44bb3d08694\",\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"tags\": [\"my-tag\"]\n    }'\n    ```\n\n\n   <Message type=\"tip\">\n   Once you've ordered your Web Hosting plan, check out our [dedicated documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/) to get started with your configuration.\n   </Message>\n\n4. **Delete your Web Hosting plan**: run the following command to delete your Web Hosting plan. Ensure that you replace `{hosting-id}` in the URL with the ID of the Web Hosting plan you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n        -H \"Content-Type: application/json\" \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        \"https://api.scaleway.com/rest-of-endpoint/{hosting-id}\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have [installaed `jq`](https://stedolan.github.io/jq/download/)\n</Message>\n\n## Technical information\n\nAll Scaleway Web Hosting plans now offer a choice between cPanel and Plesk for website management. Both tools provide a graphical interface and fast access icons, allowing you to configure and monitor your hosting solutions with ease. You can access cPanel or Plesk via the [Scaleway console](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/#how-to-access-the-web-hosting-control-panel-from-the-scaleway-console).\n\n### Regions\n\nThe Scaleway Web Hosting API is a **regional** API, meaning that each call must specify in its path parameters the region for the resources concerned by the call.\n\nScaleway Web Hosting is available only in the `fr-par` region.\n\n## Going further\n\nFor more help using Scaleway Web Hosting, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/)\n- The #webhosting-early-access channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

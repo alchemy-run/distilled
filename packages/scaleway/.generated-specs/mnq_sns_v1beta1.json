@@ -1,0 +1,808 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.mnq_sns_v1beta1#ActivateSnsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#ActivateSnsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sns_v1beta1#ActivateSnsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project on which to activate the Topics and Events service."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#SnsInfo": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the Project containing the service."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the service."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topics and Events creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topics and Events last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mnq_sns_v1beta1#SnsInfoStatus",
+          "traits": {
+            "smithy.api#documentation": "Topics and Events activation status."
+          }
+        },
+        "sns_endpoint_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint of the Topics and Events service for this region and project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#SnsInfoStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#ActivateSns": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sns_v1beta1#ActivateSnsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sns_v1beta1#SnsInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mnq/v1beta1/regions/{region}/activate-sns",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Activate Topics and Events\n\nActivate Topics and Events for the specified Project ID. Topics and Events must be activated before any usage. Activating Topics and Events does not trigger any billing, and you can deactivate at any time."
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#DeactivateSnsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#DeactivateSnsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sns_v1beta1#DeactivateSnsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project on which to deactivate the Topics and Events service."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#DeactivateSns": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sns_v1beta1#DeactivateSnsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sns_v1beta1#SnsInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mnq/v1beta1/regions/{region}/deactivate-sns",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Deactivate Topics and Events\n\nDeactivate Topics and Events for the specified Project ID. You must delete all topics and credentials before this call or you need to set the force_delete parameter."
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Include only Topics and Events credentials in this Project."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of credentials to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of existing credentials (matching any filters specified)."
+          }
+        },
+        "sns_credentials": {
+          "target": "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsResponseSnsCredentialsList",
+          "traits": {
+            "smithy.api#documentation": "Topics and Events credentials on this page."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#SnsCredentials": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the credentials."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the credentials."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the Project containing the credentials."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region where the credentials exists."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "access_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access key ID."
+          }
+        },
+        "secret_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret key ID (Only returned by **Create Topics and Events Credentials** call).",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secret_checksum": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checksum of the Secret key."
+          }
+        },
+        "permissions": {
+          "target": "com.scaleway.mnq_sns_v1beta1#SnsPermissions",
+          "traits": {
+            "smithy.api#documentation": "Permissions associated with these credentials."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#SnsPermissions": {
+      "type": "structure",
+      "members": {
+        "can_publish": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the credentials bearer can publish messages to the service (publish to Topics and Events topics).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "can_receive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the credentials bearer can receive messages from the service (configure subscriptions).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "can_manage": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the credentials bearer can manage the associated Topics and Events topics or subscriptions.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsResponseSnsCredentialsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mnq_sns_v1beta1#SnsCredentials"
+      },
+      "traits": {
+        "smithy.api#documentation": "Topics and Events credentials on this page."
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#ListSnsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sns_v1beta1#ListSnsCredentialsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/sns-credentials",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Topics and Events credentials\n\nList existing Topics and Events credentials in the specified region. The response contains only the metadata for the credentials, not the credentials themselves.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "sns_credentials",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#CreateSnsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#CreateSnsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sns_v1beta1#CreateSnsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project containing the Topics and Events credentials.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the credentials."
+          }
+        },
+        "permissions": {
+          "target": "com.scaleway.mnq_sns_v1beta1#SnsPermissions",
+          "traits": {
+            "smithy.api#documentation": "Permissions associated with these credentials."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#CreateSnsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sns_v1beta1#CreateSnsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sns_v1beta1#SnsCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mnq/v1beta1/regions/{region}/sns-credentials",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create Topics and Events credentials\n\nCreate a set of credentials for Topics and Events, specified by a Project ID. Credentials give the bearer access to topics, and the level of permissions can be defined granularly."
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#GetSnsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#GetSnsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sns_v1beta1#GetSnsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "sns_credentials_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Topics and Events credentials to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#GetSnsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sns_v1beta1#GetSnsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sns_v1beta1#SnsCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/sns-credentials/{sns_credentials_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get Topics and Events credentials\n\nRetrieve an existing set of credentials, identified by the `credentials_id`. The credentials themselves, as well as their metadata (name, project ID etc), are returned in the response."
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#UpdateSnsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#UpdateSnsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sns_v1beta1#UpdateSnsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "sns_credentials_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Topics and Events credentials to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the credentials.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permissions": {
+          "target": "com.scaleway.mnq_sns_v1beta1#SnsPermissions",
+          "traits": {
+            "smithy.api#documentation": "Permissions associated with these credentials."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#UpdateSnsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sns_v1beta1#UpdateSnsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sns_v1beta1#SnsCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mnq/v1beta1/regions/{region}/sns-credentials/{sns_credentials_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update Topics and Events credentials\n\nUpdate a set of Topics and Events credentials. You can update the credentials' name, or their permissions."
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#DeleteSnsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#DeleteSnsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sns_v1beta1#DeleteSnsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "sns_credentials_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the credentials to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#DeleteSnsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sns_v1beta1#DeleteSnsCredentialsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mnq/v1beta1/regions/{region}/sns-credentials/{sns_credentials_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete Topics and Events credentials\n\nDelete a set of Topics and Events credentials, specified by their credentials ID. Deleting credentials is irreversible and cannot be undone. The credentials can then no longer be used to access Topics and Events."
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#GetSnsInfoRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sns_v1beta1#GetSnsInfoRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sns_v1beta1#GetSnsInfoRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to retrieve Topics and Events info from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#GetSnsInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sns_v1beta1#GetSnsInfoRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sns_v1beta1#SnsInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/sns-info",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get Topics and Events info\n\nRetrieve the Topics and Events information of the specified Project ID. information include the activation status and the Topics and Events API endpoint URL."
+      }
+    },
+    "com.scaleway.mnq_sns_v1beta1#MnqSnsV1beta1": {
+      "type": "service",
+      "version": "v1beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.mnq_sns_v1beta1#ActivateSns"
+        },
+        {
+          "target": "com.scaleway.mnq_sns_v1beta1#DeactivateSns"
+        },
+        {
+          "target": "com.scaleway.mnq_sns_v1beta1#ListSnsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sns_v1beta1#CreateSnsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sns_v1beta1#GetSnsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sns_v1beta1#UpdateSnsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sns_v1beta1#DeleteSnsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sns_v1beta1#GetSnsInfo"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Topics and Events API",
+        "smithy.api#documentation": "Topics and Events is a managed messaging service provided by Scaleway. It supports the API developed by Amazon with its Simple Notification Service, or **Amazon SNS**.\nIf you're new to Topics and Events, you can learn more about it on our [Topics and Events overview](https://www.scaleway.com/en/docs/topics-and-events/reference-content/topics-and-events-overview/) page.\n\n(switchcolumn)\n<Message type=\"tip\">\nIf Topics and Events is not the service you're looking for, check out our [NATS](https://www.scaleway.com/en/developers/api/nats/nats-api/) or [Queues](https://www.scaleway.com/en/developers/api/queues/sqs-api/) services.\n</Message>\n(switchcolumn)\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/topics-and-events/concepts/) to find definitions of all terminology related to Topics and Events.\n\n(switchcolumn)\n(switchcolumn)\n\n## Quickstart\n\n1. Configure your environment variables\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. Activate Topics and Events on your Scaleway Project:\n\n    ```bash\n    curl --silent -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/activate-sns\" \\\n        -d '{\n          \"project_id\": \"'$SCW_PROJECT_ID'\"\n        }' | jq\n\n    curl --silent -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/sns-info?project_id=$SCW_PROJECT_ID\" \\\n    ```\n\n   <Message type=\"tip\">\n    - `| tee my-sns-account.json` saves the JSON object returned by the API to a file (used by next steps)\n    - `| jq` displays the output nicely\n   </Message>\n\n3. **Create credentials**. Credentials are necessary to authenticate a client to your Topics and Events service. Their permissions should be specified and adapted according to your needs, using `true` or `false` for each type of permission.\n\n    ```bash\n    curl --silent -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/sns-credentials\" \\\n        -d '{\n          \"name\": \"my-credentials\",\n          \"permissions\": {\n            \"can_publish\": true,\n            \"can_receive\": true,\n            \"can_manage\": true\n          },\n          \"project_id\": \"'$SCW_PROJECT_ID'\"\n        }' | tee my-sns-credentials.json | jq\n    ```\n\n4. **Export credentials**: Export the credentials to your environment:\n\n    ```bash\n    export AWS_ENDPOINT_URL=$(jq -r .sns_endpoint_url my-sns-account.json)\n    export AWS_ACCESS_KEY_ID=$(jq -r .access_key my-sns-credentials.json)\n    export AWS_SECRET_ACCESS_KEY=$(jq -r .secret_key my-sns-credentials.json)\n    ```\n\n5. **Start creating topics and publishing messages**. The following commands show you how to create a topic, subscribe to a [Scaleway Serverless function](https://www.scaleway.com/en/developers/api/serverless-functions/), and send, receive and delete a message.\n\n    ```bash\n    aws sns create-topic --name my-topic | tee my-topic.json\n    ```\n\n    ```bash\n    aws sns subscribe --topic-arn \"$(jq -r .TopicArn my-topic.json)\" \\\n      --protocol lambda --notification-endpoint <YOUR-FUNCTION-ENDPOINT>\n    ```\n\n    ```bash\n    aws sns publish --topic-arn \"$(jq -r .TopicArn my-topic.json)\" \\\n      --message 'Hello world!'\n    ```\n\n6. Disable Topics and Events\n\n   <Message type=\"important\">\n   Disabling Topics and Events deletes all topics and messages stored in your Topics and Events service.\n   </Message>\n\n    ```bash\n    curl --silent -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/deactivate-sns\" \\\n        -d '{\n          \"project_id\": \"'$SCW_PROJECT_ID'\"\n        }' | jq\n    ```\n\n(switchcolumn)\n<Message type=\"requirement\">\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have installed [awscli v1](https://pypi.org/project/awscli/) (version >= 1.29.0) or [awscli v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) (version >= 2.13.0)\n- You have installed [jq](https://stedolan.github.io/jq/download/)\n</Message>\n(switchcolumn)\n\n## Technical limitations\n\nScaleway Topics and Events does not support the entire set of AWS SNS actions or parameters.\nSee the [compatibility matrix](https://www.scaleway.com/en/docs/topics-and-events/reference-content/topics-and-events-support/) for more information.\n\nAlso note that:\n\n- The maximum message size is 256 kB.\n- The maximum storage capacity for all topics of a project is 100 MB.\n\n## Technical information\n\n### Regional availability\n\nScaleway Topics and Events is currently available in the following regions:\n\n- Paris, France (`fr-par`)\n- Amsterdam, Netherlands (`nl-ams`)\n\n### Topics and Events credentials\n\nCredentials use a simplified permissions system with 3 permissions:\n\n- `can_publish` : allows to publish messages to a Topic.\n- `can_receive` : allows to subscribe to a topic.\n- `can_manage` : allows all other actions (Creating, Listing, Updating, Deleting Topics).\n\nEach set of credentials gives access to all topics.\nIsolation can be handled by using several [Scaleway Projects](https://www.scaleway.com/en/developers/api/account/project-api/).\n\n## Going further\n\nFor more help using Scaleway Topics and Events, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/topics-and-events/)\n- The `#messaging-queuing` channel on our [Slack community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)\n\nYou can also read the [AWS SNS documentation](https://docs.aws.amazon.com/sns)."
+      }
+    }
+  }
+}

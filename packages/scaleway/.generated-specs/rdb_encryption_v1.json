@@ -1,0 +1,107 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.rdb_encryption_v1#GetEncryptionKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.rdb_encryption_v1#GetEncryptionKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.rdb_encryption_v1#GetEncryptionKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "encryption_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.rdb_encryption_v1#EncryptionKey": {
+      "type": "structure",
+      "members": {
+        "encryption_key": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.rdb_encryption_v1#GetEncryptionKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.rdb_encryption_v1#GetEncryptionKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.rdb_encryption_v1#EncryptionKey"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/rdb/v1/regions/{region}/encryption-key/{encryption_key_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.rdb_encryption_v1#RdbEncryptionV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.rdb_encryption_v1#GetEncryptionKey"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "DBaaS Encryption API"
+      }
+    }
+  }
+}

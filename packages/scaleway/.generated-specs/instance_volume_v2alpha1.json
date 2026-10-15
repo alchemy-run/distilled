@@ -1,0 +1,2342 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequestSnapshotIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token",
+            "smithy.api#documentation": "Token for pagination."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of snapshots to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Field to sort by."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter by Project ID."
+          }
+        },
+        "snapshot_ids": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequestSnapshotIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "snapshot_ids",
+            "smithy.api#documentation": "Filter by specific snapshot IDs."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by name."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter by tags."
+          }
+        },
+        "base_volume_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "base_volume_id",
+            "smithy.api#documentation": "Filter by base volume ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListSnapshotsResponse": {
+      "type": "structure",
+      "members": {
+        "snapshots": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListSnapshotsResponseSnapshotsList",
+          "traits": {
+            "smithy.api#documentation": "List of snapshots."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of items."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#Snapshot": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the snapshot."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the snapshot."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the snapshot."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the snapshot."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#SnapshotTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the snapshot."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the snapshot in bytes. (in bytes)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.instance_volume_v2alpha1#SnapshotStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the snapshot."
+          }
+        },
+        "base_volume_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the base volume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "volume_type": {
+          "target": "com.scaleway.instance_volume_v2alpha1#SnapshotVolumeType",
+          "traits": {
+            "smithy.api#documentation": "Type of the volume."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the snapshot. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update date of the snapshot. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone in which the snapshot is located."
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the snapshot is public."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#SnapshotTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the snapshot."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#SnapshotStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "INVALID_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid_data"
+          }
+        },
+        "EXPORTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exporting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#SnapshotVolumeType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_VOLUME_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_volume_type"
+          }
+        },
+        "L_SSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l_ssd"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListSnapshotsResponseSnapshotsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of snapshots."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#ListSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#ListSnapshotsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/instance/v2alpha1/zones/{zone}/snapshots",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List snapshots\n\nList all snapshots of an Organization.",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "snapshots",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateSnapshotRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateSnapshotRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the snapshot."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#CreateSnapshotRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the snapshot."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the snapshot."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#CreateSnapshotRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the snapshot."
+          }
+        },
+        "base_volume_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the base volume."
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the snapshot should be public."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#CreateSnapshotRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/instance/v2alpha1/zones/{zone}/snapshots",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a snapshot from a specified volume\n\nCreate a snapshot from a specified l_ssd volume."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#GetSnapshotRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#GetSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#GetSnapshotRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the snapshot to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#GetSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#GetSnapshotRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/instance/v2alpha1/zones/{zone}/snapshots/{snapshot_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a snapshot\n\nGet details of a specified snapshot."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#UpdateSnapshotRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#UpdateSnapshotRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "New tags for the snapshot."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#UpdateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#UpdateSnapshotRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the snapshot to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the snapshot.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#UpdateSnapshotRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "New tags for the snapshot.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the snapshot should be public.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#UpdateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#UpdateSnapshotRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/instance/v2alpha1/zones/{zone}/snapshots/{snapshot_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a snapshot\n\nUpdate the properties of a snapshot."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#DeleteSnapshotRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#DeleteSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#DeleteSnapshotRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the snapshot to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#DeleteSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#DeleteSnapshotRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/instance/v2alpha1/zones/{zone}/snapshots/{snapshot_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a snapshot\n\nDelete a specified snapshot."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ExportSnapshotToObjectStorageRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ExportSnapshotToObjectStorageRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ExportSnapshotToObjectStorageRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the snapshot to export."
+          }
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Object Storage bucket name."
+          }
+        },
+        "object_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Object key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ExportSnapshotToObjectStorage": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#ExportSnapshotToObjectStorageRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/instance/v2alpha1/zones/{zone}/snapshots/{snapshot_id}/export-to-object-storage",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Export a snapshot to Object Storage\n\nExport a snapshot to a specified Object Storage bucket in the same region."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ImportSnapshotFromObjectStorageRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ImportSnapshotFromObjectStorageRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the snapshot."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ImportSnapshotFromObjectStorageRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ImportSnapshotFromObjectStorageRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the snapshot."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the snapshot."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ImportSnapshotFromObjectStorageRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the snapshot."
+          }
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Object Storage bucket name."
+          }
+        },
+        "object_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Object key."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the imported snapshot in bytes. (in bytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "volume_type": {
+          "target": "com.scaleway.instance_volume_v2alpha1#SnapshotVolumeType",
+          "traits": {
+            "smithy.api#documentation": "Volume type of the snapshot."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ImportSnapshotFromObjectStorage": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#ImportSnapshotFromObjectStorageRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/instance/v2alpha1/zones/{zone}/snapshots/import-from-object-storage",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Import a snapshot from Object Storage\n\nImport a snapshot from a QCOW2 file stored in Object Storage."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumeTypesRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumeTypesRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumeTypesRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token",
+            "smithy.api#documentation": "Token for pagination."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of items to return per page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumeTypesResponse": {
+      "type": "structure",
+      "members": {
+        "volume_types": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumeTypesResponseVolumeTypesList",
+          "traits": {
+            "smithy.api#documentation": "List of volume types."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of items."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#VolumeType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.scaleway.instance_volume_v2alpha1#VolumeVolumeType",
+          "traits": {
+            "smithy.api#documentation": "Name of the volume type."
+          }
+        },
+        "min_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum size of the volume in bytes."
+          }
+        },
+        "max_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum size of the volume in bytes."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#VolumeVolumeType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_VOLUME_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_volume_type"
+          }
+        },
+        "L_SSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l_ssd"
+          }
+        },
+        "SCRATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scratch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumeTypesResponseVolumeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.instance_volume_v2alpha1#VolumeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of volume types."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumeTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#ListVolumeTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#ListVolumeTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/instance/v2alpha1/zones/{zone}/volume-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List volume types\n\nList all volume types and their technical details.",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "volume_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumesRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumesRequestVolumeIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumesRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumesRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumesRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token",
+            "smithy.api#documentation": "Token for pagination."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of items to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Field to order the results by."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter by Project ID."
+          }
+        },
+        "volume_ids": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumesRequestVolumeIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "volume_ids",
+            "smithy.api#documentation": "Filter by specific volume IDs."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by volume name."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumesRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter by tags."
+          }
+        },
+        "volume_type": {
+          "target": "com.scaleway.instance_volume_v2alpha1#VolumeVolumeType",
+          "traits": {
+            "smithy.api#httpQuery": "volume_type",
+            "smithy.api#documentation": "Filter by volume type."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumesResponse": {
+      "type": "structure",
+      "members": {
+        "volumes": {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumesResponseVolumesList",
+          "traits": {
+            "smithy.api#documentation": "List of volumes."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of items."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#Volume": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the volume."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the volume."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID to which the volume belongs."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Volume name."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#VolumeTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the volume."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Volume size in bytes. (in bytes)"
+          }
+        },
+        "base_snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the base snapshot used for this volume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.instance_volume_v2alpha1#VolumeStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the volume."
+          }
+        },
+        "volume_type": {
+          "target": "com.scaleway.instance_volume_v2alpha1#VolumeVolumeType",
+          "traits": {
+            "smithy.api#documentation": "Type of the volume."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the volume. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update date of the volume. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Instance to which the volume is attached.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone in which the volume is located."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#VolumeTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the volume."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#VolumeStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "SNAPSHOTTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snapshotting"
+          }
+        },
+        "ATTACHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attaching"
+          }
+        },
+        "DETACHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "detaching"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "MIGRATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "migrating"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumesResponseVolumesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Volume"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of volumes."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#ListVolumes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#ListVolumesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#ListVolumesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/instance/v2alpha1/zones/{zone}/volumes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List volumes",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "volumes",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateVolumeRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateVolumeRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the volume."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateVolumeRequestVolumeType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_VOLUME_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_volume_type"
+          }
+        },
+        "L_SSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l_ssd"
+          }
+        },
+        "SCRATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scratch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#CreateVolumeRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID to which the volume belongs."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Volume name."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#CreateVolumeRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the volume."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Volume size in bytes. (in bytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "base_snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the base snapshot used for this volume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "volume_type": {
+          "target": "com.scaleway.instance_volume_v2alpha1#CreateVolumeRequestVolumeType",
+          "traits": {
+            "smithy.api#documentation": "Type of the volume."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#CreateVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#CreateVolumeRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Volume"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/instance/v2alpha1/zones/{zone}/volumes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a volume\n\nCreate a volume of a specified type."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#GetVolumeRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#GetVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#GetVolumeRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "volume_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the volume to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#GetVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#GetVolumeRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Volume"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/instance/v2alpha1/zones/{zone}/volumes/{volume_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a volume\n\nGet a specified volume."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#UpdateVolumeRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#UpdateVolumeRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "New tags for the volume."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#UpdateVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#UpdateVolumeRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "volume_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the volume to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the volume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.instance_volume_v2alpha1#UpdateVolumeRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "New tags for the volume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "New size for the volume. (in bytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#UpdateVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#UpdateVolumeRequest"
+      },
+      "output": {
+        "target": "com.scaleway.instance_volume_v2alpha1#Volume"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/instance/v2alpha1/zones/{zone}/volumes/{volume_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a volume\n\nUpdate the properties of a specified volume."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#DeleteVolumeRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.instance_volume_v2alpha1#DeleteVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.instance_volume_v2alpha1#DeleteVolumeRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "volume_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the volume to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#DeleteVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.instance_volume_v2alpha1#DeleteVolumeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/instance/v2alpha1/zones/{zone}/volumes/{volume_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a volume\n\nDelete a specified volume."
+      }
+    },
+    "com.scaleway.instance_volume_v2alpha1#InstanceVolumeV2alpha1": {
+      "type": "service",
+      "version": "v2alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListSnapshots"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#CreateSnapshot"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#GetSnapshot"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#UpdateSnapshot"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#DeleteSnapshot"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#ExportSnapshotToObjectStorage"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#ImportSnapshotFromObjectStorage"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumeTypes"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#ListVolumes"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#CreateVolume"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#GetVolume"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#UpdateVolume"
+        },
+        {
+          "target": "com.scaleway.instance_volume_v2alpha1#DeleteVolume"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Instance Volume API",
+        "smithy.api#documentation": "This API allows you to manage Instance local and scratch volumes."
+      }
+    }
+  }
+}

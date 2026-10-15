@@ -1,0 +1,645 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.partner_v1#ListOrganizationsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.partner_v1#OrganizationStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "OPENED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opened"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.partner_v1#OrganizationLockedBy": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LOCKED_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_locked_by"
+          }
+        },
+        "PARTNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partner"
+          }
+        },
+        "SCALEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaleway"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.partner_v1#ListOrganizationsRequest": {
+      "type": "structure",
+      "members": {
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.partner_v1#ListOrganizationsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.partner_v1#OrganizationStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only list organizations with this status."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "email",
+            "smithy.api#documentation": "Only list organizations created with this email."
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "customer_id",
+            "smithy.api#documentation": "Only list organizations attached to this Customer ID.\nOnly list organizations attached to this Customer ID.\nIf the customer ID was changed only the last one can be used."
+          }
+        },
+        "locked_by": {
+          "target": "com.scaleway.partner_v1#OrganizationLockedBy",
+          "traits": {
+            "smithy.api#httpQuery": "locked_by",
+            "smithy.api#documentation": "Only list organizations locked by a certain entity."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.partner_v1#ListOrganizationsResponse": {
+      "type": "structure",
+      "members": {
+        "organizations": {
+          "target": "com.scaleway.partner_v1#ListOrganizationsResponseOrganizationsList",
+          "traits": {
+            "smithy.api#documentation": "List of organizations."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of organizations."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.partner_v1#Organization": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the organization."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization owner's email."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.partner_v1#OrganizationStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the organization."
+          }
+        },
+        "owner_firstname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization owner's first name."
+          }
+        },
+        "owner_lastname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization owner's last name."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of organization creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization owner's phone number.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer ID associated with this organization."
+          }
+        },
+        "lock_reason_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If the organization is locked, this field will contain a human-readable reason."
+          }
+        },
+        "locked_by": {
+          "target": "com.scaleway.partner_v1#OrganizationLockedBy",
+          "traits": {
+            "smithy.api#documentation": "Originator of the lock. Can be one of \"partner\" or \"scaleway\"."
+          }
+        },
+        "locked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of lock. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "picture_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Link to the Organization's picture.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A comment about the organization."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.partner_v1#ListOrganizationsResponseOrganizationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.partner_v1#Organization"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of organizations."
+      }
+    },
+    "com.scaleway.partner_v1#ListOrganizations": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.partner_v1#ListOrganizationsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.partner_v1#ListOrganizationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/partner/v1/organizations",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Organizations",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "organizations",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.partner_v1#CreateOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "partner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your personal `partner_id`. This is the same as your Organization ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the new organization owner.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the organization you want to create. Usually the company name.",
+            "smithy.api#required": {}
+          }
+        },
+        "owner_firstname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The first name of the new organization owner.",
+            "smithy.api#required": {}
+          }
+        },
+        "owner_lastname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last name of the new organization owner.",
+            "smithy.api#required": {}
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone number of the new organization owner.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A custom ID for the customer in your own infrastructure.",
+            "smithy.api#required": {}
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A comment about the organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.partner_v1#CreateOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.partner_v1#CreateOrganizationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.partner_v1#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/partner/v1/organizations",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new organization"
+      }
+    },
+    "com.scaleway.partner_v1#GetOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the organization you want to GET."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.partner_v1#GetOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.partner_v1#GetOrganizationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.partner_v1#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/partner/v1/organizations/{organization_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an organization"
+      }
+    },
+    "com.scaleway.partner_v1#UpdateOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the organization you want to update."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new email.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_firstname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The first name of the new owner.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_lastname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last name of the new owner.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The phone number of the new owner.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer ID associated with this organization.\nCustomer ID associated with this organization.\nWarning: Changing this value will only affect future invoices.\nIf you try to change this value after the 25th of the month, we cannot guarantee that this will take effect on the invoice issued for the current month.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A comment about the organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.partner_v1#UpdateOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.partner_v1#UpdateOrganizationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.partner_v1#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/partner/v1/organizations/{organization_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an organization"
+      }
+    },
+    "com.scaleway.partner_v1#LockOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the organization you want to lock."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.partner_v1#LockOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.partner_v1#LockOrganizationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.partner_v1#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/partner/v1/organizations/{organization_id}/lock",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Lock an organization"
+      }
+    },
+    "com.scaleway.partner_v1#RequestAdminRoleRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the organization you want to be invited to."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The member username."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The member email."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The member password.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.partner_v1#RequestAdminRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.partner_v1#RequestAdminRoleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/partner/v1/organizations/{organization_id}/request-admin-role",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Invite a partner user in the customer organization"
+      }
+    },
+    "com.scaleway.partner_v1#UnlockOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the organization you want to unlock."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.partner_v1#UnlockOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.partner_v1#UnlockOrganizationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.partner_v1#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/partner/v1/organizations/{organization_id}/unlock",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Unlock an organization"
+      }
+    },
+    "com.scaleway.partner_v1#PartnerV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.partner_v1#ListOrganizations"
+        },
+        {
+          "target": "com.scaleway.partner_v1#CreateOrganization"
+        },
+        {
+          "target": "com.scaleway.partner_v1#GetOrganization"
+        },
+        {
+          "target": "com.scaleway.partner_v1#UpdateOrganization"
+        },
+        {
+          "target": "com.scaleway.partner_v1#LockOrganization"
+        },
+        {
+          "target": "com.scaleway.partner_v1#RequestAdminRole"
+        },
+        {
+          "target": "com.scaleway.partner_v1#UnlockOrganization"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Partner API",
+        "smithy.api#documentation": "As a partner, this API allows you to create and manage Scaleway organizations (accounts) for your customers.\nAccess to this API is reserved for official Scaleway Partners.\n\nFor everything related to consumption and expenses monitoring, refer to the Scaleway's [Billing API](https://www.scaleway.com/en/developers/api/billing).\n\n## Endpoint\n\nScaleway partner API is available at `https://api.scaleway.com`\n\n## Authentication\n\nTo access this API, you need to create a unique [API secret key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/).\nEnsure that you have the correct permission set: `ResellerFullAccess`. If you are the owner of the Organization and thus the creator of the API key, this permission is enabled by default.\nBe very careful as this secret key allows management access to all Scaleway organizations attached to your account.\nYou must pass the secret key in an `X-Auth-Token` HTTP header along with all your requests."
+      }
+    }
+  }
+}

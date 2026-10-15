@@ -1,0 +1,2979 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.key_manager_v1alpha1#ListAlgorithmsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListAlgorithmsRequestUsage": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_USAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_usage"
+          }
+        },
+        "SYMMETRIC_ENCRYPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "symmetric_encryption"
+          }
+        },
+        "ASYMMETRIC_ENCRYPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asymmetric_encryption"
+          }
+        },
+        "ASYMMETRIC_SIGNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asymmetric_signing"
+          }
+        },
+        "KEY_ENCAPSULATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "key_encapsulation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListAlgorithmsRequestUsagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.key_manager_v1alpha1#ListAlgorithmsRequestUsage"
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListAlgorithmsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListAlgorithmsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "usages": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListAlgorithmsRequestUsagesList",
+          "traits": {
+            "smithy.api#httpQuery": "usages",
+            "smithy.api#documentation": "Filter by key usage."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ListAlgorithmsResponse": {
+      "type": "structure",
+      "members": {
+        "algorithms": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListAlgorithmsResponseAlgorithmsList",
+          "traits": {
+            "smithy.api#documentation": "Returns a list of algorithms matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListAlgorithmsResponseAlgorithm": {
+      "type": "structure",
+      "members": {
+        "usage": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "recommended": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListAlgorithmsResponseAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.key_manager_v1alpha1#ListAlgorithmsResponseAlgorithm"
+      },
+      "traits": {
+        "smithy.api#documentation": "Returns a list of algorithms matching the requested criteria."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ListAlgorithms": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#ListAlgorithmsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#ListAlgorithmsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/key-manager/v1alpha1/regions/{region}/algorithms",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all available algorithms\n\nLists all cryptographic algorithms supported by the Key Manager service."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeysRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeysRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeysRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeysRequestUsage": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_USAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_usage"
+          }
+        },
+        "SYMMETRIC_ENCRYPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "symmetric_encryption"
+          }
+        },
+        "ASYMMETRIC_ENCRYPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asymmetric_encryption"
+          }
+        },
+        "ASYMMETRIC_SIGNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asymmetric_signing"
+          }
+        },
+        "KEY_ENCAPSULATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "key_encapsulation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyProtectionLevel": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PROTECTION_LEVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_protection_level"
+          }
+        },
+        "SOFTWARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "software"
+          }
+        },
+        "HSM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hsm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeysRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeysRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "(Optional) Filter by Organization ID. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "(Optional) Filter by Project ID. (UUID format)"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeysRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeysRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "(Optional) List of tags to filter on."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "(Optional) Filter by key name."
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeysRequestUsage",
+          "traits": {
+            "smithy.api#httpQuery": "usage",
+            "smithy.api#documentation": "(Optional) Filter keys by usage.\nSelect from symmetric encryption, asymmetric encryption, asymmetric signing or key_encapsulation."
+          }
+        },
+        "scheduled_for_deletion": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "scheduled_for_deletion",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter keys based on their deletion status. By default, only keys not scheduled for deletion are returned in the output."
+          }
+        },
+        "protection_level": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyProtectionLevel",
+          "traits": {
+            "smithy.api#httpQuery": "protection_level",
+            "smithy.api#documentation": "(Optional) Filter keys by protection level.\nSelect from software or hsm."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeysResponse": {
+      "type": "structure",
+      "members": {
+        "keys": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeysResponseKeysList",
+          "traits": {
+            "smithy.api#documentation": "Single page of keys matching the requested criteria."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of keys matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#Key": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the key."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project containing the key. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the key."
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyUsage",
+          "traits": {
+            "smithy.api#documentation": "Key usage.\nSee the `Key.Usage` enum for a description of possible values."
+          }
+        },
+        "state": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyState",
+          "traits": {
+            "smithy.api#documentation": "Key state.\nSee the `Key.State` enum for a description of possible values."
+          }
+        },
+        "rotation_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of key rotations.\nThe rotation count tracks the number of times the key has been rotated."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Returns `true` if key protection is applied to the key."
+          }
+        },
+        "locked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Returns `true` if the key is locked."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of the key's tags."
+          }
+        },
+        "rotated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key last rotation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rotation_policy": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyRotationPolicy",
+          "traits": {
+            "smithy.api#documentation": "Key rotation policy."
+          }
+        },
+        "origin": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyOrigin",
+          "traits": {
+            "smithy.api#documentation": "Key origin.\nRefer to the `Key.Origin` enum for a description of values."
+          }
+        },
+        "deletion_requested_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the time at which deletion was requested. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protection_level": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyProtectionLevel",
+          "traits": {
+            "smithy.api#documentation": "Key protection level.\nRefer to the `Key.ProtectionLevel` enum for a description of values."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region where the key is stored."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyUsage": {
+      "type": "structure",
+      "members": {
+        "symmetric_encryption": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyAlgorithmSymmetricEncryption",
+          "traits": {
+            "smithy.api#documentation": "Encrypt and decrypt arbitrary payloads using a symmetric encryption algorithm.\nSee the `Key.Algorithm.SymmetricEncryption` enum for a description of values.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "asymmetric_encryption": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyAlgorithmAsymmetricEncryption",
+          "traits": {
+            "smithy.api#documentation": "Encrypt and decrypt arbitrary payloads using an asymmetric encryption algorithm.\nSee the `Key.Algorithm.AsymmetricEncryption` enum for a description of values.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "asymmetric_signing": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyAlgorithmAsymmetricSigning",
+          "traits": {
+            "smithy.api#documentation": "Sign and verify arbitrary messages using an asymmetric signing algorithm.\nSee the `Key.Algorithm.AsymmetricSigning` enum for a description of values.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key_encapsulation": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyAlgorithmKeyEncapsulation",
+          "traits": {
+            "smithy.api#documentation": "Wrap and unwrap key using a key encapsulation algorithm.\nSee the `Key.Algorithm.KeyEncapulation` enum for a description of values.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyAlgorithmSymmetricEncryption": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SYMMETRIC_ENCRYPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_symmetric_encryption"
+          }
+        },
+        "AES_256_GCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes_256_gcm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyAlgorithmAsymmetricEncryption": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ASYMMETRIC_ENCRYPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_asymmetric_encryption"
+          }
+        },
+        "RSA_OAEP_2048_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_oaep_2048_sha256"
+          }
+        },
+        "RSA_OAEP_3072_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_oaep_3072_sha256"
+          }
+        },
+        "RSA_OAEP_4096_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_oaep_4096_sha256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyAlgorithmAsymmetricSigning": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ASYMMETRIC_SIGNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_asymmetric_signing"
+          }
+        },
+        "EC_P256_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ec_p256_sha256"
+          }
+        },
+        "EC_P384_SHA384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ec_p384_sha384"
+          }
+        },
+        "RSA_PSS_2048_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_pss_2048_sha256"
+          }
+        },
+        "RSA_PSS_3072_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_pss_3072_sha256"
+          }
+        },
+        "RSA_PSS_4096_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_pss_4096_sha256"
+          }
+        },
+        "RSA_PKCS1_2048_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_pkcs1_2048_sha256"
+          }
+        },
+        "RSA_PKCS1_3072_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_pkcs1_3072_sha256"
+          }
+        },
+        "RSA_PKCS1_4096_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_pkcs1_4096_sha256"
+          }
+        },
+        "ML_DSA_44": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ml_dsa_44"
+          }
+        },
+        "ML_DSA_65": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ml_dsa_65"
+          }
+        },
+        "ML_DSA_87": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ml_dsa_87"
+          }
+        },
+        "EC_SECP256K1_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ec_secp256k1_sha256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyAlgorithmKeyEncapsulation": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_KEY_ENCAPSULATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_key_encapsulation"
+          }
+        },
+        "ML_KEM_768": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ml_kem_768"
+          }
+        },
+        "ML_KEM_1024": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ml_kem_1024"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyState": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_state"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "PENDING_KEY_MATERIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_key_material"
+          }
+        },
+        "SCHEDULED_FOR_DELETION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled_for_deletion"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the key's tags."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyRotationPolicy": {
+      "type": "structure",
+      "members": {
+        "rotation_period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rotation period.\nTime interval between two key rotations. The minimum duration is 24 hours and the maximum duration is 1 year (876000 hours). (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "next_rotation_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key next rotation date.\nTimestamp indicating the next scheduled rotation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyOrigin": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_origin"
+          }
+        },
+        "SCALEWAY_KMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaleway_kms"
+          }
+        },
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeysResponseKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of keys matching the requested criteria."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#ListKeysRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#ListKeysResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List keys\n\nRetrieve a list of keys across all Projects in an Organization or within a specific Project.\nIf the user has permissions for all current and future projects: Either organization_id or project_id is required.\nIf the user has permissions for all current projects or only specific projects: The project_id is required.\nThe `region` parameter in path is needed in both case.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "keys",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#CreateKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#CreateKeyRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "(Optional) List of the key's tags."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#CreateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#CreateKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project containing the key. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Name of the key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyUsage",
+          "traits": {
+            "smithy.api#documentation": "Key usage.\nSee the `Key.Usage` enum for a description of possible values."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Description of the key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.key_manager_v1alpha1#CreateKeyRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "(Optional) List of the key's tags."
+          }
+        },
+        "rotation_policy": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyRotationPolicy",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Rotation policy of the key.\nIf not specified, no rotation policy will be applied to the key."
+          }
+        },
+        "unprotected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Defines whether key protection is applied to a key. Protected keys can be used but not deleted.\nDefault value is `false`."
+          }
+        },
+        "origin": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyOrigin",
+          "traits": {
+            "smithy.api#documentation": "Key origin.\nRefer to the `Key.Origin` enum for a description of values."
+          }
+        },
+        "protection_level": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyProtectionLevel",
+          "traits": {
+            "smithy.api#documentation": "Key Protection level.\nRefer to the `Key.Protection` enum for a description of values."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#CreateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#CreateKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a key\n\nCreate a key in a given region specified by the `region` parameter. You can use keys to encrypt or decrypt arbitrary payloads, to sign and verify messages or to generate data encryption keys. **Data encryption keys are not stored in Key Manager**."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#GetKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#GetKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#GetKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to target. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#GetKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#GetKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get key metadata\n\nRetrieve metadata for a specified key using the `region` and `key_id` parameters."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#UpdateKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#UpdateKeyRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "(Optional) Updated list of the key's tags."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#UpdateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#UpdateKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Updated name of the key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Updated description of the key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.key_manager_v1alpha1#UpdateKeyRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Updated list of the key's tags.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rotation_policy": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyRotationPolicy",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Updated rotation policy of the key.\nIf not specified, the key's existing rotation policy applies."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#UpdateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#UpdateKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a key\n\nModify a key's metadata including name, description and tags, specified by the `key_id` and `region` parameters."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DeleteKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#DeleteKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#DeleteKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DeleteKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#DeleteKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a key\n\nPermanently delete a key specified by the `region` and `key_id` parameters. This action is irreversible. Any data encrypted with this key, including data encryption keys, will no longer be decipherable."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DecryptRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#DecryptRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#DecryptRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to decrypt with.\nThe key must have an usage set to `symmetric_encryption` or `asymmetric_encryption`. (UUID format)"
+          }
+        },
+        "ciphertext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ciphertext data to decrypt.\nData size must be between 1 and 131071 bytes."
+          }
+        },
+        "associated_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Additional authenticated data.\nThe additional data must match the value passed in the encryption request. Only supported by keys with a usage set to `symmetric_encryption`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DecryptResponse": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key used for decryption. (UUID format)"
+          }
+        },
+        "plaintext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key's decrypted data.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "ciphertext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Data encrypted with the latest key rotation.\nIf the data was already encrypted with the latest key rotation, no output will be returned in the response object.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#Decrypt": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#DecryptRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#DecryptResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/decrypt",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Decrypt an encrypted payload\n\nDecrypt an encrypted payload using an existing key, specified by the `key_id` parameter. The maximum payload size that can be decrypted is equivalent to the encrypted output of 64 KB of data (around 131 KB)."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DeleteKeyMaterialRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#DeleteKeyMaterialRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#DeleteKeyMaterialRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key of which to delete the key material. (UUID format)"
+          }
+        },
+        "key_rotation_index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Rotation index of which to delete the key material.\nDefault to latest rotation if not set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DeleteKeyMaterial": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#DeleteKeyMaterialRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/delete-key-material",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete key material\n\nDelete previously imported key material. This renders the associated cryptographic key unusable for any operation. The key's origin must be `external`."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DisableKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#DisableKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#DisableKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to disable. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DisableKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#DisableKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/disable",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable key\n\nDisable a given key, preventing it to be used for cryptographic operations. Disabling a key renders it unusable. You must specify the `region` and `key_id` parameters."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#EnableKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#EnableKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#EnableKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to enable. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#EnableKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#EnableKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/enable",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Enable key\n\nEnable a given key to be used for cryptographic operations. Enabling a key allows you to make a disabled key usable again. You must specify the `region` and `key_id` parameters."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#EncryptRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#EncryptRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#EncryptRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to use for encryption.\nThe key must have an usage set to `symmetric_encryption` or `asymmetric_encryption`. (UUID format)"
+          }
+        },
+        "plaintext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plaintext data to encrypt.\nData size must be between 1 and 65535 bytes.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "associated_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Additional authenticated data.\nAdditional data which will not be encrypted, but authenticated and appended to the encrypted payload. Only supported by keys with a usage set to `symmetric_encryption`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#EncryptResponse": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key used for encryption. (UUID format)"
+          }
+        },
+        "ciphertext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key's encrypted data."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#Encrypt": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#EncryptRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#EncryptResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/encrypt",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Encrypt a payload\n\nEncrypt a payload using an existing key, specified by the `key_id` parameter. The maximum payload size that can be encrypted is 64 KB of plaintext."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#GenerateDataKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#DataKeyAlgorithmSymmetricEncryption": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SYMMETRIC_ENCRYPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_symmetric_encryption"
+          }
+        },
+        "AES_256_GCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes_256_gcm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#GenerateDataKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#GenerateDataKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key. (UUID format)"
+          }
+        },
+        "algorithm": {
+          "target": "com.scaleway.key_manager_v1alpha1#DataKeyAlgorithmSymmetricEncryption",
+          "traits": {
+            "smithy.api#documentation": "Algorithm with which the data encryption key will be used to encrypt and decrypt arbitrary payloads.\nSee the `DataKey.Algorithm.SymmetricEncryption` enum for a description of values."
+          }
+        },
+        "without_plaintext": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Defines whether to return the data encryption key's plaintext in the response object.\nDefault value is `false`, meaning that the plaintext is returned.\nSet it to `true` if you do not wish the plaintext to be returned in the response object."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#DataKey": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the data encryption key. (UUID format)"
+          }
+        },
+        "algorithm": {
+          "target": "com.scaleway.key_manager_v1alpha1#DataKeyAlgorithmSymmetricEncryption",
+          "traits": {
+            "smithy.api#documentation": "Symmetric encryption algorithm of the data encryption key (`AES-256-GCM`)."
+          }
+        },
+        "ciphertext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data encryption key ciphertext.\nYour data encryption key's ciphertext can be stored safely. It can only be decrypted through the keys you create in Key Manager, using the relevant key ID."
+          }
+        },
+        "plaintext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data encryption key plaintext.\n(Optional) Your data encryption key's plaintext allows you to use the key immediately upon creation. It must neither be stored or shared.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data encryption key creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#GenerateDataKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#GenerateDataKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#DataKey"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/generate-data-key",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a data encryption key\n\nCreate a new data encryption key for cryptographic operations outside of Key Manager. The data encryption key is encrypted and must be decrypted using the key you have created in Key Manager.\n\nThe data encryption key is returned in plaintext and ciphertext but it should only be stored in its encrypted form (ciphertext). Key Manager does not store your data encryption key. To retrieve your key's plaintext, use the `Decrypt` method with your key's ID and ciphertext."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ImportKeyMaterialRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ImportKeyMaterialRequestEncryptedKeyMaterial": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encrypted key material to import.\nThis material must be encrypted using the public key and the exact wrapping algorithm returned by the `GetKeyMaterialImportParameters` method."
+          }
+        },
+        "import_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The secure import token returned by the `GetKeyMaterialImportParameters` method."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ImportKeyMaterialRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#ImportKeyMaterialRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key in which to import key material.\nThe key's origin must be `external`. (UUID format)"
+          }
+        },
+        "key_material": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key material.\nDeprecated. Use `encrypted_key_material` instead. The key material is a random sequence of bytes used to derive a cryptographic key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "salt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Salt value to pass the key derivation function.\nA salt is random data added to key material to ensure unique derived keys, even if the input is similar. It helps strengthen security when the key material has low randomness (low entropy).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "encrypted_key_material": {
+          "target": "com.scaleway.key_manager_v1alpha1#ImportKeyMaterialRequestEncryptedKeyMaterial",
+          "traits": {
+            "smithy.api#documentation": "The encrypted key material to import.\nThis material must be encrypted using the public key and the exact wrapping algorithm returned by the `GetKeyMaterialImportParameters` method.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ImportKeyMaterial": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#ImportKeyMaterialRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/import-key-material",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Import key material\n\nImport externally generated key material into Key Manager to derive a new cryptographic key. The key's origin must be `external`."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParametersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParametersRequestWrappingAlgorithm": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_WRAPPING_ALGORITHM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_wrapping_algorithm"
+          }
+        },
+        "RSA_OAEP_2048_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_oaep_2048_sha256"
+          }
+        },
+        "RSA_OAEP_3072_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_oaep_3072_sha256"
+          }
+        },
+        "RSA_OAEP_4096_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_oaep_4096_sha256"
+          }
+        },
+        "RSA_AES_KEY_WRAP_2048_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_aes_key_wrap_2048_sha256"
+          }
+        },
+        "RSA_AES_KEY_WRAP_3072_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_aes_key_wrap_3072_sha256"
+          }
+        },
+        "RSA_AES_KEY_WRAP_4096_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_aes_key_wrap_4096_sha256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParametersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParametersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key into which to import the key material. (UUID format)"
+          }
+        },
+        "wrapping_algorithm": {
+          "target": "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParametersRequestWrappingAlgorithm",
+          "traits": {
+            "smithy.api#documentation": "The wrapping algorithm the client will use to encrypt the key material.\nSupported values for direct RSA wrapping are: `rsa_oaep_2048_sha256`, `rsa_oaep_3072_sha256`, `rsa_oaep_4096_sha256`.\nSupported values for hybrid wrapping (RSA + AES Key Wrap) are: `rsa_aes_key_wrap_2048_sha256`, `rsa_aes_key_wrap_3072_sha256`, `rsa_aes_key_wrap_4096_sha256`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParametersResponse": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the target key. (UUID format)"
+          }
+        },
+        "public_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key to wrap the key material."
+          }
+        },
+        "import_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token generated to authorize the import operation."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParameters": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParametersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParametersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/import-parameters",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Generate key material import parameters\n\nRetrieve the cryptographic parameters (public key and import token) required to securely import key material into an existing key. The key's origin must be `external`."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ProtectKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ProtectKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#ProtectKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to apply key protection to. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ProtectKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#ProtectKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/protect",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Apply key protection\n\nApply protection to a given key specified by the `key_id` parameter. Applying key protection means that your key can be used and modified, but it cannot be deleted."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#GetPublicKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#GetPublicKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#GetPublicKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#PublicKey": {
+      "type": "structure",
+      "members": {
+        "pem": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#GetPublicKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#GetPublicKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#PublicKey"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/public-key",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the public key in PEM format.\n\nRetrieves the public portion of an asymmetric cryptographic key in PEM format."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#RestoreKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#RestoreKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#RestoreKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#RestoreKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#RestoreKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/restore",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Restore a key\n\nRestore a key and all its rotations scheduled for deletion specified by the `region` and `key_id` parameters."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#RotateKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#RotateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#RotateKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to rotate. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#RotateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#RotateKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/rotate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Rotate a key\n\nGenerate a new version of an existing key with new key material. Previous key versions remain usable to decrypt previously encrypted data, but the key's new version will be used for subsequent encryption operations and data key generation."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeyRotationsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeyRotationsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyRotationStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeyRotationsRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.key_manager_v1alpha1#KeyRotationStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeyRotationsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeyRotationsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to list rotations for. (UUID format)"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeyRotationsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeyRotationsRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "(Optional) Filter key rotations by their status.\nSee the `KeyRotation.Status` enum for a description of possible values."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeyRotationsResponse": {
+      "type": "structure",
+      "members": {
+        "rotations": {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeyRotationsResponseRotationsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of key rotations matching the requested criteria."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of key rotations matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyRotation": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the associated key. (UUID format)"
+          }
+        },
+        "index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Index of the key rotation.\nThe rotation index tracks the specific version of the key material."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.key_manager_v1alpha1#KeyRotationStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the key rotation.\nSee the `KeyRotation.Status` enum for a description of possible values."
+          }
+        },
+        "manually_rotated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Returns `true` if the key was rotated manually, or `false` if it was rotated automatically by a rotation policy."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key rotation creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key rotation last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deleted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key rotation deletion date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeyRotationsResponseRotationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.key_manager_v1alpha1#KeyRotation"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of key rotations matching the requested criteria."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#ListKeyRotations": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#ListKeyRotationsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#ListKeyRotationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/rotations",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List key rotations\n\nRetrieve a list of all rotations associated with a specific key.\nThe `key_id` and `region` parameters in the path are required.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "rotations",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#SignRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#SignRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#SignRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to use for signing. (UUID format)"
+          }
+        },
+        "digest": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Digest of the message to sign.\nThe digest must be generated using the same algorithm defined in the key’s algorithm settings."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#SignResponse": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key used to generate the signature. (UUID format)"
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message signature."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#Sign": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#SignRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#SignResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/sign",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Sign a message digest\n\nUse a given key to sign a message digest. The key must have its usage set to `asymmetric_signing`. The digest must be created using the same digest algorithm that is defined in the key's algorithm configuration."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#UnprotectKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#UnprotectKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#UnprotectKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to remove key protection from. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#UnprotectKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#UnprotectKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/unprotect",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Remove key protection\n\nRemove key protection from a given key specified by the `key_id` parameter. Removing key protection means that your key can be deleted anytime."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#UnwrapKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#UnwrapKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#UnwrapKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ciphertext": {
+          "target": "smithy.api#String"
+        },
+        "associated_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#UnwrapKeyResponse": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "plaintext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#UnwrapKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#UnwrapKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#UnwrapKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/unwrap",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Unwrap a key\n\nUnwrap (decrypt) a wrapped key using an existing key, specified by the `key_id` parameter. The key must use ML-KEM algorithm. The maximum key size that can be unwrapped is 4 KB of ciphertext."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#VerifyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#VerifyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#VerifyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to use for signature verification. (UUID format)"
+          }
+        },
+        "digest": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Digest of the original signed message.\nMust be generated using the same algorithm specified in the key’s configuration."
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message signature to verify."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#VerifyResponse": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key used for verification. (UUID format)"
+          }
+        },
+        "valid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the signature is valid.\nReturns `true` if the signature is valid for the digest and key, and `false` otherwise."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#Verify": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#VerifyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#VerifyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/verify",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Verify a message signature\n\nUse a given key to verify a message signature against a message digest. The key must have its usage set to `asymmetric_signing`. The message digest must be generated using the same digest algorithm that is defined in the key's algorithm configuration."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#WrapKeyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#WrapKeyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.key_manager_v1alpha1#WrapKeyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "plaintext": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "associated_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#WrapKeyResponse": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "ciphertext": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.key_manager_v1alpha1#WrapKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.key_manager_v1alpha1#WrapKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.key_manager_v1alpha1#WrapKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/key-manager/v1alpha1/regions/{region}/keys/{key_id}/wrap",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Wrap a key\n\nWrap (encrypt) a key using an existing key, specified by the `key_id` parameter. The key must use ML-KEM algorithm. The maximum key size that can be wrapped is 2 KB of plaintext."
+      }
+    },
+    "com.scaleway.key_manager_v1alpha1#KeyManagerV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#ListAlgorithms"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeys"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#CreateKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#GetKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#UpdateKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#DeleteKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#Decrypt"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#DeleteKeyMaterial"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#DisableKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#EnableKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#Encrypt"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#GenerateDataKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#ImportKeyMaterial"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#GenerateKeyMaterialImportParameters"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#ProtectKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#GetPublicKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#RestoreKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#RotateKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#ListKeyRotations"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#Sign"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#UnprotectKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#UnwrapKey"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#Verify"
+        },
+        {
+          "target": "com.scaleway.key_manager_v1alpha1#WrapKey"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Key Manager API",
+        "smithy.api#documentation": "Scaleway Key Manager allows you to create, manage, and use cryptographic keys in a centralized and secure service. All your cryptographic operations can be delegated to Key Manager, which in turn ensures the security and availability of your keys.\n\nKey Manager supports the following cryptographic operations: data encryption, data decryption, and data encryption key generation.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/key-manager/concepts/) to learn about the different concepts and terms related to Key Manager.\n\n## Quickstart\n\n<Message type=\"requirement\">\n - You have a [Scaleway account](https://console.scaleway.com/)\n - You have your [Organization and your Project ID](https://console.scaleway.com/project/settings)\n - You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n - You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n1. **Configure your environment variables.**\n\n   <Message type=\"note\">\n   This is an optional step that aims to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Create a key**. Run the following command to create a key that you can use to encrypt and decrypt your data:\n\n    ```bash\n    curl \"https://api.scaleway.com/key-manager/v1alpha1/regions/$REGION/keys\" \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{\n        \"project_id\": \"$PROJECT_ID\",\n        \"name\": \"my-key\",\n        \"usage\": {\n            \"symmetric_encryption\": \"aes_256_gcm\"\n        }\n       }'\n    ```\n\n3. **Rotate your key**. Run the following command to generate a new version of your key. This operation renders your previous key version obsolete.\n\n    ```bash\n    curl \"https://api.scaleway.com/key-manager/v1alpha1/regions/$REGION/keys/<KEY_ID>/rotate\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{\n        \"key_id\": \"$KEY_ID\"\n      }'\n    ```\n\n4. **Encrypt data**. Run the following command to encrypt data with the key you have created in step 2:\n\n    ```bash\n    curl \"https://api.scaleway.com/key-manager/v1alpha1/regions/$REGION/keys/<KEY_ID>/encrypt\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{\n        \"key_id\": \"$KEY_ID\",\n        \"plaintext\": \"'\"$(echo -n \"plaintext-data\" | base64)\"'\"\n      }'\n    ```\n\n5. **Generate a data encryption key**. Run the following command to generate a data encryption key that you can use for cryptographic operations outside of Key Manager:\n\n    ```bash\n    curl \"https://api.scaleway.com/key-manager/v1alpha1/regions/$REGION/keys/<KEY_ID>/generate-data-key\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{\n        \"key_id\": \"$KEY_ID\",\n        \"algorithm\": \"aes_256_gcm\"\n      }'\n    ```\n\n## Technical information\n\n### Regions\n\nScaleway's infrastructure spans different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nKey Manager is available in all regions.\n\n## Technical limitations\n\n- While Scaleway Key Manager is responsible for generating, encrypting, and decrypting [data encryption keys](https://www.scaleway.com/en/docs/key-manager/concepts/#data-encryption-key-dek/), it does not store, manage, or monitor them, nor does it engage in cryptographic operations with these keys. **You must use and manage data encryption keys outside of Key Manager**. Read our [security recommendations](https://www.scaleway.com/en/docs/key-manager/reference-content/security-recommendations/) to find out about security measures to be aware of while using Key Manager.\n\n### Symmetric encryption\n\n- The maximum payload size that can be encrypted is 64 KB of plaintext.\n- The maximum payload size that can be decrypted is around 131 KB of data.\n- The only symmetric algorithm currently supported by Key Manager is AES-256-GCM.\n\n### Asymmetric encryption\n\nKey Manager supports the following asymmetric encryption algorithms:\n\n- RSA-OAEP-2048-SHA256\n- RSA-OAEP-3072-SHA256\n- RSA-OAEP-4096-SHA256\n\n### Asymmetric signing\n\nKey Manager supports the following asymmetric signing algorithms:\n\n- EC-P256-SHA256\n- EC-P384-SHA256\n- RSA-PSS-2048-SHA256\n- RSA-PSS-3072-SHA256\n- RSA-PSS-4096-SHA256\n- RSA-PKCS1-2048-SHA256\n- RSA-PKCS1-3072-SHA256\n- RSA-PKCS1-4096-SHA256\n\n### Key Encapsulation\n\nKey Manager supports the following key encapsulation algorithms:\n\n- MLKEM-768\n- MLKEM-1024\n\n## Going further\n\nFor more information about Key Manager, you can check out the following pages:\n\n- [Key Manager documentation](https://www.scaleway.com/en/docs/key-manager/)\n- [Contact our Support team](https://console.scaleway.com/support/tickets)."
+      }
+    }
+  }
+}

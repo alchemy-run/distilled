@@ -1,0 +1,2121 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.account_unauthenticated_user_v3#CreateAccountRequestOIDC": {
+      "type": "structure",
+      "members": {
+        "identity_provider": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OIDCIdentityProvider"
+        },
+        "access_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#OIDCIdentityProvider": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_IDENTITY_PROVIDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_identity_provider"
+          }
+        },
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
+          }
+        },
+        "MICROSOFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "microsoft"
+          }
+        },
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateAccountRequestEmailValidationMethod": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_EMAIL_VALIDATION_METHOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_email_validation_method"
+          }
+        },
+        "MAGIC_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_link"
+          }
+        },
+        "AUTHENTICATION_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authentication_code"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateAccountRequestOrganizationOrigin": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ORGANIZATION_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_organization_origin"
+          }
+        },
+        "DIRECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "direct"
+          }
+        },
+        "DEDIBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedibox"
+          }
+        },
+        "WEB_CLOUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web_cloud"
+          }
+        },
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "BOOK_MY_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "book_my_name"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateAccountRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "oidc": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateAccountRequestOIDC",
+          "traits": {
+            "smithy.api#documentation": "OpenID Connect authentication information that allows a user to authenticate through an external identity provider.\nIf this field is used, the `email` field must not be set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "captcha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Captcha.\nCaptcha validation code. This is required as an anti-fraud measure."
+          }
+        },
+        "email_validation_method": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateAccountRequestEmailValidationMethod",
+          "traits": {
+            "smithy.api#documentation": "In case of account creation by email, we can choose to receive a magic_link or an authentication_code by email.\nBy default a magic_link will be sent."
+          }
+        },
+        "origin": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateAccountRequestOrganizationOrigin",
+          "traits": {
+            "smithy.api#documentation": "Origin of the organization creation request."
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name of the user."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name of the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#Account": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Request creation id. (UUID format)"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email used for the account request."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token used to validate the account without email validation.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the account."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#CreateAccountRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#Account"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/accounts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new user request"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#NotifyAccountRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Email associated to the user account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#NotifyAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#NotifyAccountRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/accounts/{email}/notify",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Send the validation email for the user request"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#AuthenticationResponse": {
+      "type": "structure",
+      "members": {
+        "raw_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the key used by the authenticator."
+          }
+        },
+        "response": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#AuthenticatorAssertionResponse",
+          "traits": {
+            "smithy.api#documentation": "Response provided by the authenticator to the authentication challenge.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#AuthenticatorAssertionResponse": {
+      "type": "structure",
+      "members": {
+        "client_data_json": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON representation of the client data."
+          }
+        },
+        "authenticator_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data about the authenticator that performed the authentication."
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Signature by the authenticator key of the authentication ceremony data."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#FinishWebAuthnAuthenticationRequest": {
+      "type": "structure",
+      "members": {
+        "ceremony_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the authentication ceremony to finish."
+          }
+        },
+        "authentication_response": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#AuthenticationResponse",
+          "traits": {
+            "smithy.api#documentation": "WebAuthn response to the authentication ceremony.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain on which the authentication is occurring."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsResponse": {
+      "type": "structure",
+      "members": {
+        "organizations_login_information": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsResponseOrganizationsLoginInformationList",
+          "traits": {
+            "smithy.api#documentation": "List of organizations and their associated login information."
+          }
+        },
+        "webauthn": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsResponseWebAuthnMetadata",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#OrganizationLogin": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the organization."
+          }
+        },
+        "jwt": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#JWT",
+          "traits": {
+            "smithy.api#documentation": "Data of the JWT created by the login request."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded JWT token."
+          }
+        },
+        "renew_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded JWT renew token."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#JWT": {
+      "type": "structure",
+      "members": {
+        "jti": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JTI of the JWT."
+          }
+        },
+        "issuer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IAM user ID of the JWT issuer."
+          }
+        },
+        "audience_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IAM user ID of the JWT audience."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the JWT. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Renewal date of the JWT. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of the JWT. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source IP address for the JWT creation. (IP address)"
+          }
+        },
+        "user_agent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User agent for the JWT creation."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsResponseOrganizationsLoginInformationList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#OrganizationLogin"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of organizations and their associated login information."
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsResponseWebAuthnMetadata": {
+      "type": "structure",
+      "members": {
+        "uv_verified_set": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#FinishWebAuthnAuthentication": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#FinishWebAuthnAuthenticationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/finish-webauthn-authentication",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Finish a WebAuthn authentication ceremony and log in. Supports passkey authentication without email."
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LoginInitiateAuthenticationCodeRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user to login."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LoginInitiateAuthenticationCodeResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LoginInitiateAuthenticationCode": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LoginInitiateAuthenticationCodeRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LoginInitiateAuthenticationCodeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/initiate-authentication-code-login",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Initiate an authentication code login attempt and send an email with the code to the user"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LoginInitiateOIDCRequest": {
+      "type": "structure",
+      "members": {
+        "identity_provider": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OIDCIdentityProvider",
+          "traits": {
+            "smithy.api#documentation": "Identity provider to connect with."
+          }
+        },
+        "redirect_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to redirect to after login."
+          }
+        },
+        "account_redirect_uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI to which the identity provider will redirect after the authentication phase."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#InitiateOIDCLoginResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to redirect the user to."
+          }
+        },
+        "security_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Security token to check when receiving a code from the identity provider."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LoginInitiateOIDC": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LoginInitiateOIDCRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#InitiateOIDCLoginResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/initiate-oidc-login",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Initiate a OpenID connect login"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#AccountType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "PERSONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personal"
+          }
+        },
+        "CORPORATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "corporate"
+          }
+        },
+        "STARTUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "startup"
+          }
+        },
+        "CONSULTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consultant"
+          }
+        },
+        "ASSOCIATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "association"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#InitiateOIDCSignupRequest": {
+      "type": "structure",
+      "members": {
+        "identity_provider": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OIDCIdentityProvider",
+          "traits": {
+            "smithy.api#documentation": "Identity provider to connect with."
+          }
+        },
+        "account_type": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#AccountType",
+          "traits": {
+            "smithy.api#documentation": "Type of account to create."
+          }
+        },
+        "redirect_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to redirect the user to after login."
+          }
+        },
+        "account_redirect_uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI to which the identity provider will redirect after the authentication phase."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#InitiateOIDCSignupResponse": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to redirect the user to."
+          }
+        },
+        "security_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Security token to check when receiving a code from the identity provider."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#InitiateOIDCSignup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#InitiateOIDCSignupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#InitiateOIDCSignupResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/initiate-oidc-signup",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Initiate an OpenID sign-up"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LoginInitiatePasswordlessRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user."
+          }
+        },
+        "redirect_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Origin of the login request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LoginInitiatePasswordless": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LoginInitiatePasswordlessRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/initiate-passwordless-login",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Send a magic link for passwordless login"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#FinishWebAuthnAuthenticationRequest2": {
+      "type": "structure",
+      "members": {
+        "ceremony_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the authentication ceremony to finish."
+          }
+        },
+        "authentication_response": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#AuthenticationResponse",
+          "traits": {
+            "smithy.api#documentation": "WebAuthn response to the authentication ceremony.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain on which the authentication is occurring."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LogInRequest": {
+      "type": "structure",
+      "members": {
+        "login_session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the login session."
+          }
+        },
+        "otp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OTP of the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional organization_id to specify the organization we want to log in.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "webauthn": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#FinishWebAuthnAuthenticationRequest2",
+          "traits": {
+            "smithy.api#documentation": "WebAuthn response to the authentication ceremony.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LogInResponse": {
+      "type": "structure",
+      "members": {
+        "jwt": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#JWT",
+          "traits": {
+            "smithy.api#documentation": "Data of the JWT created by the login request."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded JWT token."
+          }
+        },
+        "renew_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded JWT renew token."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LogIn": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LogInRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LogInResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/login",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Log in with a session"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsRequest": {
+      "type": "structure",
+      "members": {
+        "login_session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the login session."
+          }
+        },
+        "otp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OTP of the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "webauthn": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#FinishWebAuthnAuthenticationRequest2",
+          "traits": {
+            "smithy.api#documentation": "WebAuthn response to the authentication ceremony.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LogInOrganizations": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LogInOrganizationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/login-organizations",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Log in to retrieve all organizations"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequestPassword": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the user.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "redirect_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Origin of the login request."
+          }
+        },
+        "captcha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Captcha response.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequestPasswordless": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token of the magic link."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequestOIDC": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Code received from the identity provider."
+          }
+        },
+        "identity_provider": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OIDCIdentityProvider",
+          "traits": {
+            "smithy.api#documentation": "Identity provider to connect with."
+          }
+        },
+        "account_redirect_uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI to which the identity provider will redirect after the authentication phase."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequestAuthenticationCode": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user."
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "6 digits code sent by email."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequest": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequestPassword",
+          "traits": {
+            "smithy.api#documentation": "Log in with password.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "passwordless": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequestPasswordless",
+          "traits": {
+            "smithy.api#documentation": "Log in with passwordless.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "oidc": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequestOIDC",
+          "traits": {
+            "smithy.api#documentation": "Log in with OpenID Connect.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "authentication_code": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequestAuthenticationCode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#LoginSession": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the login session."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#CreateLoginSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#CreateLoginSessionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#LoginSession"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/login-session",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a login session"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ResendAuthenticationCodeRequestOperation": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_OPERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_operation"
+          }
+        },
+        "SIGN_UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sign_up"
+          }
+        },
+        "SIGN_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sign_in"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ResendAuthenticationCodeRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user."
+          }
+        },
+        "operation": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ResendAuthenticationCodeRequestOperation",
+          "traits": {
+            "smithy.api#documentation": "Sign up or sign in operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ResendAuthenticationCode": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ResendAuthenticationCodeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/resend-authentication-code",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Resend an authentication code for sign in or sign up operation"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ResetPasswordRequest": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token received to reset the password."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New password.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ResetPassword": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ResetPasswordRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/reset-password",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Reset password"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#SendResetPasswordEmailRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email associated to the user account."
+          }
+        },
+        "captcha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Captcha response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#SendResetPasswordEmail": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#SendResetPasswordEmailRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/send-reset-password-email",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Send reset password link as an email"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#StartWebAuthnAuthenticationRequest": {
+      "type": "structure",
+      "members": {
+        "login_session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the login session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "origin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain on which the authentication is occurring."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#StartWebAuthnAuthenticationResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the ceremony which will be needed for completion."
+          }
+        },
+        "public_key_credential_request": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#PublicKeyCredentialRequestOptions",
+          "traits": {
+            "smithy.api#documentation": "WebAuthn challenge to solve to finish the ceremony."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#PublicKeyCredentialRequestOptions": {
+      "type": "structure",
+      "members": {
+        "challenge": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Random bytes constituting the challenge to solve for the credentials assertion."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum duration of the authentication ceremony (milliseconds)."
+          }
+        },
+        "allow_credentials": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#PublicKeyCredentialRequestOptionsAllowCredentialsList",
+          "traits": {
+            "smithy.api#documentation": "List of credentials, if any, which can be used to perform the ceremony."
+          }
+        },
+        "user_verification": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#UserVerificationRequirement",
+          "traits": {
+            "smithy.api#documentation": "User verification requirement for this authentication ceremony."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#PublicKeyCredentialDescriptor": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the key."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#PublicKeyCredentialRequestOptionsAllowCredentialsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#PublicKeyCredentialDescriptor"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of credentials, if any, which can be used to perform the ceremony."
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#UserVerificationRequirement": {
+      "type": "enum",
+      "members": {
+        "USER_VERIFICATION_REQUIREMENT_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_verification_requirement_unknown"
+          }
+        },
+        "USER_VERIFICATION_REQUIREMENT_REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_verification_requirement_required"
+          }
+        },
+        "USER_VERIFICATION_REQUIREMENT_PREFERRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_verification_requirement_preferred"
+          }
+        },
+        "USER_VERIFICATION_REQUIREMENT_DISCOURAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_verification_requirement_discouraged"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#StartWebAuthnAuthentication": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#StartWebAuthnAuthenticationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#StartWebAuthnAuthenticationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/start-webauthn-authentication",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Start a WebAuthn authentication ceremony to use MFA for the LogIn API request."
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#RejectEmailUpdateRequest": {
+      "type": "structure",
+      "members": {
+        "account_root_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the user."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token received to reject the email update."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#RejectEmailUpdate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#RejectEmailUpdateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/users/{account_root_user_id}/reject-email-update",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Reject email update"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateEmailUpdateRequest": {
+      "type": "structure",
+      "members": {
+        "account_root_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the user."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token received to validate the email update."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateEmailUpdate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ValidateEmailUpdateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/users/{account_root_user_id}/validate-email-update",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Validate email update"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateEmailRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Email address to validate."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token received to validate the email address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateEmail": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ValidateEmailRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/users/{email}/validate-email",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Validate the email address of an existing user"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ProfessionalOrganization": {
+      "type": "structure",
+      "members": {
+        "corporate_industry": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OrganizationCorporateIndustry",
+          "traits": {
+            "smithy.api#documentation": "Main industry the organization is associated with."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#OrganizationCorporateIndustry": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_CORPORATE_INDUSTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_corporate_industry"
+          }
+        },
+        "CONSULTING_SERVICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consulting_services"
+          }
+        },
+        "CYBERSECURITY_SOFTWARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cybersecurity_software"
+          }
+        },
+        "ECOMMERCE_RETAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecommerce_retail"
+          }
+        },
+        "EDUCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "education"
+          }
+        },
+        "ENERGY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "energy"
+          }
+        },
+        "FINANCIAL_SERVICES_INSURANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "financial_services_insurance"
+          }
+        },
+        "GAMING_ENTERTAINMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gaming_entertainment"
+          }
+        },
+        "HOSPITALITY_LEISURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hospitality_leisure"
+          }
+        },
+        "LIFESCIENCE_HEALTHCARE_PHARMACEUTICALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lifescience_healthcare_pharmaceuticals"
+          }
+        },
+        "MANUFACTURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manufacturing"
+          }
+        },
+        "MEDIA_PRESS_TV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "media_press_tv"
+          }
+        },
+        "PUBLIC_SECTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_sector"
+          }
+        },
+        "TELECOMMUNICATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "telecommunications"
+          }
+        },
+        "TECHNOLOGY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "technology"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#PersonalOrganization": {
+      "type": "structure",
+      "members": {
+        "newsletter_subscription": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the user wants to be subscribed to the Scaleway mailing list."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateAccountRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email used for the account request."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token received to validate the account."
+          }
+        },
+        "professional_organization": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ProfessionalOrganization",
+          "traits": {
+            "smithy.api#documentation": "Details of the professional organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "personal_organization": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#PersonalOrganization",
+          "traits": {
+            "smithy.api#documentation": "Details of the personal organization.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "account_type": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#AccountType",
+          "traits": {
+            "smithy.api#documentation": "Type of the account."
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the organization."
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Country code of the organization (ISO 3166-2).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateAccountResponse": {
+      "type": "structure",
+      "members": {
+        "user": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#User",
+          "traits": {
+            "smithy.api#documentation": "User created."
+          }
+        },
+        "organization_summary": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OrganizationSummary",
+          "traits": {
+            "smithy.api#documentation": "Summary of the organization created for the user."
+          }
+        },
+        "login_informations": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ValidateAccountResponseLoginInformationsList",
+          "traits": {
+            "smithy.api#documentation": "List of organizations with their login information (JWT tokens) for auto-login after account validation."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#User": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the user. (UUID format)"
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name of the user."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name of the user."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user."
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number of the user."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the user was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the user was updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mfa": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether multi-factor authentication is enabled for the user."
+          }
+        },
+        "mfa_methods": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#UserMFAMethods",
+          "traits": {
+            "smithy.api#documentation": "Defines for each multi-factor authentication method whether the user has it enabled or not."
+          }
+        },
+        "locale": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ScalewayStdLanguageCode",
+          "traits": {
+            "smithy.api#documentation": "Locale of the user."
+          }
+        },
+        "has_password": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the user has a password set."
+          }
+        },
+        "is_professional_email": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the user has a professional email or not."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the usr."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#UserMFAMethods": {
+      "type": "structure",
+      "members": {
+        "totp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the user has setup a TOTP."
+          }
+        },
+        "web_authn": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the user has at least one WebAuthn authenticator."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ScalewayStdLanguageCode": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LANGUAGE_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_language_code"
+          }
+        },
+        "EN_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en_US"
+          }
+        },
+        "FR_FR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr_FR"
+          }
+        },
+        "DE_DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de_DE"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#OrganizationSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Organization."
+          }
+        },
+        "owner": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the user_id created the Organization."
+          }
+        },
+        "locked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether we have locking warnings."
+          }
+        },
+        "mfa_enforced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether MFA is required for the Organization."
+          }
+        },
+        "picture_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization's picture URL.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_type": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OrganizationType",
+          "traits": {
+            "smithy.api#documentation": "Organization Type."
+          }
+        },
+        "corporate_industry": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OrganizationCorporateIndustry",
+          "traits": {
+            "smithy.api#documentation": "Organization Corporate Industry."
+          }
+        },
+        "is_startup": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Defines whether the organization is a startup."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the organization."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#OrganizationType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "PROFESSIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "professional"
+          }
+        },
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateAccountResponseLoginInformationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#OrganizationLogin"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of organizations with their login information (JWT tokens) for auto-login after account validation."
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ValidateAccountRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ValidateAccountResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/validate-account",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Validate the user request"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateAuthenticationCodeSignUpRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user."
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Authentication code sent by email."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateAuthenticationCodeSignUpResponse": {
+      "type": "structure",
+      "members": {
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret authenticating the user.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name of the user."
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name of the user."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateAuthenticationCodeSignUp": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ValidateAuthenticationCodeSignUpRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ValidateAuthenticationCodeSignUpResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/validate-authentication-code-sign-up",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Validate an authentication code during a sign up workflow"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateOIDCSignupRequest": {
+      "type": "structure",
+      "members": {
+        "identity_provider": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#OIDCIdentityProvider",
+          "traits": {
+            "smithy.api#documentation": "Identity provider to connect with."
+          }
+        },
+        "account_type": {
+          "target": "com.scaleway.account_unauthenticated_user_v3#AccountType",
+          "traits": {
+            "smithy.api#documentation": "Type of account to create."
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Authorization code returned initially by the identity provider."
+          }
+        },
+        "account_redirect_uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI to which the identity provider will redirect after the authentication phase."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateOIDCSignupResponse": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email to sign-up."
+          }
+        },
+        "access_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access token to get user's protected resources.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User first name as reported by the OIDC provider.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User last name as reported by the OIDC provider.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_user_v3#ValidateOIDCSignup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ValidateOIDCSignupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_user_v3#ValidateOIDCSignupResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/validate-oidc-signup",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Validate an OpenID connect during sign-up"
+      }
+    },
+    "com.scaleway.account_unauthenticated_user_v3#AccountUnauthenticatedUserV3": {
+      "type": "service",
+      "version": "v3",
+      "operations": [
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateAccount"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#NotifyAccount"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#FinishWebAuthnAuthentication"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#LoginInitiateAuthenticationCode"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#LoginInitiateOIDC"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#InitiateOIDCSignup"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#LoginInitiatePasswordless"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#LogIn"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#LogInOrganizations"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#CreateLoginSession"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ResendAuthenticationCode"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ResetPassword"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#SendResetPasswordEmail"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#StartWebAuthnAuthentication"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#RejectEmailUpdate"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ValidateEmailUpdate"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ValidateEmail"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ValidateAccount"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ValidateAuthenticationCodeSignUp"
+        },
+        {
+          "target": "com.scaleway.account_unauthenticated_user_v3#ValidateOIDCSignup"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Unauthenticated User API",
+        "smithy.api#documentation": "The User API allows you to manage a user without authentication."
+      }
+    }
+  }
+}

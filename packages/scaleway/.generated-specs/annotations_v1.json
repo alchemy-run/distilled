@@ -1,0 +1,1168 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.annotations_v1#ListAllKeysAndValuesRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#ListAllKeysAndValuesResponse": {
+      "type": "structure",
+      "members": {
+        "keys": {
+          "target": "com.scaleway.annotations_v1#ListAllKeysAndValuesResponseKeysList",
+          "traits": {
+            "smithy.api#documentation": "List of keys with values for an organization, sorted alphabetically by name."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#ListAllKeysAndValuesResponseKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the key."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the key."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the key."
+          }
+        },
+        "values": {
+          "target": "com.scaleway.annotations_v1#ListAllKeysAndValuesResponseKeyValuesList",
+          "traits": {
+            "smithy.api#documentation": "List of values associated with the key, sorted alphabetically by name."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#ListAllKeysAndValuesResponseValue": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the value. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the value."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the value."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the value."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#ListAllKeysAndValuesResponseKeyValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.annotations_v1#ListAllKeysAndValuesResponseValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of values associated with the key, sorted alphabetically by name."
+      }
+    },
+    "com.scaleway.annotations_v1#ListAllKeysAndValuesResponseKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.annotations_v1#ListAllKeysAndValuesResponseKey"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of keys with values for an organization, sorted alphabetically by name."
+      }
+    },
+    "com.scaleway.annotations_v1#ListAllKeysAndValues": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#ListAllKeysAndValuesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#ListAllKeysAndValuesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/annotations/v1/all-keys-and-values",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all keys and values for an organization, sorted alphabetically by key name and value name."
+      }
+    },
+    "com.scaleway.annotations_v1#ListBindingsRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of bindings on the page."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        },
+        "target_srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "target_srn",
+            "smithy.api#documentation": "SRN of the resource for which to list all bindings."
+          }
+        },
+        "value_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "value_id",
+            "smithy.api#documentation": "Value ID for which to list all bindings. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#ListBindingsResponse": {
+      "type": "structure",
+      "members": {
+        "bindings": {
+          "target": "com.scaleway.annotations_v1#ListBindingsResponseBindingsList",
+          "traits": {
+            "smithy.api#documentation": "List of bindings for the organization. Response order by ID."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of bindings returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#Binding": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the binding. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the binding."
+          }
+        },
+        "target_srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the resource the binding is attached to."
+          }
+        },
+        "key": {
+          "target": "com.scaleway.annotations_v1#BindingKey",
+          "traits": {
+            "smithy.api#documentation": "Key associated to the binding."
+          }
+        },
+        "value": {
+          "target": "com.scaleway.annotations_v1#BindingValue",
+          "traits": {
+            "smithy.api#documentation": "Value associated to the binding."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#BindingKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the key."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the key."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#BindingValue": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the value. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the value."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the value."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#ListBindingsResponseBindingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.annotations_v1#Binding"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of bindings for the organization. Response order by ID."
+      }
+    },
+    "com.scaleway.annotations_v1#ListBindings": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#ListBindingsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#ListBindingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/annotations/v1/bindings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all bindings, or filter by Scaleway Resource Name or value ID. Response order by ID.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "bindings",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.annotations_v1#CreateBindingRequest": {
+      "type": "structure",
+      "members": {
+        "target_srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the resource to attach the value to."
+          }
+        },
+        "value_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the value to associate. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#CreateBinding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#CreateBindingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#Binding"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/annotations/v1/bindings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Attach a value to a resource. Fails if the resource already has a value for this key."
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteBindingRequest": {
+      "type": "structure",
+      "members": {
+        "binding_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the binding to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteBinding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#DeleteBindingRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/annotations/v1/bindings/{binding_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Detach an annotation from a resource."
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteAllBindingsMatchingSRNRequest": {
+      "type": "structure",
+      "members": {
+        "target_srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "target_srn",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "SRN of the resource for which all bindings should be deleted."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteAllBindingsMatchingSRNResponse": {
+      "type": "structure",
+      "members": {
+        "total_deleted": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of bindings deleted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#DeleteAllBindingsMatchingSRN": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#DeleteAllBindingsMatchingSRNRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#DeleteAllBindingsMatchingSRNResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/annotations/v1/bindings/delete-all-matching-srn",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete ALL bindings associated with a Scaleway Resource Name."
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteAllBindingsMatchingValueRequest": {
+      "type": "structure",
+      "members": {
+        "value_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "value_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the value for which all bindings should be deleted. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteAllBindingsMatchingValueResponse": {
+      "type": "structure",
+      "members": {
+        "total_deleted": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of bindings deleted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#DeleteAllBindingsMatchingValue": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#DeleteAllBindingsMatchingValueRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#DeleteAllBindingsMatchingValueResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/annotations/v1/bindings/delete-all-matching-value",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete ALL bindings associated with a value."
+      }
+    },
+    "com.scaleway.annotations_v1#ListKeysRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of keys on the page."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#ListKeysResponse": {
+      "type": "structure",
+      "members": {
+        "keys": {
+          "target": "com.scaleway.annotations_v1#ListKeysResponseKeysList",
+          "traits": {
+            "smithy.api#documentation": "List of keys for an organization, sorted alphabetically by name."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of keys returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#Key": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the annotation key. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the annotation key."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the annotation key."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the annotation key."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#ListKeysResponseKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.annotations_v1#Key"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of keys for an organization, sorted alphabetically by name."
+      }
+    },
+    "com.scaleway.annotations_v1#ListKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#ListKeysRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#ListKeysResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/annotations/v1/keys",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all keys, sorted alphabetically by name.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "keys",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.annotations_v1#CreateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the annotation key."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the annotation key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#CreateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#CreateKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/annotations/v1/keys",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create an annotation key."
+      }
+    },
+    "com.scaleway.annotations_v1#GetKeyRequest": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to retrieve. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#GetKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#GetKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/annotations/v1/keys/{key_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve a specific key."
+      }
+    },
+    "com.scaleway.annotations_v1#UpdateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name of the key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New description of the key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#UpdateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#UpdateKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#Key"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/annotations/v1/keys/{key_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update name or description. All associated resources will immediately display the new name."
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteKeyRequest": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#DeleteKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/annotations/v1/keys/{key_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a key definition. Fails if the key has any associated values."
+      }
+    },
+    "com.scaleway.annotations_v1#ListValuesRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of values on the page."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "key_id",
+            "smithy.api#documentation": "ID of the key to list the values for. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#ListValuesResponse": {
+      "type": "structure",
+      "members": {
+        "values": {
+          "target": "com.scaleway.annotations_v1#ListValuesResponseValuesList",
+          "traits": {
+            "smithy.api#documentation": "List of values for a key, sorted alphabetically by name."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of values returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#Value": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the value. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the annotation value."
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key the value is associated to. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the value (e.g. \"production\" for a key \"environment\")."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the value."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#ListValuesResponseValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.annotations_v1#Value"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of values for a key, sorted alphabetically by name."
+      }
+    },
+    "com.scaleway.annotations_v1#ListValues": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#ListValuesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#ListValuesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/annotations/v1/values",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all values, sorted alphabetically by name.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "values",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.annotations_v1#CreateValueRequest": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the key the value will be bound to. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the value."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the value."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#CreateValue": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#CreateValueRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#Value"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/annotations/v1/values",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Add a value definition to a key."
+      }
+    },
+    "com.scaleway.annotations_v1#GetValueRequest": {
+      "type": "structure",
+      "members": {
+        "value_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the value to retrieve. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#GetValue": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#GetValueRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#Value"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/annotations/v1/values/{value_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve a specific value."
+      }
+    },
+    "com.scaleway.annotations_v1#UpdateValueRequest": {
+      "type": "structure",
+      "members": {
+        "value_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the value to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name of the value.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New description of the value.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#UpdateValue": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#UpdateValueRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#Value"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/annotations/v1/values/{value_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update name or description."
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteValueRequest": {
+      "type": "structure",
+      "members": {
+        "value_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the value to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteValue": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#DeleteValueRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/annotations/v1/values/{value_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a value definition. Fails if the value is currently bound to any resource."
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteAllValuesMatchingKeyRequest": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "key_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the key for which to delete all values. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.annotations_v1#DeleteAllValuesMatchingKeyResponse": {
+      "type": "structure",
+      "members": {
+        "total_deleted": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of values deleted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.annotations_v1#DeleteAllValuesMatchingKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.annotations_v1#DeleteAllValuesMatchingKeyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.annotations_v1#DeleteAllValuesMatchingKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/annotations/v1/values/delete-all-matching-key",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete ALL values associated with a key. Fails if any of these values are currently bound to any resource."
+      }
+    },
+    "com.scaleway.annotations_v1#AnnotationsV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.annotations_v1#ListAllKeysAndValues"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#ListBindings"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#CreateBinding"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#DeleteBinding"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#DeleteAllBindingsMatchingSRN"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#DeleteAllBindingsMatchingValue"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#ListKeys"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#CreateKey"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#GetKey"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#UpdateKey"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#DeleteKey"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#ListValues"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#CreateValue"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#GetValue"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#UpdateValue"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#DeleteValue"
+        },
+        {
+          "target": "com.scaleway.annotations_v1#DeleteAllValuesMatchingKey"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Annotations API",
+        "smithy.api#documentation": "Scaleway Annotations lets you attach custom key-value metadata to any cloud resource (instance, bucket, database, etc.). Use Annotations to start organizing your Scaleway resources now, setting up your infrastructure for our next-generation FinOps, GreenOps, and governance tools.\n\nThis product is currently in Beta.\n\n## Concepts\n\n### Annotation\n\nAn annotation is custom metadata you can attach to any Scaleway resource (instance, bucket, database, etc.). It consists of a key (the category of information for a resource) and a value (the concrete information associated with a category).\n\n### Key-Value\n\nAn annotation key is a globally-unique identifier that names the piece of metadata you want to attach to a resource. The key defines the category of information for a resource (e.g., team, environment, cost-center).\n\nAn annotation value is the concrete information (e.g., marketing, production, 83546) associated with a category, i.e., an annotation key. A value cannot exist on its own, it must always be a child of a key.\n\nFor example:\n\n\nA key-value pair constitutes an annotation.\n\n### Binding\n\nA binding is the explicit association that links an annotation to a specific resource. In other words, a binding records which resource the annotation applies to.\n\n### Scaleway Resource Name\n\nA Scaleway Resource Name (SRN) is a Uniform Resource Identifier (URI) that uniquely identifies a Scaleway resource.\n\nIn the context of Annotations, you are required to provide the SRN of the resource when binding a key-value pair to it via the Annotations API.\n\nAn SRN usually follows this format:\n\n```text\nsrn://product-slug.partition/locality-type/{locality}/resource-type/{resource-id}\n```\n\nExamples:\n\n```text\n# Key Manager key - an example with locality\nsrn://key-manager.scw.eu/regions/fr-par/keys/25f6c309-a2c6-4fb2-8d16-57960c3fb9df\n\n# IAM application - an example with no locality\nsrn://iam.scw.eu/applications/25f6c309-a2c6-4fb2-8d16-57960c3fb9df\n```\n\nFor detailed information about how SRNs are composed, see [Scaleway Resource Names](https://www.scaleway.com/en/developers/api#scaleway-resource-names).\n\n## Quickstart\n\n<Message type=\"requirement\">\n - You have your [Organization ID](https://console.scaleway.com/project/settings)\n - You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page. To start using Annotations, configure one of the following permission sets:\n   - `AnnotationsFullAccess`: Full access to annotations (keys, values, and bindings).\n   - `AnnotationsReadOnly`: Read-only access to annotations. Typical users are auditors or finance team members (e.g., a FinOps analyst who can view and filter by annotation but cannot modify anything).\n   - `AnnotationsBindingManager`: Allows attaching annotations to resources, but prohibits modifying the annotation dictionary. Typical users are developers (including Terraform) who need the dictionary for autocomplete and must be able to create/delete bindings, but must not add or modify keys/values.\n - You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\nIn the following steps, you are going to create a key-value pair (example: `service`, `payment`), bind it to a given resource, then list your organization's bindings.\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step to simplify your usage of the Annotations API.\n   </Message>\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<access-key>\"\n    export SCW_SECRET_KEY=\"<secret-key>\"\n    export SCW_ORGANIZATION_ID=\"<your-organization-id>\"\n    ```\n\n2. Run the following command to create an annotation key. Remember to replace the placeholders with actual values.\n\n    ```bash\n    curl -X POST \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    -H \"Content-Type: application/json\" \\\n    -d \"{\\\"description\\\":\\\"<description-of-key>\\\",\\\"name\\\":\\\"<name-of-key>\\\",\\\"organization_id\\\":\\\"$SCW_ORGANIZATION_ID\\\"}\" \\\n    \"https://api.scaleway.com/annotations/v1/keys\"\n    ```\n\n   Example response:\n\n    ```json\n    {\n        \"id\":\"019eac9e-18a7-7bcb-b448-978c36d0a2fc\",\n        \"srn\":\"srn://annotations.scw.eu/keys/019eac9e-18a7-7bcb-b448-978c36d0a2fc\",\n        \"name\":\"service\",\n        \"description\":\"key-for-services\"\n    }\n    ```\n\n   Note the key `id` returned in the response, you will need it in the next step.\n\n3. Run the following command to add a value to the key. Remember to replace the placeholders with actual values.\n\n    ```bash\n    curl -X POST \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    -H \"Content-Type: application/json\" \\\n    -d \"{\\\"description\\\":\\\"<description-of-value>\\\",\\\"key_id\\\":\\\"<id-of-key>\\\",\\\"name\\\":\\\"<name-of-value>\\\"}\" \\\n    \"https://api.scaleway.com/annotations/v1/values\"\n    ```\n\n   Example response:\n\n    ```json\n    {\n        \"id\":\"019eb0ba-6400-748c-a037-b6b436c0ec41\",\n        \"srn\":\"srn://annotations.scw.eu/values/019eb0ba-6400-748c-a037-b6b436c0ec41\",\n        \"key_id\":\"019eac9e-18a7-7bcb-b448-978c36d0a2fc\",\n        \"name\":\"payments\",\n        \"description\":\"value-for-payments\"\n    }\n    ```\n\n   Note the value `id` returned in the response, you will need it in the next step.\n\n4. Attach a key-value pair to a selected cloud resource. Remember to replace the placeholders with actual values.\n\n    ```bash\n    curl -X POST \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{\"target_srn\":\"<srn-value>\",\"value_id\":\"<id-of-value>\"}' \\\n    \"https://api.scaleway.com/annotations/v1/bindings\"\n    ```\n\n   Example response:\n\n    ```json\n    {\n        \"id\":\"019eb0cb-7527-76e6-bc56-63d4d92e319e\",\n        \"srn\":\"srn://annotations.scw.eu/bindings/019eb0cb-7527-76e6-bc56-63d4d92e319e\",\n        \"target_srn\":\"srn://k8s.scw.eu/regions/fr-par/clusters/25f6c309-a2c6-4fb2-8d16-57960c3fb9df\",\n        \"key\":{\n            \"id\":\"019eac9e-18a7-7bcb-b448-978c36d0a2fc\",\n            \"name\":\"service\"\n        },\n        \"value\":{\n            \"id\":\"019eb0ba-6400-748c-a037-b6b436c0ec41\",\n            \"name\":\"payments\"\n        }\n    }\n    ```\n\n5. Run the following command to list bindings (i.e., the annotations attached to your resources). Remember to replace the placeholder with an actual value.\n\n    ```bash\n    curl -X GET \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    \"https://api.scaleway.com/annotations/v1/bindings?organization_id=$SCW_ORGANIZATION_ID\"\n    ```\n\n   Example response:\n\n    ```json\n    {\n        \"bindings\":[\n            {\n                \"id\":\"019eb0cb-7527-76e6-bc56-63d4d92e319e\",\n                \"srn\":\"srn://annotations.scw.eu/bindings/019eb0cb-7527-76e6-bc56-63d4d92e319e\",\n                \"target_srn\":\"srn://k8s.scw.eu/regions/fr-par/clusters/25f6c309-a2c6-4fb2-8d16-57960c3fb9df\",\n                \"key\":{\n                    \"id\":\"019eac9e-18a7-7bcb-b448-978c36d0a2fc\",\n                    \"name\":\"service\"\n                },\n                \"value\":{\n                    \"id\":\"019eb0ba-6400-748c-a037-b6b436c0ec41\",\n                    \"name\":\"payments\"\n                }\n            }\n        ],\n        \"total_count\":1\n    }\n    ```\n\n## Technical information\n\n### Regions\n\nScaleway's infrastructure spans different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nAnnotations is a global product that is available in all regions.\n\n## Technical limitations\n\n### Validation rules\n\n\nAll list endpoints return items sorted alphabetically by name (except bindings, which are sorted by ID).\n\n### Integrity rules\n\n- Strict binding: A resource can only have one value per key.\n- No orphans:\n  - You cannot delete a key if it has values.\n  - You cannot delete a value if it has bindings.\n\n### Consumption limits"
+      }
+    }
+  }
+}

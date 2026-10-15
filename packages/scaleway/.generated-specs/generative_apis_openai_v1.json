@@ -1,0 +1,3132 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIInputList": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIInputListRole",
+          "traits": {
+            "smithy.api#documentation": "Role providing the content input.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIInputListContentList",
+          "traits": {
+            "smithy.api#documentation": "List of input contents of different `type`, each compatible with different fields:\n\n`input_text`: Requires `text` field.\n\n`input_image`: Requires `detail` and `image_url` fields.\n\n`input_file`: Requires `file_data` or `file_url` field. Optionally, `filename` can be provided.",
+            "smithy.api#jsonName": "content​"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIInputListStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the response."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the content input. Always set to `message`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIInputListRole": {
+      "type": "enum",
+      "members": {
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "DEVELOPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ASSISTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Role providing the content input."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIInputContentPart": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIInputContentPartType",
+          "traits": {
+            "smithy.api#documentation": "Type of content. (Required).",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text content."
+          }
+        },
+        "detail": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIInputContentPartDetail",
+          "traits": {
+            "smithy.api#documentation": "Detail level of the image provided to the model."
+          }
+        },
+        "image_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of a remote image or encoding in base64 of a local image.\n\nSee [How to query vision models](https://www.scaleway.com/en/docs/generative-apis/how-to/query-vision-models/)\nfor code snippets using the `openai` Python client, and guidance for encoding local images."
+          }
+        },
+        "file_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content of a file."
+          }
+        },
+        "file_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of a remote file."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIInputContentPartType": {
+      "type": "enum",
+      "members": {
+        "INPUT_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_text"
+          }
+        },
+        "INPUT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_image"
+          }
+        },
+        "INPUT_FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of content. (Required)."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIInputContentPartDetail": {
+      "type": "enum",
+      "members": {
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Detail level of the image provided to the model."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIInputListContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIInputContentPart"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of input contents of different `type`, each compatible with different fields:\n\n`input_text`: Requires `text` field.\n\n`input_image`: Requires `detail` and `image_url` fields.\n\n`input_file`: Requires `file_data` or `file_url` field. Optionally, `filename` can be provided."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIInputListStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "INCOMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incomplete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of the response."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseRequestInputList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIInputList"
+      },
+      "traits": {
+        "smithy.api#documentation": "String or list of inputs to provide to the model to generate a response. Use an array of inputs to provide multiple strings and/or other content types."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseRequestReasoningEffort": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Reasoning effort level to generate the response.\n`minimal` is currently not supported."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseRequestReasoning": {
+      "type": "structure",
+      "members": {
+        "effort": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseRequestReasoningEffort",
+          "traits": {
+            "smithy.api#documentation": "Reasoning effort level to generate the response.\n`minimal` is currently not supported."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration parameters for reasoning models."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseFormatResponseAPI": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseFormatResponseAPIType",
+          "traits": {
+            "smithy.api#documentation": "Type of response object. The properties `name`, `schema`, `description` and `strict`\ncan only be used if `type` is set to `json_schema`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the response format. Must only contain alphanumeric characters, underscores and dashes.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the response format. This helps the model\ngenerate a response that follows the desired structure."
+          }
+        },
+        "schema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Schema the response object should follow in `JSON` format. This field\ncan only be used if `type` is set to `json_schema`. [Learn more](https://www.scaleway.com/en/docs/generative-apis/how-to/use-structured-outputs/)",
+            "smithy.api#required": {}
+          }
+        },
+        "strict": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to enforce strict schema adherence when generating\nstructured output. Currently, only `true` is supported.\n\n**Default:** `true`",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Output format specification.\n\nUsing `{ \"type\": \"text\"}` ensures the model enables output text (default behavior).\n\nUsing `{ \"type\": \"json_schema\", \"name\": ..., \"schema\": {...}, \"description\": ...,\"strict\": true}`\nenables the model to output only valid JSON following the provided schema specification.\n\nDeprecated. Using `{ \"type\": \"json_object\" }` enables `JSON\nmode`, and should no longer be used.\n\nSee [How to use structured outputs](https://www.scaleway.com/en/docs/generative-apis/how-to/use-structured-outputs/)\nfor code snippets using the `openai` Python client, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/)\nfor documentation about the format."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseFormatResponseAPIType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "JSON_SCHEMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json_schema"
+          }
+        },
+        "JSON_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json_object"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of response object. The properties `name`, `schema`, `description` and `strict`\ncan only be used if `type` is set to `json_schema`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseRequestText": {
+      "type": "structure",
+      "members": {
+        "format": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseFormatResponseAPI"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration of the response format, either plain text or JSON structured data."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIFunctionObject": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIFunctionObjectType",
+          "traits": {
+            "smithy.api#documentation": "Type of tool object, always set to `function`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the function to be called. Must contain only `a-z`, `A-Z`, `0-9`, underscores and dashes, with a maximum length of `64` characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the function. This helps the model choose the right function when needed."
+          }
+        },
+        "parameters": {
+          "target": "com.scaleway.generative_apis_openai_v1#FunctionParameters"
+        },
+        "strict": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to enforce strict schema adherence when generating a\nfunction call. If set to `true`, the model will follow the exact\nschema defined in the `parameters` field. Currently, even if\nset `true` this parameter will be ignored and act as if set to `false`.\nWe recommend you check output schema before calling any functions or tools.\n\n**Default:** `false`",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIFunctionObjectType": {
+      "type": "enum",
+      "members": {
+        "FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "function"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of tool object, always set to `function`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#FunctionParameters": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters of the function, described as a JSON schema object. See [How to use function calling](https://www.scaleway.com/en/docs/generative-apis/how-to/use-function-calling/) for examples, and the [JSON schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.\nOmitting `parameters` defines a function with an empty parameter list."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseRequestToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIFunctionObject"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tools the model can call, such as functions. A maximum of `128` tools can be provided. See [How to use function calling](https://www.scaleway.com/en/docs/generative-apis/how-to/use-function-calling/) for code snippets using the `openai` Python client.\n"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionToolChoiceOption": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "required"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines whether a model can call tools, and if so, and which ones.\n\n`none`: model will not call any tools, and only generate a message.\n\n`auto`: model can choose either to generate a message, or to call one or\nmultiple tools.\n\n`required`: model must call one or multiple tools.\n\nDefault: `none` when no tools are present, otherwise `auto`.\n\nAn object can also be provided to specify a tool that the model\nmust call. Object format must be:\n\n`{\"type\": \"function\", \"function\": {\"name\": \"function_name_as_provided_in_tools\"}}`"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseRequestInputList",
+          "traits": {
+            "smithy.api#documentation": "String or list of inputs to provide to the model to generate a response. Use an array of inputs to provide multiple strings and/or other content types."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model. For now, the Responses API only supports `gpt-oss-120b`.\n\nRefer to our [supported models](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/) list\nor [/models](#path-models-list-models) endpoint for available models.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parallel_tool_calls": {
+          "target": "smithy.api#Boolean"
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "System message added to the model's context.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseRequestReasoning",
+          "traits": {
+            "smithy.api#documentation": "Configuration parameters for reasoning models."
+          }
+        },
+        "store": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to store the input content for future requests.\n`store` is currently not supported and always set to `false`."
+          }
+        },
+        "stream": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the model's response can be streamed to the client\nusing server-sent events.\n\nThe response will be streamed in chunks over HTTP, where each chunk except\nthe last contains the following content:\n\n`data: {\"id\": ..., \"model\": ..., \"output\":...}`\n\nThe last chunk will contain `data: [DONE]`.\n\nNote that the object `{\"id\": ..., \"model\": ..., \"output\":...}` follows the same format as\na non-stream HTTP request.\n\nSee [How to query language models using streaming](https://www.scaleway.com/en/docs/generative-apis/how-to/query-language-models/#streaming)\nfor examples, and [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)\nfor reference documentation about SSE format.\n\n**Default value:** `false`",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "text": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseRequestText",
+          "traits": {
+            "smithy.api#documentation": "Configuration of the response format, either plain text or JSON structured data."
+          }
+        },
+        "tools": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseRequestToolsList",
+          "traits": {
+            "smithy.api#documentation": "List of tools the model can call, such as functions. A maximum of `128` tools can be provided. See [How to use function calling](https://www.scaleway.com/en/docs/generative-apis/how-to/use-function-calling/) for code snippets using the `openai` Python client.\n"
+          }
+        },
+        "tool_choice": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionToolChoiceOption"
+        },
+        "top_logprobs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of most likely tokens to return for each token generated, along with their\ngeneration log probability.\nValue must be between `0` and `20`.\n`logprobs` must be set to `true` to use this parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "top_p": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "truncation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Truncation configuration for the model response.\nOnly `disabled` is currently supported.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseResult": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the response."
+          }
+        },
+        "object": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseResultObject",
+          "traits": {
+            "smithy.api#documentation": "Type of response object, always set to `chat.completion`."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the response was generated (Unix format, in seconds)."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseResultStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the response."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model."
+          }
+        },
+        "output": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseResultOutputList",
+          "traits": {
+            "smithy.api#documentation": "List of outputs generated by the model as response."
+          }
+        },
+        "text": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseResultText",
+          "traits": {
+            "smithy.api#documentation": "Configuration of the response format, either plain text or JSON structured data."
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIUsage"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseResultObject": {
+      "type": "enum",
+      "members": {
+        "RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "response"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of response object, always set to `chat.completion`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseResultStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "INCOMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incomplete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of the response."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputList": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputListRole",
+          "traits": {
+            "smithy.api#documentation": "Role generating the content output. Always set to `assistant`."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputListType",
+          "traits": {
+            "smithy.api#documentation": "List of outputs of different `type`, each also outputting different fields:\n\n`message`: outputs `content` field\n\n`function_call`: outputs `call_id`, `name` and `arguments` fields"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the mesage within a response."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputListStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the response."
+          }
+        },
+        "content": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputListContentList",
+          "traits": {
+            "smithy.api#documentation": "List of text output contents."
+          }
+        },
+        "call_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the function tool call."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name the function to execute."
+          }
+        },
+        "arguments": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Arguments to pass to the function, formatted as a JSON string.\n\nExample: `{\"city\": \"Paris\",\"timezone\": \"UTC+2\"}`"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputListRole": {
+      "type": "enum",
+      "members": {
+        "ASSISTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Role generating the content output. Always set to `assistant`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputListType": {
+      "type": "enum",
+      "members": {
+        "MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "message"
+          }
+        },
+        "FUNCTION_CALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "function_call"
+          }
+        },
+        "REASONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reasoning"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "List of outputs of different `type`, each also outputting different fields:\n\n`message`: outputs `content` field\n\n`function_call`: outputs `call_id`, `name` and `arguments` fields"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputListStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "INCOMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incomplete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of the response."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputContentPart": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputContentPartType",
+          "traits": {
+            "smithy.api#documentation": "Type of content. Always set to `output_text`."
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text content."
+          }
+        },
+        "annotations": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputContentPartAnnotationsList",
+          "traits": {
+            "smithy.api#documentation": "Annotations of the text output, such as citations or path to a file."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputContentPartType": {
+      "type": "enum",
+      "members": {
+        "OUTPUT_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "output_text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of content. Always set to `output_text`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputContentPartAnnotationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Annotations of the text output, such as citations or path to a file."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputListContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputContentPart"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of text output contents."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseResultOutputList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIOutputList"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of outputs generated by the model as response."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseResultTextFormatType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "JSON_SCHEMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json_schema"
+          }
+        },
+        "JSON_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json_object"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of response object."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseResultTextFormat": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseResultTextFormatType",
+          "traits": {
+            "smithy.api#documentation": "Type of response object."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Output format type."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponseResultText": {
+      "type": "structure",
+      "members": {
+        "format": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponseResultTextFormat",
+          "traits": {
+            "smithy.api#documentation": "Output format type."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration of the response format, either plain text or JSON structured data."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIUsage": {
+      "type": "structure",
+      "members": {
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of input tokens."
+          }
+        },
+        "input_tokens_details": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIUsageInputTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "Breakdown of input tokens by type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of output tokens."
+          }
+        },
+        "output_tokens_details": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseAPIUsageOutputTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "Breakdown of output tokens by type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of tokens (input and output)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIUsageInputTokensDetails": {
+      "type": "structure",
+      "members": {
+        "cached_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of cached input tokens."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Breakdown of input tokens by type."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseAPIUsageOutputTokensDetails": {
+      "type": "structure",
+      "members": {
+        "reasoning_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of output tokens used for reasoning."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Breakdown of output tokens by type."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateResponse": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateResponseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateResponseResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{project_id}/v1/responses",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Create a response\n\nCreate a model response for a given input.\nThis method accepts a sequence of messages (a chat conversation) and returns a response generated by the model.\n\nCurrently, this API **does not store** inputs and `store` is set to `false` even if not provided."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessage": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageRole",
+          "traits": {
+            "smithy.api#documentation": "Role of the message's author.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content of a message as string. Required for all roles, except `assistant` if `tool_calls` is specified instead."
+          }
+        },
+        "content_": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentList",
+          "traits": {
+            "smithy.api#documentation": "Content of a message as array of content parts. Required for all roles, except `assistant` if `tool_calls` is specified instead.",
+            "smithy.api#jsonName": "content​"
+          }
+        },
+        "tool_calls": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageToolCallsList",
+          "traits": {
+            "smithy.api#documentation": "List of tool calls required by the model. Can only be used with `assistant` if `content` is not specified."
+          }
+        },
+        "tool_call_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the tool call. Must only be used with `tool` role."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageRole": {
+      "type": "enum",
+      "members": {
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ASSISTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistant"
+          }
+        },
+        "TOOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tool"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Role of the message's author."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentPart": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentPartType",
+          "traits": {
+            "smithy.api#documentation": "Type of content. `image_url` and `input_audio` are only supported with `user` role.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text content. Required if `type` is set to `text`."
+          }
+        },
+        "image_url": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentPartImageUrl"
+        },
+        "input_audio": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentPartInputAudio"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentPartType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "IMAGE_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image_url"
+          }
+        },
+        "INPUT_AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_audio"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of content. `image_url` and `input_audio` are only supported with `user` role."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentPartImageUrl": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of a remote image or encoding in base64 of a local image. Required if `type` is set to `image_url`.\n\nSee [How to query vision models](https://www.scaleway.com/en/docs/generative-apis/how-to/query-vision-models/)\nfor code snippets using `openai` Python client or how to encode local images."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentPartInputAudio": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoding in base64 of a local audio file. Required if `type` is set to `input_audio`.\n\nSee [How to query audio models](https://www.scaleway.com/en/docs/generative-apis/how-to/query-audio-models/)\nfor code snippets using `openai` Python client or how to encode local audio files."
+          }
+        },
+        "format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Format of the encoded audio file. Currently, the only supported values are `wav` and `mp3`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageContentPart"
+      },
+      "traits": {
+        "smithy.api#documentation": "Content of a message as array of content parts. Required for all roles, except `assistant` if `tool_calls` is specified instead."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCall": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the tool call."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCallType",
+          "traits": {
+            "smithy.api#documentation": "Type of tool call, always set to `function`."
+          }
+        },
+        "function": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCallFunction",
+          "traits": {
+            "smithy.api#documentation": "Function to call, identified by the model."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCallType": {
+      "type": "enum",
+      "members": {
+        "FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "function"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of tool call, always set to `function`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCallFunction": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the function to call."
+          }
+        },
+        "arguments": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Arguments to call the function with, as generated by the model in JSON format. Note that model may not always generate valid JSON or parameters. Validate the arguments in your code before calling a function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Function to call, identified by the model."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessageToolCallsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCall"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tool calls required by the model. Can only be used with `assistant` if `content` is not specified."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequestMessagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionRequestMessage"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of messages representing the conversation history."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequestLogitBiasMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of token IDs with associated bias integer values ranging from `-100` to `100`. This parameter adjusts the probability of these tokens being generated during the model's output.\nA JSON object must be provided in the following format: `{\"354\": 80,\"143\": -50}` where `354` and `143` are token IDs from the tokenizer used with this model. Positive values increase the likelihood of a token being generated, while negative values reduce it.\nModel `qwen3.5-397b-a17b` does not support this field.\n"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequestReasoningEffort": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Reasoning effort level to generate the response.\n\nFor `qwen3.5-397b-a17b` and `qwen3.6-35b-a3b` model:\n  - `low` and `high` values are similar to `medium`\n\nFor `mistral-medium-3.5-128b` model:\n  - `low` and `medium` values are not supported\n\nFor `gpt-oss-120b` model:\n  - `none` value is not supported"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseFormatChatCompletion": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseFormatChatCompletionType",
+          "traits": {
+            "smithy.api#documentation": "Type of response object."
+          }
+        },
+        "json_schema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Schema the response object should follow in `JSON` format. This field\ncan only be used if `type` is set to `json_schema`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Output format specification.\n\nUsing `{ \"type\": \"json_schema\", \"json_schema\": {...} }`\nenables the model to output only a valid JSON following the provided schema specification.\n\nDeprecated. Using `{ \"type\": \"json_object\" }` enables `JSON\nmode` that should not be used anymore.\n\nSee [How to use structured outputs](https://www.scaleway.com/en/docs/generative-apis/how-to/use-structured-outputs/)\nfor code snippets using `openai` Python client and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/)\nfor documentation about the format."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ResponseFormatChatCompletionType": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "JSON_SCHEMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json_schema"
+          }
+        },
+        "JSON_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json_object"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of response object."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionStreamOptions": {
+      "type": "structure",
+      "members": {
+        "include_usage": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether a usage field is included in a stream. If set, an additional chunk will be streamed before the `data: [DONE]` message. The `usage` field on this chunk shows the token usage statistics for the complete stream.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An object containing parameters that modify the behavior of stream responses. Can only be used if `stream` is set to `true`.\n"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionTool": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionToolType",
+          "traits": {
+            "smithy.api#documentation": "Type of tool object, always set to `function`.",
+            "smithy.api#required": {}
+          }
+        },
+        "function": {
+          "target": "com.scaleway.generative_apis_openai_v1#FunctionObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionToolType": {
+      "type": "enum",
+      "members": {
+        "FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "function"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of tool object, always set to `function`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#FunctionObject": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the function. This helps the model choose the right function when needed."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the function to be called. Must contain only `a-z`, `A-Z`, `0-9`, underscores and dashes, with a maximum length of `64` characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.scaleway.generative_apis_openai_v1#FunctionParameters"
+        },
+        "strict": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to enforce strict schema adherence when generating a\nfunction call. If set to `true`, the model will follow the exact\nschema defined in the `parameters` field. Currently, even if\nset `true` this parameter will be ignored and act as if set to `false`.\nWe recommend you check output schema before calling any functions or tools.\n\n**Default:** `false`",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequestToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionTool"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tools the model can call, such as functions. A maximum of `128` tools can be provided. See [How to use function calling](https://www.scaleway.com/en/docs/generative-apis/how-to/use-function-calling/) for code snippets using `openai` Python client.\n"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model, such as `llama-3.3-70b-instruct` or `mistral-small-3.2-24b-instruct-2506`.\n\nRefer to our [supported models](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/) list\nor [/models](#path-models-list-models) endpoint for available models.",
+            "smithy.api#required": {}
+          }
+        },
+        "messages": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequestMessagesList",
+          "traits": {
+            "smithy.api#documentation": "Array of messages representing the conversation history.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_completion_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Use `max_completion_tokens` instead. Maximum number of total tokens that can be generated\nfor a completion (input and output).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frequency_penalty": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Value which influences the likelihood of generating tokens based on their frequency in the existing text.\nWhen set to a positive value, it reduces the probability of repeating tokens that have already appeared.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logit_bias": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequestLogitBiasMap",
+          "traits": {
+            "smithy.api#documentation": "List of token IDs with associated bias integer values ranging from `-100` to `100`. This parameter adjusts the probability of these tokens being generated during the model's output.\nA JSON object must be provided in the following format: `{\"354\": 80,\"143\": -50}` where `354` and `143` are token IDs from the tokenizer used with this model. Positive values increase the likelihood of a token being generated, while negative values reduce it.\nModel `qwen3.5-397b-a17b` does not support this field.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logprobs": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to return log probabilities of each output token.\nThis allows you to see the likelihood of each token being generated.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "n": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of chat completion choices to generate for a given input.\nThe value of `n` multiplies the number of generated tokens,\nresulting in `n` separate responses for each input.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parallel_tool_calls": {
+          "target": "smithy.api#Boolean"
+        },
+        "presence_penalty": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Value which influences the probability of generating tokens that have\nalready appeared in the text. Positive values reduce the likelihood of\nrepeating a token, regardless of how many times it has already appeared.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning_effort": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequestReasoningEffort",
+          "traits": {
+            "smithy.api#documentation": "Reasoning effort level to generate the response.\n\nFor `qwen3.5-397b-a17b` and `qwen3.6-35b-a3b` model:\n  - `low` and `high` values are similar to `medium`\n\nFor `mistral-medium-3.5-128b` model:\n  - `low` and `medium` values are not supported\n\nFor `gpt-oss-120b` model:\n  - `none` value is not supported"
+          }
+        },
+        "response_format": {
+          "target": "com.scaleway.generative_apis_openai_v1#ResponseFormatChatCompletion"
+        },
+        "seed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Value which controls the randomness of the output to ensure determinism.\nWhen using the same seed value along with identical input and parameters,\nyou should receive the same model response each time. This holds true even when\ntemperature is set above 0.\n\nNote that fully deterministic output is not guaranteed over long periods of time (such\nas several months), as the inference model may be updated and optimized.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stop": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stream": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the model's response can be streamed to the client\nusing server-sent events.\n\nThe response will be streamed in chunks over HTTP, where each chunk except\nthe last contains the following content:\n\n`data: {\"id\": ..., \"model\": ..., \"choices\":...}`\n\nThe last chunk will contain `data: [DONE]`.\n\nNote that the object `{\"id\": ..., \"model\": ..., \"choices\":...}` follows the same format as\na non-stream HTTP request.\n\nSee [How to query language models using streaming](https://www.scaleway.com/en/docs/generative-apis/how-to/query-language-models/#streaming)\nfor examples, and [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)\nfor reference documentation about SSE format.\n\n**Default value:** `false`",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stream_options": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionStreamOptions",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tools": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequestToolsList",
+          "traits": {
+            "smithy.api#documentation": "List of tools the model can call, such as functions. A maximum of `128` tools can be provided. See [How to use function calling](https://www.scaleway.com/en/docs/generative-apis/how-to/use-function-calling/) for code snippets using `openai` Python client.\n"
+          }
+        },
+        "tool_choice": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionToolChoiceOption"
+        },
+        "top_logprobs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of most likely tokens to return for each token generated, along with their\ngeneration log probability.\nValue must be between `0` and `20`.\n`logprobs` must be set to `true` to use this parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "top_p": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the response."
+          }
+        },
+        "object": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletionResponseObject",
+          "traits": {
+            "smithy.api#documentation": "Type of response object, always set to `chat.completion`."
+          }
+        },
+        "created": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the response was generated (Unix format, in seconds)."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model."
+          }
+        },
+        "choices": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletionResponseChoicesList",
+          "traits": {
+            "smithy.api#documentation": "List of chat completion variations. Defaults to only `1` choice, but can be increased by setting a value for `n` in the request."
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionUsage"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletionResponseObject": {
+      "type": "enum",
+      "members": {
+        "CHAT_COMPLETION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat.completion"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of response object, always set to `chat.completion`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoice": {
+      "type": "structure",
+      "members": {
+        "index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Index of the choice in the list of choices."
+          }
+        },
+        "message": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseMessage"
+        },
+        "logprobs": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoiceLogprobs",
+          "traits": {
+            "smithy.api#documentation": "Object containing log probability information for each token in a generated response.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finish_reason": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoiceFinishReason",
+          "traits": {
+            "smithy.api#documentation": "Reason the model stopped generating tokens.\n\n`stop`: model successfully reached the end of its answer, or a provided\nstop sequence\n\n`length`: maximum number of output tokens was reached, blocking further generation\n\n`tool_calls`: model needed to call a tool\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseMessage": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseMessageRole",
+          "traits": {
+            "smithy.api#documentation": "Role of the message's author, always set to `assistant` in the response."
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content of the message."
+          }
+        },
+        "reasoning_content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reasoning content generated for this message."
+          }
+        },
+        "tool_calls": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCalls"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message generated by the model."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseMessageRole": {
+      "type": "enum",
+      "members": {
+        "ASSISTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Role of the message's author, always set to `assistant` in the response."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCalls": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionMessageToolCall"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tool calls required by the model, such as function calls."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprob": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token generated."
+          }
+        },
+        "logprob": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Log probability of generating this token, if it is among the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to mean that the token is very unlikely."
+          }
+        },
+        "bytes": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprobBytesList",
+          "traits": {
+            "smithy.api#documentation": "List of integers representing the UTF-8 bytes (in decimal format) representation of a token. Since some characters may be represented by multiple tokens, this representation can be combined to represent the corresponding character in UTF-8.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "top_logprobs": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprobTopLogprobsList",
+          "traits": {
+            "smithy.api#documentation": "List of most probable next tokens and their log probability."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprobBytesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of integers representing the UTF-8 bytes (in decimal format) representation of a token. Since some characters may be represented by multiple tokens, this representation can be combined to represent the corresponding character in UTF-8."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprobTopLogprobsItemBytesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of integers representing the UTF-8 bytes (in decimal format) representation of a token. Since some characters may be represented by multiple tokens, this representation can be combined to represent the corresponding character in UTF-8."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprobTopLogprobsItem": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token among the most next likely ones."
+          }
+        },
+        "logprob": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Log probability of generating this token, if it is among the top 20 most likely tokens. Otherwise, the value `-9999.0` will be used to mean that the token is very unlikely."
+          }
+        },
+        "bytes": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprobTopLogprobsItemBytesList",
+          "traits": {
+            "smithy.api#documentation": "List of integers representing the UTF-8 bytes (in decimal format) representation of a token. Since some characters may be represented by multiple tokens, this representation can be combined to represent the corresponding character in UTF-8.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprobTopLogprobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprobTopLogprobsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of most probable next tokens and their log probability."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoiceLogprobsContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprob"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of content tokens and their log probability information."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoiceLogprobsRefusalList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionTokenLogprob"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of refusal tokens and their log probability information."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoiceLogprobs": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoiceLogprobsContentList",
+          "traits": {
+            "smithy.api#documentation": "List of content tokens and their log probability information.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refusal": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoiceLogprobsRefusalList",
+          "traits": {
+            "smithy.api#documentation": "List of refusal tokens and their log probability information.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Object containing log probability information for each token in a generated response."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoiceFinishReason": {
+      "type": "enum",
+      "members": {
+        "STOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop"
+          }
+        },
+        "LENGTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "length"
+          }
+        },
+        "TOOL_CALLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tool_calls"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Reason the model stopped generating tokens.\n\n`stop`: model successfully reached the end of its answer, or a provided\nstop sequence\n\n`length`: maximum number of output tokens was reached, blocking further generation\n\n`tool_calls`: model needed to call a tool\n"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletionResponseChoicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionResponseChoice"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of chat completion variations. Defaults to only `1` choice, but can be increased by setting a value for `n` in the request."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionUsage": {
+      "type": "structure",
+      "members": {
+        "prompt_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of input tokens."
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of tokens (input and output)."
+          }
+        },
+        "completion_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of output tokens."
+          }
+        },
+        "completion_tokens_details": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionUsageCompletionTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "Breakdown of output tokens by type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prompt_tokens_details": {
+          "target": "com.scaleway.generative_apis_openai_v1#ChatCompletionUsagePromptTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "Breakdown of input tokens by type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionUsageCompletionTokensDetails": {
+      "type": "structure",
+      "members": {
+        "reasoning_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of output tokens used for reasoning."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Breakdown of output tokens by type."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ChatCompletionUsagePromptTokensDetails": {
+      "type": "structure",
+      "members": {
+        "audio_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of audio input tokens."
+          }
+        },
+        "cached_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of cached input tokens."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Breakdown of input tokens by type."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateChatCompletion": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{project_id}/v1/chat/completions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Create a chat completion\n\nCreate a model response for a given chat conversation.\nThis method accepts a sequence of messages (a chat conversation) and returns a response generated by the model.\n\nConversation `messages` **are not stored** and need to be sent in each\n`/chat/completions` API call."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateEmbeddingRequestEncodingFormat": {
+      "type": "enum",
+      "members": {
+        "FLOAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "float"
+          }
+        },
+        "BASE64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "base64"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Format of the embedding representation."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateEmbeddingRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "String or Array of strings to represent as embedding vector.\nMaximum array items: `2048`",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model, such as `bge-multilingual-gemma2`.\nRefer to our [supported models](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/) list or [/models](#path-models-list-models) endpoint for available models.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "encoding_format": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateEmbeddingRequestEncodingFormat",
+          "traits": {
+            "smithy.api#documentation": "Format of the embedding representation."
+          }
+        },
+        "dimensions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of `dimensions` to use for the embedding vector representation. Currently, the only supported value is that of the [maximum dimensions of a model](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/#embedding-models). Lower values are not supported and vectors should not be trimmed, since available models do not support [matryoshka embeddings](https://huggingface.co/blog/matryoshka).\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateEmbeddingResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "UUID of the response."
+          }
+        },
+        "object": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateEmbeddingResponseObject",
+          "traits": {
+            "smithy.api#documentation": "Type of response object, always set to `list`."
+          }
+        },
+        "created": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the response was generated (Unix format, in seconds)."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model."
+          }
+        },
+        "data": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateEmbeddingResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "List of embeddings."
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateEmbeddingResponseUsage",
+          "traits": {
+            "smithy.api#documentation": "Usage information generated by this request."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateEmbeddingResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of response object, always set to `list`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#Embedding": {
+      "type": "structure",
+      "members": {
+        "index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Index of the embedding in the list of embeddings."
+          }
+        },
+        "object": {
+          "target": "com.scaleway.generative_apis_openai_v1#EmbeddingObject",
+          "traits": {
+            "smithy.api#documentation": "Type of the response object, always set to `embedding`."
+          }
+        },
+        "embedding": {
+          "target": "com.scaleway.generative_apis_openai_v1#EmbeddingEmbeddingList",
+          "traits": {
+            "smithy.api#documentation": "Embedding vector, represented as a list of floating point values. The length of a vector is equal to the number of dimensions of the model.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#EmbeddingObject": {
+      "type": "enum",
+      "members": {
+        "EMBEDDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "embedding"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of the response object, always set to `embedding`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#EmbeddingEmbeddingList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "Embedding vector, represented as a list of floating point values. The length of a vector is equal to the number of dimensions of the model.\n"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateEmbeddingResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#Embedding"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of embeddings."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateEmbeddingResponseUsage": {
+      "type": "structure",
+      "members": {
+        "prompt_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of input tokens."
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of tokens (input and output)."
+          }
+        },
+        "completion_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of output tokens. Always set to `0` for embedding models since no token are generated (only vectors coordinates)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Usage information generated by this request."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateEmbedding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateEmbeddingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateEmbeddingResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{project_id}/v1/embeddings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Create an embedding\n\nGenerate an embedding."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateRerankRequestDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of document contents in string format.\nMaximum array items: `1000`"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateRerankRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Query requiring relevant documents to provide a better answer.",
+            "smithy.api#required": {}
+          }
+        },
+        "documents": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateRerankRequestDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "Array of document contents in string format.\nMaximum array items: `1000`",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model, such as `qwen3-embedding-8b`.\nRefer to our [supported models](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/) list or [/models](#path-models-list-models) endpoint for available models.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "top_n": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of most relevant documents to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateRerankResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "UUID of the response."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model."
+          }
+        },
+        "results": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateRerankResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "List of documents sorted by relevance."
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateRerankResponseUsage",
+          "traits": {
+            "smithy.api#documentation": "Usage information generated by this request."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#Ranking": {
+      "type": "structure",
+      "members": {
+        "index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Index of the document in the initial request."
+          }
+        },
+        "relevance_score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Document's relevance to answering the query.\n"
+          }
+        },
+        "document": {
+          "target": "com.scaleway.generative_apis_openai_v1#RankingDocument",
+          "traits": {
+            "smithy.api#documentation": "Document sent in the request."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#RankingDocument": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content of the document."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Document sent in the request."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateRerankResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#Ranking"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of documents sorted by relevance."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateRerankResponseUsage": {
+      "type": "structure",
+      "members": {
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of tokens (reranking models only use input tokens)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Usage information generated by this request."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateRerank": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateRerankRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateRerankResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{project_id}/v1/rerank",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Create a reranking\n\nIdentify most relevant documents to answer a query."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateAudioTranscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Audio file object to transcribe. Currently, the only supported formats are `wav`, `mp3`, `flac`, `mpga`, `oga`, `ogg`.\n\nSee [How to query audio models](https://www.scaleway.com/en/docs/generative-apis/how-to/query-audio-models/)\nfor code snippets using `openai` Python client.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model, such as `whisper-large-v3`.\nRefer to our [supported models](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/) list or [/models](#path-models-list-models) endpoint for available models.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Language of the audio input, following [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) format such as `en` for English.\nRefer to our [model catalog](https://www.scaleway.com/en/docs/managed-inference/reference-content/model-catalog/)\nfor supported languages.\n\n**Default**: Language will be automatically detected if no value is provided."
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional content used to guide the model during transcription.\nThis fields works very differently from prompts in `/chat/completions`.\nRefer to [How to query audio models](https://www.scaleway.com/en/docs/generative-apis/how-to/query-audio-models/)\nfor more information."
+          }
+        },
+        "response_format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output format structure. Currently, the only supported value is `json`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stream": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the model's response can be streamed to the client\nusing server-sent events.\n\nThe response will be streamed in chunks over HTTP, where each chunk except\nthe last contains the following content:\n\n`data: {\"type\": ..., \"delta\": ..., \"logprobs\":...}`\n\nThe last chunk will contain `data: [DONE]`.\n\nNote that the object `data: {\"type\": ..., \"delta\": ..., \"logprobs\":...}` does not follow the same format as\na non-stream HTTP request.\n\nSee [How to query audio models using streaming](https://www.scaleway.com/en/docs/generative-apis/how-to/query-audio-models/#streaming)\nfor examples, and [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)\nfor reference documentation about SSE format.\n\n**Default value:** `false`",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateAudioTranscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Transcribed text."
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateAudioTranscriptionResponseUsage",
+          "traits": {
+            "smithy.api#documentation": "Usage information generated by this request, either in tokens or duration depending\non how the model is billed."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateAudioTranscriptionResponseUsage": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Usage type for this model. Either `duration` or `tokens`."
+          }
+        },
+        "seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Audio input duration, in seconds."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Usage information generated by this request, either in tokens or duration depending\non how the model is billed."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateAudioTranscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateAudioTranscriptionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateAudioTranscriptionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{project_id}/v1/audio/transcriptions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Create an audio transcription\n\nGenerate an audio transcription."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ListBatchRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Pagination cursor which value should be a batch UUID. When response consists of\nmultiple pages, provide the last batch UUID obtained in previous request to fetch next page."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of batches to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ListBatchResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.scaleway.generative_apis_openai_v1#ListBatchResponseObject",
+          "traits": {
+            "smithy.api#documentation": "Type of response object, always set to `list`."
+          }
+        },
+        "data": {
+          "target": "com.scaleway.generative_apis_openai_v1#ListBatchResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "List of batches."
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of first batch in the response."
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of last batch in the response."
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether there are more results to retrieve not returned by this query."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ListBatchResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of response object, always set to `list`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#Batch": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the batch."
+          }
+        },
+        "object": {
+          "target": "com.scaleway.generative_apis_openai_v1#BatchObject",
+          "traits": {
+            "smithy.api#documentation": "Type of batch object, always set to `batch`."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path used to process requests in the batch."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model used to process the batch"
+          }
+        },
+        "errors": {
+          "target": "com.scaleway.generative_apis_openai_v1#BatchErrors",
+          "traits": {
+            "smithy.api#documentation": "Error object"
+          }
+        },
+        "input_file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the input file."
+          }
+        },
+        "completion_window": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time range during which the batch should be processed."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status of the batch."
+          }
+        },
+        "output_file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the input file."
+          }
+        },
+        "error_file_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the input file."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch was created (Unix format, in seconds)."
+          }
+        },
+        "in_progress_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch processing started (Unix format, in seconds)."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch will expire (Unix format, in seconds)."
+          }
+        },
+        "finalizing_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch started finalizing (Unix format, in seconds)."
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch was completed (Unix format, in seconds)."
+          }
+        },
+        "failed_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch failed (Unix format, in seconds)."
+          }
+        },
+        "expired_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch expired (Unix format, in seconds)."
+          }
+        },
+        "cancelling_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch started cancelling (Unix format, in seconds)."
+          }
+        },
+        "cancelled_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the batch was cancelled (Unix format, in seconds)."
+          }
+        },
+        "request_counts": {
+          "target": "com.scaleway.generative_apis_openai_v1#BatchRequestCounts",
+          "traits": {
+            "smithy.api#documentation": "Number of requests by status."
+          }
+        },
+        "usage": {
+          "target": "com.scaleway.generative_apis_openai_v1#BatchUsage",
+          "traits": {
+            "smithy.api#documentation": "Usage information generated by the requests of the batch, either in tokens or duration depending\non how the model is billed."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#BatchObject": {
+      "type": "enum",
+      "members": {
+        "BATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of batch object, always set to `batch`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#BatchErrorsDataItem": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Code identifying error"
+          }
+        },
+        "line": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Line number in the file where error occured"
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message"
+          }
+        },
+        "param": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the parameter that triggered error, if applicable"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#BatchErrorsDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#BatchErrorsDataItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Error details"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#BatchErrors": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of batch object, always set to `list`."
+          }
+        },
+        "data": {
+          "target": "com.scaleway.generative_apis_openai_v1#BatchErrorsDataList",
+          "traits": {
+            "smithy.api#documentation": "Error details"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Error object"
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#BatchRequestCounts": {
+      "type": "structure",
+      "members": {
+        "completed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of requests completed successfully."
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of failed requests."
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of requests."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Number of requests by status."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#BatchUsageInputTokensDetails": {
+      "type": "structure",
+      "members": {
+        "cached_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of tokens that were retrieved from the cache."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A detailed breakdown of the input tokens."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#BatchUsageOutputTokensDetails": {
+      "type": "structure",
+      "members": {
+        "reasoning_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of reasoning tokens."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A detailed breakdown of the output tokens."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#BatchUsage": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Usage type for this model. Either `duration` or `tokens`."
+          }
+        },
+        "duration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Audio input duration, in seconds."
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of input tokens."
+          }
+        },
+        "input_tokens_details": {
+          "target": "com.scaleway.generative_apis_openai_v1#BatchUsageInputTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "A detailed breakdown of the input tokens."
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of tokens (input and output)."
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of output tokens. Always set to `0` for embedding models since no token are generated (only vector coordinates)."
+          }
+        },
+        "output_tokens_details": {
+          "target": "com.scaleway.generative_apis_openai_v1#BatchUsageOutputTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "A detailed breakdown of the output tokens."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Usage information generated by the requests of the batch, either in tokens or duration depending\non how the model is billed."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ListBatchResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#Batch"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of batches."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ListBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#ListBatchRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#ListBatchResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{project_id}/v1/batches",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "List batches\n\nList batches including their properties and status."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateBatchRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "completion_window": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Time range during which the batch should be processed. Currently only `24h` is supported.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Path to use to process requests in the batch. Currently `/v1/chat/completions`, `/v1/responses`,\n`/v1/embeddings` and `/v1/audio/transcriptions` are supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_file_id": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "URL of the file in Scaleway Object Storage. File should contain all request to process in [JSONL format](https://jsonlines.org/).\nResults will be stored within the same bucket and folder, and named `{filename}-output.jsonl` and `{filename}-error.jsonl`.\n\nSee [How to use batch processing](https://www.scaleway.com/en/docs/generative-apis/how-to/use-batch-processing/)\nfor code snippets using `openai` Python client.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_expires_after": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Expiration rules for the output and error files generated by the batch."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CreateBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#CreateBatchRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#Batch"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{project_id}/v1/batches",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Create a batch\n\nProcess multiple requests asynchronously in batch."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#GetBatchRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the batch.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#GetBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#GetBatchRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#Batch"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{project_id}/v1/batches/{batch_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Get a batch\n\nRetrieve a batch's properties and status."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#DeleteBatchRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the batch.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#DeleteBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#DeleteBatchRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#Batch"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{project_id}/v1/batches/{batch_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Delete a batch\n\nDelete a previously created batch.\n\nWhen a batch is deleted, the associated `input.jsonl`, `output.jsonl` and `errors.jsonl` files are not removed from the bucket.\n\nThis endpoint is a Scaleway‑specific extension that supplements the OpenAI‑compatible API; it is not part of the official OpenAI API specification."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CancelBatchRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "batch_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the batch.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#CancelBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_openai_v1#CancelBatchRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#Batch"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{project_id}/v1/batches/{batch_id}/cancel",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "Cancel a batch\n\nWhen a batch is cancelled, results already processed are stored\nin corresponding `output.jsonl` and `errors.jsonl` files, while remaining\nrequests will not be processed."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ListModelsResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.scaleway.generative_apis_openai_v1#ListModelsResponseObject",
+          "traits": {
+            "smithy.api#documentation": "Type of response object, always set to `list`."
+          }
+        },
+        "data": {
+          "target": "com.scaleway.generative_apis_openai_v1#ListModelsResponseDataList",
+          "traits": {
+            "smithy.api#documentation": "List of models."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ListModelsResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of response object, always set to `list`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#Model": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the model."
+          }
+        },
+        "object": {
+          "target": "com.scaleway.generative_apis_openai_v1#ModelObject",
+          "traits": {
+            "smithy.api#documentation": "Object type. Always set to `model`."
+          }
+        },
+        "created": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the model was created (Unix format, in seconds)."
+          }
+        },
+        "owned_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the organization that created the model (i.e. the model provider)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_openai_v1#ModelObject": {
+      "type": "enum",
+      "members": {
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Object type. Always set to `model`."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ListModelsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_openai_v1#Model"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of models."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#ListModels": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_openai_v1#ListModelsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/models",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.ai"
+        },
+        "smithy.api#documentation": "List models\n\nList [models](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/) that are available via this API."
+      }
+    },
+    "com.scaleway.generative_apis_openai_v1#GenerativeApisOpenaiV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateResponse"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateChatCompletion"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateEmbedding"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateRerank"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateAudioTranscription"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#ListBatch"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#CreateBatch"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#GetBatch"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#DeleteBatch"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#CancelBatch"
+        },
+        {
+          "target": "com.scaleway.generative_apis_openai_v1#ListModels"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI Compatible API",
+        "smithy.api#documentation": "Scaleway Generative APIs provides access to the latest AI models hosted on Scaleway infrastructure.\n\nThe Generative APIs specification targets OpenAI API compatibility.\n\nFor details about the Scaleway Generative APIs used for dedicated deployments, see our documentation [Generative APIs - Dedicated Deployment API](https://www.scaleway.com/en/developers/api/inference).\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/generative-apis/concepts/) to find definitions of the different terms referring to Generative APIs.\n\n## Quickstart\n\n1. Configure your environment variables.\n    <Message type=\"note\">\n    This is an optional step that seeks to simplify your usage of the APIs.\n    </Message>\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_REGION=\"<Scaleway region>\"\n    ```\n2. Generate content from a model by running the following command.\n    ```bash\n    curl https://api.scaleway.ai/v1/chat/completions \\\n      -H \"Content-Type: application/json\" \\\n      -H \"Authorization: Bearer $SCW_SECRET_KEY\" \\\n      -d '{\n        \"model\": \"llama-3.3-70b-instruct\",\n        \"messages\": [\n          {\n            \"role\": \"system\",\n            \"content\": \"You are a helpful assistant.\"\n          },\n          {\n            \"role\": \"user\",\n            \"content\": \"Hello!\"\n          }\n        ]\n      }'\n    ```\n\nSee [How to use Generative APIs](https://www.scaleway.com/en/docs/generative-apis/how-to/)\nfor quickstart information and snippets using `REST` requests or libraries such as the `openai` python client.\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n  - You have an account and are logged into the [Scaleway console](https://console.scaleway.com/organization)\n  - You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n  - You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical information\n\n### Regions\n\nScaleway's infrastructure is spread across different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nGenerative APIs is available in the Paris region, which is represented by the following path parameter (optional while there is only one region):\n- `fr-par`\n\n### Supported endpoints and features\n\nSupported endpoints are:\n- `/v1/responses`\n- `/v1/chat/completions`\n- `/v1/audio/transcriptions`\n- `/v1/embeddings`\n- `/v1/rerank`\n- `/v1/batches`\n- `/v1/models`\n\nThe `/v1/chat/completions` endpoint:\n- Supports many features such as:\n  - Structured outputs (JSON response format)\n  - Tool calling (i.e., compatibility with workflows using MCP servers)\n  - Sending and analyzing images\n  - Sending and analyzing audio files\n- Does not yet support the following parameters: `audio`, `metadata`, `modalities`,\n`prediction`, `prompt_cache_key`, `user`, `safety_identifier`,\n`service_tier`, `stream_options.include_obfuscation`, `store`, `system_fingerprint`,\n`web_search_options`.\n- Does not support `custom` tools (only `function` tools are supported). These tools require you to provide a custom `grammar` to verify their input format.\n\nThe `/v1/audio/transcriptions` endpoint:\n- Does not yet support the following parameters: `chunking_strategy`, `include[]` and `timestamp_granularities[]`.\n\nThe `/v1/responses` endpoint:\n- Does not yet support storing conversation state server-side.\n- Does not support execution by Scaleway of \"built-in\" tools (such as web or file search) while the model generates a response.\nCurrently, only `function` tools are supported. These tools must be fully defined in your query, and should be executed if the model requests them.\nThe execution result is then sent to the model so that it can use this additional context to produce a suitable answer.\n- Does not support sending response output object directly as an input for the next message. Standard messages using `role:assistant` and `content` fields should be used instead.\nSpecifically, `custom_tool_call` and `custom_tool_call_output` types are not yet supported. As a workaround, tool call results can be sent using `role:user`, although we recommend using `/chat/completions` for better results in this case.\n- Does not yet support the following parameters: `background`, `conversation`, `include`,\n`instructions`, `max_tool_calls`, `metadata`, `previous_response_id`, `prompt_cache_key`,\n`safety_identifier`, `service_tier`, `stream_options`, `top_logprobs`, `user`, `prompt`, `verbosity`.\n\nThe `/v1/batches` endpoint:\n- Supports processing files stored in Object Storage (using the Amazon S3 protocol).\n- Does not yet support the following parameters: `metadata`.\n\nThe `/v1/rerank` endpoint:\n- Aims for compatibility with the JinAI API and Cohere API formats (no OpenAI API exists for this endpoint).\n\n### Third-party tool integration\n\nFor full details of direct integration into third party tooling, see [Integrating Scaleway Generative APIs with popular AI tools](https://www.scaleway.com/en/docs/generative-apis/reference-content/integrating-generative-apis-with-popular-tools/).\nIf your tool is not listed, you can still specify the Scaleway URL and\nAPI key in most OpenAI-like plugins, as compatibility largely depends on the above APIs.\n\n## Technical limitations\n\nWhen choosing a model, select the ones compatible with the API endpoints you want to use\nin our [model catalog](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/).\nFor example, `/v1/embeddings` is only available for embeddings models.\n\n## Going further\n\nFor more information about Generative APIs, you can check out the following pages:\n\n* [Generative APIs Documentation](https://www.scaleway.com/en/docs/generative-apis/)\n* [Generative APIs FAQ](https://www.scaleway.com/en/docs/generative-apis/faq/)\n* [Scaleway Slack Community - AI Channel](https://scaleway-community.slack.com/archives/C01SGLGRLEA) join the #ai channel\n* [Contact our support team](https://console.scaleway.com/support/tickets)\n\n### Troubleshoooting\n\nSee [Troubleshooting Generative APIs](https://www.scaleway.com/en/docs/generative-apis/troubleshooting/)\nfor descriptions regarding advanced API behavior and solutions to common issues."
+      }
+    }
+  }
+}

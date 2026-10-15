@@ -1,0 +1,808 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.mnq_sqs_v1beta1#ActivateSqsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#ActivateSqsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#ActivateSqsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project on which to activate the Queues service."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#SqsInfo": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the Project containing the service."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the service."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Queues creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Queues last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#SqsInfoStatus",
+          "traits": {
+            "smithy.api#documentation": "Queues activation status."
+          }
+        },
+        "sqs_endpoint_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint of the Queues service for this region and project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#SqsInfoStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#ActivateSqs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#ActivateSqsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#SqsInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mnq/v1beta1/regions/{region}/activate-sqs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Activate Queues\n\nActivate Queues for the specified Project ID. Queues must be activated before any usage such as creating credentials and queues. Activating Queues does not trigger any billing, and you can deactivate at any time."
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#DeactivateSqsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#DeactivateSqsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#DeactivateSqsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project on which to deactivate the Queues service."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#DeactivateSqs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#DeactivateSqsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#SqsInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mnq/v1beta1/regions/{region}/deactivate-sqs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Deactivate Queues\n\nDeactivate Queues for the specified Project ID. You must delete all queues and credentials before this call or you need to set the force_delete parameter."
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Include only Queues credentials in this Project."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of credentials to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of existing credentials (matching any filters specified)."
+          }
+        },
+        "sqs_credentials": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsResponseSqsCredentialsList",
+          "traits": {
+            "smithy.api#documentation": "Queues credentials on this page."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#SqsCredentials": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the credentials."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the credentials."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the Project containing the credentials."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region where the credentials exists."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "access_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access key ID."
+          }
+        },
+        "secret_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret key ID (Only returned by **Create Queues Credentials** call).",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secret_checksum": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Checksum of the Secret key."
+          }
+        },
+        "permissions": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#SqsPermissions",
+          "traits": {
+            "smithy.api#documentation": "Permissions associated with these credentials."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#SqsPermissions": {
+      "type": "structure",
+      "members": {
+        "can_publish": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the credentials bearer can publish messages to the service (send messages to Queues queues).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "can_receive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the credentials bearer can receive messages from Queues queues.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "can_manage": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the credentials bearer can manage the associated Queues queues.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsResponseSqsCredentialsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#SqsCredentials"
+      },
+      "traits": {
+        "smithy.api#documentation": "Queues credentials on this page."
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentialsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/sqs-credentials",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Queues credentials\n\nList existing Queues credentials in the specified region. The response contains only the metadata for the credentials, not the credentials themselves.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "sqs_credentials",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#CreateSqsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#CreateSqsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#CreateSqsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project containing the Queues credentials.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the credentials."
+          }
+        },
+        "permissions": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#SqsPermissions",
+          "traits": {
+            "smithy.api#documentation": "Permissions associated with these credentials."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#CreateSqsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#CreateSqsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#SqsCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mnq/v1beta1/regions/{region}/sqs-credentials",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create Queues credentials\n\nCreate a set of credentials for Queues, specified by a Project ID. Credentials give the bearer access to queues, and the level of permissions can be defined granularly."
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#GetSqsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#GetSqsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#GetSqsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "sqs_credentials_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Queues credentials to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#GetSqsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#GetSqsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#SqsCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/sqs-credentials/{sqs_credentials_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get Queues credentials\n\nRetrieve an existing set of credentials, identified by the `credentials_id`. The credentials themselves, as well as their metadata (name, project ID etc), are returned in the response."
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#UpdateSqsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#UpdateSqsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#UpdateSqsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "sqs_credentials_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Queues credentials to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the credentials.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "permissions": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#SqsPermissions",
+          "traits": {
+            "smithy.api#documentation": "Permissions associated with these credentials."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#UpdateSqsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#UpdateSqsCredentialsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#SqsCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mnq/v1beta1/regions/{region}/sqs-credentials/{sqs_credentials_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update Queues credentials\n\nUpdate a set of Queues credentials. You can update the credentials' name, or their permissions."
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#DeleteSqsCredentialsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#DeleteSqsCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#DeleteSqsCredentialsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "sqs_credentials_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the credentials to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#DeleteSqsCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#DeleteSqsCredentialsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mnq/v1beta1/regions/{region}/sqs-credentials/{sqs_credentials_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete Queues credentials\n\nDelete a set of Queues credentials, specified by their credentials ID. Deleting credentials is irreversible and cannot be undone. The credentials can then no longer be used to access Queues."
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#GetSqsInfoRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_sqs_v1beta1#GetSqsInfoRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mnq_sqs_v1beta1#GetSqsInfoRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to retrieve Queues info from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#GetSqsInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#GetSqsInfoRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_sqs_v1beta1#SqsInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/sqs-info",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get Queues info\n\nRetrieve the Queues information of the specified Project ID. information include the activation status and the Queues API endpoint URL."
+      }
+    },
+    "com.scaleway.mnq_sqs_v1beta1#MnqSqsV1beta1": {
+      "type": "service",
+      "version": "v1beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.mnq_sqs_v1beta1#ActivateSqs"
+        },
+        {
+          "target": "com.scaleway.mnq_sqs_v1beta1#DeactivateSqs"
+        },
+        {
+          "target": "com.scaleway.mnq_sqs_v1beta1#ListSqsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sqs_v1beta1#CreateSqsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sqs_v1beta1#GetSqsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sqs_v1beta1#UpdateSqsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sqs_v1beta1#DeleteSqsCredentials"
+        },
+        {
+          "target": "com.scaleway.mnq_sqs_v1beta1#GetSqsInfo"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Queues API",
+        "smithy.api#documentation": "Queues is a managed messaging service provided by Scaleway. It supports the API developed by Amazon with its Simple Queue Service, or **Amazon SQS**.\nIf you're new to Queues, you can learn more about it on our [Queues overview](https://www.scaleway.com/en/docs/queues/reference-content/queues-overview/) page.\n\n(switchcolumn)\n<Message type=\"tip\">\nIf Queues is not the service you're looking for, check out our [NATS](https://www.scaleway.com/en/developers/api/nats/nats-api/) or [Topics and Events](https://www.scaleway.com/en/developers/api/topics-and-events/sns-api/) services.\n</Message>\n(switchcolumn)\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/queues/concepts/) to find definitions of all terminology related to Queues.\n\n(switchcolumn)\n(switchcolumn)\n\n## Quickstart\n\n1. Configure your environment variables\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. Activate the Queues protocol on your Scaleway Project:\n\n    ```bash\n    curl --silent -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/activate-sqs\" \\\n        -d '{\n          \"project_id\": \"'$SCW_PROJECT_ID'\"\n        }' | jq\n\n    curl --silent -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/sqs-info?project_id=$SCW_PROJECT_ID\" \\\n    ```\n\n   <Message type=\"tip\">\n    - `| tee my-sqs-account.json` saves the JSON object returned by the API to a file (used by next steps)\n    - `| jq` displays the output nicely\n   </Message>\n\n3. **Create credentials**. Credentials are necessary to authenticate a client to your Queues service. Their permissions should be specified and adapted according to your needs, using `true` or `false` for each type of permission.\n\n    ```bash\n    curl --silent -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/sqs-credentials\" \\\n        -d '{\n          \"name\": \"my-credentials\",\n          \"permissions\": {\n            \"can_publish\": true,\n            \"can_receive\": true,\n            \"can_manage\": true\n          },\n          \"project_id\": \"'$SCW_PROJECT_ID'\"\n        }' | tee my-sqs-credentials.json | jq\n    ```\n\n4. **Export credentials**: Export the credentials to your environment:\n\n    ```bash\n    export AWS_ENDPOINT_URL=$(jq -r .sqs_endpoint_url my-sqs-account.json)\n    export AWS_ACCESS_KEY_ID=$(jq -r .access_key my-sqs-credentials.json)\n    export AWS_SECRET_ACCESS_KEY=$(jq -r .secret_key my-sqs-credentials.json)\n    ```\n\n5. **Start creating queues and messages**. The following commands show you how to create a queue, and send, receive and delete a message\n\n    ```bash\n    aws sqs create-queue --queue-name my-queue | tee my-queue.json\n    ```\n\n    ```bash\n    aws sqs send-message --queue-url \"$(jq -r .QueueUrl my-queue.json)\" \\\n      --message-body 'Hello world!'\n    ```\n\n    ```bash\n    aws sqs receive-message --queue-url \"$(jq -r .QueueUrl my-queue.json)\" \\\n      > my-sqs-message.json\n    ```\n\n    ```bash\n    aws sqs delete-message --queue-url \"$(jq -r .QueueUrl my-queue.json)\" \\\n      --receipt-handle \"$(jq -r '.Messages[0].ReceiptHandle' my-sqs-message.json)\"\n    ```\n\n6. Disable Queues\n\n   <Message type=\"important\">\n   Disabling Queues deletes all queues and messages stored in your Queues service.\n   </Message>\n\n    ```bash\n    curl --silent -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/mnq/v1beta1/regions/fr-par/deactivate-sqs\" \\\n        -d '{\n          \"project_id\": \"'$SCW_PROJECT_ID'\"\n        }' | jq\n    ```\n\n(switchcolumn)\n<Message type=\"requirement\">\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have installed [awscli v1](https://pypi.org/project/awscli/) (version >= 1.29.0) or [awscli v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) (version >= 2.13.0)\n- You have installed [jq](https://stedolan.github.io/jq/download/)\n</Message>\n(switchcolumn)\n\n## Technical limitations\n\nScaleway Queues does not support the entire set of AWS SQS actions or parameters.\nSee the [compatibility matrix](https://www.scaleway.com/en/docs/queues/reference-content/queues-support/) for more information.\n\nAlso note that:\n\n- The maximum message size is 256 kB.\n- The maximum storage capacity for all queues of a project is 100 MB.\n\n## Technical information\n\n### Regional availability\n\nScaleway Queues is currently available in the following regions:\n\n- Paris, France (`fr-par`)\n- Amsterdam, Netherlands (`nl-ams`)\n\n### Queues credentials\n\nCredentials use a simplified permissions system with 3 permissions:\n\n- `can_publish` : allows to send messages to a Queue.\n- `can_receive` : allows to receive and acknowledge (delete) messages.\n- `can_manage` : allows all other actions (Creating, Listing, Updating, Deleting Queues).\n\nEach set of credentials gives access to all queues.\nIsolation can be handled by using several [Scaleway Projects](https://www.scaleway.com/en/developers/api/account/project-api/).\n\n## Going further\n\nFor more help using Scaleway Queues, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/queues/)\n- The `#messaging-queuing` channel on our [Slack community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)\n\nYou can also read the [AWS SQS documentation](https://docs.aws.amazon.com/sqs)."
+      }
+    }
+  }
+}

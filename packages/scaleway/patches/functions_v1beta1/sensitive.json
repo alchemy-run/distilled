@@ -1,0 +1,15 @@
+{
+  "description": "Serverless Functions secrets carry no sensitive mark: `Secret.value` is the plaintext secret environment variable sent on create/update, and `Token.token` is the bearer token a private function or namespace accepts (https://www.scaleway.com/en/developers/api/serverless-functions/).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.functions_v1beta1#Secret/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.functions_v1beta1#Token/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

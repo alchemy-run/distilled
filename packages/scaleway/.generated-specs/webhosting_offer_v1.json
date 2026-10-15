@@ -1,0 +1,627 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.webhosting_offer_v1#ListOffersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#ListOffersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "PRICE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "price_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#ListOffersRequestControlPanelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#ListOffersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_offer_v1#ListOffersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (must be a positive integer)."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of websites to return (must be a positive integer lower or equal to 100)."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.webhosting_offer_v1#ListOffersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order for Web Hosting offers in the response."
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hosting_id",
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "control_panels": {
+          "target": "com.scaleway.webhosting_offer_v1#ListOffersRequestControlPanelsList",
+          "traits": {
+            "smithy.api#httpQuery": "control_panels",
+            "smithy.api#documentation": "Name of the control panel(s) to filter for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_offer_v1#ListOffersResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of offers."
+          }
+        },
+        "offers": {
+          "target": "com.scaleway.webhosting_offer_v1#ListOffersResponseOffersList",
+          "traits": {
+            "smithy.api#documentation": "List of offers."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#Offer": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer name."
+          }
+        },
+        "billing_operation_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier used for billing."
+          }
+        },
+        "options": {
+          "target": "com.scaleway.webhosting_offer_v1#OfferOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Options available for the offer."
+          }
+        },
+        "price": {
+          "target": "com.scaleway.webhosting_offer_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the offer."
+          }
+        },
+        "available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If a hosting_id was specified in the call, defines whether the offer is available for a specified hosting plan to migrate (update) to."
+          }
+        },
+        "control_panel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the control panel."
+          }
+        },
+        "end_of_life": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the offer has reached its end of life."
+          }
+        },
+        "quota_warning": {
+          "target": "com.scaleway.webhosting_offer_v1#OfferOptionWarning",
+          "traits": {
+            "smithy.api#documentation": "Defines a warning if the maximum value for an option in the offer is exceeded."
+          }
+        },
+        "control_panels": {
+          "target": "com.scaleway.webhosting_offer_v1#OfferControlPanelsList",
+          "traits": {
+            "smithy.api#documentation": "Lists available control panels for the specified offer."
+          }
+        },
+        "commitments": {
+          "target": "com.scaleway.webhosting_offer_v1#OfferCommitmentsList",
+          "traits": {
+            "smithy.api#documentation": "Lists available offer commitments for the specified offer."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region where the offer is hosted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#OfferOption": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Option ID."
+          }
+        },
+        "name": {
+          "target": "com.scaleway.webhosting_offer_v1#OfferOptionName",
+          "traits": {
+            "smithy.api#documentation": "Name of the option."
+          }
+        },
+        "billing_operation_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier used for billing."
+          }
+        },
+        "min_value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum value for the option in the offer."
+          }
+        },
+        "current_value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "If a hosting_id was specified in the call, defines the current value of the option in the hosting."
+          }
+        },
+        "max_value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum value for the option in the offer."
+          }
+        },
+        "quota_warning": {
+          "target": "com.scaleway.webhosting_offer_v1#OfferOptionWarning",
+          "traits": {
+            "smithy.api#documentation": "Defines a warning if the maximum value for the option has been reached."
+          }
+        },
+        "price": {
+          "target": "com.scaleway.webhosting_offer_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the option for 1 value."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#OfferOptionName": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_name"
+          }
+        },
+        "DOMAIN_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_count"
+          }
+        },
+        "EMAIL_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_count"
+          }
+        },
+        "STORAGE_GB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage_gb"
+          }
+        },
+        "VCPU_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vcpu_count"
+          }
+        },
+        "RAM_GB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ram_gb"
+          }
+        },
+        "BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backup"
+          }
+        },
+        "DEDICATED_IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedicated_ip"
+          }
+        },
+        "EMAIL_STORAGE_GB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_storage_gb"
+          }
+        },
+        "DATABASE_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_count"
+          }
+        },
+        "SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "support"
+          }
+        },
+        "ADDITIONAL_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "additional_email"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#OfferOptionWarning": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_warning"
+          }
+        },
+        "QUOTA_EXCEEDED_WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quota_exceeded_warning"
+          }
+        },
+        "USAGE_LOW_WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usage_low_warning"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#OfferOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_offer_v1#OfferOption"
+      },
+      "traits": {
+        "smithy.api#documentation": "Options available for the offer."
+      }
+    },
+    "com.scaleway.webhosting_offer_v1#ControlPanel": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Control panel name."
+          }
+        },
+        "available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Define if the control panel type is available to order."
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the control panel's logo."
+          }
+        },
+        "available_languages": {
+          "target": "com.scaleway.webhosting_offer_v1#ControlPanelAvailableLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "List of available languages for the control panel."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#ScalewayStdLanguageCode": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LANGUAGE_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_language_code"
+          }
+        },
+        "EN_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en_US"
+          }
+        },
+        "FR_FR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr_FR"
+          }
+        },
+        "DE_DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de_DE"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#ControlPanelAvailableLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_offer_v1#ScalewayStdLanguageCode"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of available languages for the control panel."
+      }
+    },
+    "com.scaleway.webhosting_offer_v1#OfferControlPanelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_offer_v1#ControlPanel"
+      },
+      "traits": {
+        "smithy.api#documentation": "Lists available control panels for the specified offer."
+      }
+    },
+    "com.scaleway.webhosting_offer_v1#OfferCommitment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer commitment ID."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.webhosting_offer_v1#CommitmentType",
+          "traits": {
+            "smithy.api#documentation": "Offer commitment type."
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the commitment is the default one for that offer."
+          }
+        },
+        "billing_mode": {
+          "target": "com.scaleway.webhosting_offer_v1#BillingMode",
+          "traits": {
+            "smithy.api#documentation": "Offer commitment name."
+          }
+        },
+        "billing_operation_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier used for billing."
+          }
+        },
+        "price": {
+          "target": "com.scaleway.webhosting_offer_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the offer commitment."
+          }
+        },
+        "duration_in_month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration of the offer commitment in months."
+          }
+        },
+        "next": {
+          "target": "com.scaleway.webhosting_offer_v1#OfferCommitment",
+          "traits": {
+            "smithy.api#documentation": "Next offer commitment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#CommitmentType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_COMMITMENT_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_commitment_type"
+          }
+        },
+        "FIRST_COMMITMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "first_commitment"
+          }
+        },
+        "NEXT_COMMITMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "next_commitment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#BillingMode": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_BILLING_MODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_billing_mode"
+          }
+        },
+        "SAMPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sample"
+          }
+        },
+        "PURCHASE_ORDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase_order"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_offer_v1#OfferCommitmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_offer_v1#OfferCommitment"
+      },
+      "traits": {
+        "smithy.api#documentation": "Lists available offer commitments for the specified offer."
+      }
+    },
+    "com.scaleway.webhosting_offer_v1#ListOffersResponseOffersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_offer_v1#Offer"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of offers."
+      }
+    },
+    "com.scaleway.webhosting_offer_v1#ListOffers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_offer_v1#ListOffersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_offer_v1#ListOffersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/offers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all available hosting offers along with their specific options.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "offers",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.webhosting_offer_v1#WebhostingOfferV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.webhosting_offer_v1#ListOffers"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Web Hosting Offer API",
+        "smithy.api#documentation": "Scaleway provides several Web Hosting plans for individuals, professionals, and everyone in between. Our Web Hosting plans include:\n\n- A domain name\n- A configurable webhosting service\n- The management of your emails, including anti-spam, antivirus and filter systems\n- Unlimited sub-domains\n- An FTP account to upload your website\n- At least one database\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-services/webhosting/concepts/) to find definitions of all Web Hosting-related terminology.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Web Hosting API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Choose a Web Hosting offer**: run the following command to list all Web Hosting offers. The `| jq` appendage at the end of the command makes the output easier to read.\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/offers?without_options=true\" | jq\n    ```\n\n   <Message type=\"note\">\n   In the above example, we choose to get offers only. Adjust the query parameter if you would also like to get information about the different options you can add to offers.\n   </Message>\n\n3. **Order a Web Hosting plan**: run the following command to create a Web Hosting plan. You can customize the details in the payload to your needs, using the table below to help.\n\n    ```bash\n    curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/hostings\" \\\n        -d '{\n        \"domain\": \"mydomain.net\",\n        \"offer_id\": \"f5c2ae8f-7625-4bca-b711-b44bb3d08694\",\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"tags\": [\"my-tag\"]\n    }'\n    ```\n\n\n   <Message type=\"tip\">\n   Once you've ordered your Web Hosting plan, check out our [dedicated documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/) to get started with your configuration.\n   </Message>\n\n4. **Delete your Web Hosting plan**: run the following command to delete your Web Hosting plan. Ensure that you replace `{hosting-id}` in the URL with the ID of the Web Hosting plan you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n        -H \"Content-Type: application/json\" \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        \"https://api.scaleway.com/rest-of-endpoint/{hosting-id}\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have [installaed `jq`](https://stedolan.github.io/jq/download/)\n</Message>\n\n## Technical information\n\nAll Scaleway Web Hosting plans now offer a choice between cPanel and Plesk for website management. Both tools provide a graphical interface and fast access icons, allowing you to configure and monitor your hosting solutions with ease. You can access cPanel or Plesk via the [Scaleway console](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/#how-to-access-the-web-hosting-control-panel-from-the-scaleway-console).\n\n### Regions\n\nThe Scaleway Web Hosting API is a **regional** API, meaning that each call must specify in its path parameters the region for the resources concerned by the call.\n\nScaleway Web Hosting is available only in the `fr-par` region.\n\n## Going further\n\nFor more help using Scaleway Web Hosting, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/)\n- The #webhosting-early-access channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

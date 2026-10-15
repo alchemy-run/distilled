@@ -1,0 +1,1473 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.ipam_v1#ReleaseIPSetRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ReleaseIPSetRequestIpIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "(UUID format)"
+      }
+    },
+    "com.scaleway.ipam_v1#ReleaseIPSetRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#ReleaseIPSetRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "ip_ids": {
+          "target": "com.scaleway.ipam_v1#ReleaseIPSetRequestIpIdsList",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#ReleaseIPSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#ReleaseIPSetRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ipam/v1/regions/{region}/ip-sets/release",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.ipam_v1#ListIPsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ListIPsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "ATTACHED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attached_at_desc"
+          }
+        },
+        "ATTACHED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attached_at_asc"
+          }
+        },
+        "IP_ADDRESS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_address_desc"
+          }
+        },
+        "IP_ADDRESS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_address_asc"
+          }
+        },
+        "MAC_ADDRESS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mac_address_desc"
+          }
+        },
+        "MAC_ADDRESS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mac_address_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ListIPsRequestResourceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ResourceType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "INSTANCE_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_server"
+          }
+        },
+        "INSTANCE_IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_ip"
+          }
+        },
+        "INSTANCE_PRIVATE_NIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_private_nic"
+          }
+        },
+        "LB_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb_server"
+          }
+        },
+        "FIP_IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fip_ip"
+          }
+        },
+        "VPC_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpc_gateway"
+          }
+        },
+        "VPC_GATEWAY_NETWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpc_gateway_network"
+          }
+        },
+        "K8S_NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "k8s_node"
+          }
+        },
+        "K8S_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "k8s_cluster"
+          }
+        },
+        "RDB_INSTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rdb_instance"
+          }
+        },
+        "REDIS_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redis_cluster"
+          }
+        },
+        "BAREMETAL_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baremetal_server"
+          }
+        },
+        "BAREMETAL_PRIVATE_NIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baremetal_private_nic"
+          }
+        },
+        "LLM_DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "llm_deployment"
+          }
+        },
+        "MGDB_INSTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mgdb_instance"
+          }
+        },
+        "APPLE_SILICON_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_silicon_server"
+          }
+        },
+        "APPLE_SILICON_PRIVATE_NIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_silicon_private_nic"
+          }
+        },
+        "SERVERLESS_CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_container"
+          }
+        },
+        "SERVERLESS_FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_function"
+          }
+        },
+        "VPN_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpn_gateway"
+          }
+        },
+        "DDL_DATALAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ddl_datalab"
+          }
+        },
+        "KAFKA_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kafka_cluster"
+          }
+        },
+        "BGP_ENDPOINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bgp_endpoint"
+          }
+        },
+        "SCBL_SEDB_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scbl_sedb_cluster"
+          }
+        },
+        "DTWH_DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dtwh_deployment"
+          }
+        },
+        "SEDB_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sedb_cluster"
+          }
+        },
+        "MSGQ_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "msgq_cluster"
+          }
+        },
+        "EDGE_VPC_ENDPOINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "edge_vpc_endpoint"
+          }
+        },
+        "DVIZ_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dviz_cluster"
+          }
+        },
+        "NATS_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nats_cluster"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ListIPsRequestResourceTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.ipam_v1#ResourceType"
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ListIPsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ListIPsRequestIpIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ListIPsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#ListIPsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.ipam_v1#ListIPsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned IPs."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of IPs to return per page."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for. Only IPs belonging to this Project will be returned. (UUID format)"
+          }
+        },
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "vpc_id",
+            "smithy.api#documentation": "VPC ID to filter for.\nOnly IPs owned by resources in this VPC will be returned."
+          }
+        },
+        "attached": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "attached",
+            "smithy.api#documentation": "Defines whether to filter only for IPs which are attached to a resource."
+          }
+        },
+        "resource_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource_name",
+            "smithy.api#documentation": "Attached resource name to filter for, only IPs attached to a resource with this string within their name will be returned."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource_id",
+            "smithy.api#documentation": "Resource ID to filter for. Only IPs attached to this resource will be returned. (UUID format)"
+          }
+        },
+        "resource_ids": {
+          "target": "com.scaleway.ipam_v1#ListIPsRequestResourceIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "resource_ids",
+            "smithy.api#documentation": "Resource IDs to filter for. Only IPs attached to at least one of these resources will be returned."
+          }
+        },
+        "resource_type": {
+          "target": "com.scaleway.ipam_v1#ResourceType",
+          "traits": {
+            "smithy.api#httpQuery": "resource_type",
+            "smithy.api#documentation": "Resource type to filter for. Only IPs attached to this type of resource will be returned."
+          }
+        },
+        "resource_types": {
+          "target": "com.scaleway.ipam_v1#ListIPsRequestResourceTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "resource_types",
+            "smithy.api#documentation": "Resource types to filter for. Only IPs attached to these types of resources will be returned."
+          }
+        },
+        "mac_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mac_address",
+            "smithy.api#documentation": "MAC address to filter for. Only IPs attached to a resource with this MAC address will be returned."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.ipam_v1#ListIPsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for, only IPs with one or more matching tags will be returned."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for. Only IPs belonging to this Organization will be returned. (UUID format)"
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "is_ipv6",
+            "smithy.api#documentation": "Defines whether to filter only for IPv4s or IPv6s."
+          }
+        },
+        "ip_ids": {
+          "target": "com.scaleway.ipam_v1#ListIPsRequestIpIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ip_ids",
+            "smithy.api#documentation": "IP IDs to filter for. Only IPs with these UUIDs will be returned."
+          }
+        },
+        "zonal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "zonal",
+            "smithy.api#documentation": "Zone to filter for; only zonal IPs in it are returned. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+          }
+        },
+        "regional": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "regional",
+            "smithy.api#documentation": "Return only regional IPs. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "private_network_id",
+            "smithy.api#documentation": "Only IPs in this Private Network. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+          }
+        },
+        "subnet_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "subnet_id",
+            "smithy.api#documentation": "Only IPs in this subnet. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+          }
+        },
+        "source_vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "source_vpc_id",
+            "smithy.api#documentation": "Only IPs whose source is this VPC. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#ListIPsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "ips": {
+          "target": "com.scaleway.ipam_v1#ListIPsResponseIpsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#IP": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP ID. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the IP."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IPv4 or IPv6 address in CIDR notation. (IP network)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Project the IP belongs to. (UUID format)"
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the IP is an IPv6 (false = IPv4)."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the IP was reserved. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the IP was last modified. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.scaleway.ipam_v1#Source",
+          "traits": {
+            "smithy.api#documentation": "Source pool where the IP was reserved in."
+          }
+        },
+        "resource": {
+          "target": "com.scaleway.ipam_v1#Resource",
+          "traits": {
+            "smithy.api#documentation": "Resource which the IP is attached to."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.ipam_v1#IPTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags for the IP."
+          }
+        },
+        "reverses": {
+          "target": "com.scaleway.ipam_v1#IPReversesList",
+          "traits": {
+            "smithy.api#documentation": "Array of reverses associated with the IP."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the IP."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the IP, if zonal."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#Source": {
+      "type": "structure",
+      "members": {
+        "zonal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone the IP lives in if the IP is a public zoned IP.\nThis source is global.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network the IP lives in if the IP is a private IP.\nThis source is specific.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subnet_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network subnet the IP lives in if the IP is a private IP in a Private Network.\nThis source is specific.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "regional": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the IP is a public regional IP.\nThis source is global.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#Resource": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.ipam_v1#ResourceType",
+          "traits": {
+            "smithy.api#documentation": "Type of resource the IP is attached to."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the resource the IP is attached to. (UUID format)"
+          }
+        },
+        "mac_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MAC of the resource the IP is attached to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the resource the IP is attached to.\nWhen the IP is in a Private Network, then a DNS record is available to resolve the resource name to this IP.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#IPTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags for the IP."
+      }
+    },
+    "com.scaleway.ipam_v1#Reverse": {
+      "type": "structure",
+      "members": {
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse domain name."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP corresponding to the hostname. (IP address)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#IPReversesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.ipam_v1#Reverse"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of reverses associated with the IP."
+      }
+    },
+    "com.scaleway.ipam_v1#ListIPsResponseIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.ipam_v1#IP"
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ListIPs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#ListIPsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.ipam_v1#ListIPsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ipam/v1/regions/{region}/ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List existing IPs\n\nList existing IPs in the specified region using various filters. For example, you can filter for IPs within a specified Private Network, or for public IPs within a specified Project. By default, the IPs returned in the list are ordered by creation date in ascending order, though this can be modified via the order_by field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "ips",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.ipam_v1#BookIPRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#BookIPRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags for the IP."
+      }
+    },
+    "com.scaleway.ipam_v1#CustomResource": {
+      "type": "structure",
+      "members": {
+        "mac_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MAC address of the custom resource."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the custom resource.\nWhen the resource is in a Private Network, a DNS record is available to resolve the resource name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#BookIPRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#BookIPRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Project in which to create the IP.\nWhen creating an IP in a Private Network, the Project must match the Private Network's Project. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.scaleway.ipam_v1#Source",
+          "traits": {
+            "smithy.api#documentation": "Source in which to reserve the IP. Not all sources are available for reservation.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Request an IPv6 instead of an IPv4."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Request this specific IP address in the specified source pool.\nThe requested address should not include the subnet mask (/suffix). Note that only the Private Network source allows you to pick a specific IP. If the requested IP is already reserved, then the call will fail. (IP address)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.ipam_v1#BookIPRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags for the IP."
+          }
+        },
+        "resource": {
+          "target": "com.scaleway.ipam_v1#CustomResource",
+          "traits": {
+            "smithy.api#documentation": "Custom resource to attach to the IP being reserved. An example of a custom resource is a virtual machine hosted on an Elastic Metal server. Do not use this for attaching IP addresses to standard Scaleway resources, as it will fail - instead, see the relevant product API for an equivalent method."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#BookIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#BookIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.ipam_v1#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ipam/v1/regions/{region}/ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Reserve a new IP\n\nReserve a new IP from the specified source. Currently IPs can only be reserved from a Private Network."
+      }
+    },
+    "com.scaleway.ipam_v1#GetIPRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#GetIPRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#GetIPRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "IP ID. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#GetIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#GetIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.ipam_v1#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/ipam/v1/regions/{region}/ips/{ip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an IP\n\nRetrieve details of an existing IP, specified by its IP ID."
+      }
+    },
+    "com.scaleway.ipam_v1#UpdateIPRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#UpdateIPRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags for the IP."
+      }
+    },
+    "com.scaleway.ipam_v1#UpdateIPRequestReversesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.ipam_v1#Reverse"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of reverse domain names associated with an IP in the subnet of the current IP."
+      }
+    },
+    "com.scaleway.ipam_v1#UpdateIPRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#UpdateIPRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "IP ID. (UUID format)"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.ipam_v1#UpdateIPRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags for the IP.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reverses": {
+          "target": "com.scaleway.ipam_v1#UpdateIPRequestReversesList",
+          "traits": {
+            "smithy.api#documentation": "Array of reverse domain names associated with an IP in the subnet of the current IP."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#UpdateIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#UpdateIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.ipam_v1#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/ipam/v1/regions/{region}/ips/{ip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an IP\n\nUpdate parameters including tags of the specified IP."
+      }
+    },
+    "com.scaleway.ipam_v1#ReleaseIPRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#ReleaseIPRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#ReleaseIPRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "IP ID. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#ReleaseIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#ReleaseIPRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/ipam/v1/regions/{region}/ips/{ip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Release an IP\n\nRelease an IP not currently attached to a resource, and returns it to the available IP pool."
+      }
+    },
+    "com.scaleway.ipam_v1#AttachIPRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#AttachIPRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#AttachIPRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "IP ID. (UUID format)"
+          }
+        },
+        "resource": {
+          "target": "com.scaleway.ipam_v1#CustomResource",
+          "traits": {
+            "smithy.api#documentation": "Custom resource to be attached to the IP.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#AttachIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#AttachIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.ipam_v1#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ipam/v1/regions/{region}/ips/{ip_id}/attach",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Attach private IP to custom resource\n\nAttach an existing reserved private IP from a Private Network subnet to a custom, named resource via its MAC address. An example of a custom resource is a virtual machine hosted on an Elastic Metal server. Do not use this method for attaching IP addresses to standard Scaleway resources as it will fail - see the relevant product API for an equivalent method."
+      }
+    },
+    "com.scaleway.ipam_v1#DetachIPRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#DetachIPRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#DetachIPRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "IP ID. (UUID format)"
+          }
+        },
+        "resource": {
+          "target": "com.scaleway.ipam_v1#CustomResource",
+          "traits": {
+            "smithy.api#documentation": "Custom resource currently attached to the IP.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#DetachIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#DetachIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.ipam_v1#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ipam/v1/regions/{region}/ips/{ip_id}/detach",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Detach private IP from a custom resource\n\nDetach a private IP from a custom resource. An example of a custom resource is a virtual machine hosted on an Elastic Metal server. Do not use this method for detaching IP addresses from standard Scaleway resources (e.g. Instances, Load Balancers) as it will fail - see the relevant product API for an equivalent method."
+      }
+    },
+    "com.scaleway.ipam_v1#MoveIPRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.ipam_v1#MoveIPRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.ipam_v1#MoveIPRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "IP ID. (UUID format)"
+          }
+        },
+        "from_resource": {
+          "target": "com.scaleway.ipam_v1#CustomResource",
+          "traits": {
+            "smithy.api#documentation": "Custom resource currently attached to the IP.",
+            "smithy.api#required": {}
+          }
+        },
+        "to_resource": {
+          "target": "com.scaleway.ipam_v1#CustomResource",
+          "traits": {
+            "smithy.api#documentation": "Custom resource to be attached to the IP."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.ipam_v1#MoveIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.ipam_v1#MoveIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.ipam_v1#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/ipam/v1/regions/{region}/ips/{ip_id}/move",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Move private IP to a custom resource\n\nMove an existing reserved private IP from one custom resource (e.g. a virtual machine hosted on an Elastic Metal server) to another custom resource. This will detach it from the first resource, and attach it to the second. Do not use this method for moving IP addresses between standard Scaleway resources (e.g. Instances, Load Balancers) as it will fail - see the relevant product API for an equivalent method."
+      }
+    },
+    "com.scaleway.ipam_v1#IpamV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.ipam_v1#ReleaseIPSet"
+        },
+        {
+          "target": "com.scaleway.ipam_v1#ListIPs"
+        },
+        {
+          "target": "com.scaleway.ipam_v1#BookIP"
+        },
+        {
+          "target": "com.scaleway.ipam_v1#GetIP"
+        },
+        {
+          "target": "com.scaleway.ipam_v1#UpdateIP"
+        },
+        {
+          "target": "com.scaleway.ipam_v1#ReleaseIP"
+        },
+        {
+          "target": "com.scaleway.ipam_v1#AttachIP"
+        },
+        {
+          "target": "com.scaleway.ipam_v1#DetachIP"
+        },
+        {
+          "target": "com.scaleway.ipam_v1#MoveIP"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "IPAM API",
+        "smithy.api#documentation": "IPAM is an **IP** **A**ddress **M**anagement tool for Scaleway's ecosystem.\n\nIt acts as a single source of truth for the IP addresses of Scaleway resources. You can use the IPAM API to list public IP addresses for products such as Instances, Databases and Load Balancer which are already using [IP mobility](https://www.scaleway.com/en/blog/ip-mobility-removing-nat/). More products will be integrated in the future.\n\nScaleway's IPAM also powers the addressing of resources of all resources in a VPC, simplifying management of IP allocations, conflicts and lifecycle. Private Networks' DHCP server hands out the static private IP addresses assigned by IPAM to resources attached to Private Networks.\n\nIPAM allows you to reserve IPs, to ensure they won't be allocated to some other resource. You can use these reserved IPs directly on custom environments (e.g. VMs on an Elastic Metal server). In the future, you will be also be able to specify a reserved IP to use when attaching a resource to a Private Network. In the meantime, when you attach a resource to a Private Network, its IP address is assigned by IPAM and then automatically attached by the product/resource.\n\nIPAM gives you a number of guarantees about IPs:\n\n- once reserved, the IP will never change\n- once attached to a resource, no other resource will be able to use the IP, ensuring unicity\n- once attached to a resource, the IP cannot be released unless detached from the resource\n\n## Concepts\n\n### Resource\n\nAn IPAM IP can be attached to a resource, which is identified by its type (e.g. an Instance Private NIC) and its UUID. Once attached, most operations on the IP are not available anymore: it must first be detached.\n\nOnce an IP is attached to a resource, it is not possible anymore to:\n\n- release the IP\n- detach the IP (without detaching the resource from the Private Network first)\n\nWhen an IP is attached to a resource, only the product managing the resource can detach the IP, by detaching the resource from the Private Network. This ensures that IPs cannot be reused and avoid mistakes.\n\n### Source\n\nAn IP can be reserved in several different sources, which can be understood as distinct pools of available IP.\n\nSources can be either **global** like the `zonal` source which is shared across all users, or **specific**, like the `private_network` source, that is identified by the Private Network ID, and will hand out IPs from a specific Private Network.\n\n## Quickstart\n\n**Requirements**:\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the IPAM API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_REGION=\"<Scaleway default Region>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    export SCW_PRIVATE_NETWORK_ID=\"<Scaleway Private Network ID>\"\n    ```\n\n2. Create an IP: run the following command to create an IP in a specified Private Network. You can customize the tags as you wish. The IP will not be attached to any resource.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/ipam/v1/regions/$SCW_DEFAULT_REGION/ips\" \\\n      --json '{\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"source\": {\"private_network_id\": \"'\"$SCW_PRIVATE_NETWORK_ID\"'\"},\n        \"tags\": [\"test\", \"another tag\"]\n      }'\n    ```\n\n3. **Get a list of your IPs**: run the following command to get a list of all the IPs in your account, with their details:\n\n    ```bash\n    curl -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/ipam/v1/regions/$SCW_DEFAULT_REGION/ips\"\n    ```\n\n4. **Get a list of your IPs in a Private Network**: run the following command to get a list of all the IPs in a Private Network, with their details:\n\n    ```bash\n    curl -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/ipam/v1/regions/$SCW_DEFAULT_REGION/ips?private_network_id=$SCW_PRIVATE_NETWORK_ID\"\n    ```\n\n5. **Release an IP**: run the following command to delete an IP, if it is not attached to a resource. Ensure that you replace `<IP-ID>` in the URL with the ID of the IP you want to release.\n\n    ```bash\n    curl -X DELETE \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/ipam/v1/regions/$SCW_DEFAULT_REGION/ips/<IP-ID>\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical limitations\n\nScaleway's IPAM is a new tool. Not all Scaleway products are currently integrated in terms of public IP addressing, and not all functionalities are currently publicly available for the management of private IPs in a VPC (for example, not all products support specifying a reserved IP when attaching a resource to a Private Network). More features and functionalities will be added in due course. In the meantime, [read our blog post](https://www.scaleway.com/en/blog/ip-mobility-removing-nat/) to find out more about how we are tackling technical debt with IP mobility.\n\n## Going further\n\nFor more help using Scaleway IPAM and network products, check out the following resources:\n\n- Our [VPC documentation](https://www.scaleway.com/en/docs/vpc)\n- The #virtual-private-cloud channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

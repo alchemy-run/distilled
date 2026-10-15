@@ -1,0 +1,180 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.account_iso_code_v3#ListCountriesResponse": {
+      "type": "structure",
+      "members": {
+        "countries": {
+          "target": "com.scaleway.account_iso_code_v3#ListCountriesResponseCountriesList",
+          "traits": {
+            "smithy.api#documentation": "List of countries."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_iso_code_v3#ListCountriesResponseCountry": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the country."
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two letters representing the country."
+          }
+        },
+        "flag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flag representation of the country."
+          }
+        },
+        "vat_number_required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the country should have a VAT identification number, false otherwise."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_iso_code_v3#ListCountriesResponseCountriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_iso_code_v3#ListCountriesResponseCountry"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of countries."
+      }
+    },
+    "com.scaleway.account_iso_code_v3#ListCountries": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.scaleway.account_iso_code_v3#ListCountriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/iso-codes/countries",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List countries\n\nList all countries from ISO 3166-1 alpha-2."
+      }
+    },
+    "com.scaleway.account_iso_code_v3#ListCountrySubdivisionsRequest": {
+      "type": "structure",
+      "members": {
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The country code."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_iso_code_v3#ListCountrySubdivisionsResponse": {
+      "type": "structure",
+      "members": {
+        "subdivisions": {
+          "target": "com.scaleway.account_iso_code_v3#ListCountrySubdivisionsResponseSubdivisionsList",
+          "traits": {
+            "smithy.api#documentation": "List of subdivisions for a country code."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_iso_code_v3#ListCountrySubdivisionsResponseSubdivision": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subdivision name."
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subdivision code is a few numbers and/or letters completing the ISO 3166-1 code of the country."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_iso_code_v3#ListCountrySubdivisionsResponseSubdivisionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_iso_code_v3#ListCountrySubdivisionsResponseSubdivision"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of subdivisions for a country code."
+      }
+    },
+    "com.scaleway.account_iso_code_v3#ListCountrySubdivisions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_iso_code_v3#ListCountrySubdivisionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_iso_code_v3#ListCountrySubdivisionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/iso-codes/countries/{country_code}/subdivisions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all subdivisions for a country code\n\nMethod to list all subdivisions (from ISO 3166-2 alpha-2) for a country code."
+      }
+    },
+    "com.scaleway.account_iso_code_v3#AccountIsoCodeV3": {
+      "type": "service",
+      "version": "v3",
+      "operations": [
+        {
+          "target": "com.scaleway.account_iso_code_v3#ListCountries"
+        },
+        {
+          "target": "com.scaleway.account_iso_code_v3#ListCountrySubdivisions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "IsoCode API",
+        "smithy.api#documentation": "The IsoCode API list countries or subdivisions of a country."
+      }
+    }
+  }
+}

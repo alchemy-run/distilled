@@ -1,0 +1,1619 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.billing_v2beta1#ListConsumptionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "CATEGORY_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "category_name_desc"
+          }
+        },
+        "CATEGORY_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "category_name_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListConsumptionsRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.billing_v2beta1#ListConsumptionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order consumptions list in the response by their update date."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Positive integer to choose the page to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Positive integer lower or equal to 100 to select the number of items to return."
+          }
+        },
+        "category_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "category_name",
+            "smithy.api#documentation": "Filter by name of a Category as they are shown in the invoice (Compute, Network, Observability)."
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "billing_period",
+            "smithy.api#documentation": "Filter by the billing period in the YYYY-MM format. If it is empty the current billing period will be used as default."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by Organization ID. One-of `filter`: at most one of `organization_id`, `project_id`."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by Project ID. One-of `filter`: at most one of `organization_id`, `project_id`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListConsumptionsResponse": {
+      "type": "structure",
+      "members": {
+        "consumptions": {
+          "target": "com.scaleway.billing_v2beta1#ListConsumptionsResponseConsumptionsList",
+          "traits": {
+            "smithy.api#documentation": "Detailed consumption list."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of returned items."
+          }
+        },
+        "total_discount_untaxed_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sum of all discounts, displayed only when no category or project ID filter is applied."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last consumption update date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListConsumptionsResponseConsumption": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.scaleway.billing_v2beta1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Monetary value of the consumption."
+          }
+        },
+        "product_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product name. For example, \"VPC Public Gateway S\", \"VPC Public Gateway M\" for the VPC product."
+          }
+        },
+        "resource_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the reference based on the category."
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the product."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID of the consumption."
+          }
+        },
+        "category_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of consumption category."
+          }
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit of consumed quantity."
+          }
+        },
+        "billed_quantity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Consumed quantity."
+          }
+        },
+        "consumer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID of the consumer for this consumption."
+          }
+        },
+        "project_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project name of the consumpiton."
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization name of the consumer for this consumption."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListConsumptionsResponseConsumptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_v2beta1#ListConsumptionsResponseConsumption"
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed consumption list."
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListConsumptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#ListConsumptionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#ListConsumptionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/consumptions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get monthly consumption\n\nConsumption allows you to retrieve your past or current consumption cost, by project or category.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "consumptions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListDiscountsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATION_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creation_date_desc"
+          }
+        },
+        "CREATION_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creation_date_asc"
+          }
+        },
+        "START_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_date_desc"
+          }
+        },
+        "START_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_date_asc"
+          }
+        },
+        "STOP_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop_date_desc"
+          }
+        },
+        "STOP_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop_date_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListDiscountsRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.billing_v2beta1#ListDiscountsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order discounts in the response by their description."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Positive integer to choose the page to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Positive integer lower or equal to 100 to select the number of items to return."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "ID of the organization. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListDiscountsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of discounts."
+          }
+        },
+        "discounts": {
+          "target": "com.scaleway.billing_v2beta1#ListDiscountsResponseDiscountsList",
+          "traits": {
+            "smithy.api#documentation": "Paginated returned discounts."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#Discount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the discount."
+          }
+        },
+        "creation_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the discount. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Organization ID of the discount."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the discount."
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The initial value of the discount."
+          }
+        },
+        "value_used": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The value indicating how much of the discount has been used."
+          }
+        },
+        "value_remaining": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The remaining value of the discount."
+          }
+        },
+        "mode": {
+          "target": "com.scaleway.billing_v2beta1#DiscountDiscountMode",
+          "traits": {
+            "smithy.api#documentation": "The mode of the discount."
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start date of the discount. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stop_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stop date of the discount. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "coupon": {
+          "target": "com.scaleway.billing_v2beta1#DiscountCoupon",
+          "traits": {
+            "smithy.api#documentation": "The description of the coupon."
+          }
+        },
+        "filters": {
+          "target": "com.scaleway.billing_v2beta1#DiscountFiltersList",
+          "traits": {
+            "smithy.api#documentation": "List of the discount scopes."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#DiscountDiscountMode": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_DISCOUNT_MODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_discount_mode"
+          }
+        },
+        "DISCOUNT_MODE_RATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discount_mode_rate"
+          }
+        },
+        "DISCOUNT_MODE_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discount_mode_value"
+          }
+        },
+        "DISCOUNT_MODE_SPLITTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "discount_mode_splittable"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#DiscountCoupon": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the coupon.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#DiscountFilter": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.billing_v2beta1#DiscountFilterType",
+          "traits": {
+            "smithy.api#documentation": "Type of the filter (category name, product name, product range, resource name, region or zone)."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of filter."
+          }
+        },
+        "exclude": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean to describe if filter is an excluding filter."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#DiscountFilterType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "CATEGORY_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "category_name"
+          }
+        },
+        "PRODUCT_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_name"
+          }
+        },
+        "PRODUCT_RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_range"
+          }
+        },
+        "RESOURCE_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resource_name"
+          }
+        },
+        "REGION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "region"
+          }
+        },
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#DiscountFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_v2beta1#DiscountFilter"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the discount scopes."
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListDiscountsResponseDiscountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_v2beta1#Discount"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated returned discounts."
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListDiscounts": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#ListDiscountsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#ListDiscountsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/discounts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List discounts\n\nList all discounts for your Organization and usable categories, products, offers, references, regions and zones where the discount can be applied. As a reseller:\n- If you do not specify an `organization_id` you will list the discounts applied to your own Organization and your customers\n- If you indicate your `organization_id` you will list only the discounts applied to your Organization\n- If you indicate `the organization_id` of one of your customers, you will list the discounts applied to their Organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "discounts",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.billing_v2beta1#InvoiceType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "PERIODIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "periodic"
+          }
+        },
+        "PURCHASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purchase"
+          }
+        },
+        "CREDIT_NOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "credit_note"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ExportInvoicesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "INVOICE_NUMBER_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_number_desc"
+          }
+        },
+        "INVOICE_NUMBER_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_number_asc"
+          }
+        },
+        "START_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_date_desc"
+          }
+        },
+        "START_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_date_asc"
+          }
+        },
+        "ISSUED_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issued_date_desc"
+          }
+        },
+        "ISSUED_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issued_date_asc"
+          }
+        },
+        "DUE_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "due_date_desc"
+          }
+        },
+        "DUE_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "due_date_asc"
+          }
+        },
+        "TOTAL_UNTAXED_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_untaxed_desc"
+          }
+        },
+        "TOTAL_UNTAXED_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_untaxed_asc"
+          }
+        },
+        "TOTAL_TAXED_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_taxed_desc"
+          }
+        },
+        "TOTAL_TAXED_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_taxed_asc"
+          }
+        },
+        "INVOICE_TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_type_desc"
+          }
+        },
+        "INVOICE_TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_type_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ExportInvoicesRequestFileType": {
+      "type": "enum",
+      "members": {
+        "CSV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "csv"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ExportInvoicesRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID. If specified, only invoices from this Organization will be returned. (UUID format)"
+          }
+        },
+        "billing_period_start_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "billing_period_start_after",
+            "smithy.api#documentation": "Return only invoice with start date greater than billing_period_start. (RFC 3339 format)"
+          }
+        },
+        "billing_period_start_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "billing_period_start_before",
+            "smithy.api#documentation": "Return only invoice with start date less than billing_period_start. (RFC 3339 format)"
+          }
+        },
+        "invoice_type": {
+          "target": "com.scaleway.billing_v2beta1#InvoiceType",
+          "traits": {
+            "smithy.api#httpQuery": "invoice_type",
+            "smithy.api#documentation": "Invoice type. It can either be `periodic`, `purchase` or `credit_note`."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Positive integer lower or equal to 100 to select the number of items to return."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.billing_v2beta1#ExportInvoicesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "How invoices are ordered in the response."
+          }
+        },
+        "file_type": {
+          "target": "com.scaleway.billing_v2beta1#ExportInvoicesRequestFileType",
+          "traits": {
+            "smithy.api#httpQuery": "file_type",
+            "smithy.api#documentation": "File format for exporting the invoice list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ExportInvoices": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#ExportInvoicesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/export-invoices",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Export invoices\n\nExport invoices in a CSV file."
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListInvoicesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "INVOICE_NUMBER_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_number_desc"
+          }
+        },
+        "INVOICE_NUMBER_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_number_asc"
+          }
+        },
+        "START_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_date_desc"
+          }
+        },
+        "START_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_date_asc"
+          }
+        },
+        "ISSUED_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issued_date_desc"
+          }
+        },
+        "ISSUED_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issued_date_asc"
+          }
+        },
+        "DUE_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "due_date_desc"
+          }
+        },
+        "DUE_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "due_date_asc"
+          }
+        },
+        "TOTAL_UNTAXED_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_untaxed_desc"
+          }
+        },
+        "TOTAL_UNTAXED_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_untaxed_asc"
+          }
+        },
+        "TOTAL_TAXED_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_taxed_desc"
+          }
+        },
+        "TOTAL_TAXED_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "total_taxed_asc"
+          }
+        },
+        "INVOICE_TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_type_desc"
+          }
+        },
+        "INVOICE_TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invoice_type_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListInvoicesRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID. If specified, only invoices from this Organization will be returned. (UUID format)"
+          }
+        },
+        "billing_period_start_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "billing_period_start_after",
+            "smithy.api#documentation": "Return only invoice with start date greater than billing_period_start. (RFC 3339 format)"
+          }
+        },
+        "billing_period_start_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "billing_period_start_before",
+            "smithy.api#documentation": "Return only invoice with start date less than billing_period_start. (RFC 3339 format)"
+          }
+        },
+        "invoice_type": {
+          "target": "com.scaleway.billing_v2beta1#InvoiceType",
+          "traits": {
+            "smithy.api#httpQuery": "invoice_type",
+            "smithy.api#documentation": "Invoice type. It can either be `periodic`, `purchase` or `credit_note`."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Positive integer lower or equal to 100 to select the number of items to return."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.billing_v2beta1#ListInvoicesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "How invoices are ordered in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListInvoicesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of invoices."
+          }
+        },
+        "invoices": {
+          "target": "com.scaleway.billing_v2beta1#ListInvoicesResponseInvoicesList",
+          "traits": {
+            "smithy.api#documentation": "Paginated returned invoices."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#Invoice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Invoice ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String"
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date of the billing period. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stop_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The billing period of the invoice in the YYYY-MM format. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "issued_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date when the invoice was sent to the customer. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "due_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Payment time limit, set according to the Organization's payment conditions. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_untaxed": {
+          "target": "com.scaleway.billing_v2beta1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Total amount, untaxed."
+          }
+        },
+        "total_taxed": {
+          "target": "com.scaleway.billing_v2beta1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Total amount, taxed."
+          }
+        },
+        "total_tax": {
+          "target": "com.scaleway.billing_v2beta1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "The total tax amount of the invoice."
+          }
+        },
+        "total_discount": {
+          "target": "com.scaleway.billing_v2beta1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "The total discount amount of the invoice."
+          }
+        },
+        "total_undiscount": {
+          "target": "com.scaleway.billing_v2beta1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "The total amount of the invoice before applying the discount."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.billing_v2beta1#InvoiceType",
+          "traits": {
+            "smithy.api#documentation": "Type of invoice, either periodic or purchase."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The state of the Invoice."
+          }
+        },
+        "number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Invoice number."
+          }
+        },
+        "seller_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the seller (Scaleway)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListInvoicesResponseInvoicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_v2beta1#Invoice"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated returned invoices."
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListInvoices": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#ListInvoicesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#ListInvoicesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/invoices",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List invoices\n\nList all your invoices, filtering by `start_date` and `invoice_type`. Each invoice has its own ID.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "invoices",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.billing_v2beta1#GetInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Invoice ID. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#GetInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#GetInvoiceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#Invoice"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/invoices/{invoice_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an invoice\n\nGet a specific invoice, specified by its ID."
+      }
+    },
+    "com.scaleway.billing_v2beta1#DownloadInvoiceRequestFileType": {
+      "type": "enum",
+      "members": {
+        "PDF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pdf"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#DownloadInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Invoice ID. (UUID format)"
+          }
+        },
+        "file_type": {
+          "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRequestFileType",
+          "traits": {
+            "smithy.api#httpQuery": "file_type",
+            "smithy.api#documentation": "File type. PDF by default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#DownloadInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/invoices/{invoice_id}/download",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Download an invoice\n\nDownload a specific invoice, specified by its ID."
+      }
+    },
+    "com.scaleway.billing_v2beta1#RedeemCouponRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The Organization ID of the discount. (UUID format)"
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "code",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The code of the coupon to redeem."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#RedeemCoupon": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#RedeemCouponRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#Discount"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/billing/v2beta1/redeem-coupon",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Redeem coupon\n\nRedeem a coupon given the related code."
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListTaxesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "CATEGORY_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "category_name_desc"
+          }
+        },
+        "CATEGORY_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "category_name_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListTaxesRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.billing_v2beta1#ListTaxesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order consumed taxes list in the response by their update date."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Positive integer lower or equal to 100 to select the number of items to return."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter by Organization ID. (UUID format)"
+          }
+        },
+        "billing_period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "billing_period",
+            "smithy.api#documentation": "Filter by the billing period in the YYYY-MM format. If it is empty the current billing period will be used as default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListTaxesResponse": {
+      "type": "structure",
+      "members": {
+        "taxes": {
+          "target": "com.scaleway.billing_v2beta1#ListTaxesResponseTaxesList",
+          "traits": {
+            "smithy.api#documentation": "Detailed consumption tax."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of returned items."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last consumption update date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListTaxesResponseTax": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the tax applied."
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The three-letter currency code."
+          }
+        },
+        "rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Applied tax rate (0.2 means a VAT of 20%).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_tax_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total tax value of the consumption.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ListTaxesResponseTaxesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_v2beta1#ListTaxesResponseTax"
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed consumption tax."
+      }
+    },
+    "com.scaleway.billing_v2beta1#ListTaxes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#ListTaxesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#ListTaxesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/taxes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get monthly consumption taxes\n\nConsumption Tax allows you to retrieve your past or current tax charges, by project or category.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "taxes",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.billing_v2beta1#BillingV2beta1": {
+      "type": "service",
+      "version": "v2beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.billing_v2beta1#ListConsumptions"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#ListDiscounts"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#ExportInvoices"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#ListInvoices"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#GetInvoice"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#DownloadInvoice"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#RedeemCoupon"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#ListTaxes"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#ExportInvoicesRaw"
+        },
+        {
+          "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Billing API",
+        "smithy.api#documentation": "Scaleway's Billing API provides a quick overview of your cloud consumption and allows you to monitor expenses. Public cloud services follow a 'pay as you go' model, ensuring you pay only for what you use. Some products offer plan options. Your monthly invoice is calculated at month-end based on exact resource usage and may include additional invoices for upfront payments during the month.\n\n<Message type=\"note\">\nYou may also be interested in the [Account API](https://www.scaleway.com/en/developers/api/account/project-api/) to manage your Projects, and the [IAM API](https://www.scaleway.com/en/developers/api/iam/) to manage users, permissions, and API keys in your Organization.\n</Message>\n\n## Concepts and pricing\n\nScaleway products offer different billing models, with billing cycles by the minute, hour, month, or year. For a clear estimate of product prices, visit our [pricing page](https://www.scaleway.com/en/pricing/?tags=available). You will also find a cost estimator for each product in the console when you order a resource.\n\n### Money type\n\nAll fields referencing money across Scaleway APIs are represented with a common Money definition - AKA Money type.\n\nThe gRPC `google.type.Money` type is used to represent amounts of money with their currency type.\n\nThe Money type is [defined by Google](https://developers.google.com/actions-center/verticals/things-to-do/reference/feed-spec/google-types#googletypemoney_definition) as such:\n\n```protobuf\nsyntax = \"proto3\";\n\n// Represents an amount of money with its currency type.\nmessage Money {\n  // The three-letter currency code defined in ISO 4217.\n  string currency_code = 1;\n\n  // The whole units of the amount.\n  // For example if `currencyCode` is `\"USD\"`, then 1 unit is one US dollar.\n  int64 units = 2;\n\n  // Number of nano (10^-9) units of the amount.\n  // The value must be between -999,999,999 and +999,999,999 inclusive.\n  // If `units` is positive, `nanos` must be positive or zero.\n  // If `units` is zero, `nanos` can be positive, zero, or negative.\n  // If `units` is negative, `nanos` must be negative or zero.\n  // For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.\n  int32 nanos = 3;\n}\n```\n\n## Quickstart\n\n<Message type=\"requirement\">\n - You have an account and are logged into the [Scaleway console](https://console.scaleway.com/organization)\n - You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n - You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that aims at simplifying your usage of the API.\n   </Message>\n\n   ```bash\n   export SCW_SECRET_KEY=\"<API secret key>\"\n   export SCW_ORGANIZATION_ID=\"<Scaleway Organization ID>\"\n   ```\n\n2. Run the following command to obtain your consumption over the current month.\n\n   ```bash\n   curl -X GET \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/billing/v2beta1/consumptions?organization_id=$SCW_ORGANIZATION_ID\"\n   ```\n\n3. Run the following command to obtain your consumption over the current month for just one category of products.\n\n   Specify the target `category_name` as one of:\n\n   - `BareMetal`\n   - `Compute`\n   - `Containers`\n   - `Labs`\n   - `Managed Databases`\n   - `Managed Services`\n   - `Network`\n   - `Object Storage`\n   - `Observability`\n   - `Security and Identity`\n   - `Serverless`\n   - `Storage`\n   - `Subscription`\n\n   ```bash\n   curl -X GET \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/billing/v2beta1/consumptions?organization_id=$SCW_ORGANIZATION_ID&category_name=Compute\"\n   ```\n\n4. Run the following command to obtain your consumption for a specific month.\n\n   Specify the target billing period as `YYYY-MM`, e.g., `2023-11`.\n\n   ```bash\n   curl -X GET \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/billing/v2beta1/consumptions?organization_id=$SCW_ORGANIZATION_ID&billing_period=2023-11\"\n   ```\n\n5. Run the following command to obtain your consumption for a specific project only.\n\n   First, choose your target `project_id`:\n\n   ```bash\n   export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n   ```\n\n   Then inject it in your API request:\n\n   ```bash\n   curl -X GET \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/billing/v2beta1/consumptions?project_id=SCW_PROJECT_ID\"\n   ```\n\n## Technical information\n\n### IAM requirements\n\nKeep in mind that:\n\n- You must have appropriate IAM permissions to manage billing. If you are the Owner of the Organization, you will automatically have these permissions. Otherwise, you will need a policy giving you the `BillingManager` permission set. If you were previously a Billing Administrator, you will automatically have been migrated to the `BillingAdministrator` group when you activated IAM, which gives you the appropriate permissions.\n- You only need `BillingReadOnly` permissions to query consumption.\n  ​\n\n## Going further\n\n​\nFor more help using Scaleway’s Billing API, check out the following resources:\n​\n\n- Our [main documentation](https://www.scaleway.com/en/docs/billing/)\n- Our [Slack Community](https://www.scaleway-community.slack.com/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    },
+    "com.scaleway.billing_v2beta1#ExportInvoicesRawRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID. If specified, only invoices from this Organization will be returned. (UUID format)"
+          }
+        },
+        "billing_period_start_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "billing_period_start_after",
+            "smithy.api#documentation": "Return only invoice with start date greater than billing_period_start. (RFC 3339 format)"
+          }
+        },
+        "billing_period_start_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "billing_period_start_before",
+            "smithy.api#documentation": "Return only invoice with start date less than billing_period_start. (RFC 3339 format)"
+          }
+        },
+        "invoice_type": {
+          "target": "com.scaleway.billing_v2beta1#InvoiceType",
+          "traits": {
+            "smithy.api#httpQuery": "invoice_type",
+            "smithy.api#documentation": "Invoice type. It can either be `periodic`, `purchase` or `credit_note`."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Positive integer lower or equal to 100 to select the number of items to return."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.billing_v2beta1#ExportInvoicesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "How invoices are ordered in the response."
+          }
+        },
+        "file_type": {
+          "target": "com.scaleway.billing_v2beta1#ExportInvoicesRequestFileType",
+          "traits": {
+            "smithy.api#httpQuery": "file_type",
+            "smithy.api#documentation": "File format for exporting the invoice list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#ExportInvoicesRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#ExportInvoicesRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#ExportInvoicesRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#ExportInvoicesRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/export-invoices",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Export invoices\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    },
+    "com.scaleway.billing_v2beta1#DownloadInvoiceRawRequest": {
+      "type": "structure",
+      "members": {
+        "invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Invoice ID. (UUID format)"
+          }
+        },
+        "file_type": {
+          "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRequestFileType",
+          "traits": {
+            "smithy.api#httpQuery": "file_type",
+            "smithy.api#documentation": "File type. PDF by default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_v2beta1#DownloadInvoiceRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_v2beta1#DownloadInvoiceRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_v2beta1#DownloadInvoiceRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/invoices/{invoice_id}/download",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Download an invoice\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

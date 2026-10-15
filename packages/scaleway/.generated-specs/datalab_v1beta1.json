@@ -1,0 +1,1598 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.datalab_v1beta1#ListClusterVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListClusterVersionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListClusterVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datalab_v1beta1#ListClusterVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "The page size."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.datalab_v1beta1#ListClusterVersionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "The order by field."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListClusterVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "clusters": {
+          "target": "com.scaleway.datalab_v1beta1#ListClusterVersionsResponseClustersList",
+          "traits": {
+            "smithy.api#documentation": "The list of cluster versions."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total count of cluster versions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#Cluster": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the cluster."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the cluster."
+          }
+        },
+        "versions": {
+          "target": "com.scaleway.datalab_v1beta1#ClusterVersionsList",
+          "traits": {
+            "smithy.api#documentation": "The versions of the cluster."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ClusterVersion": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of the cluster."
+          }
+        },
+        "end_of_life": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end of life date of the cluster version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the cluster version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update date of the cluster version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the cluster version is disabled."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the cluster version is in beta."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ClusterVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datalab_v1beta1#ClusterVersion"
+      },
+      "traits": {
+        "smithy.api#documentation": "The versions of the cluster."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListClusterVersionsResponseClustersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datalab_v1beta1#Cluster"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of cluster versions."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListClusterVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datalab_v1beta1#ListClusterVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datalab_v1beta1#ListClusterVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datalab/v1beta1/regions/{region}/cluster-versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List the Apache Spark™ versions the product is compatible with.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "clusters",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListDatalabsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListDatalabsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListDatalabsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListDatalabsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datalab_v1beta1#ListDatalabsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "The unique identifier of the organization whose clusters you want to list."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "The unique identifier of the project whose clusters you want to list."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "The name of the cluster you want to list."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.datalab_v1beta1#ListDatalabsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "The tags associated with the cluster you want to list."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number for pagination."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "The page size for pagination."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.datalab_v1beta1#ListDatalabsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "The order by field, available options are `name_asc`, `name_desc`, `created_at_asc`, `created_at_desc`, `updated_at_asc`, `updated_at_desc`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListDatalabsResponse": {
+      "type": "structure",
+      "members": {
+        "datalabs": {
+          "target": "com.scaleway.datalab_v1beta1#ListDatalabsResponseDatalabsList",
+          "traits": {
+            "smithy.api#documentation": "The list of clusters. This is a list composed of messages of type `DataLab`."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total count of clusters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#Datalab": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the cluster. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the project where the cluster has been created. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the cluster."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the cluster."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.datalab_v1beta1#DatalabTagsList",
+          "traits": {
+            "smithy.api#documentation": "The tags of the cluster."
+          }
+        },
+        "main": {
+          "target": "com.scaleway.datalab_v1beta1#DatalabSparkMain",
+          "traits": {
+            "smithy.api#documentation": "The Apache Spark™ Main node specification of cluster. It holds the parameters `node_type`, `spark_ui_url` (available to reach Apache Spark™ UI), `spark_master_url` (used to reach the cluster within a VPC), `root_volume` (size of the volume assigned to the cluster)."
+          }
+        },
+        "worker": {
+          "target": "com.scaleway.datalab_v1beta1#DatalabSparkWorker",
+          "traits": {
+            "smithy.api#documentation": "The cluster worker nodes specification. It holds the parameters `node_type`, `node_count`, `root_volume` (size of the volume assigned to the cluster)."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.datalab_v1beta1#DatalabStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the cluster. For a working cluster the status is marked as `ready`."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp of the cluster. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update date of the cluster. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region of the cluster."
+          }
+        },
+        "has_notebook": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a JupyterLab notebook is associated with the cluster or not."
+          }
+        },
+        "notebook_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the notebook if available.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spark_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of Apache Spark™ running inside the cluster."
+          }
+        },
+        "total_storage": {
+          "target": "com.scaleway.datalab_v1beta1#Volume",
+          "traits": {
+            "smithy.api#documentation": "The total persistent volume storage selected to run Apache Spark™."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the private network to which the cluster is attached to. (UUID format)"
+          }
+        },
+        "notebook_master_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL that is used to reach the cluster from the notebook when available. This URL cannot be used to reach the cluster from a server.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#DatalabTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The tags of the cluster."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#DatalabSparkMain": {
+      "type": "structure",
+      "members": {
+        "node_type": {
+          "target": "smithy.api#String"
+        },
+        "spark_ui_url": {
+          "target": "smithy.api#String"
+        },
+        "spark_master_url": {
+          "target": "smithy.api#String"
+        },
+        "root_volume": {
+          "target": "com.scaleway.datalab_v1beta1#Volume"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#Volume": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.datalab_v1beta1#VolumeType"
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#VolumeType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "SBS_5K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#DatalabSparkWorker": {
+      "type": "structure",
+      "members": {
+        "node_type": {
+          "target": "smithy.api#String"
+        },
+        "node_count": {
+          "target": "smithy.api#Integer"
+        },
+        "root_volume": {
+          "target": "com.scaleway.datalab_v1beta1#Volume"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#DatalabStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListDatalabsResponseDatalabsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datalab_v1beta1#Datalab"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of clusters. This is a list composed of messages of type `DataLab`."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListDatalabs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datalab_v1beta1#ListDatalabsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datalab_v1beta1#ListDatalabsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datalab/v1beta1/regions/{region}/datalabs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List information about cluster within a project or an organization.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "datalabs",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datalab_v1beta1#CreateDatalabRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#CreateDatalabRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The tags of the cluster."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#CreateDatalabRequestSparkMain": {
+      "type": "structure",
+      "members": {
+        "node_type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#CreateDatalabRequestSparkWorker": {
+      "type": "structure",
+      "members": {
+        "node_type": {
+          "target": "smithy.api#String"
+        },
+        "node_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#CreateDatalabRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datalab_v1beta1#CreateDatalabRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the project where the cluster will be created."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the cluster."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the cluster."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.datalab_v1beta1#CreateDatalabRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "The tags of the cluster."
+          }
+        },
+        "main": {
+          "target": "com.scaleway.datalab_v1beta1#CreateDatalabRequestSparkMain",
+          "traits": {
+            "smithy.api#documentation": "The cluster main node specification. It holds the parameters `node_type` which specifies the node type of the main node. See ListNodeTypes for available options. See ListNodeTypes for available options."
+          }
+        },
+        "worker": {
+          "target": "com.scaleway.datalab_v1beta1#CreateDatalabRequestSparkWorker",
+          "traits": {
+            "smithy.api#documentation": "The cluster worker node specification. It holds the parameters `node_type` which specifies the node type of the worker node and `node_count` for specifying the amount of nodes."
+          }
+        },
+        "has_notebook": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Select this option to include a notebook as part of the cluster."
+          }
+        },
+        "spark_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of Apache Spark™ running inside the cluster, available options can be viewed at ListClusterVersions."
+          }
+        },
+        "total_storage": {
+          "target": "com.scaleway.datalab_v1beta1#Volume",
+          "traits": {
+            "smithy.api#documentation": "The maximum persistent volume storage that will be available during workload."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the private network the cluster will be attached to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datalab_v1beta1#CreateDatalab": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datalab_v1beta1#CreateDatalabRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datalab_v1beta1#Datalab"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/datalab/v1beta1/regions/{region}/datalabs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new cluster. In this call, one can personalize the node counts, add a notebook, choose the private network, define the persistent volume storage capacity."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#GetDatalabRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#GetDatalabRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datalab_v1beta1#GetDatalabRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "datalab_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the cluster."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datalab_v1beta1#GetDatalab": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datalab_v1beta1#GetDatalabRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datalab_v1beta1#Datalab"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datalab/v1beta1/regions/{region}/datalabs/{datalab_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve information about a given cluster, specified by the `region` and `datalab_id` parameters. Its full details, including name, status, node counts, are returned in the response object."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#UpdateDatalabRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#UpdateDatalabRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The updated tags of the cluster."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#UpdateDatalabRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datalab_v1beta1#UpdateDatalabRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "datalab_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the cluster."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated name of the cluster.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated description of the cluster.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.datalab_v1beta1#UpdateDatalabRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "The updated tags of the cluster."
+          }
+        },
+        "node_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The updated node count of the cluster. Scale up or down the number of worker nodes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datalab_v1beta1#UpdateDatalab": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datalab_v1beta1#UpdateDatalabRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datalab_v1beta1#Datalab"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/datalab/v1beta1/regions/{region}/datalabs/{datalab_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a cluster node counts. Allows for up- and downscaling on demand, depending on the expected workload."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#DeleteDatalabRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#DeleteDatalabRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datalab_v1beta1#DeleteDatalabRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "datalab_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The unique identifier of the cluster."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datalab_v1beta1#DeleteDatalab": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datalab_v1beta1#DeleteDatalabRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datalab_v1beta1#Datalab"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/datalab/v1beta1/regions/{region}/datalabs/{datalab_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a cluster based on its region and id."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListNodeTypesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListNodeTypesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "VCPUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vcpus_asc"
+          }
+        },
+        "VCPUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vcpus_desc"
+          }
+        },
+        "MEMORY_GIGABYTES_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memory_gigabytes_asc"
+          }
+        },
+        "MEMORY_GIGABYTES_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memory_gigabytes_desc"
+          }
+        },
+        "VRAM_BYTES_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vram_bytes_asc"
+          }
+        },
+        "VRAM_BYTES_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vram_bytes_desc"
+          }
+        },
+        "GPUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpus_asc"
+          }
+        },
+        "GPUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpus_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#NodeTypeTarget": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_target"
+          }
+        },
+        "NOTEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notebook"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListNodeTypesRequestTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datalab_v1beta1#NodeTypeTarget"
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListNodeTypesRequestResourceType": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "GPU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpu"
+          }
+        },
+        "CPU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListNodeTypesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datalab_v1beta1#ListNodeTypesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "The page size."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.datalab_v1beta1#ListNodeTypesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "The order by field. Available fields are `name_asc`, `name_desc`, `vcpus_asc`, `vcpus_desc`, `memory_gigabytes_asc`, `memory_gigabytes_desc`, `vram_bytes_asc`, `vram_bytes_desc`, `gpus_asc`, `gpus_desc`."
+          }
+        },
+        "targets": {
+          "target": "com.scaleway.datalab_v1beta1#ListNodeTypesRequestTargetsList",
+          "traits": {
+            "smithy.api#httpQuery": "targets",
+            "smithy.api#documentation": "Filter based on the target of the nodes. Allows to filter the nodes based on their purpose which can be main or worker node."
+          }
+        },
+        "resource_type": {
+          "target": "com.scaleway.datalab_v1beta1#ListNodeTypesRequestResourceType",
+          "traits": {
+            "smithy.api#httpQuery": "resource_type",
+            "smithy.api#documentation": "Filter based on node type ( `cpu`/`gpu`/`all` )."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListNodeTypesResponse": {
+      "type": "structure",
+      "members": {
+        "node_types": {
+          "target": "com.scaleway.datalab_v1beta1#ListNodeTypesResponseNodeTypesList",
+          "traits": {
+            "smithy.api#documentation": "The list of node types."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total count of node types."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#NodeType": {
+      "type": "structure",
+      "members": {
+        "stock_status": {
+          "target": "com.scaleway.datalab_v1beta1#NodeTypeStock",
+          "traits": {
+            "smithy.api#documentation": "The stock status of the node type."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the node type."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the node type."
+          }
+        },
+        "vcpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of vCPUs."
+          }
+        },
+        "memory_gigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The amount of memory."
+          }
+        },
+        "vram_gigabytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The amount of VRAM."
+          }
+        },
+        "gpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of GPUs."
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the node type is disabled."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the node type is in beta."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the node type. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update date of the node type. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "targets": {
+          "target": "com.scaleway.datalab_v1beta1#NodeTypeTargetsList",
+          "traits": {
+            "smithy.api#documentation": "The targets of the node type."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#NodeTypeStock": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_stock"
+          }
+        },
+        "LOW_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low_stock"
+          }
+        },
+        "OUT_OF_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_of_stock"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#NodeTypeTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datalab_v1beta1#NodeTypeTarget"
+      },
+      "traits": {
+        "smithy.api#documentation": "The targets of the node type."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListNodeTypesResponseNodeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datalab_v1beta1#NodeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of node types."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListNodeTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datalab_v1beta1#ListNodeTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datalab_v1beta1#ListNodeTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datalab/v1beta1/regions/{region}/node-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List the available compute node types for creating a new cluster.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "node_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListNotebookVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListNotebookVersionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#ListNotebookVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datalab_v1beta1#ListNotebookVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "The page size."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.datalab_v1beta1#ListNotebookVersionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "The order by field. Available options are `name_asc` and `name_desc`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListNotebookVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "notebooks": {
+          "target": "com.scaleway.datalab_v1beta1#ListNotebookVersionsResponseNotebooksList",
+          "traits": {
+            "smithy.api#documentation": "The list of notebook versions."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total count of notebook versions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#Notebook": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the notebook."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the notebook."
+          }
+        },
+        "versions": {
+          "target": "com.scaleway.datalab_v1beta1#NotebookVersionsList",
+          "traits": {
+            "smithy.api#documentation": "The versions of the notebook."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#NotebookVersion": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of the notebook."
+          }
+        },
+        "end_of_life": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end of life date of the notebook version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the notebook version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update date of the notebook version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the notebook version is disabled."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the notebook version is in beta."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datalab_v1beta1#NotebookVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datalab_v1beta1#NotebookVersion"
+      },
+      "traits": {
+        "smithy.api#documentation": "The versions of the notebook."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListNotebookVersionsResponseNotebooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datalab_v1beta1#Notebook"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of notebook versions."
+      }
+    },
+    "com.scaleway.datalab_v1beta1#ListNotebookVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datalab_v1beta1#ListNotebookVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datalab_v1beta1#ListNotebookVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datalab/v1beta1/regions/{region}/notebook-versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Lists available notebook versions.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "notebooks",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datalab_v1beta1#DatalabV1beta1": {
+      "type": "service",
+      "version": "v1beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.datalab_v1beta1#ListClusterVersions"
+        },
+        {
+          "target": "com.scaleway.datalab_v1beta1#ListDatalabs"
+        },
+        {
+          "target": "com.scaleway.datalab_v1beta1#CreateDatalab"
+        },
+        {
+          "target": "com.scaleway.datalab_v1beta1#GetDatalab"
+        },
+        {
+          "target": "com.scaleway.datalab_v1beta1#UpdateDatalab"
+        },
+        {
+          "target": "com.scaleway.datalab_v1beta1#DeleteDatalab"
+        },
+        {
+          "target": "com.scaleway.datalab_v1beta1#ListNodeTypes"
+        },
+        {
+          "target": "com.scaleway.datalab_v1beta1#ListNotebookVersions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Clusters for Apache Spark™ API",
+        "smithy.api#documentation": "Clusters for Apache Spark™ is Scaleway's fully-managed service for running Apache Spark™ workloads. It provides a scalable, secure environment to process large datasets with ease. With Clusters for Apache Spark™, you can launch Apache Spark™ clusters in minutes and focus on data processing instead of infrastructure management.\n\nThe service is currently in General Availability.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/data-lab/concepts/) to find definitions of the different terms referring to Clusters for Apache Spark™.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Clusters for Apache Spark™ API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_ZONE=\"<Scaleway default Availability Zone>\"\n    export SCW_DEFAULT_REGION=\"<Scaleway default region>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Create a new cluster**: Run the following command to create a cluster with a main node and 2 worker nodes with 20GB of total persistent volume storage. You can customize the details in the payload to your needs, using the table below to help. Note that you will need to have a [VPC and a Private Network](https://www.scaleway.com/en/developers/api/vpc/) before running this command.\n\n    ```bash\n    curl --request POST \\\n    --url https://api.scaleway.com//datalab/v1beta1/regions/fr-par/datalabs \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    -H \"Content-Type: application/json\" -d '{\n            \"name\": \"my-first-cluster\",\n            \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n             \"worker\": {\n                           \"node_type\": \"DDL-POP2-2C-8G\",\n                           \"node_count\": 2\n                   },\n             \"main\": {\n                           \"node_type\": \"DDL-PLAY2-MICRO\"\n              }, \"has_notebook\": true,\n              \"total_storage\": {\n                      \"size\": 20000000000,\n                      \"type\": \"sbs_5k\"\n                  },\n              \"private_network_id\": \"{Your PN ID}\",\n              \"spark_version\": \"4.0.0\"\n        }\n    }'\n    ```\n\n3. **Get a list of your clusters**: Run the following command to get a list of all the clusters in your account, with their details:\n\n    ```bash\n    curl --request GET \\\n    --url https://api.scaleway.com/datalab/v1beta1/regions/fr-par/datalabs \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\"\n    ```\n\n4. **Delete your cluster**: Run the following command to delete a cluster. Ensure that you replace `{datalab-id}` in the URL with the ID of the cluster you want to delete.\n\n    ```bash\n    curl --request DELETE \\\n    --url https://api.scaleway.com/datalab/v1beta1/regions/fr-par/datalabs/{datalab-id} \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" | jq\n    ```\n\n## Technical information\n\n### Regions\n\nScaleway's infrastructure spans different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nClusters for Apache Spark™ is currently available in the Paris & Milano regions, which is represented by the following path parameter:\n\n- fr-par\n- it-mil\n\n## Going further\n\nFor more information about Clusters for Apache Spark™, you can check out the following pages:\n\n- [Clusters for Apache Spark™ Documentation](https://www.scaleway.com/en/docs/data-lab/)\n- [Contact our support team](https://console.scaleway.com/support/tickets)."
+      }
+    }
+  }
+}

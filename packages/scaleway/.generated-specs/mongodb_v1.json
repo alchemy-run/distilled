@@ -1,0 +1,3362 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.mongodb_v1#CreateEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#EndpointSpec": {
+      "type": "structure",
+      "members": {
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Expose the Database Instance publicly (empty object).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.mongodb_v1#EndpointSpecPrivateNetworkDetails",
+          "traits": {
+            "smithy.api#documentation": "Attach the Database Instance to a Private Network.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#EndpointSpecPrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#CreateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#CreateEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Database Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "com.scaleway.mongodb_v1#EndpointSpec",
+          "traits": {
+            "smithy.api#documentation": "EndpointSpec used to expose your Database Instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#Endpoint": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the endpoint. (UUID format)"
+          }
+        },
+        "dns_record": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "List of DNS records of the endpoint."
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "TCP port of the endpoint."
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.mongodb_v1#EndpointPrivateNetworkDetails",
+          "traits": {
+            "smithy.api#documentation": "Private Network endpoint details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Public Network endpoint details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#EndpointPrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network. (UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#CreateEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#CreateEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mongodb/v1/regions/{region}/endpoints",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new Instance endpoint\n\nCreate a new endpoint for a MongoDB® Database Instance. You can add `public_network` or `private_network` specifications to the body of the request."
+      }
+    },
+    "com.scaleway.mongodb_v1#DeleteEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#DeleteEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#DeleteEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Endpoint to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#DeleteEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#DeleteEndpointRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mongodb/v1/regions/{region}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Database Instance endpoint\n\nDelete the endpoint of a Database Instance. You must specify the `endpoint_id` parameter of the endpoint you want to delete. Note that you might need to update any environment configurations that point to the deleted endpoint."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListInstancesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListInstancesRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListInstancesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#ListInstancesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.mongodb_v1#ListInstancesRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "List Database Instances that have a given tag."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Lists Database Instances that match a name pattern."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mongodb_v1#ListInstancesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering Database Instance listings."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID of the Database Instance."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to list the instances of."
+          }
+        },
+        "has_maintenance": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "has_maintenance",
+            "smithy.api#documentation": "Retrieve pending maintenances for the database instances if given."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.scaleway.mongodb_v1#ListInstancesResponseInstancesList",
+          "traits": {
+            "smithy.api#documentation": "List of all Database Instances available in an Organization or Project."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of Database Instances available in an Organization or Project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#Instance": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Database Instance. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Database Instance."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID the Database Instance belongs to. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID the Database Instance belongs to. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mongodb_v1#InstanceStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the Database Instance."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MongoDB® major engine version of the Database Instance."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.mongodb_v1#InstanceTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the Database Instance."
+          }
+        },
+        "node_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of node in the Database Instance."
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type of the Database Instance."
+          }
+        },
+        "volume": {
+          "target": "com.scaleway.mongodb_v1#Volume",
+          "traits": {
+            "smithy.api#documentation": "Volumes of the Database Instance."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.mongodb_v1#InstanceEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "List of Database Instance endpoints."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date (must follow the ISO 8601 format). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region the Database Instance is in."
+          }
+        },
+        "snapshot_schedule": {
+          "target": "com.scaleway.mongodb_v1#InstanceSnapshotSchedule",
+          "traits": {
+            "smithy.api#documentation": "Snapshot schedule configuration of the Database Instance."
+          }
+        },
+        "settings": {
+          "target": "com.scaleway.mongodb_v1#InstanceSettingsList",
+          "traits": {
+            "smithy.api#documentation": "List of settings applied to the Database Instance."
+          }
+        },
+        "maintenances": {
+          "target": "com.scaleway.mongodb_v1#InstanceMaintenancesList",
+          "traits": {
+            "smithy.api#documentation": "List of pending maintenances applicable to the Database Instance."
+          }
+        },
+        "upgradable_versions": {
+          "target": "com.scaleway.mongodb_v1#InstanceUpgradableVersionsList",
+          "traits": {
+            "smithy.api#documentation": "List of MongoDB® versions the Database Instance can be upgraded to."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Resource Name of the Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#InstanceStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "INITIALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "initializing"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "SNAPSHOTTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snapshotting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#InstanceTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#Volume": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.mongodb_v1#VolumeType",
+          "traits": {
+            "smithy.api#documentation": "Type of volume where data is stored."
+          }
+        },
+        "size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Volume size. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#VolumeType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "SBS_5K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k"
+          }
+        },
+        "SBS_15K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_15k"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#InstanceEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Database Instance endpoints."
+      }
+    },
+    "com.scaleway.mongodb_v1#InstanceSnapshotSchedule": {
+      "type": "structure",
+      "members": {
+        "frequency_hours": {
+          "target": "smithy.api#Integer"
+        },
+        "retention_days": {
+          "target": "smithy.api#Integer"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "next_update": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_run": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#InstanceSetting": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#InstanceSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#InstanceSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of settings applied to the Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#Maintenance": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the maintenance. (UUID format)"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the instance on which the maintenance is applied. (UUID format)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the maintenance. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date of the maintenance. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stops_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stop date of the maintenance. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mongodb_v1#MaintenanceStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the maintenance."
+          }
+        },
+        "forced_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Forced application date of the maintenance. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "applied_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application date of the maintenance. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "applied_by": {
+          "target": "com.scaleway.mongodb_v1#MaintenanceAppliedBy",
+          "traits": {
+            "smithy.api#documentation": "Usertype who launched the maintenance."
+          }
+        },
+        "workflow": {
+          "target": "com.scaleway.mongodb_v1#Workflow",
+          "traits": {
+            "smithy.api#documentation": "Workflow to be applied during maintenance."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reason of the maintenance."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the maintenance."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the maintenance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#MaintenanceStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "PLANNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "planned"
+          }
+        },
+        "DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "done"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "ONGOING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ongoing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#MaintenanceAppliedBy": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_APPLIED_BY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_applied_by"
+          }
+        },
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#Workflow": {
+      "type": "structure",
+      "members": {
+        "engine_upgrade": {
+          "target": "com.scaleway.mongodb_v1#EngineUpgrade",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "service_update": {
+          "target": "com.scaleway.mongodb_v1#ServiceUpdate",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#EngineUpgrade": {
+      "type": "structure",
+      "members": {
+        "new_version_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ServiceUpdate": {
+      "type": "structure",
+      "members": {
+        "service_name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#InstanceMaintenancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#Maintenance"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of pending maintenances applicable to the Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#InstanceUpgradableVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of MongoDB® versions the Database Instance can be upgraded to."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListInstancesResponseInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#Instance"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all Database Instances available in an Organization or Project."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#ListInstancesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/instances",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List MongoDB® Database Instances\n\nList all MongoDB® Database Instances in the specified region. By default, the MongoDB® Database Instances returned in the list are ordered by creation date in ascending order, though this can be modified via the order_by field. You can define additional parameters for your query, such as `tags` and `name`. For the `name` parameter, the value you include will be checked against the whole name string to see if it includes the string you put in the parameter.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "instances",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mongodb_v1#CreateInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#CreateInstanceRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to apply to the Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#CreateInstanceRequestEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#EndpointSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "One or multiple EndpointSpec used to expose your Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#CreateInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Project ID on which the Database Instance will be created."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Database Instance."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Major version of the MongoDB® engine.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.mongodb_v1#CreateInstanceRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to apply to the Database Instance."
+          }
+        },
+        "node_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of node to use for the Database Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of node to use for the Database Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "user_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Username created when the Database Instance is created.",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the initial user.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "volume": {
+          "target": "com.scaleway.mongodb_v1#Volume",
+          "traits": {
+            "smithy.api#documentation": "Instance volume information."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.mongodb_v1#CreateInstanceRequestEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "One or multiple EndpointSpec used to expose your Database Instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Instance"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mongodb/v1/regions/{region}/instances",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a MongoDB® Database Instance\n\nCreate a new MongoDB® Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#GetInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#GetInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Instance"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a MongoDB® Database Instance\n\nRetrieve information about a given MongoDB® Database Instance, specified by the `region` and `instance_id` parameters. Its full details, including name, status, IP address and port, are returned in the response object."
+      }
+    },
+    "com.scaleway.mongodb_v1#UpdateInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#UpdateInstanceRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of a Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#UpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#UpdateInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Database Instance.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.mongodb_v1#UpdateInstanceRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of a Database Instance.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshot_schedule_frequency_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "In hours.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshot_schedule_retention_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "In days.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_snapshot_schedule_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether or not the snapshot schedule is enabled.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#UpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#UpdateInstanceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Instance"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a MongoDB® Database Instance\n\nUpdate the parameters of a MongoDB® Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#DeleteInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#DeleteInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Instance"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a MongoDB® Database Instance\n\nDelete a given MongoDB® Database Instance, specified by the `region` and `instance_id` parameters. Deleting a MongoDB® Database Instance is permanent, and cannot be undone. Note that upon deletion all your data will be lost."
+      }
+    },
+    "com.scaleway.mongodb_v1#GetInstanceCertificateRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#GetInstanceCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#GetInstanceCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#GetInstanceCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#GetInstanceCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the certificate of a Database Instance\n\nRetrieve the certificate of a given Database Instance, specified by the `instance_id` parameter."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListDatabasesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListDatabasesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListDatabasesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#ListDatabasesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mongodb_v1#ListDatabasesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when requesting user listing."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ListDatabasesResponse": {
+      "type": "structure",
+      "members": {
+        "databases": {
+          "target": "com.scaleway.mongodb_v1#ListDatabasesResponseDatabasesList",
+          "traits": {
+            "smithy.api#documentation": "List of the databases."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of databases present on a Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#Database": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListDatabasesResponseDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#Database"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the databases."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListDatabases": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#ListDatabasesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#ListDatabasesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/databases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List databases in a Database Instance\n\nList all databases of a given Database Instance.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "databases",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mongodb_v1#SetUserRoleRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#UserRole": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "com.scaleway.mongodb_v1#UserRoleRole",
+          "traits": {
+            "smithy.api#documentation": "Name of the preset role."
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database on which the preset role will be used.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "any_database": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag to enable the preset role in all databases.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#UserRoleRole": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ROLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_role"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "READ_WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read_write"
+          }
+        },
+        "DB_ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "db_admin"
+          }
+        },
+        "SYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sync"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#SetUserRoleRequestRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#UserRole"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of roles assigned to the user, along with the corresponding database where each role is granted."
+      }
+    },
+    "com.scaleway.mongodb_v1#SetUserRoleRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#SetUserRoleRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance the user belongs to."
+          }
+        },
+        "user_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database user."
+          }
+        },
+        "roles": {
+          "target": "com.scaleway.mongodb_v1#SetUserRoleRequestRolesList",
+          "traits": {
+            "smithy.api#documentation": "List of roles assigned to the user, along with the corresponding database where each role is granted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#User": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user (Length must be between 1 and 63 characters. First character must be an alphabet character (a-zA-Z). Only a-zA-Z0-9_$- characters are accepted)."
+          }
+        },
+        "roles": {
+          "target": "com.scaleway.mongodb_v1#UserRolesList",
+          "traits": {
+            "smithy.api#documentation": "List of roles assigned to the user, along with the corresponding database where each role is granted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#UserRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#UserRole"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of roles assigned to the user, along with the corresponding database where each role is granted."
+      }
+    },
+    "com.scaleway.mongodb_v1#SetUserRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#SetUserRoleRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#User"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/set-user-roles",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Apply user roles\n\nApply preset roles for a user in a Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#UpgradeInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#UpgradeInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#UpgradeInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance you want to upgrade. (UUID format)"
+          }
+        },
+        "volume_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Increase your Block Storage volume size. (in bytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MongoDB version to upgrade to (e.g., `8.0`, `7.0`, `8.2`).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#UpgradeInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#UpgradeInstanceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Instance"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/upgrade",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Upgrade a Database Instance\n\nUpgrade your current Database Instance specifications like volume size."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListUsersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListUsersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#ListUsersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Name of the user."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mongodb_v1#ListUsersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when requesting user listing."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ListUsersResponse": {
+      "type": "structure",
+      "members": {
+        "users": {
+          "target": "com.scaleway.mongodb_v1#ListUsersResponseUsersList",
+          "traits": {
+            "smithy.api#documentation": "List of users in a Database Instance."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of users present on a Database Instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListUsersResponseUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#User"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of users in a Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#ListUsersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#ListUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List users of a Database Instance\n\nList all users of a given Database Instance.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "users",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mongodb_v1#CreateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#CreateUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#CreateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance the user belongs to."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the database user.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#CreateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#CreateUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#User"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create an user on a Database Instance\n\nCreate an user on a Database Instance. You must define the `name`, `password` of the user and `instance_id` parameters in the request."
+      }
+    },
+    "com.scaleway.mongodb_v1#UpdateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#UpdateUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#UpdateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance the user belongs to."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the database user.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#UpdateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#UpdateUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#User"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/users/{name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a user on a Database Instance\n\nUpdate the parameters of a user on a Database Instance. You can update the `password` parameter, but you cannot change the name of the user."
+      }
+    },
+    "com.scaleway.mongodb_v1#DeleteUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#DeleteUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#DeleteUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance the user belongs to."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#DeleteUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#DeleteUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/users/{name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a user on a Database Instance\n\nDelete an existing user on a Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListMaintenancesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListMaintenancesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "STARTS_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_at_asc"
+          }
+        },
+        "STARTS_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_at_desc"
+          }
+        },
+        "STOPS_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stops_at_asc"
+          }
+        },
+        "STOPS_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stops_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListMaintenancesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#ListMaintenancesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "instance_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the instance. (UUID format)"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mongodb_v1#ListMaintenancesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when requesting user listing."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ListMaintenancesResponse": {
+      "type": "structure",
+      "members": {
+        "maintenances": {
+          "target": "com.scaleway.mongodb_v1#ListMaintenancesResponseMaintenancesList",
+          "traits": {
+            "smithy.api#documentation": "List of maintenances of a MongoDB© instance."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of maintenances of a MongoDB© instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListMaintenancesResponseMaintenancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#Maintenance"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of maintenances of a MongoDB© instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListMaintenances": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#ListMaintenancesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#ListMaintenancesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/maintenances",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all the maintenances of a MongoDB® Database Instance.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "maintenances",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mongodb_v1#GetMaintenanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#GetMaintenanceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#GetMaintenanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "maintenance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the maintenance. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#GetMaintenance": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#GetMaintenanceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Maintenance"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/maintenances/{maintenance_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a maintenance of a MongoDB® Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#ApplyMaintenanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ApplyMaintenanceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#ApplyMaintenanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "maintenance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the maintenance. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ApplyMaintenance": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#ApplyMaintenanceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Maintenance"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mongodb/v1/regions/{region}/maintenances/{maintenance_id}/apply",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Apply a maintenance of a MongoDB® Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListNodeTypesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListNodeTypesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#ListNodeTypesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "include_disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_disabled",
+            "smithy.api#documentation": "Defines whether or not to include disabled types."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "ID of a project to get a personalized view of the stock. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ListNodeTypesResponse": {
+      "type": "structure",
+      "members": {
+        "node_types": {
+          "target": "com.scaleway.mongodb_v1#ListNodeTypesResponseNodeTypesList",
+          "traits": {
+            "smithy.api#documentation": "Types of the node."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of node-types available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#NodeType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type name identifier."
+          }
+        },
+        "stock_status": {
+          "target": "com.scaleway.mongodb_v1#NodeTypeStock",
+          "traits": {
+            "smithy.api#documentation": "Current stock status for the node type."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current specs of the offer."
+          }
+        },
+        "vcpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of virtual CPUs."
+          }
+        },
+        "memory_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Quantity of RAM. (in bytes)"
+          }
+        },
+        "available_volume_types": {
+          "target": "com.scaleway.mongodb_v1#NodeTypeAvailableVolumeTypesList",
+          "traits": {
+            "smithy.api#documentation": "Available storage options for the node type."
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The node type is currently disabled."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The node type is currently in beta."
+          }
+        },
+        "instance_range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instance range associated with the node type offer."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#NodeTypeStock": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_stock"
+          }
+        },
+        "LOW_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low_stock"
+          }
+        },
+        "OUT_OF_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_of_stock"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#NodeTypeVolumeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.mongodb_v1#VolumeType",
+          "traits": {
+            "smithy.api#documentation": "Volume Type."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the volume."
+          }
+        },
+        "min_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum size required for the volume. (in bytes)"
+          }
+        },
+        "max_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum size required for the volume. (in bytes)"
+          }
+        },
+        "chunk_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum increment level for a Block Storage volume size. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#NodeTypeAvailableVolumeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#NodeTypeVolumeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available storage options for the node type."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListNodeTypesResponseNodeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#NodeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Types of the node."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListNodeTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#ListNodeTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#ListNodeTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/node-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available node types",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "node_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mongodb_v1#ListSnapshotsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListSnapshotsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "EXPIRES_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expires_at_asc"
+          }
+        },
+        "EXPIRES_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expires_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#ListSnapshotsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "instance_id",
+            "smithy.api#documentation": "Instance ID the snapshots belongs to."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Lists database snapshots that match a name pattern."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.mongodb_v1#ListSnapshotsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering snapshot listings."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID the snapshots belongs to."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to list the snapshots of."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ListSnapshotsResponse": {
+      "type": "structure",
+      "members": {
+        "snapshots": {
+          "target": "com.scaleway.mongodb_v1#ListSnapshotsResponseSnapshotsList",
+          "traits": {
+            "smithy.api#documentation": "List of all database snapshots available in an Organization or Project."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of database snapshots available in a Organization or Project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#Snapshot": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the snapshot. (UUID format)"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Database Instance. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the snapshot."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mongodb_v1#SnapshotStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the snapshot."
+          }
+        },
+        "size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the snapshot. (in bytes)"
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date (must follow the ISO 8601 format). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date (must follow the ISO 8601 format). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated date (must follow the ISO 8601 format). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "instance_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Database Instance of the snapshot."
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source node type."
+          }
+        },
+        "volume_type": {
+          "target": "com.scaleway.mongodb_v1#VolumeType",
+          "traits": {
+            "smithy.api#documentation": "Type of volume where data is stored - sbs_5k or sbs_15k."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the snapshot."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Resource Name of the snapshot."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#SnapshotStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restoring"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListSnapshotsResponseSnapshotsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all database snapshots available in an Organization or Project."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#ListSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#ListSnapshotsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/snapshots",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List snapshots\n\nList snapshots. You can include the `instance_id` or `project_id` in your query to get the list of snapshots for specific Database Instances and/or Projects. By default, the details returned in the list are ordered by creation date in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "snapshots",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mongodb_v1#CreateSnapshotRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#CreateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#CreateSnapshotRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Database Instance to snapshot.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the snapshot."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of the snapshot (must follow the ISO 8601 format). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#CreateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#CreateSnapshotRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mongodb/v1/regions/{region}/snapshots",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a Database Instance snapshot\n\nCreate a new snapshot of a Database Instance. You must define the `name` and `instance_id` parameters in the request."
+      }
+    },
+    "com.scaleway.mongodb_v1#GetSnapshotRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#GetSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#GetSnapshotRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the snapshot."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#GetSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#GetSnapshotRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/snapshots/{snapshot_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a Database Instance snapshot\n\nRetrieve information about a given snapshot of a Database Instance. You must specify, in the endpoint, the `snapshot_id` parameter of the snapshot you want to retrieve."
+      }
+    },
+    "com.scaleway.mongodb_v1#UpdateSnapshotRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#UpdateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#UpdateSnapshotRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Snapshot."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the snapshot.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of the snapshot (must follow the ISO 8601 format). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#UpdateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#UpdateSnapshotRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mongodb/v1/regions/{region}/snapshots/{snapshot_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a Database Instance snapshot\n\nUpdate the parameters of a snapshot of a Database Instance. You can update the `name` and `expires_at` parameters."
+      }
+    },
+    "com.scaleway.mongodb_v1#DeleteSnapshotRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#DeleteSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#DeleteSnapshotRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the snapshot."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#DeleteSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#DeleteSnapshotRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Snapshot"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mongodb/v1/regions/{region}/snapshots/{snapshot_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Database Instance snapshot\n\nDelete a given snapshot of a Database Instance. You must specify, in the endpoint, the `snapshot_id` parameter of the snapshot you want to delete."
+      }
+    },
+    "com.scaleway.mongodb_v1#RestoreSnapshotRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#RestoreSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#RestoreSnapshotRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the snapshot."
+          }
+        },
+        "instance_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the new Database Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type to use for the new Database Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "node_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of nodes to use for the new Database Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "volume_type": {
+          "target": "com.scaleway.mongodb_v1#VolumeType",
+          "traits": {
+            "smithy.api#documentation": "Instance volume type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#RestoreSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#RestoreSnapshotRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#Instance"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mongodb/v1/regions/{region}/snapshots/{snapshot_id}/restore",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Restore a Database Instance snapshot\n\nRestore a given snapshot of a Database Instance. You must specify, in the endpoint, the `snapshot_id` parameter of the snapshot you want to restore, the `instance_name` of the new Database Instance, `node_type` of the new Database Instance and `node_amount` of the new Database Instance."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#ListVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.scaleway.mongodb_v1#ListVersionsResponseVersionsList",
+          "traits": {
+            "smithy.api#documentation": "Available MongoDB® major engine version."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of MongoDB® major engine version available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#Version": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MongoDB® major engine version."
+          }
+        },
+        "end_of_life_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of End of Life. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "released_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of Release. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#ListVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mongodb_v1#Version"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available MongoDB® major engine version."
+      }
+    },
+    "com.scaleway.mongodb_v1#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#ListVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available MongoDB® major versions",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "versions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mongodb_v1#MongodbV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.mongodb_v1#CreateEndpoint"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#DeleteEndpoint"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#ListInstances"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#CreateInstance"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#GetInstance"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#UpdateInstance"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#DeleteInstance"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#GetInstanceCertificate"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#ListDatabases"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#SetUserRole"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#UpgradeInstance"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#ListUsers"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#CreateUser"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#UpdateUser"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#DeleteUser"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#ListMaintenances"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#GetMaintenance"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#ApplyMaintenance"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#ListNodeTypes"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#ListSnapshots"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#CreateSnapshot"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#GetSnapshot"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#UpdateSnapshot"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#DeleteSnapshot"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#RestoreSnapshot"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#ListVersions"
+        },
+        {
+          "target": "com.scaleway.mongodb_v1#GetInstanceCertificateRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Managed MongoDB®",
+        "smithy.api#documentation": "Managed MongoDB® Databases provide fully-managed document Database Instances, with MongoDB® as a database engine.\n\nDocument databases enable users to store and retrieve data in a document format, such as `json`. Compared to traditional relational databases where data is stored in a table-like format, document-type storage supports storing multiple nested keys and values in each document key.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-mongodb-databases/concepts/) to find definitions of the different terms referring to Managed MongoDB®.\n\n## Quickstart\n\n1. Configure your environment variables.\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the APIs.\n   </Message>\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_REGION=\"<Scaleway region>\"\n    ```\n\n2. Edit the POST request payload you will use to create your Database Instance. Replace the parameters in the following example:\n\n    ```json\n      '{\n      \"project_id\": \"d8e65f2b-cce9-40b7-80fc-6a2902db6826\",\n      \"name\": \"myDB\",\n      \"node_amount\": 1,\n      \"user_name\": \"my_initial_user\",\n      \"password\": \"thiZ_is_v0ry_s3cret\",\n      \"version\": \"7.0\",\n      \"tags\": [\"donnerstag\"],\n      \"node_type\": \"mgdb-pro2-l\",\n      \"volume\": [\n        {\n        \"size_bytes\": 10000000000,\n        \"type\": \"sbs_5k\"\n        },\n      ],\n      \"endpoints\": [\n        {\n          \"public_network\": {}\n        }\n      ]\n      }'\n    ```\n\n\n3. Create a Database Instance by running the following command. Make sure you include the payload you edited in the previous step.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"Content-Type: application/json\" \\\n      https://api.scaleway.com/mongodb/v1/regions/$SCW_REGION/instances \\\n      -d '{\n      \"project_id\": \"d8e65f2b-cce9-40b7-80fc-6a2902db6826\",\n      \"name\": \"myDB\",\n      \"node_amount\": 1,\n      \"user_name\": \"my_initial_user\",\n      \"password\": \"thiZ_is_v0ry_s3cret\",\n      \"version\": \"7.0\",\n      \"tags\": [\"donnerstag\"],\n      \"node_type\": \"mgdb-pro2-l\",\n      \"volume\": [\n        {\n        \"size_bytes\": 10000000000,\n        \"type\": \"sbs_5k\"\n        }\n      ],\n      \"endpoints\":[\n        {\n          \"public_network\": {}\n        }\n      ],\n      }'\n    ```\n\n4. List your Database Instances.\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" https://api.scaleway.com/mongodb/v1/regions/$SCW_REGION/instances\n    ```\n\n   You should get a response like the following:\n\n   <Message type=\"note\">\n   This is a response example, the UUIDs and IP address displayed are not real.\n   </Message>\n\n    ```json\n    {\n      \"id\": \"ffc473a3-250a-40a1-8d12-0d8c47b2ac63\",\n      \"name\": \"cluster\",\n      \"project_id\": \"d8e65f2b-cce9-40b7-80fc-6a2902db6826\",\n      \"status\": \"provisioning\",\n      \"version\": \"7.0\",\n      \"tags\": [],\n      \"settings\": [],\n      \"node_amount\": 1,\n      \"node_type\": \"mgdb-pro2-l\",\n      \"volume\": {\n        \"type\": \"sbs_5k\",\n        \"size_bytes\": 10000000000\n      },\n      \"endpoints\": [\n        {\n          \"id\": \"1210e327-5f6e-4757-834d-483729dcd330\",\n          \"ips\": [],\n          \"dns_records\": [\n            \"ffc473a3-250a-40a1-8d12-0d8c47b2ac63.mgdb.fr-par.scw.cloud\"\n          ],\n          \"port\": 27017,\n          \"public_network\": {}\n        }\n      ],\n      \"created_at\": \"2024-10-17T12:26:46.473753Z\",\n      \"region\": \"fr-par\"\n    }\n\n    ```\n\n5. Retrieve your Database Instance ID from the response.\n\n6. Get your TLS certificate in the console.\n\n7. Connect to your Database Instance with the `mongosh` client.\n\n    ```bash\n    mongosh \"mongodb+srv://{database_instance_id}.mgdb.{region}.scw.cloud\" --tlsCAFile {your_certificate.pem} -u {username}\n    ```\n\n   <Message type=\"note\">\n   Alternatively, you can connect using different clients. Refer to the [How to connect to a MongoDB Database Instance](https://www.scaleway.com/en/docs/managed-mongodb-databases/how-to/connect-database-instance/) documentation page for more information.\n   </Message>\n\n8. Enter the database password that you defined upon creation.\n\nYou are now connected to your Managed Database.\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n  - you have an account and are logged into the [Scaleway console](https://console.scaleway.com/organization)\n  - you have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page.\n  - you have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical Information\n\n### Regions\n\nScaleway's infrastructure is spread across different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nCurrently, Managed MongoDB® is available only in the Paris region, which is represented by the following path parameter:\n\n- `fr-par`\n\n### MongoDB® specifications\n\n#### User Management\n\n- Currently, a single user is created when you create your Database Instance. This user has an `admin` role.\n- Users with an `admin` role have access to all logical databases and can create new ones.\n\n## Going Further\n\nFor more information about Managed MongoDB®, you can check out the following pages:\n\n- [Managed MongoDB® Documentation](https://www.scaleway.com/en/docs/managed-mongodb-databases/)\n- [Scaleway Slack Community](https://scaleway-community.slack.com/) join the #database channel\n- [Contact our support team](https://console.scaleway.com/support/tickets)."
+      }
+    },
+    "com.scaleway.mongodb_v1#GetInstanceCertificateRawRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.mongodb_v1#GetInstanceCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Database Instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mongodb_v1#GetInstanceCertificateRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mongodb_v1#GetInstanceCertificateRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mongodb_v1#GetInstanceCertificateRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mongodb_v1#GetInstanceCertificateRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mongodb/v1/regions/{region}/instances/{instance_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Get the certificate of a Database Instance\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

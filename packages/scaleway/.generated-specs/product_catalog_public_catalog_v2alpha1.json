@@ -1,0 +1,2450 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestProductType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PRODUCT_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_product_type"
+          }
+        },
+        "INSTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance"
+          }
+        },
+        "APPLE_SILICON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_silicon"
+          }
+        },
+        "ELASTIC_METAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elastic_metal"
+          }
+        },
+        "DEDIBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedibox"
+          }
+        },
+        "BLOCK_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block_storage"
+          }
+        },
+        "OBJECT_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object_storage"
+          }
+        },
+        "MANAGED_INFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_inference"
+          }
+        },
+        "GENERATIVE_APIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generative_apis"
+          }
+        },
+        "LOAD_BALANCER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "load_balancer"
+          }
+        },
+        "SECRET_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "secret_manager"
+          }
+        },
+        "KEY_MANAGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "key_manager"
+          }
+        },
+        "MANAGED_REDIS_DATABASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_redis_database"
+          }
+        },
+        "KUBERNETES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kubernetes"
+          }
+        },
+        "MANAGED_RELATIONAL_DATABASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_relational_database"
+          }
+        },
+        "MANAGED_MONGODB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed_mongodb"
+          }
+        },
+        "SERVERLESS_FUNCTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_functions"
+          }
+        },
+        "SERVERLESS_CONTAINERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_containers"
+          }
+        },
+        "SERVERLESS_JOBS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_jobs"
+          }
+        },
+        "APACHE_KAFKA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apache_kafka"
+          }
+        },
+        "OPEN_SEARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open_search"
+          }
+        },
+        "INSTANCE_LOCAL_SSD_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_local_ssd_snapshot"
+          }
+        },
+        "INSTANCE_LOCAL_SSD_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_local_ssd_storage"
+          }
+        },
+        "FILE_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "file_storage"
+          }
+        },
+        "SERVERLESS_SQL_DATABASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_sql_database"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestProductTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestProductType"
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "PUBLIC_BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_beta"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "GENERAL_AVAILABILITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "general_availability"
+          }
+        },
+        "END_OF_NEW_FEATURES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_new_features"
+          }
+        },
+        "END_OF_GROWTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_growth"
+          }
+        },
+        "END_OF_DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_deployment"
+          }
+        },
+        "END_OF_SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_support"
+          }
+        },
+        "END_OF_SALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_sale"
+          }
+        },
+        "END_OF_LIFE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_life"
+          }
+        },
+        "RETIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retired"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestApiIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Number of the page. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "The number of products per page. Value must be greater or equal to 1."
+          }
+        },
+        "product_types": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestProductTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "product_types",
+            "smithy.api#documentation": "The list of filtered product categories."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "The lists of filtered product status, if empty only products with status public_beta, general_availability, preview, end_of_new_features, end_of_growth, end_of_deployment, end_of_support, end_of_sale, end_of_life or retired will be returned."
+          }
+        },
+        "api_ids": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequestApiIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "api_ids",
+            "smithy.api#documentation": "Filter products by API IDs. Each ID is matched against product-specific identifiers: `dedibox.offer_id` (converted to string), `elastic_metal.offer_id`, `apple_silicon.server_type`, `instance.offer_id`, and `load_balancer.node.offer_id`. Products that do not support API ID filtering are excluded from the results. If empty, no filtering is applied."
+          }
+        },
+        "global": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "global",
+            "smithy.api#documentation": "Only products that are not tied to a location. One-of `locality`: at most one of `global`, `region`, `zone`, `datacenter`."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "region",
+            "smithy.api#documentation": "Only products available in this region. One-of `locality`: at most one of `global`, `region`, `zone`, `datacenter`."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "zone",
+            "smithy.api#documentation": "Only products available in this zone. One-of `locality`: at most one of `global`, `region`, `zone`, `datacenter`."
+          }
+        },
+        "datacenter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "datacenter",
+            "smithy.api#documentation": "Only products available in this datacenter. One-of `locality`: at most one of `global`, `region`, `zone`, `datacenter`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsResponse": {
+      "type": "structure",
+      "members": {
+        "products": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsResponseProductsList",
+          "traits": {
+            "smithy.api#documentation": "The list of products."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of products in the catalog."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProduct": {
+      "type": "structure",
+      "members": {
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the product."
+          }
+        },
+        "service_category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The category of the product."
+          }
+        },
+        "product_category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product category of the product."
+          }
+        },
+        "product": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product name."
+          }
+        },
+        "variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product variant."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product description."
+          }
+        },
+        "locality": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductLocality",
+          "traits": {
+            "smithy.api#documentation": "The locality of the product."
+          }
+        },
+        "price": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPrice",
+          "traits": {
+            "smithy.api#documentation": "The price of the product."
+          }
+        },
+        "properties": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductProperties",
+          "traits": {
+            "smithy.api#documentation": "The properties of the product."
+          }
+        },
+        "environmental_impact_estimation": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductEnvironmentalImpactEstimation",
+          "traits": {
+            "smithy.api#documentation": "The environmental impact estimation of the product."
+          }
+        },
+        "unit_of_measure": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductUnitOfMeasure",
+          "traits": {
+            "smithy.api#documentation": "The unit of measure of the product."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the product."
+          }
+        },
+        "end_of_life_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end of life date of the product. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "end_of_growth_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end of growth date of the product. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "end_of_sale_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end of sale date of the product. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "badges": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductBadgesList",
+          "traits": {
+            "smithy.api#documentation": "Different badges that can be associated with the product."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductLocality": {
+      "type": "structure",
+      "members": {
+        "global": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the product is global.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region of the product.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone of the product.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "datacenter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The datacenter of the product.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPrice": {
+      "type": "structure",
+      "members": {
+        "retail_price": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "The retail price of the product."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductProperties": {
+      "type": "structure",
+      "members": {
+        "hardware": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardware",
+          "traits": {
+            "smithy.api#documentation": "The hardware properties of the product (if supported)."
+          }
+        },
+        "dedibox": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesDedibox",
+          "traits": {
+            "smithy.api#documentation": "The properties of Dedibox products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "elastic_metal": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesElasticMetal",
+          "traits": {
+            "smithy.api#documentation": "The properties of Elastic Metal products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "apple_silicon": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesAppleSilicon",
+          "traits": {
+            "smithy.api#documentation": "The properties of Apple Silicon products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "instance": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesInstance",
+          "traits": {
+            "smithy.api#documentation": "The properties of Instance products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "block_storage": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesBlockStorage",
+          "traits": {
+            "smithy.api#documentation": "The properties of Block Storage products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object_storage": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorage",
+          "traits": {
+            "smithy.api#documentation": "The properties of Object Storage products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "managed_inference": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedInference",
+          "traits": {
+            "smithy.api#documentation": "The properties of Managed Inference products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "generative_apis": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApis",
+          "traits": {
+            "smithy.api#documentation": "The properties of Generative APIs products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "load_balancer": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesLoadBalancer",
+          "traits": {
+            "smithy.api#documentation": "The properties of Load Balancer products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secret_manager": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "managed_redis_database": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties of Managed Redis Database products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key_manager": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kubernetes": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesKubernetes",
+          "traits": {
+            "smithy.api#documentation": "The properties of Kubernetes products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "managed_relational_database": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedRelationalDatabase",
+          "traits": {
+            "smithy.api#documentation": "The properties of Managed Relational Database products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serverless_functions": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessFunctions",
+          "traits": {
+            "smithy.api#documentation": "The properties of Serverless Functions products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serverless_containers": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainers",
+          "traits": {
+            "smithy.api#documentation": "The properties of Serverless Containers products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "managed_mongodb": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedMongoDB",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serverless_jobs": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobs",
+          "traits": {
+            "smithy.api#documentation": "The properties of Serverless Jobs products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serverless_sql_database": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties of Serverless SQL Database products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "apache_kafka": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafka",
+          "traits": {
+            "smithy.api#documentation": "The properties of Apache Kafka products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "open_search": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties of OpenSearch DB products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "instance_local_ssd_snapshot": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties of Instance Local SSD Snapshot products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "instance_local_ssd_storage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties of Instance Local SSD Storage products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "file_storage": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesFileStorage",
+          "traits": {
+            "smithy.api#documentation": "The properties of File Storage products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardware": {
+      "type": "structure",
+      "members": {
+        "cpu": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareCPU",
+          "traits": {
+            "smithy.api#documentation": "The CPU hardware properties."
+          }
+        },
+        "ram": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareRAM",
+          "traits": {
+            "smithy.api#documentation": "The RAM hardware properties."
+          }
+        },
+        "storage": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareStorage",
+          "traits": {
+            "smithy.api#documentation": "The storage hardware properties."
+          }
+        },
+        "network": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareNetwork",
+          "traits": {
+            "smithy.api#documentation": "The network hardware properties."
+          }
+        },
+        "gpu": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareGPU",
+          "traits": {
+            "smithy.api#documentation": "The GPU hardware properties."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareCPU": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human readable description of the CPU."
+          }
+        },
+        "arch": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareCPUArch",
+          "traits": {
+            "smithy.api#documentation": "The architecture of the CPU."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the CPU."
+          }
+        },
+        "virtual": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareCPUVirtual",
+          "traits": {
+            "smithy.api#documentation": "Properties if the CPU is virtual.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "physical": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareCPUPhysical",
+          "traits": {
+            "smithy.api#documentation": "Properties if the CPU is physical.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "threads": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of threads."
+          }
+        },
+        "shared": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the CPU is shared or not."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareCPUArch": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ARCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_arch"
+          }
+        },
+        "X64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "x64"
+          }
+        },
+        "ARM64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "arm64"
+          }
+        },
+        "RISCV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "riscv"
+          }
+        },
+        "APPLE_SILICON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_silicon"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareCPUVirtual": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of vCPUs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareCPUPhysical": {
+      "type": "structure",
+      "members": {
+        "sockets": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of sockets of the CPU."
+          }
+        },
+        "cores_per_socket": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of cores per socket."
+          }
+        },
+        "threads_per_core": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of threads per core."
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The frequency of the CPU in Hertz."
+          }
+        },
+        "benchmark": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The benchmark score of the CPU."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareRAM": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of the RAM."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The size of the RAM in bytes. (in bytes)"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the RAM."
+          }
+        },
+        "ecc_type": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareRAMECCType",
+          "traits": {
+            "smithy.api#documentation": "ECC type."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareRAMECCType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ECC_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_ecc_type"
+          }
+        },
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "ON_DIE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on_die"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareStorage": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of the storage."
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total size of the storage in bytes. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareNetwork": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of the network."
+          }
+        },
+        "internal_bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The internal bandwidth in bits per second."
+          }
+        },
+        "public_bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The default public bandwidth in bits per second."
+          }
+        },
+        "max_public_bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum public bandwidth in bits per second (may require subscription to options)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesHardwareGPU": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of the GPU."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of GPUs."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the GPU."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesDedibox": {
+      "type": "structure",
+      "members": {
+        "range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The range of the Dedibox server."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The offer ID of the Dedibox server."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesElasticMetal": {
+      "type": "structure",
+      "members": {
+        "range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The range of the Elastic Metal server."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The offer ID of the Elastic Metal server."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesAppleSilicon": {
+      "type": "structure",
+      "members": {
+        "range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The range of the Apple Silicon server."
+          }
+        },
+        "server_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server type of the Apple Silicon server."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesInstance": {
+      "type": "structure",
+      "members": {
+        "range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The range of the Instance server."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The offer ID of the Instance server."
+          }
+        },
+        "recommended_replacement_offer_ids": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesInstanceRecommendedReplacementOfferIdsList",
+          "traits": {
+            "smithy.api#documentation": "The recommended replacement offer IDs of the Instance server."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesInstanceRecommendedReplacementOfferIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The recommended replacement offer IDs of the Instance server."
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesBlockStorage": {
+      "type": "structure",
+      "members": {
+        "min_volume_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum size of storage volume for this product in bytes. Deprecated. (in bytes)"
+          }
+        },
+        "max_volume_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum size of storage volume for this product in bytes. Deprecated. (in bytes)"
+          }
+        },
+        "snapshot": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Block Storage snapshot.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "volume": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesBlockStorageVolumeType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Block Storage volume.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesBlockStorageVolumeType": {
+      "type": "structure",
+      "members": {
+        "min_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum size of storage volume for this product in bytes. (in bytes)"
+          }
+        },
+        "max_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum size of storage volume for this product in bytes. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorage": {
+      "type": "structure",
+      "members": {
+        "class": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageClassType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Object Storage class.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "restore": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageRestoreType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Object Storage restore operations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "internet_traffic": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageInternetTrafficType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Object Storage internet traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region_traffic": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageRegionTrafficType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Object Storage region traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageClassType": {
+      "type": "structure",
+      "members": {
+        "storage_class": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageClassTypeStorageClass",
+          "traits": {
+            "smithy.api#documentation": "The storage class."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageClassTypeStorageClass": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STORAGE_CLASS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_storage_class"
+          }
+        },
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "GLACIER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "glacier"
+          }
+        },
+        "ONEZONE_IA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onezone_ia"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageRestoreType": {
+      "type": "structure",
+      "members": {
+        "restore_type": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageRestoreTypeRestoreType",
+          "traits": {
+            "smithy.api#documentation": "The type of restore."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageRestoreTypeRestoreType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_RESTORE_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_restore_type"
+          }
+        },
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageInternetTrafficType": {
+      "type": "structure",
+      "members": {
+        "traffic_type": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageInternetTrafficTypeTrafficType",
+          "traits": {
+            "smithy.api#documentation": "The type of internet traffic."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageInternetTrafficTypeTrafficType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TRAFFIC_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_traffic_type"
+          }
+        },
+        "INGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ingress"
+          }
+        },
+        "EGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egress"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesObjectStorageRegionTrafficType": {
+      "type": "structure",
+      "members": {
+        "region_destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The destination region for the region traffic."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedInference": {
+      "type": "structure",
+      "members": {
+        "instance_gpu_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the associated instance GPU to this node type. Deprecated, use `deployment.instance_gpu_name` instead."
+          }
+        },
+        "deployment": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedInferenceManagedInferenceDeployment",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Managed Inference Deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_model_storage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Managed Inference Custom Model Storage.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedInferenceManagedInferenceDeployment": {
+      "type": "structure",
+      "members": {
+        "instance_gpu_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the associated instance GPU to this deployment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApis": {
+      "type": "structure",
+      "members": {
+        "reasoning": {
+          "target": "smithy.api#Boolean"
+        },
+        "supported_apis": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisSupportedApisList"
+        },
+        "consumption_mode": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisConsumptionMode"
+        },
+        "provider_name": {
+          "target": "smithy.api#String"
+        },
+        "tasks": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisTasksList"
+        },
+        "token_type": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisTokenType"
+        },
+        "supported_reasoning_values": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisSupportedReasoningValuesList"
+        },
+        "default_reasoning_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisSupportedApisList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisConsumptionMode": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_CONSUMPTION_MODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_consumption_mode"
+          }
+        },
+        "REALTIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "realtime"
+          }
+        },
+        "BATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisTask": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_task"
+          }
+        },
+        "CHAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat"
+          }
+        },
+        "EMBEDDINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "embeddings"
+          }
+        },
+        "VISION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vision"
+          }
+        },
+        "AUDIO_TRANSCRIPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio_transcription"
+          }
+        },
+        "CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "code"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisTasksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisTask"
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisTokenType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TOKEN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_token_type"
+          }
+        },
+        "INPUT_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_token"
+          }
+        },
+        "OUTPUT_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "output_token"
+          }
+        },
+        "INPUT_CACHED_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_cached_token"
+          }
+        },
+        "INPUT_AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_audio"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesGenerativeApisSupportedReasoningValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesLoadBalancer": {
+      "type": "structure",
+      "members": {
+        "node": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesLoadBalancerNodeType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Load Balancer nodes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipv4": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Load Balancer IPv4.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesLoadBalancerNodeType": {
+      "type": "structure",
+      "members": {
+        "offer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The offer ID of the Load Balancer product."
+          }
+        },
+        "multi_cloud_provider": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the Load Balancer product is available for multi-cloud providers."
+          }
+        },
+        "bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The bandwidth of the Load Balancer product in bits per second."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesKubernetes": {
+      "type": "structure",
+      "members": {
+        "kapsule_control_plane": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Kapsule Control Plane products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kosmos_control_plane": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Kosmos Control Plane products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kosmos_node": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Kosmos nodes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedRelationalDatabase": {
+      "type": "structure",
+      "members": {
+        "management": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Relational Database Management type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Relational Database Nodes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedRelationalDatabaseStorageType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Relational Database Storage type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multi_az": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Relational Database Multi AZ type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedRelationalDatabaseStorageType": {
+      "type": "structure",
+      "members": {
+        "storage_class": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedRelationalDatabaseStorageTypeStorageClass",
+          "traits": {
+            "smithy.api#documentation": "The type of Storage class."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedRelationalDatabaseStorageTypeStorageClass": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STORAGE_CLASS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_storage_class"
+          }
+        },
+        "BLOCK_SSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block_ssd"
+          }
+        },
+        "BLOCK_SSD_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "block_ssd_snapshot"
+          }
+        },
+        "LOCAL_SSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_ssd"
+          }
+        },
+        "SBS_5K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k"
+          }
+        },
+        "SBS_5K_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k_snapshot"
+          }
+        },
+        "SBS_15K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_15k"
+          }
+        },
+        "SBS_15K_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_15k_snapshot"
+          }
+        },
+        "BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backup"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessFunctions": {
+      "type": "structure",
+      "members": {
+        "resources": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessFunctionsResourcesList",
+          "traits": {
+            "smithy.api#documentation": "The serverless functions runtime resources sorted by memory size and then by milli-vCPU count."
+          }
+        },
+        "consumption": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Serverless functions consumption products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "request": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Serverless functions request products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "provision": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Serverless functions provision products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "free_tier": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Serverless functions free tier products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessFunctionsRuntimeResource": {
+      "type": "structure",
+      "members": {
+        "memory_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The memory size in bytes. (in bytes)"
+          }
+        },
+        "mvcpu_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of milli-vCPUs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessFunctionsResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessFunctionsRuntimeResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "The serverless functions runtime resources sorted by memory size and then by milli-vCPU count."
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainers": {
+      "type": "structure",
+      "members": {
+        "memory": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainersMemoryType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Serverless containers memory products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainersCPUType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Serverless containers CPU products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainersMemoryType": {
+      "type": "structure",
+      "members": {
+        "sizes": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainersMemoryTypeSizesList",
+          "traits": {
+            "smithy.api#documentation": "The list of available memory size in bytes. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainersMemoryTypeSizesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of available memory size in bytes. (in bytes)"
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainersCPUType": {
+      "type": "structure",
+      "members": {
+        "mvcpu_counts": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainersCPUTypeMvcpuCountsList",
+          "traits": {
+            "smithy.api#documentation": "The list of available number of milli-vCPUs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessContainersCPUTypeMvcpuCountsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of available number of milli-vCPUs."
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedMongoDB": {
+      "type": "structure",
+      "members": {
+        "management": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to MongoDB Management type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The properties related to MongoDB Node type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedMongoDBStorageType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to MongoDB Storage type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedMongoDBStorageType": {
+      "type": "structure",
+      "members": {
+        "storage_class": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedMongoDBStorageTypeStorageClass",
+          "traits": {
+            "smithy.api#documentation": "The type of Storage class."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesManagedMongoDBStorageTypeStorageClass": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STORAGE_CLASS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_storage_class"
+          }
+        },
+        "SBS_5K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k"
+          }
+        },
+        "SBS_5K_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k_snapshot"
+          }
+        },
+        "SBS_15K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_15k"
+          }
+        },
+        "SBS_15K_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_15k_snapshot"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobs": {
+      "type": "structure",
+      "members": {
+        "memory": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobsMemoryType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Serverless containers memory products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobsCPUType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Serverless containers CPU products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobsMemoryType": {
+      "type": "structure",
+      "members": {
+        "sizes": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobsMemoryTypeSizesList",
+          "traits": {
+            "smithy.api#documentation": "The list of available memory size in bytes. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobsMemoryTypeSizesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of available memory size in bytes. (in bytes)"
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobsCPUType": {
+      "type": "structure",
+      "members": {
+        "mvcpu_counts": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobsCPUTypeMvcpuCountsList",
+          "traits": {
+            "smithy.api#documentation": "The list of available number of milli-vCPUs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesServerlessJobsCPUTypeMvcpuCountsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of available number of milli-vCPUs."
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafka": {
+      "type": "structure",
+      "members": {
+        "node": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafkaNodeType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Kafka node products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafkaStorageType",
+          "traits": {
+            "smithy.api#documentation": "The properties related to Kafka storage products.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafkaNodeType": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafkaNodeTypeVersionsList",
+          "traits": {
+            "smithy.api#documentation": "The list of available versions for the Kafka node."
+          }
+        },
+        "vcpu_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of virtual CPUs."
+          }
+        },
+        "is_multi_az": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not this Kafka product is multi AZ."
+          }
+        },
+        "memory_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory size in bytes. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafkaNodeTypeVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of available versions for the Kafka node."
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafkaStorageType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafkaAvailableVolumeType",
+          "traits": {
+            "smithy.api#documentation": "The type of volume."
+          }
+        },
+        "min_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum size of the volume in bytes. (in bytes)"
+          }
+        },
+        "max_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum size of the volume in bytes. (in bytes)"
+          }
+        },
+        "is_multi_az": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not this Kafka product is multi AZ."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesApacheKafkaAvailableVolumeType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "SBS_5K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k"
+          }
+        },
+        "SBS_15K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_15k"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductPropertiesFileStorage": {
+      "type": "structure",
+      "members": {
+        "min_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum size of storage volume for this product in bytes. (in bytes)"
+          }
+        },
+        "max_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum size of storage volume for this product in bytes. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductEnvironmentalImpactEstimation": {
+      "type": "structure",
+      "members": {
+        "kg_co2_equivalent": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "m3_water_usage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductUnitOfMeasure": {
+      "type": "structure",
+      "members": {
+        "unit": {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductUnitOfMeasureCountableUnit"
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductUnitOfMeasureCountableUnit": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_COUNTABLE_UNIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_countable_unit"
+          }
+        },
+        "CHUNK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chunk"
+          }
+        },
+        "CORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "core"
+          }
+        },
+        "CURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "currency"
+          }
+        },
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
+          }
+        },
+        "DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain"
+          }
+        },
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "GB_S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_s"
+          }
+        },
+        "GIGABYTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gigabyte"
+          }
+        },
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "IOPS_GIGABYTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "iops_gigabyte"
+          }
+        },
+        "IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        },
+        "PLAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan"
+          }
+        },
+        "QUERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "query"
+          }
+        },
+        "REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "request"
+          }
+        },
+        "SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "session"
+          }
+        },
+        "VCPU_S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vcpu_s"
+          }
+        },
+        "VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "version"
+          }
+        },
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        },
+        "KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "key"
+          }
+        },
+        "TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "token"
+          }
+        },
+        "MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minute"
+          }
+        },
+        "SETUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "setup"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second"
+          }
+        },
+        "SAMPLE_DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sample_day"
+          }
+        },
+        "GIGABYTE_DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gigabyte_day"
+          }
+        },
+        "MVCPU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mvcpu"
+          }
+        },
+        "GIGABYTE_HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gigabyte_hour"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "PUBLIC_BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_beta"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "GENERAL_AVAILABILITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "general_availability"
+          }
+        },
+        "END_OF_NEW_FEATURES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_new_features"
+          }
+        },
+        "END_OF_GROWTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_growth"
+          }
+        },
+        "END_OF_DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_deployment"
+          }
+        },
+        "END_OF_SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_support"
+          }
+        },
+        "END_OF_SALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_sale"
+          }
+        },
+        "END_OF_LIFE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_life"
+          }
+        },
+        "RETIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retired"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductProductBadge": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PRODUCT_BADGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_product_badge"
+          }
+        },
+        "NEW_PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new_product"
+          }
+        },
+        "BEST_SELLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "best_seller"
+          }
+        },
+        "BEST_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "best_value"
+          }
+        },
+        "POPULAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "popular"
+          }
+        },
+        "NO_KVM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_kvm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductBadgesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProductProductBadge"
+      },
+      "traits": {
+        "smithy.api#documentation": "Different badges that can be associated with the product."
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsResponseProductsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#PublicCatalogProduct"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of products."
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProducts": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProductsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/product-catalog/v2alpha1/public-catalog/products",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all available products\n\nList all available products in the Scaleway catalog. Returns a complete list of products with their corresponding description, locations, prices and properties. You can define the `page` number and `page_size` for your query in the request.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "products",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.product_catalog_public_catalog_v2alpha1#ProductCatalogPublicCatalogV2alpha1": {
+      "type": "service",
+      "version": "v2alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.product_catalog_public_catalog_v2alpha1#ListPublicCatalogProducts"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Product Catalog API",
+        "smithy.api#documentation": "The Product Catalog API provides methods to retrieve Scaleway's catalog of products and features.\n\n## Quickstart\n\n<Message type=\"note\">\nThis API does not require authentication to be used.\n</Message>\n\nRun the request below to list all available Scaleway products:\n\n  ```bash\n  curl -X GET \"https://api.scaleway.com/product-catalog/v2alpha1/public-catalog/products?page_size=5\"\n  ```\n\n  You can add the following parameters to your endpoint:\n\n\n  In the example above, we specify a `page_size` of 5 products per page.\n\nIf the request was successful you will see a response like the following:\n\n  ```json\n  {\n    \"products\": [\n      {\n        \"sku\": \"/compute/pop2_hc_2c_4g/run_fr-par-2\",\n        \"service_category\": \"Compute\",\n        \"product\": \"POP2-HC-2C-4G Instance\",\n        \"variant\": \"Compute POP2-HC-2C-4G Instance - fr-par-2\",\n        \"description\": \"Compute POP2-HC-2C-4G Instance - fr-par-2 (0.0532€ per hour)\",\n        \"locality\": {\n          \"zone\": \"fr-par-2\"\n        },\n        \"price\": {\n          \"retail_price\": {\n            \"currency_code\": \"EUR\",\n            \"units\": 0,\n            \"nanos\": 53200000\n          }\n        },\n        \"properties\": {\n          \"hardware\": {\n            \"cpu\": {\n              \"description\": \"AMD EPYC™ 7543 (2.8 GHz), x64, vCPUs: 2\",\n              \"arch\": \"x64\",\n              \"type\": \"AMD EPYC™ 7543 (2.8 GHz)\",\n              \"virtual\": {\n                \"count\": 2\n              },\n              \"threads\": 2\n            },\n            \"ram\": {\n              \"description\": \"4 GiB\",\n              \"size\": 4294967296,\n              \"type\": \"\"\n            },\n            \"storage\": {\n              \"description\": \"Block\",\n              \"total\": 0\n            },\n            \"network\": {\n              \"description\": \"Internal: 400 Mb/s, Public: 400 Mb/s\",\n              \"internal_bandwidth\": 400000000,\n              \"public_bandwidth\": 400000000,\n              \"max_public_bandwidth\": 400000000\n            }\n          },\n          \"instance\": {\n            \"range\": \"Workload-Optimized\"\n          }\n        },\n        \"environmental_impact_estimation\": {\n          \"kg_co2_equivalent\": 0.00080852455,\n          \"m3_water_usage\": 1.9658212e-7\n        },\n        \"unit_of_measure\": {\n          \"unit\": \"hour\",\n          \"size\": 1\n        }\n      },\n      {\n        \"sku\": \"/apple-silicon/m4-s/run_par1\",\n        \"service_category\": \"Bare Metal\",\n        \"product\": \"Mac Mini M4 - S\",\n        \"variant\": \"Mac Mini M4 - S - Hourly - fr-par-1\",\n        \"description\": \"Mac Mini M4 - S - Hourly - fr-par-1 (0.22€ per hour)\",\n        \"locality\": {\n          \"zone\": \"fr-par-1\"\n        },\n        \"price\": {\n          \"retail_price\": {\n            \"currency_code\": \"EUR\",\n            \"units\": 0,\n            \"nanos\": 220000000\n          }\n        },\n        \"properties\": {\n          \"hardware\": {\n            \"cpu\": {\n              \"description\": \"Apple M4, apple_silicon, Sockets: 1, Cores per socket: 10, Threads per core: 1, Frequency: 4.4 GHz\",\n              \"arch\": \"apple_silicon\",\n              \"type\": \"Apple M4\",\n              \"physical\": {\n                \"sockets\": 1,\n                \"cores_per_socket\": 10,\n                \"threads_per_core\": 1,\n                \"frequency\": 4400000000,\n                \"benchmark\": 0\n              },\n              \"threads\": 10\n            },\n            \"ram\": {\n              \"description\": \"16 GiB LPDDR5X\",\n              \"size\": 17179869184,\n              \"type\": \"LPDDR5X\"\n            },\n            \"storage\": {\n              \"description\": \"Fixed local: 1 x 256 GB SSD\",\n              \"total\": 256000000000\n            },\n            \"network\": {\n              \"description\": \"Internal: 1 Gb/s, Public: 1 Gb/s\",\n              \"internal_bandwidth\": 1000000000,\n              \"public_bandwidth\": 1000000000,\n              \"max_public_bandwidth\": 1000000000\n            },\n            \"gpu\": {\n              \"description\": \"10 x Apple M4\",\n              \"count\": 10,\n              \"type\": \"Apple M4\"\n            }\n          },\n          \"apple_silicon\": {\n            \"range\": \"M4\"\n          }\n        },\n        \"environmental_impact_estimation\": {\n          \"kg_co2_equivalent\": 0.012052304,\n          \"m3_water_usage\": 0.0000010851885\n        },\n        \"unit_of_measure\": {\n          \"unit\": \"hour\",\n          \"size\": 1\n        }\n      },\n      {\n        \"sku\": \"/storage/block/ssd/storage/fr-par1\",\n        \"service_category\": \"Storage\",\n        \"product\": \"Performance Block storage - SSD\",\n        \"variant\": \"Block Storage - fr-par-1\",\n        \"description\": \"Block Storage - fr-par-1 (0.000118€ per GB)\",\n        \"locality\": {\n          \"zone\": \"fr-par-1\"\n        },\n        \"price\": {\n          \"retail_price\": {\n            \"currency_code\": \"EUR\",\n            \"units\": 0,\n            \"nanos\": 118000\n          }\n        },\n        \"unit_of_measure\": {\n          \"unit\": \"gigabyte\",\n          \"size\": 1\n        }\n      },\n      {\n        \"sku\": \"/network/domain/domains/fr/register\",\n        \"service_category\": \"Network\",\n        \"product\": \"Domain Register\",\n        \"variant\": \"Domains - Register .fr\",\n        \"description\": \"Domains - Register .fr (5.99€ per year)\",\n        \"locality\": {\n          \"global\": true\n        },\n        \"price\": {\n          \"retail_price\": {\n            \"currency_code\": \"EUR\",\n            \"units\": 5,\n            \"nanos\": 990000000\n          }\n        },\n        \"unit_of_measure\": {\n          \"unit\": \"year\",\n          \"size\": 1\n        }\n      }\n    ]\n  }\n  ```\n\nThe response show you the total number of products in the catalog, and provides you with the following information about each product:\n\n<Message type=\"note\">\n  The information displayed in the response varies according to the product. Not all elements listed below apply to every product.\n</Message>\n\n- **Basic information** - product name, description, category\n- **Locality** - availability per region or zone, or global\n- **Price** - retail price of each product\n- **Additional information** - hardware specifications, ranges\n\n<Message type=\"tip\">\n  Refer to the response description of the [List all available products](#path-product-catalog-list-all-available-scaleway-products) method to find an extensive list of all possible response attributes.\n</Message>\n\n<Message type=\"requirement\">\n  To perform the following steps, you must first ensure that:<br /><br />\n    - you have [installed `curl`](https://curl.se/download.html)\n</Message>"
+      }
+    }
+  }
+}

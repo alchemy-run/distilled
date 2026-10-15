@@ -1,0 +1,1953 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.kafka_v1alpha1#ListClustersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListClustersRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListClustersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListClustersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#ListClustersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.kafka_v1alpha1#ListClustersRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "List Kafka cluster with a given tag."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Lists Kafka clusters that match a name pattern."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.kafka_v1alpha1#ListClustersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering Kafka cluster listings."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID of the Kafka cluster."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListClustersResponse": {
+      "type": "structure",
+      "members": {
+        "clusters": {
+          "target": "com.scaleway.kafka_v1alpha1#ListClustersResponseClustersList",
+          "traits": {
+            "smithy.api#documentation": "List of all Kafka cluster available in an Organization or Project."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of Kafka cluster available in an Organization or Project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#Cluster": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Kafka cluster. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Kafka cluster."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID the Kafka cluster belongs to. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organisation ID the Kafka cluster belongs to. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.kafka_v1alpha1#ClusterStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the Kafka cluster."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Kafka version of the Kafka cluster."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.kafka_v1alpha1#ClusterTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the Kafka cluster."
+          }
+        },
+        "settings": {
+          "target": "com.scaleway.kafka_v1alpha1#ClusterSettingsList",
+          "traits": {
+            "smithy.api#documentation": "Advanced settings of the Kafka cluster."
+          }
+        },
+        "node_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of nodes in Kafka cluster."
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type of the Kafka cluster."
+          }
+        },
+        "volume": {
+          "target": "com.scaleway.kafka_v1alpha1#Volume",
+          "traits": {
+            "smithy.api#documentation": "Volumes of the Kafka cluster."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.kafka_v1alpha1#ClusterEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "List of Kafka cluster endpoints."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date (must follow the ISO 8601 format). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update date (must follow the ISO 8601 format). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region the Kafka cluster is in."
+          }
+        },
+        "multi_az": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "MultiAZ tell the cluster is deployed on multiple availability zones in the region.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mono_az": {
+          "target": "com.scaleway.kafka_v1alpha1#ClusterMonoAZDetails",
+          "traits": {
+            "smithy.api#documentation": "MonoAZ details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ClusterStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "UPGRADING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upgrading"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ClusterTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the Kafka cluster."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ClusterSetting": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the setting."
+          }
+        },
+        "bool_value": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean value of the setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "string_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "String value of the setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "int_value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Integer value of the setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "float_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Float value of the setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ClusterSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#ClusterSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "Advanced settings of the Kafka cluster."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#Volume": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.kafka_v1alpha1#VolumeType",
+          "traits": {
+            "smithy.api#documentation": "Type of volume where data is stored."
+          }
+        },
+        "size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Volume size. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#VolumeType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "SBS_5K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k"
+          }
+        },
+        "SBS_15K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_15k"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#Endpoint": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the endpoint. (UUID format)"
+          }
+        },
+        "dns_records": {
+          "target": "com.scaleway.kafka_v1alpha1#EndpointDnsRecordsList",
+          "traits": {
+            "smithy.api#documentation": "List of DNS records of the endpoint."
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "TCP port of the endpoint."
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.kafka_v1alpha1#EndpointPrivateNetworkDetails",
+          "traits": {
+            "smithy.api#documentation": "Private Network endpoint details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Public endpoint details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#EndpointDnsRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of DNS records of the endpoint."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#EndpointPrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network. (UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ClusterEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Kafka cluster endpoints."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ClusterMonoAZDetails": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone is the zone on which the cluster nodes are deployed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListClustersResponseClustersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#Cluster"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all Kafka cluster available in an Organization or Project."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListClusters": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#ListClustersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#ListClustersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Kafka clusters\n\nList all Kafka clusters in the specified region. By default, the clusters returned in the list are ordered by creation date in ascending order, though this can be modified via the order_by field. You can define additional parameters for your query, such as `tags` and `name`. For the `name` parameter, the value you include will be checked against the whole name string to see if it includes the string you put in the parameter.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "clusters",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#CreateClusterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#CreateClusterRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to apply to the Kafka cluster."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#CreateClusterRequestVolumeSpec": {
+      "type": "structure",
+      "members": {
+        "size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Volume size. (in bytes)"
+          }
+        },
+        "type": {
+          "target": "com.scaleway.kafka_v1alpha1#VolumeType",
+          "traits": {
+            "smithy.api#documentation": "Type of volume where data is stored."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#EndpointSpec": {
+      "type": "structure",
+      "members": {
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.kafka_v1alpha1#EndpointSpecPrivateNetworkDetails",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#EndpointSpecPrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#CreateClusterRequestEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#EndpointSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "One or multiple EndpointSpec used to expose your Kafka cluster."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#CreateClusterRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#CreateClusterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Project in which the Kafka cluster will be created."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Kafka cluster."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of Kafka.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.kafka_v1alpha1#CreateClusterRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to apply to the Kafka cluster."
+          }
+        },
+        "node_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of nodes to use for the Kafka cluster.",
+            "smithy.api#required": {}
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of node to use for the Kafka cluster.",
+            "smithy.api#required": {}
+          }
+        },
+        "volume": {
+          "target": "com.scaleway.kafka_v1alpha1#CreateClusterRequestVolumeSpec",
+          "traits": {
+            "smithy.api#documentation": "Kafka volume information."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.kafka_v1alpha1#CreateClusterRequestEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "One or multiple EndpointSpec used to expose your Kafka cluster."
+          }
+        },
+        "user_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Username for the kafka user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password for the kafka user.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "multi_az": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "MultiAZ tell the cluster is deployed on multiple availability zones in the region.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mono_az": {
+          "target": "com.scaleway.kafka_v1alpha1#ClusterMonoAZDetails",
+          "traits": {
+            "smithy.api#documentation": "MonoAZ details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#CreateCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#CreateClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a Kafka cluster\n\nCreate a new Kafka cluster."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#GetClusterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#GetClusterRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#GetClusterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Kafka Cluster."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#GetCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#GetClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters/{cluster_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a Kafka cluster\n\nRetrieve information about a given Kafka cluster, specified by the `region` and `cluster_id` parameters. Its full details, including name, status, IP address and port, are returned in the response object."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#UpdateClusterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#UpdateClusterRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of a Kafka Cluster."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#UpdateClusterRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#UpdateClusterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Kafka Clusters to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Kafka Cluster.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.kafka_v1alpha1#UpdateClusterRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of a Kafka Cluster.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of Kafka.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#UpdateCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#UpdateClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters/{cluster_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a Kafka cluster\n\nUpdate the parameters of a Kafka cluster."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#DeleteClusterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#DeleteClusterRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#DeleteClusterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Kafka Cluster to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#DeleteCluster": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#DeleteClusterRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#Cluster"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters/{cluster_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Kafka cluster\n\nDelete a given Kafka cluster, specified by the `region` and `cluster_id` parameters. Deleting a Kafka cluster is permanent, and cannot be undone. Note that upon deletion all your data will be lost."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Kafka Cluster."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthority": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters/{cluster_id}/certificate-authority",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a Kafka cluster's certificate authority\n\nRetrieve certificate authority for a given Kafka cluster, specified by the `region` and `cluster_id` parameters. The response object contains the certificate in PEM format. The certificate is required to validate the sever from the client side during TLS connection."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#RenewClusterCertificateAuthorityRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#RenewClusterCertificateAuthorityRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#RenewClusterCertificateAuthorityRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Kafka Cluster."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#RenewClusterCertificateAuthority": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#RenewClusterCertificateAuthorityRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters/{cluster_id}/renew-certificate-authority",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Renew the Kafka cluster's certificate authority\n\nRequest to renew the certificate authority for a given Kafka cluster, specified by the `region` and `cluster_id` parameters. The certificate authority will be renewed within a few minutes."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListUsersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListUsersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#ListUsersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.kafka_v1alpha1#ListUsersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListUsersResponse": {
+      "type": "structure",
+      "members": {
+        "users": {
+          "target": "com.scaleway.kafka_v1alpha1#ListUsersResponseUsersList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#User": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListUsersResponseUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#User"
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#ListUsersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#ListUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters/{cluster_id}/users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve a list of deployment users.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "users",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#UpdateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#UpdateUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#UpdateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the cluster in which to update the user's password."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Username of the Kafka cluster user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New password for the Kafka cluster user.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#UpdateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#UpdateUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#User"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters/{cluster_id}/users/{username}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an existing user."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#CreateEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#CreateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#CreateEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Kafka Cluster.",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "com.scaleway.kafka_v1alpha1#EndpointSpec",
+          "traits": {
+            "smithy.api#documentation": "Endpoint object (`EndpointSpec`) used to expose your Kafka EndpointSpec.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#CreateEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#CreateEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/kafka/v1alpha1/regions/{region}/endpoints",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new Kafka cluster endpoint\n\nCreate a new endpoint for a Kafka cluster. You can add `public_network` or `private_network` specifications to the body of the request. Note that currently only `private_network` is supported."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#DeleteEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#DeleteEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#DeleteEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the endpoint to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#DeleteEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#DeleteEndpointRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/kafka/v1alpha1/regions/{region}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Kafka cluster endpoint\n\nDelete the endpoint of a Kafka cluster. You must specify the `endpoint_id` parameter of the endpoint you want to delete. Note that you might need to update any environment configurations that point to the deleted endpoint."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListNodeTypesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListNodeTypesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#ListNodeTypesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "include_disabled_types": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_disabled_types",
+            "smithy.api#documentation": "Defines whether or not to include disabled types."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListNodeTypesResponse": {
+      "type": "structure",
+      "members": {
+        "node_types": {
+          "target": "com.scaleway.kafka_v1alpha1#ListNodeTypesResponseNodeTypesList",
+          "traits": {
+            "smithy.api#documentation": "Types of the node."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of node types available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#NodeType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type name identifier."
+          }
+        },
+        "stock_status": {
+          "target": "com.scaleway.kafka_v1alpha1#NodeTypeStock",
+          "traits": {
+            "smithy.api#documentation": "Current stock status for the node type."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current specifications of the node type offer."
+          }
+        },
+        "vcpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of virtual CPUs of the node type."
+          }
+        },
+        "memory_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Quantity of RAM. (in bytes)"
+          }
+        },
+        "available_volume_types": {
+          "target": "com.scaleway.kafka_v1alpha1#NodeTypeAvailableVolumeTypesList",
+          "traits": {
+            "smithy.api#documentation": "Available storage options for the node type."
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the node type is currently disabled."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the node type is currently in beta."
+          }
+        },
+        "cluster_range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cluster range associated with the node type offer."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#NodeTypeStock": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_stock"
+          }
+        },
+        "LOW_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low_stock"
+          }
+        },
+        "OUT_OF_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_of_stock"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#NodeTypeVolumeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.kafka_v1alpha1#VolumeType",
+          "traits": {
+            "smithy.api#documentation": "Volume type."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the volume."
+          }
+        },
+        "min_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum size required for the volume. (in bytes)"
+          }
+        },
+        "max_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum size required for the volume. (in bytes)"
+          }
+        },
+        "chunk_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum increment level for a Block Storage volume size. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#NodeTypeAvailableVolumeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#NodeTypeVolumeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available storage options for the node type."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListNodeTypesResponseNodeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#NodeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Types of the node."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListNodeTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#ListNodeTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#ListNodeTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/kafka/v1alpha1/regions/{region}/node-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available node types",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "node_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#ListVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#documentation": "Kafka version to filter for."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "The number of items to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.scaleway.kafka_v1alpha1#ListVersionsResponseVersionsList",
+          "traits": {
+            "smithy.api#documentation": "Available Kafka versions."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of Kafka versions available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#Version": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Kafka version."
+          }
+        },
+        "end_of_life_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of End of Life for the version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "available_settings": {
+          "target": "com.scaleway.kafka_v1alpha1#VersionAvailableSettingsList",
+          "traits": {
+            "smithy.api#documentation": "Cluster configuration settings you are able to change for clusters running this version. Each item in `available_settings` describes one configurable cluster setting."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#VersionAvailableSetting": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Kafka cluster setting name."
+          }
+        },
+        "hot_configurable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether this setting can be applied without needing a restart."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Setting description."
+          }
+        },
+        "bool_property": {
+          "target": "com.scaleway.kafka_v1alpha1#VersionAvailableSettingBooleanProperty",
+          "traits": {
+            "smithy.api#documentation": "Boolean property, if the setting is a boolean.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "string_property": {
+          "target": "com.scaleway.kafka_v1alpha1#VersionAvailableSettingStringProperty",
+          "traits": {
+            "smithy.api#documentation": "String property, if the setting is a string.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "int_property": {
+          "target": "com.scaleway.kafka_v1alpha1#VersionAvailableSettingIntegerProperty",
+          "traits": {
+            "smithy.api#documentation": "Integer property, if the setting is an integer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "float_property": {
+          "target": "com.scaleway.kafka_v1alpha1#VersionAvailableSettingFloatProperty",
+          "traits": {
+            "smithy.api#documentation": "Float property, if the setting is a float.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#VersionAvailableSettingBooleanProperty": {
+      "type": "structure",
+      "members": {
+        "default_value": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#VersionAvailableSettingStringProperty": {
+      "type": "structure",
+      "members": {
+        "string_constraint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default_value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#VersionAvailableSettingIntegerProperty": {
+      "type": "structure",
+      "members": {
+        "min": {
+          "target": "smithy.api#Integer"
+        },
+        "max": {
+          "target": "smithy.api#Integer"
+        },
+        "default_value": {
+          "target": "smithy.api#Integer"
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#VersionAvailableSettingFloatProperty": {
+      "type": "structure",
+      "members": {
+        "min": {
+          "target": "smithy.api#Double"
+        },
+        "max": {
+          "target": "smithy.api#Double"
+        },
+        "default_value": {
+          "target": "smithy.api#Double"
+        },
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#VersionAvailableSettingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#VersionAvailableSetting"
+      },
+      "traits": {
+        "smithy.api#documentation": "Cluster configuration settings you are able to change for clusters running this version. Each item in `available_settings` describes one configurable cluster setting."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.kafka_v1alpha1#Version"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available Kafka versions."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#ListVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/kafka/v1alpha1/regions/{region}/versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Kafka versions\n\nList all available versions of Kafka at the current time.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "versions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#KafkaV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.kafka_v1alpha1#ListClusters"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#CreateCluster"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#GetCluster"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#UpdateCluster"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#DeleteCluster"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthority"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#RenewClusterCertificateAuthority"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#ListUsers"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#UpdateUser"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#CreateEndpoint"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#DeleteEndpoint"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#ListNodeTypes"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#ListVersions"
+        },
+        {
+          "target": "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Clusters for Apache Kafka®",
+        "smithy.api#documentation": "Clusters for Apache Kafka® is Scaleway's product to provide a secure, fully-managed infrastructure for your Apache Kafka® deployments. With our clusters, you can create data pipelines and event-driven architectures that run natively on Apache Kafka®, without having to manage the underlying infrastructure.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/clusters-for-kafka/concepts/) to find definitions of the different terms referring to Clusters for Apache Kafka®.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Kafka API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_ZONE=\"<Scaleway default Availability Zone>\"\n    export SCW_DEFAULT_REGION=\"<Scaleway default region>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Create a cluster**: Run the following command to create a cluster with a node on each AZ (3 nodes by default) with 20GB storage capacity per node. You can customize the details in the payload to your needs, using the table below to help. Note that you will need to have a [VPC and a Private Network](https://www.scaleway.com/en/developers/api/vpc/) before running this command.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n        \"version\": \"4.0.0\",\n        \"node_amount\": 3,\n        \"multi_az\": {},\n        \"name\": \"MyCluster\",\n        \"user_name\": \"MyUser\n        \"password\": \"MySecurePassword\",\n        \"project_id\": $SCW_PROJECT_ID,\n        \"volume\": {\n            \"size_bytes\": 20000000000,\n            \"type\": \"sbs_5k\"\n        },\n        \"endpoints\": [\n            {\n                \"private_network\": {\n                    \"private_network_id\": {Your PN ID}\n                }\n            }\n        ]\n      }' \\\n      \"https://api.scaleway.com/kafka/v1alpha1/regions/fr-par/clusters\"\n    ```\n\n3. **Get a list of your clusters**: Run the following command to get a list of all the clusters in your account, with their details:\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/kafka/v1alpha1/regions/fr-par/clusters\"\n    ```\n\n4. **Delete your cluster**: Run the following command to delete a cluster. Ensure that you replace `{resource-id}` in the URL with the ID of the cluster you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/kafka/v1alpha1/regions/fr-par/clusters/{resource-id}\"\n    ```\n\n## Technical information\n\n### Regions\n\nScaleway's infrastructure spans different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nClusters for Apache Kafka is currently available in the Paris region, which is represented by the following path parameter:\n\n- fr-par\n\n## Technical limitations\n\nFind out about product limitations in our [FAQ](https://www.scaleway.com/en/docs/clusters-for-kafka/faq/#quotas-and-limitations).\n\n## Going further\n\nFor more information about Clusters for Apache Kafka®, you can check out the following pages:\n\n- [Clusters for Apache Kafka® Documentation](https://www.scaleway.com/en/docs/clusters-for-kafka/)\n- [Contact our support team](https://console.scaleway.com/support/tickets)."
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRawRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Kafka Cluster."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.kafka_v1alpha1#GetClusterCertificateAuthorityRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/kafka/v1alpha1/regions/{region}/clusters/{cluster_id}/certificate-authority",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Get a Kafka cluster's certificate authority\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

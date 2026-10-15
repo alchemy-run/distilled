@@ -1,0 +1,2282 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.mailbox_v1alpha1#ListAliasesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#AliasStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListAliasesRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListAliasesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order aliases by specific criteria."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Requested page size. Value must be between 1 and 100."
+          }
+        },
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mailbox_id",
+            "smithy.api#documentation": "ID of the mailbox for which to list aliases. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mailbox_v1alpha1#AliasStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "(Optional) Filter aliases by their status."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID to filter on. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListAliasesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of aliases that match the request (without pagination)."
+          }
+        },
+        "aliases": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListAliasesResponseAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Single page of aliases matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#Alias": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the alias. (UUID format)"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the alias as local_part@domain."
+          }
+        },
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the mailbox to which the alias belongs. (UUID format)"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the alias."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mailbox_v1alpha1#AliasStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the alias."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of alias creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time when the alias was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListAliasesResponseAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mailbox_v1alpha1#Alias"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of aliases matching the requested criteria."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListAliases": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#ListAliasesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#ListAliasesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/aliases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List aliases for a mailbox.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "aliases",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#CreateAliasRequest": {
+      "type": "structure",
+      "members": {
+        "local_part": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Local part of the email address (e.g. local_part@domain.com)."
+          }
+        },
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the mailbox to associate with the alias. (UUID format)"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Description of the alias.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#CreateAlias": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#CreateAliasRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Alias"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mailbox/v1alpha1/aliases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create an alias for a mailbox."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetAliasRequest": {
+      "type": "structure",
+      "members": {
+        "alias_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the alias to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetAlias": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#GetAliasRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Alias"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/aliases/{alias_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an alias by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#UpdateAliasRequest": {
+      "type": "structure",
+      "members": {
+        "alias_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the alias to update. (UUID format)"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Description of the alias.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#UpdateAlias": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#UpdateAliasRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Alias"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mailbox/v1alpha1/aliases/{alias_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an alias by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#DeleteAliasRequest": {
+      "type": "structure",
+      "members": {
+        "alias_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the alias to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#DeleteAlias": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#DeleteAliasRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Alias"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mailbox/v1alpha1/aliases/{alias_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an alias by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesRequestMailboxParameters": {
+      "type": "structure",
+      "members": {
+        "local_part": {
+          "target": "smithy.api#String"
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesRequestMailboxesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesRequestMailboxParameters"
+      },
+      "traits": {
+        "smithy.api#documentation": "Parameters for the mailboxes to create."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#MailboxSubscriptionPeriod": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUBSCRIPTION_PERIOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_subscription_period"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "YEARLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yearly"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesRequest": {
+      "type": "structure",
+      "members": {
+        "mailboxes": {
+          "target": "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesRequestMailboxesList",
+          "traits": {
+            "smithy.api#documentation": "Parameters for the mailboxes to create."
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the domain in which to create the mailboxes. (UUID format)"
+          }
+        },
+        "subscription_period": {
+          "target": "com.scaleway.mailbox_v1alpha1#MailboxSubscriptionPeriod",
+          "traits": {
+            "smithy.api#documentation": "Subscription renewal period, it can be monthly or yearly."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesResponse": {
+      "type": "structure",
+      "members": {
+        "mailboxes": {
+          "target": "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesResponseMailboxesList",
+          "traits": {
+            "smithy.api#documentation": "Mailboxes created."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#Mailbox": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the mailbox. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to which the mailbox belongs. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization to which the mailbox belongs. (UUID format)"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the domain to which the mailbox belongs. (UUID format)"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the mailbox as local_part@domain."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mailbox_v1alpha1#MailboxStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the mailbox."
+          }
+        },
+        "subscription_period": {
+          "target": "com.scaleway.mailbox_v1alpha1#MailboxSubscriptionPeriod",
+          "traits": {
+            "smithy.api#documentation": "Subscription renewal period, it can be monthly, yearly or canceled if the subscription has been canceled."
+          }
+        },
+        "subscription_period_started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of subscription period start. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "next_subscription_period": {
+          "target": "com.scaleway.mailbox_v1alpha1#MailboxSubscriptionPeriod",
+          "traits": {
+            "smithy.api#documentation": "Next subscription renewal period, it can be monthly or yearly or canceled if the subscription has been canceled."
+          }
+        },
+        "next_subscription_period_starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time when the next subscription period starts. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of mailbox creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time when the mailbox was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deletion_scheduled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the unrecoverable mailbox deletion. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#MailboxStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "WAITING_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting_payment"
+          }
+        },
+        "WAITING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting_domain"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETION_SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deletion_scheduled"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "RENEWING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewing"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restoring"
+          }
+        },
+        "PAYMENT_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "payment_failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesResponseMailboxesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mailbox_v1alpha1#Mailbox"
+      },
+      "traits": {
+        "smithy.api#documentation": "Mailboxes created."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mailbox/v1alpha1/batch-create-mailboxes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create one or more mailboxes."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListDomainsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "MAILBOX_TOTAL_COUNT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mailbox_total_count_desc"
+          }
+        },
+        "MAILBOX_TOTAL_COUNT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mailbox_total_count_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#DomainStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "WAITING_VALIDATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting_validation"
+          }
+        },
+        "VALIDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validating"
+          }
+        },
+        "VALIDATION_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validation_failed"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListDomainsRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mailbox_v1alpha1#DomainStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListDomainsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "statuses": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListDomainsRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of domains that match the request (without pagination)."
+          }
+        },
+        "domains": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListDomainsResponseDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of domains matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#Domain": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the domain. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to which the domain belongs. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization to which the domain belongs. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified domain name."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the domain."
+          }
+        },
+        "mailbox_total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of mailboxes of the domain."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of domain creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the domain's last update. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "webmail_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the domain's webmail."
+          }
+        },
+        "imap_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the domain's IMAP service."
+          }
+        },
+        "pop3_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the domain's POP3 service."
+          }
+        },
+        "smtp_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the domain's SMTP service."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListDomainsResponseDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mailbox_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of domains matching the requested criteria."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#ListDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#ListDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List domains in an organization.\n\nThe return list can be filtered with request parameters.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "domains",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#CreateDomainRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project to which the domain belongs. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified domain name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#CreateDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#CreateDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mailbox/v1alpha1/domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Register a domain in a project.\n\nYou must specify a `project_id` and a `domain_name` to register a domain in a specific Project."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the domain to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#GetDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/domains/{domain_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a domain by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#DeleteDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the domain to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#DeleteDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#DeleteDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mailbox/v1alpha1/domains/{domain_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a domain by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetDomainRecordsRequest": {
+      "type": "structure",
+      "members": {
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(Optional) ID of the domain in which to get the records. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetDomainRecordsResponse": {
+      "type": "structure",
+      "members": {
+        "autoconfig": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record designed to automatically configure an email client with the appropriate mail server settings using a standardized XML file format."
+          }
+        },
+        "autodiscover": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record designed to automate the discovery of server settings to configure email clients like Outlook."
+          }
+        },
+        "caldav": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that allows clients to interact with calendar data stored on a server."
+          }
+        },
+        "carddav": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that allows clients to interact with contact data stored on a server."
+          }
+        },
+        "dkim": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that allows the DKIM email authentication method to be employed to verify the authenticity of an email message."
+          }
+        },
+        "dmarc": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that provides a mechanism for email receivers to determine if incoming messages are legitimate and were sent from authorized sources."
+          }
+        },
+        "domain_validation": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that provides a unique token to validate a domain ownership."
+          }
+        },
+        "imap": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that allows accessing the mailbox with the IMAP protocol."
+          }
+        },
+        "mx": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that directs emails to a mail server."
+          }
+        },
+        "pop3": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that allows accessing the mailbox with the POP3 protocol."
+          }
+        },
+        "spf": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that lists all the servers authorized to send emails from a particular domain."
+          }
+        },
+        "submission": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecord",
+          "traits": {
+            "smithy.api#documentation": "Record that allows the use of the SMTP submission mechanism."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#DomainRecord": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the DNS record. (UUID format)"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the domain to which the record belongs. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecordStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the record."
+          }
+        },
+        "level": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecordLevel",
+          "traits": {
+            "smithy.api#documentation": "Level of requirement of the record."
+          }
+        },
+        "dns_type": {
+          "target": "com.scaleway.mailbox_v1alpha1#DomainRecordDNSType",
+          "traits": {
+            "smithy.api#documentation": "DNS type of the record."
+          }
+        },
+        "dns_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DNS name of the record."
+          }
+        },
+        "dns_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DNS value of the record."
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error associated in case the record is not valid.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of record creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of record last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#DomainRecordStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "VALIDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validating"
+          }
+        },
+        "VALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "valid"
+          }
+        },
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid"
+          }
+        },
+        "NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_found"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#DomainRecordLevel": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LEVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_level"
+          }
+        },
+        "REQUIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "required"
+          }
+        },
+        "RECOMMENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recommended"
+          }
+        },
+        "OPTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "optional"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#DomainRecordDNSType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_DNS_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_dns_type"
+          }
+        },
+        "CNAME_DNS_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cname_dns_type"
+          }
+        },
+        "MX_DNS_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mx_dns_type"
+          }
+        },
+        "SRV_DNS_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "srv_dns_type"
+          }
+        },
+        "TXT_DNS_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "txt_dns_type"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#GetDomainRecords": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#GetDomainRecordsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#GetDomainRecordsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/domains/{domain_id}/records",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get domain records by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ValidateDomainRecordsRequest": {
+      "type": "structure",
+      "members": {
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the domain with which to validate the records. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ValidateDomainRecords": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#ValidateDomainRecordsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mailbox/v1alpha1/domains/{domain_id}/validate-records",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Validate domain records by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListForwardingsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "EMAIL_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_desc"
+          }
+        },
+        "EMAIL_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ForwardingStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListForwardingsRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListForwardingsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order forwardings by specific criteria."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Requested page size. Value must be between 1 and 100."
+          }
+        },
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mailbox_id",
+            "smithy.api#documentation": "(Optional) ID of the mailbox for which to list forwarding rules. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mailbox_v1alpha1#ForwardingStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "(Optional) Filter forwarding rules by their status."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "List forwardings of this Project. One-of `scope`: at most one of `project_id`, `organization_id`."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "List forwardings of this Organization. One-of `scope`: at most one of `project_id`, `organization_id`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListForwardingsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of forwarding rules that match the request (without pagination)."
+          }
+        },
+        "forwardings": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListForwardingsResponseForwardingsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of forwarding rules matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#Forwarding": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the forwarding rule. (UUID format)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of forwarding rule creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time when the forwarding rule was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the mailbox to which the forwarding rule belongs. (UUID format)"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination email address to which incoming emails are forwarded."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.mailbox_v1alpha1#ForwardingStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the forwarding rule."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListForwardingsResponseForwardingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mailbox_v1alpha1#Forwarding"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of forwarding rules matching the requested criteria."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListForwardings": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#ListForwardingsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#ListForwardingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/forwardings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List forwarding rules in an organization.\n\nThe return list can be filtered with request parameters.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "forwardings",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#CreateForwardingRequest": {
+      "type": "structure",
+      "members": {
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the mailbox for which to create the forwarding rule. (UUID format)"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination email address to which incoming emails will be forwarded. Must not be the same as the mailbox's own email address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#CreateForwarding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#CreateForwardingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Forwarding"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mailbox/v1alpha1/forwardings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a forwarding rule for a mailbox.\n\nAll incoming emails to the mailbox will be redirected to the specified destination email address.\nA mailbox can have up to 5 forwarding rules. Forwarding to the mailbox's own email address is not allowed."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetForwardingRequest": {
+      "type": "structure",
+      "members": {
+        "forwarding_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the forwarding rule to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetForwarding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#GetForwardingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Forwarding"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/forwardings/{forwarding_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a forwarding rule by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#UpdateForwardingRequest": {
+      "type": "structure",
+      "members": {
+        "forwarding_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the forwarding rule to update. (UUID format)"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) New destination email address for the forwarding rule. Must not be the same as the mailbox's own email address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#UpdateForwarding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#UpdateForwardingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Forwarding"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mailbox/v1alpha1/forwardings/{forwarding_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a forwarding rule's destination email address by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#DeleteForwardingRequest": {
+      "type": "structure",
+      "members": {
+        "forwarding_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the forwarding rule to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#DeleteForwarding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#DeleteForwardingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Forwarding"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mailbox/v1alpha1/forwardings/{forwarding_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a forwarding rule by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListMailboxesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "EMAIL_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_desc"
+          }
+        },
+        "EMAIL_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListMailboxesRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mailbox_v1alpha1#MailboxStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListMailboxesRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListMailboxesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order matching mailbox by different criteria."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Requested page size. Value must be between 1 and 1000."
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain_id",
+            "smithy.api#documentation": "(Optional) ID of the domain in which to list the mailboxes. (UUID format)"
+          }
+        },
+        "statuses": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListMailboxesRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses",
+            "smithy.api#documentation": "(Optional) Filter mailboxes by their statuses."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "(Optional) Search term to filter mailboxes on name and local_part."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "(Optional) Project ID to filter mailboxes on. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListMailboxesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of mailboxes that match the request (without pagination)."
+          }
+        },
+        "mailboxes": {
+          "target": "com.scaleway.mailbox_v1alpha1#ListMailboxesResponseMailboxesList",
+          "traits": {
+            "smithy.api#documentation": "Mailboxes matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#ListMailboxesResponseMailboxesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mailbox_v1alpha1#Mailbox"
+      },
+      "traits": {
+        "smithy.api#documentation": "Mailboxes matching the requested criteria."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#ListMailboxes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#ListMailboxesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#ListMailboxesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/mailboxes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List mailboxes in an organization.\n\nThe return list can be filtered with request parameters.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "mailboxes",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetMailboxRequest": {
+      "type": "structure",
+      "members": {
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the mailbox to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetMailbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#GetMailboxRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Mailbox"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/mailboxes/{mailbox_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a mailbox by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#UpdateMailboxRequest": {
+      "type": "structure",
+      "members": {
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the mailbox to update. (UUID format)"
+          }
+        },
+        "subscription_period": {
+          "target": "com.scaleway.mailbox_v1alpha1#MailboxSubscriptionPeriod",
+          "traits": {
+            "smithy.api#documentation": "(Optional) New subscription period for the mailbox."
+          }
+        },
+        "new_password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) New password of the mailbox.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#UpdateMailbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#UpdateMailboxRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Mailbox"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mailbox/v1alpha1/mailboxes/{mailbox_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a mailbox subscription period or password with its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#DeleteMailboxRequest": {
+      "type": "structure",
+      "members": {
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the mailbox to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#DeleteMailbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#DeleteMailboxRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Mailbox"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/mailbox/v1alpha1/mailboxes/{mailbox_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a mailbox by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#GetMailboxForwardingRequest": {
+      "type": "structure",
+      "members": {
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the mailbox to get the forwarding settings for. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#MailboxForwarding": {
+      "type": "structure",
+      "members": {
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the mailbox to which the forwarding settings belong. (UUID format)"
+          }
+        },
+        "keep_copy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to keep a copy of forwarded emails in the local mailbox."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether forwarding is enabled for the mailbox. When disabled, no emails are forwarded."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the forwarding settings creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time when the forwarding settings were last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mailbox_v1alpha1#GetMailboxForwarding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#GetMailboxForwardingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#MailboxForwarding"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mailbox/v1alpha1/mailboxes/{mailbox_id}/forwarding",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#UpdateMailboxForwardingRequest": {
+      "type": "structure",
+      "members": {
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the mailbox to update the forwarding settings for. (UUID format)"
+          }
+        },
+        "keep_copy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Whether to keep a copy of forwarded emails in the local mailbox.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Enable or disable forwarding for the mailbox.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#UpdateMailboxForwarding": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#UpdateMailboxForwardingRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#MailboxForwarding"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/mailbox/v1alpha1/mailboxes/{mailbox_id}/forwarding",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#RestoreMailboxRequest": {
+      "type": "structure",
+      "members": {
+        "mailbox_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the mailbox to restore. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#RestoreMailbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mailbox_v1alpha1#RestoreMailboxRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mailbox_v1alpha1#Mailbox"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/mailbox/v1alpha1/mailboxes/{mailbox_id}/restore",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Restore a mailbox in deletion scheduled status by its ID."
+      }
+    },
+    "com.scaleway.mailbox_v1alpha1#MailboxV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#ListAliases"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#CreateAlias"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#GetAlias"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#UpdateAlias"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#DeleteAlias"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#BatchCreateMailboxes"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#ListDomains"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#CreateDomain"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#GetDomain"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#DeleteDomain"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#GetDomainRecords"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#ValidateDomainRecords"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#ListForwardings"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#CreateForwarding"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#GetForwarding"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#UpdateForwarding"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#DeleteForwarding"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#ListMailboxes"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#GetMailbox"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#UpdateMailbox"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#DeleteMailbox"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#GetMailboxForwarding"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#UpdateMailboxForwarding"
+        },
+        {
+          "target": "com.scaleway.mailbox_v1alpha1#RestoreMailbox"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Mailbox API",
+        "smithy.api#documentation": "Mailbox is a professional email service allowing you to create and manage email accounts using your own domain.\nIt supports standard email protocols such as IMAP and SMTP, allowing access from most email clients (webmail, desktop or mobile applications).\n\nMailbox also supports calendar and contact synchronization using CalDAV and CardDAV.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/mailbox/concepts/) to find definitions of the different terms referring to Scaleway Mailbox.\n\n## Quickstart\n\n### Incoming and outgoing protocols\n\n- **Incoming server `IMAP`** — Read, update, and delete your emails\n  - **Port:** 993\n  - **Encryption:** SSL/TLS\n  - **Hostname:** imap.{yourdomain}\n\n- **Incoming server `POP3`** — Download and manage your emails locally\n  - **Port:** 995\n  - **Encryption:** SSL/TLS\n  - **Hostname:** pop3.{yourdomain}\n\n- **Outgoing server `SMTP`** — Send your emails\n  - **Port:** 465\n  - **Encryption:** SSL/TLS\n  - **Hostname:** smtp.{yourdomain}\n\n## Technical limitations\n\n### Mailbox quotas\n\n- Mailbox storage: up to 20 GB per mailbox (for emails, attachments, and mailbox folders).\n- Number of Mailboxes: 20 Mailbox email accounts per project (during Beta phase). If you need to create more mailboxes, contact the [Scaleway Support team](https://console.scaleway.com/support/tickets/create?for=product&productName=mailbox&category=product).\n\n### Message limits\n\n- `message` (the maximum number of messages that can be submitted per SMTP session): 10\n- `size` (the maximum size of a message): 104857600 bytes (100 MiB)\n- `received-headers` (the maximum number of received headers that a message can contain): 50\n\n### Supported ESMTP extensions\n\nMailbox SMTP relay supports the following [ESMTP extensions](https://www.iana.org/assignments/mail-parameters/mail-parameters.txt):\n\n- 8BITMIME\n- BINARYMIME\n- CHUNKING\n- ENHANCEDSTATUSCODES\n- NO-SOLICITING\n- PIPELINING\n- REQUIRETLS\n- SIZE 104857600\n- SMTPUTF8\n- STARTTLS\n\n## Going further\n\nFor more information about Mailbox, you can check out the following pages:\n\n- [Mailbox Documentation](https://www.scaleway.com/en/docs/mailbox/)\n- [Scaleway Slack Community](https://scaleway-community.slack.com/) join the #mailbox-beta channel\n- [Contact our support team](https://console.scaleway.com/support/tickets/create?for=product&productName=mailbox&category=product)."
+      }
+    }
+  }
+}

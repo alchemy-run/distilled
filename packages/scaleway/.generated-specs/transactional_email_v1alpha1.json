@@ -1,0 +1,4333 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.transactional_email_v1alpha1#ListBlocklistsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListBlocklistsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "ENDS_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ends_at_desc"
+          }
+        },
+        "ENDS_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ends_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#BlocklistType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "MAILBOX_FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mailbox_full"
+          }
+        },
+        "MAILBOX_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mailbox_not_found"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListBlocklistsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListBlocklistsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListBlocklistsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "(Optional) List blocklist corresponding to specific criteria."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "(Optional) Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "(Optional) Requested page size. Value must be between 1 and 100."
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(Optional) Filter by a domain ID. (UUID format)"
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "email",
+            "smithy.api#documentation": "(Optional) Filter by an email address."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.transactional_email_v1alpha1#BlocklistType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "(Optional) Filter by a blocklist type."
+          }
+        },
+        "custom": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "custom",
+            "smithy.api#documentation": "(Optional) Filter by custom blocklist (true) or automatic Transactional Email blocklist (false)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListBlocklistsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of blocklists matching the requested criteria."
+          }
+        },
+        "blocklists": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListBlocklistsResponseBlocklistsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of blocklists matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#Blocklist": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the blocklist."
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain ID linked to the blocklist."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the blocklist creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the blocklist's last update. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ends_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time when the blocklist ends. Empty if the blocklist has no end. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email blocked by the blocklist."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.transactional_email_v1alpha1#BlocklistType",
+          "traits": {
+            "smithy.api#documentation": "Type of block for this email."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reason to block this email."
+          }
+        },
+        "custom": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if this blocklist was created manually. False for an automatic Transactional Email blocklist."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListBlocklistsResponseBlocklistsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Blocklist"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of blocklists matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListBlocklists": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListBlocklistsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListBlocklistsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/blocklists",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List blocklists\n\nRetrieve the list of blocklists.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "blocklists",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsRequestEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email blocked by the blocklist."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain ID linked to the blocklist. (UUID format)"
+          }
+        },
+        "emails": {
+          "target": "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsRequestEmailsList",
+          "traits": {
+            "smithy.api#documentation": "Email blocked by the blocklist."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.transactional_email_v1alpha1#BlocklistType",
+          "traits": {
+            "smithy.api#documentation": "Type of blocklist."
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reason to block the email.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsResponse": {
+      "type": "structure",
+      "members": {
+        "blocklists": {
+          "target": "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsResponseBlocklistsList",
+          "traits": {
+            "smithy.api#documentation": "List of blocklist created."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsResponseBlocklistsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Blocklist"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of blocklist created."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklists": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklistsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/blocklists",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Bulk create blocklists\n\nCreate multiple blocklists in a specific Project or Organization using the `region` parameter."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#DeleteBlocklistRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DeleteBlocklistRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DeleteBlocklistRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "blocklist_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the blocklist to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#DeleteBlocklist": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#DeleteBlocklistRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/blocklists/{blocklist_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a blocklist\n\nYou must specify the blocklist you want to delete by the `region` and `blocklist_id`."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListDomainsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "CHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checked"
+          }
+        },
+        "UNCHECKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unchecked"
+          }
+        },
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoked"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "AUTOCONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "autoconfiguring"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListDomainsRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#DomainStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListDomainsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Requested page size. Value must be between 1 and 1000."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "(Optional) ID of the Project in which to list the domains. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListDomainsRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "(Optional) List domains under specific statuses."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "(Optional) ID of the Organization in which to list the domains. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "(Optional) Names of the domains to list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of domains that match the request (without pagination)."
+          }
+        },
+        "domains": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListDomainsResponseDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of domains matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#Domain": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the domain."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the domain's Organization."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the domain's Project."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain name (example.com)."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the domain."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of domain creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "next_check_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the next scheduled check. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_valid_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time the domain was last valid. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "revoked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the domain's deletion. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Error message returned if the last check failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spf_config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snippet of the SPF record to register in the DNS zone."
+          }
+        },
+        "dkim_config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DKIM public key to record in the DNS zone."
+          }
+        },
+        "statistics": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainStatistics",
+          "traits": {
+            "smithy.api#documentation": "Domain's statistics."
+          }
+        },
+        "reputation": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainReputation",
+          "traits": {
+            "smithy.api#documentation": "The domain's reputation is available when your domain is checked and has sent enough emails."
+          }
+        },
+        "records": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainRecords",
+          "traits": {
+            "smithy.api#documentation": "List of records to configure to validate a domain."
+          }
+        },
+        "autoconfig": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Status of auto-configuration for the domain's DNS zone."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region you want to target"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainStatistics": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "sent_count": {
+          "target": "smithy.api#Integer"
+        },
+        "failed_count": {
+          "target": "smithy.api#Integer"
+        },
+        "canceled_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainReputation": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainReputationStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of your domain's reputation."
+          }
+        },
+        "score": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A range from 0 to 100 that determines your domain's reputation score. A score of `0` means a bad domain reputation and a score of `100` means an excellent domain reputation."
+          }
+        },
+        "scored_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time and date the score was calculated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous_score": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The previously-calculated domain's reputation score.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous_scored_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time and date the previous reputation score was calculated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainReputationStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "EXCELLENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "excellent"
+          }
+        },
+        "GOOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "good"
+          }
+        },
+        "AVERAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "average"
+          }
+        },
+        "BAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bad"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainRecords": {
+      "type": "structure",
+      "members": {
+        "dmarc": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainRecordsDMARC",
+          "traits": {
+            "smithy.api#documentation": "DMARC TXT record specification."
+          }
+        },
+        "dkim": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainRecordsDKIM",
+          "traits": {
+            "smithy.api#documentation": "DKIM TXT record specification."
+          }
+        },
+        "spf": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainRecordsSPF",
+          "traits": {
+            "smithy.api#documentation": "SPF TXT record specification."
+          }
+        },
+        "mx": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainRecordsMX",
+          "traits": {
+            "smithy.api#documentation": "MX record specification."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainRecordsDMARC": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the DMARC TXT record."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of the DMARC TXT record."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainRecordsDKIM": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the DKIM TXT record."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of the DKIM TXT record."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainRecordsSPF": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the SPF TXT record."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of the SPF TXT record."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainRecordsMX": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the MX record."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of the MX record."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListDomainsResponseDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of domains matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List domains\n\nRetrieve domains in a specific Project or in a specific Organization using the `region` parameter.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "domains",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project to which the domain belongs. (UUID format)"
+          }
+        },
+        "domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified domain dame."
+          }
+        },
+        "accept_tos": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Accept Scaleway's Terms of Service."
+          }
+        },
+        "autoconfig": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Activate auto-configuration of the domain's DNS zone."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Register a domain in a project\n\nYou must specify the `region`, `project_id` and `domain_name` to register a domain in a specific Project."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the domain. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#GetDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/domains/{domain_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get information about a domain\n\nRetrieve information about a specific domain using the `region` and `domain_id` parameters. Monitor your domain's reputation and improve **average** and **bad** reputation statuses, using your domain's **Email activity** tab on the [Scaleway console](https://console.scaleway.com/transactional-email/domains) to get a more detailed report. Check out our [dedicated documentation](https://www.scaleway.com/en/docs/managed-services/transactional-email/reference-content/understanding-tem-reputation-score/) to improve your domain's reputation."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the domain to update. (UUID format)"
+          }
+        },
+        "autoconfig": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "(Optional) If set to true, activate auto-configuration of the domain's DNS zone.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#UpdateDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/domains/{domain_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a domain\n\nUpdate a domain auto-configuration."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CheckDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CheckDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CheckDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the domain to check. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CheckDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CheckDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/domains/{domain_id}/check",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Domain DNS check\n\nPerform an immediate DNS check of a domain using the `region` and `domain_id` parameters."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#RevokeDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#RevokeDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#RevokeDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the domain to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#RevokeDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#RevokeDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/domains/{domain_id}/revoke",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a domain\n\nYou must specify the domain you want to delete by the `region` and `domain_id`. Deleting a domain is permanent and cannot be undone."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetDomainLastStatusRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetDomainLastStatusRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetDomainLastStatusRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the domain to get records status. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainLastStatus": {
+      "type": "structure",
+      "members": {
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the domain."
+          }
+        },
+        "domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain name (example.com)."
+          }
+        },
+        "spf_record": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusSpfRecord",
+          "traits": {
+            "smithy.api#documentation": "The SPF record verification data."
+          }
+        },
+        "dkim_record": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusDkimRecord",
+          "traits": {
+            "smithy.api#documentation": "The DKIM record verification data."
+          }
+        },
+        "dmarc_record": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusDmarcRecord",
+          "traits": {
+            "smithy.api#documentation": "The DMARC record verification data."
+          }
+        },
+        "mx_record": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusMXRecord",
+          "traits": {
+            "smithy.api#documentation": "The MX record verification data."
+          }
+        },
+        "autoconfig_state": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusAutoconfigState",
+          "traits": {
+            "smithy.api#documentation": "The verification state of domain auto-configuration."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainLastStatusSpfRecord": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusRecordStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the SPF record's configuration."
+          }
+        },
+        "last_valid_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time and date the SPF record was last valid. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An error text displays in case the record is not valid.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainLastStatusRecordStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_RECORD_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_record_status"
+          }
+        },
+        "VALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "valid"
+          }
+        },
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid"
+          }
+        },
+        "NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_found"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainLastStatusDkimRecord": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusRecordStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the DKIM record's configuration."
+          }
+        },
+        "last_valid_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time and date the DKIM record was last valid. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An error text displays in case the record is not valid.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainLastStatusDmarcRecord": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusRecordStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the DMARC record's configuration."
+          }
+        },
+        "last_valid_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time and date the DMARC record was last valid. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An error text displays in case the record is not valid.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainLastStatusMXRecord": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusRecordStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the MX record's configuration.\nStatus of the MX record's configuration. This record is optional to validate a domain, but highly recommended."
+          }
+        },
+        "last_valid_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time and date the MX record was last valid. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An error text displays in case the record is not valid.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainLastStatusAutoconfigState": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable or disable the auto-configuration of domain DNS records."
+          }
+        },
+        "autoconfigurable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the domain can be auto-configured or not."
+          }
+        },
+        "reason": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatusAutoconfigStateReason",
+          "traits": {
+            "smithy.api#documentation": "The reason that the domain cannot be auto-configurable."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DomainLastStatusAutoconfigStateReason": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_REASON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_reason"
+          }
+        },
+        "PERMISSION_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "permission_denied"
+          }
+        },
+        "DOMAIN_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_not_found"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetDomainLastStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#GetDomainLastStatusRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#DomainLastStatus"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/domains/{domain_id}/verification",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Display SPF, DKIM, DMARC and MX records status and potential errors\n\nDisplay SPF, DKIM, DMARC and MX records status and potential errors, including the found records to make debugging easier."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListEmailsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#EmailStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "NEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new"
+          }
+        },
+        "SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending"
+          }
+        },
+        "SENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sent"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListEmailsRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#EmailStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListEmailsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "MAIL_FROM_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mail_from_desc"
+          }
+        },
+        "MAIL_FROM_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mail_from_asc"
+          }
+        },
+        "MAIL_RCPT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mail_rcpt_desc"
+          }
+        },
+        "MAIL_RCPT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mail_rcpt_asc"
+          }
+        },
+        "SUBJECT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subject_desc"
+          }
+        },
+        "SUBJECT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subject_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#EmailFlag": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_flag"
+          }
+        },
+        "SOFT_BOUNCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "soft_bounce"
+          }
+        },
+        "HARD_BOUNCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hard_bounce"
+          }
+        },
+        "SPAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "spam"
+          }
+        },
+        "MAILBOX_FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mailbox_full"
+          }
+        },
+        "MAILBOX_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mailbox_not_found"
+          }
+        },
+        "GREYLISTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "greylisted"
+          }
+        },
+        "SEND_BEFORE_EXPIRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send_before_expiration"
+          }
+        },
+        "BLOCKLISTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocklisted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListEmailsRequestFlagsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#EmailFlag"
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListEmailsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListEmailsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "(Optional) ID of the Project in which to list the emails. (UUID format)"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain_id",
+            "smithy.api#documentation": "(Optional) ID of the domain for which to list the emails. (UUID format)"
+          }
+        },
+        "message_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "message_id",
+            "smithy.api#documentation": "(Optional) ID of the message for which to list the emails. (UUID format)"
+          }
+        },
+        "since": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "since",
+            "smithy.api#documentation": "(Optional) List emails created after this date. (RFC 3339 format)"
+          }
+        },
+        "until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "until",
+            "smithy.api#documentation": "(Optional) List emails created before this date. (RFC 3339 format)"
+          }
+        },
+        "mail_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mail_from",
+            "smithy.api#documentation": "(Optional) List emails sent with this sender's email address."
+          }
+        },
+        "mail_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mail_to",
+            "smithy.api#documentation": "Deprecated. List emails sent to this recipient's email address."
+          }
+        },
+        "mail_rcpt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mail_rcpt",
+            "smithy.api#documentation": "(Optional) List emails sent to this recipient's email address."
+          }
+        },
+        "statuses": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListEmailsRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses",
+            "smithy.api#documentation": "(Optional) List emails with any of these statuses."
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "subject",
+            "smithy.api#documentation": "(Optional) List emails with this subject."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "(Optional) List emails by searching to all fields."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListEmailsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "(Optional) List emails corresponding to specific criteria."
+          }
+        },
+        "flags": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListEmailsRequestFlagsList",
+          "traits": {
+            "smithy.api#httpQuery": "flags",
+            "smithy.api#documentation": "(Optional) List emails containing only specific flags."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListEmailsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails matching the requested criteria."
+          }
+        },
+        "emails": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListEmailsResponseEmailsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of emails matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#Email": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Technical ID of the email."
+          }
+        },
+        "message_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message ID of the email."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to which the email belongs."
+          }
+        },
+        "mail_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the sender."
+          }
+        },
+        "rcpt_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Email address of the recipient."
+          }
+        },
+        "mail_rcpt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the recipient."
+          }
+        },
+        "rcpt_type": {
+          "target": "com.scaleway.transactional_email_v1alpha1#EmailRcptType",
+          "traits": {
+            "smithy.api#documentation": "Type of recipient."
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subject of the email."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the email object. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update of the email object. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#EmailStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the email."
+          }
+        },
+        "status_details": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional status information.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "try_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of attempts to send the email."
+          }
+        },
+        "last_tries": {
+          "target": "com.scaleway.transactional_email_v1alpha1#EmailLastTriesList",
+          "traits": {
+            "smithy.api#documentation": "Information about the last three attempts to send the email."
+          }
+        },
+        "flags": {
+          "target": "com.scaleway.transactional_email_v1alpha1#EmailFlagsList",
+          "traits": {
+            "smithy.api#documentation": "Flags categorize emails. They allow you to obtain more information about recurring errors, for example."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#EmailRcptType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_RCPT_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_rcpt_type"
+          }
+        },
+        "TO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "to"
+          }
+        },
+        "CC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cc"
+          }
+        },
+        "BCC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bcc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#EmailTry": {
+      "type": "structure",
+      "members": {
+        "rank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rank number of this attempt to send the email."
+          }
+        },
+        "tried_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of the attempt to send the email. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The SMTP status code received after the attempt. 0 if the attempt did not reach an SMTP server."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SMTP message received. If the attempt did not reach an SMTP server, the message returned explains what happened."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#EmailLastTriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#EmailTry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about the last three attempts to send the email."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#EmailFlagsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#EmailFlag"
+      },
+      "traits": {
+        "smithy.api#documentation": "Flags categorize emails. They allow you to obtain more information about recurring errors, for example."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListEmailsResponseEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Email"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of emails matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListEmails": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListEmailsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListEmailsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/emails",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List emails\n\nRetrieve the list of emails sent from a specific domain or for a specific Project or Organization. You must specify the `region`.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "emails",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAddress": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Name displayed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestToList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAddress"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of the primary recipient's information."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestCcList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAddress"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of the carbon copy recipient's information."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestBccList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAddress"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of the blind carbon copy recipient's information."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAttachment": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filename of the attachment."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MIME type of the attachment."
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content of the attachment encoded in base64."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAttachment"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of attachments."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestHeader": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email header key."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email header value."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAdditionalHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestHeader"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of additional headers as key-value."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "from": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAddress",
+          "traits": {
+            "smithy.api#documentation": "Sender information. Must be from a checked domain declared in the Project.",
+            "smithy.api#required": {}
+          }
+        },
+        "to": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestToList",
+          "traits": {
+            "smithy.api#documentation": "An array of the primary recipient's information."
+          }
+        },
+        "cc": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestCcList",
+          "traits": {
+            "smithy.api#documentation": "An array of the carbon copy recipient's information."
+          }
+        },
+        "bcc": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestBccList",
+          "traits": {
+            "smithy.api#documentation": "An array of the blind carbon copy recipient's information."
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subject of the email."
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text content."
+          }
+        },
+        "html": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HTML content."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project in which to create the email. (UUID format)"
+          }
+        },
+        "attachments": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "Array of attachments."
+          }
+        },
+        "send_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum date to deliver the email. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "additional_headers": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequestAdditionalHeadersList",
+          "traits": {
+            "smithy.api#documentation": "Array of additional headers as key-value."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailResponse": {
+      "type": "structure",
+      "members": {
+        "emails": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailResponseEmailsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of emails matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmailResponseEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Email"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of emails matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateEmail": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateEmailResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/emails",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Send an email\n\nYou must specify the `region`, the sender and the recipient's information and the `project_id` to send an email from a checked domain."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetEmailRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetEmailRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetEmailRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "email_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the email to retrieve. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetEmail": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#GetEmailRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Email"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/emails/{email_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an email\n\nRetrieve information about a specific email using the `email_id` and `region` parameters."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CancelEmailRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CancelEmailRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CancelEmailRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "email_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the email to cancel. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CancelEmail": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CancelEmailRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Email"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/emails/{email_id}/cancel",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Cancel an email\n\nYou can cancel the sending of an email if it has not been sent yet. You must specify the `region` and the `email_id` of the email you want to cancel."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#OfferName": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_name"
+          }
+        },
+        "ESSENTIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "essential"
+          }
+        },
+        "SCALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scale"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "(Optional) Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "(Optional) Requested page size. Value must be between 1 and 100."
+          }
+        },
+        "offer_name": {
+          "target": "com.scaleway.transactional_email_v1alpha1#OfferName",
+          "traits": {
+            "smithy.api#httpQuery": "offer_name",
+            "smithy.api#documentation": "(Optional) Name of the offer associated with the Project."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Subscriptions of this Organization. One-of `scope`: at most one of `organization_id`, `project_id`."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Subscriptions of this Project. One-of `scope`: at most one of `organization_id`, `project_id`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptionsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of offer-subscriptions matching the requested criteria."
+          }
+        },
+        "offer_subscriptions": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptionsResponseOfferSubscriptionsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of offer-subscriptions matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#OfferSubscription": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the offer-subscription Organization."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the offer-subscription Project."
+          }
+        },
+        "offer_name": {
+          "target": "com.scaleway.transactional_email_v1alpha1#OfferName",
+          "traits": {
+            "smithy.api#documentation": "Name of the offer associated with the Project."
+          }
+        },
+        "subscribed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the subscription. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cancellation_available_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the end of the offer-subscription commitment. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sla": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Service Level Agreement percentage of the offer-subscription."
+          }
+        },
+        "max_domains": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of domains that can be associated with the offer-subscription for a particular Project."
+          }
+        },
+        "max_dedicated_ips": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of dedicated IPs that can be associated with the offer-subscription for a particular Project."
+          }
+        },
+        "max_webhooks_per_domain": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of webhooks that can be associated with the offer-subscription for a particular Project."
+          }
+        },
+        "max_custom_blocklists_per_domain": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of custom blocklists that can be associated with the offer-subscription for a particular Project."
+          }
+        },
+        "included_monthly_emails": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails included in the offer-subscription per month."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptionsResponseOfferSubscriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#OfferSubscription"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of offer-subscriptions matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/offer-subscriptions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get information about subscribed offers\n\nRetrieve information about the offers you are subscribed to using the `project_id` and `region` parameters.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "offer_subscriptions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateOfferSubscriptionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateOfferSubscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateOfferSubscriptionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "com.scaleway.transactional_email_v1alpha1#OfferName",
+          "traits": {
+            "smithy.api#documentation": "Name of the offer-subscription."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateOfferSubscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#UpdateOfferSubscriptionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#OfferSubscription"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/offer-subscriptions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a subscribed offer"
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOffersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOffersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListOffersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOffersResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of offers matching the requested criteria."
+          }
+        },
+        "offers": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListOffersResponseOffersList",
+          "traits": {
+            "smithy.api#documentation": "Single page of offers matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#Offer": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.scaleway.transactional_email_v1alpha1#OfferName",
+          "traits": {
+            "smithy.api#documentation": "Name of the offer."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the offer creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commitment_period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Period of commitment. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sla": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Service Level Agreement percentage of the offer."
+          }
+        },
+        "max_domains": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of checked domains that can be associated with the offer."
+          }
+        },
+        "max_dedicated_ips": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of dedicated IPs that can be associated with the offer."
+          }
+        },
+        "included_monthly_emails": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails included in the offer per month."
+          }
+        },
+        "max_webhooks_per_domain": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of webhooks that can be associated with the offer."
+          }
+        },
+        "max_custom_blocklists_per_domain": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of active custom blocklists that can be associated with the offer."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOffersResponseOffersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Offer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of offers matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListOffers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListOffersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListOffersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/offers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List the available offers.\n\nRetrieve the list of the available and free-of-charge offers you can subscribe to."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListPoolsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListPoolsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListPoolsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Requested page size. Value must be between 1 and 1000."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Project. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListPoolsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of pools matching the requested criteria."
+          }
+        },
+        "pools": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListPoolsResponsePoolsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of pools matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#Pool": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#PoolStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the pool."
+          }
+        },
+        "details": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Details of the pool.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the pool.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ips": {
+          "target": "com.scaleway.transactional_email_v1alpha1#PoolIpsList",
+          "traits": {
+            "smithy.api#documentation": "IPs of the pool. (IP address)"
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse hostname of all IPs of the pool.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#PoolStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#PoolIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IPs of the pool. (IP address)"
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListPoolsResponsePoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Pool"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of pools matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListPools": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListPoolsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListPoolsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/pools",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get information about a sending pool.\n\nRetrieve information about a sending pool, including its creation status and configuration parameters.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "pools",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetProjectConsumptionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetProjectConsumptionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetProjectConsumptionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the project. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ProjectConsumption": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project."
+          }
+        },
+        "domains_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of domains in the project."
+          }
+        },
+        "dedicated_ips_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of dedicated IP in the project."
+          }
+        },
+        "monthly_emails_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails sent during the current month in the project."
+          }
+        },
+        "webhooks_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of webhooks in the project."
+          }
+        },
+        "custom_blocklists_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of custom blocklists in the project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetProjectConsumption": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#GetProjectConsumptionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ProjectConsumption"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/project-consumption",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get project resource consumption."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetProjectSettingsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetProjectSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetProjectSettingsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the project. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ProjectSettings": {
+      "type": "structure",
+      "members": {
+        "periodic_report": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ProjectSettingsPeriodicReport",
+          "traits": {
+            "smithy.api#documentation": "Information about your periodic report."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ProjectSettingsPeriodicReport": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable or disable periodic report notifications."
+          }
+        },
+        "frequency": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ProjectSettingsPeriodicReportFrequency",
+          "traits": {
+            "smithy.api#documentation": "At which frequency you receive periodic report notifications."
+          }
+        },
+        "sending_hour": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "At which hour you receive periodic report notifications."
+          }
+        },
+        "sending_day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "On which day you receive periodic report notifications (1-7 weekly, 1-28 monthly)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ProjectSettingsPeriodicReportFrequency": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_FREQUENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_frequency"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetProjectSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#GetProjectSettingsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ProjectSettings"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/project/{project_id}/settings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List project settings\n\nRetrieve the project settings including periodic reports."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateProjectSettingsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateProjectSettingsRequestUpdatePeriodicReport": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Enable or disable periodic report notifications.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frequency": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ProjectSettingsPeriodicReportFrequency",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Frequency at which you receive periodic report notifications."
+          }
+        },
+        "sending_hour": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(Optional) Hour at which you receive periodic report notifications.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sending_day": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(Optional) On which day you receive periodic report notifications (1-7 weekly, 1-28 monthly).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateProjectSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateProjectSettingsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the project. (UUID format)"
+          }
+        },
+        "periodic_report": {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateProjectSettingsRequestUpdatePeriodicReport",
+          "traits": {
+            "smithy.api#documentation": "Periodic report update details - all fields are optional."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateProjectSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#UpdateProjectSettingsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ProjectSettings"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/project/{project_id}/settings",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update project settings\n\nUpdate the project settings including periodic reports."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetStatisticsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetStatisticsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetStatisticsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "(Optional) Number of emails for this Project. (UUID format)"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain_id",
+            "smithy.api#documentation": "(Optional) Number of emails sent from this domain (must be coherent with the `project_id` and the `organization_id`). (UUID format)"
+          }
+        },
+        "since": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "since",
+            "smithy.api#documentation": "(Optional) Number of emails created after this date. (RFC 3339 format)"
+          }
+        },
+        "until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "until",
+            "smithy.api#documentation": "(Optional) Number of emails created before this date. (RFC 3339 format)"
+          }
+        },
+        "mail_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mail_from",
+            "smithy.api#documentation": "(Optional) Number of emails sent with this sender's email address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#Statistics": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of emails matching the requested criteria."
+          }
+        },
+        "new_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails still in the `new` transient state. This means emails received from the API but not yet processed."
+          }
+        },
+        "sending_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails still in the `sending` transient state. This means emails received from the API but not yet in their final status."
+          }
+        },
+        "sent_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails in the final `sent` state. This means emails that have been delivered to the target mail system."
+          }
+        },
+        "failed_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails in the final `failed` state. This means emails that have been refused by the target mail system with a final error status."
+          }
+        },
+        "canceled_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of emails in the final `canceled` state. This means emails that have been canceled upon request."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetStatistics": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#GetStatisticsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Statistics"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/statistics",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Email statuses\n\nGet information on your emails' statuses."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhooksRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhooksRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhooksRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhooksRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhooksRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "(Optional) List Webhooks corresponding to specific criteria."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "(Optional) Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "(Optional) Requested page size. Value must be between 1 and 100."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "(Optional) ID of the Project for which to list the Webhooks. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "(Optional) ID of the Organization for which to list the Webhooks. (UUID format)"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain_id",
+            "smithy.api#documentation": "(Optional) ID of the Domain for which to list the Webhooks. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhooksResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of Webhooks matching the requested criteria."
+          }
+        },
+        "webhooks": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhooksResponseWebhooksList",
+          "traits": {
+            "smithy.api#documentation": "Single page of Webhooks matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#Webhook": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Webhook."
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Domain to watch for triggering events."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Webhook Organization."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Webhook Project."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Webhook."
+          }
+        },
+        "event_types": {
+          "target": "com.scaleway.transactional_email_v1alpha1#WebhookEventTypesList",
+          "traits": {
+            "smithy.api#documentation": "List of event types that will trigger a Webhook Event."
+          }
+        },
+        "sns_arn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway SNS ARN topic to push the events to."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the Webhook creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of last Webhook updates. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#WebhookEventType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "EMAIL_QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_queued"
+          }
+        },
+        "EMAIL_DROPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_dropped"
+          }
+        },
+        "EMAIL_DEFERRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_deferred"
+          }
+        },
+        "EMAIL_DELIVERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_delivered"
+          }
+        },
+        "EMAIL_SPAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_spam"
+          }
+        },
+        "EMAIL_MAILBOX_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_mailbox_not_found"
+          }
+        },
+        "EMAIL_BLOCKLISTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_blocklisted"
+          }
+        },
+        "BLOCKLIST_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocklist_created"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#WebhookEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#WebhookEventType"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of event types that will trigger a Webhook Event."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhooksResponseWebhooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Webhook"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of Webhooks matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhooks": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListWebhooksRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListWebhooksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/webhooks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Webhooks\n\nRetrieve Webhooks in a specific Project or in a specific Organization using the `region` parameter.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "webhooks",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateWebhookRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateWebhookRequestEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#WebhookEventType"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of event types that will trigger an event."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateWebhookRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Domain to watch for triggering events. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project to which the Webhook belongs. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Webhook."
+          }
+        },
+        "event_types": {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateWebhookRequestEventTypesList",
+          "traits": {
+            "smithy.api#documentation": "List of event types that will trigger an event."
+          }
+        },
+        "sns_arn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway SNS ARN topic to push the events to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#CreateWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#CreateWebhookRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Webhook"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/webhooks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a Webhook\n\nCreate a new Webhook triggered by a list of event types and pushed to a Scaleway SNS ARN."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetWebhookRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetWebhookRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "webhook_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Webhook to check. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#GetWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#GetWebhookRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Webhook"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/webhooks/{webhook_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get information about a Webhook\n\nRetrieve information about a specific Webhook using the `webhook_id` and `region` parameters."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateWebhookRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateWebhookRequestEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#WebhookEventType"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of event types to update."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateWebhookRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "webhook_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Webhook to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Webhook to update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_types": {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateWebhookRequestEventTypesList",
+          "traits": {
+            "smithy.api#documentation": "List of event types to update."
+          }
+        },
+        "sns_arn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway SNS ARN topic to update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#UpdateWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#UpdateWebhookRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#Webhook"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/webhooks/{webhook_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a Webhook\n\nUpdate a Webhook events type, SNS ARN or name."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#DeleteWebhookRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#DeleteWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#DeleteWebhookRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "webhook_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Webhook to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#DeleteWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#DeleteWebhookRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/webhooks/{webhook_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Webhook\n\nYou must specify the Webhook you want to delete by the `region` and `webhook_id`. Deleting a Webhook is permanent and cannot be undone."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequestEventTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#WebhookEventType"
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#WebhookEventStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending"
+          }
+        },
+        "SENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sent"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#WebhookEventStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "webhook_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Webhook linked to the events. (UUID format)"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "(Optional) List Webhook events corresponding to specific criteria."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Requested page number. Value must be greater or equal to 1."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Requested page size. Value must be between 1 and 100."
+          }
+        },
+        "email_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "email_id",
+            "smithy.api#documentation": "ID of the email linked to the events. (UUID format)"
+          }
+        },
+        "event_types": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequestEventTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "event_types",
+            "smithy.api#documentation": "List of event types linked to the events."
+          }
+        },
+        "statuses": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses",
+            "smithy.api#documentation": "List of event statuses."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "ID of the webhook Project. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "ID of the webhook Organization. (UUID format)"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain_id",
+            "smithy.api#documentation": "ID of the domain to watch for triggering events. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of Webhook events matching the requested criteria."
+          }
+        },
+        "webhook_events": {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsResponseWebhookEventsList",
+          "traits": {
+            "smithy.api#documentation": "Single page of Webhook events matching the requested criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#WebhookEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Webhook Event."
+          }
+        },
+        "webhook_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Webhook that triggers the Event."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Webhook Event Organization."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Webhook Event Project."
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the webhook event domain."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.transactional_email_v1alpha1#WebhookEventType",
+          "traits": {
+            "smithy.api#documentation": "Type of the Webhook Event."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.transactional_email_v1alpha1#WebhookEventStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the Webhook Event."
+          }
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Data sent to the Webhook destination."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of the Webhook Event creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of last Webhook Event updates. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Email ID if the event is triggered by an Email resource.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsResponseWebhookEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.transactional_email_v1alpha1#WebhookEvent"
+      },
+      "traits": {
+        "smithy.api#documentation": "Single page of Webhook events matching the requested criteria."
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#ListWebhookEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.transactional_email_v1alpha1#ListWebhookEventsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/transactional-email/v1alpha1/regions/{region}/webhooks/{webhook_id}/events",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Webhook triggered events\n\nRetrieve the list of Webhook events triggered from a specific Webhook or for a specific Project or Organization. You must specify the `region`.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "webhook_events",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.transactional_email_v1alpha1#TransactionalEmailV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListBlocklists"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#BulkCreateBlocklists"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#DeleteBlocklist"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListDomains"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateDomain"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetDomain"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateDomain"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#CheckDomain"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#RevokeDomain"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetDomainLastStatus"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListEmails"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateEmail"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetEmail"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#CancelEmail"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListOfferSubscriptions"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateOfferSubscription"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListOffers"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListPools"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetProjectConsumption"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetProjectSettings"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateProjectSettings"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetStatistics"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhooks"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#CreateWebhook"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#GetWebhook"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#UpdateWebhook"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#DeleteWebhook"
+        },
+        {
+          "target": "com.scaleway.transactional_email_v1alpha1#ListWebhookEvents"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Transactional Email API",
+        "smithy.api#documentation": "Transactional Email is a platform that allows you to send transactional emails. Unlike marketing emails, (which are mass distributions of the same marketing message to multiple recipients), transactional emails are personalized emails sent to individuals in response to events they have triggered (e.g. password recovery, billing information, delivery updates, etc).\n\nWith Transactional Email, you can:\n\n- register a domain from which to send emails\n- send transactional emails via an SMTP relay\n- send transactional emails via a REST API\n- view your email's delivery status\n- cancel emails that you no longer wish to send\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-services/transactional-email/concepts/) to find definitions of the different terms referring to Transactional Email.\n\n## Quickstart\n\n1. **Configure your environment variables.**\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Register your domain**. Run the following command to register your domain. Make sure you note down the `dkim_config` that displays in the output, as you will need it for the next steps.\n\n    ```bash\n    curl -X POST \"https://api.scaleway.com/transactional-email/v1alpha1/regions/$REGION/domains\" \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -d \"{\\\"domain_name\\\":\\\"my.domain.example.com\\\",\\\"project_id\\\":\\\"$PROJECT_ID\\\"}\"\n    ```\n\n3. **Create an SPF and a DKIM record**.\n\n   Find out [how to create your SPF and DKIM records](https://www.scaleway.com/en/docs/managed-services/transactional-email/how-to/add-spf-dkim-records-to-your-domain/) in our documentation.\n\n   <Message type=\"note\">\n   The DKIM private key is discarded when your domain is revoked. You must update the corresponding DKIM record if you register that domain again.\n   </Message>\n\n4. **Create an MX record**\n\n   <Message type=\"note\">\n   Adding an MX record is not mandatory but we recommend you do it to avoid getting your emails rejected.\n   </Message>\n\n   Find out [how to add an MX record](https://www.scaleway.com/en/docs/managed-services/transactional-email/how-to/add-mx-record-to-your-domain/) in our documentation.\n\n5. **Perform a check of your domain**. Run the following commands to query your domain and then perform a check of your domain.\n\n    ```bash\n    curl -X POST \"https://api.scaleway.com/transactional-email/v1alpha1/regions/$REGION/domains/<domain-id>/check\" \\\n        -H \"X-Auth-Token: $TOKEN\" \\\n        -d \"{}\"\n\n    # Wait a few seconds,then run\n\n    curl -X GET \"https://api.scaleway.com/transactional-email/v1alpha1/regions/$REGION/domains/<domain-id>\" \\\n        -H \"X-Auth-Token: $TOKEN\"\n    ```\n\n   <Message type=\"note\">\n   If the check fails, `last_error` will describe what happened. Perform another check request once you have fixed the problem. To ensure good scoring, your DNS must be correctly set up before sending any emails. The domain check is performed asynchronously.\n   </Message>\n\n6. **Send an email via the REST API**. Run the following command to send an email using the REST API.\n\n   <Message type=\"note\">\n   The attachment content must be base64 encoded and is limited to 2MB. In the following example, both `html` and `attachments` fields are optional.\n   </Message>\n\n    ```bash\n    cat > mail.json <<EOF\n    {\n        \"from\": {\n            \"name\": \"Alice\",\n            \"email\": \"alice@my.domain.example.com\"\n        },\n        \"to\": [\n            {\n                \"name\": \"Bob\",\n                \"email\": \"bob@caramail.fr\"\n            }\n        ],\n        \"subject\": \"Some subject\",\n        \"text\": \"Some text.\",\n        \"html\": \"<p>Some <span style=\\\"font-weight:bold\\\">HTML</span>.</p>\",\n        \"project_id\": \"<project-id>\",\n        \"attachments\": [\n            {\n                \"name\": \"file.html\",\n                \"type\": \"text/html; charset=\\\"utf8\\\"\",\n                \"content\": \"PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KICAgIDxoZWFkPgogICAgICAgIDxtZXRhIGNoYXJzZXQ9InV0Zi04Ij4KICAgICAgICA8dGl0bGU+dGl0bGU8L3RpdGxlPgogICAgPC9oZWFkPgogICAgPGJvZHk+CiAgICAgICAgPHA+SGVsbG8gPHNwYW4gc3R5bGU9ImNvbG9yOmJsdWUiPndvcmxkPC9zcGFuPiE8L3A+CiAgICA8L2JvZHk+CjwvaHRtbD4=\"\n            }\n        ],\n        \"additional_headers\": [\n            {\n                \"key\": \"Reply-To\",\n                \"value\": \"admin@my.domain.example.com\"\n            },\n            {\n                \"key\": \"x-project-tracker\",\n                \"value\": \"1234\"\n            }\n        ]\n    }\n    EOF\n\n    curl -X POST \"https://api.scaleway.com/transactional-email/v1alpha1/regions/$REGION/emails\" \\\n        -H \"X-Auth-Token: $TOKEN\" \\\n        -d @mail.json\n    ```\n\n7. **Send an email via SMTP**.\n\n   An SMTP relay is available at `smtp.tem.scaleway.com` on ports `25`, `587`, `2587`, `465` (TLS) and `2465` (TLS).\n\n   Use your `project_id` to authenticate as username and your token as a password.\n\n<Message type=\"requirement\">\n - You have a [Scaleway account](https://console.scaleway.com/)\n - You are the owner of the domain name you want to use\n - You have your [Organization and your Project ID](https://console.scaleway.com/project/settings)\n - You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page.\n - You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical information\n\n### Regions\n\nScaleway's infrastructure spans different [regions and Availability Zones](https://www.scaleway.com/en/docs/console/account/reference-content/products-availability/).\n\nTransactional Email is available in the Paris region, which is represented by the following path parameter: `fr-par`.\n\n## Technical limitations\n\n- Transactional Email's attachment types are limited to:\n  - `application/acad-template`\n  - `application/acad`\n  - `application/autocad_dwg`\n  - `application/autocad_dxf`\n  - `application/dwf`\n  - `application/dxf`\n  - `application/ics`\n  - `application/msexcel`\n  - `application/msword`\n  - `application/pdf`\n  - `application/pkcs10`\n  - `application/pkcs7-mime`\n  - `application/pkcs7-signature`\n  - `application/vnd.dwt`\n  - `application/vnd.groove-vcard`\n  - `application/vnd.ms-excel`\n  - `application/vnd.ms-powerpoint`\n  - `application/vnd.oasis.opendocument.chart`\n  - `application/vnd.oasis.opendocument.database`\n  - `application/vnd.oasis.opendocument.formula`\n  - `application/vnd.oasis.opendocument.graphics-template`\n  - `application/vnd.oasis.opendocument.graphics`\n  - `application/vnd.oasis.opendocument.image`\n  - `application/vnd.oasis.opendocument.presentation-template`\n  - `application/vnd.oasis.opendocument.presentation`\n  - `application/vnd.oasis.opendocument.spreadsheet-template`\n  - `application/vnd.oasis.opendocument.spreadsheet`\n  - `application/vnd.oasis.opendocument.text-master`\n  - `application/vnd.oasis.opendocument.text-template`\n  - `application/vnd.oasis.opendocument.text-web`\n  - `application/vnd.oasis.opendocument.text`\n  - `application/vnd.openofficeorg.extension`\n  - `application/vnd.openxmlformats-officedocument.presentationml.presentation`\n  - `application/vnd.openxmlformats-officedocument.presentationml.slideshow`\n  - `application/vnd.openxmlformats-officedocument.presentationml.template`\n  - `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`\n  - `application/vnd.openxmlformats-officedocument.spreadsheetml.template`\n  - `application/vnd.openxmlformats-officedocument.wordprocessingml.document`\n  - `application/x-dwf`\n  - `application/x-dwg`\n  - `application/x-dwt`\n  - `application/x-dxf`\n  - `application/x-pdf`\n  - `application/x-pkcs12`\n  - `application/x-pkcs7-certificates`\n  - `application/x-pkcs7-certreqresp`\n  - `application/x-pkcs7-crl`\n  - `application/x-pkcs7-mime`\n  - `application/x-pkcs7-signature`\n  - `application/xml`\n  - `audio/mpeg`\n  - `audio/ogg`\n  - `audio/wav`\n  - `image/gif`\n  - `image/jpeg`\n  - `image/jpg`\n  - `image/png`\n  - `image/svg+xml`\n  - `image/tiff`\n  - `image/vnd.dwg`\n  - `image/vnd.dxf`\n  - `image/webp`\n  - `message/rfc822`\n  - `model/vnd.dwf`\n  - `text/calendar`\n  - `text/csv`\n  - `text/html`\n  - `text/plain`\n  - `text/vcard`\n  - `text/x-vcard`\n  - `text/xml`\n- Attachment size is limited to 2 MB via API and 50 MB via SMTP.\n- The recursive SPF include directive is not supported\n\n## Going further\n\nFor more information about Transactional Email, you can check out the following pages:\n\n- [Transactional Email Documentation](https://www.scaleway.com/en/docs/managed-services/transactional-email/)\n- [Scaleway Slack Community](https://scaleway-community.slack.com/) join the #transactional-email channel\n- [Contact our support team](https://console.scaleway.com/support/tickets)."
+      }
+    }
+  }
+}

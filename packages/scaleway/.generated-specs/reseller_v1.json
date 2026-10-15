@@ -1,0 +1,619 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.reseller_v1#ListConsumptionsRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Only list consumption of this organization."
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "customer_id",
+            "smithy.api#documentation": "Only list consumption of organization attached to this customer_id."
+          }
+        },
+        "month": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "month",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Number corresponding to the month of consumption (between 1 and 12)."
+          }
+        },
+        "year": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "year",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Year of the consumption."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.reseller_v1#ListConsumptionsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of results."
+          }
+        },
+        "consumptions": {
+          "target": "com.scaleway.reseller_v1#ListConsumptionsResponseConsumptionsList",
+          "traits": {
+            "smithy.api#documentation": "List of consumptions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.reseller_v1#Consumption": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique Consumption ID."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.reseller_v1#ConsumptionStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of this consumption."
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date for the consumption (usually the first of the month). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stop_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End date for the consumption (usually the end of the month). (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization ID."
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The customer ID associated to the organization."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update date for this consumption. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_price": {
+          "target": "com.scaleway.reseller_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Total price (Exc Taxes)."
+          }
+        },
+        "lines": {
+          "target": "com.scaleway.reseller_v1#ConsumptionLinesList",
+          "traits": {
+            "smithy.api#documentation": "Detailed lines for this consumption."
+          }
+        },
+        "discount_rate": {
+          "target": "com.scaleway.reseller_v1#GoogleTypeDecimal",
+          "traits": {
+            "smithy.api#documentation": "Discount rate decimal value (e.g., returns '20' for a 20% discount rate)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.reseller_v1#ConsumptionStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.reseller_v1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.reseller_v1#ConsumptionLine": {
+      "type": "structure",
+      "members": {
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique product identifier."
+          }
+        },
+        "product_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product code."
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Quantity."
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date of the consumption for the given SKU. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End date of the consumption for the given SKU. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unit_price": {
+          "target": "com.scaleway.reseller_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Unit price (excl. taxes)."
+          }
+        },
+        "total_price": {
+          "target": "com.scaleway.reseller_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Total price (excl. taxes)."
+          }
+        },
+        "unit": {
+          "target": "com.scaleway.reseller_v1#ConsumptionUnit",
+          "traits": {
+            "smithy.api#documentation": "The unit used for the given SKU."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.reseller_v1#ConsumptionUnit": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_UNIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_unit"
+          }
+        },
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        },
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "MESSAGES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "messages"
+          }
+        },
+        "MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minute"
+          }
+        },
+        "EUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eur"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "QUERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "query"
+          }
+        },
+        "REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "request"
+          }
+        },
+        "CURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "currency"
+          }
+        },
+        "DEVICE_HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device_hour"
+          }
+        },
+        "GIGABYTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gigabyte"
+          }
+        },
+        "GIGABYTE_HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gigabyte_hour"
+          }
+        },
+        "GIGABYTE_MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gigabyte_month"
+          }
+        },
+        "GIGABYTE_MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gigabyte_minute"
+          }
+        },
+        "IOPS_GIGABYTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "iops_gigabyte"
+          }
+        },
+        "IOPS_GIGABYTE_HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "iops_gigabyte_hour"
+          }
+        },
+        "OBJECT_HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object_hour"
+          }
+        },
+        "IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip"
+          }
+        },
+        "IP_MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_minute"
+          }
+        },
+        "IP_HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_hour"
+          }
+        },
+        "IP_DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_day"
+          }
+        },
+        "IP_MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip_month"
+          }
+        },
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        },
+        "NODE_HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node_hour"
+          }
+        },
+        "NODE_MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node_month"
+          }
+        },
+        "NODE_MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node_minute"
+          }
+        },
+        "PLAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan"
+          }
+        },
+        "SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "session"
+          }
+        },
+        "DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain"
+          }
+        },
+        "ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zone"
+          }
+        },
+        "MB_S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mb_s"
+          }
+        },
+        "GB_S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gb_s"
+          }
+        },
+        "VCPU_S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vcpu_s"
+          }
+        },
+        "MVCPU_S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mvcpu_s"
+          }
+        },
+        "CORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "core"
+          }
+        },
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "EMAIL_MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_month"
+          }
+        },
+        "VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "version"
+          }
+        },
+        "VERSION_HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "version_hour"
+          }
+        },
+        "VERSION_MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "version_minute"
+          }
+        },
+        "SAMPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sample"
+          }
+        },
+        "SAMPLE_DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sample_day"
+          }
+        },
+        "GIGABYTE_DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gigabyte_day"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "token"
+          }
+        },
+        "SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second"
+          }
+        },
+        "MVCPU_MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mvcpu_minute"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.reseller_v1#ConsumptionLinesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.reseller_v1#ConsumptionLine"
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed lines for this consumption."
+      }
+    },
+    "com.scaleway.reseller_v1#GoogleTypeDecimal": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.reseller_v1#ListConsumptionsResponseConsumptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.reseller_v1#Consumption"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of consumptions."
+      }
+    },
+    "com.scaleway.reseller_v1#ListConsumptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.reseller_v1#ListConsumptionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.reseller_v1#ListConsumptionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/reseller/v1/consumptions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List the consumptions\n\nList the consumption of organizations attached to your reseller account.\nYou can get the consumption for a specific month.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "consumptions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.reseller_v1#ResellerV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.reseller_v1#ListConsumptions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Reseller API",
+        "smithy.api#documentation": "As a reseller, this API allows you to create and manage Scaleway organizations (accounts) for your customers.\nAccess to this API is reserved for official Scaleway Resellers.\nAs a Scaleway Reseller, you will receive a unique `reseller_id` that allows you to create organizations.\n\n<Message type=\"important\">\n This API has been deprecated and is replaced by the [Partner API](https://www.scaleway.com/en/developers/api/partner-api).\n</Message>\n\n## Endpoint\n\nScaleway reseller API is available at `https://api.scaleway.com`\n\n## Authentication\n\nTo access this API, you need to create a unique [API secret key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/). Ensure that you have the correct permission set: `ResellerFullAccess`. If you are the owner of the Organization and thus the creator of the API key, this permission is enabled by default.\nBe very careful as this secret key allows management access to all Scaleway organizations attached to your account.\nYou MUST pass the secret key in an `X-Auth-Token` HTTP header along with all your requests."
+      }
+    }
+  }
+}

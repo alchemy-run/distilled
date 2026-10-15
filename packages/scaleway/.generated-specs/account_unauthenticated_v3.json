@@ -1,0 +1,133 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.account_unauthenticated_v3#ComputePasswordStrengthRequestUserInputsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_v3#ComputePasswordStrengthRequest": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "user_inputs": {
+          "target": "com.scaleway.account_unauthenticated_v3#ComputePasswordStrengthRequestUserInputsList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_unauthenticated_v3#PasswordStrength": {
+      "type": "structure",
+      "members": {
+        "score": {
+          "target": "com.scaleway.account_unauthenticated_v3#PasswordStrengthScore"
+        },
+        "time_to_crack": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_v3#PasswordStrengthScore": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_score"
+          }
+        },
+        "VERY_WEAK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "very_weak"
+          }
+        },
+        "WEAK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weak"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "STRONG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strong"
+          }
+        },
+        "VERY_STRONG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "very_strong"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_unauthenticated_v3#ComputePasswordStrength": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_unauthenticated_v3#ComputePasswordStrengthRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_unauthenticated_v3#PasswordStrength"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/compute-password-strength",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.account_unauthenticated_v3#AccountUnauthenticatedV3": {
+      "type": "service",
+      "version": "v3",
+      "operations": [
+        {
+          "target": "com.scaleway.account_unauthenticated_v3#ComputePasswordStrength"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Unauthenticated API"
+      }
+    }
+  }
+}

@@ -1,0 +1,4332 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "LIMITED_CONNECTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited_connectivity"
+          }
+        },
+        "DOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "down"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestRoutingPolicyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestVpnGatewayIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestCustomerGatewayIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of connections to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Connection name to filter for."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        },
+        "statuses": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses",
+            "smithy.api#documentation": "Connection statuses to filter for."
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "is_ipv6",
+            "smithy.api#documentation": "Filter connections with IP version of IPSec tunnel."
+          }
+        },
+        "routing_policy_ids": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestRoutingPolicyIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "routing_policy_ids",
+            "smithy.api#documentation": "Filter for connections using these routing policies."
+          }
+        },
+        "route_propagation_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "route_propagation_enabled",
+            "smithy.api#documentation": "Filter for connections with route propagation enabled."
+          }
+        },
+        "vpn_gateway_ids": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestVpnGatewayIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "vpn_gateway_ids",
+            "smithy.api#documentation": "Filter for connections attached to these VPN gateways."
+          }
+        },
+        "customer_gateway_ids": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequestCustomerGatewayIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "customer_gateway_ids",
+            "smithy.api#documentation": "Filter for connections attached to these customer gateways."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsResponse": {
+      "type": "structure",
+      "members": {
+        "connections": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsResponseConnectionsList",
+          "traits": {
+            "smithy.api#documentation": "List of connections on the current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of connections."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#Connection": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the connection. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the connection."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the connection."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the connection."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the connection. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the connection. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the connection."
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "IP version of the IPSec Tunnel."
+          }
+        },
+        "initiation_policy": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionInitiationPolicy",
+          "traits": {
+            "smithy.api#documentation": "Who initiates the IPsec tunnel."
+          }
+        },
+        "secret_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the secret in Secret Manager which contains the PSK. (UUID format)"
+          }
+        },
+        "secret_revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version number of the secret in Secret Manager which contains the PSK."
+          }
+        },
+        "ikev2_ciphers": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionIkev2CiphersList",
+          "traits": {
+            "smithy.api#documentation": "List of IKE v2 ciphers proposed for the IPsec tunnel."
+          }
+        },
+        "esp_ciphers": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionEspCiphersList",
+          "traits": {
+            "smithy.api#documentation": "List of ESP ciphers proposed for the IPsec tunnel."
+          }
+        },
+        "route_propagation_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether route propagation is enabled or not."
+          }
+        },
+        "vpn_gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the VPN gateway attached to the connection. (UUID format)"
+          }
+        },
+        "customer_gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the customer gateway attached to the connection. (UUID format)"
+          }
+        },
+        "tunnel_status": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#TunnelStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the IPsec tunnel."
+          }
+        },
+        "tunnel_status_ipv4": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#TunnelStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the IPv4 IPsec tunnel."
+          }
+        },
+        "tunnel_status_ipv6": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#TunnelStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the IPv6 IPsec tunnel."
+          }
+        },
+        "bgp_status_ipv4": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#BgpSessionStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the BGP IPv4 session."
+          }
+        },
+        "bgp_status_ipv6": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#BgpSessionStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the BGP IPv6 session."
+          }
+        },
+        "bgp_session_ipv4": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#BgpSession",
+          "traits": {
+            "smithy.api#documentation": "BGP IPv4 session, including status, interco private IPv4 subnet and attached routing policy."
+          }
+        },
+        "bgp_session_ipv6": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#BgpSession",
+          "traits": {
+            "smithy.api#documentation": "BGP IPv6 session, including status, interco private IPv6 subnet and attached routing policy."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the connection."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the connection."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionInitiationPolicy": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_INITIATION_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_initiation_policy"
+          }
+        },
+        "VPN_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpn_gateway"
+          }
+        },
+        "CUSTOMER_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_gateway"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionCipher": {
+      "type": "structure",
+      "members": {
+        "encryption": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionEncryption"
+        },
+        "integrity": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionIntegrity"
+        },
+        "dh_group": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionDhGroup"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionEncryption": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ENCRYPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_encryption"
+          }
+        },
+        "AES128": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes128"
+          }
+        },
+        "AES192": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes192"
+          }
+        },
+        "AES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256"
+          }
+        },
+        "AES128GCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes128gcm"
+          }
+        },
+        "AES192GCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes192gcm"
+          }
+        },
+        "AES256GCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256gcm"
+          }
+        },
+        "AES128CCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes128ccm"
+          }
+        },
+        "AES256CCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256ccm"
+          }
+        },
+        "CHACHA20POLY1305": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chacha20poly1305"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionIntegrity": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_INTEGRITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_integrity"
+          }
+        },
+        "SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha256"
+          }
+        },
+        "SHA384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha384"
+          }
+        },
+        "SHA512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionDhGroup": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_DHGROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_dhgroup"
+          }
+        },
+        "MODP2048": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048"
+          }
+        },
+        "MODP3072": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp3072"
+          }
+        },
+        "MODP4096": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp4096"
+          }
+        },
+        "ECP256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp256"
+          }
+        },
+        "ECP384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp384"
+          }
+        },
+        "ECP521": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp521"
+          }
+        },
+        "CURVE25519": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "curve25519"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionIkev2CiphersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionCipher"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IKE v2 ciphers proposed for the IPsec tunnel."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ConnectionEspCiphersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionCipher"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of ESP ciphers proposed for the IPsec tunnel."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#TunnelStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TUNNEL_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_tunnel_status"
+          }
+        },
+        "UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "up"
+          }
+        },
+        "DOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "down"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#BgpSessionStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "up"
+          }
+        },
+        "DOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "down"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#BgpSession": {
+      "type": "structure",
+      "members": {
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "private_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(IP network)"
+          }
+        },
+        "peer_private_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(IP network)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsResponseConnectionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#Connection"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of connections on the current page."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListConnections": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnectionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List connections\n\nList all your connections. A number of filters are available, including Project ID, name, tags and status.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "connections",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the connection."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestInitiationPolicy": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_INITIATION_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_initiation_policy"
+          }
+        },
+        "VPN_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpn_gateway"
+          }
+        },
+        "CUSTOMER_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_gateway"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestIkev2CiphersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionCipher"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IKE v2 ciphers proposed for the IPsec tunnel."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestEspCiphersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionCipher"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of ESP ciphers proposed for the IPsec tunnel."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestSecret": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestBgpConfig": {
+      "type": "structure",
+      "members": {
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "private_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(IP network)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "peer_private_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(IP network)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to create the connection in. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the connection.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the connection."
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines IP version of the IPSec Tunnel."
+          }
+        },
+        "initiation_policy": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestInitiationPolicy",
+          "traits": {
+            "smithy.api#documentation": "Who initiates the IPsec tunnel.",
+            "smithy.api#required": {}
+          }
+        },
+        "ikev2_ciphers": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestIkev2CiphersList",
+          "traits": {
+            "smithy.api#documentation": "List of IKE v2 ciphers proposed for the IPsec tunnel.",
+            "smithy.api#required": {}
+          }
+        },
+        "esp_ciphers": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestEspCiphersList",
+          "traits": {
+            "smithy.api#documentation": "List of ESP ciphers proposed for the IPsec tunnel.",
+            "smithy.api#required": {}
+          }
+        },
+        "enable_route_propagation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether route propagation is enabled or not."
+          }
+        },
+        "secret": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestSecret",
+          "traits": {
+            "smithy.api#documentation": "Previously created secret in Secret Manager containing the PSK to be used for the IPsec tunnel.\nIf no secret is given, S2S VPN will create one automatically in Secret Manager, reference its secret_id and version in the connection and use the generated PSK.\nSecret version is also optional and maybe used to refer to a previous version. If no version is given, \"latest\" is used."
+          }
+        },
+        "vpn_gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the VPN gateway to attach to the connection. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the customer gateway to attach to the connection. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "bgp_config_ipv4": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestBgpConfig",
+          "traits": {
+            "smithy.api#documentation": "BGP config of IPv4 session, including interco private IPv4 subnet (first IP assigned to the VPN Gateway, second IP to the Customer Gateway) and attached routing policy."
+          }
+        },
+        "bgp_config_ipv6": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestBgpConfig",
+          "traits": {
+            "smithy.api#documentation": "BGP config of IPv6 session, including interco private IPv6 subnet (first IP assigned to the VPN Gateway, second IP to the Customer Gateway) and attached routing policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "connection": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#Connection",
+          "traits": {
+            "smithy.api#documentation": "This connection."
+          }
+        },
+        "pre_shared_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New PSK generated for this connection.\nDeprecated, use secret_id & secret_revision fields."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a connection"
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GetConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the requested connection. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#GetConnectionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#Connection"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a connection\n\nGet a connection for the given connection ID. The response object includes information about the connection's various configuration details."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the connection."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequestIkev2CiphersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionCipher"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IKE v2 ciphers proposed for the IPsec tunnel."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequestEspCiphersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ConnectionCipher"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of ESP ciphers proposed for the IPsec tunnel."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the connection to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the connection.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the connection.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "initiation_policy": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnectionRequestInitiationPolicy",
+          "traits": {
+            "smithy.api#documentation": "Who initiates the IPsec tunnel."
+          }
+        },
+        "ikev2_ciphers": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequestIkev2CiphersList",
+          "traits": {
+            "smithy.api#documentation": "List of IKE v2 ciphers proposed for the IPsec tunnel."
+          }
+        },
+        "esp_ciphers": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequestEspCiphersList",
+          "traits": {
+            "smithy.api#documentation": "List of ESP ciphers proposed for the IPsec tunnel."
+          }
+        },
+        "secret_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret ID in the client's project containing the PSK. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secret_revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Secret version in the client's project containing the PSK.\nIf not given it will not change. If secret_id is updated, secret_revision should be set accordingly.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateConnectionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#Connection"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a connection\n\nUpdate an existing connection, specified by its connection ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the connection to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteConnectionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a connection\n\nDelete an existing connection, specified by its connection ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPskRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPskRequestSecret": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "revision": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPskRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPskRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the connection to renew the PSK. (UUID format)"
+          }
+        },
+        "secret": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPskRequestSecret",
+          "traits": {
+            "smithy.api#documentation": "New PSK Secret of the connection.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPskResponse": {
+      "type": "structure",
+      "members": {
+        "connection": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#Connection",
+          "traits": {
+            "smithy.api#documentation": "This connection."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPsk": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPskRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPskResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}/change-psk",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Change pre-shared key\n\nChange pre-shared key for a given connection."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DetachRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DetachRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DetachRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the connection from which routing policy is being detached. (UUID format)"
+          }
+        },
+        "routing_policy_v4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy to detach from the BGP IPv4 session. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "routing_policy_v6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy to detach from the BGP IPv6 session. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DetachRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#DetachRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#Connection"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}/detach-routing-policy",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Detach a routing policy\n\nDetach an existing routing policy from a connection, specified by its connection ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DisableRoutePropagationRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DisableRoutePropagationRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DisableRoutePropagationRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the connection on which to disable route propagation. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DisableRoutePropagation": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#DisableRoutePropagationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#Connection"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}/disable-route-propagation",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable route propagation\n\nPrevent any prefixes from being announced in the BGP session. Traffic will not be able to flow over the VPN Gateway until route propagation is re-enabled."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#EnableRoutePropagationRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#EnableRoutePropagationRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#EnableRoutePropagationRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the connection on which to enable route propagation. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#EnableRoutePropagation": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#EnableRoutePropagationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#Connection"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}/enable-route-propagation",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Enable route propagation\n\nEnable all allowed prefixes (defined in a routing policy) to be announced in the BGP session. This allows traffic to flow between the attached VPC and the on-premises infrastructure along the announced routes. Note that by default, even when route propagation is enabled, all routes are blocked. It is essential to attach a routing policy to define the ranges of routes to announce."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#RenewConnectionPskRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#RenewConnectionPskRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#RenewConnectionPskRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the connection to renew the PSK. (UUID format)"
+          }
+        },
+        "generate_revision": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Generate a new version or update to the latest existing one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#RenewConnectionPskResponse": {
+      "type": "structure",
+      "members": {
+        "connection": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#Connection",
+          "traits": {
+            "smithy.api#documentation": "This connection."
+          }
+        },
+        "pre_shared_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New PSK generated for this connection.\nDeprecated, use secret_id & secret_revision fields."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#RenewConnectionPsk": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#RenewConnectionPskRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#RenewConnectionPskResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}/renew-psk",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Renew pre-shared key\n\nRenew pre-shared key for a given connection."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#SetRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#SetRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#SetRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the connection whose routing policy is being updated. (UUID format)"
+          }
+        },
+        "routing_policy_v4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy to set for the BGP IPv4 session. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "routing_policy_v6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy to set for the BGP IPv6 session. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#SetRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#SetRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#Connection"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/connections/{connection_id}/set-routing-policy",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set a new routing policy\n\nSet a new routing policy on a connection, overriding the existing one if present, specified by its connection ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of customer gateways to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Customer gateway name to filter for."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysResponse": {
+      "type": "structure",
+      "members": {
+        "gateways": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysResponseGatewaysList",
+          "traits": {
+            "smithy.api#documentation": "List of customer gateways on the current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of customer gateways."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CustomerGateway": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the customer gateway. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the customer gateway."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the customer gateway."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CustomerGatewayTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the customer gateway."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the customer gateway. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the customer gateway. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_ipv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public IPv4 address of the customer gateway. (IPv4 address)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_ipv6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public IPv6 address of the customer gateway. (IPv6 address)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "asn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "AS Number of the customer gateway."
+          }
+        },
+        "connection_ids": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CustomerGatewayConnectionIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of connection ids of the customer gateway."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the customer gateway."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CustomerGatewayTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the customer gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CustomerGatewayConnectionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of connection ids of the customer gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysResponseGatewaysList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CustomerGateway"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of customer gateways on the current page."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGateways": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGatewaysResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/customer-gateways",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List customer gateways\n\nList all your customer gateways. A number of filters are available, including Project ID, name, and tags.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "gateways",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateCustomerGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateCustomerGatewayRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the customer gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateCustomerGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateCustomerGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to create the customer gateway in. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the customer gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateCustomerGatewayRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the customer gateway."
+          }
+        },
+        "ipv4_public": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public IPv4 address of the customer gateway. (IP network)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipv6_public": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public IPv6 address of the customer gateway. (IP network)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "asn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "AS Number of the customer gateway.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateCustomerGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CreateCustomerGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CustomerGateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/customer-gateways",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a customer gateway"
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetCustomerGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetCustomerGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GetCustomerGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the requested customer gateway. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetCustomerGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#GetCustomerGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CustomerGateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/customer-gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a customer gateway\n\nGet a customer gateway for the given customer gateway ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateCustomerGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateCustomerGatewayRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the customer gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateCustomerGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateCustomerGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the customer gateway to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the customer gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateCustomerGatewayRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the customer gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipv4_public": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public IPv4 address of the customer gateway. (IP network)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipv6_public": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public IPv6 address of the customer gateway. (IP network)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "asn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "AS Number of the customer gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateCustomerGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateCustomerGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CustomerGateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/customer-gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a customer gateway\n\nUpdate an existing customer gateway, specified by its customer gateway ID. You can update its name, tags, public IPv4 & IPv6 address and AS Number."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteCustomerGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteCustomerGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteCustomerGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the customer gateway to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteCustomerGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteCustomerGatewayRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/customer-gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a customer gateway\n\nDelete an existing customer gateway, specified by its customer gateway ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of routing policies to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Routing policy name to filter for."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        },
+        "ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "ipv6",
+            "smithy.api#documentation": "Filter for the routing policies based on IP prefixes version."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "routing_policies": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesResponseRoutingPoliciesList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicy": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the routing policy. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the routing policy."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the routing policy."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicyTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags associated with the routing policy."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the routing policy. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the routing policy. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes version of the routing policy."
+          }
+        },
+        "prefix_filter_in": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicyPrefixFilterInList",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept). (IP network)"
+          }
+        },
+        "prefix_filter_out": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicyPrefixFilterOutList",
+          "traits": {
+            "smithy.api#documentation": "IP prefix filters to advertise to the peer (ranges of routes to advertise). (IP network)"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the routing policy."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicyTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags associated with the routing policy."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicyPrefixFilterInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept). (IP network)"
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicyPrefixFilterOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefix filters to advertise to the peer (ranges of routes to advertise). (IP network)"
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesResponseRoutingPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicy"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPoliciesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/routing-policies",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List routing policies\n\nList all routing policies in a given region. A routing policy can be attached to one or multiple connections (S2S VPN connections).",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "routing_policies",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the routing policy."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequestPrefixFilterInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept). (IP network)"
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequestPrefixFilterOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefix filters to advertise to the peer (ranges of routes to advertise). (IP network)"
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to create the routing policy in. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the routing policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the routing policy."
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes version of the routing policy."
+          }
+        },
+        "prefix_filter_in": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequestPrefixFilterInList",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept). (IP network)"
+          }
+        },
+        "prefix_filter_out": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequestPrefixFilterOutList",
+          "traits": {
+            "smithy.api#documentation": "IP prefix filters to advertise to the peer (ranges of routes to advertise). (IP network)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicy"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/routing-policies",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a routing policy\n\nCreate a routing policy. Routing policies allow you to set IP prefix filters to define the incoming route announcements to accept from the customer gateway, and the outgoing routes to announce to the customer gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GetRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the routing policy to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#GetRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicy"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/routing-policies/{routing_policy_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get routing policy\n\nGet a routing policy for the given routing policy ID. The response object gives information including the policy's name, tags and prefix filters."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the routing policy."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequestPrefixFilterInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept)."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequestPrefixFilterOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefix filters for routes to advertise to the peer (ranges of routes to advertise)."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the routing policy to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the routing policy.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the routing policy.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prefix_filter_in": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequestPrefixFilterInList",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prefix_filter_out": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequestPrefixFilterOutList",
+          "traits": {
+            "smithy.api#documentation": "IP prefix filters for routes to advertise to the peer (ranges of routes to advertise).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#RoutingPolicy"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/routing-policies/{routing_policy_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a routing policy\n\nUpdate an existing routing policy, specified by its routing policy ID. Its name, tags and incoming/outgoing prefix filters can be updated."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the routing policy to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/routing-policies/{routing_policy_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a routing policy\n\nDelete an existing routing policy, specified by its routing policy ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of VPN gateway types to return per page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypesResponse": {
+      "type": "structure",
+      "members": {
+        "gateway_types": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypesResponseGatewayTypesList",
+          "traits": {
+            "smithy.api#documentation": "List of VPN gateway types on the current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of gateway types."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GatewayType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "bandwidth": {
+          "target": "smithy.api#Integer"
+        },
+        "allowed_connections": {
+          "target": "smithy.api#Integer"
+        },
+        "zones": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GatewayTypeZonesList"
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region you want to target"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GatewayTypeZonesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypesResponseGatewayTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#GatewayType"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of VPN gateway types on the current page."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/vpn-gateway-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List VPN gateway types\n\nList the different VPN gateway commercial offer types available at Scaleway. The response is an array of objects describing the name and technical details of each available VPN gateway type.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "gateway_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DEPROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deprovisioning"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestGatewayTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestPrivateNetworkIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of VPN gateways to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "VPN gateway name to filter for."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        },
+        "statuses": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses",
+            "smithy.api#documentation": "VPN gateway statuses to filter for."
+          }
+        },
+        "gateway_types": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestGatewayTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "gateway_types",
+            "smithy.api#documentation": "Filter for VPN gateways of these types."
+          }
+        },
+        "private_network_ids": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequestPrivateNetworkIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "private_network_ids",
+            "smithy.api#documentation": "Filter for VPN gateways attached to these private networks."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysResponse": {
+      "type": "structure",
+      "members": {
+        "gateways": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysResponseGatewaysList",
+          "traits": {
+            "smithy.api#documentation": "List of VPN gateways on the current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of VPN gateways."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#VpnGateway": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the VPN gateway. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the VPN gateway."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the VPN gateway."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the VPN gateway."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the VPN gateway. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the VPN gateway. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the VPN gateway."
+          }
+        },
+        "gateway_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway type of the VPN gateway."
+          }
+        },
+        "public_config": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayPublicConfig",
+          "traits": {
+            "smithy.api#documentation": "Public endpoint configuration of the VPN gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_config": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Private Network attached to the VPN gateway. (UUID format)"
+          }
+        },
+        "ipam_private_ipv4_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the IPAM private IPv4 address attached to the VPN gateway. (UUID format)"
+          }
+        },
+        "ipam_private_ipv6_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the IPAM private IPv6 address attached to the VPN gateway. (UUID format)"
+          }
+        },
+        "asn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Autonomous System Number (ASN) of the VPN gateway, used by Border Gateway Protocol (BGP) to exchange routing information with the customer gateway."
+          }
+        },
+        "connection_ids": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayConnectionIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of connection ids of the VPN gateway."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone where the VPN gateway resource is currently provisioned."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the VPN gateway."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the VPN gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayPublicConfig": {
+      "type": "structure",
+      "members": {
+        "ipam_ipv4_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipam_ipv6_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#VpnGatewayConnectionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of connection ids of the VPN gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysResponseGatewaysList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGateway"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of VPN gateways on the current page."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#ListVpnGateways": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewaysResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/vpn-gateways",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List VPN gateways\n\nList all your VPN gateways. A number of filters are available, including Project ID, name, tags and status.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "gateways",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the VPN gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestPublicConfig": {
+      "type": "structure",
+      "members": {
+        "ipam_ipv4_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipam_ipv6_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestPublicTunnelConfig": {
+      "type": "structure",
+      "members": {
+        "single_ipv4_tunnel": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestSingleIpTunnel",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "single_ipv6_tunnel": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestSingleIpTunnel",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dual_ipv4v6_tunnel": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestDualIpTunnel",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestSingleIpTunnel": {
+      "type": "structure",
+      "members": {
+        "ipam_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestDualIpTunnel": {
+      "type": "structure",
+      "members": {
+        "ipam_ipv4_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipam_ipv6_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to create the VPN gateway in. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the VPN gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the VPN gateway."
+          }
+        },
+        "gateway_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VPN gateway type (commercial offer type).",
+            "smithy.api#required": {}
+          }
+        },
+        "public_config": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestPublicConfig",
+          "traits": {
+            "smithy.api#documentation": "Public endpoint configuration of the VPN gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Private Network to attach to the VPN gateway. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "public_tunnel_config": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequestPublicTunnelConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipam_private_ipv4_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the IPAM private IPv4 address to attach to the VPN gateway. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipam_private_ipv6_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the IPAM private IPv6 address to attach to the VPN gateway. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Availability Zone where the VPN gateway should be provisioned. If no zone is specified, the VPN gateway will be automatically placed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/vpn-gateways",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create VPN gateway"
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetVpnGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetVpnGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GetVpnGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the requested VPN gateway. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#GetVpnGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#GetVpnGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/vpn-gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a VPN gateway\n\nGet a VPN gateway for the given VPN gateway ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateVpnGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateVpnGatewayRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the VPN Gateway."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateVpnGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateVpnGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the VPN gateway to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the VPN gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateVpnGatewayRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the VPN Gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#UpdateVpnGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateVpnGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/vpn-gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a VPN gateway\n\nUpdate an existing VPN gateway, specified by its VPN gateway ID. Only its name and tags can be updated."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteVpnGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteVpnGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteVpnGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the VPN gateway to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#DeleteVpnGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteVpnGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.s2s_vpn_v1alpha1#VpnGateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/s2s-vpn/v1alpha1/regions/{region}/vpn-gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a VPN gateway\n\nDelete an existing VPN gateway, specified by its VPN gateway ID."
+      }
+    },
+    "com.scaleway.s2s_vpn_v1alpha1#S2sVpnV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListConnections"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateConnection"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GetConnection"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateConnection"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteConnection"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ChangeConnectionPsk"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DetachRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DisableRoutePropagation"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#EnableRoutePropagation"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#RenewConnectionPsk"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#SetRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListCustomerGateways"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateCustomerGateway"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GetCustomerGateway"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateCustomerGateway"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteCustomerGateway"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListRoutingPolicies"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GetRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGatewayTypes"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#ListVpnGateways"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#CreateVpnGateway"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#GetVpnGateway"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#UpdateVpnGateway"
+        },
+        {
+          "target": "com.scaleway.s2s_vpn_v1alpha1#DeleteVpnGateway"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Site-to-Site VPN",
+        "smithy.api#documentation": "Scaleway Site-to-Site VPN connects your infrastructure (on-premise, in a private cloud, or in another public cloud) to your Scaleway VPC with IPsec.\n\nSite-to-Site VPN establishes a private & encrypted tunnel over the public internet using IPsec. It allows your remote infrastructure to securely reach resources hosted in your Scaleway Private Networks without requiring dedicated physical links. This managed solution ensures confidentiality and integrity of through traffic, with a deployment that is simple and cost-effective, even across geographically distributed infrastructure.\n\nYou can establish one or multiple VPN tunnels depending on your needs, and take advantage of dynamic routing with BGP to ensure high availability and flexibility across your infrastructure.\n\nOnce connection is established with your VPC, Site-to-Site VPN allows you to control BGP route propagation: you can fine-tune which IPv4 or IPv6 prefixes are allowed to flow.\n\n<Message type=\"note\">\nThis product is currently in [Public Beta](https://www.scaleway.com/en/betas/).\n</Message>\n\n## Concepts\n\n### VPN Gateway\n\nA VPN gateway is a managed resource that serves IPsec tunnels between your external infrastructure and your Scaleway VPC. Each connection within the gateway represents an IPsec tunnel established over the public internet. A single VPN gateway can host multiple connections.\n\n### Customer Gateway\n\nA customer gateway is a logical resource that represents your on-premises network device. It acts as the endpoint of the IPsec tunnel established with the Scaleway VPN gateway. Each customer gateway can be configured with one public IPv4 address, one public IPv6 address, and the ASN of the BGP router used to establish the BGP session over the IPsec tunnel.\n\nThis resource is required to define the remote side of the VPN tunnel. Its information will be used during the setup of the connection.\n\n### Connection\n\nA connection represents the bridge between your VPN gateway and your customer gateway. One connection can support up to two IPsec tunnels: one over IPv4 and one over IPv6. This allows for a highly available tunnel configuration, provided that both the VPN gateway and the customer gateway have configured public IP addresses through Scaleway resources, using the correct IP version on both ends.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Site-to-Site VPN API.\n   </Message>\n\n   ```bash\n   export SCW_SECRET_KEY=\"<API secret key>\"\n   export SCW_DEFAULT_REGION=\"<Scaleway default region>\"\n   export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n   ```\n\n2. **Choose a VPN gateway type**: VPN gateways come in different shapes, sizes, and pricing. When you create your VPN gateway, you need to specify the required gateway type in the request. Use the following call to get a list of available VPN gateway offer types and their details:\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/s2s-vpn/v1alpha1/regions/$SCW_DEFAULT_REGION/vpn-gateway-types\"\n    ```\n\n3. **Create a VPN gateway**: run the following command to create a VPN Gateway. You can customize the details in the payload to your needs, using the table below to help.\n\n   ```bash\n   curl -X POST \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/s2s-vpn/v1alpha1/regions/$SCW_DEFAULT_REGION/vpn-gateways\" \\\n     -d '{\n       \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n       \"name\": \"My New Gateway\",\n       \"tags\": [\"test\", \"another tag\"],\n       \"gateway_type\": \"VGW-S\",\n       \"private_network_id\": \"00cfd222-2402-4598-9438-b12b995e9e80\"\n     }'\n   ```\n\n\n4. **Get a list of your VPN gateways**: run the following command to get a list of all the VPN gateways in your account, with their details:\n\n   ```bash\n   curl -X GET \\\n     -H \"Content-Type: application/json\" \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     \"https://api.scaleway.com/s2s-vpn/v1alpha1/regions/$SCW_DEFAULT_REGION/vpn-gateways\"\n   ```\n\n5. **Create a customer gateway**: run the following command to create a customer gateway. You can customize the details in the payload to your needs, using the table below to help.\n\n   ```bash\n   curl -X POST \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/s2s-vpn/v1alpha1/regions/$SCW_DEFAULT_REGION/customer-gateways\" \\\n     -d '{\n       \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n       \"name\": \"My Device\",\n       \"tags\": [\"test\", \"another tag\"],\n       \"ipv4_public\": \"51.158.0.1\",\n       \"asn\": \"11111\"\n     }'\n   ```\n\n\n6. **Create a routing policy**: A routing policy is required for each traffic type (IPv4 and/or IPv6) to be supported over the connection.\n\n   ```bash\n   curl -X POST \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/s2s-vpn/v1alpha1/regions/$SCW_DEFAULT_REGION/routing-policies\" \\\n     -d '{\n       \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n       \"name\": \"my-rp-v4\",\n       \"tags\": [\"test\", \"another tag\"],\n       \"is_ipv6\": false,\n       \"prefix_filter_in\": [\n         \"10.0.0.0/8\"\n       ],\n       \"prefix_filter_out\": [\n         \"172.16.12.0/24\"\n       ]\n     }'\n   ```\n\n\n7. **Create a connection between a VPN gateway and a customer gateway**: When your VPN gateway has been provisioned and has **active** status, you must create a connection.\n\n   ```bash\n   curl -X POST \\\n     -H \"Content-Type: application/json\" \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     \"https://api.scaleway.com/s2s-vpn/v1alpha1/regions/$SCW_DEFAULT_REGION/connections\" \\\n     -d '{\n       \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n       \"name\": \"My New Connection\",\n       \"tags\": [\"test\", \"another tag\"],\n       \"vpn_gateway_id\": \"ec5b8281-0c4f-49ea-a8fd-bd37554f5896\",\n       \"customer_gateway_id\": \"beba6285-b502-4579-82d6-2815fb1ef1f1\",\n       \"ikev2_ciphers\": [{\"encryption\": \"aes256\", \"integrity\": \"sha256\", \"dh_group\": \"curve25519\"}],\n       \"esp_ciphers\": [{\"encryption\": \"aes256gcm\", \"dh_group\": \"curve25519\"}],\n       \"bgp_config_ipv4\": {\n         \"routing_policy_id\": \"3fe0612d-6d61-41a8-87f4-243900e07616\"\n       }\n     }'\n   ```\n\n\n   Refer to the [documentation](https://www.scaleway.com/en/docs/site-to-site-vpn/) for help with these steps if necessary.\n\n8. **Configure your customer gateway device**: Configure your real physical or software-based networking device, located on the remote network you want to connect to your Scaleway VPC. It is the physical device represented by your customer gateway. To successfully configure the device, you will need the public IP address(es) of the VPN gateway, the Scaleway ASN (12876) and the pre-shared key of the connection.\n\n9. **Enable route propagation**: Enable route propagation to prompt the two gateways to initiate BGP sessions and share routing information. This is the final step in allowing traffic to flow across the Site-to-Site VPN connection. Ensure that you replace `{connection-id}` in the URL with the ID of the connection on which you want to enable route propagation.\n\n   ```bash\n   curl -X POST \\\n     -H \"Content-Type: application/json\" \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     \"https://api.scaleway.com/s2s-vpn/v1alpha1/regions/$SCW_DEFAULT_REGION/connections/{connection-id}/enable-route-propagation\"\n   ```\n\n10. **Delete your VPN gateway**: run the following command to delete a VPN gateway when you no longer need it. Ensure that you replace `{vpn-gateway-id}` in the URL with the ID of the VPN gateway you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n     -H \"Content-Type: application/json\" \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     \"https://api.scaleway.com/s2s-vpn/v1alpha1/regions/$SCW_DEFAULT_REGION/vpn-gateways/{vpn-gateway-id}\"\n    ```\n\n<Message type=\"requirement\">\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n  </Message>\n\n### Regions\n\nThe Scaleway Site-to-Site VPN is a **regional** API, meaning that each call must specify in its path parameters the Region for the resources concerned by the call.\n\nThe following Regions are available for Site-to-Site VPN:\n\n\n## Going further\n\nFor more help using Scaleway Site-to-Site VPN, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/site-to-site-vpn/)\n- The `#virtual-private-cloud` channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)."
+      }
+    }
+  }
+}

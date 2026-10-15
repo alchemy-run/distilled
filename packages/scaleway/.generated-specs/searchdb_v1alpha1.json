@@ -1,0 +1,1955 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.searchdb_v1alpha1#ListDeploymentsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListDeploymentsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListDeploymentsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListDeploymentsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListDeploymentsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "ID of the Organization containing the deployments."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "ID of the Project containing the deployments."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListDeploymentsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Define the order of the returned deployments."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of deployments to return."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListDeploymentsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter by tag, only deployments with one or more matching tags will be returned."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Deployment name to filter for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListDeploymentsResponse": {
+      "type": "structure",
+      "members": {
+        "deployments": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListDeploymentsResponseDeploymentsList",
+          "traits": {
+            "smithy.api#documentation": "List of deployments available."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of objects."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#Deployment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the Deployment. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Deployment."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization containing the Deployment. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project containing the Deployment. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.searchdb_v1alpha1#DeploymentStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the Deployment."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.searchdb_v1alpha1#DeploymentTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the Deployment."
+          }
+        },
+        "node_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "DEPRECATED: Use node_count instead. Number of nodes allocated per deployment."
+          }
+        },
+        "node_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of nodes allocated per deployment."
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type used in deployment."
+          }
+        },
+        "volume": {
+          "target": "com.scaleway.searchdb_v1alpha1#Volume",
+          "traits": {
+            "smithy.api#documentation": "Volume type and size."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.searchdb_v1alpha1#DeploymentEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Exposed endpoints."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the Deployment. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date when last update was done to the Deployment. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opensearch version of the Deployment."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region the Deployment is located."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DeploymentStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "INITIALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "initializing"
+          }
+        },
+        "UPGRADING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upgrading"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "LOCKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locking"
+          }
+        },
+        "UNLOCKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlocking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DeploymentTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the Deployment."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#Volume": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.searchdb_v1alpha1#VolumeType",
+          "traits": {
+            "smithy.api#documentation": "Define the type of the Volume."
+          }
+        },
+        "size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Define the size of the Volume. (in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#VolumeType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "SBS_5K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_5k"
+          }
+        },
+        "SBS_15K": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_15k"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#Endpoint": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the Endpoint. (UUID format)"
+          }
+        },
+        "dns_record": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DNS entry to access to the service. Now deprecated. Use the `url` field from `services` field instead."
+          }
+        },
+        "services": {
+          "target": "com.scaleway.searchdb_v1alpha1#EndpointServicesList",
+          "traits": {
+            "smithy.api#documentation": "List of available services, their ports and URLs."
+          }
+        },
+        "public": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.searchdb_v1alpha1#EndpointPrivateNetworkDetails",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#EndpointService": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#EndpointServicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.searchdb_v1alpha1#EndpointService"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of available services, their ports and URLs."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#EndpointPrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DeploymentEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.searchdb_v1alpha1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "Exposed endpoints."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListDeploymentsResponseDeploymentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.searchdb_v1alpha1#Deployment"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of deployments available."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListDeployments": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#ListDeploymentsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#ListDeploymentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve a list of Cloud Essentials for OpenSearch deployments",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "deployments",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateDeploymentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#EndpointSpec": {
+      "type": "structure",
+      "members": {
+        "public": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.searchdb_v1alpha1#EndpointSpecPrivateNetworkDetails",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#EndpointSpecPrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateDeploymentRequestEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.searchdb_v1alpha1#EndpointSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "Endpoints to access the deployment."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#CreateDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID in which to create the deployment. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployment."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.searchdb_v1alpha1#CreateDeploymentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags."
+          }
+        },
+        "node_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "DEPRECATED: Use node_count instead. Number of nodes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of nodes.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type."
+          }
+        },
+        "user_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Username for the deployment user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password for the deployment user.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "volume": {
+          "target": "com.scaleway.searchdb_v1alpha1#Volume",
+          "traits": {
+            "smithy.api#documentation": "Volume."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.searchdb_v1alpha1#CreateDeploymentRequestEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Endpoints to access the deployment."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Opensearch version to use."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#CreateDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new Cloud Essentials for OpenSearch deployment"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#GetDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#GetDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#GetDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#GetDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#GetDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve a specific Cloud Essentials for OpenSearch deployment"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#UpdateDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#UpdateDeploymentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of a deployment."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#UpdateDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#UpdateDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.searchdb_v1alpha1#UpdateDeploymentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of a deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#UpdateDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#UpdateDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a Cloud Essentials for OpenSearch deployment"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#DeleteDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#DeleteDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Cloud Essentials for OpenSearch deployment"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthority": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}/certificate-authority",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#UpgradeDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#UpgradeDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#UpgradeDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Deployment to upgrade. (UUID format)"
+          }
+        },
+        "node_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "DEPRECATED: Use node_count instead. Amount of node upgrade target.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The target number of nodes for the upgrade.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "volume_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Volume size upgrade target.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#UpgradeDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#UpgradeDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}/upgrade",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Upgrade a Cloud Essentials for OpenSearch deployment"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListUsersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListUsersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListUsersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListUsersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListUsersResponse": {
+      "type": "structure",
+      "members": {
+        "users": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListUsersResponseUsersList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#User": {
+      "type": "structure",
+      "members": {
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListUsersResponseUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.searchdb_v1alpha1#User"
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#ListUsersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#ListUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}/users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve a list of deployment users",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "users",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#CreateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the deployment in which to create the user."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Username of the deployment user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the deployment user.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#CreateUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#User"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}/users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new user"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#UpdateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#UpdateUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#UpdateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the deployment in which to create the user."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Username of the deployment user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password of the deployment user.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#UpdateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#UpdateUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#User"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}/users/{username}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an existing user"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#DeleteUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the deployment in which to create the user."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Username of the deployment user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#DeleteUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}/users/{username}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing user"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#CreateEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deployment for which to create an endpoint. (UUID format)"
+          }
+        },
+        "endpoint_spec": {
+          "target": "com.scaleway.searchdb_v1alpha1#EndpointSpec",
+          "traits": {
+            "smithy.api#documentation": "Specification of the endpoint you want to create."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#CreateEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#CreateEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/searchdb/v1alpha1/regions/{region}/endpoints",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new endpoint on a deployment"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#DeleteEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the endpoint to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DeleteEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#DeleteEndpointRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/searchdb/v1alpha1/regions/{region}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing endpoint"
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListNodeTypesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListNodeTypesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "VCPUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vcpus_asc"
+          }
+        },
+        "VCPUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vcpus_desc"
+          }
+        },
+        "MEMORY_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memory_asc"
+          }
+        },
+        "MEMORY_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memory_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListNodeTypesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListNodeTypesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListNodeTypesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of nodes in the response (name, vcpus or memory)."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of node types to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListNodeTypesResponse": {
+      "type": "structure",
+      "members": {
+        "node_types": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListNodeTypesResponseNodeTypesList",
+          "traits": {
+            "smithy.api#documentation": "Node types compatible with the cluster."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of available node types to return."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#NodeType": {
+      "type": "structure",
+      "members": {
+        "stock_status": {
+          "target": "com.scaleway.searchdb_v1alpha1#NodeTypeStockStatus",
+          "traits": {
+            "smithy.api#documentation": "Stock status of the node type."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the node type."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the node type."
+          }
+        },
+        "vcpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of vCPUs available."
+          }
+        },
+        "memory_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Amount of memory available. (in bytes)"
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the node type is disabled."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the node type is in beta."
+          }
+        },
+        "instance_range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instance range associated with the NodeType offer."
+          }
+        },
+        "available_volume_types": {
+          "target": "com.scaleway.searchdb_v1alpha1#NodeTypeAvailableVolumeTypesList",
+          "traits": {
+            "smithy.api#documentation": "Available storage options for the Node Type."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#NodeTypeStockStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_stock"
+          }
+        },
+        "LOW_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low_stock"
+          }
+        },
+        "OUT_OF_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_of_stock"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#NodeTypeVolumeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.searchdb_v1alpha1#VolumeType"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "min_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(in bytes)"
+          }
+        },
+        "max_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(in bytes)"
+          }
+        },
+        "chunk_size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "(in bytes)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#NodeTypeAvailableVolumeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.searchdb_v1alpha1#NodeTypeVolumeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available storage options for the Node Type."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListNodeTypesResponseNodeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.searchdb_v1alpha1#NodeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Node types compatible with the cluster."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListNodeTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#ListNodeTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#ListNodeTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/searchdb/v1alpha1/regions/{region}/node-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve a list of available node types",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "node_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListVersionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "VERSION_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "version_asc"
+          }
+        },
+        "VERSION_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "version_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListVersionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Define the order of the returned version."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number to return, form the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of version to return."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#documentation": "Filter by version."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.scaleway.searchdb_v1alpha1#ListVersionsResponseVersionsList",
+          "traits": {
+            "smithy.api#documentation": "List of versions."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of versions in the list."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#Version": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opensearch Version."
+          }
+        },
+        "end_of_life": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of life date of the version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Parameter that tell if the version is disabled."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Parameter that tell if the version is in beta."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#ListVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.searchdb_v1alpha1#Version"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of versions."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#ListVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/searchdb/v1alpha1/regions/{region}/versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available Cloud Essentials for OpenSearch versions",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "versions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#SearchdbV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#ListDeployments"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#CreateDeployment"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#GetDeployment"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#UpdateDeployment"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#DeleteDeployment"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthority"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#UpgradeDeployment"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#ListUsers"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#CreateUser"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#UpdateUser"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#DeleteUser"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#CreateEndpoint"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#DeleteEndpoint"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#ListNodeTypes"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#ListVersions"
+        },
+        {
+          "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Cloud Essentials for Opensearch API",
+        "smithy.api#documentation": "Cloud Essential for Opensearch is Scaleway's product to provide a managed infrastructure for your OpenSearch.\n\nThe product is currently in Public Beta.\n\n## Quickstart\n\n1. **Create a deployment**: Run the following command to create a deployment of 3 nodes with 5GB of storage per node and a public endpoint.\n\n```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n        \"project_id\": $SCW_PROJECT_ID,\n        \"name\":\"deployment-1\",\n        \"tags\":[],\n        \"node_count\":1,\n        // \"node_amount\": 1, <-- DEPRECATED (use node_count instead)\n        \"node_type\":\"SEARCHDB-DEDICATED-2C-8G\",\n        \"user_name\":\"awesomeUser\",\n        \"password\":\"MyAwesomeSecureP@ssword1\",\n        \"volume\":{\n            \"type\":\"sbs_5k\",\n            \"size_bytes\":5000000000\n        },\n        \"endpoints\": [{\"public\": {}}],\n        \"version\":\"2.0\"\n        }' \\\n      \"https://api.scaleway.com/searchdb/v1alpha1/regions/fr-par/deployments\"\n\n```\n\n2. **Get a list of your deployments**: Run the following command to get a list of all the clusters in your account, with their details:\n\n```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/searchdb/v1alpha1/regions/fr-par/deployments\"\n```\n\n3. **Delete your deployment**: Run the following command to delete a cluster. Ensure that you replace `{resource-id}` in the URLwith the ID of the cluster you want to delete.\n\n```bash\n    curl -X DELETE \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/searchdb/v1alpha1/regions/fr-par/deployments/{resource-id}\"\n```\n\n## Technical information\n\n### Regions\n\nScaleway's infrastructure spans different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nOpensaerchis currently available in the Paris region, which is represented by the following path parameter:\n\n- fr-par\n\n## Going further\n\nFor more information about Opensaerch, you can check out the following pages:\n\n- [Cloud Essential for Opensearch Documentation](https://www.scaleway.com/en/docs/opensearch/)\n- [Contact our support team](https://console.scaleway.com/support/tickets)."
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRawRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/searchdb/v1alpha1/regions/{region}/deployments/{deployment_id}/certificate-authority",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "The file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

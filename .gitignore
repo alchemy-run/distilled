@@ -31,3 +31,7 @@ packages/.audit-*/
 
 # pkg pack output (CI artifact hand-off)
 .pkg
+
+
+# APM dependencies
+apm_modules/

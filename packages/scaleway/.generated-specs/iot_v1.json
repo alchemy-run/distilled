@@ -1,0 +1,3984 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.iot_v1#ListDevicesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListDevicesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        },
+        "HUB_ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hub_id_asc"
+          }
+        },
+        "HUB_ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hub_id_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "ALLOW_INSECURE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow_insecure_asc"
+          }
+        },
+        "ALLOW_INSECURE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow_insecure_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeviceStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListDevicesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#ListDevicesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of devices to return within a page. Maximum value is 100."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.iot_v1#ListDevicesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Ordering of requested devices."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Name to filter for, only devices with this name will be returned."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hub_id",
+            "smithy.api#documentation": "Hub ID to filter for, only devices attached to this Hub will be returned."
+          }
+        },
+        "allow_insecure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "allow_insecure",
+            "smithy.api#documentation": "Defines whether to filter the allow_insecure flag."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.iot_v1#DeviceStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Device status (enabled, disabled, etc.)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#ListDevicesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of devices."
+          }
+        },
+        "devices": {
+          "target": "com.scaleway.iot_v1#ListDevicesResponseDevicesList",
+          "traits": {
+            "smithy.api#documentation": "Page of devices."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#Device": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device ID, also used as MQTT Client ID or username."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device name."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device description."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.iot_v1#DeviceStatus",
+          "traits": {
+            "smithy.api#documentation": "Device status."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub ID."
+          }
+        },
+        "last_activity_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last connection/activity date of a device. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_connected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the device is connected to the Hub."
+          }
+        },
+        "allow_insecure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to allow the device to connect to the Hub without TLS mutual authentication."
+          }
+        },
+        "allow_multiple_connections": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to allow multiple physical devices to connect to the Hub with this device's credentials."
+          }
+        },
+        "message_filters": {
+          "target": "com.scaleway.iot_v1#DeviceMessageFilters",
+          "traits": {
+            "smithy.api#documentation": "Filter-sets to restrict the topics the device can publish/subscribe to."
+          }
+        },
+        "has_custom_certificate": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the device was assigned a custom certificate.\nAssigning a custom certificate allows a device to authenticate using that specific certificate without checking the Hub's CA certificate."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date at which the device was added. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date at which the device was last modified. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the device."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeviceMessageFilters": {
+      "type": "structure",
+      "members": {
+        "publish": {
+          "target": "com.scaleway.iot_v1#DeviceMessageFiltersRule",
+          "traits": {
+            "smithy.api#documentation": "Filtering rule to restrict topics the device can publish to."
+          }
+        },
+        "subscribe": {
+          "target": "com.scaleway.iot_v1#DeviceMessageFiltersRule",
+          "traits": {
+            "smithy.api#documentation": "Filtering rule to restrict topics the device can subscribe to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeviceMessageFiltersRule": {
+      "type": "structure",
+      "members": {
+        "policy": {
+          "target": "com.scaleway.iot_v1#DeviceMessageFiltersRulePolicy",
+          "traits": {
+            "smithy.api#documentation": "How to use the topic list.\nIf set to `accept`, all topics in the topics list will be allowed, with all other topics being denied.\nIf set to `reject`, all topics in the topics list will be denied, with all other topics being allowed."
+          }
+        },
+        "topics": {
+          "target": "com.scaleway.iot_v1#DeviceMessageFiltersRuleTopicsList",
+          "traits": {
+            "smithy.api#documentation": "List of topics to accept or reject. It must be valid MQTT topics and up to 65535 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeviceMessageFiltersRulePolicy": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "ACCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept"
+          }
+        },
+        "REJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reject"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeviceMessageFiltersRuleTopicsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of topics to accept or reject. It must be valid MQTT topics and up to 65535 characters."
+      }
+    },
+    "com.scaleway.iot_v1#ListDevicesResponseDevicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.iot_v1#Device"
+      },
+      "traits": {
+        "smithy.api#documentation": "Page of devices."
+      }
+    },
+    "com.scaleway.iot_v1#ListDevices": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#ListDevicesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#ListDevicesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/devices",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List devices\n\nList all devices in the specified region. By default, returned devices are ordered by creation date in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "devices",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.iot_v1#CreateDeviceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#CreateDeviceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device name.",
+            "smithy.api#required": {}
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub ID of the device.",
+            "smithy.api#required": {}
+          }
+        },
+        "allow_insecure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to allow plain and server-authenticated SSL connections in addition to mutually-authenticated ones."
+          }
+        },
+        "allow_multiple_connections": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to allow multiple physical devices to connect with this device's credentials."
+          }
+        },
+        "message_filters": {
+          "target": "com.scaleway.iot_v1#DeviceMessageFilters",
+          "traits": {
+            "smithy.api#documentation": "Filter-sets to authorize or deny the device to publish/subscribe to specific topics."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device description.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#CreateDeviceResponse": {
+      "type": "structure",
+      "members": {
+        "device": {
+          "target": "com.scaleway.iot_v1#Device",
+          "traits": {
+            "smithy.api#documentation": "Information related to the created device."
+          }
+        },
+        "certificate": {
+          "target": "com.scaleway.iot_v1#Certificate",
+          "traits": {
+            "smithy.api#documentation": "Device certificate."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#Certificate": {
+      "type": "structure",
+      "members": {
+        "crt": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#CreateDeviceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#CreateDeviceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/devices",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Add a device\n\nAttach a device to a given Hub."
+      }
+    },
+    "com.scaleway.iot_v1#GetDeviceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#GetDeviceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "device_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Device ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#GetDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#GetDeviceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Device"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/devices/{device_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a device\n\nRetrieve information about an existing device, specified by its device ID. Its full details, including name, status and ID, are returned in the response object."
+      }
+    },
+    "com.scaleway.iot_v1#UpdateDeviceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#UpdateDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#UpdateDeviceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "device_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Device ID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description for the device.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "allow_insecure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to allow plain and server-authenticated SSL connections in addition to mutually-authenticated ones.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "allow_multiple_connections": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to allow multiple physical devices to connect with this device's credentials.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message_filters": {
+          "target": "com.scaleway.iot_v1#DeviceMessageFilters",
+          "traits": {
+            "smithy.api#documentation": "Filter-sets to restrict the topics the device can publish/subscribe to."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Change Hub for this device, additional fees may apply, see IoT Hub pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#UpdateDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#UpdateDeviceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Device"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/iot/v1/regions/{region}/devices/{device_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a device\n\nUpdate the parameters of an existing device, specified by its device ID."
+      }
+    },
+    "com.scaleway.iot_v1#DeleteDeviceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeleteDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#DeleteDeviceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "device_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Device ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#DeleteDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#DeleteDeviceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/iot/v1/regions/{region}/devices/{device_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Remove a device\n\nRemove a specific device from the specific Hub it is attached to."
+      }
+    },
+    "com.scaleway.iot_v1#GetDeviceCertificateRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetDeviceCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#GetDeviceCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "device_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Device ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#GetDeviceCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "device": {
+          "target": "com.scaleway.iot_v1#Device",
+          "traits": {
+            "smithy.api#documentation": "Information related to the created device."
+          }
+        },
+        "certificate_pem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device certificate."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetDeviceCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#GetDeviceCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#GetDeviceCertificateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/devices/{device_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a device's certificate\n\nGet information for a particular PEM-encoded certificate, specified by the device ID. The response returns full details of the device, including its type of certificate."
+      }
+    },
+    "com.scaleway.iot_v1#SetDeviceCertificateRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#SetDeviceCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#SetDeviceCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "device_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Device ID."
+          }
+        },
+        "certificate_pem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PEM-encoded custom certificate.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#SetDeviceCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "device": {
+          "target": "com.scaleway.iot_v1#Device"
+        },
+        "certificate_pem": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#SetDeviceCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#SetDeviceCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#SetDeviceCertificateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/iot/v1/regions/{region}/devices/{device_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set a custom certificate on a device\n\nSwitch the existing certificate of a given device with an EM-encoded custom certificate."
+      }
+    },
+    "com.scaleway.iot_v1#DisableDeviceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DisableDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#DisableDeviceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "device_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Device ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#DisableDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#DisableDeviceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Device"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/devices/{device_id}/disable",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable a device\n\nDisable an existing device, specified by its device ID."
+      }
+    },
+    "com.scaleway.iot_v1#EnableDeviceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#EnableDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#EnableDeviceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "device_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Device ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#EnableDevice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#EnableDeviceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Device"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/devices/{device_id}/enable",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Enable a device\n\nEnable a specific device, specified by its device ID."
+      }
+    },
+    "com.scaleway.iot_v1#RenewDeviceCertificateRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RenewDeviceCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#RenewDeviceCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "device_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Device ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#RenewDeviceCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "device": {
+          "target": "com.scaleway.iot_v1#Device",
+          "traits": {
+            "smithy.api#documentation": "Information related to the created device."
+          }
+        },
+        "certificate": {
+          "target": "com.scaleway.iot_v1#Certificate",
+          "traits": {
+            "smithy.api#documentation": "Device certificate."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RenewDeviceCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#RenewDeviceCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#RenewDeviceCertificateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/devices/{device_id}/renew-certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Renew a device certificate\n\nRenew the certificate of an existing device, specified by its device ID."
+      }
+    },
+    "com.scaleway.iot_v1#ListHubsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListHubsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        },
+        "PRODUCT_PLAN_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_plan_asc"
+          }
+        },
+        "PRODUCT_PLAN_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_plan_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListHubsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#ListHubsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of Hubs to return within a page. Maximum value is 100."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.iot_v1#ListHubsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of Hubs in the response."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Only list Hubs of this Project ID."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Only list Hubs of this Organization ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Hub name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#ListHubsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of Hubs."
+          }
+        },
+        "hubs": {
+          "target": "com.scaleway.iot_v1#ListHubsResponseHubsList",
+          "traits": {
+            "smithy.api#documentation": "A page of hubs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#Hub": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub name."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.iot_v1#HubStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the Hub."
+          }
+        },
+        "product_plan": {
+          "target": "com.scaleway.iot_v1#HubProductPlan",
+          "traits": {
+            "smithy.api#documentation": "Hub feature set."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the hub has been enabled."
+          }
+        },
+        "device_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of registered devices."
+          }
+        },
+        "connected_device_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of currently connected devices."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Host to connect your devices to.\nDevices should be connected to this host. Port may be 1883 (MQTT), 8883 (MQTT over TLS), 80 (MQTT over Websocket) or 443 (MQTT over Websocket over TLS)."
+          }
+        },
+        "disable_events": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to disable Hub events."
+          }
+        },
+        "events_topic_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub events topic prefix."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the Hub."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project owning the resource."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization owning the resource."
+          }
+        },
+        "enable_device_auto_provisioning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to enable device auto provisioning.\nWhen an unknown device connects to your hub using a valid certificate chain, it will be automatically provisioned inside your Hub. The Hub uses the common name of the device certificate to find out if a device with the same name already exists. This setting can only be enabled on a hub with a custom certificate authority."
+          }
+        },
+        "has_custom_ca": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the hub is using a custom certificate authority.\nFlag is automatically set to `false` after Hub creation, as Hub certificates are managed by Scaleway. Once a custom certificate authority is set, the flag will be set to `true`."
+          }
+        },
+        "twins_graphite_config": {
+          "target": "com.scaleway.iot_v1#HubTwinsGraphiteConfig",
+          "traits": {
+            "smithy.api#documentation": "BETA - not implemented yet.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#HubStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "ENABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabling"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DISABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabling"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#HubProductPlan": {
+      "type": "enum",
+      "members": {
+        "PLAN_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan_unknown"
+          }
+        },
+        "PLAN_SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan_shared"
+          }
+        },
+        "PLAN_DEDICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan_dedicated"
+          }
+        },
+        "PLAN_HA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan_ha"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#HubTwinsGraphiteConfig": {
+      "type": "structure",
+      "members": {
+        "push_uri": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListHubsResponseHubsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.iot_v1#Hub"
+      },
+      "traits": {
+        "smithy.api#documentation": "A page of hubs."
+      }
+    },
+    "com.scaleway.iot_v1#ListHubs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#ListHubsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#ListHubsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/hubs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List hubs\n\nList all Hubs in the specified zone. By default, returned Hubs are ordered by creation date in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "hubs",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.iot_v1#CreateHubRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateHubRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#CreateHubRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub name (up to 255 characters).",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project/Organization ID to filter for, only Hubs from this Project/Organization will be returned.",
+            "smithy.api#required": {}
+          }
+        },
+        "product_plan": {
+          "target": "com.scaleway.iot_v1#HubProductPlan",
+          "traits": {
+            "smithy.api#documentation": "Hub product plan.",
+            "smithy.api#required": {}
+          }
+        },
+        "disable_events": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable Hub events.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "events_topic_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topic prefix (default '$SCW/events') of Hub events.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "twins_graphite_config": {
+          "target": "com.scaleway.iot_v1#HubTwinsGraphiteConfig",
+          "traits": {
+            "smithy.api#documentation": "BETA - not implemented yet.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#CreateHub": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#CreateHubRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Hub"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/hubs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a hub\n\nCreate a new Hub in the targeted region, specifying its configuration including name and product plan."
+      }
+    },
+    "com.scaleway.iot_v1#GetHubRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetHubRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#GetHubRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hub ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#GetHub": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#GetHubRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Hub"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/hubs/{hub_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a hub\n\nRetrieve information about an existing IoT Hub, specified by its Hub ID. Its full details, including name, status and endpoint, are returned in the response object."
+      }
+    },
+    "com.scaleway.iot_v1#UpdateHubRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#UpdateHubRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#UpdateHubRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Hub you want to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub name (up to 255 characters).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_plan": {
+          "target": "com.scaleway.iot_v1#HubProductPlan",
+          "traits": {
+            "smithy.api#documentation": "Hub product plan."
+          }
+        },
+        "disable_events": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable Hub events.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "events_topic_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topic prefix of Hub events.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enable_device_auto_provisioning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable device auto provisioning.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "twins_graphite_config": {
+          "target": "com.scaleway.iot_v1#HubTwinsGraphiteConfig",
+          "traits": {
+            "smithy.api#documentation": "BETA - not implemented yet.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#UpdateHub": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#UpdateHubRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Hub"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/iot/v1/regions/{region}/hubs/{hub_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a hub\n\nUpdate the parameters of an existing IoT Hub, specified by its Hub ID."
+      }
+    },
+    "com.scaleway.iot_v1#DeleteHubRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeleteHubRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#DeleteHubRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hub ID."
+          }
+        },
+        "delete_devices": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "delete_devices",
+            "smithy.api#documentation": "Defines whether to force the deletion of devices added to this Hub or reject the operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#DeleteHub": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#DeleteHubRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/iot/v1/regions/{region}/hubs/{hub_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a hub\n\nDelete an existing IoT Hub, specified by its Hub ID. Deleting a Hub is permanent, and cannot be undone."
+      }
+    },
+    "com.scaleway.iot_v1#GetHubCARequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetHubCARequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#GetHubCARequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#GetHubCAResponse": {
+      "type": "structure",
+      "members": {
+        "ca_cert_pem": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetHubCA": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#GetHubCARequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#GetHubCAResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/hubs/{hub_id}/ca",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the certificate authority of a hub\n\nGet information for a particular PEM-encoded certificate, specified by the Hub ID."
+      }
+    },
+    "com.scaleway.iot_v1#SetHubCARequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#SetHubCARequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#SetHubCARequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hub ID."
+          }
+        },
+        "ca_cert_pem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CA's PEM-encoded certificate.",
+            "smithy.api#required": {}
+          }
+        },
+        "challenge_cert_pem": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Proof of possession of PEM-encoded certificate.\nChallenge is a PEM-encoded certificate that acts as proof of possession of the CA. It must be signed by the CA, and have a Common Name equal to the Hub ID.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#SetHubCA": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#SetHubCARequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Hub"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/hubs/{hub_id}/ca",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set the certificate authority of a hub\n\nSet a particular PEM-encoded certificate, specified by the Hub ID."
+      }
+    },
+    "com.scaleway.iot_v1#DisableHubRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DisableHubRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#DisableHubRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hub ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#DisableHub": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#DisableHubRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Hub"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/hubs/{hub_id}/disable",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable a hub\n\nDisable an existing IoT Hub, specified by its Hub ID."
+      }
+    },
+    "com.scaleway.iot_v1#EnableHubRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#EnableHubRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#EnableHubRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hub ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#EnableHub": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#EnableHubRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Hub"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/hubs/{hub_id}/enable",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Enable a hub\n\nEnable an existing IoT Hub, specified by its Hub ID."
+      }
+    },
+    "com.scaleway.iot_v1#ListNetworksRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListNetworksRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListNetworksRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#ListNetworksRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of networks to return. The maximum value is 100."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.iot_v1#ListNetworksRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Ordering of requested routes."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Network name to filter for."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hub_id",
+            "smithy.api#documentation": "Hub ID to filter for."
+          }
+        },
+        "topic_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "topic_prefix",
+            "smithy.api#documentation": "Topic prefix to filter for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#ListNetworksResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of Networks."
+          }
+        },
+        "networks": {
+          "target": "com.scaleway.iot_v1#ListNetworksResponseNetworksList",
+          "traits": {
+            "smithy.api#documentation": "Page of networks."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#Network": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Network ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Network name."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.iot_v1#NetworkNetworkType",
+          "traits": {
+            "smithy.api#documentation": "Type of network to connect with."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint to use for interacting with the network."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub ID to connect the Network to."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date at which the network was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "topic_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topic prefix for the Network.\nThis prefix will be prepended to all topics for this Network."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the network."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#NetworkNetworkType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "SIGFOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sigfox"
+          }
+        },
+        "REST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rest"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListNetworksResponseNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.iot_v1#Network"
+      },
+      "traits": {
+        "smithy.api#documentation": "Page of networks."
+      }
+    },
+    "com.scaleway.iot_v1#ListNetworks": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#ListNetworksRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#ListNetworksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/networks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List the networks",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "networks",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.iot_v1#CreateNetworkRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#CreateNetworkRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Network name.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.scaleway.iot_v1#NetworkNetworkType",
+          "traits": {
+            "smithy.api#documentation": "Type of network to connect with.",
+            "smithy.api#required": {}
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub ID to connect the Network to.",
+            "smithy.api#required": {}
+          }
+        },
+        "topic_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topic prefix for the Network.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#CreateNetworkResponse": {
+      "type": "structure",
+      "members": {
+        "network": {
+          "target": "com.scaleway.iot_v1#Network",
+          "traits": {
+            "smithy.api#documentation": "Information related to the created network."
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint Key to keep secret. This cannot be retrieved later.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#CreateNetworkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#CreateNetworkResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/networks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new network\n\nCreate a new network for an existing hub. Beside the default network, you can add networks for different data providers. Possible network types are Sigfox and REST."
+      }
+    },
+    "com.scaleway.iot_v1#GetNetworkRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#GetNetworkRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Network ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#GetNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#GetNetworkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Network"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/networks/{network_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve a specific network\n\nRetrieve an existing network, specified by its network ID. The response returns full details of the network, including its type, the topic prefix and its endpoint."
+      }
+    },
+    "com.scaleway.iot_v1#DeleteNetworkRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeleteNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#DeleteNetworkRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Network ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#DeleteNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#DeleteNetworkRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/iot/v1/regions/{region}/networks/{network_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Network\n\nDelete an existing network, specified by its network ID. Deleting a network is permanent, and cannot be undone."
+      }
+    },
+    "com.scaleway.iot_v1#ListRoutesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListRoutesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "HUB_ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hub_id_asc"
+          }
+        },
+        "HUB_ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hub_id_desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListRoutesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#ListRoutesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of routes to return within a page. Maximum value is 100."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.iot_v1#ListRoutesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Ordering of requested routes."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hub_id",
+            "smithy.api#documentation": "Hub ID to filter for."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Route name to filter for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#ListRoutesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of routes."
+          }
+        },
+        "routes": {
+          "target": "com.scaleway.iot_v1#ListRoutesResponseRoutesList",
+          "traits": {
+            "smithy.api#documentation": "Page of routes."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Route ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Route name."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub ID of the route."
+          }
+        },
+        "topic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topic the route subscribes to. It must be a valid MQTT topic and up to 65535 characters."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.iot_v1#RouteRouteType",
+          "traits": {
+            "smithy.api#documentation": "Route type."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date at which the route was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date at which the route was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the route."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteRouteType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "s3"
+          }
+        },
+        "DATABASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database"
+          }
+        },
+        "REST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rest"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListRoutesResponseRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.iot_v1#RouteSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "Page of routes."
+      }
+    },
+    "com.scaleway.iot_v1#ListRoutes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#ListRoutesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#ListRoutesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/routes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List routes\n\nList all routes in the specified region. By default, returned routes are ordered by creation date in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "routes",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.iot_v1#CreateRouteRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateRouteRequestS3Config": {
+      "type": "structure",
+      "members": {
+        "bucket_region": {
+          "target": "smithy.api#String"
+        },
+        "bucket_name": {
+          "target": "smithy.api#String"
+        },
+        "object_prefix": {
+          "target": "smithy.api#String"
+        },
+        "strategy": {
+          "target": "com.scaleway.iot_v1#RouteS3ConfigS3Strategy"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteS3ConfigS3Strategy": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "PER_TOPIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "per_topic"
+          }
+        },
+        "PER_MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "per_message"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateRouteRequestDatabaseConfig": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "dbname": {
+          "target": "smithy.api#String"
+        },
+        "username": {
+          "target": "smithy.api#String"
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#String"
+        },
+        "engine": {
+          "target": "com.scaleway.iot_v1#RouteDatabaseConfigEngine"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteDatabaseConfigEngine": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "POSTGRESQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgresql"
+          }
+        },
+        "MYSQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mysql"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateRouteRequestRestConfig": {
+      "type": "structure",
+      "members": {
+        "verb": {
+          "target": "com.scaleway.iot_v1#RouteRestConfigHttpVerb"
+        },
+        "uri": {
+          "target": "smithy.api#String"
+        },
+        "headers": {
+          "target": "com.scaleway.iot_v1#CreateRouteRequestRestConfigHeadersMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteRestConfigHttpVerb": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "GET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get"
+          }
+        },
+        "POST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post"
+          }
+        },
+        "PUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "put"
+          }
+        },
+        "PATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "patch"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateRouteRequestRestConfigHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#CreateRouteRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#CreateRouteRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Route name."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub ID of the route."
+          }
+        },
+        "topic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topic the route subscribes to. It must be a valid MQTT topic and up to 65535 characters."
+          }
+        },
+        "s3_config": {
+          "target": "com.scaleway.iot_v1#CreateRouteRequestS3Config",
+          "traits": {
+            "smithy.api#documentation": "If creating Amazon S3 Routes, Amazon S3-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "db_config": {
+          "target": "com.scaleway.iot_v1#CreateRouteRequestDatabaseConfig",
+          "traits": {
+            "smithy.api#documentation": "If creating Database Route, DB-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rest_config": {
+          "target": "com.scaleway.iot_v1#CreateRouteRequestRestConfig",
+          "traits": {
+            "smithy.api#documentation": "If creating Rest Route, Rest-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#Route": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Route ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Route name."
+          }
+        },
+        "hub_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hub ID of the route."
+          }
+        },
+        "topic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topic the route subscribes to. It must be a valid MQTT topic and up to 65535 characters."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.iot_v1#RouteRouteType",
+          "traits": {
+            "smithy.api#documentation": "Route type."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date at which the route was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "s3_config": {
+          "target": "com.scaleway.iot_v1#RouteS3Config",
+          "traits": {
+            "smithy.api#documentation": "When using Amazon S3 Routes, Amazon S3-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "db_config": {
+          "target": "com.scaleway.iot_v1#RouteDatabaseConfig",
+          "traits": {
+            "smithy.api#documentation": "When using Database Route, DB-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rest_config": {
+          "target": "com.scaleway.iot_v1#RouteRestConfig",
+          "traits": {
+            "smithy.api#documentation": "When using Rest Route, Rest-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date at which the route was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the route."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteS3Config": {
+      "type": "structure",
+      "members": {
+        "bucket_region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the Amazon S3 route's destination bucket (e.g., 'fr-par')."
+          }
+        },
+        "bucket_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination bucket name of the Amazon S3 route."
+          }
+        },
+        "object_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional string to prefix object names with."
+          }
+        },
+        "strategy": {
+          "target": "com.scaleway.iot_v1#RouteS3ConfigS3Strategy",
+          "traits": {
+            "smithy.api#documentation": "How the Amazon S3 route's objects will be created: one per topic or one per message."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteDatabaseConfig": {
+      "type": "structure",
+      "members": {
+        "engine": {
+          "target": "com.scaleway.iot_v1#RouteDatabaseConfigEngine",
+          "traits": {
+            "smithy.api#documentation": "Database engine the route will connect to. If not specified, the default database will be 'PostgreSQL'."
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Database host.",
+            "smithy.api#required": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Database port.",
+            "smithy.api#required": {}
+          }
+        },
+        "dbname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Database name.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Database username. Make sure this account can execute the provided query.",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Database password.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SQL query to be executed ($TOPIC and $PAYLOAD variables are available, see documentation)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteRestConfig": {
+      "type": "structure",
+      "members": {
+        "verb": {
+          "target": "com.scaleway.iot_v1#RouteRestConfigHttpVerb",
+          "traits": {
+            "smithy.api#documentation": "HTTP verb used to call REST URI."
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI of the REST endpoint."
+          }
+        },
+        "headers": {
+          "target": "com.scaleway.iot_v1#RouteRestConfigHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "HTTP call extra headers."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#RouteRestConfigHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP call extra headers."
+      }
+    },
+    "com.scaleway.iot_v1#CreateRoute": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#CreateRouteRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Route"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/iot/v1/regions/{region}/routes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a route\n\nMultiple kinds of routes can be created, such as:\n- Database Route\n  Create a route that will record subscribed MQTT messages into your database.\n  <b>You need to manage the database by yourself</b>.\n- REST Route.\n  Create a route that will call a REST API on received subscribed MQTT messages.\n- Amazon S3 Routes.\n  Create a route that will put subscribed MQTT messages into an Object Storage bucket.\n  You need to create the bucket yourself and grant write access.\n  Granting can be done with s3cmd (`s3cmd setacl s3://<my-bucket> --acl-grant=write:555c69c3-87d0-4bf8-80f1-99a2f757d031:555c69c3-87d0-4bf8-80f1-99a2f757d031`)."
+      }
+    },
+    "com.scaleway.iot_v1#GetRouteRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetRouteRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#GetRouteRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "route_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Route ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#GetRoute": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#GetRouteRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Route"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/routes/{route_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a route\n\nGet information for a particular route, specified by the route ID. The response returns full details of the route, including its type, the topic it subscribes to and its configuration."
+      }
+    },
+    "com.scaleway.iot_v1#UpdateRouteRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#UpdateRouteRequestS3Config": {
+      "type": "structure",
+      "members": {
+        "bucket_region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bucket_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "object_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "strategy": {
+          "target": "com.scaleway.iot_v1#RouteS3ConfigS3Strategy"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#UpdateRouteRequestDatabaseConfig": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dbname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "engine": {
+          "target": "com.scaleway.iot_v1#RouteDatabaseConfigEngine"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#UpdateRouteRequestRestConfig": {
+      "type": "structure",
+      "members": {
+        "verb": {
+          "target": "com.scaleway.iot_v1#RouteRestConfigHttpVerb"
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "headers": {
+          "target": "com.scaleway.iot_v1#ScalewayStdMapStringStringValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ScalewayStdMapStringStringValue": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#UpdateRouteRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#UpdateRouteRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "route_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Route id."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Route name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "topic": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Topic the route subscribes to. It must be a valid MQTT topic and up to 65535 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "s3_config": {
+          "target": "com.scaleway.iot_v1#UpdateRouteRequestS3Config",
+          "traits": {
+            "smithy.api#documentation": "When updating Amazon S3 Route, Amazon S3-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "db_config": {
+          "target": "com.scaleway.iot_v1#UpdateRouteRequestDatabaseConfig",
+          "traits": {
+            "smithy.api#documentation": "When updating Database Route, DB-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rest_config": {
+          "target": "com.scaleway.iot_v1#UpdateRouteRequestRestConfig",
+          "traits": {
+            "smithy.api#documentation": "When updating Rest Route, Rest-specific configuration fields.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#UpdateRoute": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#UpdateRouteRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#Route"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/iot/v1/regions/{region}/routes/{route_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a route\n\nUpdate the parameters of an existing route, specified by its route ID."
+      }
+    },
+    "com.scaleway.iot_v1#DeleteRouteRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeleteRouteRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#DeleteRouteRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "route_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Route ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#DeleteRoute": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#DeleteRouteRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/iot/v1/regions/{region}/routes/{route_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a route\n\nDelete an existing route, specified by its route ID. Deleting a route is permanent, and cannot be undone."
+      }
+    },
+    "com.scaleway.iot_v1#ListTwinDocumentsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListTwinDocumentsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#ListTwinDocumentsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "twin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Twin ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#ListTwinDocumentsResponse": {
+      "type": "structure",
+      "members": {
+        "documents": {
+          "target": "com.scaleway.iot_v1#ListTwinDocumentsResponseDocumentsList",
+          "traits": {
+            "smithy.api#documentation": "List of the twin document."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListTwinDocumentsResponseDocumentSummary": {
+      "type": "structure",
+      "members": {
+        "document_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the document."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#ListTwinDocumentsResponseDocumentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.iot_v1#ListTwinDocumentsResponseDocumentSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the twin document."
+      }
+    },
+    "com.scaleway.iot_v1#ListTwinDocuments": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#ListTwinDocumentsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#ListTwinDocumentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/twins/{twin_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "BETA - List the documents of a Cloud Twin"
+      }
+    },
+    "com.scaleway.iot_v1#DeleteTwinDocumentsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeleteTwinDocumentsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#DeleteTwinDocumentsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "twin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Twin ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#DeleteTwinDocuments": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#DeleteTwinDocumentsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/iot/v1/regions/{region}/twins/{twin_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "BETA - Delete all the documents of a Cloud Twin"
+      }
+    },
+    "com.scaleway.iot_v1#GetTwinDocumentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#GetTwinDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#GetTwinDocumentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "twin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Twin ID."
+          }
+        },
+        "document_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the document."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#TwinDocument": {
+      "type": "structure",
+      "members": {
+        "twin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent twin ID of the document."
+          }
+        },
+        "document_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the document."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "New version of the document."
+          }
+        },
+        "data": {
+          "target": "com.scaleway.iot_v1#TwinDocumentDataMap",
+          "traits": {
+            "smithy.api#documentation": "New data related to the document."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#TwinDocumentDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "New data related to the document."
+      }
+    },
+    "com.scaleway.iot_v1#GetTwinDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#GetTwinDocumentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#TwinDocument"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/iot/v1/regions/{region}/twins/{twin_id}/documents/{document_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "BETA - Get a Cloud Twin Document"
+      }
+    },
+    "com.scaleway.iot_v1#PutTwinDocumentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#PutTwinDocumentRequestDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Data of the new document.\nNew data that will replace the contents of the document."
+      }
+    },
+    "com.scaleway.iot_v1#PutTwinDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#PutTwinDocumentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "twin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Twin ID."
+          }
+        },
+        "document_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the document."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version of the document to update.\nIf set, ensures that the current version of the document matches before persisting the update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "data": {
+          "target": "com.scaleway.iot_v1#PutTwinDocumentRequestDataMap",
+          "traits": {
+            "smithy.api#documentation": "Data of the new document.\nNew data that will replace the contents of the document."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#PutTwinDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#PutTwinDocumentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#TwinDocument"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/iot/v1/regions/{region}/twins/{twin_id}/documents/{document_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "BETA - Update a Cloud Twin Document"
+      }
+    },
+    "com.scaleway.iot_v1#PatchTwinDocumentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#PatchTwinDocumentRequestDataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Patch data.\nA json data that will be applied on the document's current data.\nPatching rules:\n* The patch goes recursively through the patch objects.\n* If the patch object property is null, it is removed from the final object.\n* If the patch object property is a value (number, strings, bool, arrays), it is replaced.\n* If the patch object property is an object, the previous rules will be applied recursively on it."
+      }
+    },
+    "com.scaleway.iot_v1#PatchTwinDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#PatchTwinDocumentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "twin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Twin ID."
+          }
+        },
+        "document_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the document."
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The version of the document to update.\nIf set, ensures that the current version of the document matches before persisting the update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "data": {
+          "target": "com.scaleway.iot_v1#PatchTwinDocumentRequestDataMap",
+          "traits": {
+            "smithy.api#documentation": "Patch data.\nA json data that will be applied on the document's current data.\nPatching rules:\n* The patch goes recursively through the patch objects.\n* If the patch object property is null, it is removed from the final object.\n* If the patch object property is a value (number, strings, bool, arrays), it is replaced.\n* If the patch object property is an object, the previous rules will be applied recursively on it."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#PatchTwinDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#PatchTwinDocumentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.iot_v1#TwinDocument"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/iot/v1/regions/{region}/twins/{twin_id}/documents/{document_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "BETA - Patch a Cloud Twin Document"
+      }
+    },
+    "com.scaleway.iot_v1#DeleteTwinDocumentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.iot_v1#DeleteTwinDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.iot_v1#DeleteTwinDocumentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "twin_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Twin ID."
+          }
+        },
+        "document_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the document."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.iot_v1#DeleteTwinDocument": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.iot_v1#DeleteTwinDocumentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/iot/v1/regions/{region}/twins/{twin_id}/documents/{document_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "BETA - Delete a Cloud Twin Document"
+      }
+    },
+    "com.scaleway.iot_v1#IotV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.iot_v1#ListDevices"
+        },
+        {
+          "target": "com.scaleway.iot_v1#CreateDevice"
+        },
+        {
+          "target": "com.scaleway.iot_v1#GetDevice"
+        },
+        {
+          "target": "com.scaleway.iot_v1#UpdateDevice"
+        },
+        {
+          "target": "com.scaleway.iot_v1#DeleteDevice"
+        },
+        {
+          "target": "com.scaleway.iot_v1#GetDeviceCertificate"
+        },
+        {
+          "target": "com.scaleway.iot_v1#SetDeviceCertificate"
+        },
+        {
+          "target": "com.scaleway.iot_v1#DisableDevice"
+        },
+        {
+          "target": "com.scaleway.iot_v1#EnableDevice"
+        },
+        {
+          "target": "com.scaleway.iot_v1#RenewDeviceCertificate"
+        },
+        {
+          "target": "com.scaleway.iot_v1#ListHubs"
+        },
+        {
+          "target": "com.scaleway.iot_v1#CreateHub"
+        },
+        {
+          "target": "com.scaleway.iot_v1#GetHub"
+        },
+        {
+          "target": "com.scaleway.iot_v1#UpdateHub"
+        },
+        {
+          "target": "com.scaleway.iot_v1#DeleteHub"
+        },
+        {
+          "target": "com.scaleway.iot_v1#GetHubCA"
+        },
+        {
+          "target": "com.scaleway.iot_v1#SetHubCA"
+        },
+        {
+          "target": "com.scaleway.iot_v1#DisableHub"
+        },
+        {
+          "target": "com.scaleway.iot_v1#EnableHub"
+        },
+        {
+          "target": "com.scaleway.iot_v1#ListNetworks"
+        },
+        {
+          "target": "com.scaleway.iot_v1#CreateNetwork"
+        },
+        {
+          "target": "com.scaleway.iot_v1#GetNetwork"
+        },
+        {
+          "target": "com.scaleway.iot_v1#DeleteNetwork"
+        },
+        {
+          "target": "com.scaleway.iot_v1#ListRoutes"
+        },
+        {
+          "target": "com.scaleway.iot_v1#CreateRoute"
+        },
+        {
+          "target": "com.scaleway.iot_v1#GetRoute"
+        },
+        {
+          "target": "com.scaleway.iot_v1#UpdateRoute"
+        },
+        {
+          "target": "com.scaleway.iot_v1#DeleteRoute"
+        },
+        {
+          "target": "com.scaleway.iot_v1#ListTwinDocuments"
+        },
+        {
+          "target": "com.scaleway.iot_v1#DeleteTwinDocuments"
+        },
+        {
+          "target": "com.scaleway.iot_v1#GetTwinDocument"
+        },
+        {
+          "target": "com.scaleway.iot_v1#PutTwinDocument"
+        },
+        {
+          "target": "com.scaleway.iot_v1#PatchTwinDocument"
+        },
+        {
+          "target": "com.scaleway.iot_v1#DeleteTwinDocument"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "IoT Hub API",
+        "smithy.api#documentation": "Scaleway IoT Hub is a resilient message broker which supports multiple communication protocols and displays export capabilities. It is a PaaS (Platform-as-a-Service) enabling device-to-device and device-to-Scaleway communication.\n\nWhen connecting to a Hub, devices can exchange messages, granting them access to various cloud services. Hub routes also allow devices to send messages to other services that do not use MQTT (Message Queuing Telemetry Transport). MQTT is the most commonly used messaging protocol in IoT applications for its lightweight property and Publish/Subscribe model. Allowing interaction with services that do not use MQTT is an essential feature that increases flexibility and interoperability of the system.\n\nScaleway IoT Hub is thus versatile and can easily adapt to the various use cases, requirements, and constraints of a given IoT project. IoT Hub features include :\n\n- Pub/Sub architecture\n- MQTT protocol, with or without TLS, with or without WebSockets\n- Mutual authentication available on TLS connections\n- High Availability and Scalability\n- Routes to Scaleway's ecosystem for data ingestion\n- Multiple other IoT Networks such as SigFox or LoRa\n- Usage metrics\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/iot-hub/concepts/) to find definitions of the different terms referring to IoT Hub.\n\n## Quickstart\n\n### Set up your IoT Hub\n\n1. Configure your environment variables.\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the APIs. Since there is only one Availability Zone for IoT Hub, we have already set the value to the `fr-par` region for you.\n   </Message>\n\n    ```bash\n    export IOT_API=\"https://api.scaleway.com/iot/v1/regions/fr-par\"\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    ```\n\n2. Edit the POST request payload that we will use in the next step to create an IoT Hub.\n\n    ```json\n    {\n      \"name\": \"my_first_hub\",\n      \"product_plan\": \"plan_dedicated\",\n    }\n    ```\n\n\n3. Create a Hub. Run the following command to create the Hub. Make sure you include the payload you edited in the previous step.\n   <Message type=\"note\">\n   We will save the output in a file called `myhub.json`.\n   </Message>\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n        \"project_id\": \"7281793f-8474-727d-7688-72893f747g7e\",\n        \"name\": \"my_first_hub\",\n        \"product_plan\": \"plan_dedicated\"}' \\\n    \"$IOT_API/hubs\" > myhub.json\n    ```\n\n4. Get your Hub's information. Run the following command to pull your Hub's information from the `myhub.json` file.\n\n    ```bash\n    curl -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"$IOT_API/hubs/$(jq -r '.id' myhub.json)\"\n    ```\n\n   You should get an output similar to the following. The status should be indicated as `ready`.\n   <Message type=\"note\">\n   This is a response example, the UUIDs displayed are not real.\n   </Message>\n\n    ```bash\n    {\n      \"region\":\"fr-par\", \n      \"id\":\"6e38b739-2872-52fg-9gb7-e8gf8185be69\", \n      \"organization_id\":\"7281793f-8474-727d-7688-72893f747g7e\", \n      \"project_id\":\"7281793f-8474-727d-7688-72893f747g7e\", \n      \"name\":\"my_first_hub\", \n      \"status\":\"ready\", \n      \"product_plan\":\"plan_dedicated\", \n      \"endpoint\":\"iot.fr-par.scw.cloud\", \n      \"created_at\":\"2023-04-06T09:37:31.162Z\", \n      \"updated_at\":\"2023-04-06T09:37:31.162Z\", \n      \"enabled\": true,  \n      \"device_count\":0, \n      \"connected_device_count\":0, \n      \"disable_events\": false, \n      \"events_topic_prefix\":\"$SCW/events\", \n      \"enable_device_auto_provisioning\": false, \n      \"has_custom_ca\": false\n      }\n      ```\n\n### Set up your IoT device\n\n1. Edit the following POST request payload to create your first device.\n   <Message type=\"note\">\n   For the sake of simplicity, the following payload allows the device to connect using insecure protocols (such as plain text MQTT or MQTTs without mutual authentication). In production, you should always deny insecure connections to ensure the highest level of security. This would be done by setting the field `allow_insecure` to `false`.\n   </Message>\n\n    ```json\n    {\n      \"name\": \"my-first-device\",\n      \"description\": \"This is a description for my first device that will act as subscriber\"\n      \"allow_insecure\": \"true\",\n    }\n    ```\n\n\n2. **Create your first device**. Run the following command to create your first device.\n   <Message type=\"note\">\n   The response output will be saved in a file called `mydev1.json` and then piped to `jq < mydev1.json` to pretty-print the output in your terminal.\n   </Message>\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n        \"hub_id\": \"'$(jq -r '.id' myhub.json)'\",\n        \"name\": \"my_first_device\",\n        \"description\": \"This is a description for my first device that will act as subscriber\",\n        \"allow_insecure\": true\n        }' \\\n    \"$IOT_API/devices\" > mydev1.json\n    jq < mydev1.json\n    ```\n\n   You should get an output similar to the following, providing information about your device.\n   <Message type=\"note\">\n   This is a response example, the UUIDs displayed are not real.\n   </Message>\n\n    ```bash\n    {\n      \"device\": {\n        \"id\": \"98896561-9547-46a7-aa5b-8117a71a4b3c\",\n        \"name\": \"my_first_device\",\n        \"status\": \"enabled\",\n        \"hub_id\": \"6e38b739-2872-52fg-9gb7-e8gf8185be69\",\n        \"created_at\": \"2023-04-06T11:01:31.698Z\",\n        \"updated_at\": \"2023-04-06T11:01:31.698Z\",\n        \"allow_insecure\": true,\n        \"last_activity_at\": \"1970-01-01T00:00:00Z\",\n        \"is_connected\": false,\n        \"message_filters\": {\n          \"publish\": {\n            \"policy\": \"reject\",\n            \"topics\": []\n          },\n          \"subscribe\": {\n            \"policy\": \"reject\",\n            \"topics\": []\n          }\n        },\n        \"allow_multiple_connections\": false,\n        \"description\": \"This is a description for my first device that will act as subscriber\",\n        \"has_custom_certificate\": false\n      },\n      \"certificate\": {\n        \"crt\": \"<certificate here>\",\n        \"key\": \"<certificate key here>\"\n      }\n    }\n    ```\n\n3. Create your second device. Run the following command to create your second device.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n        \"hub_id\": \"'$(jq -r '.id' myhub.json)'\",\n        \"name\": \"my_second_device\",\n        \"description\": \"This is a description for my second device that will act as publisher\",\n        \"allow_insecure\": true\n        }' \\\n    \"$IOT_API/devices\" > mydev2.json\n    jq < mydev2.json\n    ```\n\n### Subscribe and publish\n\nIn the next part, you will simulate two devices to indicate how to set them up as publishers and subscribers.\n\n1. Set up the subscriber. Open a new terminal window and run the following command to subscribe to an MQTT topic.\n\n    ```bash\n    mosquitto_sub \\\n      -h $(jq -r '.endpoint' myhub.json) \\\n      -i $(jq -r '.device.id' mydev1.json) \\\n      -t mytopic/mysubtopic\n    ```\n\n2. Set up the publisher. Open another terminal window and run the following command to publish a `Hello, world!` message to an MQTT topic.\n\n    ```bash\n    mosquitto_pub \\\n      -h $(jq -r '.endpoint' myhub.json) \\\n      -i $(jq -r '.device.id' mydev2.json) \\\n      -t mytopic/mysubtopic \\\n      -m 'Hello, world!'\n    ```\n\n   When you open the terminal window you used to set up the subscriber, you should see that the `Hello, world!` message has successfully been received.\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have [created an API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have [installed `mosquitto`](https://mosquitto.org/download/)\n- You have [installed `jq`](https://stedolan.github.io/jq/download/)\n</Message>\n\n## Technical information\n\n### Availability Zones\n\nHubs can be created in the following Availability Zone:\n\n- Paris `fr-par`\n\n## Going further\n\nFor more help using Scaleway IoT Hub, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/iot-hub/)\n- The #iot-hub channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

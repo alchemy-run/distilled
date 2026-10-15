@@ -1,0 +1,60 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, so `ListIPs` lose filters the API takes. The official JS SDK sends them through `resolveOneOf` in `urlParams` \u2014 scaleway-sdk-js packages_generated/ipam/src/v1/api.gen.ts \u2014 with the types in the sibling types.gen.ts. They are added as optional query members; the API enforces the one-of.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.ipam_v1#ListIPsRequest/members/zonal",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "zonal",
+          "smithy.api#documentation": "Zone to filter for; only zonal IPs in it are returned. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.ipam_v1#ListIPsRequest/members/regional",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#httpQuery": "regional",
+          "smithy.api#documentation": "Return only regional IPs. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.ipam_v1#ListIPsRequest/members/private_network_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "private_network_id",
+          "smithy.api#documentation": "Only IPs in this Private Network. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.ipam_v1#ListIPsRequest/members/subnet_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "subnet_id",
+          "smithy.api#documentation": "Only IPs in this subnet. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.ipam_v1#ListIPsRequest/members/source_vpc_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "source_vpc_id",
+          "smithy.api#documentation": "Only IPs whose source is this VPC. One-of `scope`: at most one of `zonal`, `regional`, `private_network_id`, `subnet_id`, `source_vpc_id`."
+        }
+      }
+    }
+  ]
+}

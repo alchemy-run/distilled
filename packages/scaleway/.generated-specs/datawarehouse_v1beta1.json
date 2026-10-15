@@ -1,0 +1,2278 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.datawarehouse_v1beta1#ListDeploymentsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDeploymentsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDeploymentsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDeploymentsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDeploymentsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDeploymentsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "List deployments with a given tag."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Lists deployments that match a name pattern."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDeploymentsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering deployment listings."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID the deployment belongs to. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID the deployment belongs to. (UUID format)"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDeploymentsResponse": {
+      "type": "structure",
+      "members": {
+        "deployments": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDeploymentsResponseDeploymentsList",
+          "traits": {
+            "smithy.api#documentation": "List of all deployments available in an Organization or Project."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of deployments available in an Organization or Project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#Deployment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployment."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeploymentStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the deployment."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeploymentTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the deployment."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the deployment. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the deployment. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ClickHouse® version."
+          }
+        },
+        "replica_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of replicas for the deployment."
+          }
+        },
+        "shard_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of shards for the deployment."
+          }
+        },
+        "cpu_min": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum CPU count for the deployment."
+          }
+        },
+        "cpu_max": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum CPU count for the deployment."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeploymentEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "List of endpoints associated with the deployment."
+          }
+        },
+        "ram_per_cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "RAM per CPU count for the deployment (in GB)."
+          }
+        },
+        "move_factor": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For the `tiered` storage policy, controls when data is moved from the hot volume (Block Storage) to the cold volume (Object Storage). Data is moved once free space on the hot volume drops below this fraction of its capacity. Value between 0 and 1 (default 0.1, i.e. data is moved when the hot volume is 90% full)."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the deployment."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the deployment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeploymentStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "LOCKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locking"
+          }
+        },
+        "UNLOCKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlocking"
+          }
+        },
+        "DEPLOYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deploying"
+          }
+        },
+        "STOPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopping"
+          }
+        },
+        "STARTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starting"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeploymentTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#Endpoint": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the endpoint. (UUID format)"
+          }
+        },
+        "dns_record": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DNS record associated with the endpoint."
+          }
+        },
+        "services": {
+          "target": "com.scaleway.datawarehouse_v1beta1#EndpointServicesList",
+          "traits": {
+            "smithy.api#documentation": "List of services associated with the endpoint."
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.datawarehouse_v1beta1#PrivateNetworkDetails",
+          "traits": {
+            "smithy.api#documentation": "Private Network endpoint details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Public endpoint details.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the deployment."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the endpoint."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#EndpointService": {
+      "type": "structure",
+      "members": {
+        "protocol": {
+          "target": "com.scaleway.datawarehouse_v1beta1#EndpointServiceProtocol"
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#EndpointServiceProtocol": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PROTOCOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_protocol"
+          }
+        },
+        "TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tcp"
+          }
+        },
+        "HTTPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "https"
+          }
+        },
+        "MYSQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mysql"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#EndpointServicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#EndpointService"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of services associated with the endpoint."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#PrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network."
+          }
+        },
+        "nodes": {
+          "target": "com.scaleway.datawarehouse_v1beta1#PrivateNetworkDetailsNodesList",
+          "traits": {
+            "smithy.api#documentation": "List of nodes belonging to this private network and their details."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#NodePrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "node_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name  of the node."
+          }
+        },
+        "shard": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The ClickHouse shard to which the node belongs to."
+          }
+        },
+        "replica": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The ClickHouse replica to which the node belongs to."
+          }
+        },
+        "ip_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private static IP address of that node."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#PrivateNetworkDetailsNodesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#NodePrivateNetworkDetails"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of nodes belonging to this private network and their details."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeploymentEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of endpoints associated with the deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDeploymentsResponseDeploymentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Deployment"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all deployments available in an Organization or Project."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDeployments": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListDeploymentsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListDeploymentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List deployments\n\nList all deployments in the specified region, for a given Scaleway Project. By default, the deployments returned in the list are ordered by creation date in ascending order, though this can be modified via the order_by field. You can define additional parameters for your query, such as `tags` and `name`. For the `name` parameter, the value you provide will be checked against the whole name string to see if it includes the string you put in the parameter.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "deployments",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateDeploymentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to apply to the deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#EndpointSpec": {
+      "type": "structure",
+      "members": {
+        "public": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.datawarehouse_v1beta1#EndpointSpecPrivateNetworkSummary",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#EndpointSpecPrivateNetworkSummary": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateDeploymentRequestEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#EndpointSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "Endpoints to associate with the deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Project ID on which the deployment will be created."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployment."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateDeploymentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to apply to the deployment."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ClickHouse® version to use for the deployment."
+          }
+        },
+        "replica_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of replicas for the deployment."
+          }
+        },
+        "shard_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of shard for the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password for the initial user.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "cpu_min": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum CPU count for the deployment."
+          }
+        },
+        "cpu_max": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum CPU count for the deployment."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateDeploymentRequestEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Endpoints to associate with the deployment."
+          }
+        },
+        "ram_per_cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "RAM per CPU count for the deployment (in GB)."
+          }
+        },
+        "move_factor": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For the `tiered` storage policy, controls when data is moved from the hot volume (Block Storage) to the cold volume (Object Storage). Data is moved once free space on the hot volume drops below this fraction of its capacity. Value between 0 and 1 (default 0.1, i.e. data is moved when the hot volume is 90% full).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#CreateDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a deployment\n\nCreate a new deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a deployment\n\nRetrieve information about a given deployment, specified by the `region` and `deployment_id` parameters. Its full details, including name, status are returned in the response object."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#UpdateDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#UpdateDeploymentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of a deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#UpdateDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#UpdateDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.datawarehouse_v1beta1#UpdateDeploymentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of a deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_min": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum CPU count for the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_max": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum CPU count for the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "replica_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of replicas for the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "move_factor": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For the `tiered` storage policy, controls when data is moved from the hot volume (Block Storage) to the cold volume (Object Storage). Data is moved once free space on the hot volume drops below this fraction of its capacity. Value between 0 and 1 (default 0.1, i.e. data is moved when the hot volume is 90% full).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#UpdateDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#UpdateDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a deployment\n\nUpdate the parameters of a deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeleteDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#DeleteDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a deployment\n\nDelete a given deployment, specified by the `region` and `deployment_id` parameters. Deleting a deployment is permanent, and cannot be undone. Upon deletion, all your data will be lost."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get deployment TLS certificate\n\nRetrieve the TLS certificate associated with a deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDatabasesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDatabasesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "SIZE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size_asc"
+          }
+        },
+        "SIZE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDatabasesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDatabasesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Name of the database to filter by."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDatabasesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering database listings."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDatabasesResponse": {
+      "type": "structure",
+      "members": {
+        "databases": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDatabasesResponseDatabasesList",
+          "traits": {
+            "smithy.api#documentation": "List of databases associated with the deployment."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of databases associated with the deployment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#Database": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the database. (in bytes)"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the deployment. (UUID format)"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the deployment."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the database."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDatabasesResponseDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Database"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of databases associated with the deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListDatabases": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListDatabasesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListDatabasesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/databases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List databases within a deployment",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "databases",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#CreateDatabaseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/databases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new database within a deployment"
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeleteDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the database to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#DeleteDatabaseRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/databases/{name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a database from a deployment"
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#StartDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#StartDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#StartDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#StartDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#StartDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/start",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Start a deployment\n\nStart a stopped deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#StopDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#StopDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#StopDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#StopDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#StopDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/stop",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Stop a deployment\n\nStop a running deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListUsersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListUsersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListUsersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Name of the user to filter by."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListUsersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering user listings."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListUsersResponse": {
+      "type": "structure",
+      "members": {
+        "users": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListUsersResponseUsersList",
+          "traits": {
+            "smithy.api#documentation": "List of users associated with the deployment."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of users associated with the deployment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#User": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user."
+          }
+        },
+        "is_admin": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the user is an administrator."
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the deployment. (UUID format)"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the deployment."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the user."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListUsersResponseUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#User"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of users associated with the deployment."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListUsersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListUsersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List users associated with a deployment",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "users",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password for the user.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "is_admin": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the user is an administrator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#CreateUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#User"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/users",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new user for a deployment"
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#UpdateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#UpdateUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#UpdateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the user."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New password for the user.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "is_admin": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Updates the user administrator permissions.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#UpdateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#UpdateUserRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#User"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/users/{name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an existing user for a deployment"
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteUserRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeleteUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the user to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#DeleteUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/users/{name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a user from a deployment"
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        },
+        "endpoint": {
+          "target": "com.scaleway.datawarehouse_v1beta1#EndpointSpec",
+          "traits": {
+            "smithy.api#documentation": "Endpoint specification."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#CreateEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#CreateEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/endpoints",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new endpoint for a deployment"
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeleteEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Endpoint to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DeleteEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#DeleteEndpointRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an endpoint from a deployment"
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListPresetsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListPresetsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListPresetsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListPresetsResponse": {
+      "type": "structure",
+      "members": {
+        "presets": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListPresetsResponsePresetsList",
+          "traits": {
+            "smithy.api#documentation": "List of available presets."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of presets available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#Preset": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the preset."
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category of the preset."
+          }
+        },
+        "cpu_min": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum CPU count for the preset."
+          }
+        },
+        "cpu_max": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum CPU count for the preset."
+          }
+        },
+        "ram_per_cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "RAM per CPU count for the preset (in GB)."
+          }
+        },
+        "replica_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of replicas for the preset."
+          }
+        },
+        "shard_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of shards for the preset."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListPresetsResponsePresetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Preset"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of available presets."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListPresets": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListPresetsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListPresetsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/presets",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available presets",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "presets",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListVersionsResponseVersionsList",
+          "traits": {
+            "smithy.api#documentation": "Available deployment version."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of deployment version available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#Version": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deployment version."
+          }
+        },
+        "end_of_life_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of End of Life. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.datawarehouse_v1beta1#Version"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available deployment version."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#ListVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available ClickHouse® versions",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "versions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#DatawarehouseV1beta1": {
+      "type": "service",
+      "version": "v1beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDeployments"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateDeployment"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#GetDeployment"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#UpdateDeployment"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeleteDeployment"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificate"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListDatabases"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateDatabase"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeleteDatabase"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#StartDeployment"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#StopDeployment"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListUsers"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateUser"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#UpdateUser"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeleteUser"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#CreateEndpoint"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#DeleteEndpoint"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListPresets"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#ListVersions"
+        },
+        {
+          "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Data Warehouse API",
+        "smithy.api#documentation": "Data Warehouse for ClickHouse® is a centralized repository to store large sets of structured data, to streamline analysis and reporting for data science and business intelligence.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/data-warehouse/concepts/) to find definitions of terms related to Data Warehouse for ClickHouse®.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Data Warehouse API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_ZONE=\"<Scaleway default Availability Zone>\"\n    export SCW_DEFAULT_REGION=\"<Scaleway default region>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Create a deployment**: run the following command to create a deployment. You can customize the details in the payload to your needs, using the table below to help.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n        \"cpu_max\": 1,\n        \"cpu_min\": 4,\n        \"name\": \"MyDeployment\",\n        \"password\": \"string\",\n        \"project_id\": $SCW_PROJECT_ID,\n      }' \\\n      \"https://api.scaleway.com/datawarehouse/v1beta1/regions/fr-par/deployments\"\n    ```\n\n3. **Get a list of your deployments**: run the following command to get a list of all the deployments in your account, with their details:\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/datawarehouse/v1beta1/regions/fr-par/deployments\"\n    ```\n\n4. **Delete your deployment**: run the following command to delete a deployment. Ensure that you replace `{resource-id}` in the URL with the ID of the deployment you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/datawarehouse/v1beta1/regions/fr-par/deployments/{resource-id}\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Going further\n\nFor more help using Scaleway Data Warehouse for ClickHouse®, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/data-warehouse/)\n- The #data-warehouse-beta channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRawRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.datawarehouse_v1beta1#GetDeploymentCertificateRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/datawarehouse/v1beta1/regions/{region}/deployments/{deployment_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Get deployment TLS certificate\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

@@ -1,0 +1,1038 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.webhosting_backup_v1#ListBackupItemsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupItemsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_backup_v1#ListBackupItemsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting account."
+          }
+        },
+        "backup_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "backup_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the backup to list items from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupItemsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of backup item groups."
+          }
+        },
+        "groups": {
+          "target": "com.scaleway.webhosting_backup_v1#ListBackupItemsResponseGroupsList",
+          "traits": {
+            "smithy.api#documentation": "List of backup item groups categorized by type."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#BackupItemGroup": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.webhosting_backup_v1#BackupItemType",
+          "traits": {
+            "smithy.api#documentation": "Type of items (e.g., email, database, FTP)."
+          }
+        },
+        "items": {
+          "target": "com.scaleway.webhosting_backup_v1#BackupItemGroupItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of individual backup items of this type."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#BackupItemType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_BACKUP_ITEM_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_backup_item_type"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        },
+        "WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web"
+          }
+        },
+        "MAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mail"
+          }
+        },
+        "DB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "db"
+          }
+        },
+        "DB_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "db_user"
+          }
+        },
+        "FTP_USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ftp_user"
+          }
+        },
+        "DNS_ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dns_zone"
+          }
+        },
+        "CRON_JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cron_job"
+          }
+        },
+        "SSL_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ssl_certificate"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#BackupItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the item."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the item (e.g., `database name`, `email address`)."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.webhosting_backup_v1#BackupItemType",
+          "traits": {
+            "smithy.api#documentation": "Type of the item (e.g., email, database, FTP)."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the item in bytes. (in bytes)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_backup_v1#BackupStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the item. Available values are `active`, `damaged`, and `restoring`."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time at which this item was backed up. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#BackupStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_BACKUP_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_backup_status"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "DAMAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "damaged"
+          }
+        },
+        "RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restoring"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#BackupItemGroupItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_backup_v1#BackupItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of individual backup items of this type."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupItemsResponseGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_backup_v1#BackupItemGroup"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of backup item groups categorized by type."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupItems": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_backup_v1#ListBackupItemsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_backup_v1#ListBackupItemsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/backup-items",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List items within a specific backup, grouped by type."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_backup_v1#ListBackupsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting account."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to retrieve."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of backups to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.webhosting_backup_v1#ListBackupsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return the list of backups."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of available backups."
+          }
+        },
+        "backups": {
+          "target": "com.scaleway.webhosting_backup_v1#ListBackupsResponseBackupsList",
+          "traits": {
+            "smithy.api#documentation": "List of available backups."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#Backup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the backup."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total size of the backup in bytes. (in bytes)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the backup. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_backup_v1#BackupStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the backup. Available values are `active`, `locked`, and `restoring`."
+          }
+        },
+        "total_items": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of restorable items in the backup."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackupsResponseBackupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_backup_v1#Backup"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of available backups."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListBackups": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_backup_v1#ListBackupsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_backup_v1#ListBackupsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/backups",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all available backups for a hosting account.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "backups",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#GetBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#GetBackupRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_backup_v1#GetBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting account."
+          }
+        },
+        "backup_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the backup to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#GetBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_backup_v1#GetBackupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_backup_v1#Backup"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/backups/{backup_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get info about a backup specified by the backup ID."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackupRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_backup_v1#RestoreBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting account."
+          }
+        },
+        "backup_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the backup to fully restore."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackupResponse": {
+      "type": "structure",
+      "members": {
+        "progress_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier used to track the backup restoration progress."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_backup_v1#RestoreBackupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_backup_v1#RestoreBackupResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/backups/{backup_id}/restore",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Restore an entire backup to your hosting environment."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListRecentProgressesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ListRecentProgressesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_backup_v1#ListRecentProgressesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the hosting linked to the progress."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListRecentProgressesResponse": {
+      "type": "structure",
+      "members": {
+        "progresses": {
+          "target": "com.scaleway.webhosting_backup_v1#ListRecentProgressesResponseProgressesList",
+          "traits": {
+            "smithy.api#documentation": "List of summarized progress entries."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ProgressSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the progress."
+          }
+        },
+        "backup_items_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of backup items included in the progress."
+          }
+        },
+        "percentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Completion percentage of the progress."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_backup_v1#ProgressStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the progress operation."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ProgressStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "PARTIALLY_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partially_completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "ABORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aborted"
+          }
+        },
+        "NEVER_FINISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "never_finished"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ListRecentProgressesResponseProgressesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_backup_v1#ProgressSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of summarized progress entries."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#ListRecentProgresses": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_backup_v1#ListRecentProgressesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_backup_v1#ListRecentProgressesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/progresses",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List recent progresses associated with a specific backup, grouped by type."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#GetProgressRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#GetProgressRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_backup_v1#GetProgressRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the hosting associated with the progress."
+          }
+        },
+        "progress_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the progress to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#Progress": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the progress."
+          }
+        },
+        "backup_item_groups": {
+          "target": "com.scaleway.webhosting_backup_v1#ProgressBackupItemGroupsList",
+          "traits": {
+            "smithy.api#documentation": "Groups of backup items included in this progress."
+          }
+        },
+        "percentage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Completion percentage of the progress."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_backup_v1#ProgressStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the progress operation."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#ProgressBackupItemGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_backup_v1#BackupItemGroup"
+      },
+      "traits": {
+        "smithy.api#documentation": "Groups of backup items included in this progress."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#GetProgress": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_backup_v1#GetProgressRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_backup_v1#Progress"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/progresses/{progress_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve detailed information about a specific progress by its ID."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackupItemsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackupItemsRequestItemIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of backup item IDs to restore individually."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackupItemsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_backup_v1#RestoreBackupItemsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting account."
+          }
+        },
+        "item_ids": {
+          "target": "com.scaleway.webhosting_backup_v1#RestoreBackupItemsRequestItemIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of backup item IDs to restore individually."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackupItemsResponse": {
+      "type": "structure",
+      "members": {
+        "progress_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier used to track the item restoration progress."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_backup_v1#RestoreBackupItems": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_backup_v1#RestoreBackupItemsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_backup_v1#RestoreBackupItemsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/restore-backup-items",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Restore specific items from a backup (e.g., a database or mailbox)."
+      }
+    },
+    "com.scaleway.webhosting_backup_v1#WebhostingBackupV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.webhosting_backup_v1#ListBackupItems"
+        },
+        {
+          "target": "com.scaleway.webhosting_backup_v1#ListBackups"
+        },
+        {
+          "target": "com.scaleway.webhosting_backup_v1#GetBackup"
+        },
+        {
+          "target": "com.scaleway.webhosting_backup_v1#RestoreBackup"
+        },
+        {
+          "target": "com.scaleway.webhosting_backup_v1#ListRecentProgresses"
+        },
+        {
+          "target": "com.scaleway.webhosting_backup_v1#GetProgress"
+        },
+        {
+          "target": "com.scaleway.webhosting_backup_v1#RestoreBackupItems"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Web Hosting backup API",
+        "smithy.api#documentation": "Scaleway provides several Web Hosting plans for individuals, professionals, and everyone in between. Our Web Hosting plans include:\n\n- A domain name\n- A configurable webhosting service\n- The management of your emails, including anti-spam, antivirus and filter systems\n- Unlimited sub-domains\n- An FTP account to upload your website\n- At least one database\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-services/webhosting/concepts/) to find definitions of all Web Hosting-related terminology.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Web Hosting API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Choose a Web Hosting offer**: run the following command to list all Web Hosting offers. The `| jq` appendage at the end of the command makes the output easier to read.\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/offers?without_options=true\" | jq\n    ```\n\n   <Message type=\"note\">\n   In the above example, we choose to get offers only. Adjust the query parameter if you would also like to get information about the different options you can add to offers.\n   </Message>\n\n3. **Order a Web Hosting plan**: run the following command to create a Web Hosting plan. You can customize the details in the payload to your needs, using the table below to help.\n\n    ```bash\n    curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/hostings\" \\\n        -d '{\n        \"domain\": \"mydomain.net\",\n        \"offer_id\": \"f5c2ae8f-7625-4bca-b711-b44bb3d08694\",\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"tags\": [\"my-tag\"]\n    }'\n    ```\n\n\n   <Message type=\"tip\">\n   Once you've ordered your Web Hosting plan, check out our [dedicated documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/) to get started with your configuration.\n   </Message>\n\n4. **Delete your Web Hosting plan**: run the following command to delete your Web Hosting plan. Ensure that you replace `{hosting-id}` in the URL with the ID of the Web Hosting plan you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n        -H \"Content-Type: application/json\" \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        \"https://api.scaleway.com/rest-of-endpoint/{hosting-id}\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have [installaed `jq`](https://stedolan.github.io/jq/download/)\n</Message>\n\n## Technical information\n\nAll Scaleway Web Hosting plans now offer a choice between cPanel and Plesk for website management. Both tools provide a graphical interface and fast access icons, allowing you to configure and monitor your hosting solutions with ease. You can access cPanel or Plesk via the [Scaleway console](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/#how-to-access-the-web-hosting-control-panel-from-the-scaleway-console).\n\n### Regions\n\nThe Scaleway Web Hosting API is a **regional** API, meaning that each call must specify in its path parameters the region for the resources concerned by the call.\n\nScaleway Web Hosting is available only in the `fr-par` region.\n\n## Going further\n\nFor more help using Scaleway Web Hosting, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/)\n- The #webhosting-early-access channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

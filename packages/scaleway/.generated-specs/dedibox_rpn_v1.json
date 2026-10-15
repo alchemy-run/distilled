@@ -1,0 +1,305 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilitiesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilitiesRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilitiesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order of the servers."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of servers per page."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter servers by project ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilitiesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total count of servers."
+          }
+        },
+        "servers": {
+          "target": "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilitiesResponseServersList",
+          "traits": {
+            "smithy.api#documentation": "List of servers and their RPN capabilities."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_v1#RpnServerCapability": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Server ID."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server hostname."
+          }
+        },
+        "datacenter_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server datacenter name."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server zone."
+          }
+        },
+        "ip_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private IP address (if rpn compatiblle)."
+          }
+        },
+        "rpn_version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Supported rpn version."
+          }
+        },
+        "compatible_qinq": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if server is compatible with QinQ protocol (rpn v2)."
+          }
+        },
+        "can_join_qinq_group": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if server can join a QinQ group."
+          }
+        },
+        "rpnv1_group_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Times server is linked in a rpnv1 group."
+          }
+        },
+        "rpnv2_group_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Times server is linked in a rpnv2 group."
+          }
+        },
+        "can_join_rpnv2_group": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if server can join an rpnv2 group."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilitiesResponseServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_v1#RpnServerCapability"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of servers and their RPN capabilities."
+      }
+    },
+    "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilities": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilitiesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilitiesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/rpn/server-capabilities",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnAPI.listRpnServerCapabilities`): Scaleway publishes no OpenAPI document for this route.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "servers",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.dedibox_rpn_v1#GetRpnStatusRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "A project ID."
+          }
+        },
+        "rpnv1_group_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "rpnv1_group_id",
+            "smithy.api#documentation": "An RPN v1 group ID."
+          }
+        },
+        "rpnv2_group_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "rpnv2_group_id",
+            "smithy.api#documentation": "An RPN v2 group ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_v1#GetRpnStatusResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.scaleway.dedibox_rpn_v1#GetRpnStatusResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "If status = 'operational', you can perform rpn actions in write."
+          }
+        },
+        "operations_left": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of operations left to perform before being operational."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_v1#GetRpnStatusResponseStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "BUSY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "busy"
+          }
+        },
+        "OPERATIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "operational"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_v1#GetRpnStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_v1#GetRpnStatusRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_rpn_v1#GetRpnStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/rpn/status",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnAPI.getRpnStatus`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_rpn_v1#DediboxRpnV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.dedibox_rpn_v1#ListRpnServerCapabilities"
+        },
+        {
+          "target": "com.scaleway.dedibox_rpn_v1#GetRpnStatus"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "scaleway.dedibox.v1.RpnApi (derived)",
+        "smithy.api#documentation": "Derived from scaleway/scaleway-sdk-js packages_generated/dedibox/src/v1 — the portal publishes no OpenAPI document for these routes."
+      }
+    }
+  }
+}

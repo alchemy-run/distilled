@@ -1,0 +1,823 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.dedibox_billing_v1#ListInvoicesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#ListInvoicesRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.dedibox_billing_v1#ListInvoicesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#ListInvoicesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Double"
+        },
+        "invoices": {
+          "target": "com.scaleway.dedibox_billing_v1#ListInvoicesResponseInvoicesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#InvoiceSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double"
+        },
+        "total_with_taxes": {
+          "target": "com.scaleway.dedibox_billing_v1#GoogleTypeMoney"
+        },
+        "total_without_taxes": {
+          "target": "com.scaleway.dedibox_billing_v1#GoogleTypeMoney"
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "paid_at": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.scaleway.dedibox_billing_v1#InvoiceStatus"
+        },
+        "payment_method": {
+          "target": "com.scaleway.dedibox_billing_v1#InvoicePaymentMethod"
+        },
+        "transaction_id": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#InvoiceStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_INVOICE_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_invoice_status"
+          }
+        },
+        "UNPAID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unpaid"
+          }
+        },
+        "PAID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paid"
+          }
+        },
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#InvoicePaymentMethod": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PAYMENT_METHOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_payment_method"
+          }
+        },
+        "CREDIT_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "credit_card"
+          }
+        },
+        "AMEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amex"
+          }
+        },
+        "PAYPAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypal"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        },
+        "DIRECT_DEBIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "direct_debit"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#ListInvoicesResponseInvoicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_billing_v1#InvoiceSummary"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#ListInvoices": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#ListInvoicesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#ListInvoicesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/invoices",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.listInvoices`): Scaleway publishes no OpenAPI document for this route.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "invoices",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#GetInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "invoice_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#Invoice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double"
+        },
+        "total_with_taxes": {
+          "target": "com.scaleway.dedibox_billing_v1#GoogleTypeMoney"
+        },
+        "total_without_taxes": {
+          "target": "com.scaleway.dedibox_billing_v1#GoogleTypeMoney"
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "paid_at": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.scaleway.dedibox_billing_v1#InvoiceStatus"
+        },
+        "payment_method": {
+          "target": "com.scaleway.dedibox_billing_v1#InvoicePaymentMethod"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        },
+        "transaction_id": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#GetInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#GetInvoiceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#Invoice"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/invoices/{invoice_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.getInvoice`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadInvoiceRequest": {
+      "type": "structure",
+      "members": {
+        "invoice_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadInvoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#DownloadInvoiceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/invoices/{invoice_id}/download",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.downloadInvoice`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#ListRefundsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#ListRefundsRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.dedibox_billing_v1#ListRefundsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#ListRefundsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Double"
+        },
+        "refunds": {
+          "target": "com.scaleway.dedibox_billing_v1#ListRefundsResponseRefundsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#RefundSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double"
+        },
+        "total_with_taxes": {
+          "target": "com.scaleway.dedibox_billing_v1#GoogleTypeMoney"
+        },
+        "total_without_taxes": {
+          "target": "com.scaleway.dedibox_billing_v1#GoogleTypeMoney"
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "refunded_at": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.scaleway.dedibox_billing_v1#RefundStatus"
+        },
+        "method": {
+          "target": "com.scaleway.dedibox_billing_v1#RefundMethod"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#RefundStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_REFUND_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_refund_status"
+          }
+        },
+        "UNPAID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unpaid"
+          }
+        },
+        "PAID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paid"
+          }
+        },
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#RefundMethod": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_REFUND_METHOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_refund_method"
+          }
+        },
+        "CREDIT_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "credit_card"
+          }
+        },
+        "AMEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amex"
+          }
+        },
+        "PAYPAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paypal"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#ListRefundsResponseRefundsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_billing_v1#RefundSummary"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#ListRefunds": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#ListRefundsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#ListRefundsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/refunds",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.listRefunds`): Scaleway publishes no OpenAPI document for this route.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "refunds",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#GetRefundRequest": {
+      "type": "structure",
+      "members": {
+        "refund_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#Refund": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double"
+        },
+        "total_with_taxes": {
+          "target": "com.scaleway.dedibox_billing_v1#GoogleTypeMoney"
+        },
+        "total_without_taxes": {
+          "target": "com.scaleway.dedibox_billing_v1#GoogleTypeMoney"
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "refunded_at": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.scaleway.dedibox_billing_v1#RefundStatus"
+        },
+        "method": {
+          "target": "com.scaleway.dedibox_billing_v1#RefundMethod"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#GetRefund": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#GetRefundRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#Refund"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/refunds/{refund_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.getRefund`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadRefundRequest": {
+      "type": "structure",
+      "members": {
+        "refund_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadRefund": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#DownloadRefundRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/refunds/{refund_id}/download",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.downloadRefund`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#CanOrderRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#CanOrderResponse": {
+      "type": "structure",
+      "members": {
+        "can_order": {
+          "target": "smithy.api#Boolean"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "quota_ok": {
+          "target": "smithy.api#Boolean"
+        },
+        "phone_confirmed": {
+          "target": "smithy.api#Boolean"
+        },
+        "email_confirmed": {
+          "target": "smithy.api#Boolean"
+        },
+        "user_confirmed": {
+          "target": "smithy.api#Boolean"
+        },
+        "payment_mode": {
+          "target": "smithy.api#Boolean"
+        },
+        "billing_ok": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#CanOrder": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#CanOrderRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#CanOrderResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/can-order",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.canOrder`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#DediboxBillingV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.dedibox_billing_v1#ListInvoices"
+        },
+        {
+          "target": "com.scaleway.dedibox_billing_v1#GetInvoice"
+        },
+        {
+          "target": "com.scaleway.dedibox_billing_v1#DownloadInvoice"
+        },
+        {
+          "target": "com.scaleway.dedibox_billing_v1#ListRefunds"
+        },
+        {
+          "target": "com.scaleway.dedibox_billing_v1#GetRefund"
+        },
+        {
+          "target": "com.scaleway.dedibox_billing_v1#DownloadRefund"
+        },
+        {
+          "target": "com.scaleway.dedibox_billing_v1#CanOrder"
+        },
+        {
+          "target": "com.scaleway.dedibox_billing_v1#DownloadInvoiceRaw"
+        },
+        {
+          "target": "com.scaleway.dedibox_billing_v1#DownloadRefundRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "scaleway.dedibox.v1.BillingApi (derived)",
+        "smithy.api#documentation": "Derived from scaleway/scaleway-sdk-js packages_generated/dedibox/src/v1 — the portal publishes no OpenAPI document for these routes."
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadInvoiceRawRequest": {
+      "type": "structure",
+      "members": {
+        "invoice_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadInvoiceRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadInvoiceRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#DownloadInvoiceRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#DownloadInvoiceRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/invoices/{invoice_id}/download",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.downloadInvoice`): Scaleway publishes no OpenAPI document for this route.\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadRefundRawRequest": {
+      "type": "structure",
+      "members": {
+        "refund_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadRefundRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_billing_v1#DownloadRefundRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_billing_v1#DownloadRefundRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_billing_v1#DownloadRefundRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/refunds/{refund_id}/download",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`BillingAPI.downloadRefund`): Scaleway publishes no OpenAPI document for this route.\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

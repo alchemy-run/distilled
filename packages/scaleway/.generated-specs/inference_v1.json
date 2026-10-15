@@ -1,0 +1,2086 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.inference_v1#ListDeploymentsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListDeploymentsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListDeploymentsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListDeploymentsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#ListDeploymentsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of deployments to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.inference_v1#ListDeploymentsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by Organization ID. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by deployment name."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.inference_v1#ListDeploymentsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter by tags."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#ListDeploymentsResponse": {
+      "type": "structure",
+      "members": {
+        "deployments": {
+          "target": "com.scaleway.inference_v1#ListDeploymentsResponseDeploymentsList",
+          "traits": {
+            "smithy.api#documentation": "List of deployments on the current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of deployments."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#Deployment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployment."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.inference_v1#DeploymentStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the deployment."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.inference_v1#DeploymentTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the deployment."
+          }
+        },
+        "node_type_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Node type of the deployment."
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.inference_v1#DeploymentEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "List of endpoints."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Current size of the pool."
+          }
+        },
+        "min_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Defines the minimum size of the pool."
+          }
+        },
+        "max_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum size of the pool. Currently, autoscaling is not yet supported, and this value must be equal to `min_size`."
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Displays information if your deployment is in error state.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the model used for the deployment. (UUID format)"
+          }
+        },
+        "quantization": {
+          "target": "com.scaleway.inference_v1#DeploymentQuantization",
+          "traits": {
+            "smithy.api#documentation": "Quantization parameters for this deployment."
+          }
+        },
+        "model_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployed model."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the deployment. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the deployment. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the deployment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#DeploymentStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "DEPLOYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deploying"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "SCALING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaling"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#DeploymentTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the deployment."
+      }
+    },
+    "com.scaleway.inference_v1#Endpoint": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier. (UUID format)"
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the endpoint.\nFor private endpoints, the URL will be accessible only from the Private Network.\nIn addition, private endpoints will expose a CA certificate that can be used to verify the server's identity.\nThis CA certificate can be retrieved using the `GetDeploymentCertificate` API call."
+          }
+        },
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the endpoint is public.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.inference_v1#EndpointPrivateNetworkDetails",
+          "traits": {
+            "smithy.api#documentation": "Details of the Private Network.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "disable_auth": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the authentication is disabled."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#EndpointPrivateNetworkDetails": {
+      "type": "structure",
+      "members": {
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#DeploymentEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of endpoints."
+      }
+    },
+    "com.scaleway.inference_v1#DeploymentQuantization": {
+      "type": "structure",
+      "members": {
+        "bits": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of bits each model parameter should be quantized to. The quantization method is chosen based on this value.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListDeploymentsResponseDeploymentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#Deployment"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of deployments on the current page."
+      }
+    },
+    "com.scaleway.inference_v1#ListDeployments": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#ListDeploymentsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#ListDeploymentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/inference/v1/regions/{region}/deployments",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List inference deployments\n\nList all your inference deployments.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "deployments",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.inference_v1#CreateDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#CreateDeploymentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the deployment."
+      }
+    },
+    "com.scaleway.inference_v1#EndpointSpec": {
+      "type": "structure",
+      "members": {
+        "public_network": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Set the endpoint as public.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network": {
+          "target": "com.scaleway.inference_v1#EndpointPrivateNetworkDetails",
+          "traits": {
+            "smithy.api#documentation": "Set the endpoint as private.\nPrivate endpoints are only accessible from the Private Network.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "disable_auth": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable the authentication on the endpoint.\nBy default, deployments are protected by IAM authentication.\nWhen setting this field to true, the authentication will be disabled."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#CreateDeploymentRequestEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#EndpointSpec"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of endpoints to create."
+      }
+    },
+    "com.scaleway.inference_v1#CreateDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#CreateDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployment.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to create the deployment in. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the model to use. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "accept_eula": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Accept the model's End User License Agreement (EULA).\nIf the model has an EULA, you must accept it before proceeding.\nThe terms of the EULA can be retrieved using the `GetModelEula` API call.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "node_type_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the node type to use.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.inference_v1#CreateDeploymentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the deployment."
+          }
+        },
+        "min_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Defines the minimum size of the pool.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum size of the pool. Currently, autoscaling is not yet supported, and this value must be equal to `min_size`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "endpoints": {
+          "target": "com.scaleway.inference_v1#CreateDeploymentRequestEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "List of endpoints to create.",
+            "smithy.api#required": {}
+          }
+        },
+        "quantization": {
+          "target": "com.scaleway.inference_v1#DeploymentQuantization",
+          "traits": {
+            "smithy.api#documentation": "Quantization settings to apply to this deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#CreateDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#CreateDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/inference/v1/regions/{region}/deployments",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a deployment\n\nCreate a new inference deployment related to a specific model."
+      }
+    },
+    "com.scaleway.inference_v1#GetDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#GetDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#GetDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the deployment to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#GetDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#GetDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/inference/v1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a deployment\n\nGet the deployment for the given ID."
+      }
+    },
+    "com.scaleway.inference_v1#UpdateDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#UpdateDeploymentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the deployment."
+      }
+    },
+    "com.scaleway.inference_v1#UpdateDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#UpdateDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the deployment to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.inference_v1#UpdateDeploymentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Defines the new minimum size of the pool.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Defines the maximum size of the pool. Currently, autoscaling is not yet supported, and this value must be equal to `min_size`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the model to set to the deployment.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "quantization": {
+          "target": "com.scaleway.inference_v1#DeploymentQuantization",
+          "traits": {
+            "smithy.api#documentation": "Quantization to use to the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#UpdateDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#UpdateDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/inference/v1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a deployment\n\nUpdate an existing inference deployment."
+      }
+    },
+    "com.scaleway.inference_v1#DeleteDeploymentRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#DeleteDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#DeleteDeploymentRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the deployment to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#DeleteDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#DeleteDeploymentRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Deployment"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/inference/v1/regions/{region}/deployments/{deployment_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a deployment\n\nDelete an existing inference deployment."
+      }
+    },
+    "com.scaleway.inference_v1#GetDeploymentCertificateRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#GetDeploymentCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#GetDeploymentCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#ScalewayStdFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        },
+        "content": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#GetDeploymentCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#GetDeploymentCertificateRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#ScalewayStdFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/inference/v1/regions/{region}/deployments/{deployment_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get the CA certificate\n\nGet the CA certificate used for the deployment of private endpoints.\nThe CA certificate will be returned as a PEM file."
+      }
+    },
+    "com.scaleway.inference_v1#CreateEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#CreateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#CreateEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deployment to create the endpoint for. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "endpoint": {
+          "target": "com.scaleway.inference_v1#EndpointSpec",
+          "traits": {
+            "smithy.api#documentation": "Specification of the endpoint.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#CreateEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#CreateEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/inference/v1/regions/{region}/endpoints",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create an endpoint\n\nCreate a new Endpoint related to a specific deployment."
+      }
+    },
+    "com.scaleway.inference_v1#UpdateEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#UpdateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#UpdateEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the endpoint to update. (UUID format)"
+          }
+        },
+        "disable_auth": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable the authentication on the endpoint.\nBy default, deployments are protected by IAM authentication.\nWhen setting this field to true, the authentication will be disabled.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#UpdateEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#UpdateEndpointRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Endpoint"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/inference/v1/regions/{region}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an endpoint\n\nUpdate an existing Endpoint."
+      }
+    },
+    "com.scaleway.inference_v1#DeleteEndpointRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#DeleteEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#DeleteEndpointRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "endpoint_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the endpoint to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#DeleteEndpoint": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#DeleteEndpointRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/inference/v1/regions/{region}/endpoints/{endpoint_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an endpoint\n\nDelete an existing Endpoint."
+      }
+    },
+    "com.scaleway.inference_v1#ListModelsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListModelsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "DISPLAY_RANK_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "display_rank_asc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListModelsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListModelsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#ListModelsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.inference_v1#ListModelsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of models to return per page."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by Organization ID. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by model name."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.inference_v1#ListModelsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter by tags."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#ListModelsResponse": {
+      "type": "structure",
+      "members": {
+        "models": {
+          "target": "com.scaleway.inference_v1#ListModelsResponseModelsList",
+          "traits": {
+            "smithy.api#documentation": "List of models on the current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of models."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#Model": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique Name identifier."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.inference_v1#ModelTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the model."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.inference_v1#ModelStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the model."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Purpose of the model."
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Displays information if your model is in error state.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_eula": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the model has an end user license agreement."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the model. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the model. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the model."
+          }
+        },
+        "nodes_support": {
+          "target": "com.scaleway.inference_v1#ModelNodesSupportList",
+          "traits": {
+            "smithy.api#documentation": "Supported nodes types with quantization options and context lengths."
+          }
+        },
+        "parameter_size_bits": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size, in bits, of the model parameters."
+          }
+        },
+        "size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total size, in bytes, of the model files."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ModelTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the model."
+      }
+    },
+    "com.scaleway.inference_v1#ModelStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "PREPARING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preparing"
+          }
+        },
+        "DOWNLOADING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "downloading"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ModelSupportInfo": {
+      "type": "structure",
+      "members": {
+        "nodes": {
+          "target": "com.scaleway.inference_v1#ModelSupportInfoNodesList",
+          "traits": {
+            "smithy.api#documentation": "List of supported node types."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ModelSupportedNode": {
+      "type": "structure",
+      "members": {
+        "node_type_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported node type."
+          }
+        },
+        "quantizations": {
+          "target": "com.scaleway.inference_v1#ModelSupportedNodeQuantizationsList",
+          "traits": {
+            "smithy.api#documentation": "Supported quantizations."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ModelSupportedQuantization": {
+      "type": "structure",
+      "members": {
+        "quantization_bits": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of bits for this supported quantization."
+          }
+        },
+        "allowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Tells whether this quantization is allowed for this node type."
+          }
+        },
+        "max_context_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum inference context size available for this node type and quantization."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ModelSupportedNodeQuantizationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#ModelSupportedQuantization"
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported quantizations."
+      }
+    },
+    "com.scaleway.inference_v1#ModelSupportInfoNodesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#ModelSupportedNode"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of supported node types."
+      }
+    },
+    "com.scaleway.inference_v1#ModelNodesSupportList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#ModelSupportInfo"
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported nodes types with quantization options and context lengths."
+      }
+    },
+    "com.scaleway.inference_v1#ListModelsResponseModelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#Model"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of models on the current page."
+      }
+    },
+    "com.scaleway.inference_v1#ListModels": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#ListModelsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#ListModelsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/inference/v1/regions/{region}/models",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List models\n\nList all available models.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "models",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.inference_v1#CreateModelRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ModelSource": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#CreateModelRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#CreateModelRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to import the model in. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.scaleway.inference_v1#ModelSource",
+          "traits": {
+            "smithy.api#documentation": "Where to import the model from.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#CreateModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#CreateModelRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Model"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/inference/v1/regions/{region}/models",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Import a model\n\nImport a new model to your model library."
+      }
+    },
+    "com.scaleway.inference_v1#GetModelRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#GetModelRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#GetModelRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the model to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#GetModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#GetModelRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Model"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/inference/v1/regions/{region}/models/{model_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a model\n\nGet the model for the given ID."
+      }
+    },
+    "com.scaleway.inference_v1#DeleteModelRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#DeleteModelRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#DeleteModelRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the model to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#DeleteModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#DeleteModelRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/inference/v1/regions/{region}/models/{model_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a model\n\nDelete an existing model from your model library."
+      }
+    },
+    "com.scaleway.inference_v1#GetModelEulaRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#GetModelEulaRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#GetModelEulaRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the model to get the Eula for. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#Eula": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content of the end user license agreement."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#GetModelEula": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#GetModelEulaRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#Eula"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/inference/v1/regions/{region}/models/{model_id}/eula",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a model EULA\n\nGet the EULA for the given model ID."
+      }
+    },
+    "com.scaleway.inference_v1#ListNodeTypesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListNodeTypesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#ListNodeTypesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of node types to return per page."
+          }
+        },
+        "include_disabled_types": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_disabled_types",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Include disabled node types in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#ListNodeTypesResponse": {
+      "type": "structure",
+      "members": {
+        "node_types": {
+          "target": "com.scaleway.inference_v1#ListNodeTypesResponseNodeTypesList",
+          "traits": {
+            "smithy.api#documentation": "List of node types."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of node types."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#NodeType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the node type."
+          }
+        },
+        "stock_status": {
+          "target": "com.scaleway.inference_v1#NodeTypeStock",
+          "traits": {
+            "smithy.api#documentation": "Current stock status for the node type."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current specs of the offer."
+          }
+        },
+        "vcpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of virtual CPUs."
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Quantity of RAM. (in bytes)"
+          }
+        },
+        "vram": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Quantity of GPU RAM. (in bytes)"
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The node type is currently disabled."
+          }
+        },
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The node type is currently in beta."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the node type. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the node type. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gpus": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of GPUs."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the node type."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#NodeTypeStock": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_stock"
+          }
+        },
+        "LOW_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low_stock"
+          }
+        },
+        "OUT_OF_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_of_stock"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#ListNodeTypesResponseNodeTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#NodeType"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of node types."
+      }
+    },
+    "com.scaleway.inference_v1#ListNodeTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#ListNodeTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#ListNodeTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/inference/v1/regions/{region}/node-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available node types\n\nList all available node types. By default, the node types returned in the list are ordered by creation date in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "node_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.inference_v1#VerifyModelRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#VerifyModelRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#VerifyModelRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "source": {
+          "target": "com.scaleway.inference_v1#ModelSource",
+          "traits": {
+            "smithy.api#documentation": "Where to verify the model from.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#VerifyModelResponse": {
+      "type": "structure",
+      "members": {
+        "nodes": {
+          "target": "com.scaleway.inference_v1#VerifyModelResponseNodesList"
+        },
+        "size_bytes": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#VerifyModelResponseNodesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.inference_v1#ModelSupportedNode"
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#VerifyModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#VerifyModelRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#VerifyModelResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/inference/v1/regions/{region}/verify-model",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Verify a model\n\nVerify a model should be good to be deployed on Generative APIs - Dedicated Deployment."
+      }
+    },
+    "com.scaleway.inference_v1#InferenceV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.inference_v1#ListDeployments"
+        },
+        {
+          "target": "com.scaleway.inference_v1#CreateDeployment"
+        },
+        {
+          "target": "com.scaleway.inference_v1#GetDeployment"
+        },
+        {
+          "target": "com.scaleway.inference_v1#UpdateDeployment"
+        },
+        {
+          "target": "com.scaleway.inference_v1#DeleteDeployment"
+        },
+        {
+          "target": "com.scaleway.inference_v1#GetDeploymentCertificate"
+        },
+        {
+          "target": "com.scaleway.inference_v1#CreateEndpoint"
+        },
+        {
+          "target": "com.scaleway.inference_v1#UpdateEndpoint"
+        },
+        {
+          "target": "com.scaleway.inference_v1#DeleteEndpoint"
+        },
+        {
+          "target": "com.scaleway.inference_v1#ListModels"
+        },
+        {
+          "target": "com.scaleway.inference_v1#CreateModel"
+        },
+        {
+          "target": "com.scaleway.inference_v1#GetModel"
+        },
+        {
+          "target": "com.scaleway.inference_v1#DeleteModel"
+        },
+        {
+          "target": "com.scaleway.inference_v1#GetModelEula"
+        },
+        {
+          "target": "com.scaleway.inference_v1#ListNodeTypes"
+        },
+        {
+          "target": "com.scaleway.inference_v1#VerifyModel"
+        },
+        {
+          "target": "com.scaleway.inference_v1#GetDeploymentCertificateRaw"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Generative APIs - Dedicated Deployment API",
+        "smithy.api#documentation": "Scaleway Generative APIs - Dedicated Deployment allows you to deploy and run machine learning models on Scaleway infrastructure. This service provides scalable and efficient endpoints for your model inference needs. The Scaleway Generative APIs - Dedicated Deployment API enables you to manage these endpoints and perform inference operations with any OpenAI API compatible software.\n\n<Message type=\"tip\">\nFor details about the available models, refer to the [Generative APIs supported models](https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/) page.\n</Message>\n\n## Concepts\n\nRefer to the [Generative APIs - Concepts](https://www.scaleway.com/en/docs/generative-apis/concepts/) page to find the definitions of all concepts and terminology related to Generative APIs - Dedicated Deployment.\n\n## Quickstart\n\n<Message type=\"requirement\">\n- A [Scaleway account](https://console.scaleway.com/)\n- A valid [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) with sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions on this page\n- [`curl`](https://curl.se/download.html) installed\n</Message>\n\n1. **Configure your environment variables**. This is an optional step to simplify your usage of the Generative APIs - Dedicated Deployment API. You can find your Project ID in the [Scaleway console](https://console.scaleway.com/project/settings).\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<YOUR_API_SECRET_KEY>\"\n    export SCW_DEFAULT_REGION=\"fr-par\"\n    export SCW_PROJECT_ID=\"<YOUR_SCALEWAY_PROJECT_ID>\"\n    ```\n\n2. **List available models**: Run the following command to get a list of all the models available for deployment, with their details.\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/inference/v1/regions/$SCW_DEFAULT_REGION/endpoints\"\n    ```\n\n3. **Create a model deployment**: Run the following command to create a deployment. Customize the details in the payload.\n\n    ```bash\n    curl -X POST https://api.scaleway.com/inference/v1/regions/$SCW_DEFAULT_REGION/deployments \\\n    -H \"Content-Type: application/json\" \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    -d '{\n      \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n      \"name\": \"<YOUR_INFERENCE_DEPLOYMENT>\",\n      \"model_id\": \"<YOUR_CHOSEN_MODEL_ID>\",\n      \"node_type\": \"L4\",\n      \"min_size\": 1,\n      \"max_size\": 1,\n      \"accept_eula\": true,\n      \"endpoints\": [\n        {\n          \"public\": {}\n        }\n      ]\n    }'\n    ```\n\n\n4. **Create a model endpoint**: Run the following command to create an inference endpoint for the deployment. Customize the details in the payload.\n\n   Example for creating a public endpoint\n\n    ```bash\n    curl -X POST https://api.scaleway.com/inference/v1/regions/$SCW_DEFAULT_REGION/endpoints \\\n    -H \"Content-Type: application/json\" \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    -d '{\n      \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n      \"deployment_id\": \"your-deployment-id\",\n      \"endpoint\": {\n        \"disable_auth\": false,\n        \"public\": {}\n      }\n    }'\n    ```\n\n   Example for creating a private endpoint\n\n    ```bash\n    curl -X POST https://api.scaleway.com/inference/v1/regions/$SCW_DEFAULT_REGION/endpoints \\\n    -H \"Content-Type: application/json\" \\\n    -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n    -d '{\n      \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n      \"deployment_id\": \"your-deployment-id\",\n      \"endpoint\": {\n        \"disable_auth\": false,\n        \"private_network\": {\n          \"private_network_id\": \"your-private-network-id\"\n        }\n      }\n    }'\n    ```\n\n\n5. **List your deployments**: Run the following command to get a list of all the deployments in your account, with their details.\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/inference/v1/regions/$SCW_DEFAULT_REGION/deployments\"\n    ```\n\n6. **List your endpoints**: Run the following command to get a list of all the inference endpoints in your account, with their details.\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/inference/v1/regions/$SCW_DEFAULT_REGION/endpoints\"\n    ```\n\n7. **Delete an endpoint**: Run the following command to delete an inference endpoint, specified by its endpoint ID.\n\n    ```bash\n    curl -X DELETE \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/inference/v1/regions/$SCW_DEFAULT_REGION/endpoints/<endpoint-ID>\"\n    ```\n\n   The expected successful response is empty.\n\n   <Message type=\"important\">\n   Dedicated Generative APIs deployments must have at least one endpoint, either public or private.\n   </Message>\n\n## Technical information\n\n### Region\n\nGenerative APIs - Dedicated Deployment endpoints are available in the following region:\n\n\n### Pagination\n\nMost listing requests receive a paginated response. Requests against paginated endpoints accept two `query` arguments:\n\n- `page`, a positive integer to choose which page to return\n- `per_page`, a positive integer lower or equal to 100 to set the number of items returned per page. The default value is `50`.\n\nPaginated endpoints usually also accept filters to search and sort results. These filters are documented in each endpoint's documentation.\n\nThe `X-Total-Count` header contains the total number of items returned.\n\n### Creating a deployment: the model object\n\nWhen creating a deployment, the `model_id` parameter is required to specify the model to deploy. Use the [List Models](https://www.scaleway.com/en/developers/api/inference/models#list-models) endpoint to retrieve available model IDs.\n\n<Message type=\"note\">\nThis information is designed to help you correctly configure the `model_id` parameter when using the [Create a deployment](https://www.scaleway.com/en/developers/api/inference/deployments#create-a-deployment) method.\n</Message>\n\n## Going further\n\nFor more information about Generative APIs - Dedicated Deployment, refer to the following resources:\n\n- The [Generative APIs](https://www.scaleway.com/en/docs/generative-apis/) documentation\n- The #ai channel on Scaleway [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Contact [Scaleway Support](https://console.scaleway.com/support) if the issue persists."
+      }
+    },
+    "com.scaleway.inference_v1#GetDeploymentCertificateRawRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.inference_v1#GetDeploymentCertificateRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.inference_v1#GetDeploymentCertificateRawResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.inference_v1#GetDeploymentCertificateRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.inference_v1#GetDeploymentCertificateRawRequest"
+      },
+      "output": {
+        "target": "com.scaleway.inference_v1#GetDeploymentCertificateRawResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/inference/v1/regions/{region}/deployments/{deployment_id}/certificate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com",
+          "rawDownload": true
+        },
+        "smithy.api#documentation": "Get the CA certificate\n\nThe file itself, as bytes (`?dl=1`), rather than the JSON file object."
+      }
+    }
+  }
+}

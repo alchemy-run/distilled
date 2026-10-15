@@ -1,0 +1,1172 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by the UUID of the Scaleway organization. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by the UUID of the Scaleway project. (UUID format)"
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "database_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter by the UUID of the Serverless SQL Database."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Page size."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sorting criteria. One of `created_at_asc`, `created_at_desc`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsResponse": {
+      "type": "structure",
+      "members": {
+        "backups": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsResponseBackupsList",
+          "traits": {
+            "smithy.api#documentation": "List of the backups."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Length of the backups list."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#DatabaseBackup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID that uniquely identifies a Serverless SQL Database backup."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the database backup."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#DatabaseBackupStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the Serverless SQL Database backup. One of `unknown_status` | `error` | `ready` | `locked`."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of your Scaleway organization."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Scaleway project."
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the source Serverless SQL Database the backup is created from."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size (in bytes) of the database backup file. (in bytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "db_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size (in bytes) of the database when backup has been done. (in bytes)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "download_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Download URL of the exported database backup.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "download_url_expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of the download URL. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the database backup."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#DatabaseBackupStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsResponseBackupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#DatabaseBackup"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the backups."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackups": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackupsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/backups",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List your Serverless SQL Database backups\n\nList all Serverless SQL Database backups for a given Scaleway Project or Database. By default, the backups returned in the list are ordered by creation date in descending order, though this can be modified via the order_by field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "backups",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseBackupRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "backup_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Serverless SQL Database backup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseBackupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#DatabaseBackup"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/backups/{backup_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a database backup information\n\nRetrieve information about your Serverless SQL Database backup. You must provide the `backup_id` parameter."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ExportDatabaseBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ExportDatabaseBackupRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ExportDatabaseBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "backup_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Serverless SQL Database backup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ExportDatabaseBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#ExportDatabaseBackupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#DatabaseBackup"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/backups/{backup_id}/export",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Export a database backup\n\nExport a database backup providing a download link once the export process is completed. You must provide the `backup_id` parameter."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by the UUID of the Scaleway organization. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Scaleway project."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Page size."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by the name of the database."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sorting criteria. One of `created_at_asc`, `created_at_desc`, `name_asc`, `name_desc`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesResponse": {
+      "type": "structure",
+      "members": {
+        "databases": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesResponseDatabasesList",
+          "traits": {
+            "smithy.api#documentation": "List of the databases."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of Serverless SQL Databases."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#Database": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID that uniquely identifies your Serverless SQL DB Database."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the database."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#DatabaseStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the Serverless SQL Ddatabase. One of `unknown_status` | `ready` | `creating` | `deleting` | `error` | `restoring` | `locked`."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint of the database."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of your Scaleway organization."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID the database belongs to."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the database."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_min": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum number of CPU units for your Serverless SQL Database."
+          }
+        },
+        "cpu_max": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of CPU units for your Serverless SQL Database."
+          }
+        },
+        "cpu_current": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The current number of CPU units allocated to your Serverless SQL Database."
+          }
+        },
+        "started": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether your Serverless SQL Database is running or not."
+          }
+        },
+        "engine_major_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The major version of the underlying database engine. (deprecated in favor of `version`)."
+          }
+        },
+        "version": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#Version",
+          "traits": {
+            "smithy.api#documentation": "The major version of the underlying database engine."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#DatabaseStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restoring"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#Version": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Major number of the PostgreSQL engine."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the version."
+          }
+        },
+        "end_of_life_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of End Of Life. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region you want to target"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesResponseDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#Database"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the databases."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListDatabases": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabasesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/databases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List your Serverless SQL Databases\n\nList all Serverless SQL Databases for a given Scaleway Organization or Scaleway Project. By default, the databases returned in the list are ordered by creation date in ascending order, though this can be modified via the order_by field. For the `name` parameter, the value you include will be checked against the whole name string to see if it includes the string you put in the parameter.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "databases",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#CreateDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#CreateDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#CreateDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of your Scaleway project.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Serverless SQL Database to be created.",
+            "smithy.api#required": {}
+          }
+        },
+        "cpu_min": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum number of CPU units for your Serverless SQL Database.",
+            "smithy.api#required": {}
+          }
+        },
+        "cpu_max": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of CPU units for your Serverless SQL Database.",
+            "smithy.api#required": {}
+          }
+        },
+        "from_backup_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the backup to create the database from.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The major version of the postgreSQL requested."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#CreateDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#CreateDatabaseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/databases",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new Serverless SQL Database\n\nYou must provide the following parameters: `organization_id`, `project_id`, `name`, `cpu_min`, `cpu_max`. You can also provide `from_backup_id` to create a database from a backup."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Serverless SQL DB database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#GetDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/databases/{database_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a database information\n\nRetrieve information about your Serverless SQL Database. You must provide the `database_id` parameter."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#UpdateDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#UpdateDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#UpdateDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Serverless SQL Database."
+          }
+        },
+        "cpu_min": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum number of CPU units for your Serverless SQL Database.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_max": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of CPU units for your Serverless SQL Database.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#UpdateDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#UpdateDatabaseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/databases/{database_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update database information\n\nUpdate CPU limits of your Serverless SQL Database. You must provide the `database_id` parameter."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#DeleteDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#DeleteDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#DeleteDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Serverless SQL Database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#DeleteDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#DeleteDatabaseRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/databases/{database_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a database\n\nDeletes a database. You must provide the `database_id` parameter. All data stored in the database will be permanently deleted."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#RestoreDatabaseFromBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#RestoreDatabaseFromBackupRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#RestoreDatabaseFromBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Serverless SQL Database."
+          }
+        },
+        "backup_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Serverless SQL Database backup to restore.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#RestoreDatabaseFromBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#RestoreDatabaseFromBackupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#Database"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/databases/{database_id}/restore",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Restore a database from a backup\n\nRestore a database from a backup. You must provide the `backup_id` parameter."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListVersionsResponseVersionsList",
+          "traits": {
+            "smithy.api#documentation": "Available PostgreSQL versions."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of versions available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#Version"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available PostgreSQL versions."
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_sqldb_v1alpha1#ListVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-sqldb/v1alpha1/regions/{region}/versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available PostgreSQL major versions",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "versions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.serverless_sqldb_v1alpha1#ServerlessSqldbV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabaseBackups"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#GetDatabaseBackup"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ExportDatabaseBackup"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListDatabases"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#CreateDatabase"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#GetDatabase"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#UpdateDatabase"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#DeleteDatabase"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#RestoreDatabaseFromBackup"
+        },
+        {
+          "target": "com.scaleway.serverless_sqldb_v1alpha1#ListVersions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Serverless SQL Databases API",
+        "smithy.api#documentation": "Scaleway's Serverless SQL DB is a fully-managed and flexible service offering SQL Databases. It provides elastic scaling and a pay-per-use model, ensuring you pay only for the queries you run and storage you consume.\n\nDesigned to free you from administrative and configuration tasks, it lets you focus solely on your data and application development. We handle high availability, regular backups, and configuration.\n\nYour database only runs when in use, hosted in our energy-efficient datacenters in Europe, reducing your carbon footprint. Data is kept securely within our regions in Paris, Amsterdam, and Warsaw. Serverless SQL DB by Scaleway is a smart choice for efficient and sustainable database management.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/serverless-sql-databases/concepts/) to find definitions of the different terms referring to Serverless SQL DB.\n\n## Quickstart\n\n1. Configure your environment variables.\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the APIs.\n   </Message>\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_REGION=\"<Scaleway region>\"\n    ```\n\n2. Edit the POST request payload you will use to create your Serverless SQL DB Database. Replace the parameters in the following example:\n\n    ```json\n        {\n          \"organization_id\": \"895693aa-3915-4896-8761-c2923b008be7\",\n          \"project_id\": \"d8e65f2b-cce9-40b7-80fc-6a2902db6826\",\n          \"name\": \"myDB\",\n          \"cpu_min\": 0,\n          \"cpu_max\": 5,\n          \"version\": \"16\"\n        }\n    ```\n\n\n3. Create a Database by running the following command. Make sure you include the payload you edited in the previous step.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"Content-Type: application/json\" \\\n      https://api.scaleway.com/serverless-sqldb/v1alpha1/regions/$SCW_REGION/databases \\\n      -d '{\n          \"organization_id\": \"895693aa-3915-4896-8761-c2923b008be7\",\n          \"project_id\": \"d8e65f2b-cce9-40b7-80fc-6a2902db6826\",\n          \"name\": \"myDB\",\n          \"cpu_min\": 0,\n          \"cpu_max\": 5,\n          \"version\": \"16\"\n        }'\n    ```\n\n4. List your Databases.\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" https://api.scaleway.com/serverless-sqldb/v1alpha1/regions/$SCW_REGION/databases\n    ```\n\n   You should get a response like the following:\n\n   <Message type=\"note\">\n   This is a response example, the UUIDs and IP address displayed are not real.\n   </Message>\n\n    ```json\n    {\n          \"id\": \"f5122f66-fb50-4cef-aa02-487ef4fc1af0\",\n          \"name\": \"myDB\",\n          \"organization_id\": \"895693aa-3915-4896-8761-c2923b008be7\",\n          \"project_id\": \"d8e65f2b-cce9-40b7-80fc-6a2902db6826\",\n          \"status\": \"ready\",\n          \"endpoint\": \"postgres://f5122f66-fb50-4cef-aa02-487ef4fc1af0.pg.sdb.fr-par.scw.cloud/myDB\",\n          \"created_at\": \"2019-04-19T16:24:52.591417Z\",\n          \"region\": \"fr-par\",\n          \"version\": \"16\"\n    }\n    ```\n\n5. Retrieve your Serverless SQL DB endpoint from the response.\n   <Message type=\"note\">\n   In the example above, the Endpoint is `postgres://f5122f66-fb50-4cef-aa02-487ef4fc1af0.pg.sdb.fr-par.scw.cloud/myDB`.\n   </Message>\n6. Connect to your Database with the psql database client using the endpoint and one of your IAM principals:\n\n    ```bash\n    psql postgres://<iam-principal>:<iam-api-key>@f5122f66-fb50-4cef-aa02-487ef4fc1af0.pg.sdb.fr-par.scw.cloud/myDB\n    ```\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n- you have an account and are logged into the [Scaleway console](https://console.scaleway.com/organization)\n- you have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page.\n- you have [installed `curl`](https://curl.se/download.html)\n  </Message>\n\n## Technical Information\n\n### Regions\n\nScaleway's infrastructure is spread across different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nServerless SQL DB is available in the Paris region, which is represented by the following path parameters:\n\n- `fr-par`\n\n### PostgreSQL specifications\n\n#### Versions\n\nScaleway Serverless SQL DB supports PostgreSQL version 16.\n\n## Technical Limitations\n\n### User Management\n\n- users do NOT have `SUPERUSER` nor `REPLICATION` privileges.\n\n[//]: # (TODO: add details to User Management limitations)\n\n## Going Further\n\nFor more information about Serverless SQL DB , you can check out the following pages:\n\n- [Serverless SQL DB Documentation](https://www.scaleway.com/en/docs/serverless-sql-databases/)\n- [Scaleway Slack Community](https://scaleway-community.slack.com/) join the #database channel\n- [Contact our support team](https://console.scaleway.com/support/tickets)."
+      }
+    }
+  }
+}

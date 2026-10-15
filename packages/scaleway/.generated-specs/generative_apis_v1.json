@@ -1,0 +1,364 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.generative_apis_v1#ListConsumptionLimitsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "MODEL_ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model_id_desc"
+          }
+        },
+        "MODEL_ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model_id_asc"
+          }
+        },
+        "PROJECT_ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id_asc"
+          }
+        },
+        "PROJECT_ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_id_desc"
+          }
+        },
+        "ORGANIZATION_ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_id_asc"
+          }
+        },
+        "ORGANIZATION_ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_id_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_v1#ListConsumptionLimitsRequest": {
+      "type": "structure",
+      "members": {
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "model_id",
+            "smithy.api#documentation": "Model name identifier."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.generative_apis_v1#ListConsumptionLimitsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of consumption limits to return per page."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "List the consumption limits of this Organization. One-of `organization_project_id`: exactly one of `organization_id`, `project_id` — the API rejects a call with neither."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "List the consumption limits of this Project. One-of `organization_project_id`: exactly one of `organization_id`, `project_id` — the API rejects a call with neither."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_v1#ListConsumptionLimitsResponse": {
+      "type": "structure",
+      "members": {
+        "consumption_limits": {
+          "target": "com.scaleway.generative_apis_v1#ListConsumptionLimitsResponseConsumptionLimitsList",
+          "traits": {
+            "smithy.api#documentation": "List of consumption limit objects."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of objects."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_v1#ConsumptionLimitsResponse": {
+      "type": "structure",
+      "members": {
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model name identifier."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "limits": {
+          "target": "com.scaleway.generative_apis_v1#ConsumptionLimitsResponseLimitsList",
+          "traits": {
+            "smithy.api#documentation": "Model limit objects."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_v1#ConsumptionLimits": {
+      "type": "structure",
+      "members": {
+        "processing_unit": {
+          "target": "com.scaleway.generative_apis_v1#ProcessingUnit",
+          "traits": {
+            "smithy.api#documentation": "Processing unit type."
+          }
+        },
+        "organization_rate_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rate limit quota per minute applied across the entire Organization."
+          }
+        },
+        "project_rate_limit": {
+          "target": "com.scaleway.generative_apis_v1#Limit",
+          "traits": {
+            "smithy.api#documentation": "Secondary rate limit quota per minute applied to the Project."
+          }
+        },
+        "user_daily_budget": {
+          "target": "com.scaleway.generative_apis_v1#Limit",
+          "traits": {
+            "smithy.api#documentation": "Daily consumption budget per user."
+          }
+        },
+        "user_monthly_budget": {
+          "target": "com.scaleway.generative_apis_v1#Limit",
+          "traits": {
+            "smithy.api#documentation": "Monthly consumption budget per user."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_v1#ProcessingUnit": {
+      "type": "enum",
+      "members": {
+        "TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "token"
+          }
+        },
+        "AUDIO_SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio_second"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_v1#Limit": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specify whether or not to enable the limit."
+          }
+        },
+        "value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The amount of processing units to allocate for this limit."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_v1#ConsumptionLimitsResponseLimitsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_v1#ConsumptionLimits"
+      },
+      "traits": {
+        "smithy.api#documentation": "Model limit objects."
+      }
+    },
+    "com.scaleway.generative_apis_v1#ListConsumptionLimitsResponseConsumptionLimitsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_v1#ConsumptionLimitsResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of consumption limit objects."
+      }
+    },
+    "com.scaleway.generative_apis_v1#ListConsumptionLimits": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_v1#ListConsumptionLimitsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_v1#ListConsumptionLimitsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/generative-apis/v1/consumption-limits",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List configured consumption limits",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "consumption_limits",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.generative_apis_v1#SetConsumptionLimitsRequestSetConsumptionLimits": {
+      "type": "structure",
+      "members": {
+        "processing_unit": {
+          "target": "com.scaleway.generative_apis_v1#ProcessingUnit"
+        },
+        "project_rate_limit": {
+          "target": "com.scaleway.generative_apis_v1#Limit"
+        },
+        "user_daily_budget": {
+          "target": "com.scaleway.generative_apis_v1#Limit"
+        },
+        "user_monthly_budget": {
+          "target": "com.scaleway.generative_apis_v1#Limit"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.generative_apis_v1#SetConsumptionLimitsRequestLimitsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.generative_apis_v1#SetConsumptionLimitsRequestSetConsumptionLimits"
+      },
+      "traits": {
+        "smithy.api#documentation": "The ConsumptionLimits objects to configure for this model and Project."
+      }
+    },
+    "com.scaleway.generative_apis_v1#SetConsumptionLimitsRequest": {
+      "type": "structure",
+      "members": {
+        "model_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model name to configure the consumption limit for."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "limits": {
+          "target": "com.scaleway.generative_apis_v1#SetConsumptionLimitsRequestLimitsList",
+          "traits": {
+            "smithy.api#documentation": "The ConsumptionLimits objects to configure for this model and Project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.generative_apis_v1#SetConsumptionLimits": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.generative_apis_v1#SetConsumptionLimitsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.generative_apis_v1#ConsumptionLimitsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/generative-apis/v1/consumption-limits",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a consumption limit"
+      }
+    },
+    "com.scaleway.generative_apis_v1#GenerativeApisV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.generative_apis_v1#ListConsumptionLimits"
+        },
+        {
+          "target": "com.scaleway.generative_apis_v1#SetConsumptionLimits"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Generative APIs - Consumption Limits API",
+        "smithy.api#documentation": "The Scaleway Generative APIs - Consumption Limits API allows you to configure fine- grained capacity both inside your Project and at the user level:\n\n- Configure a secondary rate limit quota per minute that applies to a Project.\n- Configure a daily and/or monthly consumption limit budget per principal inside a Project.\n\n## Concepts\n\nWhile the Scaleway quota applies to the entire Organization, the Consumption Limits API allows you to slice this quota across your different Projects.\n\nA consumption limit exists for each Project and model inside the Organization, and it is disabled by default.\n\nThe consumption limit object is uniquely identified by its model name, project ID, and organization ID.\n\nYou can allocate a fixed daily or monthly resource budget for each user or principal member of the scoped Project.\n\nEach limit is configurable individually.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   ```bash\n   export SCW_SECRET_KEY=\"<API secret key>\"\n   ```\n\n2. **List current consumption limits**: Run the following command to get a list of all consumption limits:\n\n   ```bash\n   curl -X GET \\\n     -H \"Content-Type: application/json\" \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     \"https://api.scaleway.com/generative-apis/v1/consumption-limits?project_id=11111111-1111-1111-1111-111111111111\"\n   ```\n\n   The consumption-limits endpoint accepts either an `organization_id` or a `project_id` (only one of the two), and optionally a `model_id` filter. It returns a list of consumption limits under the `consumption_limits` key, each containing the `model_id`, `organization_id`, `project_id`, and its `limits`:\n\n   ```json\n   {\n     \"consumption_limits\": [\n       {\n         \"model_id\": \"qwen3.8-audio\",\n         \"organization_id\": \"11111111-1111-1111-1111-111111111111\",\n         \"project_id\": \"11111111-1111-1111-1111-111111111111\",\n         \"limits\": [\n           {\n             \"processing_unit\": \"token\",\n             \"organization_rate_limit\":  5000000,\n             \"project_rate_limit\": { \"enabled\": true, \"value\": 1000000 },\n             \"user_daily_budget\": { \"enabled\": true, \"value\": 50000000 },\n             \"user_monthly_budget\": { \"enabled\": true, \"value\": 1000000000 }\n           },\n           {\n             \"processing_unit\": \"audio_second\",\n             \"organization_rate_limit\":  5000000,\n             \"project_rate_limit\": { \"enabled\": false, \"value\": 0 },\n             \"user_daily_budget\": { \"enabled\": false, \"value\": 0 },\n             \"user_monthly_budget\": { \"enabled\": false, \"value\": 0 }\n           }\n         ]\n       }\n     ]\n   }\n   ```\n\n3. **Update a consumption limit**: Run the following command to update a consumption limit. The request body must contain the `model_id` and `project_id`, and the `limits` parameter that needs to be edited.\n\nCustomize the details in the payload to fit your needs:\n\n   ```bash\n   curl -X PATCH https://api.scaleway.com/generative-apis/v1/consumption-limits \\\n   -H \"Content-Type: application/json\" \\\n   -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n   -d '{\n     \"model_id\": \"qwen3.8-audio\",\n     \"project_id\": \"11111111-1111-1111-1111-111111111111\",\n     \"limits\": [\n       {\n         \"processing_unit\": \"token\",\n         \"project_rate_limit\": {\n           \"enabled\": true,\n           \"value\": 2000000\n         }\n       },\n       {\n         \"processing_unit\": \"audio_second\",\n         \"project_rate_limit\": {\n           \"enabled\": true,\n           \"value\": 1800\n         },\n         \"user_daily_budget\": {\n           \"enabled\": true,\n           \"value\": 2000000\n         },\n         \"user_monthly_budget\": {\n           \"enabled\": true,\n           \"value\": 40000000\n         }\n       }\n     ]\n   }'\n   ```\n\n   This is a partial update: for a given `processing_unit`, any limit field you omit is left unchanged (its previous value is preserved). In the example, only `project_rate_limit` is sent for the `token` processing unit, so its `user_daily_budget` and `user_monthly_budget` are kept as they were. Entries whose `processing_unit` is not present in the request are not modified. To disable a limit, send `{ \"enabled\": false }`. To change only the `value` of a limit, re-send its current `enabled` value alongside the new `value`.\n\n\nEach of `project_rate_limit`, `user_daily_budget` and `user_monthly_budget` is a limit object with two fields:\n\n- `enabled` (bool): specifies whether the limit is enforced. When `false`, the limit is not applied.\n- `value` (int): the limit value in processing units. For `project_rate_limit`, the value is expressed per minute and must be less than or equal to your Organization rate limit. For `user_daily_budget` and `user_monthly_budget`, the value is the total amount of processing units allowed over the day/month, respectively."
+      }
+    }
+  }
+}

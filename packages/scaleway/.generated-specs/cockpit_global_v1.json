@@ -1,0 +1,314 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.cockpit_global_v1#GetGrafanaRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Project. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_global_v1#Grafana": {
+      "type": "structure",
+      "members": {
+        "grafana_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to access your Cockpit's Grafana."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_global_v1#GetGrafana": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_global_v1#GetGrafanaRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_global_v1#Grafana"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/grafana",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get your Cockpit's Grafana\n\nRetrieve information on your Cockpit's Grafana, specified by the ID of the Project the Cockpit belongs to.\nThe output returned displays the URL to access your Cockpit's Grafana."
+      }
+    },
+    "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboardsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboardsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Project to target. (UUID format)"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Page size."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboardsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboardsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of Grafana dashboards."
+          }
+        },
+        "dashboards": {
+          "target": "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboardsResponseDashboardsList",
+          "traits": {
+            "smithy.api#documentation": "Grafana dashboards information."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_global_v1#GrafanaProductDashboard": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dashboard name."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dashboard title."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dashboard URL."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.cockpit_global_v1#GrafanaProductDashboardTagsList",
+          "traits": {
+            "smithy.api#documentation": "Dashboard tags."
+          }
+        },
+        "variables": {
+          "target": "com.scaleway.cockpit_global_v1#GrafanaProductDashboardVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Dashboard variables."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.cockpit_global_v1#GrafanaProductDashboardTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Dashboard tags."
+      }
+    },
+    "com.scaleway.cockpit_global_v1#GrafanaProductDashboardVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Dashboard variables."
+      }
+    },
+    "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboardsResponseDashboardsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.cockpit_global_v1#GrafanaProductDashboard"
+      },
+      "traits": {
+        "smithy.api#documentation": "Grafana dashboards information."
+      }
+    },
+    "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboards": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboardsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboardsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/grafana/product-dashboards",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Scaleway resources dashboards\n\nRetrieve a list of available dashboards in Grafana, for all Scaleway resources which are integrated with Cockpit.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "dashboards",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.cockpit_global_v1#GetGrafanaProductDashboardRequest": {
+      "type": "structure",
+      "members": {
+        "dashboard_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the dashboard."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Project the dashboard belongs to. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_global_v1#GetGrafanaProductDashboard": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_global_v1#GetGrafanaProductDashboardRequest"
+      },
+      "output": {
+        "target": "com.scaleway.cockpit_global_v1#GrafanaProductDashboard"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cockpit/v1/grafana/product-dashboards/{dashboard_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get Scaleway resource dashboard\n\nRetrieve information about the dashboard of a Scaleway resource in Grafana, specified by the ID of the Project the Cockpit belongs to, and the name of the dashboard."
+      }
+    },
+    "com.scaleway.cockpit_global_v1#SyncGrafanaDataSourcesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to target. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.cockpit_global_v1#SyncGrafanaDataSources": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.cockpit_global_v1#SyncGrafanaDataSourcesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/cockpit/v1/grafana/sync-data-sources",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Synchronize Grafana data sources\n\nTrigger the synchronization of all your data sources and the alert manager in the relevant regions. The alert manager will only be synchronized if you have enabled it."
+      }
+    },
+    "com.scaleway.cockpit_global_v1#CockpitGlobalV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.cockpit_global_v1#GetGrafana"
+        },
+        {
+          "target": "com.scaleway.cockpit_global_v1#ListGrafanaProductDashboards"
+        },
+        {
+          "target": "com.scaleway.cockpit_global_v1#GetGrafanaProductDashboard"
+        },
+        {
+          "target": "com.scaleway.cockpit_global_v1#SyncGrafanaDataSources"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Cockpit Global API",
+        "smithy.api#documentation": "Scaleway Cockpit allows you to monitor your applications and their infrastructure by giving you insights and context into their behavior. With Cockpit, you can use Grafana dashboards to visualize the metrics, logs, and traces of your resources and applications. Cockpit is automatically activated when you are using [Scaleway resources that are integrated into it](https://www.scaleway.com/en/docs/cockpit/reference-content/cockpit-product-integration/).\n\nThe Global API allows you to perform Cockpit visualization actions such as retrieving your dashboard URLs, managing Grafana users, and synchronizing your data through Grafana dashboards. Refer to the [Cockpit API](https://www.scaleway.com/en/developers/api/cockpit/regional-api/) documentation for information about data-related management.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/cockpit/concepts/) to learn about the different concepts and terms related to Cockpit.\n\n## Quickstart\n\n<Message type=\"requirement\">\n - You have a [Scaleway account](https://console.scaleway.com/)\n - You have [created an API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n - You have [installed `curl`](https://curl.se/download.html)\n - You have created [Scaleway resources integrated with Cockpit](https://www.scaleway.com/en/docs/cockpit/reference-content/cockpit-product-integration/)\n</Message>\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that aims to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. Create a Grafana user with the `editor` role.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\"login\":\"user-name\",\"role\":\"editor\",\"project_id\":\"<Scaleway Project ID>\"}' \\\n      \"https://api.scaleway.com/cockpit/v1/grafana/users\"\n    ```\n\n   <Message type=\"note\">\n   It is not possible to create a user with the `admin` username.\n   </Message>\n   Your user's password displays in the output. Make sure that you store it securely.\n\n3. Retrieve a list of available dashboards in Grafana for all Scaleway resources integrated with Cockpit.\n\n    ```bash\n    curl -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/cockpit/v1/grafana/product-dashboards?project_id=<Scaleway Project ID>\"\n    ```\n\n   The list of available dashboards displays in the output.\n\n### Troubleshooting\n\nRefer to our troubleshooting documentation if [your pusher does not support HTTP headers](https://www.scaleway.com/en/docs/cockpit/troubleshooting/pusher-does-not-support-custom-http-headers/) or if you want to [reset your Grafana password](https://www.scaleway.com/en/docs/cockpit/troubleshooting/resetting-grafana-password-via-the-api/).\n\n## Technical limitations\n\n- It is not possible to create an `admin` Grafana user.\n- Available roles for Grafana users are `viewer` and `editor`.\n- The Scaleway preconfigured dashboards cannot be edited.\n\n## Going further\n\nFor more information about Cockpit, you can check out the following pages:\n\n- [Cockpit documentation](https://www.scaleway.com/en/docs/cockpit/)\n- [Scaleway Slack Community](https://join.slack.com/t/scaleway-community/shared_invite/zt-3ebz5f4as-9OBggVAbUgBksSvCCwqksA) join the #observability channel\n- [Contact our Support team](https://console.scaleway.com/support/tickets)."
+      }
+    }
+  }
+}

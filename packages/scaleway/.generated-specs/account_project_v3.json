@@ -1,0 +1,888 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.account_project_v3#ListProjectsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#ListProjectsRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#ListProjectsRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID of the Project."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Name of the Project."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number for the returned Projects."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of Project per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.account_project_v3#ListProjectsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned Projects."
+          }
+        },
+        "project_ids": {
+          "target": "com.scaleway.account_project_v3#ListProjectsRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Project IDs to filter for. The results will be limited to any Projects with an ID in this array."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_project_v3#ListProjectsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of Projects."
+          }
+        },
+        "projects": {
+          "target": "com.scaleway.account_project_v3#ListProjectsResponseProjectsList",
+          "traits": {
+            "smithy.api#documentation": "Paginated returned Projects."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#Project": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Project."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID of the Project. (UUID format)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the Project. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Update date of the Project. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the Project."
+          }
+        },
+        "qualification": {
+          "target": "com.scaleway.account_project_v3#Qualification",
+          "traits": {
+            "smithy.api#documentation": "Qualification of the Project."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.account_project_v3#ProjectStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the Project."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the Project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#Qualification": {
+      "type": "structure",
+      "members": {
+        "architecture_type": {
+          "target": "com.scaleway.account_project_v3#QualificationArchitectureType",
+          "traits": {
+            "smithy.api#documentation": "Architecture type of the qualification."
+          }
+        },
+        "host_website": {
+          "target": "com.scaleway.account_project_v3#QualificationHostWebsite",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "host_application": {
+          "target": "com.scaleway.account_project_v3#QualificationHostApplication",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deploy_software": {
+          "target": "com.scaleway.account_project_v3#QualificationDeploySoftware",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "set_scaleway_environment": {
+          "target": "com.scaleway.account_project_v3#QualificationSetScalewayEnvironment",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ai_machine": {
+          "target": "com.scaleway.account_project_v3#QualificationAiMachine",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "container": {
+          "target": "com.scaleway.account_project_v3#QualificationContainer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "archive_data": {
+          "target": "com.scaleway.account_project_v3#QualificationArchiveData",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "share_data": {
+          "target": "com.scaleway.account_project_v3#QualificationShareData",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "other_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationOtherUseCase",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationArchitectureType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ARCHITECTURE_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_architecture_type"
+          }
+        },
+        "OBJECT_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object_storage"
+          }
+        },
+        "WEB_HOSTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web_hosting"
+          }
+        },
+        "INSTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance"
+          }
+        },
+        "ELASTIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elastic"
+          }
+        },
+        "KUBERNETES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kubernetes"
+          }
+        },
+        "SERVERLESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless"
+          }
+        },
+        "DEDICATED_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedicated_server"
+          }
+        },
+        "OTHER_ARCHITECTURE_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other_architecture_type"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationHostWebsite": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationHostWebsiteSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationHostWebsiteSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        },
+        "INFORMATION_WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "information_website"
+          }
+        },
+        "ECOMMERCE_WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecommerce_website"
+          }
+        },
+        "HIGH_WEBSITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high_website"
+          }
+        },
+        "OTHER_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other_sub_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationHostApplication": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationHostApplicationSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationHostApplicationSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        },
+        "SAAS_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "saas_app"
+          }
+        },
+        "GOVERNMENT_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "government_app"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationDeploySoftware": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationDeploySoftwareSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationDeploySoftwareSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationSetScalewayEnvironment": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationSetScalewayEnvironmentSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationSetScalewayEnvironmentSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationAiMachine": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationAiMachineSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationAiMachineSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationContainer": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationContainerSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationContainerSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationArchiveData": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationArchiveDataSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationArchiveDataSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationShareData": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationShareDataSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationShareDataSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationOtherUseCase": {
+      "type": "structure",
+      "members": {
+        "sub_use_case": {
+          "target": "com.scaleway.account_project_v3#QualificationOtherUseCaseSubUseCase"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#QualificationOtherUseCaseSubUseCase": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SUB_USE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sub_use_case"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#ProjectStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#ListProjectsResponseProjectsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.account_project_v3#Project"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated returned Projects."
+      }
+    },
+    "com.scaleway.account_project_v3#ListProjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_project_v3#ListProjectsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_project_v3#ListProjectsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/projects",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all Projects of an Organization\n\nList all Projects of an Organization. The response will include the total number of Projects as well as their associated Organizations, names, and IDs. Other information includes the creation and update date of the Project.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "projects",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.account_project_v3#CreateProjectRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Project."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID of the Project."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the Project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_project_v3#CreateProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_project_v3#CreateProjectRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_project_v3#Project"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/projects",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new Project for an Organization\n\nGenerate a new Project for an Organization, specifying its configuration including name and description."
+      }
+    },
+    "com.scaleway.account_project_v3#GetProjectRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the Project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_project_v3#GetProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_project_v3#GetProjectRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_project_v3#Project"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/account/v3/projects/{project_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an existing Project\n\nRetrieve information about an existing Project, specified by its Project ID. Its full details, including ID, name and description, are returned in the response object."
+      }
+    },
+    "com.scaleway.account_project_v3#UpdateProjectRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the Project."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Project.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the Project.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_project_v3#UpdateProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_project_v3#UpdateProjectRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_project_v3#Project"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/account/v3/projects/{project_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update Project\n\nUpdate the parameters of an existing Project, specified by its Project ID. These parameters include the name and description."
+      }
+    },
+    "com.scaleway.account_project_v3#DeleteProjectRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the Project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_project_v3#DeleteProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_project_v3#DeleteProjectRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/account/v3/projects/{project_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing Project\n\nDelete an existing Project, specified by its Project ID. The Project needs to be empty (meaning there are no resources left in it) to be deleted effectively. Note that deleting a Project is permanent, and cannot be undone."
+      }
+    },
+    "com.scaleway.account_project_v3#DeleteProjectWithResourcesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the Project."
+          }
+        },
+        "project_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Project to delete. This is used as a safeguard confirmation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_project_v3#DeleteProjectWithResources": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_project_v3#DeleteProjectWithResourcesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_project_v3#Project"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/projects/{project_id}/delete-with-resources",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing Project with all its resources\n\nDelete an existing Project, specified by its Project ID and Name, along with all the resources it contains. Note that deleting a Project is permanent, and cannot be undone."
+      }
+    },
+    "com.scaleway.account_project_v3#SetProjectQualificationRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID."
+          }
+        },
+        "qualification": {
+          "target": "com.scaleway.account_project_v3#Qualification",
+          "traits": {
+            "smithy.api#documentation": "Use case chosen for the Project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.account_project_v3#ProjectQualification": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "qualification": {
+          "target": "com.scaleway.account_project_v3#Qualification",
+          "traits": {
+            "smithy.api#documentation": "Qualification of the Project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.account_project_v3#SetProjectQualification": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.account_project_v3#SetProjectQualificationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.account_project_v3#ProjectQualification"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/account/v3/projects/{project_id}/project-qualification",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set project use case\n\nSet the project use case for a new or existing Project, specified by its Project ID. You can customize the use case, sub use case, and architecture type you want to use in the Project."
+      }
+    },
+    "com.scaleway.account_project_v3#AccountProjectV3": {
+      "type": "service",
+      "version": "v3",
+      "operations": [
+        {
+          "target": "com.scaleway.account_project_v3#ListProjects"
+        },
+        {
+          "target": "com.scaleway.account_project_v3#CreateProject"
+        },
+        {
+          "target": "com.scaleway.account_project_v3#GetProject"
+        },
+        {
+          "target": "com.scaleway.account_project_v3#UpdateProject"
+        },
+        {
+          "target": "com.scaleway.account_project_v3#DeleteProject"
+        },
+        {
+          "target": "com.scaleway.account_project_v3#DeleteProjectWithResources"
+        },
+        {
+          "target": "com.scaleway.account_project_v3#SetProjectQualification"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Account API",
+        "smithy.api#documentation": "Scaleway is a complete cloud ecosystem offering a one-stop solution for creating, deploying and scaling your infrastructure. When you create your Scaleway account, you get instant access to the Scaleway console and Scaleway API to effortlessly deploy our products and services.\n\nThe Account API currently allows you to manage **Projects**. Projects are Scaleway's resource management feature. Designed to help you manage your infrastructure and cloud services, you can create multiple Projects within a single Organization. This allows you to group resources into different Projects, providing better resource isolation and organization, which, in turn, leads to improved management efficiency.\n\nIt also increases transparency for users since resources in an invoice are grouped into Projects. Additionally, access for each Scaleway product is managed at Project level: this means a user can be granted Project-specific rights without being given full access to all Projects, allowing for more targeted and controlled access. Read our [dedicated documentation](https://www.scaleway.com/en/docs/iam/reference-content/overview/#background:-organizations-projects-and-resources) to learn more.\n\n<Message type=\"tip\">\nYou may be interested in the following related APIs:\n- [Billing API](https://www.scaleway.com/en/developers/api/billing/)\n- [Identity and Access Management (IAM) API](https://www.scaleway.com/en/developers/api/iam/)\n</Message>\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/account/concepts) to find definitions of the different terms related to accounts.\n\n## Quickstart\n\n1. **Configure your environment variables.**\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the APIs.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    ```\n\n2. Edit the **POST** request payload you will use to create a Project.\n\n   Replace the parameters in the following example:\n\n    ```json\n        '{\n        \"name\": \"My project name\",\n        \"organization_id\": \"b12d5c3g-c612-5674-c1e9-92627f36c5b9\",\n        \"description\": \"This is the description of my Project\",\n        }'\n    ```\n\n\n3. **Create a Project**: Run the following command to create a Project.\n\n   Make sure you include the payload you edited in the previous step.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/account/v3/projects\" \\\n      -d '{\n        \"name\": \"My project name\",\n        \"organization_id\": \"b12d5c3g-c612-5674-c1e9-92627f36c5b9\",\n        \"type\": \"This is the description of my Project\"\n      }'\n    ```\n\n   You should get a response like the following:\n\n   <Message type=\"note\">\n   This is a response example, the UUIDs displayed are not real.\n   </Message>\n\n    ```bash\n    {\n      \"id\": \"6170692e-7363-616c-6577-61792e636f6d\",\n      \"name\": \"My project name\",\n      \"organization_id\": \"b12d5c3g-c612-5674-c1e9-92627f36c5b9\",\n      \"created_at\": \"2023-03-02T22:00:28.888380Z\",\n      \"updated_at\": \"2023-03-02T22:00:28.888380Z\",\n      \"description\": \"This is the description of my project\"\n    }\n    ```\n\n4. **List your Projects**: Run the following command to list your Projects. Replace the Organization ID in the endpoint with your own Organization ID.\n\n    ```bash\n    curl -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/account/v3/projects?organization_id=b12d5c3g-c612-5674-c1e9-92627f36c5b9\"\n    ```\n\n   You should get a response like the following:\n\n    ```bash\n    {\n      \"total_count\": \"2\",\n      \"projects\": [\n        {\n          \"id\": \"0fe11800-ddbb-4b62-8906-ed08780cdddb\",\n          \"name\": \"default\",\n          \"organization_id\": \"b12d5c3g-c612-5674-c1e9-92627f36c5b9\",\n          \"created_at\": \"2022-08-31T07:45:53.657735Z\",\n          \"updated_at\": \"2022-08-31T07:45:53.657735Z\",\n          \"description\": \"cannot_be_deleted\"\n        },\n        {\n            \"id\":\"6170692e-7363-616c-6577-61792e636f6d\",\n            \"name\":\"My project name\",\n            \"organization_id\":\"b12d5c3g-c612-5674-c1e9-92627f36c5b9\",\n            \"created_at\":\"2023-03-02T22:00:28.888380Z\",\n            \"updated_at\":\"2023-03-02T22:00:28.888380Z\",\n            \"description\":\"This is the description of my Project\"\n        },\n    ]\n    }\n    ```\n\n5. **Update a Project**: Run the following command to update a Project's name and description.\n   <Message type=\"note\">\n   Do not forget to replace the Project ID in the endpoint, and the Organization ID in the payload, with your own. You can retrieve the Project ID from the \"List Project\" response above.\n   </Message>\n\n    ```bash\n    curl -X PATCH \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/account/v3/projects/6170692e-7363-616c-6577-61792e636f6d\" \\\n      -d '{\n        \"name\": \"My project name\",\n        \"organization_id\": \"b12d5c3g-c612-5674-c1e9-92627f36c5b9\",\n        \"description\": \"This is the updated description of my Project\"\n      }'\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/) and you know your Organization ID\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You know your [Organization ID](https://console.scaleway.com/organization/settings)\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical limitations\n\nOn the Scaleway Console, the Account scope covers account and Organization creation as well as personal data configuration and management of Projects. Currently, the public Account API only allows you to manage Projects.\n\n## Going further\n\nFor more help using Scaleway Account, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/account/)\n- Our [Slack Community](https://www.scaleway-community.slack.com)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

@@ -1,0 +1,423 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.webhosting_website_v1#ListWebsitesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_website_v1#ListWebsitesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "DOMAIN_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_asc"
+          }
+        },
+        "DOMAIN_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_website_v1#ListWebsitesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_website_v1#ListWebsitesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the hosting plan."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (must be a positive integer)."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of websites to return (must be a positive integer lower or equal to 100)."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.webhosting_website_v1#ListWebsitesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order for Web Hosting websites in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_website_v1#ListWebsitesResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of websites."
+          }
+        },
+        "websites": {
+          "target": "com.scaleway.webhosting_website_v1#ListWebsitesResponseWebsitesList",
+          "traits": {
+            "smithy.api#documentation": "List of websites."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_website_v1#Website": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain of the website."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The directory path of the website."
+          }
+        },
+        "ssl_status": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The SSL status of the website."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_website_v1#ListWebsitesResponseWebsitesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_website_v1#Website"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of websites."
+      }
+    },
+    "com.scaleway.webhosting_website_v1#ListWebsites": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_website_v1#ListWebsitesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_website_v1#ListWebsitesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/websites",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all websites for a specific hosting.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "websites",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.webhosting_website_v1#CreateWebsiteRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_website_v1#CreateWebsiteRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_website_v1#CreateWebsiteRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hosting ID to which the website is attached to."
+          }
+        },
+        "domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new domain name or subdomain to use for the website."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_website_v1#CreateWebsite": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_website_v1#CreateWebsiteRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_website_v1#Website"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/websites",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new website and attach it to a webhosting"
+      }
+    },
+    "com.scaleway.webhosting_website_v1#DeleteWebsiteRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_website_v1#DeleteWebsiteRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_website_v1#DeleteWebsiteRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hosting ID to which the website is detached from."
+          }
+        },
+        "domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The new domain name or subdomain attached to the website."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_website_v1#DeleteWebsite": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_website_v1#DeleteWebsiteRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/websites/{domain_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a website from a webhosting"
+      }
+    },
+    "com.scaleway.webhosting_website_v1#ResetWebsiteRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_website_v1#ResetWebsiteRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_website_v1#ResetWebsiteRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hosting_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hosting ID to which the website is attached to."
+          }
+        },
+        "domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The domain name with which the website is associated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_website_v1#ResetWebsite": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_website_v1#ResetWebsiteRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_website_v1#Website"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/hostings/{hosting_id}/websites/{domain_name}/reset",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a website's content, all files and directories. This\n\nPermanently deletes data including files and configurations. The\nwebsite will display the default welcome page."
+      }
+    },
+    "com.scaleway.webhosting_website_v1#WebhostingWebsiteV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.webhosting_website_v1#ListWebsites"
+        },
+        {
+          "target": "com.scaleway.webhosting_website_v1#CreateWebsite"
+        },
+        {
+          "target": "com.scaleway.webhosting_website_v1#DeleteWebsite"
+        },
+        {
+          "target": "com.scaleway.webhosting_website_v1#ResetWebsite"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Web Hosting Website API",
+        "smithy.api#documentation": "Scaleway provides several Web Hosting plans for individuals, professionals, and everyone in between. Our Web Hosting plans include:\n\n- A domain name\n- A configurable webhosting service\n- The management of your emails, including anti-spam, antivirus and filter systems\n- Unlimited sub-domains\n- An FTP account to upload your website\n- At least one database\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-services/webhosting/concepts/) to find definitions of all Web Hosting-related terminology.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Web Hosting API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Choose a Web Hosting offer**: run the following command to list all Web Hosting offers. The `| jq` appendage at the end of the command makes the output easier to read.\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/offers?without_options=true\" | jq\n    ```\n\n   <Message type=\"note\">\n   In the above example, we choose to get offers only. Adjust the query parameter if you would also like to get information about the different options you can add to offers.\n   </Message>\n\n3. **Order a Web Hosting plan**: run the following command to create a Web Hosting plan. You can customize the details in the payload to your needs, using the table below to help.\n\n    ```bash\n    curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/hostings\" \\\n        -d '{\n        \"domain\": \"mydomain.net\",\n        \"offer_id\": \"f5c2ae8f-7625-4bca-b711-b44bb3d08694\",\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"tags\": [\"my-tag\"]\n    }'\n    ```\n\n\n   <Message type=\"tip\">\n   Once you've ordered your Web Hosting plan, check out our [dedicated documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/) to get started with your configuration.\n   </Message>\n\n4. **Delete your Web Hosting plan**: run the following command to delete your Web Hosting plan. Ensure that you replace `{hosting-id}` in the URL with the ID of the Web Hosting plan you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n        -H \"Content-Type: application/json\" \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        \"https://api.scaleway.com/rest-of-endpoint/{hosting-id}\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have [installaed `jq`](https://stedolan.github.io/jq/download/)\n</Message>\n\n## Technical information\n\nAll Scaleway Web Hosting plans now offer a choice between cPanel and Plesk for website management. Both tools provide a graphical interface and fast access icons, allowing you to configure and monitor your hosting solutions with ease. You can access cPanel or Plesk via the [Scaleway console](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/#how-to-access-the-web-hosting-control-panel-from-the-scaleway-console).\n\n### Regions\n\nThe Scaleway Web Hosting API is a **regional** API, meaning that each call must specify in its path parameters the region for the resources concerned by the call.\n\nScaleway Web Hosting is available only in the `fr-par` region.\n\n## Going further\n\nFor more help using Scaleway Web Hosting, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/)\n- The #webhosting-early-access channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

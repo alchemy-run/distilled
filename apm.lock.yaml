@@ -1,0 +1,577 @@
+lockfile_version: "1"
+apm_version: 0.33.0
+dependencies:
+  - repo_url: depot/skills
+    name: depot
+    host: github.com
+    resolved_commit: 4f1153938e96373539ef09ab4aa48c08bdd5a4d1
+    version: 1.0.0
+    package_type: skill_bundle
+    deployed_files:
+      - .agents/skills/depot-ci
+      - .agents/skills/depot-ci/SKILL.md
+      - .agents/skills/depot-ci/agents/openai.yaml
+      - .agents/skills/depot-ci/assets/depot-icon-large-compact.png
+      - .agents/skills/depot-ci/assets/depot-icon-small-compact.png
+      - .agents/skills/depot-ci/references/github-actions-compatibility.md
+      - .agents/skills/depot-ci/references/migration.md
+      - .agents/skills/depot-ci/references/oidc.md
+      - .agents/skills/depot-ci/references/runs-and-debugging.md
+      - .agents/skills/depot-ci/references/secrets-and-variables.md
+      - .agents/skills/depot-ci/references/test-splitting.md
+      - .agents/skills/depot-container-builds
+      - .agents/skills/depot-container-builds/SKILL.md
+      - .agents/skills/depot-container-builds/agents/openai.yaml
+      - .agents/skills/depot-container-builds/assets/depot-icon-large-compact.png
+      - .agents/skills/depot-container-builds/assets/depot-icon-small-compact.png
+      - .agents/skills/depot-general
+      - .agents/skills/depot-general/SKILL.md
+      - .agents/skills/depot-general/agents/openai.yaml
+      - .agents/skills/depot-general/assets/depot-icon-large-compact.png
+      - .agents/skills/depot-general/assets/depot-icon-small-compact.png
+      - .agents/skills/depot-github-runners
+      - .agents/skills/depot-github-runners/SKILL.md
+      - .agents/skills/depot-github-runners/agents/openai.yaml
+      - .agents/skills/depot-github-runners/assets/depot-icon-large-compact.png
+      - .agents/skills/depot-github-runners/assets/depot-icon-small-compact.png
+      - .claude/skills/depot-ci
+      - .claude/skills/depot-ci/SKILL.md
+      - .claude/skills/depot-ci/agents/openai.yaml
+      - .claude/skills/depot-ci/assets/depot-icon-large-compact.png
+      - .claude/skills/depot-ci/assets/depot-icon-small-compact.png
+      - .claude/skills/depot-ci/references/github-actions-compatibility.md
+      - .claude/skills/depot-ci/references/migration.md
+      - .claude/skills/depot-ci/references/oidc.md
+      - .claude/skills/depot-ci/references/runs-and-debugging.md
+      - .claude/skills/depot-ci/references/secrets-and-variables.md
+      - .claude/skills/depot-ci/references/test-splitting.md
+      - .claude/skills/depot-container-builds
+      - .claude/skills/depot-container-builds/SKILL.md
+      - .claude/skills/depot-container-builds/agents/openai.yaml
+      - .claude/skills/depot-container-builds/assets/depot-icon-large-compact.png
+      - .claude/skills/depot-container-builds/assets/depot-icon-small-compact.png
+      - .claude/skills/depot-general
+      - .claude/skills/depot-general/SKILL.md
+      - .claude/skills/depot-general/agents/openai.yaml
+      - .claude/skills/depot-general/assets/depot-icon-large-compact.png
+      - .claude/skills/depot-general/assets/depot-icon-small-compact.png
+      - .claude/skills/depot-github-runners
+      - .claude/skills/depot-github-runners/SKILL.md
+      - .claude/skills/depot-github-runners/agents/openai.yaml
+      - .claude/skills/depot-github-runners/assets/depot-icon-large-compact.png
+      - .claude/skills/depot-github-runners/assets/depot-icon-small-compact.png
+    deployed_file_hashes:
+      .agents/skills/depot-ci/SKILL.md: sha256:4b5769220c4d08c61a45eea61c908963de7b7c4eaf4e443f4f0f27c0c6c28957
+      .agents/skills/depot-ci/agents/openai.yaml: sha256:9cc14552c4e264769b6724deda4704bbbbbe9c194801279bbdf63fd7d15d5fb6
+      .agents/skills/depot-ci/assets/depot-icon-large-compact.png: sha256:11222b6cb36ed515efce5afb556b504694248cd115e34a8061267c404bc1fa3f
+      .agents/skills/depot-ci/assets/depot-icon-small-compact.png: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+      .agents/skills/depot-ci/references/github-actions-compatibility.md: sha256:4684bdbce4cdc15267cdd4b0d2a66346e06aac7ab2c2c22eb9d6d18801f3fc78
+      .agents/skills/depot-ci/references/migration.md: sha256:559ccb539b3ef6941990b777638ef128b20ae6360bb5819f7937be187af7f916
+      .agents/skills/depot-ci/references/oidc.md: sha256:f900a6f3b847f4309636e5de458908b52f38a2d73e613f9127be4619ca49337f
+      .agents/skills/depot-ci/references/runs-and-debugging.md: sha256:cd8eaa31a06b058c802a8598d1a12165b21ee75a7e4f0f980b5394e622a57a19
+      .agents/skills/depot-ci/references/secrets-and-variables.md: sha256:d1c9a99ce24c71c4b9f2992f1690c37fc762255c7fac70b06d2cf0116bcd0884
+      .agents/skills/depot-ci/references/test-splitting.md: sha256:7cc8071b025f9a4e6cf9db4681d4c3bf38ce9303940df57f36285d9136564bd4
+      .agents/skills/depot-container-builds/SKILL.md: sha256:c142023fa48f81b4cd2b488afab6b68df1fc6aa036a9caeaef76fad420eb31c2
+      .agents/skills/depot-container-builds/agents/openai.yaml: sha256:792c9ed6ababf95c0df75efb6166cc1a87c9027b80559ca9eb6c997b55c771b3
+      .agents/skills/depot-container-builds/assets/depot-icon-large-compact.png: sha256:11222b6cb36ed515efce5afb556b504694248cd115e34a8061267c404bc1fa3f
+      .agents/skills/depot-container-builds/assets/depot-icon-small-compact.png: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+      .agents/skills/depot-general/SKILL.md: sha256:d6730ab3cb5b6795c1fa4d749d93afb00b9cc212da197e00dc4436d764696b8e
+      .agents/skills/depot-general/agents/openai.yaml: sha256:28bf2acf162eb6d0136fd8e8ba7f3d2453fc5d74d334dcdfc6d712914d99554a
+      .agents/skills/depot-general/assets/depot-icon-large-compact.png: sha256:e5fd0de9d8890db9cf5f18c4b2cd32ff32cd62ba5f7a3f3aae56a6270d24ef71
+      .agents/skills/depot-general/assets/depot-icon-small-compact.png: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+      .agents/skills/depot-github-runners/SKILL.md: sha256:bf9d9bd743a8d6dd80c116cb922b4c86a54311db7c82316ac2321147a2923e40
+      .agents/skills/depot-github-runners/agents/openai.yaml: sha256:3c472a3f3b88bae9bb2221529136630512bfdf66def58765ef38f0b4fa77b3b8
+      .agents/skills/depot-github-runners/assets/depot-icon-large-compact.png: sha256:e5fd0de9d8890db9cf5f18c4b2cd32ff32cd62ba5f7a3f3aae56a6270d24ef71
+      .agents/skills/depot-github-runners/assets/depot-icon-small-compact.png: sha256:86f583534054d94e27c691385ce6f944e2ea6ad13d53e5def787d9ed78ad8639
+      .claude/skills/depot-ci/SKILL.md: sha256:4b5769220c4d08c61a45eea61c908963de7b7c4eaf4e443f4f0f27c0c6c28957
+      .claude/skills/depot-ci/agents/openai.yaml: sha256:9cc14552c4e264769b6724deda4704bbbbbe9c194801279bbdf63fd7d15d5fb6
+      .claude/skills/depot-ci/assets/depot-icon-large-compact.png: sha256:11222b6cb36ed515efce5afb556b504694248cd115e34a8061267c404bc1fa3f
+      .claude/skills/depot-ci/assets/depot-icon-small-compact.png: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+      .claude/skills/depot-ci/references/github-actions-compatibility.md: sha256:4684bdbce4cdc15267cdd4b0d2a66346e06aac7ab2c2c22eb9d6d18801f3fc78
+      .claude/skills/depot-ci/references/migration.md: sha256:559ccb539b3ef6941990b777638ef128b20ae6360bb5819f7937be187af7f916
+      .claude/skills/depot-ci/references/oidc.md: sha256:f900a6f3b847f4309636e5de458908b52f38a2d73e613f9127be4619ca49337f
+      .claude/skills/depot-ci/references/runs-and-debugging.md: sha256:cd8eaa31a06b058c802a8598d1a12165b21ee75a7e4f0f980b5394e622a57a19
+      .claude/skills/depot-ci/references/secrets-and-variables.md: sha256:d1c9a99ce24c71c4b9f2992f1690c37fc762255c7fac70b06d2cf0116bcd0884
+      .claude/skills/depot-ci/references/test-splitting.md: sha256:7cc8071b025f9a4e6cf9db4681d4c3bf38ce9303940df57f36285d9136564bd4
+      .claude/skills/depot-container-builds/SKILL.md: sha256:c142023fa48f81b4cd2b488afab6b68df1fc6aa036a9caeaef76fad420eb31c2
+      .claude/skills/depot-container-builds/agents/openai.yaml: sha256:792c9ed6ababf95c0df75efb6166cc1a87c9027b80559ca9eb6c997b55c771b3
+      .claude/skills/depot-container-builds/assets/depot-icon-large-compact.png: sha256:11222b6cb36ed515efce5afb556b504694248cd115e34a8061267c404bc1fa3f
+      .claude/skills/depot-container-builds/assets/depot-icon-small-compact.png: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+      .claude/skills/depot-general/SKILL.md: sha256:d6730ab3cb5b6795c1fa4d749d93afb00b9cc212da197e00dc4436d764696b8e
+      .claude/skills/depot-general/agents/openai.yaml: sha256:28bf2acf162eb6d0136fd8e8ba7f3d2453fc5d74d334dcdfc6d712914d99554a
+      .claude/skills/depot-general/assets/depot-icon-large-compact.png: sha256:e5fd0de9d8890db9cf5f18c4b2cd32ff32cd62ba5f7a3f3aae56a6270d24ef71
+      .claude/skills/depot-general/assets/depot-icon-small-compact.png: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+      .claude/skills/depot-github-runners/SKILL.md: sha256:bf9d9bd743a8d6dd80c116cb922b4c86a54311db7c82316ac2321147a2923e40
+      .claude/skills/depot-github-runners/agents/openai.yaml: sha256:3c472a3f3b88bae9bb2221529136630512bfdf66def58765ef38f0b4fa77b3b8
+      .claude/skills/depot-github-runners/assets/depot-icon-large-compact.png: sha256:e5fd0de9d8890db9cf5f18c4b2cd32ff32cd62ba5f7a3f3aae56a6270d24ef71
+      .claude/skills/depot-github-runners/assets/depot-icon-small-compact.png: sha256:86f583534054d94e27c691385ce6f944e2ea6ad13d53e5def787d9ed78ad8639
+    content_hash: sha256:31b849fae53b0bfb6386f63dcb4ebd9f4b191cee52719138bd5df581e4a8cc3b
+deployments:
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: null
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/SKILL.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:4b5769220c4d08c61a45eea61c908963de7b7c4eaf4e443f4f0f27c0c6c28957
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/agents/openai.yaml
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:9cc14552c4e264769b6724deda4704bbbbbe9c194801279bbdf63fd7d15d5fb6
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/assets/depot-icon-large-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:11222b6cb36ed515efce5afb556b504694248cd115e34a8061267c404bc1fa3f
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/assets/depot-icon-small-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/references/github-actions-compatibility.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:4684bdbce4cdc15267cdd4b0d2a66346e06aac7ab2c2c22eb9d6d18801f3fc78
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/references/migration.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:559ccb539b3ef6941990b777638ef128b20ae6360bb5819f7937be187af7f916
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/references/oidc.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:f900a6f3b847f4309636e5de458908b52f38a2d73e613f9127be4619ca49337f
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/references/runs-and-debugging.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:cd8eaa31a06b058c802a8598d1a12165b21ee75a7e4f0f980b5394e622a57a19
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/references/secrets-and-variables.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:d1c9a99ce24c71c4b9f2992f1690c37fc762255c7fac70b06d2cf0116bcd0884
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-ci/references/test-splitting.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:7cc8071b025f9a4e6cf9db4681d4c3bf38ce9303940df57f36285d9136564bd4
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-container-builds
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: null
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-container-builds/SKILL.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:c142023fa48f81b4cd2b488afab6b68df1fc6aa036a9caeaef76fad420eb31c2
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-container-builds/agents/openai.yaml
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:792c9ed6ababf95c0df75efb6166cc1a87c9027b80559ca9eb6c997b55c771b3
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-container-builds/assets/depot-icon-large-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:11222b6cb36ed515efce5afb556b504694248cd115e34a8061267c404bc1fa3f
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-container-builds/assets/depot-icon-small-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-general
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: null
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-general/SKILL.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:d6730ab3cb5b6795c1fa4d749d93afb00b9cc212da197e00dc4436d764696b8e
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-general/agents/openai.yaml
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:28bf2acf162eb6d0136fd8e8ba7f3d2453fc5d74d334dcdfc6d712914d99554a
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-general/assets/depot-icon-large-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:e5fd0de9d8890db9cf5f18c4b2cd32ff32cd62ba5f7a3f3aae56a6270d24ef71
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-general/assets/depot-icon-small-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-github-runners
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: null
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-github-runners/SKILL.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:bf9d9bd743a8d6dd80c116cb922b4c86a54311db7c82316ac2321147a2923e40
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-github-runners/agents/openai.yaml
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:3c472a3f3b88bae9bb2221529136630512bfdf66def58765ef38f0b4fa77b3b8
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-github-runners/assets/depot-icon-large-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:e5fd0de9d8890db9cf5f18c4b2cd32ff32cd62ba5f7a3f3aae56a6270d24ef71
+  - kind: project-relative
+    target: claude
+    value: .claude/skills/depot-github-runners/assets/depot-icon-small-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:86f583534054d94e27c691385ce6f944e2ea6ad13d53e5def787d9ed78ad8639
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: null
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/SKILL.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:4b5769220c4d08c61a45eea61c908963de7b7c4eaf4e443f4f0f27c0c6c28957
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/agents/openai.yaml
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:9cc14552c4e264769b6724deda4704bbbbbe9c194801279bbdf63fd7d15d5fb6
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/assets/depot-icon-large-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:11222b6cb36ed515efce5afb556b504694248cd115e34a8061267c404bc1fa3f
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/assets/depot-icon-small-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/references/github-actions-compatibility.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:4684bdbce4cdc15267cdd4b0d2a66346e06aac7ab2c2c22eb9d6d18801f3fc78
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/references/migration.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:559ccb539b3ef6941990b777638ef128b20ae6360bb5819f7937be187af7f916
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/references/oidc.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:f900a6f3b847f4309636e5de458908b52f38a2d73e613f9127be4619ca49337f
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/references/runs-and-debugging.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:cd8eaa31a06b058c802a8598d1a12165b21ee75a7e4f0f980b5394e622a57a19
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/references/secrets-and-variables.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:d1c9a99ce24c71c4b9f2992f1690c37fc762255c7fac70b06d2cf0116bcd0884
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-ci/references/test-splitting.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:7cc8071b025f9a4e6cf9db4681d4c3bf38ce9303940df57f36285d9136564bd4
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-container-builds
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: null
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-container-builds/SKILL.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:c142023fa48f81b4cd2b488afab6b68df1fc6aa036a9caeaef76fad420eb31c2
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-container-builds/agents/openai.yaml
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:792c9ed6ababf95c0df75efb6166cc1a87c9027b80559ca9eb6c997b55c771b3
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-container-builds/assets/depot-icon-large-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:11222b6cb36ed515efce5afb556b504694248cd115e34a8061267c404bc1fa3f
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-container-builds/assets/depot-icon-small-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-general
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: null
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-general/SKILL.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:d6730ab3cb5b6795c1fa4d749d93afb00b9cc212da197e00dc4436d764696b8e
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-general/agents/openai.yaml
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:28bf2acf162eb6d0136fd8e8ba7f3d2453fc5d74d334dcdfc6d712914d99554a
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-general/assets/depot-icon-large-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:e5fd0de9d8890db9cf5f18c4b2cd32ff32cd62ba5f7a3f3aae56a6270d24ef71
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-general/assets/depot-icon-small-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:fb4565f2889e8d9bd6bb30e22f90bea0ff9ebcea13c9554b806727040e9fb214
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-github-runners
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: null
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-github-runners/SKILL.md
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:bf9d9bd743a8d6dd80c116cb922b4c86a54311db7c82316ac2321147a2923e40
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-github-runners/agents/openai.yaml
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:3c472a3f3b88bae9bb2221529136630512bfdf66def58765ef38f0b4fa77b3b8
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-github-runners/assets/depot-icon-large-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:e5fd0de9d8890db9cf5f18c4b2cd32ff32cd62ba5f7a3f3aae56a6270d24ef71
+  - kind: project-relative
+    target: codex
+    value: .agents/skills/depot-github-runners/assets/depot-icon-small-compact.png
+    runtime: null
+    scope: project
+    owners:
+      - depot/skills
+    active_owner: depot/skills
+    content_hash: sha256:86f583534054d94e27c691385ce6f944e2ea6ad13d53e5def787d9ed78ad8639

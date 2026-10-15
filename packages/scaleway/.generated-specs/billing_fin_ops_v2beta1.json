@@ -1,0 +1,331 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "START_DATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_date_asc"
+          }
+        },
+        "START_DATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start_date_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestInvoiceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestResourceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestResourceNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestSkusList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of charges in the response."
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token",
+            "smithy.api#documentation": "Token returned by previous call to list next paginated charges, omitted for first page."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of charges to return per page."
+          }
+        },
+        "start_date_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_date_after",
+            "smithy.api#documentation": "Minimum start date of charges to filter for, defaults to the start of the billing period. (RFC 3339 format)"
+          }
+        },
+        "end_date_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end_date_before",
+            "smithy.api#documentation": "Maximum end date of charges to filter for, defaults to the end of the billing period. (RFC 3339 format)"
+          }
+        },
+        "invoice_ids": {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestInvoiceIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "invoice_ids",
+            "smithy.api#documentation": "Invoice IDs to filter for, only charges from these invoices will be returned. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID to filter for, only charges for this organization will be returned."
+          }
+        },
+        "project_ids": {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "Project IDs to filter for, only charges for these projects will be returned. (UUID format)"
+          }
+        },
+        "resource_ids": {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestResourceIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "resource_ids",
+            "smithy.api#documentation": "Resource IDs to filter for, only charges for these resources will be returned."
+          }
+        },
+        "resource_names": {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestResourceNamesList",
+          "traits": {
+            "smithy.api#httpQuery": "resource_names",
+            "smithy.api#documentation": "Resource display names to filter for, only charges for these resources will be returned."
+          }
+        },
+        "skus": {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequestSkusList",
+          "traits": {
+            "smithy.api#httpQuery": "skus",
+            "smithy.api#documentation": "SKU IDs to filter for, only charges for these SKUs will be returned."
+          }
+        },
+        "clamp_to_time_range": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "clamp_to_time_range",
+            "smithy.api#documentation": "Clamp charges to the requested time range."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesResponse": {
+      "type": "structure",
+      "members": {
+        "charges": {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesResponseChargesList",
+          "traits": {
+            "smithy.api#documentation": "Paginated matching charges."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Page token to use with following call to keep listing charges if there are more.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#Charge": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the charged organization. (UUID format)"
+          }
+        },
+        "organization_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the charged organization."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the charged project. (UUID format)"
+          }
+        },
+        "project_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the charged project."
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the SKU the charge is priced with."
+          }
+        },
+        "invoice_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the invoice including the charge. (UUID format)"
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the resource that incurs the charge."
+          }
+        },
+        "resource_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional display name assigned to the resource that incurs the charge.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "price": {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the charge."
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date of the charge. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End date of the charge, included. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the charge was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListChargesResponseChargesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_fin_ops_v2beta1#Charge"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated matching charges."
+      }
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#ListCharges": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_fin_ops_v2beta1#ListChargesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2beta1/charges",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List charges\n\nList charges for organizations or projects. You must specify at least `organization_ids` or `project_ids`.",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "charges",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.billing_fin_ops_v2beta1#BillingFinOpsV2beta1": {
+      "type": "service",
+      "version": "v2beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.billing_fin_ops_v2beta1#ListCharges"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Billing FinOps API",
+        "smithy.api#documentation": "Scaleway's Billing - FinOps API enables you to programmatically access raw consumption data generated by the usage of Scaleway resources. You can retrieve all charges for one or more organizations or projects, and filter based on SKU, invoice ID, resource ID, etc.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/billing/concepts/) to find definitions of all concepts and terminology related to Billing.\n\n### Difference between FinOps API data and Consumption API data\n\nThe Consumption API allows you to get the data used in your invoice, whereas the FinOps API enables you to retrieve raw consumption data generated by the usage of Scaleway resources.\n\nThe FinOps API might show slight differences with the consumption/billing data if you try to reconcile both. This is due to the fact that FinOps data is calculated differently from consumption data. The differences in how the data is rounded and aggregated might result in small cost discrepancies when comparing both data sources.\n\n<Message type=\"requirement\">\n- A Scaleway account logged into the [console](https://console.scaleway.com/organization)\n- Created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) with sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- [Installed `curl`](https://curl.se/download.html)\n- Configured your environment variables\n</Message>\n\n## Quickstart\n\n1. Open a terminal and run the following command to export your API secret key and Organization ID. Remember to replace the placeholders with your own corresponding values.\n\n   <Message type=\"note\">\n   This is an optional step that aims at simplifying your usage of the API.\n   </Message>\n\n   ```bash\n   export SCW_SECRET_KEY=\"<API secret key>\"\n   export SCW_ORGANIZATION_ID=\"<Scaleway Organization ID>\"\n   ```\n\n2. Run the following command to obtain detailed charges for a specific resource between two dates. Remember to replace the resource identifier and date placeholders with your own corresponding values.\n\n   ```bash\n   curl -X GET \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/billing/v2beta1/charges?organization_id=$SCW_ORGANIZATION_ID&resourceIds=YourResourceId&startDateAfter=2026-05-26T00:00:00.000000000Z&endDateBefore=2026-05-30T00:00:00.000000000Z\"\n   ```\n\n## Technical information\n\n### Availability of `resource_name`\n\nThe `resource_name` is only available if the related product had the transfer of this information enabled in the backend when creating the resource.\n\n### Pagination\n\nThe API uses pagination to split a large set of results into smaller, manageable pages that can be retrieved one at a time.\n\n- The response includes a `next_page_token` whenever additional items are available.\n- To retrieve the next page, pass that token in the subsequent request.\n\n### Clamping: retrieving partial charges for a selected period\n\nClamping automatically cuts a charge that spans a longer period (e.g. the whole month) into the exact slice that falls inside the time window you asked for.\n\nWhen you set `\"clampToTimeRange\": true`, the API returns a partial charge that represents only the portion of the resource’s usage that overlaps with your requested dates.\n\nWhen you set `\"clampToTimeRange\": false`, the API only returns charges whose entire start‑ and end‑dates are inside the requested window. When a charge starts before the window (or ends after it), the result is empty.\n\n### IAM requirements\n\nKeep in mind that:\n\n- You must have appropriate IAM permissions to manage billing. If you are the Owner of the Organization, you will automatically have these permissions. Otherwise, you will need a policy giving you the `BillingManager` permission set. If you were previously a Billing Administrator, you will automatically have been migrated to the `BillingAdministrator` group when you activated IAM, which gives you the appropriate permissions.\n- You only need `BillingReadOnly` permissions to query consumption. ​\n\n## Going further\n\n​\nFor more help using Scaleway’s Billing API, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/billing/)\n- Our [Slack Community](https://www.scaleway-community.slack.com/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

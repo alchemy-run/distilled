@@ -1,0 +1,1534 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#FlexibleIPStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "ATTACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attached"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "DETACHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "detaching"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIPStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestServerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned flexible IPs."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of flexible IPs per page."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter by tag, only flexible IPs with one or more matching tags will be returned."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by status, only flexible IPs with this status will be returned."
+          }
+        },
+        "server_ids": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequestServerIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "server_ids",
+            "smithy.api#documentation": "Filter by server IDs, only flexible IPs with these server IDs will be returned."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by Organization ID, only flexible IPs from this Organization will be returned."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by Project ID, only flexible IPs from this Project will be returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of matching flexible IPs."
+          }
+        },
+        "flexible_ips": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsResponseFlexibleIpsList",
+          "traits": {
+            "smithy.api#documentation": "List of all flexible IPs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#FlexibleIP": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the flexible IP."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization the flexible IP is attached to."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project the flexible IP is attached to."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flexible IP description."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIPTagsList",
+          "traits": {
+            "smithy.api#documentation": "Flexible IP tags."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date on which the flexible IP was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date on which the flexible IP was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIPStatus",
+          "traits": {
+            "smithy.api#documentation": "Flexible IP status.\n- ready : flexible IP is created and ready to be attached to a server or to be associated with a virtual MAC.\n- updating: flexible IP is being attached to a server or a virtual MAC operation is ongoing\n- attached: flexible IP is attached to a server\n- error: a flexible IP operation resulted in an error\n- detaching: flexible IP is being detached from a server\n- locked: the resource of the flexible IP is locked."
+          }
+        },
+        "ip_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP of the flexible IP. (IP network)"
+          }
+        },
+        "mac_address": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#MACAddress",
+          "traits": {
+            "smithy.api#documentation": "MAC address of the flexible IP."
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the server linked to the flexible IP.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse DNS value."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Availability Zone of the flexible IP."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the flexible ip."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#FlexibleIPTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Flexible IP tags."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#MACAddress": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the flexible IP."
+          }
+        },
+        "mac_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MAC address of the Virtual MAC."
+          }
+        },
+        "mac_type": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#MACAddressType",
+          "traits": {
+            "smithy.api#documentation": "Type of virtual MAC."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#MACAddressStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of virtual MAC."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date on which the virtual MAC was last updated. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date on which the virtual MAC was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MAC address IP Availability Zone."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#MACAddressType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "VMWARE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vmware"
+          }
+        },
+        "XEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xen"
+          }
+        },
+        "KVM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kvm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#MACAddressStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "USED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "used"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsResponseFlexibleIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all flexible IPs."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List flexible IPs\n\nList all flexible IPs within a given zone.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "flexible_ips",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#CreateFlexibleIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#CreateFlexibleIPRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to associate to the flexible IP."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#CreateFlexibleIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#CreateFlexibleIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project to associate with the Flexible IP.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flexible IP description (max. of 255 characters)."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#CreateFlexibleIPRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to associate to the flexible IP."
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the server to which the newly created flexible IP will be attached.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of the reverse DNS.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the flexible IP has an IPv6 address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#CreateFlexibleIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#CreateFlexibleIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new flexible IP\n\nGenerate a new flexible IP within a given zone, specifying its configuration including Project ID and description."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#GetFlexibleIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#GetFlexibleIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#GetFlexibleIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the flexible IP."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#GetFlexibleIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#GetFlexibleIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/{fip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an existing flexible IP\n\nRetrieve information about an existing flexible IP, specified by its ID and zone. Its full details, including Project ID, description and status, are returned in the response object."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#UpdateFlexibleIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#UpdateFlexibleIPRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the flexible IP."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#UpdateFlexibleIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#UpdateFlexibleIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the flexible IP to update."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flexible IP description (max. 255 characters).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#UpdateFlexibleIPRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the flexible IP.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of the reverse DNS.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#UpdateFlexibleIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#UpdateFlexibleIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/{fip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an existing flexible IP\n\nUpdate the parameters of an existing flexible IP, specified by its ID and zone. These parameters include tags and description."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DeleteFlexibleIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DeleteFlexibleIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DeleteFlexibleIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the flexible IP to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DeleteFlexibleIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#DeleteFlexibleIPRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/{fip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing flexible IP\n\nDelete an existing flexible IP, specified by its ID and zone. Note that deleting a flexible IP is permanent and cannot be undone."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#GenerateMACAddrRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#GenerateMACAddrRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#GenerateMACAddrRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the flexible IP for which to generate a virtual MAC."
+          }
+        },
+        "mac_type": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#MACAddressType",
+          "traits": {
+            "smithy.api#documentation": "TODO.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#GenerateMACAddr": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#GenerateMACAddrRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/{fip_id}/mac",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Generate a virtual MAC address on an existing flexible IP\n\nGenerate a virtual MAC (Media Access Control) address on an existing flexible IP."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DeleteMACAddrRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DeleteMACAddrRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DeleteMACAddrRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the flexible IP from which to delete the virtual MAC.\nIf the flexible IP belongs to a MAC group, the MAC will be removed from both the MAC group and flexible IP."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DeleteMACAddr": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#DeleteMACAddrRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/{fip_id}/mac",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Detach a given virtual MAC address from an existing flexible IP\n\nDetach a given MAC (Media Access Control) address from an existing flexible IP."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DuplicateMACAddrRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DuplicateMACAddrRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DuplicateMACAddrRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the flexible IP on which to duplicate the virtual MAC.\nNote that the flexible IPs need to be attached to the same server."
+          }
+        },
+        "duplicate_from_fip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the flexible IP to duplicate the Virtual MAC from.\nNote that flexible IPs need to be attached to the same server.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DuplicateMACAddr": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#DuplicateMACAddrRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/{fip_id}/mac/duplicate",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Duplicate a virtual MAC address to another flexible IP\n\nDuplicate a virtual MAC address from a given flexible IP to another flexible IP attached to the same server."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#MoveMACAddrRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#MoveMACAddrRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#MoveMACAddrRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "dst_fip_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#MoveMACAddr": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#MoveMACAddrRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/{fip_id}/mac/move",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Relocate an existing virtual MAC address to a different flexible IP\n\nRelocate a virtual MAC (Media Access Control) address from an existing flexible IP to a different flexible IP."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPRequestFipsIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of flexible IP IDs to attach to a server.\nMultiple IDs can be provided, but note that flexible IPs must belong to the same MAC group (see details about MAC groups)."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fips_ids": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPRequestFipsIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of flexible IP IDs to attach to a server.\nMultiple IDs can be provided, but note that flexible IPs must belong to the same MAC group (see details about MAC groups).",
+            "smithy.api#required": {}
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the server on which to attach the flexible IPs.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of flexible IPs that are being updated."
+          }
+        },
+        "flexible_ips": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPsResponseFlexibleIpsList",
+          "traits": {
+            "smithy.api#documentation": "List of flexible IPs in an updating state."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPsResponseFlexibleIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of flexible IPs in an updating state."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIPsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/attach",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Attach an existing flexible IP to a server\n\nAttach an existing flexible IP to a specified Elastic Metal server."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPRequestFipsIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of flexible IP IDs to detach from a server. Multiple IDs can be provided. Note that flexible IPs must belong to the same MAC group."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "fips_ids": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPRequestFipsIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of flexible IP IDs to detach from a server. Multiple IDs can be provided. Note that flexible IPs must belong to the same MAC group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of flexible IPs that are being detached."
+          }
+        },
+        "flexible_ips": {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPsResponseFlexibleIpsList",
+          "traits": {
+            "smithy.api#documentation": "List of flexible IPs in a detaching state."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPsResponseFlexibleIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#FlexibleIP"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of flexible IPs in a detaching state."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIPsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/flexible-ip/v1alpha1/zones/{zone}/fips/detach",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Detach an existing flexible IP from a server\n\nDetach an existing flexible IP from a specified Elastic Metal server."
+      }
+    },
+    "com.scaleway.flexible_ip_v1alpha1#FlexibleIpV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#ListFlexibleIPs"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#CreateFlexibleIP"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#GetFlexibleIP"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#UpdateFlexibleIP"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DeleteFlexibleIP"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#GenerateMACAddr"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DeleteMACAddr"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DuplicateMACAddr"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#MoveMACAddr"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#AttachFlexibleIP"
+        },
+        {
+          "target": "com.scaleway.flexible_ip_v1alpha1#DetachFlexibleIP"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Elastic Metal - Flexible IP API",
+        "smithy.api#documentation": "Flexible IP addresses are additional public IP addresses that you can hold independently of any Elastic Metal server. They can either be IPv4 (single IP) or IPv6 (/64 IP block).\n\nFlexible IPs can be attached to and detached from any Elastic Metal server within the same zone. You can hold multiple flexible IPs in your account, and a given server can be linked to multiple flexible IPs. When you delete a flexible IP address, it is disassociated from your account.\n\nFlexible IPs can also be used to implement failovers. If any failure or maintenance issue occurs on a given Elastic Metal server, its flexible IP address can be transferred to another server.\n\n<Message type=\"important\">\n  This documentation refers to flexible IPs for Elastic Metal servers. Refer to the corresponding product documentation if you are looking for information about flexible IPs for other products.\n</Message>\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/elastic-metal/concepts/) to find definitions of the different terms referring to Elastic Metal and flexible IPs.\n\n## Quickstart\n\n1. **Configure your environment variables.**\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_ZONE=\"<Scaleway default zone>\"\n    ```\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the APIs. Refer to the Availability Zones section to verify which zones are available for use.\n   </Message>\n\n2. **Edit the POST request payload** that we will use in the next step to create a flexible IP.\n\n    ```json\n    {\n    \"project_id\": \"88f30nda-6768-9293-a89c-2b0b178628a6\",\n    \"description\": \"This is the description of my fIP\",\n    \"tags\": [\n        \"tag1\"\n    ],\n    \"server_id\": \"9dddd3sa-f13c-4351-9185-18f6b6d97t9w\",\n    \"reverse\": \"9dddd3se-f14c-4859-9185-18f6b6d78f8b.fr-par-1.baremetal.scw.cloud\",\n    \"is_ipv6\": true\n    }\n    ```\n\n\n   <Message type=\"note\">\n   Except when specified, all values are nullable.\n   </Message>\n\n3. **Create a flexible IP**: run the following command to create a flexible IP, including the payload you edited in the previous step.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/flexible-ip/v1alpha1/zones/$SCW_DEFAULT_ZONE/fips\" \\\n      -d '{\n          \"project_id\": \"88f30nda-6768-9293-a89c-2b0b178628a6\",\n          \"description\": \"This is the description of my fIP\",\n          \"tags\": [\n              \"tag1\"\n          ],\n          \"server_id\": \"9dddd3sa-f13c-4351-9185-18f6b6d97t9w\",\n          \"reverse\": \"9dddd3se-f14c-4859-9185-18f6b6d78f8b.fr-par-1.baremetal.scw.cloud\",\n          \"is_ipv6\": true\n          }'\n    ```\n\n   You should get an output similar to the following one, providing details about your flexible IP:\n\n   <Message type=\"note\">\n   This is a response example, the UUIDs and IP address displayed are not real.\n   </Message>\n\n    ```bash\n    {\n        \"id\": \"058d9f12-c33d-523d-b216-da4c9d0f3d66\",\n        \"organization_id\": \"88f30nda-6768-9293-a89c-2b0b178628a6\",\n        \"project_id\": \"88f30nda-6768-9293-a89c-2b0b178628a6\",\n        \"description\": \"This is the description of my fIP\",\n        \"updated_at\": \"2023-04-04T13:34:19.058178830Z\",\n        \"created_at\": \"2023-01-31T16:30:54.017824Z\",\n        \"status\": \"updating\",\n        \"tags\": [\n            \"tag1\"\n        ],\n        \"ip_address\": \"1998:cb9:813:24f3::/75\",\n        \"server_id\": null,\n        \"reverse\": \"9dddd3se-f14c-4859-9185-18f6b6d78f8b.fr-par-1.baremetal.scw.cloud\",\n        \"mac_address\": null,\n        \"zone\": \"fr-par-1\"\n    }\n    ```\n\n4. **Get a list of your flexible IPs**: run the following command to get a list of all the flexible IPs in your account, with their details:\n\n    ```bash\n    curl -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/flexible-ip/v1alpha1/zones/$SCW_DEFAULT_ZONE/fips\"\n    ```\n\n5. **Generate a virtual MAC (Media Access Control) address**: run the following command to generate a virtual MAC address on a given flexible IP. Ensure that you replace `<FLEXIBLE-IP-ID>` in the URL with the ID of the flexible IP you want to create a virtual MAC address for.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/flexible-ip/v1alpha1/zones/$SCW_DEFAULT_ZONE/fips/<FLEXIBLE-IP-ID>/mac\" \\\n      -d '{\n        \"mac_type\": \"<MAC_TYPE>\"\n      }'\n    ```\n\n   **Payload value**\n\n    - **mac_type** (string): Choose the type of virtual MAC address you want to generate on your flexible IP: `vmware`, `xen` or `kvm` (with the default value being set to `unknown_type`). To get more information about the available virtual MAC addresses, refer to the \"Technical information\" part of this quickstart.\n\n6. **Duplicate a virtual MAC (Media Access Control) address**: run the following command to duplicate a Virtual MAC from a given flexible IP onto another flexible IP attached to the same server.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/flexible-ip/v1alpha1/zones/$SCW_DEFAULT_ZONE/fips/<fip_id> \\\n      -d '{\n        \"duplicate_from_fip_id\": \"<ID_OF_THE_FIP_TO_DUPLICATE_MAC_FROM>\"\n      }'\n    ```\n\n   **Payload values**\n\n    - **fip_id** (string): ID of the flexible IP on which to duplicate the Virtual MAC. Note that flexible IPs need to be attached to the same server for the operation to work.\n    - **duplicate_from_fip_id** (string): ID of the flexible IP to duplicate the Virtual MAC from.\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have [created an API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has [sufficient IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical information\n\nA virtual MAC (Media Access Control) address can be generated on a flexible IP. Virtual MAC addresses are unique identifiers assigned to a virtual machine's network interface. This is particularly useful for virtualization technologies enabling multiple virtual machines to run on a single host machine (now called a hypervisor).\n\nFlexible IPs can have virtual MAC addresses assigned to them, and it is possible to duplicate these virtual MAC addresses between flexible IPs on the same server. When a virtual MAC address is duplicated onto another flexible IP, the two become part of the same virtual MAC group.\n\nWhen flexible IPs belong to a given MAC group, they cannot be moved separately to another server. Both must be transferred to the new server, as a group. Subsequently, a MAC group can be moved by providing a list of flexible IP IDs in Attach/Detach requests.\n\nNote that if you detach a single flexible IP from a MAC group, the virtual MAC address will be removed from the detached flexible IP.\n\n### Availability Zones\n\nFlexible IPs are available in the following Availability Zones:\n\n\n## Technical limitations\n\n- Flexible IPs exist for many resources (Instances, Load Balancers, etc). Note, however, that each of these sets of flexible IPs is independent and usable only with that product. This API concerns flexible IPs for Elastic Metal servers only.\n- There is a limit of 64 flexible IPs per server\n\n## Going further\n\nFor more help using flexible IPs, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/elastic-metal/)\n- Our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

@@ -1,0 +1,4342 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GatewayNetworkStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "ATTACHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attaching"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DETACHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "detaching"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayNetworkStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestGatewayIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestPrivateNetworkIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "GatewayNetworks per page."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter for GatewayNetworks with these status. Use `unknown` to include all statuses."
+          }
+        },
+        "gateway_ids": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestGatewayIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "gateway_ids",
+            "smithy.api#documentation": "Filter for GatewayNetworks connected to these gateways."
+          }
+        },
+        "private_network_ids": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequestPrivateNetworkIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "private_network_ids",
+            "smithy.api#documentation": "Filter for GatewayNetworks connected to these Private Networks."
+          }
+        },
+        "masquerade_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "masquerade_enabled",
+            "smithy.api#documentation": "Filter for GatewayNetworks with this `enable_masquerade` setting."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworksResponse": {
+      "type": "structure",
+      "members": {
+        "gateway_networks": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworksResponseGatewayNetworksList",
+          "traits": {
+            "smithy.api#documentation": "GatewayNetworks on this page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total GatewayNetworks count matching the filter."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GatewayNetwork": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Public Gateway-Private Network connection. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the gateway network."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connection creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connection last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the connected Public Gateway. (UUID format)"
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the connected Private Network. (UUID format)"
+          }
+        },
+        "mac_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MAC address of the gateway in the Private Network (if the gateway is up and running).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "masquerade_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the gateway masquerades traffic for this Private Network (Dynamic NAT)."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.vpc_gw_v2#GatewayNetworkStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the Public Gateway's connection to the Private Network."
+          }
+        },
+        "push_default_route": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enabling the default route also enables masquerading."
+          }
+        },
+        "ipam_ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use this IPAM-booked IP ID as the Gateway's IP in this Private Network. (UUID format)"
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the GatewayNetwork connection."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworksResponseGatewayNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayNetwork"
+      },
+      "traits": {
+        "smithy.api#documentation": "GatewayNetworks on this page."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayNetworks": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworksRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateway-networks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Public Gateway connections to Private Networks\n\nList the connections between Public Gateways and Private Networks (a connection = a GatewayNetwork). You can choose to filter by `gateway-id` to list all Private Networks attached to the specified Public Gateway, or by `private_network_id` to list all Public Gateways attached to the specified Private Network. Other query parameters are also available. The result is an array of GatewayNetwork objects, each giving details of the connection between a given Public Gateway and a given Private Network.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "gateway_networks",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreateGatewayNetworkRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#CreateGatewayNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#CreateGatewayNetworkRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public Gateway to connect. (UUID format)"
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network to connect. (UUID format)"
+          }
+        },
+        "enable_masquerade": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to enable masquerade (dynamic NAT) on the GatewayNetwork."
+          }
+        },
+        "push_default_route": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enabling the default route also enables masquerading."
+          }
+        },
+        "ipam_ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use this IPAM-booked IP ID as the Gateway's IP in this Private Network. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreateGatewayNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#CreateGatewayNetworkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayNetwork"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateway-networks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Attach a Public Gateway to a Private Network\n\nAttach a specific Public Gateway to a specific Private Network (create a GatewayNetwork). You can configure parameters for the connection including whether to enable masquerade (dynamic NAT), and more."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GetGatewayNetworkRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GetGatewayNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#GetGatewayNetworkRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the GatewayNetwork to fetch. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GetGatewayNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#GetGatewayNetworkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayNetwork"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateway-networks/{gateway_network_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a Public Gateway connection to a Private Network\n\nGet details of a given connection between a Public Gateway and a Private Network (this connection = a GatewayNetwork), specified by its `gateway_network_id`. The response object contains details of the connection including the IDs of the Public Gateway and Private Network, the dates the connection was created/updated and its configuration settings."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdateGatewayNetworkRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#UpdateGatewayNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#UpdateGatewayNetworkRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the GatewayNetwork to update. (UUID format)"
+          }
+        },
+        "enable_masquerade": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether to enable masquerade (dynamic NAT) on the GatewayNetwork.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "push_default_route": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enabling the default route also enables masquerading.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipam_ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use this IPAM-booked IP ID as the Gateway's IP in this Private Network. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdateGatewayNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#UpdateGatewayNetworkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayNetwork"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateway-networks/{gateway_network_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a Public Gateway's connection to a Private Network\n\nUpdate the configuration parameters of a connection between a given Public Gateway and Private Network (the connection = a GatewayNetwork). Updatable parameters include whether to enable traffic masquerade (dynamic NAT)."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeleteGatewayNetworkRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#DeleteGatewayNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#DeleteGatewayNetworkRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the GatewayNetwork to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeleteGatewayNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#DeleteGatewayNetworkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayNetwork"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateway-networks/{gateway_network_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Detach a Public Gateway from a Private Network\n\nDetach a given Public Gateway from a given Private Network, i.e. delete a GatewayNetwork specified by a gateway_network_id."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayTypesRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayTypesRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayTypesRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayTypesResponse": {
+      "type": "structure",
+      "members": {
+        "types": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayTypesResponseTypesList",
+          "traits": {
+            "smithy.api#documentation": "Available types of Public Gateway."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GatewayType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public Gateway type name."
+          }
+        },
+        "bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Bandwidth, in bps, of the Public Gateway. This is the public bandwidth to the outer Internet, and the internal bandwidth to each connected Private Networks."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone the Public Gateway type is available in."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayTypesResponseTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available types of Public Gateway."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewayTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#ListGatewayTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#ListGatewayTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateway-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Public Gateway types\n\nList the different Public Gateway commercial offer types available at Scaleway. The response is an array of objects describing the name and technical details of each available gateway type."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysRequestTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GatewayStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "ALLOCATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allocating"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "STOPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopping"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysRequestPrivateNetworkIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewaysRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewaysRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Gateways per page."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Include only gateways in this Organization. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Include only gateways in this Project. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter for gateways which have this search term in their name."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewaysRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter for gateways with these tags."
+          }
+        },
+        "types": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewaysRequestTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "types",
+            "smithy.api#documentation": "Filter for gateways of these types."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewaysRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter for gateways with these status. Use `unknown` to include all statuses."
+          }
+        },
+        "private_network_ids": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewaysRequestPrivateNetworkIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "private_network_ids",
+            "smithy.api#documentation": "Filter for gateways attached to these Private Networks."
+          }
+        },
+        "include_legacy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_legacy",
+            "smithy.api#documentation": "Include also legacy gateways."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysResponse": {
+      "type": "structure",
+      "members": {
+        "gateways": {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewaysResponseGatewaysList",
+          "traits": {
+            "smithy.api#documentation": "Gateways on this page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of gateways matching the filter."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#Gateway": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the gateway. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the gateway."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Owning Organization. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Owning Project. (UUID format)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway type name (commercial offer)."
+          }
+        },
+        "bandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Bandwidth available of the gateway."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.vpc_gw_v2#GatewayStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the gateway."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the gateway."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_gw_v2#GatewayTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the gateway."
+          }
+        },
+        "ipv4": {
+          "target": "com.scaleway.vpc_gw_v2#IP",
+          "traits": {
+            "smithy.api#documentation": "Public IPv4 address of the gateway."
+          }
+        },
+        "gateway_networks": {
+          "target": "com.scaleway.vpc_gw_v2#GatewayGatewayNetworksList",
+          "traits": {
+            "smithy.api#documentation": "GatewayNetwork objects attached to the gateway (each one represents a connection to a Private Network)."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the running gateway software.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "can_upgrade_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Newly available gateway software version that can be updated to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bastion_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether SSH bastion is enabled on the gateway."
+          }
+        },
+        "bastion_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Port of the SSH bastion."
+          }
+        },
+        "smtp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether SMTP traffic is allowed to pass through the gateway."
+          }
+        },
+        "is_legacy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the gateway uses non-IPAM IP configurations."
+          }
+        },
+        "bastion_allowed_ips": {
+          "target": "com.scaleway.vpc_gw_v2#GatewayBastionAllowedIpsList",
+          "traits": {
+            "smithy.api#documentation": "Ranges of IP addresses allowed to connect to the gateway's SSH bastion. (IP network)"
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the gateway."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GatewayTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the gateway."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#IP": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP address ID. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the ip."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Owning Organization. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Owning Project. (UUID format)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP address creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP address last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_gw_v2#IPTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the IP address."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP address itself. (IP address)"
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse domain name for the IP address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public Gateway associated with the IP address. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the IP address."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#IPTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the IP address."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GatewayGatewayNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#GatewayNetwork"
+      },
+      "traits": {
+        "smithy.api#documentation": "GatewayNetwork objects attached to the gateway (each one represents a connection to a Private Network)."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GatewayBastionAllowedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ranges of IP addresses allowed to connect to the gateway's SSH bastion. (IP network)"
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGatewaysResponseGatewaysList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#Gateway"
+      },
+      "traits": {
+        "smithy.api#documentation": "Gateways on this page."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListGateways": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#ListGatewaysRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#ListGatewaysResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List Public Gateways\n\nList Public Gateways in a given Scaleway Organization or Project. By default, results are displayed in ascending order of creation date.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "gateways",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreateGatewayRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#CreateGatewayRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags for the gateway."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreateGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#CreateGatewayRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Project to create the gateway in. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name for the gateway."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_gw_v2#CreateGatewayRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags for the gateway."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway type (commercial offer type)."
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Existing IP address to attach to the gateway. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enable_smtp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether SMTP traffic should be allowed pass through the gateway."
+          }
+        },
+        "enable_bastion": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether SSH bastion should be enabled the gateway."
+          }
+        },
+        "bastion_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Port of the SSH bastion.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreateGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#CreateGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#Gateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a Public Gateway\n\nCreate a new Public Gateway in the specified Scaleway Project, defining its **name**, **type** and other configuration details such as whether to enable SSH bastion."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GetGatewayRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GetGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#GetGatewayRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the gateway to fetch. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GetGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#GetGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#Gateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a Public Gateway\n\nGet details of a Public Gateway, specified by its gateway ID. The response object contains full details of the gateway, including its **name**, **type**, **status** and more."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdateGatewayRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#UpdateGatewayRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags for the gateway."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdateGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#UpdateGatewayRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the gateway to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name for the gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_gw_v2#UpdateGatewayRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags for the gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enable_bastion": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether SSH bastion should be enabled the gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bastion_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Port of the SSH bastion.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enable_smtp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether SMTP traffic should be allowed to pass through the gateway.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdateGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#UpdateGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#Gateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a Public Gateway\n\nUpdate the parameters of an existing Public Gateway, for example, its **name**, **tags**, **SSH bastion configuration**, and **DNS servers**."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeleteGatewayRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#DeleteGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#DeleteGatewayRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the gateway to delete. (UUID format)"
+          }
+        },
+        "delete_ip": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "delete_ip",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Defines whether the PGW's IP should be deleted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeleteGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#DeleteGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#Gateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways/{gateway_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Public Gateway\n\nDelete an existing Public Gateway, specified by its gateway ID. This action is irreversible."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#AddBastionAllowedIPsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#AddBastionAllowedIPsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#AddBastionAllowedIPsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the gateway to add the allowed IP range to."
+          }
+        },
+        "ip_range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP range allowed to connect to the SSH bastion. (IP network)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#AddBastionAllowedIPsResponse": {
+      "type": "structure",
+      "members": {
+        "ip_ranges": {
+          "target": "com.scaleway.vpc_gw_v2#AddBastionAllowedIPsResponseIpRangesList",
+          "traits": {
+            "smithy.api#documentation": "Ranges of IP addresses allowed to connect to the gateway's SSH bastion. (IP network)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#AddBastionAllowedIPsResponseIpRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ranges of IP addresses allowed to connect to the gateway's SSH bastion. (IP network)"
+      }
+    },
+    "com.scaleway.vpc_gw_v2#AddBastionAllowedIPs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#AddBastionAllowedIPsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#AddBastionAllowedIPsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways/{gateway_id}/bastion-allowed-ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Add allowed IP range to SSH bastion\n\nAdd an IP range (in CIDR notation) to be allowed to connect to the SSH bastion."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsRequestIpRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "New list of IP ranges (each range in CIDR notation) allowed to connect to the SSH bastion."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the gateway on which to set the allowed IP range."
+          }
+        },
+        "ip_ranges": {
+          "target": "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsRequestIpRangesList",
+          "traits": {
+            "smithy.api#documentation": "New list of IP ranges (each range in CIDR notation) allowed to connect to the SSH bastion."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsResponse": {
+      "type": "structure",
+      "members": {
+        "ip_ranges": {
+          "target": "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsResponseIpRangesList",
+          "traits": {
+            "smithy.api#documentation": "Ranges of IP addresses allowed to connect to the gateway's SSH bastion. (IP network)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsResponseIpRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ranges of IP addresses allowed to connect to the gateway's SSH bastion. (IP network)"
+      }
+    },
+    "com.scaleway.vpc_gw_v2#SetBastionAllowedIPs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#SetBastionAllowedIPsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways/{gateway_id}/bastion-allowed-ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set all IP ranges allowed for SSH bastion\n\nSet a definitive list of IP ranges (in CIDR notation) allowed to connect to the SSH bastion."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeleteBastionAllowedIPsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#DeleteBastionAllowedIPsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#DeleteBastionAllowedIPsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the gateway on which to delete the allowed IP range."
+          }
+        },
+        "ip_range": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "IP range to delete from SSH bastion's list of allowed IPs. (IP network)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeleteBastionAllowedIPs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#DeleteBastionAllowedIPsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways/{gateway_id}/bastion-allowed-ips/{ip_range}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete allowed IP range from SSH bastion\n\nDelete an IP range (defined in CIDR notation) from SSH bastion, so that it is no longer allowed to connect."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#RefreshSSHKeysRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#RefreshSSHKeysRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#RefreshSSHKeysRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the gateway to refresh SSH keys on. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#RefreshSSHKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#RefreshSSHKeysRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#Gateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways/{gateway_id}/refresh-ssh-keys",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Refresh a Public Gateway's SSH keys\n\nRefresh the SSH keys of a given Public Gateway, specified by its gateway ID. This adds any new SSH keys in the gateway's Scaleway Project to the gateway itself."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpgradeGatewayRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#UpgradeGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#UpgradeGatewayRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the gateway to upgrade. (UUID format)"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway type (commercial offer).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpgradeGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#UpgradeGatewayRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#Gateway"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vpc-gw/v2/zones/{zone}/gateways/{gateway_id}/upgrade",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Upgrade a Public Gateway to the latest version and/or to a different commercial offer type\n\nUpgrade a given Public Gateway to the newest software version or to a different commercial offer type. This applies the latest bugfixes and features to your Public Gateway. Note that gateway service will be interrupted during the update."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListIPsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListIPsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "ADDRESS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "address_asc"
+          }
+        },
+        "ADDRESS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "address_desc"
+          }
+        },
+        "REVERSE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reverse_asc"
+          }
+        },
+        "REVERSE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reverse_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListIPsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListIPsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#ListIPsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.vpc_gw_v2#ListIPsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "IP addresses per page."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Include only gateways in this Organization. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter for IP addresses in this Project. (UUID format)"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_gw_v2#ListIPsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter for IP addresses with these tags."
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "reverse",
+            "smithy.api#documentation": "Filter for IP addresses that have a reverse containing this string."
+          }
+        },
+        "is_free": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "is_free",
+            "smithy.api#documentation": "Filter based on whether the IP is attached to a gateway or not."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListIPsResponse": {
+      "type": "structure",
+      "members": {
+        "ips": {
+          "target": "com.scaleway.vpc_gw_v2#ListIPsResponseIpsList",
+          "traits": {
+            "smithy.api#documentation": "IP addresses on this page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of IP addresses matching the filter."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListIPsResponseIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#IP"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP addresses on this page."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListIPs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#ListIPsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#ListIPsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List IPs\n\nList Public Gateway flexible IP addresses. A number of filter options are available for limiting results in the response.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "ips",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreateIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#CreateIPRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to give to the IP address."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreateIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#CreateIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project to create the IP address in. (UUID format)"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_gw_v2#CreateIPRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to give to the IP address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreateIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#CreateIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vpc-gw/v2/zones/{zone}/ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Reserve an IP\n\nCreate (reserve) a new flexible IP address that can be used for a Public Gateway in a specified Scaleway Project."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GetIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GetIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#GetIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the IP address to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GetIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#GetIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/ips/{ip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an IP\n\nGet details of a Public Gateway flexible IP address, identified by its IP ID. The response object contains information including which (if any) Public Gateway using this IP address, the reverse and various other metadata."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdateIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#UpdateIPRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to give to the IP address."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdateIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#UpdateIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the IP address to update. (UUID format)"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_gw_v2#UpdateIPRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to give to the IP address.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse to set on the address. Empty string to unset.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway to attach the IP address to. Empty string to detach. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdateIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#UpdateIPRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#IP"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/vpc-gw/v2/zones/{zone}/ips/{ip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an IP\n\nUpdate details of an existing flexible IP address, including its tags, reverse and the Public Gateway it is assigned to."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeleteIPRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#DeleteIPRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#DeleteIPRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "ip_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the IP address to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeleteIP": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#DeleteIPRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vpc-gw/v2/zones/{zone}/ips/{ip_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an IP\n\nDelete a flexible IP address from your account. This action is irreversible."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListPatRulesRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListPatRulesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "PUBLIC_PORT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_port_asc"
+          }
+        },
+        "PUBLIC_PORT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_port_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListPatRulesRequestGatewayIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListPatRulesRequestPrivateIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#PatRuleProtocol": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PROTOCOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_protocol"
+          }
+        },
+        "BOTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "both"
+          }
+        },
+        "TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tcp"
+          }
+        },
+        "UDP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "udp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListPatRulesRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#ListPatRulesRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.vpc_gw_v2#ListPatRulesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "PAT rules per page."
+          }
+        },
+        "gateway_ids": {
+          "target": "com.scaleway.vpc_gw_v2#ListPatRulesRequestGatewayIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "gateway_ids",
+            "smithy.api#documentation": "Filter for PAT rules on these gateways."
+          }
+        },
+        "private_ips": {
+          "target": "com.scaleway.vpc_gw_v2#ListPatRulesRequestPrivateIpsList",
+          "traits": {
+            "smithy.api#httpQuery": "private_ips",
+            "smithy.api#documentation": "Filter for PAT rules targeting these private ips."
+          }
+        },
+        "protocol": {
+          "target": "com.scaleway.vpc_gw_v2#PatRuleProtocol",
+          "traits": {
+            "smithy.api#httpQuery": "protocol",
+            "smithy.api#documentation": "Filter for PAT rules with this protocol."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListPatRulesResponse": {
+      "type": "structure",
+      "members": {
+        "pat_rules": {
+          "target": "com.scaleway.vpc_gw_v2#ListPatRulesResponsePatRulesList",
+          "traits": {
+            "smithy.api#documentation": "Array of PAT rules matching the filter."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of PAT rules matching the filter."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#PatRule": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PAT rule ID. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the PAT rule."
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway the PAT rule applies to. (UUID format)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PAT rule creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PAT rule last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Public port to listen on."
+          }
+        },
+        "private_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private IP address to forward data to. (IP address)"
+          }
+        },
+        "private_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Private port to translate to."
+          }
+        },
+        "protocol": {
+          "target": "com.scaleway.vpc_gw_v2#PatRuleProtocol",
+          "traits": {
+            "smithy.api#documentation": "Protocol the rule applies to."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the PAT rule."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#ListPatRulesResponsePatRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#PatRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of PAT rules matching the filter."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#ListPatRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#ListPatRulesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#ListPatRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/pat-rules",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List PAT rules\n\nList PAT rules. You can filter by gateway ID to list all PAT rules for a particular gateway, or filter for PAT rules targeting a specific IP address or using a specific protocol.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "pat_rules",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreatePatRuleRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#CreatePatRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#CreatePatRuleRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Gateway on which to create the rule. (UUID format)"
+          }
+        },
+        "public_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Public port to listen on."
+          }
+        },
+        "private_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private IP to forward data to. (IP address)"
+          }
+        },
+        "private_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Private port to translate to."
+          }
+        },
+        "protocol": {
+          "target": "com.scaleway.vpc_gw_v2#PatRuleProtocol",
+          "traits": {
+            "smithy.api#documentation": "Protocol the rule should apply to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#CreatePatRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#CreatePatRuleRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#PatRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vpc-gw/v2/zones/{zone}/pat-rules",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a PAT rule\n\nCreate a new PAT rule on a specified Public Gateway, defining the protocol to use, public port to listen on, and private port / IP address to map to."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#SetPatRulesRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#SetPatRulesRequestRule": {
+      "type": "structure",
+      "members": {
+        "public_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Public port to listen on.\nPublic port to listen on. Uniquely identifies the rule, and a matching rule will be updated with the new parameters."
+          }
+        },
+        "private_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private IP to forward data to. (IP address)"
+          }
+        },
+        "private_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Private port to translate to."
+          }
+        },
+        "protocol": {
+          "target": "com.scaleway.vpc_gw_v2#PatRuleProtocol",
+          "traits": {
+            "smithy.api#documentation": "Protocol the rule should apply to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#SetPatRulesRequestPatRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#SetPatRulesRequestRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "New list of PAT rules."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#SetPatRulesRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#SetPatRulesRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "gateway_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the gateway on which to set the PAT rules. (UUID format)"
+          }
+        },
+        "pat_rules": {
+          "target": "com.scaleway.vpc_gw_v2#SetPatRulesRequestPatRulesList",
+          "traits": {
+            "smithy.api#documentation": "New list of PAT rules.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#SetPatRulesResponse": {
+      "type": "structure",
+      "members": {
+        "pat_rules": {
+          "target": "com.scaleway.vpc_gw_v2#SetPatRulesResponsePatRulesList",
+          "traits": {
+            "smithy.api#documentation": "List of PAT rules."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#SetPatRulesResponsePatRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_gw_v2#PatRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of PAT rules."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#SetPatRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#SetPatRulesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#SetPatRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/vpc-gw/v2/zones/{zone}/pat-rules",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set all PAT rules\n\nSet a definitive list of PAT rules attached to a Public Gateway. Each rule is identified by its public port and protocol. This will sync the current PAT rule list on the gateway with the new list, creating, updating or deleting PAT rules accordingly."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GetPatRuleRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#GetPatRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#GetPatRuleRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "pat_rule_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the PAT rule to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#GetPatRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#GetPatRuleRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#PatRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc-gw/v2/zones/{zone}/pat-rules/{pat_rule_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a PAT rule\n\nGet a PAT rule, specified by its PAT rule ID. The response object gives full details of the PAT rule, including the Public Gateway it belongs to and the configuration settings in terms of public / private ports, private IP and protocol."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdatePatRuleRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#UpdatePatRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#UpdatePatRuleRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "pat_rule_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the PAT rule to update. (UUID format)"
+          }
+        },
+        "public_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Public port to listen on.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private IP to forward data to. (IP address)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Private port to translate to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protocol": {
+          "target": "com.scaleway.vpc_gw_v2#PatRuleProtocol",
+          "traits": {
+            "smithy.api#documentation": "Protocol the rule should apply to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#UpdatePatRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#UpdatePatRuleRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_gw_v2#PatRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/vpc-gw/v2/zones/{zone}/pat-rules/{pat_rule_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a PAT rule\n\nUpdate a PAT rule, specified by its PAT rule ID. Configuration settings including private/public port, private IP address and protocol can all be updated."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeletePatRuleRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "IT_MIL_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil-1"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_gw_v2#DeletePatRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.vpc_gw_v2#DeletePatRuleRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "pat_rule_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the PAT rule to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_gw_v2#DeletePatRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_gw_v2#DeletePatRuleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vpc-gw/v2/zones/{zone}/pat-rules/{pat_rule_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a PAT rule\n\nDelete a PAT rule, identified by its PAT rule ID. This action is irreversible."
+      }
+    },
+    "com.scaleway.vpc_gw_v2#VpcGwV2": {
+      "type": "service",
+      "version": "v2",
+      "operations": [
+        {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayNetworks"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#CreateGatewayNetwork"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#GetGatewayNetwork"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#UpdateGatewayNetwork"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#DeleteGatewayNetwork"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#ListGatewayTypes"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#ListGateways"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#CreateGateway"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#GetGateway"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#UpdateGateway"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#DeleteGateway"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#AddBastionAllowedIPs"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#SetBastionAllowedIPs"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#DeleteBastionAllowedIPs"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#RefreshSSHKeys"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#UpgradeGateway"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#ListIPs"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#CreateIP"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#GetIP"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#UpdateIP"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#DeleteIP"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#ListPatRules"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#CreatePatRule"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#SetPatRules"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#GetPatRule"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#UpdatePatRule"
+        },
+        {
+          "target": "com.scaleway.vpc_gw_v2#DeletePatRule"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Public Gateways API",
+        "smithy.api#documentation": "Scaleway Public Gateways are building blocks for your infrastructure on Scaleway's public\ncloud. They sit at the border of Private Networks and provide access to/from other networks or the Internet. As well as this, Public Gateways offer a host of managed features and services to facilitate the management of resources in your Private Network, including NAT to map private IP addresses in the Private Network to the public IP address of the Public Gateway.\n\n<Message type=\"tip\">\nTo create and manage your Private Networks, check out the [VPC API](https://www.scaleway.com/en/developers/api/vpc).\n</Message>\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/public-gateways/concepts/) to find definitions of all terminology related to Public Gateways, including NAT, SSH bastion and more.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Public Gateways API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_ZONE=\"<Scaleway default Availability Zone>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Choose a Public Gateway type**: Public Gateways come in different shapes and sizes, with different network capabilities and pricing. When you create your Public Gateway, you need to include the required Public Gateway type in the request. Use the following call to get a list of available Public Gateway offer types and their details:\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/vpc-gw/v2/zones/$SCW_DEFAULT_ZONE/gateway-types\"   \n    ```\n\n3. **Create a Public Gateway**: run the following command to create a Public Gateway. You can customize the details in the payload (name, description, tags, etc) to your needs: use the information below to adjust the payload as necessary.\n\n    ```bash\n    curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/vpc-gw/v2/zones/$SCW_DEFAULT_ZONE/gateways\" \\\n        -d '{\n            \"type\": \"VPC-GW-S\", \n            \"name\": \"my-new-gateway\",\n            \"tags\": [\"my-first-tag\", \"my-second-tag\"], \n            \"project_id\": \"'\"$SCW_PROJECT_ID\"'\"\n            }'\n    ```\n\n\n   **Note**: Further parameters are available, but for the purposes of this quickstart we have included only the essentials. See the `Create a Public Gateway` endpoint documentation below for full details of all possible parameters.\n\n4. **Get a list of your Public Gateways**: run the following command to get a list of all your Public Gateways.\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/vpc-gw/v2/zones/$SCW_DEFAULT_ZONE/gateways\"\n    ```\n\n5. **Attach a Private Network to a Public Gateway**: run the following command to attach a Private Network to your Public Gateway, and make all the Gateway's services such as NAT available to the Private Network. You can customize the details in the payload to your needs: use the information below to adjust the payload as necessary.\n\n   <Message type=\"tip\">\n   If you haven't created a Private Network yet, see the [Private Networks](https://www/scaleway.com/en/developers/api/vpc/) documentation to learn how to do so. Ensure you retain the ID of the Private Network.\n   </Message>\n\n    ```bash\n    curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/vpc-gw/v2/zones/$SCW_DEFAULT_ZONE/gateway-networks\" \\\n        -d '{\n            \"gateway_id\": \"b1b2edda-9364-422d-93f2-ad04e6a054dc\", \n            \"private_network_id\": \"548dbcc3-8b78-486f-a79a-c3f5a17642f9\",\n            \"enable_masquerade\": true\n        }'\n    ```\n\n   This configuration will set up the Public Gateway as a NAT gateway, masquerading traffic sent to it to the\n   outer internet to provide internet access to resources in the Private Network.\n\n\n   <Message type=\"note\">\n   Further parameters are available, but for the purposes of this quickstart we have included only the essentials. See the [Attach a gateway to a Private Network](#path-gateway-networks-attach-a-public-gateway-to-a-private-network) documentation below for full details of all possible parameters.\n   </Message>\n\n6. **Delete a Public Gateway**: run the following call to delete your Public Gateway. Ensure that you replace `<PUBLIC-GATEWAY-ID>` in the URL with the ID of the Public Gateway you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/vpc-gw/v2/zones/$SCW_DEFAULT_ZONE/gateways/<PUBLIC-GATEWAY-ID>\"\n    ```\n\n   The expected successful response is empty.\n\n   <Message type=\"requirement\">\n    - You have a [Scaleway account](https://console.scaleway.com/)\n    - You have [created an API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n    - You have [installed `curl`](https://curl.se/download.html)\n   </Message>\n\n## Technical limitations\n\nThe following limitations apply to Public Gateways:\n\n- A maximum of eight (8) Private Networks can be plugged into a single Public Gateway\n- Note that the Public Gateway takes some time to start up, and actions on it are\nimpossible unless it is in the `running` state. To check the current state of a Public Gateway, use the [Get a Public Gateway](#path-gateways-get-a-public-gateway) endpoint to get information for your gateway: the `status` field of the response will tell you if it is running or in another state.\n- For further information about Public Gateway limitations see our [dedicated documentation](https://www.scaleway.com/en/docs/public-gateways/troubleshooting/gw-limitations/).\n\n## Technical information\n\n### Availability Zones\n\nPublic Gateways can be deployed in the following Availability Zones:\n\n\nThe Scaleway Public Gateways API is a **zoned** API, meaning that each call must specify in its path parameters the Availability Zone for the resources concerned by the call.\n\n## Going further\n\nFor more help using Scaleway Public Gateways, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/public-gateways/)\n- The #public-gateway channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

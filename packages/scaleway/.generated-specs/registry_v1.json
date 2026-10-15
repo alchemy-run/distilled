@@ -1,0 +1,1566 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.registry_v1#ListImagesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ListImagesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ListImagesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#ListImagesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A positive integer to choose the page to display."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "A positive integer lower or equal to 100 to select the number of items to display."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.registry_v1#ListImagesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering image listings. Possible values are `created_at_asc`, `created_at_desc`, `name_asc`, `name_desc`, `region`, `status_asc` and `status_desc`. The default value is `created_at_asc`."
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "namespace_id",
+            "smithy.api#documentation": "Filter by the namespace ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by the image name (exact match)."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by Organization ID."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by Project ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#ListImagesResponse": {
+      "type": "structure",
+      "members": {
+        "images": {
+          "target": "com.scaleway.registry_v1#ListImagesResponseImagesList",
+          "traits": {
+            "smithy.api#documentation": "Paginated list of images that match the selected filters."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of images that match the selected filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#Image": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the image."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the image, it must be unique within the namespace."
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the namespace the image belongs to."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.registry_v1#ImageStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the image."
+          }
+        },
+        "status_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Details of the image status.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.scaleway.registry_v1#ImageVisibility",
+          "traits": {
+            "smithy.api#documentation": "Set to `public` to allow the image to be pulled without authentication. Else, set to `private`. Set to `inherit` to keep the same visibility configuration as the namespace."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Image size in bytes, calculated from the size of image layers.\nImage size in bytes, calculated from the size of image layers. One layer used in two tags of the same image is counted once but one layer used in two images is counted twice. (in bytes)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of image creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of last update. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.registry_v1#ImageTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of docker tags of the image."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ImageStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ImageVisibility": {
+      "type": "enum",
+      "members": {
+        "VISIBILITY_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visibility_unknown"
+          }
+        },
+        "INHERIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inherit"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ImageTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of docker tags of the image."
+      }
+    },
+    "com.scaleway.registry_v1#ListImagesResponseImagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.registry_v1#Image"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of images that match the selected filters."
+      }
+    },
+    "com.scaleway.registry_v1#ListImages": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#ListImagesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#ListImagesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/registry/v1/regions/{region}/images",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List images\n\nList all images in a specified region. By default, the images listed are ordered by creation date in ascending order. This can be modified via the order_by field. You can also define additional parameters for your query, such as the `namespace_id` and `project_id` parameters.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "images",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.registry_v1#GetImageRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#GetImageRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#GetImageRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the image."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#GetImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#GetImageRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Image"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/registry/v1/regions/{region}/images/{image_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an image\n\nRetrieve information about a given container image, specified by its `image_id` and region. Full details about the image, such as `name`, `namespace_id`, `status`, `visibility`, and `size` are returned in the response."
+      }
+    },
+    "com.scaleway.registry_v1#UpdateImageRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#UpdateImageRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#UpdateImageRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the image to update."
+          }
+        },
+        "visibility": {
+          "target": "com.scaleway.registry_v1#ImageVisibility",
+          "traits": {
+            "smithy.api#documentation": "Set to `public` to allow the image to be pulled without authentication. Else, set to `private`. Set to `inherit` to keep the same visibility configuration as the namespace."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#UpdateImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#UpdateImageRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Image"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/registry/v1/regions/{region}/images/{image_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an image\n\nUpdate the parameters of a given image, specified by its `image_id` and `region`. You can update the `visibility` parameter."
+      }
+    },
+    "com.scaleway.registry_v1#DeleteImageRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#DeleteImageRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#DeleteImageRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the image."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#DeleteImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#DeleteImageRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Image"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/registry/v1/regions/{region}/images/{image_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an image\n\nDelete a given image. You must specify, in the endpoint, the `region` and `image_id` parameters of the image you want to delete."
+      }
+    },
+    "com.scaleway.registry_v1#ListTagsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ListTagsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ListTagsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#ListTagsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the image."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A positive integer to choose the page to display."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "A positive integer lower or equal to 100 to select the number of items to display."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.registry_v1#ListTagsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering tag listings. Possible values are `created_at_asc`, `created_at_desc`, `name_asc`, `name_desc`, `region`, `status_asc` and `status_desc`. The default value is `created_at_asc`."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by the tag name (exact match)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#ListTagsResponse": {
+      "type": "structure",
+      "members": {
+        "tags": {
+          "target": "com.scaleway.registry_v1#ListTagsResponseTagsList",
+          "traits": {
+            "smithy.api#documentation": "Paginated list of tags that match the selected filters."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of tags that match the selected filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#Tag": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the tag."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tag name, unique to an image."
+          }
+        },
+        "image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image ID the of the image the tag belongs to."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.registry_v1#TagStatus",
+          "traits": {
+            "smithy.api#documentation": "Tag status."
+          }
+        },
+        "digest": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hash of the tag content. Several tags of a same image may have the same digest."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of last update. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#TagStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ListTagsResponseTagsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.registry_v1#Tag"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of tags that match the selected filters."
+      }
+    },
+    "com.scaleway.registry_v1#ListTags": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#ListTagsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#ListTagsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/registry/v1/regions/{region}/images/{image_id}/tags",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List tags\n\nList all tags for a given image, specified by region. By default, the tags listed are ordered by creation date in ascending order. This can be modified via the order_by field. You can also define additional parameters for your query, such as the `name`.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "tags",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.registry_v1#ListNamespacesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ListNamespacesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "DESCRIPTION_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "description_asc"
+          }
+        },
+        "DESCRIPTION_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "description_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ListNamespacesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#ListNamespacesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A positive integer to choose the page to display."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "A positive integer lower or equal to 100 to select the number of items to display."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.registry_v1#ListNamespacesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering namespace listings. Possible values are `created_at_asc`, `created_at_desc`, `name_asc`, `name_desc`, `region`, `status_asc` and `status_desc`. The default value is `created_at_asc`."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by Organization ID."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by Project ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by the namespace name (exact match)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#ListNamespacesResponse": {
+      "type": "structure",
+      "members": {
+        "namespaces": {
+          "target": "com.scaleway.registry_v1#ListNamespacesResponseNamespacesList",
+          "traits": {
+            "smithy.api#documentation": "Paginated list of namespaces that match the selected filters."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of namespaces that match the selected filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#Namespace": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the namespace."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the namespace, unique in a region across all organizations."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the namespace."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Owner of the namespace."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project of the namespace."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.registry_v1#NamespaceStatus",
+          "traits": {
+            "smithy.api#documentation": "Namespace status."
+          }
+        },
+        "status_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Namespace status details."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint reachable by docker."
+          }
+        },
+        "is_public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether or not namespace is public."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total size of the namespace, calculated as the sum of the size of all images in the namespace. (in bytes)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of creation. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date and time of last update. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of images in the namespace."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region the namespace belongs to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#NamespaceStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#ListNamespacesResponseNamespacesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.registry_v1#Namespace"
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of namespaces that match the selected filters."
+      }
+    },
+    "com.scaleway.registry_v1#ListNamespaces": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#ListNamespacesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#ListNamespacesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/registry/v1/regions/{region}/namespaces",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List namespaces\n\nList all namespaces in a specified region. By default, the namespaces listed are ordered by creation date in ascending order. This can be modified via the order_by field. You can also define additional parameters for your query, such as the `instance_id` and `project_id` parameters.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "namespaces",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.registry_v1#CreateNamespaceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#CreateNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#CreateNamespaceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the namespace.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the namespace."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Namespace owner (deprecated).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID on which the namespace will be created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether or not namespace is public."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#CreateNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#CreateNamespaceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Namespace"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/registry/v1/regions/{region}/namespaces",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a namespace\n\nCreate a new Container Registry namespace. You must specify the namespace name and region in which you want it to be created. Optionally, you can specify the `project_id` and `is_public` in the request payload."
+      }
+    },
+    "com.scaleway.registry_v1#GetNamespaceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#GetNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#GetNamespaceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the namespace."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#GetNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#GetNamespaceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Namespace"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/registry/v1/regions/{region}/namespaces/{namespace_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a namespace\n\nRetrieve information about a given namespace, specified by its `namespace_id` and region. Full details about the namespace, such as `description`, `project_id`, `status`, `endpoint`, `is_public`, `size`, and `image_count` are returned in the response."
+      }
+    },
+    "com.scaleway.registry_v1#UpdateNamespaceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#UpdateNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#UpdateNamespaceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the namespace to update."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Namespace description.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether or not the namespace is public.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#UpdateNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#UpdateNamespaceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Namespace"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/registry/v1/regions/{region}/namespaces/{namespace_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a namespace\n\nUpdate the parameters of a given namespace, specified by its `namespace_id` and `region`. You can update the `description` and `is_public` parameters."
+      }
+    },
+    "com.scaleway.registry_v1#DeleteNamespaceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#DeleteNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#DeleteNamespaceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the namespace."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#DeleteNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#DeleteNamespaceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Namespace"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/registry/v1/regions/{region}/namespaces/{namespace_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a namespace\n\nDelete a given namespace. You must specify, in the endpoint, the `region` and `namespace_id` parameters of the namespace you want to delete."
+      }
+    },
+    "com.scaleway.registry_v1#GetTagRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#GetTagRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#GetTagRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "tag_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the tag."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#GetTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#GetTagRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Tag"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/registry/v1/regions/{region}/tags/{tag_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a tag\n\nRetrieve information about a given image tag, specified by its `tag_id` and region. Full details about the tag, such as `name`, `image_id`, `status`, and `digest` are returned in the response."
+      }
+    },
+    "com.scaleway.registry_v1#DeleteTagRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.registry_v1#DeleteTagRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.registry_v1#DeleteTagRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "tag_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the tag."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "If two tags share the same digest the deletion will fail unless this parameter is set to true (deprecated)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.registry_v1#DeleteTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.registry_v1#DeleteTagRequest"
+      },
+      "output": {
+        "target": "com.scaleway.registry_v1#Tag"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/registry/v1/regions/{region}/tags/{tag_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a tag\n\nDelete a given image tag. You must specify, in the endpoint, the `region` and `tag_id` parameters of the tag you want to delete."
+      }
+    },
+    "com.scaleway.registry_v1#RegistryV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.registry_v1#ListImages"
+        },
+        {
+          "target": "com.scaleway.registry_v1#GetImage"
+        },
+        {
+          "target": "com.scaleway.registry_v1#UpdateImage"
+        },
+        {
+          "target": "com.scaleway.registry_v1#DeleteImage"
+        },
+        {
+          "target": "com.scaleway.registry_v1#ListTags"
+        },
+        {
+          "target": "com.scaleway.registry_v1#ListNamespaces"
+        },
+        {
+          "target": "com.scaleway.registry_v1#CreateNamespace"
+        },
+        {
+          "target": "com.scaleway.registry_v1#GetNamespace"
+        },
+        {
+          "target": "com.scaleway.registry_v1#UpdateNamespace"
+        },
+        {
+          "target": "com.scaleway.registry_v1#DeleteNamespace"
+        },
+        {
+          "target": "com.scaleway.registry_v1#GetTag"
+        },
+        {
+          "target": "com.scaleway.registry_v1#DeleteTag"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Container Registry API",
+        "smithy.api#documentation": "Scaleway Container Registry is a fully-managed mutualised Container Registry, designed to facilitate the storage, management and deployment of container images. The service simplifies the development-to-production workflow, as there is no need to operate your own Container Registry or to worry about the underlying infrastructure.\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/container-registry/concepts/) to find definitions of the different terms referring to Container Registry.\n\n## Quickstart\n\n1. Configure your environment variables.\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the APIs.\n   </Message>\n\n    ```bash\n    export ACCESS_KEY=\"<access-key>\"\n    export SECRET_KEY=\"<secret-key>\"\n    export SCW_REGION=\"<region>\"\n    ```\n\n2. Edit the POST request payload you will use to create your Container Registry namespace. Replace the parameters in the following example:\n\n    ```json\n    '{\n      \"name\": \"namespace1\",\n      \"description\": \"this is my new namespace\",\n      \"project_id\": \"d4c3139f-3010-4e5f-9e73-0f2df2d242f0\",\n      \"is_public\": \"true\"\n    }'\n    ```\n\n\n3. Create a namespace by running the following command. Make sure you include the payload you edited in the previous step. Replace\n\n    ```bash\n    curl -X POST \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" https://api.scaleway.com/registry/v1/regions/$SCW_REGION/namespaces \\\n      -d  '{\n        \"name\": \"namespace1\",\n        \"description\": \"this is my new namespace\",\n        \"project_id\": \"d4c3139f-3010-4e5f-9e73-0f2df2d242f0\",\n        \"is_public\": true\n      }'\n    ```\n\n   You should get a response like the following:\n\n    ```json\n    {\n      \"id\": \"99aa3f69-b194-41cf-aaca-3ef6d1012e1d\",\n      \"name\": \"namespace1\",\n      \"description\": \"this is my new namespace\",\n      \"organization_id\": \"d4c3139f-3010-4e5f-9e73-0f2df2d242f0\",\n      \"project_id\": \"d4c3139f-3010-4e5f-9e73-0f2df2d242f0\",\n      \"status\": \"ready\",\n      \"status_message\": \"\",\n      \"endpoint\": \"rg.fr-par.scw.cloud/namespace1\",\n      \"is_public\": true,\n      \"size\": 0,\n      \"created_at\": \"2023-04-04T13:33:46.965978759Z\",\n      \"updated_at\": \"2023-04-04T13:33:46.965978759Z\",\n      \"image_count\": 0,\n      \"region\": \"string\"\n    }\n    ```\n\n4. Log in to your new namespace the [docker](https://www.scaleway.com/en/docs/container-registry/concepts/#docker) CLI.\n   <Message type=\"note\">\n   Use the following hostname format when using the Docker CLI: `rg.{SCW_REGION}.scw.cloud`. Replace `{SCW_REGION}` with your [region of choice](#regions). Keep in mind you can only have one registry namespace per region. In this example we use `fr-par`.\n   </Message>\n\n    ```shell\n    docker login rg.fr-par.scw.cloud/namespace1 -u nologin -p ${SCW_SECRET_KEY}\n    ```\n\n5. Pull the most recent image version of the tool you wish to use. In this example we use an [nginx](https://hub.docker.com/_/nginx) image.\n\n    ```shell\n    docker pull nginx:latest\n    ```\n\n6. Tag the image.\n\n    ```shell\n    docker tag nginx:latest rg.fr-par.scw.cloud/namespace1/nginx:latest\n    ```\n\n7. Push an image to your namespace.\n\n    ```shell\n    docker push rg.fr-par.scw.cloud/namespace1/nginx:latest\n    ```\n\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n  - you have an account and are logged into the [Scaleway console](https://console.scaleway.com/organization)\n  - you have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page.\n  - you have [installed `curl`](https://curl.se/download.html)\n  - you have [installed Docker](https://www.docker.com/) on your computer\n</Message>\n\n## Technical Information\n\n### Regions\n\nScaleway's infrastructure is spread across different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nContainer Registry is available in the Paris, Amsterdam and Warsaw regions, which are represented by the following path parameters:\n\n- `fr-par`\n- `nl-ams`\n- `pl-waw`\n\n## Going Further\n\nFor more information about Container Registry, you can check out the following pages:\n\n- [Container Registry Documentation](https://www.scaleway.com/en/docs/container-registry/quickstart/)\n- [Container Registry FAQ](https://www.scaleway.com/en/docs/container-registry/faq/)\n- [Scaleway Slack Community](https://scaleway-community.slack.com/) join the #container-registry channel\n- [Contact our support team](https://console.scaleway.com/support/tickets/)."
+      }
+    }
+  }
+}

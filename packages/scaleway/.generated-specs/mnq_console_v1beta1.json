@@ -1,0 +1,170 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.mnq_console_v1beta1#GetProtocolsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Get protocols info for this project ID. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.mnq_console_v1beta1#GetProtocolsResponse": {
+      "type": "structure",
+      "members": {
+        "protocols": {
+          "target": "com.scaleway.mnq_console_v1beta1#GetProtocolsResponseProtocolsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_console_v1beta1#Protocol": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.mnq_console_v1beta1#ProtocolType",
+          "traits": {
+            "smithy.api#documentation": "Protocol type.",
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Protocol status.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region you want to target",
+            "smithy.api#required": {}
+          }
+        },
+        "credentials": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of credentials for this protocol.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "resources": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of resources, only used for NATS protocol.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_console_v1beta1#ProtocolType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "NATS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nats"
+          }
+        },
+        "SQS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sqs"
+          }
+        },
+        "SNS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sns"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_console_v1beta1#GetProtocolsResponseProtocolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.mnq_console_v1beta1#Protocol"
+      },
+      "traits": {}
+    },
+    "com.scaleway.mnq_console_v1beta1#GetProtocols": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.mnq_console_v1beta1#GetProtocolsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.mnq_console_v1beta1#GetProtocolsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/mnq/v1beta1/regions/{region}/protocols",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get information about all MnQ protocols"
+      }
+    },
+    "com.scaleway.mnq_console_v1beta1#MnqConsoleV1beta1": {
+      "type": "service",
+      "version": "v1beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.mnq_console_v1beta1#GetProtocols"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "MnQ Console API",
+        "smithy.api#documentation": "Provides information for the console about all MnQ protocols of a user."
+      }
+    }
+  }
+}

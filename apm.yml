@@ -1,0 +1,17 @@
+name: distilled
+version: 1.0.0
+description: APM project for distilled
+author: Vincent Garbrant
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: agent-skills, antigravity, claude, codex, copilot, cursor, gemini, grok-build, hermes, kiro, opencode, vscode, windsurf
+targets:
+  - claude
+  - codex
+  - cursor
+dependencies:
+  apm:
+    - depot/skills
+  mcp: []
+includes: auto
+scripts: {}

@@ -1,0 +1,860 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.search_v1alpha1#SearchResourcesRequestLocalitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#SearchResourcesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "RELEVANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "relevance"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "MODIFIED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modified_at_asc"
+          }
+        },
+        "MODIFIED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modified_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#SearchResourcesRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#ResourceType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "INSTANCE_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_server"
+          }
+        },
+        "INSTANCE_VOLUME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_volume"
+          }
+        },
+        "INSTANCE_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_image"
+          }
+        },
+        "INSTANCE_SECURITY_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_security_group"
+          }
+        },
+        "INSTANCE_PRIVATE_NIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_private_nic"
+          }
+        },
+        "INSTANCE_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_snapshot"
+          }
+        },
+        "INSTANCE_PLACEMENT_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_placement_group"
+          }
+        },
+        "INSTANCE_TEMPLATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_template"
+          }
+        },
+        "K8S_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "k8s_cluster"
+          }
+        },
+        "K8S_POOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "k8s_pool"
+          }
+        },
+        "K8S_NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "k8s_node"
+          }
+        },
+        "DOMAIN_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_domain"
+          }
+        },
+        "DNS_ZONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dns_zone"
+          }
+        },
+        "VPC_PRIVATE_NETWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpc_private_network"
+          }
+        },
+        "VPC_VPC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpc_vpc"
+          }
+        },
+        "VPG_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpg_gateway"
+          }
+        },
+        "APPLE_SILICON_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apple_silicon_server"
+          }
+        },
+        "RDB_INSTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rdb_instance"
+          }
+        },
+        "RDB_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rdb_snapshot"
+          }
+        },
+        "RDB_BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rdb_backup"
+          }
+        },
+        "BAREMETAL_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baremetal_server"
+          }
+        },
+        "TEM_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tem_domain"
+          }
+        },
+        "LB_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb_server"
+          }
+        },
+        "SERVERLESS_FUNCTIONS_FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_functions_function"
+          }
+        },
+        "SERVERLESS_CONTAINERS_CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_containers_container"
+          }
+        },
+        "SERVERLESS_CONTAINERS_NAMESPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_containers_namespace"
+          }
+        },
+        "SERVERLESS_CONTAINERS_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_containers_domain"
+          }
+        },
+        "SERVERLESS_CONTAINERS_TRIGGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_containers_trigger"
+          }
+        },
+        "WBH_HOSTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wbh_hosting"
+          }
+        },
+        "REDIS_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redis_cluster"
+          }
+        },
+        "SM_SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sm_secret"
+          }
+        },
+        "KMS_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kms_key"
+          }
+        },
+        "EDG_PIPELINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "edg_pipeline"
+          }
+        },
+        "MNQ_NATS_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mnq_nats_account"
+          }
+        },
+        "SBS_VOLUME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_volume"
+          }
+        },
+        "SBS_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sbs_snapshot"
+          }
+        },
+        "SERVERLESS_JOB_DEFINITION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_job_definition"
+          }
+        },
+        "SERVERLESS_SQLDB_DATABASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_sqldb_database"
+          }
+        },
+        "SERVERLESS_SQLDB_BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "serverless_sqldb_backup"
+          }
+        },
+        "DATALAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "datalab"
+          }
+        },
+        "MGDB_INSTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mgdb_instance"
+          }
+        },
+        "MGDB_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mgdb_snapshot"
+          }
+        },
+        "IFR_DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ifr_deployment"
+          }
+        },
+        "IFR_MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ifr_model"
+          }
+        },
+        "GAPI_BATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gapi_batch"
+          }
+        },
+        "DTWH_DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dtwh_deployment"
+          }
+        },
+        "OBS_DATASOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "obs_datasource"
+          }
+        },
+        "OBS_EXPORTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "obs_exporter"
+          }
+        },
+        "SVPN_VPN_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "svpn_vpn_gateway"
+          }
+        },
+        "SVPN_CUSTOMER_GATEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "svpn_customer_gateway"
+          }
+        },
+        "SVPN_CONNECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "svpn_connection"
+          }
+        },
+        "SVPN_ROUTING_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "svpn_routing_policy"
+          }
+        },
+        "KAFK_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kafk_cluster"
+          }
+        },
+        "SEDB_CLUSTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sedb_cluster"
+          }
+        },
+        "AUTOSCALING_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "autoscaling_group"
+          }
+        },
+        "WOFL_DEFINITION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wofl_definition"
+          }
+        },
+        "WOFL_RUN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wofl_run"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#SearchResourcesRequestTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.search_v1alpha1#ResourceType"
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#SearchResourcesRequest": {
+      "type": "structure",
+      "members": {
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Filter resources created after this timestamp."
+          }
+        },
+        "created_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_before",
+            "smithy.api#documentation": "Filter resources created before this timestamp."
+          }
+        },
+        "localities": {
+          "target": "com.scaleway.search_v1alpha1#SearchResourcesRequestLocalitiesList",
+          "traits": {
+            "smithy.api#httpQuery": "localities",
+            "smithy.api#documentation": "List of scopes (zones, regions, or global) to filter the resources by."
+          }
+        },
+        "modified_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "modified_after",
+            "smithy.api#documentation": "Filter resources modified after this timestamp."
+          }
+        },
+        "modified_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "modified_before",
+            "smithy.api#documentation": "Filter resources modified before this timestamp."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.search_v1alpha1#SearchResourcesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order in the response."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "ID of the Organization to search in."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of resources to retrieve per page."
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token",
+            "smithy.api#documentation": "Leave empty or omit to fetch the first page."
+          }
+        },
+        "project_ids": {
+          "target": "com.scaleway.search_v1alpha1#SearchResourcesRequestProjectIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "project_ids",
+            "smithy.api#documentation": "List of Project IDs to filter the resources by."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#documentation": "Search query."
+          }
+        },
+        "types": {
+          "target": "com.scaleway.search_v1alpha1#SearchResourcesRequestTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "types",
+            "smithy.api#documentation": "List of resource types to filter the resources by."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.search_v1alpha1#SearchResourcesResponse": {
+      "type": "structure",
+      "members": {
+        "resources": {
+          "target": "com.scaleway.search_v1alpha1#SearchResourcesResponseResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Top resources found."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If this string is empty, it means there are no more pages available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#Resource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the resource."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the resource."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project the resource belongs to."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Organization the resource belongs to."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.search_v1alpha1#ResourceType",
+          "traits": {
+            "smithy.api#documentation": "Type of the resource."
+          }
+        },
+        "global": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Locality the resource is in if this is a global resource.\nOne-of ('locality'): at most one of 'global', 'zone', 'region' could be set."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Locality the resource is in if this is a zonal resource.\nOne-of ('locality'): at most one of 'global', 'zone', 'region' could be set."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Locality the resource is in if this is a regional resource.\nOne-of ('locality'): at most one of 'global', 'zone', 'region' could be set."
+          }
+        },
+        "vpc_private_network_info": {
+          "target": "com.scaleway.search_v1alpha1#VpcPrivateNetworkInfo",
+          "traits": {
+            "smithy.api#documentation": "Additional information for a VPC Private Network.\nOne-of ('info'): at most one of 'vpcPrivateNetworkInfo', 'serverlessFunctionsFunctionInfo', 'serverlessContainersContainerInfo', 'serverlessSqldbBackupInfo', 'baremetalServerInfo', 'obsDatasourceInfo', 'obsExporterInfo' could be set."
+          }
+        },
+        "serverless_functions_function_info": {
+          "target": "com.scaleway.search_v1alpha1#ServerlessFunctionsFunctionInfo",
+          "traits": {
+            "smithy.api#documentation": "Additional information for a Serverless Function.\nOne-of ('info'): at most one of 'vpcPrivateNetworkInfo', 'serverlessFunctionsFunctionInfo', 'serverlessContainersContainerInfo', 'serverlessSqldbBackupInfo', 'baremetalServerInfo', 'obsDatasourceInfo', 'obsExporterInfo' could be set."
+          }
+        },
+        "serverless_containers_container_info": {
+          "target": "com.scaleway.search_v1alpha1#ServerlessContainersContainerInfo",
+          "traits": {
+            "smithy.api#documentation": "Additional information for a Serverless Container.\nOne-of ('info'): at most one of 'vpcPrivateNetworkInfo', 'serverlessFunctionsFunctionInfo', 'serverlessContainersContainerInfo', 'serverlessSqldbBackupInfo', 'baremetalServerInfo', 'obsDatasourceInfo', 'obsExporterInfo' could be set."
+          }
+        },
+        "serverless_sqldb_backup_info": {
+          "target": "com.scaleway.search_v1alpha1#ServerlessSqldbBackupInfo",
+          "traits": {
+            "smithy.api#documentation": "Additional information for a Serverless SQL database backup.\nOne-of ('info'): at most one of 'vpcPrivateNetworkInfo', 'serverlessFunctionsFunctionInfo', 'serverlessContainersContainerInfo', 'serverlessSqldbBackupInfo', 'baremetalServerInfo', 'obsDatasourceInfo', 'obsExporterInfo' could be set."
+          }
+        },
+        "baremetal_server_info": {
+          "target": "com.scaleway.search_v1alpha1#BrmServerInfo",
+          "traits": {
+            "smithy.api#documentation": "Additional information for a Baremetal server.\nOne-of ('info'): at most one of 'vpcPrivateNetworkInfo', 'serverlessFunctionsFunctionInfo', 'serverlessContainersContainerInfo', 'serverlessSqldbBackupInfo', 'baremetalServerInfo', 'obsDatasourceInfo', 'obsExporterInfo' could be set."
+          }
+        },
+        "obs_datasource_info": {
+          "target": "com.scaleway.search_v1alpha1#ObsDatasourceInfo",
+          "traits": {
+            "smithy.api#documentation": "Additional information for an OBS datasource.\nOne-of ('info'): at most one of 'vpcPrivateNetworkInfo', 'serverlessFunctionsFunctionInfo', 'serverlessContainersContainerInfo', 'serverlessSqldbBackupInfo', 'baremetalServerInfo', 'obsDatasourceInfo', 'obsExporterInfo' could be set."
+          }
+        },
+        "obs_exporter_info": {
+          "target": "com.scaleway.search_v1alpha1#ObsExporterInfo",
+          "traits": {
+            "smithy.api#documentation": "Additional information for an OBS exporter.\nOne-of ('info'): at most one of 'vpcPrivateNetworkInfo', 'serverlessFunctionsFunctionInfo', 'serverlessContainersContainerInfo', 'serverlessSqldbBackupInfo', 'baremetalServerInfo', 'obsDatasourceInfo', 'obsExporterInfo' could be set."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update date."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#VpcPrivateNetworkInfo": {
+      "type": "structure",
+      "members": {
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the VPC the Private Network belongs to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#ServerlessFunctionsFunctionInfo": {
+      "type": "structure",
+      "members": {
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Namespace the Serverless Function belongs to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#ServerlessContainersContainerInfo": {
+      "type": "structure",
+      "members": {
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Namespace the Serverless Container belongs to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#ServerlessSqldbBackupInfo": {
+      "type": "structure",
+      "members": {
+        "database_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Serverless SQL Database the backup belongs to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#BrmServerInfo": {
+      "type": "structure",
+      "members": {
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP address of the Baremetal server."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#ObsDatasourceInfo": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.search_v1alpha1#ObsDatasourceInfoDataType",
+          "traits": {
+            "smithy.api#documentation": "Type of data handled by the OBS datasource."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#ObsDatasourceInfoDataType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_DATA_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_data_type"
+          }
+        },
+        "METRICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "metrics"
+          }
+        },
+        "LOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "logs"
+          }
+        },
+        "TRACES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "traces"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#ObsExporterInfo": {
+      "type": "structure",
+      "members": {
+        "destination_type": {
+          "target": "com.scaleway.search_v1alpha1#ObsExporterInfoDestinationType",
+          "traits": {
+            "smithy.api#documentation": "Destination type of the OBS exporter."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#ObsExporterInfoDestinationType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_DESTINATION_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_destination_type"
+          }
+        },
+        "DATADOG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "datadog"
+          }
+        },
+        "OTLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "otlp"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.search_v1alpha1#SearchResourcesResponseResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.search_v1alpha1#Resource"
+      },
+      "traits": {
+        "smithy.api#documentation": "Top resources found."
+      }
+    },
+    "com.scaleway.search_v1alpha1#SearchResources": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.search_v1alpha1#SearchResourcesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.search_v1alpha1#SearchResourcesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/search/v1alpha1/resources",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Search API.\n\nDerived from scaleway-sdk-js (`API.searchResources`): Scaleway publishes no OpenAPI document for this route.",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "resources",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.search_v1alpha1#SearchV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.search_v1alpha1#SearchResources"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "scaleway.search.v1alpha1.Api (derived)",
+        "smithy.api#documentation": "Derived from scaleway/scaleway-sdk-js packages_generated/search/src/v1alpha1 — the portal publishes no OpenAPI document for these routes."
+      }
+    }
+  }
+}

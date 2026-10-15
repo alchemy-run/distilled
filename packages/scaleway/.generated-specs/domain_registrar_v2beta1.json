@@ -1,0 +1,4312 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.domain_registrar_v2beta1#BuyDomainsRequestDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#NewContact": {
+      "type": "structure",
+      "members": {
+        "legal_form": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactLegalForm"
+        },
+        "firstname": {
+          "target": "smithy.api#String"
+        },
+        "lastname": {
+          "target": "smithy.api#String"
+        },
+        "company_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "email_alt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String"
+        },
+        "fax_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "address_line_1": {
+          "target": "smithy.api#String"
+        },
+        "address_line_2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zip": {
+          "target": "smithy.api#String"
+        },
+        "city": {
+          "target": "smithy.api#String"
+        },
+        "country": {
+          "target": "smithy.api#String"
+        },
+        "vat_identification_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company_identification_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lang": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ScalewayStdLanguageCode"
+        },
+        "resale": {
+          "target": "smithy.api#Boolean"
+        },
+        "extension_fr": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFR"
+        },
+        "extension_eu": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionEU"
+        },
+        "whois_opt_in": {
+          "target": "smithy.api#Boolean"
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "extension_nl": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionNL"
+        },
+        "extension_it": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionIT"
+        },
+        "questions": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContactQuestionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactLegalForm": {
+      "type": "enum",
+      "members": {
+        "LEGAL_FORM_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legal_form_unknown"
+          }
+        },
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "CORPORATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "corporate"
+          }
+        },
+        "ASSOCIATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "association"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ScalewayStdLanguageCode": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LANGUAGE_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_language_code"
+          }
+        },
+        "EN_US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "en_US"
+          }
+        },
+        "FR_FR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr_FR"
+          }
+        },
+        "DE_DE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "de_DE"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionFR": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRMode"
+        },
+        "individual_info": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRIndividualInfo",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "duns_info": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRDunsInfo",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "association_info": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRAssociationInfo",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "trademark_info": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRTrademarkInfo",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "code_auth_afnic_info": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRCodeAuthAfnicInfo",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRMode": {
+      "type": "enum",
+      "members": {
+        "MODE_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mode_unknown"
+          }
+        },
+        "INDIVIDUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "individual"
+          }
+        },
+        "COMPANY_IDENTIFICATION_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "company_identification_code"
+          }
+        },
+        "DUNS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duns"
+          }
+        },
+        "LOCAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local"
+          }
+        },
+        "ASSOCIATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "association"
+          }
+        },
+        "TRADEMARK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trademark"
+          }
+        },
+        "CODE_AUTH_AFNIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "code_auth_afnic"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRIndividualInfo": {
+      "type": "structure",
+      "members": {
+        "whois_opt_in": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRDunsInfo": {
+      "type": "structure",
+      "members": {
+        "duns_id": {
+          "target": "smithy.api#String"
+        },
+        "local_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRAssociationInfo": {
+      "type": "structure",
+      "members": {
+        "publication_jo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "publication_jo_page": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRTrademarkInfo": {
+      "type": "structure",
+      "members": {
+        "trademark_inpi": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionFRCodeAuthAfnicInfo": {
+      "type": "structure",
+      "members": {
+        "code_auth_afnic": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionEU": {
+      "type": "structure",
+      "members": {
+        "european_citizenship": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionNL": {
+      "type": "structure",
+      "members": {
+        "legal_form": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionNLLegalForm"
+        },
+        "legal_form_registration_number": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionNLLegalForm": {
+      "type": "enum",
+      "members": {
+        "LEGAL_FORM_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legal_form_unknown"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        },
+        "NON_DUTCH_EU_COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "non_dutch_eu_company"
+          }
+        },
+        "NON_DUTCH_LEGAL_FORM_ENTERPRISE_SUBSIDIARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "non_dutch_legal_form_enterprise_subsidiary"
+          }
+        },
+        "LIMITED_COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited_company"
+          }
+        },
+        "LIMITED_COMPANY_IN_FORMATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited_company_in_formation"
+          }
+        },
+        "COOPERATIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cooperative"
+          }
+        },
+        "LIMITED_PARTNERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited_partnership"
+          }
+        },
+        "SOLE_COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sole_company"
+          }
+        },
+        "EUROPEAN_ECONOMIC_INTEREST_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "european_economic_interest_group"
+          }
+        },
+        "RELIGIOUS_ENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "religious_entity"
+          }
+        },
+        "PARTNERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partnership"
+          }
+        },
+        "PUBLIC_COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public_company"
+          }
+        },
+        "MUTUAL_BENEFIT_COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mutual_benefit_company"
+          }
+        },
+        "RESIDENTIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "residential"
+          }
+        },
+        "SHIPPING_COMPANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shipping_company"
+          }
+        },
+        "FOUNDATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "foundation"
+          }
+        },
+        "ASSOCIATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "association"
+          }
+        },
+        "TRADING_PARTNERSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trading_partnership"
+          }
+        },
+        "NATURAL_PERSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "natural_person"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactExtensionIT": {
+      "type": "structure",
+      "members": {
+        "european_citizenship": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This option is useless anymore."
+          }
+        },
+        "tax_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tax_code is renamed to pin."
+          }
+        },
+        "pin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain name registrant's Taxcode (mandatory / only optional when the trustee is used).\nDomain name registrant's Taxcode (mandatory / only optional when the trustee is used)\n\nIf the requester:\n* is an Italian natural person it contains his/her Codice Fiscale (16 characters format).\n* For others than residents of IT it can contain a document number. (ID Card).\n* In all other cases it must be equal to VAT number (in the 16 characters format if nationality is IT) or the numeric Codice Fiscale.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactQuestion": {
+      "type": "structure",
+      "members": {
+        "question": {
+          "target": "smithy.api#String"
+        },
+        "answer": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#NewContactQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ContactQuestion"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#BuyDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#BuyDomainsRequestDomainsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "duration_in_years": {
+          "target": "smithy.api#Integer"
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "owner_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "administrative_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "administrative_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "auto_renew": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable the `auto renew` feature for all the requested domains. This means the domain will be automatically renewed before its expiry date."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#OrderResponse": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#OrderResponseDomainsList"
+        },
+        "organization_id": {
+          "target": "smithy.api#String"
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "task_id": {
+          "target": "smithy.api#String"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#OrderResponseDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#BuyDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#BuyDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#OrderResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/buy-domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Purchase domains\n\nRequest the registration of domain names.\nYou can provide a domain's already existing contact or a new contact."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityRequestDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityRequestTldsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityRequest": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityRequestDomainsList"
+        },
+        "tlds": {
+          "target": "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityRequestTldsList"
+        },
+        "owner_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "administrative_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "administrative_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityResponse": {
+      "type": "structure",
+      "members": {
+        "compatible": {
+          "target": "smithy.api#Boolean"
+        },
+        "owner_check_result": {
+          "target": "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityResponseContactCheckResult"
+        },
+        "administrative_check_result": {
+          "target": "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityResponseContactCheckResult"
+        },
+        "technical_check_result": {
+          "target": "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityResponseContactCheckResult"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityResponseContactCheckResult": {
+      "type": "structure",
+      "members": {
+        "compatible": {
+          "target": "smithy.api#Boolean"
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibility": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibilityResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/check-contacts-compatibility",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Check if contacts are compatible with a domain or a TLD\n\nCheck whether contacts are compatible with a domain or a TLD.\nIf contacts are not compatible with either the domain or the TLD, the information that needs to be corrected is returned."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListContactsRequestRole": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ROLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_role"
+          }
+        },
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owner"
+          }
+        },
+        "ADMINISTRATIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "administrative"
+          }
+        },
+        "TECHNICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "technical"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactEmailStatus": {
+      "type": "enum",
+      "members": {
+        "EMAIL_STATUS_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email_status_unknown"
+          }
+        },
+        "VALIDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validated"
+          }
+        },
+        "NOT_VALIDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_validated"
+          }
+        },
+        "INVALID_EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid_email"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListContactsRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id"
+          }
+        },
+        "role": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListContactsRequestRole",
+          "traits": {
+            "smithy.api#httpQuery": "role"
+          }
+        },
+        "email_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactEmailStatus",
+          "traits": {
+            "smithy.api#httpQuery": "email_status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListContactsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "contacts": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListContactsResponseContactsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactRoles": {
+      "type": "structure",
+      "members": {
+        "contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#Contact"
+        },
+        "roles": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactRolesRolesMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#Contact": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "legal_form": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactLegalForm"
+        },
+        "firstname": {
+          "target": "smithy.api#String"
+        },
+        "lastname": {
+          "target": "smithy.api#String"
+        },
+        "company_name": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "email_alt": {
+          "target": "smithy.api#String"
+        },
+        "phone_number": {
+          "target": "smithy.api#String"
+        },
+        "fax_number": {
+          "target": "smithy.api#String"
+        },
+        "address_line_1": {
+          "target": "smithy.api#String"
+        },
+        "address_line_2": {
+          "target": "smithy.api#String"
+        },
+        "zip": {
+          "target": "smithy.api#String"
+        },
+        "city": {
+          "target": "smithy.api#String"
+        },
+        "country": {
+          "target": "smithy.api#String"
+        },
+        "vat_identification_code": {
+          "target": "smithy.api#String"
+        },
+        "company_identification_code": {
+          "target": "smithy.api#String"
+        },
+        "lang": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ScalewayStdLanguageCode"
+        },
+        "resale": {
+          "target": "smithy.api#Boolean"
+        },
+        "extension_fr": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFR"
+        },
+        "extension_eu": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionEU"
+        },
+        "whois_opt_in": {
+          "target": "smithy.api#Boolean"
+        },
+        "email_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactEmailStatus"
+        },
+        "state": {
+          "target": "smithy.api#String"
+        },
+        "extension_nl": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionNL"
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactStatus"
+        },
+        "extension_it": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionIT"
+        },
+        "questions": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactQuestionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactStatus": {
+      "type": "enum",
+      "members": {
+        "STATUS_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_unknown"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ContactQuestion"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactRolesRoles": {
+      "type": "structure",
+      "members": {
+        "is_owner": {
+          "target": "smithy.api#Boolean"
+        },
+        "is_administrative": {
+          "target": "smithy.api#Boolean"
+        },
+        "is_technical": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ContactRolesRolesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ContactRolesRoles"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListContactsResponseContactsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ContactRoles"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListContacts": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListContactsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListContactsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/contacts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List contacts\n\nRetrieve the list of contacts and their associated domains and roles.\nYou can filter the list by domain name.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "contacts",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#GetContactRequest": {
+      "type": "structure",
+      "members": {
+        "contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#GetContact": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#GetContactRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Contact"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/contacts/{contact_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a contact\n\nRetrieve a contact's details from the registrar using the given contact's ID."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#UpdateContactRequestQuestion": {
+      "type": "structure",
+      "members": {
+        "question": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "answer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#UpdateContactRequestQuestionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#UpdateContactRequestQuestion"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#UpdateContactRequest": {
+      "type": "structure",
+      "members": {
+        "contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_alt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "phone_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fax_number": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "address_line_1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "address_line_2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vat_identification_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "company_identification_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lang": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ScalewayStdLanguageCode"
+        },
+        "resale": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "extension_fr": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionFR"
+        },
+        "extension_eu": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionEU"
+        },
+        "extension_nl": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionNL"
+        },
+        "extension_it": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ContactExtensionIT"
+        },
+        "whois_opt_in": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "questions": {
+          "target": "com.scaleway.domain_registrar_v2beta1#UpdateContactRequestQuestionsList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#UpdateContact": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#UpdateContactRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Contact"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/domain/v2beta1/contacts/{contact_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update contact\n\nEdit the contact's information."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomainsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "DOMAIN_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_asc"
+          }
+        },
+        "DOMAIN_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainStatus": {
+      "type": "enum",
+      "members": {
+        "STATUS_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_unknown"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "CREATE_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_error"
+          }
+        },
+        "RENEWING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewing"
+          }
+        },
+        "RENEW_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renew_error"
+          }
+        },
+        "XFERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xfering"
+          }
+        },
+        "XFER_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xfer_error"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "EXPIRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expiring"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "CHECKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checking"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListDomainsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "registrar": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "registrar"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id"
+          }
+        },
+        "is_external": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "is_external"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListDomainsResponseDomainsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainSummary": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "auto_renew_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainFeatureStatus"
+        },
+        "dnssec_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainFeatureStatus"
+        },
+        "epp_code": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainSummaryEppCodeList"
+        },
+        "expired_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "registrar": {
+          "target": "smithy.api#String"
+        },
+        "is_external": {
+          "target": "smithy.api#Boolean"
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainStatus"
+        },
+        "external_domain_registration_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainRegistrationStatusExternalDomain",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "transfer_registration_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainRegistrationStatusTransfer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pending_trade": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainFeatureStatus": {
+      "type": "enum",
+      "members": {
+        "FEATURE_STATUS_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "feature_status_unknown"
+          }
+        },
+        "ENABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabling"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabling"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainSummaryEppCodeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainRegistrationStatusExternalDomain": {
+      "type": "structure",
+      "members": {
+        "validation_token": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainRegistrationStatusTransfer": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainRegistrationStatusTransferStatus"
+        },
+        "vote_current_owner": {
+          "target": "smithy.api#Boolean"
+        },
+        "vote_new_owner": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainRegistrationStatusTransferStatus": {
+      "type": "enum",
+      "members": {
+        "STATUS_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_unknown"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "WAITING_VOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting_vote"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "done"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomainsResponseDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#DomainSummary"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List domains\n\nRetrieve the list of domains you own.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "domains",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#GetDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#Domain": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "organization_id": {
+          "target": "smithy.api#String"
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "auto_renew_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainFeatureStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the automatic renewal of the domain."
+          }
+        },
+        "dnssec": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainDNSSEC",
+          "traits": {
+            "smithy.api#documentation": "Status of the DNSSEC configuration of the domain."
+          }
+        },
+        "epp_code": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainEppCodeList",
+          "traits": {
+            "smithy.api#documentation": "List of the domain's EPP codes."
+          }
+        },
+        "expired_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of expiration of the domain. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain's last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "registrar": {
+          "target": "smithy.api#String"
+        },
+        "is_external": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether Scaleway is the domain's registrar."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the domain."
+          }
+        },
+        "dns_zones": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainDnsZonesList",
+          "traits": {
+            "smithy.api#documentation": "List of the domain's DNS zones."
+          }
+        },
+        "owner_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#Contact",
+          "traits": {
+            "smithy.api#documentation": "Contact information of the domain's owner."
+          }
+        },
+        "technical_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#Contact",
+          "traits": {
+            "smithy.api#documentation": "Contact information of the domain's technical contact."
+          }
+        },
+        "administrative_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#Contact",
+          "traits": {
+            "smithy.api#documentation": "Contact information of the domain's administrative contact."
+          }
+        },
+        "external_domain_registration_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainRegistrationStatusExternalDomain",
+          "traits": {
+            "smithy.api#documentation": "Registration status of an external domain, if available.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "transfer_registration_status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainRegistrationStatusTransfer",
+          "traits": {
+            "smithy.api#documentation": "Status of a domain, when available for transfer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tld": {
+          "target": "com.scaleway.domain_registrar_v2beta1#Tld",
+          "traits": {
+            "smithy.api#documentation": "Domain's TLD information."
+          }
+        },
+        "linked_products": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainLinkedProductsList",
+          "traits": {
+            "smithy.api#documentation": "List of Scaleway resources linked to the domain."
+          }
+        },
+        "pending_trade": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if a trade is ongoing."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainDNSSEC": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainFeatureStatus"
+        },
+        "ds_records": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DomainDNSSECDsRecordsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DSRecord": {
+      "type": "structure",
+      "members": {
+        "key_id": {
+          "target": "smithy.api#Integer"
+        },
+        "algorithm": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DSRecordAlgorithm"
+        },
+        "digest": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DSRecordDigest",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_key": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DSRecordPublicKey",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DSRecordAlgorithm": {
+      "type": "enum",
+      "members": {
+        "RSAMD5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsamd5"
+          }
+        },
+        "DH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dh"
+          }
+        },
+        "DSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dsa"
+          }
+        },
+        "RSASHA1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsasha1"
+          }
+        },
+        "DSA_NSEC3_SHA1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dsa_nsec3_sha1"
+          }
+        },
+        "RSASHA1_NSEC3_SHA1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsasha1_nsec3_sha1"
+          }
+        },
+        "RSASHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsasha256"
+          }
+        },
+        "RSASHA512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsasha512"
+          }
+        },
+        "ECC_GOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecc_gost"
+          }
+        },
+        "ECDSAP256SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecdsap256sha256"
+          }
+        },
+        "ECDSAP384SHA384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecdsap384sha384"
+          }
+        },
+        "ED25519": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ed25519"
+          }
+        },
+        "ED448": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ed448"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DSRecordDigest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DSRecordDigestType"
+        },
+        "digest": {
+          "target": "smithy.api#String"
+        },
+        "public_key": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DSRecordPublicKey"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DSRecordDigestType": {
+      "type": "enum",
+      "members": {
+        "SHA_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha_1"
+          }
+        },
+        "SHA_256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha_256"
+          }
+        },
+        "GOST_R_34_11_94": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gost_r_34_11_94"
+          }
+        },
+        "SHA_384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha_384"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DSRecordPublicKey": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainDNSSECDsRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#DSRecord"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainEppCodeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the domain's EPP codes."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DNSZone": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "subdomain": {
+          "target": "smithy.api#String"
+        },
+        "ns": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DNSZoneNsList"
+        },
+        "ns_default": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DNSZoneNsDefaultList"
+        },
+        "ns_master": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DNSZoneNsMasterList"
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DNSZoneStatus"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "linked_products": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DNSZoneLinkedProductsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DNSZoneNsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DNSZoneNsDefaultList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DNSZoneNsMasterList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DNSZoneStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#LinkedProduct": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_product"
+          }
+        },
+        "VPC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vpc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DNSZoneLinkedProductsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#LinkedProduct"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainDnsZonesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#DNSZone"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the domain's DNS zones."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#Tld": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "dnssec_support": {
+          "target": "smithy.api#Boolean"
+        },
+        "duration_in_years_min": {
+          "target": "smithy.api#Integer"
+        },
+        "duration_in_years_max": {
+          "target": "smithy.api#Integer"
+        },
+        "idn_support": {
+          "target": "smithy.api#Boolean"
+        },
+        "offers": {
+          "target": "com.scaleway.domain_registrar_v2beta1#TldOffersMap"
+        },
+        "specifications": {
+          "target": "com.scaleway.domain_registrar_v2beta1#TldSpecificationsMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#TldOffer": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String"
+        },
+        "operation_path": {
+          "target": "smithy.api#String"
+        },
+        "price": {
+          "target": "com.scaleway.domain_registrar_v2beta1#GoogleTypeMoney"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#TldOffersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.scaleway.domain_registrar_v2beta1#TldOffer"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#TldSpecificationsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainLinkedProductsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#LinkedProduct"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Scaleway resources linked to the domain."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#GetDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#GetDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/domains/{domain}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get domain\n\nRetrieve a specific domain and display the domain's information."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#UpdateDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "technical_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "administrative_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "administrative_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#UpdateDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#UpdateDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/domain/v2beta1/domains/{domain}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a domain's contacts\n\nUpdate contacts for a specific domain or create a new contact.<br/>\nIf you add the same contact for multiple roles (owner, administrative, technical), only one ID will be created and used for all of the roles."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#GetDomainAuthCodeRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#GetDomainAuthCodeResponse": {
+      "type": "structure",
+      "members": {
+        "auth_code": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#GetDomainAuthCode": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#GetDomainAuthCodeRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#GetDomainAuthCodeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/domains/{domain}/auth-code",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a domain's authorization code\n\nRetrieve the authorization code to transfer an unlocked domain. The output returns an error if the domain is locked.\nSome TLDs may have a different procedure to retrieve the authorization code. In that case, the information displays in the message field."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DisableDomainAutoRenewRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DisableDomainAutoRenew": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#DisableDomainAutoRenewRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/{domain}/disable-auto-renew",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable auto renew\n\nDisable the `auto renew` feature for a domain. This means the domain will not be renewed before its expiry date."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DisableDomainDNSSECRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DisableDomainDNSSEC": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#DisableDomainDNSSECRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/{domain}/disable-dnssec",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable a domain's DNSSEC\n\nDisable DNSSEC for a domain."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#EnableDomainAutoRenewRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#EnableDomainAutoRenew": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#EnableDomainAutoRenewRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/{domain}/enable-auto-renew",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Enable auto renew\n\nEnable the `auto renew` feature for a domain. This means the domain will be automatically renewed before its expiry date."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#EnableDomainDNSSECRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ds_record": {
+          "target": "com.scaleway.domain_registrar_v2beta1#DSRecord"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#EnableDomainDNSSEC": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#EnableDomainDNSSECRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/{domain}/enable-dnssec",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update domain DNSSEC\n\nIf your domain uses another registrar and has the default Scaleway NS, you have to **update the DS record at your registrar**."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomainHostsRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomainHostsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "hosts": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListDomainHostsResponseHostsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#Host": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "ips": {
+          "target": "com.scaleway.domain_registrar_v2beta1#HostIpsList",
+          "traits": {
+            "smithy.api#documentation": "(IP address)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#HostStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#HostIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "(IP address)"
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#HostStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomainHostsResponseHostsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Host"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListDomainHosts": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListDomainHostsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListDomainHostsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/domains/{domain}/hosts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List a domain's hostnames\n\nList a domain's hostnames using their glue IPs.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "hosts",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#CreateDomainHostRequestIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "(IP address)"
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#CreateDomainHostRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "ips": {
+          "target": "com.scaleway.domain_registrar_v2beta1#CreateDomainHostRequestIpsList",
+          "traits": {
+            "smithy.api#documentation": "(IP address)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#CreateDomainHost": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#CreateDomainHostRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Host"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/{domain}/hosts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a hostname for a domain\n\nCreate a hostname for a domain with glue IPs."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ScalewayStdStringsValue": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#UpdateDomainHostRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ips": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ScalewayStdStringsValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#UpdateDomainHost": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#UpdateDomainHostRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Host"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/domain/v2beta1/domains/{domain}/hosts/{name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a domain's hostname\n\nUpdate a domain's hostname with glue IPs."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DeleteDomainHostRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DeleteDomainHost": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#DeleteDomainHostRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Host"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/domain/v2beta1/domains/{domain}/hosts/{name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a domain's hostname"
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#LockDomainTransferRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#LockDomainTransfer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#LockDomainTransferRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/{domain}/lock-transfer",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Lock the transfer of a domain\n\nLock the transfer of a domain. This means that the domain cannot be transferred and the authorization code cannot be requested to your current registrar."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#TradeDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "new_owner_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "new_owner_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#TradeDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#TradeDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#OrderResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/{domain}/trade",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Trade a domain's contact\n\nRequest to change a domain's contact owner.<br/>\nIf you specify the `organization_id` of the domain's new owner, the contact will change from the current owner's Scaleway account to the new owner's Scaleway account.<br/>\nIf the new owner's current contact information is not available, the first ever contact they have created for previous domains is taken into account to operate the change.<br/>\nIf the new owner has never created a contact to register domains before, an error message displays."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#UnlockDomainTransferRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#UnlockDomainTransfer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#UnlockDomainTransferRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/{domain}/unlock-transfer",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Unlock the transfer of a domain\n\nUnlock the transfer of a domain. This means that the domain can be transferred and the authorization code can be requested to your current registrar."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#TransferInDomainRequestTransferRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "auth_code": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#TransferInDomainRequestDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#TransferInDomainRequestTransferRequest"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#TransferInDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#TransferInDomainRequestDomainsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "owner_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "administrative_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "administrative_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_contact_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "technical_contact": {
+          "target": "com.scaleway.domain_registrar_v2beta1#NewContact",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#TransferInDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#TransferInDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#OrderResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/domains/transfer-domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Transfer a domain\n\nRequest the transfer of a domain from another registrar to Scaleway Domains and DNS."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#RegisterExternalDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#RegisterExternalDomainResponse": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "organization_id": {
+          "target": "smithy.api#String"
+        },
+        "validation_token": {
+          "target": "smithy.api#String"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#RegisterExternalDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#RegisterExternalDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#RegisterExternalDomainResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/external-domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Register an external domain\n\nRequest the registration of an external domain name."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DeleteExternalDomainRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DeleteExternalDomainResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DeleteExternalDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#DeleteExternalDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#DeleteExternalDomainResponse2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/domain/v2beta1/external-domains/{domain}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an external domain\n\nDelete an external domain name."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListInboundTransfersRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#required": {}
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListInboundTransfersResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "inbound_transfers": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListInboundTransfersResponseInboundTransfersList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#InboundTransfer": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the inbound transfer."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the inbound transfer. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last modification date of the inbound transfer. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID associated with the inbound transfer."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain associated with the inbound transfer."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#InboundTransferStatus",
+          "traits": {
+            "smithy.api#documentation": "Inbound transfer status."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly message to describe the current inbound transfer status."
+          }
+        },
+        "task_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the associated task."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#InboundTransferStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "done"
+          }
+        },
+        "ERR_INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "err_internal"
+          }
+        },
+        "ERR_DOMAIN_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "err_domain_pending"
+          }
+        },
+        "ERR_ALREADY_TRANSFERRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "err_already_transferring"
+          }
+        },
+        "ERR_TRANSFER_PROHIBITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "err_transfer_prohibited"
+          }
+        },
+        "ERR_TRANSFER_IMPOSSIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "err_transfer_impossible"
+          }
+        },
+        "ERR_INVALID_AUTHCODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "err_invalid_authcode"
+          }
+        },
+        "ERR_DOMAIN_TOO_YOUNG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "err_domain_too_young"
+          }
+        },
+        "ERR_TOO_MANY_REQUESTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "err_too_many_requests"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListInboundTransfersResponseInboundTransfersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#InboundTransfer"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListInboundTransfers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListInboundTransfersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListInboundTransfersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/inbound-transfers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List inbound domain transfers\n\nList all inbound transfer operations on the account.\nYou can filter the list of inbound transfers by domain name.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "inbound_transfers",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#RenewDomainsRequestDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#RenewDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#RenewDomainsRequestDomainsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "duration_in_years": {
+          "target": "smithy.api#Integer"
+        },
+        "force_late_renewal": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#RenewDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#RenewDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#OrderResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/renew-domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Renew domains\n\nRequest the renewal of one or more domain names."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListRenewableDomainsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "DOMAIN_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_asc"
+          }
+        },
+        "DOMAIN_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListRenewableDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListRenewableDomainsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListRenewableDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListRenewableDomainsResponseDomainsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#RenewableDomain": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "project_id": {
+          "target": "smithy.api#String"
+        },
+        "organization_id": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#RenewableDomainStatus"
+        },
+        "renewable_duration_in_years": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expired_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit_renew_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit_redemption_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_delete_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tld": {
+          "target": "com.scaleway.domain_registrar_v2beta1#Tld"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#RenewableDomainStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "RENEWABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renewable"
+          }
+        },
+        "LATE_RENEWEABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "late_reneweable"
+          }
+        },
+        "NOT_RENEWABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_renewable"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListRenewableDomainsResponseDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#RenewableDomain"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListRenewableDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListRenewableDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListRenewableDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/renewable-domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List domains that can be renewed\n\nRetrieve the list of domains you own that can be renewed. You can also see the maximum renewal duration in years for your domains that are renewable.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "domains",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#RetryInboundTransferRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain being transferred."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID to associated with the inbound transfer."
+          }
+        },
+        "auth_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional new auth code to replace the previous one for the retry.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#RetryInboundTransferResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#RetryInboundTransfer": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#RetryInboundTransferRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#RetryInboundTransferResponse2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/domain/v2beta1/retry-inbound-transfer",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retry the inbound transfer of a domain\n\nRequest a retry for the transfer of a domain from another registrar to Scaleway Domains and DNS."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsRequestDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsRequestTldsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsRequestDomainsList",
+          "traits": {
+            "smithy.api#httpQuery": "domains",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A list of domain to search, TLD is optional."
+          }
+        },
+        "tlds": {
+          "target": "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsRequestTldsList",
+          "traits": {
+            "smithy.api#httpQuery": "tlds",
+            "smithy.api#documentation": "Array of tlds to search on."
+          }
+        },
+        "strict_search": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "strict_search",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Search exact match."
+          }
+        },
+        "include_exact_match": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_exact_match",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "If an exact match is found, include it in response as a separate element."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "available_domains": {
+          "target": "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsResponseAvailableDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Array of available domains."
+          }
+        },
+        "exact_match_domain": {
+          "target": "com.scaleway.domain_registrar_v2beta1#AvailableDomain",
+          "traits": {
+            "smithy.api#documentation": "If an exact match was asked and found, the result is in this field."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#AvailableDomain": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String"
+        },
+        "available": {
+          "target": "smithy.api#Boolean"
+        },
+        "tld": {
+          "target": "com.scaleway.domain_registrar_v2beta1#Tld"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsResponseAvailableDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#AvailableDomain"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of available domains."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/search-domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Search available domains\n\nSearch a domain or a maximum of 10 domains that are available.\n\nIf the TLD list is empty or not set, the search returns the results from the most popular TLDs."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#TaskType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "CREATE_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_domain"
+          }
+        },
+        "CREATE_EXTERNAL_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_external_domain"
+          }
+        },
+        "RENEW_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renew_domain"
+          }
+        },
+        "TRANSFER_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer_domain"
+          }
+        },
+        "TRADE_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trade_domain"
+          }
+        },
+        "LOCK_DOMAIN_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lock_domain_transfer"
+          }
+        },
+        "UNLOCK_DOMAIN_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unlock_domain_transfer"
+          }
+        },
+        "ENABLE_DNSSEC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enable_dnssec"
+          }
+        },
+        "DISABLE_DNSSEC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disable_dnssec"
+          }
+        },
+        "UPDATE_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_domain"
+          }
+        },
+        "UPDATE_CONTACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_contact"
+          }
+        },
+        "DELETE_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete_domain"
+          }
+        },
+        "CANCEL_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancel_task"
+          }
+        },
+        "GENERATE_SSL_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generate_ssl_certificate"
+          }
+        },
+        "RENEW_SSL_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renew_ssl_certificate"
+          }
+        },
+        "SEND_MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "send_message"
+          }
+        },
+        "DELETE_DOMAIN_EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete_domain_expired"
+          }
+        },
+        "DELETE_EXTERNAL_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete_external_domain"
+          }
+        },
+        "CREATE_HOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create_host"
+          }
+        },
+        "UPDATE_HOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_host"
+          }
+        },
+        "DELETE_HOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete_host"
+          }
+        },
+        "MOVE_PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "move_project"
+          }
+        },
+        "TRANSFER_ONLINE_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer_online_domain"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTasksRequestTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#TaskType"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#TaskStatus": {
+      "type": "enum",
+      "members": {
+        "UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable"
+          }
+        },
+        "NEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new"
+          }
+        },
+        "WAITING_PAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting_payment"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "success"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTasksRequestStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#TaskStatus"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTasksRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "DOMAIN_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_desc"
+          }
+        },
+        "DOMAIN_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "domain_asc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTasksRequest": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain"
+          }
+        },
+        "types": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTasksRequestTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "types"
+          }
+        },
+        "statuses": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTasksRequestStatusesList",
+          "traits": {
+            "smithy.api#httpQuery": "statuses"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTasksRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTasksResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer"
+        },
+        "tasks": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTasksResponseTasksList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#Task": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the task."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID associated to the task."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization ID associated to the task."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain name associated to the task.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.scaleway.domain_registrar_v2beta1#TaskType",
+          "traits": {
+            "smithy.api#documentation": "The type of the task."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.domain_registrar_v2beta1#TaskStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the task."
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start date of the task. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update of the task. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message associated to the task.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "contact_identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-friendly contact identifier used when the task concerns a contact.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTasksResponseTasksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Task"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTasks": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListTasksRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListTasksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/tasks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List tasks\n\nList all operations performed on the account.\nYou can filter the list of tasks by domain name.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "tasks",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTldsRequestTldsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTldsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTldsRequest": {
+      "type": "structure",
+      "members": {
+        "tlds": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTldsRequestTldsList",
+          "traits": {
+            "smithy.api#httpQuery": "tlds",
+            "smithy.api#documentation": "Array of TLDs to return."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number for the returned Projects."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of Project per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTldsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of the returned TLDs."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTldsResponse": {
+      "type": "structure",
+      "members": {
+        "tlds": {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTldsResponseTldsList",
+          "traits": {
+            "smithy.api#documentation": "Array of TLDs."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of TLDs returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTldsResponseTldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.domain_registrar_v2beta1#Tld"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of TLDs."
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#ListTlds": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListTldsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_registrar_v2beta1#ListTldsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/tlds",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List TLD offers\n\nRetrieve the list of TLDs and offers associated with them.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "tlds",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.domain_registrar_v2beta1#DomainRegistrarV2beta1": {
+      "type": "service",
+      "version": "v2beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#BuyDomains"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#CheckContactsCompatibility"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListContacts"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#GetContact"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#UpdateContact"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListDomains"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#GetDomain"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#UpdateDomain"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#GetDomainAuthCode"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#DisableDomainAutoRenew"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#DisableDomainDNSSEC"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#EnableDomainAutoRenew"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#EnableDomainDNSSEC"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListDomainHosts"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#CreateDomainHost"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#UpdateDomainHost"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#DeleteDomainHost"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#LockDomainTransfer"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#TradeDomain"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#UnlockDomainTransfer"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#TransferInDomain"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#RegisterExternalDomain"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#DeleteExternalDomain"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListInboundTransfers"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#RenewDomains"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListRenewableDomains"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#RetryInboundTransfer"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#SearchAvailableDomains"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTasks"
+        },
+        {
+          "target": "com.scaleway.domain_registrar_v2beta1#ListTlds"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Domain names - Registrar API",
+        "smithy.api#documentation": "The Domain names - Registrar API documentation allows you to buy, transfer and manage your domains and contacts (DNSSEC included) as a simple client or a reseller.\n\nRead our [reference content documentation for more information about domains](https://www.scaleway.com/en/docs/network/domains-and-dns/reference-content/).\n\n(switchcolumn)\n(switchcolumn)\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/network/domains-and-dns/concepts/) to find definitions of the different terms referring to Scaleway Domains and DNS.\n\n(switchcolumn)\n(switchcolumn)\n\n## Quickstart\n\n1. **Configure your environment variables.**\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the API.\n   </Message>\n\n    ```bash\n    export SCW_ACCESS_KEY=\"<API access key>\"\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Get information about your domains.**\n\n   <Message type=\"important\">\n   You must specify the domain you want to get information for if you want to get information about one specific domain.\n   </Message>\n\n   Run the following command to get information about your domains:\n\n\t```bash\n\tcurl https://api.scaleway.com/domain/v2beta1/search-domains?domains=domain-example.fr \\\n\t-H \"X-Auth-Token: $secret_key\"\n\t```\n\n   An output similar to the following displays:\n\n\t```bash\n\t{\n\t\t\"available_domains\": [\n\t\t\t{\n\t\t\t\t\"domain\": \"domain-example.fr\",\n\t\t\t\t\"available\": true,\n\t\t\t\t\"tld\": {\n\t\t\t\t\t\"name\": \"fr\",\n\t\t\t\t\t\"dnssec_support\": true,\n\t\t\t\t\t\"duration_in_years_min\": 1,\n\t\t\t\t\t\"duration_in_years_max\": 10,\n\t\t\t\t\t\"idn_support\": true,\n\t\t\t\t\t\"offers\": {\n\t\t\t\t\t\t\"create\": {\n\t\t\t\t\t\t\t\"action\": \"create\",\n\t\t\t\t\t\t\t\"operation_path\": \"/network/domain/domains/fr/register\",\n\t\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\t\"currency_code\": \"EUR\",\n\t\t\t\t\t\t\t\t\"units\": 123,\n\t\t\t\t\t\t\t\t\"nanos\": 456000000\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"late_renew\": {\n\t\t\t\t\t\t\t\"action\": \"late_renew\",\n\t\t\t\t\t\t\t\"operation_path\": \"/network/domain/domains/fr/late_renew\",\n\t\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\t\"currency_code\": \"EUR\",\n\t\t\t\t\t\t\t\t\"units\": 123,\n\t\t\t\t\t\t\t\t\"nanos\": 456000000\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"renew\": {\n\t\t\t\t\t\t\t\"action\": \"renew\",\n\t\t\t\t\t\t\t\"operation_path\": \"/network/domain/domains/fr/renew\",\n\t\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\t\"currency_code\": \"EUR\",\n\t\t\t\t\t\t\t\t\"units\": 123,\n\t\t\t\t\t\t\t\t\"nanos\": 456000000\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"trade\": {\n\t\t\t\t\t\t\t\"action\": \"trade\",\n\t\t\t\t\t\t\t\"operation_path\": \"/network/domain/domains/fr/trade\",\n\t\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\t\"currency_code\": \"EUR\",\n\t\t\t\t\t\t\t\t\"units\": 123,\n\t\t\t\t\t\t\t\t\"nanos\": 456000000\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"transfer\": {\n\t\t\t\t\t\t\t\"action\": \"transfer\",\n\t\t\t\t\t\t\t\"operation_path\": \"/network/domain/domains/fr/transfer\",\n\t\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\t\"currency_code\": \"EUR\",\n\t\t\t\t\t\t\t\t\"units\": 123,\n\t\t\t\t\t\t\t\t\"nanos\": 456000000\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\"specifications\": {\n\t\t\t\t\t\t\"afnic\": \"1\",\n\t\t\t\t\t\t\"grace_period\": \"1\",\n\t\t\t\t\t\t\"transfer_without_contact\": \"1\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t]\n\t}\n\t```\n\n   <Message type=\"note\">\n\n     - `available` indicates whether the domain is available to be ordered and created at the registry\n     - `tld` indicates whether TLD is supported, the different actions and prices available. If TLD is not supported, `null` is returned in the output\n     - `offers` indicates the different actions and prices available\n     - `specifications` includes tags to indicate TLD specifications\n     - `currency_code` indicates the available currency. Currently only euro is available\n     - `units` and `nanos` compose the price\n   </Message>\n\n3. **Manage an external domain.**\n\n   Refer to the DNS zones and records API documentation to find out [how to register and manage an external domain](https://www.scaleway.com/en/developers/api/domains-and-dns/#quickstart).\n\n4. **Purchase a domain.**\n\n   Run the following command to purchase a domain:\n\n\t```bash\n\tcurl https://api.scaleway.com/domain/v2beta1/buy-domains \\\n\t-X POST \\\n\t-H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n\t-d '{\n\t\t\"domains\": [\n\t\t\t\"my_domain.fr\"\n\t\t],\n\t\t\"project_id\": \"$project_id\",\n\t\t\"duration_in_years\": 1,\n\t\t\"owner_contact_id\": \"$owner_contact_id\",\n\t\t\"owner_contact\": {\n\t\t\t\"legal_form\": \"individual\",\n\t\t\t\"firstname\": \"John\",\n\t\t\t\"lastname\": \"DOE\",\n\t\t\t\"email\": \"email@mail.fr\",\n\t\t\t\"phone_number\": \"0123456789\",\n\t\t\t\"address_line_1\": \"37 rue de la barre\",\n\t\t\t\"zip\": \"59800\",\n\t\t\t\"city\": \"Lille\",\n\t\t\t\"country\": \"France\",\n\t\t\t\"lang\": \"fr_FR\",\n\t\t\t\"resale\": true,\n\t\t\t\"extension_fr\": {\n\t\t\t\t\"mode\": \"individual\",\n\t\t\t\t\"individual_info\": {\n\t\t\t\t\t\"whois_opt_in\": true\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\t```\n\n   <Message type=\"note\">\n\n   `extension_fr.individual_info.whois_opt_in` returns `false` if the information of the domain's owner is anonymous. It returns `true` if the information of the domain's owner is published in whois.\n   </Message>\n\n5. **List your domains.**\n\n   Run the following command to list your domains:\n\n\t```bash\n\tcurl https://api.scaleway.com/domain/v2beta1/domains \\\n\t-H \"X-Auth-Token: $SCW_SECRET_KEY\"\n\t```\n\n   An output similar to the following displays:\n\n\t```bash\n\t{\n\t\"total_count\": 1,\n\t\"domains\": [\n\t\t{\n\t\t\"domain\": \"my_domain.fr\",\n\t\t\"project_id\": \"xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxxx\",\n\t\t\"organization_id\": \"xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxxx\",\n\t\t\"auto_renew_status\": \"disabled\",\n\t\t\"dnssec_status\": \"disabled\",\n\t\t\"epp_code\": [\n\t\t\t\"clientTransferProhibited\"\n\t\t],\n\t\t\"expired_at\": \"1970-01-01T00:00:00Z\",\n\t\t\"updated_at\": \"1970-01-01T00:00:00Z\",\n\t\t\"registrar\": \"SCALEWAY\",\n\t\t\"is_external\": false,\n\t\t\"status\": \"active\"\n\t\t}\n\t]\n\t}\n\t```\n\n6. **Enable DNSSEC for external domains.**\n\n    - Run the following command if you have not set up DNSSEC at your registrar:\n\n    ```bash\n    curl https://api.scaleway.com/domain/v2beta1/domains/example.com/enable-dnssec \\\n      -X POST \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{}'\n    ```\n\n   An output similar to the following displays:\n\n    ```json\n    {\n      \"domain\":{\n          \"domain\":\"example.fr\",\n          \"auto_renew_status\":\"enabled\",\n          \"dnssec_status\":\"disabled\",\n          \"ds_records\":[\n            {\n                \"key_id\":49071,\n                \"algorithm\":\"ecdsap256sha256\",\n                \"digest\":{\n                  \"type\":\"sha_384\",\n                  \"digest\":\"c14421f739e35b62e3383d5972263f93610dea31da48a1990453752cf1b4f4f0314f75ecd0bc9061c51ee41ec7692204\"\n                }\n            }\n          ],\n          \"epp\":[\n            \"clientTransferProhibited\"\n          ],\n          \"expired_at\":\"2021-04-04T12:46:29Z\",\n          \"updated_at\":\"2020-07-07T13:24:27Z\",\n          \"registrar\":\"EXTERNAL\",\n          \"is_external\":true,\n          \"status\":\"active\",\n          \"......\"\n      }\n    ```\n\n   <Message type=\"important\">\n   Set up the information returned under `ds_records` in the output, in your registrar to configure DNSSEC for your external domain.\n   </Message>\n\n    - Run the following command if you have already set up DNSSEC at your registrar:\n\n    ```bash\n    curl https://api.scaleway.com/domain/v2beta1/domains/example.com/enable-dnssec \\\n      -X POST \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -d '{\n        \"ds_record\": {\n          \"algorithm\": \"rsamd5\",\n          \"digest\":\n          {\n            \"type\": \"sha_1\",\n            \"digest\": \"ABCD\"\n          }\n        }\n      }'\n    ```\n\n7. **Enable DNSSEC for internal domains.**\n\n   Find out how to enable DNSSEC for your internal domains using the [Scaleway console](https://www.scaleway.com/en/docs/network/domains-and-dns/how-to/configure-dnssec-internal-domain/) or the [API](https://www.scaleway.com/en/developers/api/domains-and-dns/registrar-api/#path-domains-update-domain-dnssec).\n\n   <Message type=\"important\">\n     - If your DNS service is managed by Scaleway, no other information is required from you. You will however need to provide the DS or public key information.\n     - If your domain uses another registrar and has the default Scaleway NS, you have to **update the DS record at your registrar**.\n   </Message>\n\n(switchcolumn)\n<Message type=\"requirement\">\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have [created an API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have your [Organization ID](https://console.scaleway.com/organization/settings)\n- You are the owner of your domain\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n(switchcolumn)\n\n## Technical information\n\n### Regional availability\n\nScaleway Domains and DNS is currently available globally. Find out about [product availability in our dedicated documentation](https://www.scaleway.com/en/docs/account/reference-content/products-availability).\n\n## Technical limitations\n\n- Only the owner of a domain can use and configure it with Domains and DNS\n- Each zone supports the creation of sub-zones, which inherit the parent's Project ID\n\n## Going further\n\nFor more information about Domains and DNS, you can check out the following pages:\n\n- [Domains and DNS Documentation](https://www.scaleway.com/en/docs/network/domains-and-dns/)\n- [Scaleway Slack Community](http://slack.scaleway.com) join the #domains channel\n- [Contact our support team](https://console.scaleway.com/support/tickets)."
+      }
+    }
+  }
+}

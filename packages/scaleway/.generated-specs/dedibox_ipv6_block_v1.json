@@ -1,0 +1,538 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotasRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "ID of the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotasResponse": {
+      "type": "structure",
+      "members": {
+        "quotas": {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotasResponseQuotasList",
+          "traits": {
+            "smithy.api#documentation": "Quota for each CIDR of IPv6 block."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total count of quotas."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotasResponseQuota": {
+      "type": "structure",
+      "members": {
+        "quota": {
+          "target": "smithy.api#Double"
+        },
+        "cidr": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotasResponseQuotasList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotasResponseQuota"
+      },
+      "traits": {
+        "smithy.api#documentation": "Quota for each CIDR of IPv6 block."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotas": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotasRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotasResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/ipv6-block-quotas",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get IPv6 block quota. Get IPv6 block quota with the given project ID.\n\n/48 one per organization.\n\n/56 link to your number of server.\n\n/64 link to your number of failover IP.\n\nDerived from scaleway-sdk-js (`IPv6BlockAPI.getIPv6BlockQuotas`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "ID of the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#IPv6Block": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ID of the IPv6."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address of the IPv6."
+          }
+        },
+        "duid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DUID of the IPv6."
+          }
+        },
+        "nameservers": {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6BlockNameserversList",
+          "traits": {
+            "smithy.api#documentation": "DNS linked to the IPv6."
+          }
+        },
+        "cidr": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Classless InterDomain Routing notation of the IPv6."
+          }
+        },
+        "subnets": {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6BlockSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "All IPv6 subnets."
+          }
+        },
+        "delegation_status": {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6BlockDelegationStatus",
+          "traits": {
+            "smithy.api#documentation": "The nameservers delegation status."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#IPv6BlockNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "DNS linked to the IPv6."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#IPv6BlockSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6Block"
+      },
+      "traits": {
+        "smithy.api#documentation": "All IPv6 subnets."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#IPv6BlockDelegationStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "done"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#GetIPv6Block": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6Block"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/ipv6-block",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get first IPv6 block. Get the first IPv6 block associated with the given project ID.\n\nDerived from scaleway-sdk-js (`IPv6BlockAPI.getIPv6Block`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#CreateIPv6BlockRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#CreateIPv6Block": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#CreateIPv6BlockRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6Block"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/dedibox/v1/ipv6-block",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create IPv6 block for baremetal server. Create IPv6 block associated with the given project ID.\n\nDerived from scaleway-sdk-js (`IPv6BlockAPI.createIPv6Block`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlocksRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlocksResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Double"
+        },
+        "ipv6_blocks": {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlocksResponseIpv6BlocksList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlocksResponseIpv6BlocksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6Block"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6Blocks": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlocksRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlocksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/ipv6-blocks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List IPv6 blocks. List IPv6 blocks associated given project ID.\n\nDerived from scaleway-sdk-js (`IPv6BlockAPI.listIPv6Blocks`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#UpdateIPv6BlockRequestNameserversList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "DNS to link to the IPv6."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#UpdateIPv6BlockRequest": {
+      "type": "structure",
+      "members": {
+        "block_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the IPv6 block."
+          }
+        },
+        "nameservers": {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#UpdateIPv6BlockRequestNameserversList",
+          "traits": {
+            "smithy.api#documentation": "DNS to link to the IPv6."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#UpdateIPv6Block": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#UpdateIPv6BlockRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6Block"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/dedibox/v1/ipv6-blocks/{block_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update IPv6 block. Update DNS associated to IPv6 block.\n\nIf DNS is used, minimum of 2 is necessary and maximum of 5 (no duplicate).\n\nDerived from scaleway-sdk-js (`IPv6BlockAPI.updateIPv6Block`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#DeleteIPv6BlockRequest": {
+      "type": "structure",
+      "members": {
+        "block_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the IPv6 block to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#DeleteIPv6Block": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#DeleteIPv6BlockRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/dedibox/v1/ipv6-blocks/{block_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete IPv6 block. Delete IPv6 block subnet with the given ID.\n\nDerived from scaleway-sdk-js (`IPv6BlockAPI.deleteIPv6Block`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailableRequest": {
+      "type": "structure",
+      "members": {
+        "block_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the IPv6 block."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailableResponse": {
+      "type": "structure",
+      "members": {
+        "subnet_availables": {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailableResponseSubnetAvailablesList",
+          "traits": {
+            "smithy.api#documentation": "All available address and CIDR available in subnet."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total count of available subnets."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailableResponseSubnet": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "smithy.api#String"
+        },
+        "cidr": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailableResponseSubnetAvailablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailableResponseSubnet"
+      },
+      "traits": {
+        "smithy.api#documentation": "All available address and CIDR available in subnet."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailable": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailableRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailableResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/ipv6-blocks/{block_id}/subnets",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available IPv6 block subnets. List all available IPv6 block subnets for given IP ID.\n\nDerived from scaleway-sdk-js (`IPv6BlockAPI.listIPv6BlockSubnetsAvailable`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#CreateIPv6BlockSubnetRequest": {
+      "type": "structure",
+      "members": {
+        "block_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the IPv6 block."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address of the IPv6.",
+            "smithy.api#required": {}
+          }
+        },
+        "cidr": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Classless InterDomain Routing notation of the IPv6.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#CreateIPv6BlockSubnet": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#CreateIPv6BlockSubnetRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_ipv6_block_v1#IPv6Block"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/dedibox/v1/ipv6-blocks/{block_id}/subnets",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create IPv6 block subnet. Create IPv6 block subnet for the given IP ID.\n\n/48 could create subnet in /56 (quota link to your number of server).\n\n/56 could create subnet in /64 (quota link to your number of failover IP).\n\nDerived from scaleway-sdk-js (`IPv6BlockAPI.createIPv6BlockSubnet`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_ipv6_block_v1#DediboxIpv6BlockV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#GetIPv6BlockQuotas"
+        },
+        {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#GetIPv6Block"
+        },
+        {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#CreateIPv6Block"
+        },
+        {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6Blocks"
+        },
+        {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#UpdateIPv6Block"
+        },
+        {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#DeleteIPv6Block"
+        },
+        {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#ListIPv6BlockSubnetsAvailable"
+        },
+        {
+          "target": "com.scaleway.dedibox_ipv6_block_v1#CreateIPv6BlockSubnet"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "scaleway.dedibox.v1.IPv6BlockApi (derived)",
+        "smithy.api#documentation": "Derived from scaleway/scaleway-sdk-js packages_generated/dedibox/src/v1 — the portal publishes no OpenAPI document for these routes."
+      }
+    }
+  }
+}

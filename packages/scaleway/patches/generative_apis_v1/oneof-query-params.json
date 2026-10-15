@@ -1,0 +1,27 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, and `ListConsumptionLimits` loses the one it requires. Live on 2026-10-12, `GET /generative-apis/v1/consumption-limits` with neither answered 400 `invalid_arguments` (`organization_project_id`: \"value is required\"), and `?project_id=<uuid>` or `?organization_id=<uuid>` each answered 200. There is no official JS SDK package for this API to cross-check against.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.generative_apis_v1#ListConsumptionLimitsRequest/members/organization_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "organization_id",
+          "smithy.api#documentation": "List the consumption limits of this Organization. One-of `organization_project_id`: exactly one of `organization_id`, `project_id` \u2014 the API rejects a call with neither."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.generative_apis_v1#ListConsumptionLimitsRequest/members/project_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "project_id",
+          "smithy.api#documentation": "List the consumption limits of this Project. One-of `organization_project_id`: exactly one of `organization_id`, `project_id` \u2014 the API rejects a call with neither."
+        }
+      }
+    }
+  ]
+}

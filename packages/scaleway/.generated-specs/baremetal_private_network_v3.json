@@ -1,0 +1,678 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksRequestIpamIpIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order for the returned Private Networks."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number for the returned Private Networks."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of Private Networks per page."
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "server_id",
+            "smithy.api#documentation": "Filter Private Networks by server UUID."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "private_network_id",
+            "smithy.api#documentation": "Filter Private Networks by Private Network UUID."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter Private Networks by organization UUID."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter Private Networks by project UUID."
+          }
+        },
+        "ipam_ip_ids": {
+          "target": "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksRequestIpamIpIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "ipam_ip_ids",
+            "smithy.api#documentation": "Filter Private Networks by IPAM IP UUIDs."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksResponse": {
+      "type": "structure",
+      "members": {
+        "server_private_networks": {
+          "target": "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksResponseServerPrivateNetworksList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#ServerPrivateNetwork": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Server-to-Private Network mapping."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network Project UUID."
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server UUID."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network UUID."
+          }
+        },
+        "vlan": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "VLAN UUID associated with the Private Network.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.baremetal_private_network_v3#ServerPrivateNetworkStatus",
+          "traits": {
+            "smithy.api#documentation": "Configuration status of the Private Network."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the Private Network was last modified. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipam_ip_ids": {
+          "target": "com.scaleway.baremetal_private_network_v3#ServerPrivateNetworkIpamIpIdsList",
+          "traits": {
+            "smithy.api#documentation": "IPAM IP IDs of the server, if it has any."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#ServerPrivateNetworkStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "ATTACHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attaching"
+          }
+        },
+        "ATTACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attached"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "DETACHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "detaching"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#ServerPrivateNetworkIpamIpIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IPAM IP IDs of the server, if it has any."
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksResponseServerPrivateNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_private_network_v3#ServerPrivateNetwork"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworks": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/baremetal/v3/zones/{zone}/server-private-networks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List the Private Networks of a server\n\nList the Private Networks of an Elastic Metal server.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "server_private_networks",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#AddServerPrivateNetworkRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#AddServerPrivateNetworkRequestIpamIpIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IPAM IDs of an IPs to attach to the server."
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#AddServerPrivateNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_private_network_v3#AddServerPrivateNetworkRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the server."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Private Network.",
+            "smithy.api#required": {}
+          }
+        },
+        "ipam_ip_ids": {
+          "target": "com.scaleway.baremetal_private_network_v3#AddServerPrivateNetworkRequestIpamIpIdsList",
+          "traits": {
+            "smithy.api#documentation": "IPAM IDs of an IPs to attach to the server."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#AddServerPrivateNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_private_network_v3#AddServerPrivateNetworkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_private_network_v3#ServerPrivateNetwork"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/baremetal/v3/zones/{zone}/servers/{server_id}/private-networks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Add a server to a Private Network\n\nAdd an Elastic Metal server to a Private Network."
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksRequestPerPrivateNetworkIpamIpIdsValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Object where the keys are the UUIDs of Private Networks and the values are arrays of IPAM IDs representing the IPs to assign to this Elastic Metal server on the Private Network. If the array supplied for a Private Network is empty, the next available IP from the Private Network's CIDR block will automatically be used for attachment."
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksRequestPerPrivateNetworkIpamIpIdsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksRequestPerPrivateNetworkIpamIpIdsValueList",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Object where the keys are the UUIDs of Private Networks and the values are arrays of IPAM IDs representing the IPs to assign to this Elastic Metal server on the Private Network. If the array supplied for a Private Network is empty, the next available IP from the Private Network's CIDR block will automatically be used for attachment."
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the server."
+          }
+        },
+        "per_private_network_ipam_ip_ids": {
+          "target": "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksRequestPerPrivateNetworkIpamIpIdsMap",
+          "traits": {
+            "smithy.api#documentation": "Object where the keys are the UUIDs of Private Networks and the values are arrays of IPAM IDs representing the IPs to assign to this Elastic Metal server on the Private Network. If the array supplied for a Private Network is empty, the next available IP from the Private Network's CIDR block will automatically be used for attachment.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksResponse": {
+      "type": "structure",
+      "members": {
+        "server_private_networks": {
+          "target": "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksResponseServerPrivateNetworksList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksResponseServerPrivateNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.baremetal_private_network_v3#ServerPrivateNetwork"
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworks": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksRequest"
+      },
+      "output": {
+        "target": "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/baremetal/v3/zones/{zone}/servers/{server_id}/private-networks",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set multiple Private Networks on a server\n\nConfigure multiple Private Networks on an Elastic Metal server."
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#DeleteServerPrivateNetworkRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.baremetal_private_network_v3#DeleteServerPrivateNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.baremetal_private_network_v3#DeleteServerPrivateNetworkRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the server."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the Private Network."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#DeleteServerPrivateNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.baremetal_private_network_v3#DeleteServerPrivateNetworkRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/baremetal/v3/zones/{zone}/servers/{server_id}/private-networks/{private_network_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a Private Network"
+      }
+    },
+    "com.scaleway.baremetal_private_network_v3#BaremetalPrivateNetworkV3": {
+      "type": "service",
+      "version": "v3",
+      "operations": [
+        {
+          "target": "com.scaleway.baremetal_private_network_v3#ListServerPrivateNetworks"
+        },
+        {
+          "target": "com.scaleway.baremetal_private_network_v3#AddServerPrivateNetwork"
+        },
+        {
+          "target": "com.scaleway.baremetal_private_network_v3#SetServerPrivateNetworks"
+        },
+        {
+          "target": "com.scaleway.baremetal_private_network_v3#DeleteServerPrivateNetwork"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Elastic Metal - Private Networks API",
+        "smithy.api#documentation": "Private Networks, allow to facilitate the interconnection of resources via a dedicated, private, and flexible L2 network.\n\nThis documentation describes the usage of the Private Network feature on Elastic Metal servers.\n\nYou have the flexibility to add multiple servers to your Private Networks and can connect up to eight (8) distinct networks per server, in the form of additional network interfaces within the server (VLANs).\nWith this feature, you can isolate services from the public internet and expose them to the rest of your infrastructure without concern about public network filtering.\n\nServers can be added or removed from a Private Network at any time, even while running. The network interface will be hot-plugged into the server, and software can be configured to set it up automatically as soon as it appears.\n\n(switchcolumn)\n<Message type=\"important\">\nThis documentation refers to Private Networks for Elastic Metal servers. If you are looking for information for Private Networks on other products, refer to our [VPC API documentation](/api/vpc/).\n</Message>\n(switchcolumn)\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/elastic-metal/concepts/) to find definitions of all concepts and terminology related to Elastic Metal servers.\n\n## Quickstart\n\n(switchcolumn)\n(switchcolumn)\n\n1. Configure your environment variables.\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_ZONE=\"<Scaleway Availability Zone>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n   <Message type=\"tip\">\n   This is an optional step that seeks to simplify your usage of the Private Networks API. See [Availability Zones](#availability-zones) below for help choosing an Availability Zone. You can find your Project ID in the [Scaleway console](https://console.scaleway.com/project/settings).\n   </Message>\n\n2. Create a [Private Network for your Elastic Metal server](https://www.scaleway.com/en/developers/api/vpc/).\n\n3. Add a server to the Private Network.\n\n    ```bash\n    curl -s -H \"Content-Type: application/json\" \\\n        -H \"X-Auth-Token: $SECRET_KEY\" \\\n        https://api.scaleway.com/baremetal/v1/zones/$SCW_DEFAULT_ZONE/servers/$EM_SERVER_ID/private-networks \\\n        -d '{\"private_network_id\": \"'$PN_ID'\"}'\n    ```\n\n   <Message type=\"note\">\n   Keep the `vlan` field from the response. It is your VLAN ID, and will be used\n   to configure the server to handle traffic from and to the Private Network.\n   </Message>\n\n4. Connect to your Elastic Metal server and use the following command to configure your Private Network interface\"\n\n    ```bash\n    sudo ip link add link eno1 name eno1.$VLAN type vlan id $VLAN\n    sudo ip link set eno1.$VLAN up\n    sudo ip addr add 192.168.0.10/24 dev eno1.$VLAN\n    ```\n\n(switchcolumn)\n<Message type=\"requirement\">\nTo perform the following steps, you must first ensure that:\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n(switchcolumn)\n\n## Technical information\n\n### Pagination\n\nMost listing requests receive a paginated response. Requests against paginated endpoints accept two `query` arguments:\n\n- `page`, a positive integer to choose which page to return.\n- `page_size`, a positive integer lower or equal to 100 to select the number of items to return per page. The default value is `20`.\n\nPaginated endpoints usually also accept filters to search and sort results. These filters are documented along each endpoint documentation.\n\n### Availability Zones\n\nPrivate Networks for Elastic Metal servers can be deployed in the following Availability Zones:\n\n\n## Technical limitations\n\n- You need to configure a VLAN manually, using the Elastic Metal server interface\n- The bandwidth is limited to 1Gbps inside the Private Network\n- You can configure up to 8 Private Networks per server\n- Broadcast and multicast traffic, while supported, are rate-limited\n\n## Going further\n\nFor more help using Private Networks on Elastic Metal servers, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/elastic-metal/how-to/use-private-networks/)\n- The #private-networks channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

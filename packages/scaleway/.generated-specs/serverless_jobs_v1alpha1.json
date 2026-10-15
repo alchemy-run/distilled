@@ -1,0 +1,1816 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsResponse": {
+      "type": "structure",
+      "members": {
+        "job_definitions": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsResponseJobDefinitionsList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#JobDefinition": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_limit": {
+          "target": "smithy.api#Integer"
+        },
+        "memory_limit": {
+          "target": "smithy.api#Integer"
+        },
+        "image_uri": {
+          "target": "smithy.api#String"
+        },
+        "command": {
+          "target": "smithy.api#String"
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#JobDefinitionEnvironmentVariablesMap"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "job_timeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cron_schedule": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CronSchedule"
+        },
+        "local_storage_capacity": {
+          "target": "smithy.api#Integer"
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region you want to target"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#JobDefinitionEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CronSchedule": {
+      "type": "structure",
+      "members": {
+        "schedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UNIX cron schedule to run job (e.g., '* * * * *').",
+            "smithy.api#required": {}
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timezone for the cron schedule, in tz database format (e.g., 'Europe/Paris').",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsResponseJobDefinitionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobDefinition"
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all your job definitions with filters",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "job_definitions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionRequestEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables of the job."
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionRequestCronScheduleConfig": {
+      "type": "structure",
+      "members": {
+        "schedule": {
+          "target": "smithy.api#String"
+        },
+        "timezone": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the job definition.",
+            "smithy.api#required": {}
+          }
+        },
+        "cpu_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "CPU limit of the job.",
+            "smithy.api#required": {}
+          }
+        },
+        "memory_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory limit of the job (in MiB).",
+            "smithy.api#required": {}
+          }
+        },
+        "local_storage_capacity": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Local storage capacity of the job (in MiB).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image_uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image to use for the job.",
+            "smithy.api#required": {}
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Startup command. If empty or not defined, the image's default command is used."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Scaleway Project containing the job.",
+            "smithy.api#required": {}
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionRequestEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables of the job."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the job."
+          }
+        },
+        "job_timeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timeout of the job in seconds. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cron_schedule": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionRequestCronScheduleConfig",
+          "traits": {
+            "smithy.api#documentation": "Configure a cron for the job."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobDefinition"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new job definition in a specified Project"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobDefinition"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a job definition by its unique identifier"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionRequestEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables of the job."
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionRequestCronScheduleConfig": {
+      "type": "structure",
+      "members": {
+        "schedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the job definition.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "CPU limit of the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "memory_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory limit of the job (in MiB).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "local_storage_capacity": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Local storage capacity of the job (in MiB).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image_uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image to use for the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Startup command.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionRequestEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables of the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "job_timeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timeout of the job in seconds. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cron_schedule": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionRequestCronScheduleConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobDefinition"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an existing job definition associated with the specified unique identifier"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing job definition by its unique identifier"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecretsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecretsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecretsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecretsResponse": {
+      "type": "structure",
+      "members": {
+        "secrets": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecretsResponseSecretsList",
+          "traits": {
+            "smithy.api#documentation": "List of secret references within a job definition."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of secret references within a job definition."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#Secret": {
+      "type": "structure",
+      "members": {
+        "secret_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the secret reference within the job."
+          }
+        },
+        "secret_manager_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the secret in Secret Manager."
+          }
+        },
+        "secret_manager_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the secret in Secret Manager."
+          }
+        },
+        "file": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#SecretFile",
+          "traits": {
+            "smithy.api#documentation": "File secret mounted inside the job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "env_var": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#SecretEnvVar",
+          "traits": {
+            "smithy.api#documentation": "Environment variable used to expose the secret.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#SecretFile": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#SecretEnvVar": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecretsResponseSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#Secret"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of secret references within a job definition."
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecrets": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecretsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecretsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}/secrets",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List secrets references within a job definition"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsRequestSecretConfig": {
+      "type": "structure",
+      "members": {
+        "secret_manager_id": {
+          "target": "smithy.api#String"
+        },
+        "secret_manager_version": {
+          "target": "smithy.api#String"
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "env_var_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsRequestSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsRequestSecretConfig"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of secrets to inject into the job."
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition."
+          }
+        },
+        "secrets": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsRequestSecretsList",
+          "traits": {
+            "smithy.api#documentation": "List of secrets to inject into the job.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsResponse": {
+      "type": "structure",
+      "members": {
+        "secrets": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsResponseSecretsList",
+          "traits": {
+            "smithy.api#documentation": "List of secrets created."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsResponseSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#Secret"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of secrets created."
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecrets": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecretsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}/secrets",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a secret reference within a job definition"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionSecretRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionSecretRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionSecretRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition."
+          }
+        },
+        "secret_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the secret reference within the job."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionSecret": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionSecretRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#Secret"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}/secrets/{secret_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a secret references within a job definition"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionSecretRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionSecretRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionSecretRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition."
+          }
+        },
+        "secret_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the secret reference within the job."
+          }
+        },
+        "secret_manager_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the secret in Secret Manager.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path of the secret to mount inside the job (either `path` or `env_var_name` must be set).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "env_var_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment variable name used to expose the secret inside the job (either `path` or `env_var_name` must be set).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionSecret": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionSecretRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#Secret"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}/secrets/{secret_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a secret reference within a job definition"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionSecretRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionSecretRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionSecretRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition."
+          }
+        },
+        "secret_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the secret reference within the job."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionSecret": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionSecretRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}/secrets/{secret_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a secret reference within a job definition"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionRequestEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Contextual environment variables for this specific job run."
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job definition to start."
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Contextual startup command for this specific job run.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionRequestEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Contextual environment variables for this specific job run.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "replicas": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of jobs to run.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "job_runs": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionResponseJobRunsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#JobRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "state": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#JobRunState"
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "terminated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exit_code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "run_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String"
+        },
+        "cpu_limit": {
+          "target": "smithy.api#Integer"
+        },
+        "memory_limit": {
+          "target": "smithy.api#Integer"
+        },
+        "command": {
+          "target": "smithy.api#String"
+        },
+        "environment_variables": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#JobRunEnvironmentVariablesMap"
+        },
+        "local_storage_capacity": {
+          "target": "smithy.api#Integer"
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region you want to target"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#JobRunState": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_state"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "SCHEDULED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduled"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "INTERNAL_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#JobRunEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionResponseJobRunsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobRun"
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinitionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-definitions/{job_definition_id}/start",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Run an existing job definition by its unique identifier. This will create a new job run"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsRequestStatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobRunState"
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "job_definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "job_definition_id"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id"
+          }
+        },
+        "state": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#JobRunState",
+          "traits": {
+            "smithy.api#httpQuery": "state"
+          }
+        },
+        "states": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsRequestStatesList",
+          "traits": {
+            "smithy.api#httpQuery": "states"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsResponse": {
+      "type": "structure",
+      "members": {
+        "job_runs": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsResponseJobRunsList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsResponseJobRunsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobRun"
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ListJobRuns": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobRunsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-runs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all job runs with filters",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "job_runs",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobRunRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobRunRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobRunRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job run to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#GetJobRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobRunRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobRun"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-runs/{job_run_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a job run by its unique identifier"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StopJobRunRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StopJobRunRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#StopJobRunRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "job_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the job run to stop."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#StopJobRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#StopJobRunRequest"
+      },
+      "output": {
+        "target": "com.scaleway.serverless_jobs_v1alpha1#JobRun"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/serverless-jobs/v1alpha1/regions/{region}/job-runs/{job_run_id}/stop",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Stop a job run by its unique identifier"
+      }
+    },
+    "com.scaleway.serverless_jobs_v1alpha1#ServerlessJobsV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitions"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinition"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinition"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinition"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinition"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobDefinitionSecrets"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#CreateJobDefinitionSecrets"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobDefinitionSecret"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#UpdateJobDefinitionSecret"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#DeleteJobDefinitionSecret"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#StartJobDefinition"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#ListJobRuns"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#GetJobRun"
+        },
+        {
+          "target": "com.scaleway.serverless_jobs_v1alpha1#StopJobRun"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Serverless Jobs API",
+        "smithy.api#documentation": "Serverless Jobs is a fully managed solution that enables you to plan, schedule, and run batch processing workloads without needing to provision or scale any infrastructure. Each job is run from a job definition, which includes the image used to run the job, as well as its resources.\n\n## Concepts\n\nRefer to our [dedicated concepts](https://www.scaleway.com/en/docs/serverless-jobs/concepts/) page to find definitions of all terminology related to Scaleway Serverless Jobs.\n\n## Quickstart\n\n<Message type=\"note\">\n  For jobs concepts and advanced documentation, please refer to [Scaleway Quickstart for Jobs](https://www.scaleway.com/en/docs/serverless-jobs/quickstart/).\n</Message>\n\n## Technical information\n\n### Regions\n\nServerless Jobs is available in the Paris, Amsterdam and Warsaw regions, which are represented by the following path parameters:\n\n- `fr-par`\n- `nl-ams`\n- `pl-waw`\n\n## Going further\n\nFor more information on Scaleway Serverless Jobs, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/serverless-jobs/)\n- The `#serverless-jobs` channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket)."
+      }
+    }
+  }
+}

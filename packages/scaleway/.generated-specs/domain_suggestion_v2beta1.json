@@ -1,0 +1,96 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.domain_suggestion_v2beta1#ListSuggestionsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Desired domain name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.domain_suggestion_v2beta1#ListSuggestionsResponse": {
+      "type": "structure",
+      "members": {
+        "suggestions": {
+          "target": "com.scaleway.domain_suggestion_v2beta1#ListSuggestionsResponseSuggestionsList",
+          "traits": {
+            "smithy.api#documentation": "Domain name suggestions."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of suggestions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.domain_suggestion_v2beta1#ListSuggestionsResponseSuggestionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Domain name suggestions."
+      }
+    },
+    "com.scaleway.domain_suggestion_v2beta1#ListSuggestions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.domain_suggestion_v2beta1#ListSuggestionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.domain_suggestion_v2beta1#ListSuggestionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/domain/v2beta1/suggestions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List suggested domain names\n\nReturns a list of suggested domain names."
+      }
+    },
+    "com.scaleway.domain_suggestion_v2beta1#DomainSuggestionV2beta1": {
+      "type": "service",
+      "version": "v2beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.domain_suggestion_v2beta1#ListSuggestions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Suggestions API",
+        "smithy.api#documentation": "Propose a list of domain names similar to the requested one."
+      }
+    }
+  }
+}

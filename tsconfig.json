@@ -507,6 +507,12 @@
       "path": "./packages/stackit/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/scaleway/tsconfig.json"
+    },
+    {
+      "path": "./packages/scaleway/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/daytona/tsconfig.json"
     },
     {

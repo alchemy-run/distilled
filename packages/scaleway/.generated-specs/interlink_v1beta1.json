@@ -1,0 +1,3459 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#DedicatedConnectionStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of connections to return per page."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Link name to filter for."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.interlink_v1beta1#DedicatedConnectionStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Connection status to filter for."
+          }
+        },
+        "bandwidth_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "bandwidth_mbps",
+            "smithy.api#documentation": "Filter for dedicated connections with this bandwidth size."
+          }
+        },
+        "pop_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pop_id",
+            "smithy.api#documentation": "Filter for dedicated connections present in this PoP. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsResponse": {
+      "type": "structure",
+      "members": {
+        "connections": {
+          "target": "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsResponseConnectionsList",
+          "traits": {
+            "smithy.api#documentation": "List of connections on current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of connections returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#DedicatedConnection": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the dedicated connection. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the dedicated connection."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.interlink_v1beta1#DedicatedConnectionStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the dedicated connection."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the dedicated connection."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#DedicatedConnectionTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags associated with the dedicated connection."
+          }
+        },
+        "pop_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the PoP where the dedicated connection is located. (UUID format)"
+          }
+        },
+        "bandwidth_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Bandwidth size of the dedicated connection."
+          }
+        },
+        "available_link_bandwidths": {
+          "target": "com.scaleway.interlink_v1beta1#DedicatedConnectionAvailableLinkBandwidthsList",
+          "traits": {
+            "smithy.api#documentation": "Size of the links supported on this dedicated connection."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the dedicated connection. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the dedicated connection. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "demarcation_info": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Demarcation details required by the data center to set up the supporting Cross Connect. This generally includes the physical space in the facility, the cabinet or rack the connection should land in, the patch panel to go in, the port designation, and the media type.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vlan_range": {
+          "target": "com.scaleway.interlink_v1beta1#Range",
+          "traits": {
+            "smithy.api#documentation": "Range in which to pick vlan for self-hosted links on this dedicated connection. Both start & end are included. Any range defined here must be itself included in the greater allowed range of vlans from 1500 to 3899 (this range is hardware dependent and can change over time, but actual range will be enforced)."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the dedicated connection."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#DedicatedConnectionTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags associated with the dedicated connection."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DedicatedConnectionAvailableLinkBandwidthsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Size of the links supported on this dedicated connection."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#Range": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "smithy.api#Integer"
+        },
+        "end": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsResponseConnectionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.interlink_v1beta1#DedicatedConnection"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of connections on current page."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListDedicatedConnections": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#ListDedicatedConnectionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/dedicated-connections",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List dedicated connections\n\nFor self-hosted users, list their dedicated physical connections in a given region. By default, the connections returned in the list are ordered by name in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "connections",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetDedicatedConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#GetDedicatedConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#GetDedicatedConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of connection to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetDedicatedConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#GetDedicatedConnectionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#DedicatedConnection"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/dedicated-connections/{connection_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a dedicated connection\n\nFor self-hosted users, get a dedicated physical connection corresponding to the given ID. The response object includes information such as the connection's name, status and total bandwidth."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListLinksRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListLinksRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListLinksRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#LinkStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LINK_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_link_status"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "REQUESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requested"
+          }
+        },
+        "REFUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "refused"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "LIMITED_CONNECTIVITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited_connectivity"
+          }
+        },
+        "ALL_DOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all_down"
+          }
+        },
+        "DEPROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deprovisioning"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#BgpStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_BGP_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_bgp_status"
+          }
+        },
+        "UP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "up"
+          }
+        },
+        "DOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "down"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#LinkKind": {
+      "type": "enum",
+      "members": {
+        "HOSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hosted"
+          }
+        },
+        "SELF_HOSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "self_hosted"
+          }
+        },
+        "L2_HOSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l2_hosted"
+          }
+        },
+        "L3_HOSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l3_hosted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListLinksRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#ListLinksRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.interlink_v1beta1#ListLinksRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of links to return per page."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Link name to filter for."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#ListLinksRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.interlink_v1beta1#LinkStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Link status to filter for."
+          }
+        },
+        "bgp_v4_status": {
+          "target": "com.scaleway.interlink_v1beta1#BgpStatus",
+          "traits": {
+            "smithy.api#httpQuery": "bgp_v4_status",
+            "smithy.api#documentation": "BGP IPv4 status to filter for."
+          }
+        },
+        "bgp_v6_status": {
+          "target": "com.scaleway.interlink_v1beta1#BgpStatus",
+          "traits": {
+            "smithy.api#httpQuery": "bgp_v6_status",
+            "smithy.api#documentation": "BGP IPv6 status to filter for."
+          }
+        },
+        "pop_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pop_id",
+            "smithy.api#documentation": "Filter for links attached to this PoP (via connections). (UUID format)"
+          }
+        },
+        "bandwidth_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "bandwidth_mbps",
+            "smithy.api#documentation": "Filter for link bandwidth (in Mbps)."
+          }
+        },
+        "partner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "partner_id",
+            "smithy.api#documentation": "Filter for links hosted by this partner. (UUID format)"
+          }
+        },
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "vpc_id",
+            "smithy.api#documentation": "Filter for links attached to this VPC. (UUID format)"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "routing_policy_id",
+            "smithy.api#documentation": "Filter for links using this routing policy. (UUID format)"
+          }
+        },
+        "pairing_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pairing_key",
+            "smithy.api#documentation": "Filter for the link with this pairing_key."
+          }
+        },
+        "kind": {
+          "target": "com.scaleway.interlink_v1beta1#LinkKind",
+          "traits": {
+            "smithy.api#httpQuery": "kind",
+            "smithy.api#documentation": "Filter for hosted or self-hosted links."
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "connection_id",
+            "smithy.api#documentation": "Filter for links self-hosted on this connection. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListLinksResponse": {
+      "type": "structure",
+      "members": {
+        "links": {
+          "target": "com.scaleway.interlink_v1beta1#ListLinksResponseLinksList",
+          "traits": {
+            "smithy.api#documentation": "List of links on the current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of links."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#Link": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the link. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the link."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the link."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#LinkTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags associated with the link."
+          }
+        },
+        "pop_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the PoP where the link's corresponding connection is located. (UUID format)"
+          }
+        },
+        "bandwidth_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rate limited bandwidth of the link."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.interlink_v1beta1#LinkStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the link."
+          }
+        },
+        "bgp_v4_status": {
+          "target": "com.scaleway.interlink_v1beta1#BgpStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the link's BGP IPv4 session."
+          }
+        },
+        "bgp_v6_status": {
+          "target": "com.scaleway.interlink_v1beta1#BgpStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the link's BGP IPv6 session."
+          }
+        },
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Scaleway VPC attached to the link. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. Use routing_policy_v4_id or routing_policy_v6_id instead. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enable_route_propagation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether route propagation is enabled or not. To enable or disable route propagation, use the dedicated endpoint."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the link. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the link. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "partner": {
+          "target": "com.scaleway.interlink_v1beta1#PartnerHost",
+          "traits": {
+            "smithy.api#documentation": "Partner host information.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "self": {
+          "target": "com.scaleway.interlink_v1beta1#SelfHost",
+          "traits": {
+            "smithy.api#documentation": "Self-host information.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vlan": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "VLAN of the link."
+          }
+        },
+        "scw_bgp_config": {
+          "target": "com.scaleway.interlink_v1beta1#BgpConfig",
+          "traits": {
+            "smithy.api#documentation": "BGP configuration on Scaleway's side."
+          }
+        },
+        "peer_bgp_config": {
+          "target": "com.scaleway.interlink_v1beta1#BgpConfig",
+          "traits": {
+            "smithy.api#documentation": "BGP configuration on peer's side (on-premises or other hosting provider)."
+          }
+        },
+        "routing_policy_v4_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy IPv4 attached to the link. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "routing_policy_v6_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy IPv6 attached to the link. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the link."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#LinkTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags associated with the link."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#PartnerHost": {
+      "type": "structure",
+      "members": {
+        "partner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the partner facilitating the link. (UUID format)"
+          }
+        },
+        "pairing_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Used to identify a link from a user or partner's point of view."
+          }
+        },
+        "disapproved_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reason given by partner to explain why they did not approve the request for a hosted link.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "l3_connectivity": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the partner supports L3 connectivity."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#SelfHost": {
+      "type": "structure",
+      "members": {
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dedicated physical connection supporting the link. (UUID format)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#BgpConfig": {
+      "type": "structure",
+      "members": {
+        "asn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "AS Number of the BGP peer."
+          }
+        },
+        "ipv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IPv4 address of the BGP peer. (IP network)"
+          }
+        },
+        "ipv6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IPv6 address of the BGP peer. (IP network)"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListLinksResponseLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of links on the current page."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListLinks": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#ListLinksRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#ListLinksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/links",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List links\n\nList all your links (InterLink connections). A number of filters are available, including Project ID, name, tags and status.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "links",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.interlink_v1beta1#CreateLinkRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#CreateLinkRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the link."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#CreateLinkRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#CreateLinkRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to create the link in. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the link.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#CreateLinkRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the link."
+          }
+        },
+        "pop_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PoP (location) where the link will be created. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "bandwidth_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Desired bandwidth for the link. Must be compatible with available link bandwidths and remaining bandwidth capacity of the connection.",
+            "smithy.api#required": {}
+          }
+        },
+        "connection_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, creates a self-hosted link using this dedicated physical connection. As the customer, specify the ID of the physical connection you already have for this link. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "partner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, creates a hosted link on a partner's connection. Specify the ID of the chosen partner, who already has a shared connection with available bandwidth. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "peer_asn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "For self-hosted links we need the peer AS Number to establish BGP session. If not given, a default one will be assigned.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vlan": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "For self-hosted links only, it is possible to choose the VLAN ID. If the VLAN is not available (ie already taken or out of range), an error is returned.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "routing_policy_v4_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, attaches this routing policy containing IPv4 prefixes to the Link. Hence, a BGP IPv4 session will be created. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "routing_policy_v6_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, attaches this routing policy containing IPv6 prefixes to the Link. Hence, a BGP IPv6 session will be created. (UUID format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#CreateLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#CreateLinkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/links",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a link\n\nCreate a link (InterLink session / logical InterLink resource) in a given PoP, specifying its various configuration details. Links can either be hosted (facilitated by partners' shared physical connections) or self-hosted (for users who have purchased a dedicated physical connection)."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetLinkRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#GetLinkRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#GetLinkRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#GetLinkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a link\n\nGet a link (InterLink session / logical InterLink resource) for the given link ID. The response object includes information about the link's various configuration details."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#UpdateLinkRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#UpdateLinkRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the link."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#UpdateLinkRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#UpdateLinkRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the link.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#UpdateLinkRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the link.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "peer_asn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "For self-hosted links, AS Number to establish BGP session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#UpdateLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#UpdateLinkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a link\n\nUpdate an existing link, specified by its link ID. Only its name and tags can be updated."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DeleteLinkRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#DeleteLinkRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#DeleteLinkRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DeleteLink": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#DeleteLinkRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a link\n\nDelete an existing link, specified by its link ID. Note that as well as deleting the link here on the Scaleway side, it is also necessary to request deletion from the partner on their side. Only when this action has been carried out on both sides will the resource be completely deleted."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#AttachRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#AttachRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#AttachRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link to attach a routing policy to. (UUID format)"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy to be attached. (UUID format)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#AttachRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#AttachRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}/attach-routing-policy",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Attach a routing policy\n\nAttach a routing policy to an existing link. As all routes across the link are blocked by default, you must attach a routing policy to set IP prefix filters for allowed routes, facilitating traffic flow."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#AttachVpcRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#AttachVpcRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#AttachVpcRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link to attach VPC to. (UUID format)"
+          }
+        },
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the VPC to attach. (UUID format)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#AttachVpc": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#AttachVpcRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}/attach-vpc",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Attach a VPC\n\nAttach a VPC to an existing link. This facilitates communication between the resources in your Scaleway VPC, and your on-premises infrastructure."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DetachRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#DetachRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#DetachRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link to detach a routing policy from. (UUID format)"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy to be detached. (UUID format)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DetachRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#DetachRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}/detach-routing-policy",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Detach a routing policy\n\nDetach a routing policy from an existing link. Without a routing policy, all routes across the link are blocked by default."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DetachVpcRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#DetachVpcRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#DetachVpcRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link to detach the VPC from. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DetachVpc": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#DetachVpcRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}/detach-vpc",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Detach a VPC\n\nDetach a VPC from an existing link."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DisableRoutePropagationRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#DisableRoutePropagationRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#DisableRoutePropagationRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link on which to disable route propagation. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DisableRoutePropagation": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#DisableRoutePropagationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}/disable-route-propagation",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Disable route propagation\n\nPrevent any prefixes from being announced in the BGP session. Traffic will not be able to flow over the InterLink until route propagation is re-enabled."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#EnableRoutePropagationRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#EnableRoutePropagationRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#EnableRoutePropagationRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link on which to enable route propagation. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#EnableRoutePropagation": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#EnableRoutePropagationRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}/enable-route-propagation",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Enable route propagation\n\nEnable all allowed prefixes (defined in a routing policy) to be announced in the BGP session. This allows traffic to flow between the attached VPC and the on-premises infrastructure along the announced routes. Note that by default, even when route propagation is enabled, all routes are blocked. It is essential to attach a routing policy to define the ranges of routes to announce."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#SetRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#SetRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#SetRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "link_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the link to set a routing policy from. (UUID format)"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the routing policy to be set. (UUID format)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#SetRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#SetRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Link"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/links/{link_id}/set-routing-policy",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Set a routing policy\n\nReplace a routing policy from an existing link. This is useful when route propagation is enabled because it changes the routing policy \"in place\", without blocking all routes like a attach / detach would do."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListPartnersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListPartnersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListPartnersRequestPopIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListPartnersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#ListPartnersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.interlink_v1beta1#ListPartnersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of partners to return per page."
+          }
+        },
+        "pop_ids": {
+          "target": "com.scaleway.interlink_v1beta1#ListPartnersRequestPopIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "pop_ids",
+            "smithy.api#documentation": "Filter for partners present (offering a connection) in one of these PoPs."
+          }
+        },
+        "l3_connectivity": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "l3_connectivity",
+            "smithy.api#documentation": "Filter for partners supporting L3 connectivity."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListPartnersResponse": {
+      "type": "structure",
+      "members": {
+        "partners": {
+          "target": "com.scaleway.interlink_v1beta1#ListPartnersResponsePartnersList",
+          "traits": {
+            "smithy.api#documentation": "List of partners on current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of partners returned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#Partner": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the partner. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the partner."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the partner."
+          }
+        },
+        "contact_email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Contact email address of partner."
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image URL of the partner's logo."
+          }
+        },
+        "portal_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the partner's portal."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the partner. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the partner. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "l3_connectivity": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the partner supports L3 connectivity."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the partner."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListPartnersResponsePartnersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.interlink_v1beta1#Partner"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of partners on current page."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListPartners": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#ListPartnersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#ListPartnersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/partners",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List available partners\n\nList all available partners. By default, the partners returned in the list are ordered by name in ascending order, though this can be modified via the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "partners",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetPartnerRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#GetPartnerRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#GetPartnerRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "partner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of partner to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetPartner": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#GetPartnerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Partner"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/partners/{partner_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a partner\n\nGet a partner for the given partner IP. The response object includes information such as the partner's name, email address and portal URL."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListPopsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListPopsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListPopsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#ListPopsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.interlink_v1beta1#ListPopsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of PoPs to return per page."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "PoP name to filter for."
+          }
+        },
+        "hosting_provider_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hosting_provider_name",
+            "smithy.api#documentation": "Hosting provider name to filter for."
+          }
+        },
+        "partner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "partner_id",
+            "smithy.api#documentation": "Filter for PoPs hosting an available shared connection from this partner. (UUID format)"
+          }
+        },
+        "link_bandwidth_mbps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "link_bandwidth_mbps",
+            "smithy.api#documentation": "Filter for PoPs with a connection allowing this bandwidth size. Note that we cannot guarantee that PoPs returned will have available capacity."
+          }
+        },
+        "dedicated_available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "dedicated_available",
+            "smithy.api#documentation": "Filter for PoPs with a dedicated connection available for self-hosted links."
+          }
+        },
+        "l3_connectivity_partners": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "l3_connectivity_partners",
+            "smithy.api#documentation": "Filter for PoPs with a shared connection available from a partner supporting L3 connectivity."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListPopsResponse": {
+      "type": "structure",
+      "members": {
+        "pops": {
+          "target": "com.scaleway.interlink_v1beta1#ListPopsResponsePopsList",
+          "traits": {
+            "smithy.api#documentation": "List of PoPs on the current page."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of PoPs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#Pop": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the PoP. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the pop."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the PoP. It is the common reference of Hosting DC (ex: TH2)."
+          }
+        },
+        "hosting_provider_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the PoP's hosting provider, e.g. Telehouse for TH2 or OpCore for DC3."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Physical address of the PoP."
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City where PoP is located."
+          }
+        },
+        "logo_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image URL of the PoP's logo."
+          }
+        },
+        "available_link_bandwidths_mbps": {
+          "target": "com.scaleway.interlink_v1beta1#PopAvailableLinkBandwidthsMbpsList",
+          "traits": {
+            "smithy.api#documentation": "Available bandwidth in Mbits/s for future hosted links from available connections in this PoP."
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pretty name of the PoP. Includes name, hosting provider and location information (ex: Paris - TeleHouse TH2)."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the PoP."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#PopAvailableLinkBandwidthsMbpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available bandwidth in Mbits/s for future hosted links from available connections in this PoP."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListPopsResponsePopsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.interlink_v1beta1#Pop"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of PoPs on the current page."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListPops": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#ListPopsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#ListPopsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/pops",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List PoPs\n\nList all available PoPs (locations) for a given region. By default, the results are returned in ascending alphabetical order by name.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "pops",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetPopRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#GetPopRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#GetPopRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "pop_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of PoP to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetPop": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#GetPopRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#Pop"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/pops/{pop_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a PoP\n\nGet a PoP for the given PoP ID. The response object includes the PoP's name and information about its physical location."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListRoutingPoliciesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListRoutingPoliciesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListRoutingPoliciesRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListRoutingPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#ListRoutingPoliciesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.interlink_v1beta1#ListRoutingPoliciesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of routing policies to return per page."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to filter for. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Organization ID to filter for. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Routing policy name to filter for."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#ListRoutingPoliciesRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Tags to filter for."
+          }
+        },
+        "ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "ipv6",
+            "smithy.api#documentation": "Filter for the routing policies based on IP prefixes version."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListRoutingPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "routing_policies": {
+          "target": "com.scaleway.interlink_v1beta1#ListRoutingPoliciesResponseRoutingPoliciesList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#RoutingPolicy": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the routing policy. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the routing policy."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the routing policy."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#RoutingPolicyTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags associated with the routing policy."
+          }
+        },
+        "prefix_filter_in": {
+          "target": "com.scaleway.interlink_v1beta1#RoutingPolicyPrefixFilterInList",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept). (IP network)"
+          }
+        },
+        "prefix_filter_out": {
+          "target": "com.scaleway.interlink_v1beta1#RoutingPolicyPrefixFilterOutList",
+          "traits": {
+            "smithy.api#documentation": "IP prefix filters to advertise to the peer (ranges of routes to advertise). (IP network)"
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the routing policy. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification date of the routing policy. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes version of the routing policy."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the routing policy."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#RoutingPolicyTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags associated with the routing policy."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#RoutingPolicyPrefixFilterInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept). (IP network)"
+      }
+    },
+    "com.scaleway.interlink_v1beta1#RoutingPolicyPrefixFilterOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefix filters to advertise to the peer (ranges of routes to advertise). (IP network)"
+      }
+    },
+    "com.scaleway.interlink_v1beta1#ListRoutingPoliciesResponseRoutingPoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.interlink_v1beta1#RoutingPolicy"
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#ListRoutingPolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#ListRoutingPoliciesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#ListRoutingPoliciesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/routing-policies",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List routing policies\n\nList all routing policies in a given region. A routing policy can be attached to one or multiple links (InterLink connections).",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "routing_policies",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the routing policy."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequestPrefixFilterInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept). (IP network)"
+      }
+    },
+    "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequestPrefixFilterOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefix filters to advertise to the peer (ranges of routes to advertise). (IP network)"
+      }
+    },
+    "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Project to create the routing policy in. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the routing policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the routing policy."
+          }
+        },
+        "prefix_filter_in": {
+          "target": "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequestPrefixFilterInList",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept). (IP network)"
+          }
+        },
+        "prefix_filter_out": {
+          "target": "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequestPrefixFilterOutList",
+          "traits": {
+            "smithy.api#documentation": "IP prefix filters to advertise to the peer (ranges of routes to advertise). (IP network)"
+          }
+        },
+        "is_ipv6": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes version of the routing policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#CreateRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#CreateRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#RoutingPolicy"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/interlink/v1beta1/regions/{region}/routing-policies",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a routing policy\n\nCreate a routing policy. Routing policies allow you to set IP prefix filters to define the incoming route announcements to accept from the peer, and the outgoing routes to announce to the peer."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#GetRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#GetRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the routing policy to get. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#GetRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#GetRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#RoutingPolicy"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/interlink/v1beta1/regions/{region}/routing-policies/{routing_policy_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get routing policy\n\nGet a routing policy for the given routing policy ID. The response object gives information including the policy's name, tags and prefix filters."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags to apply to the routing policy."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequestPrefixFilterInList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept)."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequestPrefixFilterOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "IP prefix filters for routes to advertise to the peer (ranges of routes to advertise)."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the routing policy to update. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the routing policy.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags to apply to the routing policy.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prefix_filter_in": {
+          "target": "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequestPrefixFilterInList",
+          "traits": {
+            "smithy.api#documentation": "IP prefixes to accept from the peer (ranges of route announcements to accept).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prefix_filter_out": {
+          "target": "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequestPrefixFilterOutList",
+          "traits": {
+            "smithy.api#documentation": "IP prefix filters for routes to advertise to the peer (ranges of routes to advertise).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#UpdateRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#UpdateRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "com.scaleway.interlink_v1beta1#RoutingPolicy"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/interlink/v1beta1/regions/{region}/routing-policies/{routing_policy_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a routing policy\n\nUpdate an existing routing policy, specified by its routing policy ID. Its name, tags and incoming/outgoing prefix filters can be updated."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DeleteRoutingPolicyRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "IT_MIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "it-mil"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.interlink_v1beta1#DeleteRoutingPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.interlink_v1beta1#DeleteRoutingPolicyRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "routing_policy_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the routing policy to delete. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.interlink_v1beta1#DeleteRoutingPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.interlink_v1beta1#DeleteRoutingPolicyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/interlink/v1beta1/regions/{region}/routing-policies/{routing_policy_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a routing policy\n\nDelete an existing routing policy, specified by its routing policy ID."
+      }
+    },
+    "com.scaleway.interlink_v1beta1#InterlinkV1beta1": {
+      "type": "service",
+      "version": "v1beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.interlink_v1beta1#ListDedicatedConnections"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#GetDedicatedConnection"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#ListLinks"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#CreateLink"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#GetLink"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#UpdateLink"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#DeleteLink"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#AttachRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#AttachVpc"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#DetachRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#DetachVpc"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#DisableRoutePropagation"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#EnableRoutePropagation"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#SetRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#ListPartners"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#GetPartner"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#ListPops"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#GetPop"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#ListRoutingPolicies"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#CreateRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#GetRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#UpdateRoutingPolicy"
+        },
+        {
+          "target": "com.scaleway.interlink_v1beta1#DeleteRoutingPolicy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "InterLink API",
+        "smithy.api#documentation": "Scaleway InterLink connects your infrastructure (on-premise, in a private cloud, or in another public cloud) with your Scaleway VPC\n\nThis connection bypasses the public internet, offering more reliable, low-latency and secure connectivity compared to typical internet-based VPNs.\n\nTo simplify and streamline the processes of establishing a physical connection between our networks, we have pre-selected a set of network providers (later called Partners) with direct-connectivity in our datacenters. By choosing the datacenter location (also called PoP - Point Of Presence) where both you and the partner are present, you will re-use existing connectivity with Scaleway while still having layer 2 isolation to your VPC with guaranteed bandwidth (from 100Mbps up to 25Gbps depending on location). This **Hosted Link** setup is fully automated and BGP sessions can be set up in a few minutes.\n\nOnce connection is established with your VPC, Interlink allows you control BGP route propagation: you can fine tune which IPv4 or IPv6 prefixes are allowed to flow.\n\nFor more advanced use cases, we also provide **Self-Hosted Links**, where the whole physical connection is dedicated to one customer. The customer can then use this connection to create one or many links for themselves (logical InterLink resources).\n\n## Concepts\n\n### PoP\n\nA Point Of Presence (also known as a \"PoP\", or \"location\"), is a datacenter location where a InterLink connection is available. They are facilitated by partners, providing the means for a customer to create an InterLink.\n\n### Link\n\nA link is the logical InterLink resource, representing a BGP peering session. It comes in two flavors :\n\n- **Hosted Links** use a pre-established physical connection between the Partner router and a Scaleway InterLink switch. Create a **Hosted Link** by selecting a Partner already present in the PoP where you want connectivity.\n- **Self-Hosted Links** require a **Dedicated Connection** between a customer router and a Scaleway Interlink switch. The whole bandwidth of the physical connection can then be used by this single customer. They can create one or many **Self-Hosted Links** using this dedicated connection.\n\n### Partner\n\nA partner is a third-party service provider who facilitates a connection between the customer's infrastructure and their Scaleway VPC, allowing customers to create hosted InterLinks. Providers may support L3 connectivity (the Partner propagates the exchanged routes from and to the end customer's routers using MPLS, VXLAN or SRV6) or only basic L2 connectivity.\n\nIf you are a Network Service Provider and want to provide connectivity services through Scaleway's InterLink, please [contact us](https://www.scaleway.com/en/contact/).\n\n## Dedicated Connection\n\nA dedicated connection represents the physical connection between the network equipment of a customer and that of Scaleway, where both are located in the same datacenter. Establishing a dedicated connection requires manual intervention and approval (through Letter Of Authorization) on both sides. Please contact your sales representative to purchase a dedicated connection. In the future, we will provide an automated workflow for this process.\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/interlink/concepts/) to find definitions of all InterLink-related terminology.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the InterLink API.\n   </Message>\n\n   ```bash\n   export SCW_SECRET_KEY=\"<API secret key>\"\n   export SCW_DEFAULT_REGION=\"<Scaleway default region>\"\n   export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n   export SCW_PARTNER_ID=\"<Scaleway Partner ID>\"\n   export SCW_POP_ID=\"<Scaleway PoP ID>\"\n   ```\n\n2. **Create a Link**: run the following command to create a Link. You can customize the details in the payload to your needs, using the table below to help.\n\n   Just after creation, links have a status of **Configuring** while we set up infrastructure on the Scaleway side. A few moments later, the status lands on **Requested** and will require partner approval and configuration before being **Active**. See our [dedicated documentation](https://www.scaleway.com/en/docs/interlink/reference-content/provisioning/) for full information on the provisioning process, including steps you as the user need to take to complete provisioning.\n\n   ```bash\n   curl -X POST \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     -H \"Content-Type: application/json\" \\\n     \"https://api.scaleway.com/interlink/v1beta1/regions/$SCW_DEFAULT_REGION/links\" \\\n     -d '{\n       \"project_id\":\"'\"$SCW_PROJECT_ID\"'\",\n       \"partner_id\":\"'\"$SCW_PARTNER_ID\"'\",\n       \"pop_id\":\"'\"$SCW_POP_ID\"'\",\n       \"bandwidth_mbps\": \"100\",\n       \"name\": \"My Hosted Link\",\n       \"tags\": [\"test\", \"another tag\"]\n     }'\n   ```\n\n\n3. **Get a list of your Links**: run the following command to get a list of all the links in your account, with their details:\n\n   ```bash\n   curl -X GET \\\n     -H \"Content-Type: application/json\" \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     \"https://api.scaleway.com/interlink/v1beta1/regions/$SCW_DEFAULT_REGION/links\" \\\n   ```\n\n4. **Configure your Link**: When your link has been provisioned and has **active** status, you must attach it to a VPC, create and attach a routing policy, and enable route propagation. Only when these steps are completed can traffic flow across your InterLink.\n\n   Refer to the [documentation](https://www.scaleway.com/en/docs/interlink/) for help with these steps if necessary.\n\n5. **Delete your Link**: run the following command to delete a link. Ensure that you replace `{link-id}` in the URL with the ID of the link you want to delete.\n\n   Note that as well as deleting the link here on the Scaleway side, it is also necessary to request deletion from the partner on their side. Only when this action has been carried out on both sides will the resource be completely deleted.\n\n   ```bash\n   curl -X DELETE \\\n     -H \"Content-Type: application/json\" \\\n     -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n     \"https://api.scaleway.com/interlink/v1beta1/regions/$SCW_DEFAULT_REGION/links/{link-id}\"\n   ```\n\n<Message type=\"requirement\">\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n  </Message>\n\n## Technical information\n\n- IP routing information between your infrastructure & your VPC is propagated using BGP, so be sure to allow incoming BGP routes from the configured Scaleway peer to be installed on your side. By default, our Interlink switches blocks all routes from being propagated. You must manually attach a routing policy and enable route propagation to remove this safety net (see step 4 of the Quickstart above).\n\n### Regions\n\nThe Scaleway Interlink API is a **regional** API, meaning that each call must specify in its path parameters the Region for the resources concerned by the call.\n\nThe following Regions are available for Interlink:\n\n\n## Going further\n\nFor more help using Scaleway InterLink, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/interlink/)\n- The `#virtual-private-cloud` channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

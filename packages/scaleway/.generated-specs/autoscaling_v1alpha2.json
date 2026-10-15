@@ -1,0 +1,2136 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.autoscaling_v1alpha2#ListAlertsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListAlertsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListAlertsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "group_id",
+            "smithy.api#documentation": "Instance group ID to list alerts for. One-of `scope`: at most one of `group_id`, `project_id`."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID to list alerts for. One-of `scope`: at most one of `group_id`, `project_id`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListAlertsResponse": {
+      "type": "structure",
+      "members": {
+        "alerts": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListAlertsResponseAlertsList",
+          "traits": {
+            "smithy.api#documentation": "List of alerts."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of alerts."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#Alert": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.autoscaling_v1alpha2#AlertAlertType",
+          "traits": {
+            "smithy.api#documentation": "Type of alert."
+          }
+        },
+        "opened_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the alert was opened. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "closed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional timestamp when the alert was closed. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the group."
+          }
+        },
+        "failing_quotas": {
+          "target": "com.scaleway.autoscaling_v1alpha2#AlertFailingQuotasList",
+          "traits": {
+            "smithy.api#documentation": "List of quota names that are exceeded (for quotas_exceeded alerts)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#AlertAlertType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ALERT_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_alert_type"
+          }
+        },
+        "QUOTAS_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quotas_exceeded"
+          }
+        },
+        "OUT_OF_STOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "out_of_stock"
+          }
+        },
+        "INVALID_TEMPLATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid_template"
+          }
+        },
+        "TEMPLATE_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "template_not_found"
+          }
+        },
+        "INVALID_INSTANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid_instance"
+          }
+        },
+        "TEMPLATE_PERMISSIONS_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "template_permissions_denied"
+          }
+        },
+        "LOAD_BALANCER_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "load_balancer_not_found"
+          }
+        },
+        "LOAD_BALANCER_PERMISSIONS_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "load_balancer_permissions_denied"
+          }
+        },
+        "BACKEND_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backend_not_found"
+          }
+        },
+        "BACKEND_PERMISSIONS_DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backend_permissions_denied"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#AlertFailingQuotasList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of quota names that are exceeded (for quotas_exceeded alerts)."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListAlertsResponseAlertsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Alert"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of alerts."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListAlerts": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#ListAlertsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#ListAlertsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/alerts",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List autoscaling group alerts\n\nList active and historical alerts for a specified autoscaling group.",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "alerts",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListGroupsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListGroupsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListGroupsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListGroupsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order criteria for listing groups."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Page size for pagination."
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token",
+            "smithy.api#documentation": "Token for pagination."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID to filter groups."
+          }
+        },
+        "template_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "template_id",
+            "smithy.api#documentation": "Template ID to filter groups."
+          }
+        },
+        "load_balancer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "load_balancer_id",
+            "smithy.api#documentation": "Load balancer ID to filter groups."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "group_summaries": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListGroupsResponseGroupSummariesList",
+          "traits": {
+            "smithy.api#documentation": "List of group summaries."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of groups."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupSummary": {
+      "type": "structure",
+      "members": {
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the Autoscaling Group."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID owning this group."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the autoscaling group."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the autoscaling group."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupSummaryTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the group."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupGroupStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the autoscaling group."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the group. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp of the group. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "template_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Instance template ID used to create instances in this group."
+          }
+        },
+        "load_balancer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional load balancer ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Current number of instances in the group."
+          }
+        },
+        "latest_open_alert": {
+          "target": "com.scaleway.autoscaling_v1alpha2#Alert",
+          "traits": {
+            "smithy.api#documentation": "Most recent active alert if any."
+          }
+        },
+        "minimum_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum number of instances in the group."
+          }
+        },
+        "maximum_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of instances in the group."
+          }
+        },
+        "scaling_policy_target_type": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupSummaryScalingPolicyTargetType",
+          "traits": {
+            "smithy.api#documentation": "Defines which metric the group uses for scaling (cpu, memory, or fixed size)."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Availability zone of the group."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupSummaryTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the group."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupGroupStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_GROUP_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_group_status"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "SCALING_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaling_out"
+          }
+        },
+        "SCALING_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaling_in"
+          }
+        },
+        "REFRESHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "refreshing"
+          }
+        },
+        "HEALING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "healing"
+          }
+        },
+        "SCALING_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaling_failure"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupSummaryScalingPolicyTargetType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SCALING_POLICY_TARGET_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_scaling_policy_target_type"
+          }
+        },
+        "FIXED_SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fixed_size"
+          }
+        },
+        "CPU_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu_target"
+          }
+        },
+        "MEMORY_TARGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memory_target"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListGroupsResponseGroupSummariesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.autoscaling_v1alpha2#GroupSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of group summaries."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#ListGroupsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#ListGroupsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/groups",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List autoscaling groups\n\nList all autoscaling groups in a project.",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "group_summaries",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#CreateGroupRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#CreateGroupRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the group."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ScalingPolicySpec": {
+      "type": "structure",
+      "members": {
+        "minimum_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of instances in the group.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maximum_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of instances in the group.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scale_out_cooldown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cooldown period after a scale out event. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scale_in_cooldown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cooldown period after a scale in event. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scale_in_step": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of instances to remove in a single scale in event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scale_out_step": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of instances to add in a single scale out event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fixed_size": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyFixedSize",
+          "traits": {
+            "smithy.api#documentation": "Fixed size scaling policy configuration.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_target": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyCpuTarget",
+          "traits": {
+            "smithy.api#documentation": "CPU target scaling policy configuration.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "memory_target": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyMemoryTarget",
+          "traits": {
+            "smithy.api#documentation": "Memory target scaling policy configuration.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyFixedSize": {
+      "type": "structure",
+      "members": {
+        "size": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyCpuTarget": {
+      "type": "structure",
+      "members": {
+        "target_avg_percent": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyMemoryTarget": {
+      "type": "structure",
+      "members": {
+        "target_avg_percent": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpec": {
+      "type": "structure",
+      "members": {
+        "load_balancer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the load balancer (set to empty to disable).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "backends": {
+          "target": "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpecBackendsList",
+          "traits": {
+            "smithy.api#documentation": "List of load balancer backend configurations."
+          }
+        },
+        "auto_healing": {
+          "target": "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpecAutoHealing",
+          "traits": {
+            "smithy.api#documentation": "Auto-healing configuration."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpecBackend": {
+      "type": "structure",
+      "members": {
+        "backend_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the load balancer backend."
+          }
+        },
+        "address_family": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationBackendAddressFamily",
+          "traits": {
+            "smithy.api#documentation": "IP address family (IPv4 or IPv6)."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional private network ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationBackendAddressFamily": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ADDRESS_FAMILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_address_family"
+          }
+        },
+        "IPV4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipv4"
+          }
+        },
+        "IPV6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipv6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpecBackendsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpecBackend"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of load balancer backend configurations."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpecAutoHealing": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether auto-healing is enabled.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "grace_period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Grace period for health checks. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#CreateGroupRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#CreateGroupRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID to create the group in."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the autoscaling group."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.autoscaling_v1alpha2#CreateGroupRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the group."
+          }
+        },
+        "template_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Template ID for instances in this group."
+          }
+        },
+        "scaling_policy_spec": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ScalingPolicySpec",
+          "traits": {
+            "smithy.api#documentation": "Scaling policy configuration."
+          }
+        },
+        "load_balancer_configuration_spec": {
+          "target": "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpec",
+          "traits": {
+            "smithy.api#documentation": "Optional load balancer configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#Group": {
+      "type": "structure",
+      "members": {
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the Autoscaling Group."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the autoscaling group."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID owning this group."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the autoscaling group."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the group."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the group. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp of the group. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupGroupStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the autoscaling group."
+          }
+        },
+        "open_alerts": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupOpenAlertsList",
+          "traits": {
+            "smithy.api#documentation": "List of active alerts on the group."
+          }
+        },
+        "current_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Current number of instances in the group."
+          }
+        },
+        "target_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Target number of instances the group is scaling to."
+          }
+        },
+        "last_scale_out_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the last scale out event. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_scale_in_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the last scale in event. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "template_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Instance template ID used to create instances in this group."
+          }
+        },
+        "scaling_policy": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicy",
+          "traits": {
+            "smithy.api#documentation": "Scaling policy configuration."
+          }
+        },
+        "load_balancer_configuration": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Optional load balancer configuration."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone of the Autoscaling Group."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the group."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupOpenAlertsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Alert"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of active alerts on the group."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicy": {
+      "type": "structure",
+      "members": {
+        "minimum_size": {
+          "target": "smithy.api#Integer"
+        },
+        "maximum_size": {
+          "target": "smithy.api#Integer"
+        },
+        "scale_out_cooldown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scale_in_cooldown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scale_in_step": {
+          "target": "smithy.api#Integer"
+        },
+        "scale_out_step": {
+          "target": "smithy.api#Integer"
+        },
+        "fixed_size": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyFixedSize",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpu_target": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyCpuTarget",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "memory_target": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupScalingPolicyScalingPolicyMemoryTarget",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfiguration": {
+      "type": "structure",
+      "members": {
+        "load_balancer_id": {
+          "target": "smithy.api#String"
+        },
+        "backends": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationBackendsList"
+        },
+        "auto_healing": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationAutoHealing"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationBackend": {
+      "type": "structure",
+      "members": {
+        "backend_id": {
+          "target": "smithy.api#String"
+        },
+        "address_family": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationBackendAddressFamily"
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationBackendsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationBackend"
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GroupLoadBalancerConfigurationAutoHealing": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "grace_period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#CreateGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#CreateGroupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Group"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/groups",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create an autoscaling group\n\nCreate a new autoscaling group with the specified configuration\nincluding template, scaling policy, and optional load balancer\nsettings."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#GetGroupRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#GetGroupRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#GetGroupRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the group to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#GetGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#GetGroupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Group"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/groups/{group_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an autoscaling group\n\nGet details of a specified autoscaling group including its\nconfiguration, current size, and status."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#UpdateGroupRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#UpdateGroupRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "New tags for the group."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#UpdateGroupRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#UpdateGroupRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the group to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the group.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.autoscaling_v1alpha2#UpdateGroupRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "New tags for the group.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "template_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New template ID for instances.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scaling_policy_spec": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ScalingPolicySpec",
+          "traits": {
+            "smithy.api#documentation": "New scaling policy configuration."
+          }
+        },
+        "load_balancer_configuration_spec": {
+          "target": "com.scaleway.autoscaling_v1alpha2#LoadBalancerConfigurationSpec",
+          "traits": {
+            "smithy.api#documentation": "New load balancer configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#UpdateGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#UpdateGroupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Group"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/groups/{group_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an autoscaling group\n\nUpdate the configuration of a specified autoscaling group including\nname, tags, template, scaling policy, and load balancer settings."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#DeleteGroupRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#DeleteGroupRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#DeleteGroupRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the group to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#DeleteGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#DeleteGroupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Group"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/groups/{group_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an autoscaling group\n\nDelete a specified autoscaling group and all its associated\nresources."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#RefreshGroupRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#RefreshGroupRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#RefreshGroupRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#RefreshGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#RefreshGroupRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Group"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/groups/{group_id}/refresh",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Refresh an autoscaling group\n\nThis will replace all the instances of the group.\nIts main use case is applying changes if the instance template has been updated."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListLogsRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListLogsRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListLogsRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "group_id",
+            "smithy.api#required": {}
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_time",
+            "smithy.api#documentation": "(RFC 3339 format)"
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end_time",
+            "smithy.api#documentation": "(RFC 3339 format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListLogsResponse": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListLogsResponseLogsList",
+          "traits": {
+            "smithy.api#documentation": "List of log entries."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of logs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#Log": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the log entry. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "level": {
+          "target": "com.scaleway.autoscaling_v1alpha2#LogLogLevel",
+          "traits": {
+            "smithy.api#documentation": "Log level (info, warning, error)."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Log message content."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#LogLogLevel": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_LOG_LEVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_log_level"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warning"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListLogsResponseLogsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Log"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of log entries."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#ListLogsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#ListLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/logs",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List autoscaling group logs\n\nList logs for a specified autoscaling group to view scaling events\nand activities.",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "logs",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListServersRequestZone": {
+      "type": "enum",
+      "members": {
+        "FR_PAR_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-1"
+          }
+        },
+        "FR_PAR_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-2"
+          }
+        },
+        "FR_PAR_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par-3"
+          }
+        },
+        "NL_AMS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-1"
+          }
+        },
+        "NL_AMS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-2"
+          }
+        },
+        "NL_AMS_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams-3"
+          }
+        },
+        "PL_WAW_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-1"
+          }
+        },
+        "PL_WAW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-2"
+          }
+        },
+        "PL_WAW_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw-3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListServersRequest": {
+      "type": "structure",
+      "members": {
+        "zone": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListServersRequestZone",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "group_id",
+            "smithy.api#required": {}
+          }
+        },
+        "page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "page_token"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListServersResponse": {
+      "type": "structure",
+      "members": {
+        "servers": {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListServersResponseServersList",
+          "traits": {
+            "smithy.api#documentation": "List of servers."
+          }
+        },
+        "next_page_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of servers."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#Server": {
+      "type": "structure",
+      "members": {
+        "server_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the instance server."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListServersResponseServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.autoscaling_v1alpha2#Server"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of servers."
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#ListServers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.autoscaling_v1alpha2#ListServersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.autoscaling_v1alpha2#ListServersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/autoscaling/v1alpha2/zones/{zone}/servers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List autoscaling group servers\n\nList all Instances belonging to a specified autoscaling group.",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "page_token",
+          "outputToken": "next_page_token",
+          "items": "servers",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.autoscaling_v1alpha2#AutoscalingV1alpha2": {
+      "type": "service",
+      "version": "v1alpha2",
+      "operations": [
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListAlerts"
+        },
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListGroups"
+        },
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#CreateGroup"
+        },
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#GetGroup"
+        },
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#UpdateGroup"
+        },
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#DeleteGroup"
+        },
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#RefreshGroup"
+        },
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListLogs"
+        },
+        {
+          "target": "com.scaleway.autoscaling_v1alpha2#ListServers"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Autoscaling Groups API",
+        "smithy.api#documentation": "Instance Autoscaling Groups dynamically adjust their number of Instances based on defined scaling policies. Scaling actions (scaling-out or scaling-in) are triggered when the monitored metric exceeds the configured thresholds from your policies. Instance Autoscaling Groups rely on the Cockpit product to gather the Instance metrics, such as RAM or CPU usage. If a Scaleway Load Balancer is configured in the Instances Autoscaling Group, the Load Balancer will automatically be updated on scaling-out and scaling-in actions so that connections are properly distributed among the active set of Instances. You may also configure the Autoscaling Group to re-cycle Instances that appear as un-healthy by the Load Balancer.\n\nThe purpose of this product is to maintain optimal application performance and cost efficiency by scaling your Instance group up during peak traffic and scaling it down when demand decreases. This ensures that applications have the necessary resources to handle varying loads without manual intervention, providing high availability and fault tolerance. Instance Scaling Groups are particularly useful for dynamic workloads, enabling businesses to optimize resource usage and reduce operational overhead.\n\n<Message type=\"note\">\nThis product is currently in [Private Beta](https://www.scaleway.com/en/betas/).\n</Message>\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Instance Scaling Groups API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_ZONE=\"<Scaleway default Availability Zone>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Create an Instance Template**: run the following command to create an Instance Template using the Instances API. The created template will be used by the group during scaling to start new Instances, according to the given settings.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/instance/v2alpha1/zones/$SCW_DEFAULT_ZONE/templates\" \\\n      -d '{\n        \"name\": \"my_template\",\n        \"server_type\": \"PLAY2-NANO\",\n        \"volumes\": [\n            {\n              \"name\": \"boot volume\",\n              \"image_label\": \"ubuntu_noble\",\n              \"volume_type\": \"sbs\"\n            }\n        ],\n        \"private_networks\": [\n            {\n              \"private_network_id\": \"<PRIVATE_NETWORK_ID>\"\n            }\n        ],\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\"\n      }'\n    ```\n\n3. **Create an Autoscaling Group**: run the following command to create an Instance Autoscaling group. You may have already configured a Load Balancer, so that the Instance group can update its backend servers list during scaling actions.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      \"https://api.scaleway.com/autoscaling/v1alpha2/zones/$SCW_DEFAULT_ZONE/groups\" \\\n      -d '{\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"name\": \"my_autoscaling_group\",\n        \"template_id\": \"<INSTANCE_TEMPLATE_ID>\",\n        \"scaling_policy_spec\": {\n          \"minimum_size\": 2,\n          \"maximum_size\": 8,\n          \"cpu_target\": {\n            \"target_avg_percent\": 30\n          }\n        },\n        \"load_balancer_configuration_spec\":{\n          \"load_balancer_id\": \"<LOAD_BALANCER_ID>\",\n          \"auto_healing\": {\n            \"enabled\": true,\n            \"grace_period\": \"300s\"\n          },\n          \"backends\": [\n            {\n              \"backend_id\": \"<BACKEND_ID>\",\n              \"address_family\": \"ipv4\",\n              \"private_network_id\": \"<PRIVATE_NETWORK_ID>\"\n            }\n          ]\n        }\n      }'\n    ```\n\n4. **Get the Autoscaling Group logs**: run the following command to get the logs for the given Instance Autoscaling Group:\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/autoscaling/v1alpha2/zones/$SCW_DEFAULT_ZONE/logs?group_id=<AUTOSCALING_GROUP_ID>\"\n    ```\n\n5. **Get a list of scaling alerts**: run the following command to get a list of all the alerts which occurred for the given Instance Autoscaling Group:\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/autoscaling/v1alpha2/zones/$SCW_DEFAULT_ZONE/alerts?group_id=<AUTOSCALING_GROUP_ID>\"\n\n6. **Get a list of active instances**: run the following command to get a list of all the instances managed by the given Instance Autoscaling Group:\n\n    ```bash\n    curl -X GET \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/autoscaling/v1alpha2/zones/$SCW_DEFAULT_ZONE/servers?group_id=<AUTOSCALING_GROUP_ID>\"\n    ```\n\n7. **Delete your Instance Autoscaling Group**: run the following command to delete an Instance Autoscaling Group:\n\n    ```bash\n    curl -X DELETE \\\n      -H \"Content-Type: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      \"https://api.scaleway.com/autoscaling/v1alpha2/zones/$SCW_DEFAULT_ZONE/servers?group_id=<AUTOSCALING_GROUP_ID>\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n</Message>\n\n## Technical information\n\nInstance Scaling Groups rely on the [Cockpit](https://www.scaleway.com/en/docs/cockpit/) product to gather metrics and take scaling actions based on defined policies.\n\n### Availability Zones\n\nThe Scaleway Instance Scaling Groups API is a **zoned** API, meaning that each call must specify in its path parameters the Availability Zone for the resources concerned by the call.\n\nThe following Availability Zones are available for Instance Scaling Groups:\n\n\n### IAM Managed Application\n\nInstance Autoscaling Group needs to take actions on behalf of the user, to create resources (Instances, Block volumes, Ipam addresses, Observability tokens), delete them, or update existing resources (Load Balancers, Private Networks). When an Instance Autoscaling Group is created, an IAM managed Application is created with the following permission sets, scoped on the same project as the group itself:\n\n- BlockStorageFullAccess (to create and delete block volumes for the instances)\n- FileStorageFullAccess (to create instances with filesystems attached)\n- IPAMReadOnly (to read network information from the instances)\n- InstancesFullAccess (to operate the instances)\n- LoadBalancersFullAccess (to monitor and update LB backends)\n- ObservabilityFullAccess (to create cockpit tokens)\n- PrivateNetworksFullAccess (to use VPC Private Networks inside the instances)\n\n### Cockpit token\n\nInstance Autoscaling Group need to query the managed Instances metrics, to take scale-out or scale-in decisions. Managed tokens will be created in the Cockpit product with access level \"Query metrics\" to access the required metrics.\n\n## Technical limitations\n\n- When you update an Instance template, changes are not replicated to existing Instances. If you need to refresh all existing Instances so that they comply with the new template, you must terminate them so that the group can create new Instances based on the updated template.\n- Custom metrics are not supported yet. You can only set scaling policies according to RAM or CPU usage.\n- Instance Scaling Groups do not handle the creation of Load Balancers and their associated backends. Only backend server updates for the given existing backend are managed by the group.\n\n## Going further\n\nFor more help using Scaleway Instance Scaling Groups, check out the following resources:\n\n- Our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

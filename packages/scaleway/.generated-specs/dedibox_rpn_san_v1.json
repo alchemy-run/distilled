@@ -1,0 +1,1809 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.dedibox_rpn_san_v1#ListRpnSansRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListRpnSansRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ListRpnSansRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order of the RPN SANs."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of RPN SANs per page."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter RPN SANs by project ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListRpnSansResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total count of matching RPN SANs."
+          }
+        },
+        "rpn_sans": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ListRpnSansResponseRpnSansList",
+          "traits": {
+            "smithy.api#documentation": "List of RPN SANs that match filters."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RpnSanSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN ID."
+          }
+        },
+        "datacenter_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Datacenter location."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID."
+          }
+        },
+        "server_hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN server hostname."
+          }
+        },
+        "iqn_suffix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IQN suffix."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of creation of the RPN SAN."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Offer ID."
+          }
+        },
+        "offer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer description."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanStatus",
+          "traits": {
+            "smithy.api#documentation": "Status."
+          }
+        },
+        "storage_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN storage size."
+          }
+        },
+        "rpnv1_compatible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the SAN is compatible with the RPNv1 technology."
+          }
+        },
+        "rpnv1_implicit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the offer supports the RPNv1 implicitly, false if it must to be added to a group to support RPNv1."
+          }
+        },
+        "delivered_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN delivery date."
+          }
+        },
+        "terminated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN termination date."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN expiration date."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RpnSanStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "MAINTENANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "maintenance"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListRpnSansResponseRpnSansList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of RPN SANs that match filters."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListRpnSans": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#ListRpnSansRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#ListRpnSansResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/rpn-sans",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnSanAPI.listRpnSans`): Scaleway publishes no OpenAPI document for this route.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "rpn_sans",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#CreateRpnSanRequest": {
+      "type": "structure",
+      "members": {
+        "offer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Offer ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your project ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#Service": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ID of the service."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Resource ID of the service."
+          }
+        },
+        "provisioning_status": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ServiceProvisioningStatus",
+          "traits": {
+            "smithy.api#documentation": "Provisioning status of the service."
+          }
+        },
+        "offer": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#Offer",
+          "traits": {
+            "smithy.api#documentation": "Offer of the service."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the service."
+          }
+        },
+        "delivered_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Delivery date of the service."
+          }
+        },
+        "terminated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Terminatation date of the service."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of the service."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ServiceType",
+          "traits": {
+            "smithy.api#documentation": "Service type, either order or service."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ServiceProvisioningStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "DELIVERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delivering"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "EXPIRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expiring"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#Offer": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ID of the offer (aka product.id)."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the offer."
+          }
+        },
+        "catalog": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferCatalog",
+          "traits": {
+            "smithy.api#documentation": "Catalog of the offer."
+          }
+        },
+        "payment_frequency": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferPaymentFrequency",
+          "traits": {
+            "smithy.api#documentation": "Payment frequency of the offer."
+          }
+        },
+        "pricing": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the offer."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Original Dedibox ID of the offer."
+          }
+        },
+        "server_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfo",
+          "traits": {
+            "smithy.api#documentation": "Server info if it is a server offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "service_level_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServiceLevelInfo",
+          "traits": {
+            "smithy.api#documentation": "Service level info if it is a service level offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "rpn_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferRPNInfo",
+          "traits": {
+            "smithy.api#documentation": "RPN info if it is a RPN offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "san_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferSANInfo",
+          "traits": {
+            "smithy.api#documentation": "SAN info if it is a SAN offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "antidos_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferAntiDosInfo",
+          "traits": {
+            "smithy.api#documentation": "AntiDOS info if it is a antiDOS offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "backup_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferBackupInfo",
+          "traits": {
+            "smithy.api#documentation": "Backup info if it is a backup offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "usb_storage_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferStorageInfo",
+          "traits": {
+            "smithy.api#documentation": "USB storage info if it is a USB storage offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "storage_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferStorageInfo",
+          "traits": {
+            "smithy.api#documentation": "Storage info if it is a storage offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "license_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferLicenseInfo",
+          "traits": {
+            "smithy.api#documentation": "License info if it is a license offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "failover_ip_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferFailoverIpInfo",
+          "traits": {
+            "smithy.api#documentation": "Failover IP info if it is a failover IP offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "failover_block_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferFailoverBlockInfo",
+          "traits": {
+            "smithy.api#documentation": "Failover block info if it is a failover block offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        },
+        "bandwidth_info": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferBandwidthInfo",
+          "traits": {
+            "smithy.api#documentation": "Bandwidth info if it is a bandwidth offer.\nOne-of ('offerInfo'): at most one of 'serverInfo', 'serviceLevelInfo', 'rpnInfo', 'sanInfo', 'antidosInfo', 'backupInfo', 'usbStorageInfo', 'storageInfo', 'licenseInfo', 'failoverIpInfo', 'failoverBlockInfo', 'bandwidthInfo' could be set."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferCatalog": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "beta"
+          }
+        },
+        "RESELLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reseller"
+          }
+        },
+        "PREMIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "premium"
+          }
+        },
+        "VOLUME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "volume"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferPaymentFrequency": {
+      "type": "enum",
+      "members": {
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "ONESHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oneshot"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfo": {
+      "type": "structure",
+      "members": {
+        "bandwidth": {
+          "target": "smithy.api#Double"
+        },
+        "stock": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoStock"
+        },
+        "commercial_range": {
+          "target": "smithy.api#String"
+        },
+        "disks": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoDisksList"
+        },
+        "cpus": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoCpusList"
+        },
+        "memories": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoMemoriesList"
+        },
+        "persistent_memories": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoPersistentMemoriesList"
+        },
+        "raid_controllers": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoRaidControllersList"
+        },
+        "available_options": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoAvailableOptionsList"
+        },
+        "rpn_version": {
+          "target": "smithy.api#Double"
+        },
+        "connectivity": {
+          "target": "smithy.api#Double"
+        },
+        "onetime_fees": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#Offer"
+        },
+        "stock_by_datacenter": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoStockByDatacenterMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoStock": {
+      "type": "enum",
+      "members": {
+        "EMPTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "empty"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#Disk": {
+      "type": "structure",
+      "members": {
+        "capacity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Capacity of the disk."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ServerDiskType",
+          "traits": {
+            "smithy.api#documentation": "Type of the disk."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ServerDiskType": {
+      "type": "enum",
+      "members": {
+        "SATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sata"
+          }
+        },
+        "SSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ssd"
+          }
+        },
+        "SAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sas"
+          }
+        },
+        "SSHD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sshd"
+          }
+        },
+        "USB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "usb"
+          }
+        },
+        "NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nvme"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoDisksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#Disk"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#CPU": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of CPU."
+          }
+        },
+        "core_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of cores of the CPU."
+          }
+        },
+        "thread_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of threads of the CPU."
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Frequency of the CPU."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoCpusList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#CPU"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#Memory": {
+      "type": "structure",
+      "members": {
+        "capacity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Capacity of the memory."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#MemoryType",
+          "traits": {
+            "smithy.api#documentation": "Type of the memory."
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Frequency of the memory."
+          }
+        },
+        "is_ecc": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the memory is an error-correcting code memory."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#MemoryType": {
+      "type": "enum",
+      "members": {
+        "DDR2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ddr2"
+          }
+        },
+        "DDR3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ddr3"
+          }
+        },
+        "DDR4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ddr4"
+          }
+        },
+        "DDR5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ddr5"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoMemoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#Memory"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#PersistentMemory": {
+      "type": "structure",
+      "members": {
+        "capacity": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Capacity of the persistent memory."
+          }
+        },
+        "frequency": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Frequency of the persistent memory."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model of the persistent memory."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoPersistentMemoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#PersistentMemory"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RaidController": {
+      "type": "structure",
+      "members": {
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model of the RAID controller."
+          }
+        },
+        "raid_level": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RaidControllerRaidLevelList",
+          "traits": {
+            "smithy.api#documentation": "RAID level of the RAID controller."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RaidControllerRaidLevelList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "RAID level of the RAID controller."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoRaidControllersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#RaidController"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoAvailableOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#Offer"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoStockByDatacenterMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#OfferServerInfoStock"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServiceLevelInfo": {
+      "type": "structure",
+      "members": {
+        "support_ticket": {
+          "target": "smithy.api#Boolean"
+        },
+        "support_phone": {
+          "target": "smithy.api#Boolean"
+        },
+        "sales_support": {
+          "target": "smithy.api#Boolean"
+        },
+        "git": {
+          "target": "smithy.api#String"
+        },
+        "sla": {
+          "target": "smithy.api#Double"
+        },
+        "priority_support": {
+          "target": "smithy.api#Boolean"
+        },
+        "high_rpn_bandwidth": {
+          "target": "smithy.api#Boolean"
+        },
+        "customization": {
+          "target": "smithy.api#Boolean"
+        },
+        "antidos": {
+          "target": "smithy.api#Boolean"
+        },
+        "extra_failover_quota": {
+          "target": "smithy.api#Double"
+        },
+        "available_options": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferServiceLevelInfoAvailableOptionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferServiceLevelInfoAvailableOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#Offer"
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferRPNInfo": {
+      "type": "structure",
+      "members": {
+        "speed": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferSANInfo": {
+      "type": "structure",
+      "members": {
+        "size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "SAN size (in bytes)."
+          }
+        },
+        "ha": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "High availability offer."
+          }
+        },
+        "device_type": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferSANInfoType",
+          "traits": {
+            "smithy.api#documentation": "Type of SAN device (hdd / ssd)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferSANInfoType": {
+      "type": "enum",
+      "members": {
+        "HDD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hdd"
+          }
+        },
+        "SSD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ssd"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferAntiDosInfo": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#OfferAntiDosInfoType"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferAntiDosInfoType": {
+      "type": "enum",
+      "members": {
+        "MINIMAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimal"
+          }
+        },
+        "PREVENTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preventive"
+          }
+        },
+        "CURATIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "curative"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferBackupInfo": {
+      "type": "structure",
+      "members": {
+        "size": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferStorageInfo": {
+      "type": "structure",
+      "members": {
+        "max_quota": {
+          "target": "smithy.api#Double"
+        },
+        "size": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferLicenseInfo": {
+      "type": "structure",
+      "members": {
+        "bound_to_ip": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferFailoverIpInfo": {
+      "type": "structure",
+      "members": {
+        "onetime_fees": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#Offer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferFailoverBlockInfo": {
+      "type": "structure",
+      "members": {
+        "onetime_fees": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#Offer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#OfferBandwidthInfo": {
+      "type": "structure",
+      "members": {
+        "speed": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ServiceType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service"
+          }
+        },
+        "ORDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "order"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#CreateRpnSan": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#CreateRpnSanRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#Service"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/dedibox/v1/rpn-sans",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnSanAPI.createRpnSan`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#GetRpnSanRequest": {
+      "type": "structure",
+      "members": {
+        "rpn_san_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "RPN SAN ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RpnSan": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN ID."
+          }
+        },
+        "datacenter_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Datacenter location."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID."
+          }
+        },
+        "server_hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN server hostname."
+          }
+        },
+        "iqn_suffix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IQN suffix."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of creation of the RPN SAN."
+          }
+        },
+        "offer_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Offer ID."
+          }
+        },
+        "offer_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Offer description."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanStatus",
+          "traits": {
+            "smithy.api#documentation": "Status."
+          }
+        },
+        "storage_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN storage size."
+          }
+        },
+        "iqn": {
+          "target": "smithy.api#String"
+        },
+        "offer": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#Offer"
+        },
+        "rpnv1_compatible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the SAN is compatible with the RPNv1 technology."
+          }
+        },
+        "rpnv1_implicit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if the offer supports the RPNv1 implicitly, false if it must to be added to a group to support RPNv1."
+          }
+        },
+        "delivered_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN delivery date."
+          }
+        },
+        "terminated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN termination date."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RPN SAN expiration date."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#GetRpnSan": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#GetRpnSanRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#RpnSan"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/rpn-sans/{rpn_san_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnSanAPI.getRpnSan`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#DeleteRpnSanRequest": {
+      "type": "structure",
+      "members": {
+        "rpn_san_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "RPN SAN ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#DeleteRpnSan": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#DeleteRpnSanRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/dedibox/v1/rpn-sans/{rpn_san_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnSanAPI.deleteRpnSan`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RpnSanIpType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "SERVER_IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "server_ip"
+          }
+        },
+        "RPNV2_SUBNET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rpnv2_subnet"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListIpsRequest": {
+      "type": "structure",
+      "members": {
+        "rpn_san_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "RPN SAN ID."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanIpType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "Filter by IP type (server | rpnv2_subnet)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListIpsResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total count of authorized IPs."
+          }
+        },
+        "ips": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ListIpsResponseIpsList",
+          "traits": {
+            "smithy.api#documentation": "List of authorized IPs."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RpnSanIp": {
+      "type": "structure",
+      "members": {
+        "server": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanIpServer",
+          "traits": {
+            "smithy.api#documentation": "Basic server information behind the IP.\nOne-of ('rpnSanIp'): at most one of 'server', 'rpnv2Group' could be set."
+          }
+        },
+        "rpnv2_group": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanIpRpnV2Group",
+          "traits": {
+            "smithy.api#documentation": "Basic RPNv2 group information behind the IP.\nOne-of ('rpnSanIp'): at most one of 'server', 'rpnv2Group' could be set."
+          }
+        },
+        "ip": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#IP",
+          "traits": {
+            "smithy.api#documentation": "An IP object."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanIpType",
+          "traits": {
+            "smithy.api#documentation": "IP type (server | rpnv2_subnet)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RpnSanIpServer": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double"
+        },
+        "hostname": {
+          "target": "smithy.api#String"
+        },
+        "datacenter_name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RpnSanIpRpnV2Group": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#IP": {
+      "type": "structure",
+      "members": {
+        "ip_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "ID of the IP."
+          }
+        },
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Address of the IP."
+          }
+        },
+        "reverse": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reverse IP value."
+          }
+        },
+        "version": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#IPVersion",
+          "traits": {
+            "smithy.api#documentation": "Version of IP (v4 or v6)."
+          }
+        },
+        "cidr": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Classless InterDomain Routing notation of the IP."
+          }
+        },
+        "netmask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Network mask of IP."
+          }
+        },
+        "semantic": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#IPSemantic",
+          "traits": {
+            "smithy.api#documentation": "Semantic of IP."
+          }
+        },
+        "gateway": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gateway of IP."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#IPStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the IP."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#IPVersion": {
+      "type": "enum",
+      "members": {
+        "IPV4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipv4"
+          }
+        },
+        "IPV6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipv6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#IPSemantic": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "PROXAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "proxad"
+          }
+        },
+        "EXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ext"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        },
+        "IPMI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipmi"
+          }
+        },
+        "ADM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "adm"
+          }
+        },
+        "REDIRECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirect"
+          }
+        },
+        "MIGRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "migration"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#IPStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "BUSY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "busy"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListIpsResponseIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanIp"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of authorized IPs."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListIps": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#ListIpsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#ListIpsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/rpn-sans/{rpn_san_id}/ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnSanAPI.listIps`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#AddIpRequestIpIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of IP ID."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#AddIpRequest": {
+      "type": "structure",
+      "members": {
+        "rpn_san_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "RPN SAN ID."
+          }
+        },
+        "ip_ids": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#AddIpRequestIpIdsList",
+          "traits": {
+            "smithy.api#documentation": "An array of IP ID.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#AddIp": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#AddIpRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/dedibox/v1/rpn-sans/{rpn_san_id}/ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnSanAPI.addIp`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RemoveIpRequestIpIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of IP ID."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RemoveIpRequest": {
+      "type": "structure",
+      "members": {
+        "rpn_san_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "RPN SAN ID."
+          }
+        },
+        "ip_ids": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RemoveIpRequestIpIdsList",
+          "traits": {
+            "smithy.api#documentation": "An array of IP ID.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#RemoveIp": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#RemoveIpRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/dedibox/v1/rpn-sans/{rpn_san_id}/ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnSanAPI.removeIp`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListAvailableIpsRequest": {
+      "type": "structure",
+      "members": {
+        "rpn_san_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "RPN SAN ID."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RpnSanIpType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "Filter by IP type (server | rpnv2_subnet)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#ListAvailableIps": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#ListAvailableIpsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.dedibox_rpn_san_v1#ListIpsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/dedibox/v1/rpn-sans/{rpn_san_id}/available-ips",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Derived from scaleway-sdk-js (`RpnSanAPI.listAvailableIps`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.dedibox_rpn_san_v1#DediboxRpnSanV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ListRpnSans"
+        },
+        {
+          "target": "com.scaleway.dedibox_rpn_san_v1#CreateRpnSan"
+        },
+        {
+          "target": "com.scaleway.dedibox_rpn_san_v1#GetRpnSan"
+        },
+        {
+          "target": "com.scaleway.dedibox_rpn_san_v1#DeleteRpnSan"
+        },
+        {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ListIps"
+        },
+        {
+          "target": "com.scaleway.dedibox_rpn_san_v1#AddIp"
+        },
+        {
+          "target": "com.scaleway.dedibox_rpn_san_v1#RemoveIp"
+        },
+        {
+          "target": "com.scaleway.dedibox_rpn_san_v1#ListAvailableIps"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "scaleway.dedibox.v1.RpnSanApi (derived)",
+        "smithy.api#documentation": "Derived from scaleway/scaleway-sdk-js packages_generated/dedibox/src/v1 — the portal publishes no OpenAPI document for these routes."
+      }
+    }
+  }
+}

@@ -1,0 +1,967 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.file_v1alpha1#ListAttachmentsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#AttachmentResourceType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_RESOURCE_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_resource_type"
+          }
+        },
+        "INSTANCE_SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_server"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#ListAttachmentsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.file_v1alpha1#ListAttachmentsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "filesystem_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "filesystem_id",
+            "smithy.api#documentation": "UUID of the File Storage volume. (UUID format)"
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource_id",
+            "smithy.api#documentation": "Filter by resource ID. (UUID format)"
+          }
+        },
+        "resource_type": {
+          "target": "com.scaleway.file_v1alpha1#AttachmentResourceType",
+          "traits": {
+            "smithy.api#httpQuery": "resource_type",
+            "smithy.api#documentation": "Filter by resource type."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "zone",
+            "smithy.api#documentation": "Filter by resource zone."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (starting at 1)."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of entries per page (default: 20, max: 100)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListAttachmentsResponse": {
+      "type": "structure",
+      "members": {
+        "attachments": {
+          "target": "com.scaleway.file_v1alpha1#ListAttachmentsResponseAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "List of filesystem attachments matching the request criteria."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of filesystem attachments matching the criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#Attachment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the attachment. (UUID format)"
+          }
+        },
+        "filesystem_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the filesystem. (UUID format)"
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the attached resource. (UUID format)"
+          }
+        },
+        "resource_type": {
+          "target": "com.scaleway.file_v1alpha1#AttachmentResourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of the attached resource."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone where the resource is located.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region where the attachment is located."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the attachment."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#ListAttachmentsResponseAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.file_v1alpha1#Attachment"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of filesystem attachments matching the request criteria."
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListAttachments": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.file_v1alpha1#ListAttachmentsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.file_v1alpha1#ListAttachmentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/file/v1alpha1/regions/{region}/attachments",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List filesystems attachments\n\nList all existing attachments in a specified region.\nBy default, the attachments listed are ordered by creation date in ascending order. This can be modified using the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "attachments",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemTypesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemTypesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystemTypesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (starts at 1)."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of entries per page (default: 50, max: 100)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemTypesResponse": {
+      "type": "structure",
+      "members": {
+        "filesystem_types": {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystemTypesResponseFilesystemTypesList",
+          "traits": {
+            "smithy.api#documentation": "Returns paginated list of filesystem-types."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of file system types."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#FileSystemType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filesystem type name."
+          }
+        },
+        "filesystem_price_gb_per_hour": {
+          "target": "com.scaleway.file_v1alpha1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the filesystem billed in GB/hour."
+          }
+        },
+        "snapshot_price_gb_per_hour": {
+          "target": "com.scaleway.file_v1alpha1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price of the snapshot billed in GB/hour."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemTypesResponseFilesystemTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.file_v1alpha1#FileSystemType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Returns paginated list of filesystem-types."
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemTypes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.file_v1alpha1#ListFileSystemTypesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.file_v1alpha1#ListFileSystemTypesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/file/v1alpha1/regions/{region}/filesystem-types",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List filesystems types",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "filesystem_types",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemsRequestFilesystemIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystemsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystemsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Criteria to use when ordering the list."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Filter by project ID."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "Filter by organization ID."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (starting at 1)."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of entries per page (default: 20, max: 100)."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter the returned filesystems by their names."
+          }
+        },
+        "filesystem_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "filesystem_type",
+            "smithy.api#documentation": "Type of the filesystem."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystemsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "Filter by tags. Only filesystems with one or more matching tags will be returned."
+          }
+        },
+        "filesystem_ids": {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystemsRequestFilesystemIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "filesystem_ids",
+            "smithy.api#documentation": "Filter by filesystem IDs. Only filesystems with one or more matching IDs will be returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemsResponse": {
+      "type": "structure",
+      "members": {
+        "filesystems": {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystemsResponseFilesystemsList",
+          "traits": {
+            "smithy.api#documentation": "List of filesystems matching the request criteria."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of filesystems matching the criteria."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#FileSystem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the filesystem. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the filesystem."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Filesystem size in bytes. (in bytes)"
+          }
+        },
+        "status": {
+          "target": "com.scaleway.file_v1alpha1#FileSystemStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the filesystem (e.g. creating, available, ...)."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the project to which the filesystem belongs. (UUID format)"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the organization to which the filesystem belongs. (UUID format)"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.file_v1alpha1#FileSystemTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags assigned to the filesystem."
+          }
+        },
+        "number_of_attachments": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The current number of attachments (mounts) that the filesystem has."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region where the filesystem is located."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the filesystem. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update date of the properties of the filesystem. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filesystem_type_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the filesystem type. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the filesystem."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#FileSystemStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#FileSystemTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags assigned to the filesystem."
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystemsResponseFilesystemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.file_v1alpha1#FileSystem"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of filesystems matching the request criteria."
+      }
+    },
+    "com.scaleway.file_v1alpha1#ListFileSystems": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.file_v1alpha1#ListFileSystemsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.file_v1alpha1#ListFileSystemsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/file/v1alpha1/regions/{region}/filesystems",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all filesystems\n\nRetrieve all filesystems in the specified region. By default, the filesystems listed are ordered by creation date in ascending order. This can be modified using the `order_by` field.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "filesystems",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.file_v1alpha1#CreateFileSystemRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#CreateFileSystemRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags assigned to the filesystem."
+      }
+    },
+    "com.scaleway.file_v1alpha1#CreateFileSystemRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.file_v1alpha1#CreateFileSystemRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the filesystem.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the project the filesystem belongs to. (UUID format)",
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Filesystem size in bytes, with a granularity in GB (10^9 bytes).\nMust be compliant with the minimum (25 GB) and maximum (50 TB) allowed size.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the filesystem.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.file_v1alpha1#CreateFileSystemRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags assigned to the filesystem."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.file_v1alpha1#CreateFileSystem": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.file_v1alpha1#CreateFileSystemRequest"
+      },
+      "output": {
+        "target": "com.scaleway.file_v1alpha1#FileSystem"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/file/v1alpha1/regions/{region}/filesystems",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new filesystem\n\nTo create a new filesystem, you must specify a name, a size, and a project ID."
+      }
+    },
+    "com.scaleway.file_v1alpha1#GetFileSystemRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#GetFileSystemRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.file_v1alpha1#GetFileSystemRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "filesystem_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the filesystem. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.file_v1alpha1#GetFileSystem": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.file_v1alpha1#GetFileSystemRequest"
+      },
+      "output": {
+        "target": "com.scaleway.file_v1alpha1#FileSystem"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/file/v1alpha1/regions/{region}/filesystems/{filesystem_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get filesystem details\n\nRetrieve all properties and current status of a specific filesystem identified by its ID."
+      }
+    },
+    "com.scaleway.file_v1alpha1#UpdateFileSystemRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#UpdateFileSystemRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags assigned to the filesystem."
+      }
+    },
+    "com.scaleway.file_v1alpha1#UpdateFileSystemRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.file_v1alpha1#UpdateFileSystemRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "filesystem_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the filesystem. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When defined, is the new name of the filesystem.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional field for increasing the size of the filesystem (must be larger than the current size).\nSize in bytes, with a granularity in GB (10^9 bytes).\nMust be compliant with the minimum (25 GB) and maximum (50 TB) allowed size.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.file_v1alpha1#UpdateFileSystemRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags assigned to the filesystem.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.file_v1alpha1#UpdateFileSystem": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.file_v1alpha1#UpdateFileSystemRequest"
+      },
+      "output": {
+        "target": "com.scaleway.file_v1alpha1#FileSystem"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/file/v1alpha1/regions/{region}/filesystems/{filesystem_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update filesystem properties\n\nUpdate the technical details of a filesystem, such as its name, tags or its new size."
+      }
+    },
+    "com.scaleway.file_v1alpha1#DeleteFileSystemRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.file_v1alpha1#DeleteFileSystemRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.file_v1alpha1#DeleteFileSystemRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "filesystem_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the filesystem. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.file_v1alpha1#DeleteFileSystem": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.file_v1alpha1#DeleteFileSystemRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/file/v1alpha1/regions/{region}/filesystems/{filesystem_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a detached filesystem\n\nYou must specify the `filesystem_id` of the filesystem you want to delete."
+      }
+    },
+    "com.scaleway.file_v1alpha1#FileV1alpha1": {
+      "type": "service",
+      "version": "v1alpha1",
+      "operations": [
+        {
+          "target": "com.scaleway.file_v1alpha1#ListAttachments"
+        },
+        {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystemTypes"
+        },
+        {
+          "target": "com.scaleway.file_v1alpha1#ListFileSystems"
+        },
+        {
+          "target": "com.scaleway.file_v1alpha1#CreateFileSystem"
+        },
+        {
+          "target": "com.scaleway.file_v1alpha1#GetFileSystem"
+        },
+        {
+          "target": "com.scaleway.file_v1alpha1#UpdateFileSystem"
+        },
+        {
+          "target": "com.scaleway.file_v1alpha1#DeleteFileSystem"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "File Storage API",
+        "smithy.api#documentation": "Scaleway File Storage provides network-attached storage that can be attached to cloud products such as Instances. File Storage can be accessed simultaneously by multiple Instances in the same region.\n\n<Message type=\"important\">\nThis API documentation is for File Storage Service. File Storage can only be accessed through Private Networks.\n</Message>\n\n## Quickstart\n\n1. Configure environment:\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_DEFAULT_REGION=\"<Scaleway Region>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. Create a Scaleway File Storage:\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      https://api.scaleway.com/file/v1alpha1/regions/$SCW_DEFAULT_REGION/filesystems \\\n      -d '{\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"name\": \"my-fs\",\n        \"size\": 30000000000,\n      }'\n    ```\n\n3. Attach a Scaleway File Storage:\n\n    ```bash\n    curl -X POST 'https://api.scaleway.com/instance/v1/zones/$SCW_DEFAULT_REGION/servers/<instance-id>/attach-filesystem' \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\"filesystem_id\": \"<my-fs-id>\"}'\n    ```\n\n4. Delete a Scaleway File Storage:\n\n    ```bash\n    curl -X DELETE 'https://api.scaleway.com/file/v1alpha1/regions/$SCW_DEFAULT_REGION/filesystems/<filesystem-id>' \\\n    -H \"x-Auth-Token: $SCW_SECRET_KEY\"\n    ```\n\n5. Update a Scaleway File Storage:\n\n    ```bash\n    curl --request PATCH https://api.scaleway.com/file/v1alpha1/regions/$SCW_DEFAULT_REGION/filesystems/<filesystem-id>' \\\n    --header 'Content-Type: application/json' \\\n    --header \"x-Auth-Token: $SCW_SECRET_KEY\" \\\n    --data '{\n      \"name\": \"my-new-fs-name\",\n      \"size\": 200000000000,\n      \"tags\": []\n      }'\n    ```\n\n\\<Message type=\"requirement\">\n\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n\\</Message>"
+      }
+    }
+  }
+}

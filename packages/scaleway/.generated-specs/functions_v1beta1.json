@@ -1,0 +1,4715 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.functions_v1beta1#ListCronsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListCronsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListCronsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#ListCronsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of crons per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.functions_v1beta1#ListCronsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order of the crons."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "function_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListCronsResponse": {
+      "type": "structure",
+      "members": {
+        "crons": {
+          "target": "com.scaleway.functions_v1beta1#ListCronsResponseCronsList",
+          "traits": {
+            "smithy.api#documentation": "Array of crons."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of crons."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#Cron": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the cron."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the cron."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the function the cron applies to."
+          }
+        },
+        "schedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Schedule of the cron."
+          }
+        },
+        "args": {
+          "target": "com.scaleway.functions_v1beta1#CronArgsMap",
+          "traits": {
+            "smithy.api#documentation": "Arguments to pass with the cron."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.functions_v1beta1#CronStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the cron."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the cron."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the cron is located."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CronArgsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Arguments to pass with the cron."
+      }
+    },
+    "com.scaleway.functions_v1beta1#CronStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListCronsResponseCronsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Cron"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of crons."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListCrons": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#ListCronsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#ListCronsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/crons",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all crons\n\nList all the cronjobs in a specified region.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "crons",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateCronRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateCronRequestArgsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Arguments to use with the cron."
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateCronRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#CreateCronRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the function to use the cron with."
+          }
+        },
+        "schedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Schedule of the cron in UNIX cron format."
+          }
+        },
+        "args": {
+          "target": "com.scaleway.functions_v1beta1#CreateCronRequestArgsMap",
+          "traits": {
+            "smithy.api#documentation": "Arguments to use with the cron."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the cron.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateCron": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#CreateCronRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Cron"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/functions/v1beta1/regions/{region}/crons",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new cron\n\nCreate a new cronjob for a function with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetCronRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetCronRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#GetCronRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cron_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the cron to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetCron": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#GetCronRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Cron"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/crons/{cron_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a cron\n\nGet the cron associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateCronRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#UpdateCronRequestArgsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Arguments to use with the cron."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateCronRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#UpdateCronRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cron_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the cron to update."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the function to use the cron with.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "schedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Schedule of the cron in UNIX cron format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "args": {
+          "target": "com.scaleway.functions_v1beta1#UpdateCronRequestArgsMap",
+          "traits": {
+            "smithy.api#documentation": "Arguments to use with the cron."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the cron.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateCron": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#UpdateCronRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Cron"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/functions/v1beta1/regions/{region}/crons/{cron_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an existing cron\n\nUpdate the cron associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteCronRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DeleteCronRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#DeleteCronRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "cron_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the cron to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteCron": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#DeleteCronRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Cron"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/functions/v1beta1/regions/{region}/crons/{cron_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing cron\n\nDelete the cron associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListDomainsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListDomainsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "HOSTNAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hostname_asc"
+          }
+        },
+        "HOSTNAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hostname_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#ListDomainsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of domains per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.functions_v1beta1#ListDomainsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order of the domains."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "function_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the function the domain is associated with."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "domains": {
+          "target": "com.scaleway.functions_v1beta1#ListDomainsResponseDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Array of domains."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of domains."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#Domain": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the domain."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the domain."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname associated with the function."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the function the domain is associated with."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the function."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.functions_v1beta1#DomainStatus",
+          "traits": {
+            "smithy.api#documentation": "State of the domain."
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message if the domain is in \"error\" state.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the domain is located."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DomainStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListDomainsResponseDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of domains."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#ListDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#ListDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all domain name bindings\n\nList all domain name bindings in a specified region.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "domains",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#CreateDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname to create."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the function to associate the domain with."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#CreateDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/functions/v1beta1/regions/{region}/domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a domain name binding\n\nCreate a domain name binding for the function with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#GetDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the domain to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#GetDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/domains/{domain_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a domain name binding\n\nGet a domain name binding for the function with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DeleteDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#DeleteDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the domain to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#DeleteDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/functions/v1beta1/regions/{region}/domains/{domain_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a domain name binding\n\nDelete a domain name binding for the function with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#ListFunctionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of functions per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.functions_v1beta1#ListFunctionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order of the functions."
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "namespace_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the namespace the function belongs to."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Name of the function."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "UUID of the Organization the function belongs to."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "UUID of the Project the function belongs to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionsResponse": {
+      "type": "structure",
+      "members": {
+        "functions": {
+          "target": "com.scaleway.functions_v1beta1#ListFunctionsResponseFunctionsList",
+          "traits": {
+            "smithy.api#documentation": "Array of functions."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of functions."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#Function": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the function."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the function."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the function."
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the namespace the function belongs to."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.functions_v1beta1#FunctionStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the function."
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#FunctionEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables of the function."
+          }
+        },
+        "min_scale": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of instances to scale the function to."
+          }
+        },
+        "max_scale": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of instances to scale the function to."
+          }
+        },
+        "runtime": {
+          "target": "com.scaleway.functions_v1beta1#FunctionRuntime",
+          "traits": {
+            "smithy.api#documentation": "Runtime of the function."
+          }
+        },
+        "memory_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory limit of the function in MB."
+          }
+        },
+        "cpu_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "CPU limit of the function."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Request processing time limit for the function. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "handler": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Handler to use for the function."
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message if the function is in \"error\" state.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "build_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the current build step.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "privacy": {
+          "target": "com.scaleway.functions_v1beta1#FunctionPrivacy",
+          "traits": {
+            "smithy.api#documentation": "Privacy setting of the function."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the function.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain name associated with the function."
+          }
+        },
+        "secret_environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#FunctionSecretEnvironmentVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Secret environment variables of the function."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the function is deployed."
+          }
+        },
+        "http_option": {
+          "target": "com.scaleway.functions_v1beta1#FunctionHttpOption",
+          "traits": {
+            "smithy.api#documentation": "Configuration for handling of HTTP and HTTPS requests.\nPossible values:\n - redirected: Responds to HTTP request with a 301 redirect to ask the clients to use HTTPS.\n - enabled: Serve both HTTP and HTTPS traffic."
+          }
+        },
+        "runtime_message": {
+          "target": "smithy.api#String"
+        },
+        "sandbox": {
+          "target": "com.scaleway.functions_v1beta1#FunctionSandbox",
+          "traits": {
+            "smithy.api#documentation": "Execution environment of the function."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the function. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update date of the function. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ready_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last date when the function was successfully deployed and set to ready. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.functions_v1beta1#FunctionTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the Serverless Function."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Private Network the function is connected to.\nWhen connected to a Private Network, the function can access other Scaleway resources in this Private Network.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#FunctionStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#FunctionEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables of the function."
+      }
+    },
+    "com.scaleway.functions_v1beta1#FunctionRuntime": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_RUNTIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_runtime"
+          }
+        },
+        "GOLANG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "golang"
+          }
+        },
+        "PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python"
+          }
+        },
+        "PYTHON3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python3"
+          }
+        },
+        "NODE8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node8"
+          }
+        },
+        "NODE10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node10"
+          }
+        },
+        "NODE14": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node14"
+          }
+        },
+        "NODE16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node16"
+          }
+        },
+        "NODE17": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node17"
+          }
+        },
+        "PYTHON37": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python37"
+          }
+        },
+        "PYTHON38": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python38"
+          }
+        },
+        "PYTHON39": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python39"
+          }
+        },
+        "PYTHON310": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python310"
+          }
+        },
+        "GO113": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go113"
+          }
+        },
+        "GO117": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go117"
+          }
+        },
+        "GO118": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go118"
+          }
+        },
+        "NODE18": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node18"
+          }
+        },
+        "RUST165": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust165"
+          }
+        },
+        "GO119": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go119"
+          }
+        },
+        "PYTHON311": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python311"
+          }
+        },
+        "PHP82": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php82"
+          }
+        },
+        "NODE19": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node19"
+          }
+        },
+        "GO120": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go120"
+          }
+        },
+        "NODE20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node20"
+          }
+        },
+        "GO121": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go121"
+          }
+        },
+        "NODE22": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node22"
+          }
+        },
+        "PYTHON312": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python312"
+          }
+        },
+        "PHP83": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php83"
+          }
+        },
+        "GO122": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go122"
+          }
+        },
+        "RUST179": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust179"
+          }
+        },
+        "GO123": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go123"
+          }
+        },
+        "GO124": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go124"
+          }
+        },
+        "PYTHON313": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python313"
+          }
+        },
+        "RUST185": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust185"
+          }
+        },
+        "PHP84": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php84"
+          }
+        },
+        "NODE24": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node24"
+          }
+        },
+        "NODE26": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node26"
+          }
+        },
+        "GO125": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go125"
+          }
+        },
+        "GO126": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go126"
+          }
+        },
+        "PHP85": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "php85"
+          }
+        },
+        "PYTHON314": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python314"
+          }
+        },
+        "RUST196": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust196"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#FunctionPrivacy": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_PRIVACY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_privacy"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#SecretHashedValue": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "hashed_value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#FunctionSecretEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#SecretHashedValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secret environment variables of the function."
+      }
+    },
+    "com.scaleway.functions_v1beta1#FunctionHttpOption": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_HTTP_OPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_http_option"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "REDIRECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redirected"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#FunctionSandbox": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_SANDBOX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_sandbox"
+          }
+        },
+        "V1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v1"
+          }
+        },
+        "V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#FunctionTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the Serverless Function."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionsResponseFunctionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Function"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of functions."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListFunctions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#ListFunctionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#ListFunctionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/functions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all your functions",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "functions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateFunctionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateFunctionRequestEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables of the function."
+      }
+    },
+    "com.scaleway.functions_v1beta1#Secret": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateFunctionRequestSecretEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Secret"
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateFunctionRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the Serverless Function."
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#CreateFunctionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the function to create."
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the namespace the function will be created in."
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#CreateFunctionRequestEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables of the function.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_scale": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of instances to scale the function to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_scale": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of instances to scale the function to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "runtime": {
+          "target": "com.scaleway.functions_v1beta1#FunctionRuntime",
+          "traits": {
+            "smithy.api#documentation": "Runtime to use with the function."
+          }
+        },
+        "memory_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory limit of the function in MB.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Request processing time limit for the function. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "handler": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Handler to use with the function.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "privacy": {
+          "target": "com.scaleway.functions_v1beta1#FunctionPrivacy",
+          "traits": {
+            "smithy.api#documentation": "Privacy setting of the function."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the function.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secret_environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#CreateFunctionRequestSecretEnvironmentVariablesList"
+        },
+        "http_option": {
+          "target": "com.scaleway.functions_v1beta1#FunctionHttpOption",
+          "traits": {
+            "smithy.api#documentation": "Configure how HTTP and HTTPS requests are handled.\nPossible values:\n - redirected: Responds to HTTP request with a 301 redirect to ask the clients to use HTTPS.\n - enabled: Serve both HTTP and HTTPS traffic."
+          }
+        },
+        "sandbox": {
+          "target": "com.scaleway.functions_v1beta1#FunctionSandbox",
+          "traits": {
+            "smithy.api#documentation": "Execution environment of the function."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.functions_v1beta1#CreateFunctionRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the Serverless Function."
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Private Network the function is connected to.\nWhen connected to a Private Network, the function can access other Scaleway resources in this Private Network.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#CreateFunctionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Function"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/functions/v1beta1/regions/{region}/functions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new function\n\nCreate a new function in the specified region for a specified Organization or Project."
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetFunctionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#GetFunctionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#GetFunctionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Function"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/functions/{function_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a function\n\nGet the function associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateFunctionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#UpdateFunctionRequestEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables of the function to update."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateFunctionRequestSecretEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Secret"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secret environment variables of the function.\nDuring an update, secret environment variables that are not specified in this field will be kept unchanged.\n\nIn order to delete a specific secret environment variable, you must reference its key, but not provide any value for it.\nFor example, the following payload will delete the `TO_DELETE` secret environment variable:\n\n```json\n{\n \"secret_environment_variables\":[\n   {\"key\":\"TO_DELETE\"}\n ]\n}\n```."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateFunctionRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the Serverless Function."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#UpdateFunctionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the function to update."
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#UpdateFunctionRequestEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables of the function to update.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_scale": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of instances to scale the function to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_scale": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of instances to scale the function to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "runtime": {
+          "target": "com.scaleway.functions_v1beta1#FunctionRuntime",
+          "traits": {
+            "smithy.api#documentation": "Runtime to use with the function."
+          }
+        },
+        "memory_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory limit of the function in MB.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Processing time limit for the function. (in seconds)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redeploy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Redeploy failed function.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "handler": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Handler to use with the function.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "privacy": {
+          "target": "com.scaleway.functions_v1beta1#FunctionPrivacy",
+          "traits": {
+            "smithy.api#documentation": "Privacy setting of the function."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the function.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secret_environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#UpdateFunctionRequestSecretEnvironmentVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Secret environment variables of the function.\nDuring an update, secret environment variables that are not specified in this field will be kept unchanged.\n\nIn order to delete a specific secret environment variable, you must reference its key, but not provide any value for it.\nFor example, the following payload will delete the `TO_DELETE` secret environment variable:\n\n```json\n{\n \"secret_environment_variables\":[\n   {\"key\":\"TO_DELETE\"}\n ]\n}\n```."
+          }
+        },
+        "http_option": {
+          "target": "com.scaleway.functions_v1beta1#FunctionHttpOption",
+          "traits": {
+            "smithy.api#documentation": "Configure how HTTP and HTTPS requests are handled.\nPossible values:\n - redirected: Responds to HTTP request with a 301 redirect to ask the clients to use HTTPS.\n - enabled: Serve both HTTP and HTTPS traffic."
+          }
+        },
+        "sandbox": {
+          "target": "com.scaleway.functions_v1beta1#FunctionSandbox",
+          "traits": {
+            "smithy.api#documentation": "Execution environment of the function."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.functions_v1beta1#UpdateFunctionRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the Serverless Function.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Private Network the function is connected to.\nWhen connected to a Private Network, the function can access other Scaleway resources in this Private Network.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#UpdateFunctionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Function"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/functions/v1beta1/regions/{region}/functions/{function_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an existing function\n\nUpdate the function associated with the specified ID.\n\nWhen updating a function, the function is automatically redeployed to apply the changes.\nThis behavior can be changed by setting the `redeploy` field to `false` in the request."
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteFunctionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DeleteFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#DeleteFunctionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the function to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#DeleteFunctionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Function"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/functions/v1beta1/regions/{region}/functions/{function_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a function\n\nDelete the function associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeployFunctionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DeployFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#DeployFunctionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the function to deploy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeployFunction": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#DeployFunctionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Function"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/functions/v1beta1/regions/{region}/functions/{function_id}/deploy",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Deploy a function\n\nDeploy a function associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetFunctionDownloadURLRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetFunctionDownloadURLRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#GetFunctionDownloadURLRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the function to get the download URL for."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#DownloadURL": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "headers": {
+          "target": "com.scaleway.functions_v1beta1#DownloadURLHeadersMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ScalewayStdStringsValue": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DownloadURLHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.scaleway.functions_v1beta1#ScalewayStdStringsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetFunctionDownloadURL": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#GetFunctionDownloadURLRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#DownloadURL"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/functions/{function_id}/download-url",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a download URL of a function\n\nGet a download URL for a function associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetFunctionUploadURLRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetFunctionUploadURLRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#GetFunctionUploadURLRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the function to get the upload URL for."
+          }
+        },
+        "content_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "content_length",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Size of the archive to upload in bytes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#UploadURL": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Upload URL to upload the function to."
+          }
+        },
+        "headers": {
+          "target": "com.scaleway.functions_v1beta1#UploadURLHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "HTTP headers."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#UploadURLHeadersValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP headers."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UploadURLHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.scaleway.functions_v1beta1#UploadURLHeadersValueList",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP headers."
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetFunctionUploadURL": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#GetFunctionUploadURLRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#UploadURL"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/functions/{function_id}/upload-url",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get an upload URL of a function\n\nGet an upload URL of a function associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListNamespacesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListNamespacesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListNamespacesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#ListNamespacesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of namespaces per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.functions_v1beta1#ListNamespacesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order of the namespaces."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Name of the namespace."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "UUID of the Organization the namespace belongs to."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "UUID of the Project the namespace belongs to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListNamespacesResponse": {
+      "type": "structure",
+      "members": {
+        "namespaces": {
+          "target": "com.scaleway.functions_v1beta1#ListNamespacesResponseNamespacesList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of namespaces."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#Namespace": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the namespace."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the namespace."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the namespace."
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#NamespaceEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables of the namespace."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Organization the namespace belongs to."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Project the namespace belongs to."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.functions_v1beta1#NamespaceStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the namespace."
+          }
+        },
+        "registry_namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the registry namespace."
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message if the namespace is in \"error\" state.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "registry_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry endpoint of the namespace."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the namespace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secret_environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#NamespaceSecretEnvironmentVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Secret environment variables of the namespace."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the namespace is located."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.functions_v1beta1#NamespaceTagsList",
+          "traits": {
+            "smithy.api#documentation": "List of tags applied to the Serverless Function Namespace."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of the namespace. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update date of the namespace. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpc_integration_activated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "[DEPRECATED] By default, as of 2025/08/20, all namespaces are now compatible with VPC.\nThe value of this field doesn't matter anymore, and will be removed in a near future."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#NamespaceEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables of the namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#NamespaceStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#NamespaceSecretEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#SecretHashedValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secret environment variables of the namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#NamespaceTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of tags applied to the Serverless Function Namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListNamespacesResponseNamespacesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Namespace"
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListNamespaces": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#ListNamespacesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#ListNamespacesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/namespaces",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all your namespaces\n\nList all existing namespaces in the specified region.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "namespaces",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateNamespaceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateNamespaceRequestEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables of the namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateNamespaceRequestSecretEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Secret"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secret environment variables of the namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateNamespaceRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the Serverless Function Namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#CreateNamespaceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#CreateNamespaceRequestEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables of the namespace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the project in which the namespace will be created."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the namespace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secret_environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#CreateNamespaceRequestSecretEnvironmentVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Secret environment variables of the namespace."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.functions_v1beta1#CreateNamespaceRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the Serverless Function Namespace."
+          }
+        },
+        "activate_vpc_integration": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "[DEPRECATED] By default, as of 2025/08/20, all namespaces are now compatible with VPC.\nSetting this field to true doesn't matter anymore. It will be removed in a near future."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#CreateNamespaceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Namespace"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/functions/v1beta1/regions/{region}/namespaces",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new namespace\n\nCreate a new namespace in a specified Organization or Project."
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetNamespaceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#GetNamespaceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the namespace."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#GetNamespaceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Namespace"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/namespaces/{namespace_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a namespace\n\nGet the namespace associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateNamespaceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#UpdateNamespaceRequestEnvironmentVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables of the namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateNamespaceRequestSecretEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Secret"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secret environment variables of the namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateNamespaceRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the Serverless Function Namespace."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#UpdateNamespaceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the namespapce."
+          }
+        },
+        "environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#UpdateNamespaceRequestEnvironmentVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables of the namespace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the namespace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secret_environment_variables": {
+          "target": "com.scaleway.functions_v1beta1#UpdateNamespaceRequestSecretEnvironmentVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Secret environment variables of the namespace."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.functions_v1beta1#UpdateNamespaceRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the Serverless Function Namespace.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#UpdateNamespaceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Namespace"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/functions/v1beta1/regions/{region}/namespaces/{namespace_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an existing namespace\n\nUpdate the namespace associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteNamespaceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DeleteNamespaceRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#DeleteNamespaceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the namespace."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteNamespace": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#DeleteNamespaceRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Namespace"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/functions/v1beta1/regions/{region}/namespaces/{namespace_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an existing namespace\n\nDelete the namespace associated with the specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionRuntimesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionRuntimesRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#ListFunctionRuntimesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionRuntimesResponse": {
+      "type": "structure",
+      "members": {
+        "runtimes": {
+          "target": "com.scaleway.functions_v1beta1#ListFunctionRuntimesResponseRuntimesList",
+          "traits": {
+            "smithy.api#documentation": "Array of runtimes available."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of runtimes."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#Runtime": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "language": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#String"
+        },
+        "default_handler": {
+          "target": "smithy.api#String"
+        },
+        "code_sample": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.scaleway.functions_v1beta1#RuntimeStatus"
+        },
+        "status_message": {
+          "target": "smithy.api#String"
+        },
+        "extension": {
+          "target": "smithy.api#String"
+        },
+        "implementation": {
+          "target": "smithy.api#String"
+        },
+        "logo_url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#RuntimeStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "BETA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "beta"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "DEPRECATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deprecated"
+          }
+        },
+        "END_OF_SUPPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_support"
+          }
+        },
+        "END_OF_LIFE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_life"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionRuntimesResponseRuntimesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Runtime"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of runtimes available."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListFunctionRuntimes": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#ListFunctionRuntimesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#ListFunctionRuntimesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/runtimes",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List function runtimes\n\nList available function runtimes."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListTokensRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListTokensRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListTokensRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#ListTokensRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of tokens per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.functions_v1beta1#ListTokensRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order for the tokens."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "function_id",
+            "smithy.api#documentation": "UUID of the function the token is associated with."
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "namespace_id",
+            "smithy.api#documentation": "UUID of the namespace the token is associated with."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListTokensResponse": {
+      "type": "structure",
+      "members": {
+        "tokens": {
+          "target": "com.scaleway.functions_v1beta1#ListTokensResponseTokensList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#Token": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the token."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "String of the token.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the function the token is associated with.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the namespace the token is associated with.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public key of the token."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.functions_v1beta1#TokenStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the token."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the token.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date on which the token expires. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#TokenStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListTokensResponseTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Token"
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#ListTokensRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#ListTokensResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/tokens",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all tokens",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "tokens",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetTokenRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetTokenRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#GetTokenRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the token to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#GetTokenRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Token"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/tokens/{token_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a token"
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteTokenRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DeleteTokenRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#DeleteTokenRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the token to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#DeleteTokenRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Token"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/functions/v1beta1/regions/{region}/tokens/{token_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a token"
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListTriggersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListTriggersRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListTriggersRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#ListTriggersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Maximum number of triggers to return per page."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.functions_v1beta1#ListTriggersRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Order in which to return results."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "function_id",
+            "smithy.api#documentation": "ID of the function the triggers belong to. One-of `scope`: at most one of `function_id`, `namespace_id`, `project_id`."
+          }
+        },
+        "namespace_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "namespace_id",
+            "smithy.api#documentation": "ID of the namespace the triggers belong to. One-of `scope`: at most one of `function_id`, `namespace_id`, `project_id`."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "ID of the Project the triggers belong to. One-of `scope`: at most one of `function_id`, `namespace_id`, `project_id`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListTriggersResponse": {
+      "type": "structure",
+      "members": {
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total count of existing triggers (matching any filters specified)."
+          }
+        },
+        "triggers": {
+          "target": "com.scaleway.functions_v1beta1#ListTriggersResponseTriggersList",
+          "traits": {
+            "smithy.api#documentation": "Triggers on this page."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#Trigger": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the trigger."
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SRN of the trigger."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the trigger."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the trigger."
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the function to trigger."
+          }
+        },
+        "input_type": {
+          "target": "com.scaleway.functions_v1beta1#TriggerInputType",
+          "traits": {
+            "smithy.api#documentation": "Type of the input."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.functions_v1beta1#TriggerStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the trigger."
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message of the trigger.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scw_sqs_config": {
+          "target": "com.scaleway.functions_v1beta1#TriggerMnqSqsClientConfig",
+          "traits": {
+            "smithy.api#documentation": "Configuration for a Scaleway Messaging and Queuing SQS queue.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scw_nats_config": {
+          "target": "com.scaleway.functions_v1beta1#TriggerMnqNatsClientConfig",
+          "traits": {
+            "smithy.api#documentation": "Configuration for a Scaleway Messaging and Queuing NATS subject.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the trigger is located."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#TriggerInputType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_INPUT_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_input_type"
+          }
+        },
+        "SQS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sqs"
+          }
+        },
+        "SCW_SQS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scw_sqs"
+          }
+        },
+        "NATS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nats"
+          }
+        },
+        "SCW_NATS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scw_nats"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#TriggerStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#TriggerMnqSqsClientConfig": {
+      "type": "structure",
+      "members": {
+        "queue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the SQS queue the trigger listens to."
+          }
+        },
+        "mnq_project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Messaging and Queuing project."
+          }
+        },
+        "mnq_region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the Messaging and Queuing project is activated.\nCurrently, only the `fr-par` and `nl-ams` regions are available."
+          }
+        },
+        "mnq_credential_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Messaging and Queuing credentials used to read from the SQS queue.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#TriggerMnqNatsClientConfig": {
+      "type": "structure",
+      "members": {
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the NATS subject the trigger listens to."
+          }
+        },
+        "mnq_nats_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Messaging and Queuing NATS account."
+          }
+        },
+        "mnq_project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Messaging and Queuing project."
+          }
+        },
+        "mnq_region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the Messaging and Queuing project is activated.\nCurrently, only the `fr-par` and `nl-ams` regions are available."
+          }
+        },
+        "mnq_credential_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Messaging and Queuing credentials used to subscribe to the NATS subject.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#ListTriggersResponseTriggersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.functions_v1beta1#Trigger"
+      },
+      "traits": {
+        "smithy.api#documentation": "Triggers on this page."
+      }
+    },
+    "com.scaleway.functions_v1beta1#ListTriggers": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#ListTriggersRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#ListTriggersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/triggers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List all triggers\n\nList all triggers belonging to a specified Organization or Project.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "triggers",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateTriggerRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateTriggerRequestMnqSqsClientConfig": {
+      "type": "structure",
+      "members": {
+        "queue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the SQS queue the trigger should listen to.",
+            "smithy.api#required": {}
+          }
+        },
+        "mnq_project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Messaging and Queuing project.\nYou must have activated SQS on this project.",
+            "smithy.api#required": {}
+          }
+        },
+        "mnq_region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the Messaging and Queuing project is activated.\nCurrently, only the `fr-par` and `nl-ams` regions are available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateTriggerRequestMnqNatsClientConfig": {
+      "type": "structure",
+      "members": {
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the NATS subject the trigger should listen to.",
+            "smithy.api#required": {}
+          }
+        },
+        "mnq_nats_account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Messaging and Queuing NATS account.",
+            "smithy.api#required": {}
+          }
+        },
+        "mnq_project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the Messaging and Queuing project."
+          }
+        },
+        "mnq_region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the Messaging and Queuing project is activated.\nCurrently, only the `fr-par` and `nl-ams` regions are available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#CreateTriggerRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#CreateTriggerRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the trigger.",
+            "smithy.api#required": {}
+          }
+        },
+        "function_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the function to trigger.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the trigger.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scw_sqs_config": {
+          "target": "com.scaleway.functions_v1beta1#CreateTriggerRequestMnqSqsClientConfig",
+          "traits": {
+            "smithy.api#documentation": "Configuration for a Scaleway Messaging and Queuing SQS queue.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scw_nats_config": {
+          "target": "com.scaleway.functions_v1beta1#CreateTriggerRequestMnqNatsClientConfig",
+          "traits": {
+            "smithy.api#documentation": "Configuration for a Scaleway Messaging and Queuing NATS subject.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#CreateTrigger": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#CreateTriggerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Trigger"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/functions/v1beta1/regions/{region}/triggers",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a trigger\n\nCreate a new trigger for a specified function."
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetTriggerRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#GetTriggerRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#GetTriggerRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the trigger to get."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#GetTrigger": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#GetTriggerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Trigger"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/functions/v1beta1/regions/{region}/triggers/{trigger_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a trigger\n\nGet a trigger with a specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateTriggerRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#UpdateTriggerRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#UpdateTriggerRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the trigger to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the trigger.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the trigger.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#UpdateTrigger": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#UpdateTriggerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Trigger"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/functions/v1beta1/regions/{region}/triggers/{trigger_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update a trigger\n\nUpdate a trigger with a specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteTriggerRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.functions_v1beta1#DeleteTriggerRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.functions_v1beta1#DeleteTriggerRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "trigger_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the trigger to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.functions_v1beta1#DeleteTrigger": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.functions_v1beta1#DeleteTriggerRequest"
+      },
+      "output": {
+        "target": "com.scaleway.functions_v1beta1#Trigger"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/functions/v1beta1/regions/{region}/triggers/{trigger_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete a trigger\n\nDelete a trigger with a specified ID."
+      }
+    },
+    "com.scaleway.functions_v1beta1#FunctionsV1beta1": {
+      "type": "service",
+      "version": "v1beta1",
+      "operations": [
+        {
+          "target": "com.scaleway.functions_v1beta1#ListCrons"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#CreateCron"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#GetCron"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#UpdateCron"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#DeleteCron"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#ListDomains"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#CreateDomain"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#GetDomain"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#DeleteDomain"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#ListFunctions"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#CreateFunction"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#GetFunction"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#UpdateFunction"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#DeleteFunction"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#DeployFunction"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#GetFunctionDownloadURL"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#GetFunctionUploadURL"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#ListNamespaces"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#CreateNamespace"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#GetNamespace"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#UpdateNamespace"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#DeleteNamespace"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#ListFunctionRuntimes"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#ListTokens"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#GetToken"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#DeleteToken"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#ListTriggers"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#CreateTrigger"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#GetTrigger"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#UpdateTrigger"
+        },
+        {
+          "target": "com.scaleway.functions_v1beta1#DeleteTrigger"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Serverless Functions API",
+        "smithy.api#documentation": "Deploying applications to the cloud becomes simpler with Serverless Functions. Instead of provisioning and maintaining servers, you just need to install a \"function\" of your business logic on the Scaleway cloud platform. The platform executes this function on demand, managing resource allocation for you. If the system needs to accommodate a hundred simultaneous requests, it creates a hundred (or more) copies of your service. Conversely, if demand drops to two concurrent requests, it destroys the unneeded ones. You only pay for the resources your functions use when they need them.\n\nThe benefits of Scaleway Serverless Functions include:\n\n- Saving money while code is not running, as functions are only executed when an event is triggered\n- Auto-scalability:\n  - Scaling up and down automatically based on user configuration (e.g., min: 0, max: 100 replicas of my function).\n  - Scaling to zero when the function is not executed, which saves money for the user and computing resources for the cloud provider.\n- Endpoint-only scaling.\n\n### Deploying functions\n\nThis page explains how to use the Scaleway Serverless Functions API, including a quickstart and the full API documentation. However, we provide [several methods to deploy functions](https://www.scaleway.com/en/docs/serverless-functions/reference-content/deploy-function/).\n\n<Message type=\"note\">\nTo learn how to package and upload your function code, refer to the [dedicated documentation](https://www.scaleway.com/en/docs/serverless-functions/how-to/package-function-dependencies-in-zip/).\n</Message>\n\n## Concepts\n\nRefer to our [dedicated concepts](https://www.scaleway.com/en/docs/serverless-functions/concepts/) page to find definitions of all terminology related to Scaleway Serverless Functions.\n\n## Quickstart\n\n<Message type=\"note\">\n  For functions concepts and advanced documentation, please refer to [Scaleway Quickstart for Functions](https://www.scaleway.com/en/docs/serverless-functions/quickstart/).\n</Message>\n\n1. Configure your environment variables.\n\n    ```bash\n    export SCW_SECRET_KEY=\"<your secret key>\"\n    export SCW_DEFAULT_REGION=\"<choose your location (fr-par/nl-ams/pl-waw)>\"\n    export SCW_DEFAULT_PROJECT_ID=\"<your project ID>\"\n    ```\n\n   <Message type=\"note\">\n   A namespace is a project that allows you to group your functions. Functions in the same namespace can share environment variables and access tokens, defined at the namespace level.\n   </Message>\n\n2. Set the name for your namespace and set your Project ID.\n\n    ```bash\n    curl -X POST \\\n      \"https://api.scaleway.com/functions/v1beta1/regions/$SCW_DEFAULT_REGION/namespaces\" \\\n      -H \"accept: application/json\" \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\n          name: your-namespace-name, \\\n          project_id: \"$SCW_DEFAULT_PROJECT_ID\", \\\n          environment_variables: \\\n            {\n              YOUR_VARIABLE: content\n            } \\\n          }'\n    ```\n\n3. Copy the `id` field of the response to use in the next steps. For the sake of simplicity, we will save the ID to a variable, which we will use in the following examples.\n\n    ```bash\n    export SCW_NAMESPACE_ID=\"<your namespace id>\"\n    ```\n\n4. Edit the POST request payload that we will use in the next step to create a function. Modify the values in the example according to your needs, using the information in the table to help.\n\n      ```json\n      {\n        \"name\": \"string\",\n        \"namespace_id\": \"string\",\n        \"environment_variables\": {\n          \"<key>\": \"string\"\n        },\n        \"min_scale\": \"integer\",\n        \"max_scale\": \"integer\",\n        \"runtime\": \"unknown_runtime\",\n        \"memory_limit\": \"integer\",\n        \"timeout\": \"2.5s\",\n        \"handler\": \"string\",\n        \"privacy\": \"unknown_privacy\",\n        \"description\": \"string\",\n        \"secret_environment_variables\": [\n          {\n            \"key\": \"string\",\n            \"value\": \"string\"\n          }\n        ],\n        \"http_option\": \"enabled\"\n      }\n      ```\n\n\nNote that the meaning of the value set in `handler` will change depending on the `runtime` parameter:\n\n- `Node`, `PHP` and `Python` runtimes: `handler` is the path to the function file, followed by the name of the function to call. For example, `src/handler.handle` specifies a function file at `src/handler.js`, `src/handler.php` and `src/handler.py` respectively, with a function called `handle`.\n- `Go` and `Rust` runtimes: `handler` is the path to the package containing the handler. For example, `my_handler` specifies that the function file is located in a `my_handler` directory. The functions must then be part of a `main` package, exposing a `main` function.\n\n      <Message type=\"note\">\n        All parameters, except the ones marked with `nullable` are **required**.\n      </Message>\n\n5. Run the following command to create your function. Make sure you include the payload you edited in the previous step.\n\n      ```bash\n      curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\"\\\n        \"https://api.scaleway.com/functions/v1beta1/regions/$SCW_DEFAULT_REGION/functions\"\\\n        -d '{\n              name: function-name, \\\n              namespace_id: \"$SCW_NAMESPACE_ID\", \\\n              memory_limit: 128, \\\n              min_scale: 0, \\\n              max_scale: 20, \\\n              runtime: node16\", \\\n              handler: handler.myHandler \\\n            }'\n      export SCW_FUNCTION_ID = \"<your-function-id>\"\n      ```\n\n6. Upload your code from the console or directly via the API. Refer to the [dedicated documentation](https://www.scaleway.com/en/docs/serverless-functions/how-to/package-function-dependencies-in-zip/#how-to-upload-your-zip-file) for more information.\n\n7. Run the following command to deploy your function.\n\n    ```bash\n    curl -X POST \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \"https://api.scaleway.com/functions/v1beta1/regions/$SCW_DEFAULT_REGION/functions/$SCW_FUNCTION_ID/deploy\" \\\n      -d \"{}\"\n    ```\n\n   <Message type=\"note\">\n   The process may take some minutes, as we have to build your source code into an executable function (wrapped by our runtimes), and deploy it to the Scaleway cloud platform.\n   </Message>\n\n8. Retrieve your function's HTTP(s) endpoint with the following command once your function has been properly deployed.\n\n    ```bash\n    curl -X GET \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" \"https://api.scaleway.com/functions/v1beta1/regions/$SCW_DEFAULT_REGION/functions/$SCW_FUNCTION_ID\"\n    export FUNCTION_ENDPOINT=\"<endpoint>\"\n    ```\n\n9. Call your function via its endpoint.\n\n    ```bash\n    curl -X GET \"$FUNCTION_ENDPOINT\"\n    ```\n\n10. (optional) Connect to your [Cockpit](https://www.scaleway.com/en/docs/cockpit/how-to/access-grafana-and-managed-dashboards/), and access the **Serverless Functions Logs** dashboard to see your logs.\n\n11. (optional) Destroy the namespace (along with all functions and cron jobs) by using the following call:\n\n    ```bash\n    curl -s \\\n      -H \"X-Auth-Token: $SCW_SECRET_KEY\" -X DELETE \"https://api.scaleway.com/functions/v1beta1/regions/$SCW_DEFAULT_REGION/namespaces/$SCW_NAMESPACE_ID\"\n    ```\n\n<Message type=\"requirement\">\n  To perform the following steps, you must first ensure that:\n  - You have a [Scaleway account](https://console.scaleway.com/)\n  - You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n  - You have [installed `curl`](https://curl.se/download.html)\n  - You have [installed `jq`](https://stedolan.github.io/jq/) to improve readability of the API outputs\n</Message>\n\n## Technical information\n\n- Functions are fully isolated environments\n- Scaling to zero (save money and computing resources while code is not executed)\n- High Availability and Scalability (Automated and configurable, each function may scale automatically according to incoming workloads)\n- Different programming languages supported\n- Multiple event sources:\n  - HTTP (request on our Gateway will execute the function)\n  - CRON (time-based job, runs according to configurable cron schedule)\n- Integrated with the Scaleway Container Registry product\n  - Each of your functions namespace has an associated registry namespace\n  - All your functions are available as docker image in this registry namespace\n  - Each version of your function matches a tag of this image\n\n### Token management\n\nTo get all tokens associated with a function:\n\n```bash\nexport SCW_SECRET_KEY=<your_secret_key>\nexport SCW_DEFAULT_REGION=\"<Scaleway default region>\"\nexport SCW_FUNCTION_ID=<function_id_you_want_to_inspect>\n\ncurl -X GET \\\n  \"https://api.scaleway.com/functions/v1beta1/regions/$SCW_DEFAULT_REGION/tokens?function_id=$SCW_FUNCTION_ID\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n  -H \"Content-Type: application/json\"\n```\n\n<Message type=\"note\">\n  Tokens can only be read at creation time, and are not stored, hence they can not be retrieved if lost.\n</Message>\n\nTo generate a token for a function:\n\n```bash\nexport SCW_SECRET_KEY=\"<API secret key>\"\nexport SCW_DEFAULT_REGION=\"<Scaleway default region>\"\nexport SCW_FUNCTION_ID=<function_id_you_want_to_add_token>\nexport EXPIRE_AT=$(date -d \"+90 days\" +%Y-%m-%dT%H:%M:%S.000Z)\n\ncurl -X POST \\\n  \"https://api.scaleway.com/functions/v1beta1/regions/$SCW_DEFAULT_REGION/tokens\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n      description:desc, \\\n      expire_at:\"$EXPIRE_AT\", \\\n      function_id:\"$SCW_FUNCTION_ID\"\n      }'\n```\n\n<Message type=\"tip\">\n  `expire_at` is optional, and in this example is set to 90 days from today (see `EXPIRE_AT`). If you don't set `expire_at`, your token will never expire.\n</Message>\n\nTo revoke a token you need to delete it:\n\n```bash\nexport SCW_ACCESS_KEY=\"<API access key>\"\nexport SCW_SECRET_KEY=\"<API secret key>\"\nexport TOKEN_ID=<token_you_want_to_delete>\n\ncurl -X DELETE \\\n  \"https://api.scaleway.com/functions/v1beta1/regions/$SCW_DEFAULT_REGION/tokens/$SCW_ACCESS_KEY\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n  -H \"Content-Type: application/json\"\n```\n\n### Authentication\n\nBy default, new functions are `public` meaning that no credentials are required to invoke functions.\n\nA function can be `private` or `public`. This can be configured through the `privacy` parameter.\n\nCalling a `private` function without authentication will return HTTP code `403`.\n\n### Authentication for private functions\n\nA `private` function will:\n\n- Reject a call without an `X-Auth-Token` header, returning HTTP status Code `403`\n- Validate the token _before_ invoking your code if it is provided via the `X-Auth-Token` header\n\nFor example, to execute a private function by providing a token using `curl`, you may run the following command:\n\n```bash\ncurl \\\n  -H \"X-Auth-Token: <generated-token>\" <your-function-host>\n```\n\n### Logs\n\nFunctions logs are sent to the project's [Cockpit](https://www.scaleway.com/en/docs/cockpit/how-to/access-grafana-and-managed-dashboards/).\n\nThe **Serverless Functions Logs** dashboard allows you to see functions logs. You can perform complex queries using the **Explore** section of Grafana, and with LogQL queries:\n\n```logql\n{resource_type=\"serverless_function\"}\n```\n\nAdditionally, you can use the Grafana Loki endpoint (`https://logs.cockpit.fr-par.scw.cloud`) to query programmatically the functions logs using a [token](https://www.scaleway.com/en/docs/cockpit/how-to/create-token/).\n\n### Pagination\n\nMost listing requests receive a paginated response. Requests against paginated endpoints accept two `query` arguments:\n\n- `page`, a positive integer to choose which page to return.\n- `page_size`, an positive integer lower or equal to 100 to select the number of items to return per page. The default value is `20`.\n\nPaginated endpoints usually also accept filters to search and sort results. These filters are documented along each endpoint documentation.\n\n### Regions\n\nServerless Functions is available in the Paris, Amsterdam and Warsaw regions, which are represented by the following path parameters:\n\n- `fr-par`\n- `nl-ams`\n- `pl-waw`\n\n## Technical limitations\n\n### Supported runtimes and function lifecycle\n\nYou can find all information about runtimes and functions in the [Functions' lifecycle reference page](https://www.scaleway.com/en/docs/compute/functions/reference-content/functions-runtimes/#runtime-lifecycle).\n\n## Going further\n\nFor more help using Scaleway Serverless functions, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/serverless-functions/)\n- The #serverless-functions channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket)\n\n### Local testing\n\nScaleway provides a number of open-source tools for offline testing. The details can be found in the [local testing docs](https://www.scaleway.com/en/docs/serverless-functions/reference-content/local-testing/)."
+      }
+    }
+  }
+}

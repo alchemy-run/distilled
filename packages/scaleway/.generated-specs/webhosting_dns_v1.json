@@ -1,0 +1,1038 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.webhosting_dns_v1#GetDomainRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#GetDomainRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_dns_v1#GetDomainRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Domain name to get."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Scaleway Project in which to get the domain to create the Web Hosting plan."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#Domain": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the domain."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_dns_v1#DomainStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status of the domain."
+          }
+        },
+        "owner": {
+          "target": "com.scaleway.webhosting_dns_v1#DomainZoneOwner",
+          "traits": {
+            "smithy.api#documentation": "Zone owner of the domain."
+          }
+        },
+        "zone_domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Main domain for this zone."
+          }
+        },
+        "available_actions": {
+          "target": "com.scaleway.webhosting_dns_v1#DomainAvailableActionsList",
+          "traits": {
+            "smithy.api#documentation": "A list of actions that can be performed on the domain."
+          }
+        },
+        "available_dns_actions": {
+          "target": "com.scaleway.webhosting_dns_v1#DomainAvailableDnsActionsList",
+          "traits": {
+            "smithy.api#documentation": "A list of DNS-related actions that can be auto configured for the domain (deprecated, use auto_config_domain_dns instead)."
+          }
+        },
+        "auto_config_domain_dns": {
+          "target": "com.scaleway.webhosting_dns_v1#AutoConfigDomainDns",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize each type of record."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "VALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "valid"
+          }
+        },
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid"
+          }
+        },
+        "VALIDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validating"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainZoneOwner": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ZONE_OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_zone_owner"
+          }
+        },
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "external"
+          }
+        },
+        "SCALEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaleway"
+          }
+        },
+        "ONLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "online"
+          }
+        },
+        "WEBHOSTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhosting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainAction": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_action"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        },
+        "MANAGE_EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage_external"
+          }
+        },
+        "RENEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renew"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainAvailableActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_dns_v1#DomainAction"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of actions that can be performed on the domain."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#DomainDnsAction": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_DNS_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_dns_action"
+          }
+        },
+        "AUTO_CONFIG_ALL_RECORDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto_config_all_records"
+          }
+        },
+        "AUTO_CONFIG_WEB_RECORDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto_config_web_records"
+          }
+        },
+        "AUTO_CONFIG_MAIL_RECORDS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto_config_mail_records"
+          }
+        },
+        "AUTO_CONFIG_NAMESERVERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto_config_nameservers"
+          }
+        },
+        "AUTO_CONFIG_NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto_config_none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainAvailableDnsActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_dns_v1#DomainDnsAction"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of DNS-related actions that can be auto configured for the domain (deprecated, use auto_config_domain_dns instead)."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#AutoConfigDomainDns": {
+      "type": "structure",
+      "members": {
+        "nameservers": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize domain nameservers."
+          }
+        },
+        "web_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize web records."
+          }
+        },
+        "mail_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize mail records."
+          }
+        },
+        "all_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize all types of records. Takes priority over the other fields."
+          }
+        },
+        "none": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "No automatic domain configuration. Users must configure their domain for the Web Hosting to work."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#GetDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_dns_v1#GetDomainRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_dns_v1#Domain"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/domains/{domain_name}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Retrieve detailed information about a specific domain, including its status, DNS configuration, and ownership."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#GetDomainDnsRecordsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#GetDomainDnsRecordsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_dns_v1#GetDomainDnsRecordsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Domain associated with the DNS records."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#DnsRecords": {
+      "type": "structure",
+      "members": {
+        "records": {
+          "target": "com.scaleway.webhosting_dns_v1#DnsRecordsRecordsList",
+          "traits": {
+            "smithy.api#documentation": "List of DNS records."
+          }
+        },
+        "name_servers": {
+          "target": "com.scaleway.webhosting_dns_v1#DnsRecordsNameServersList",
+          "traits": {
+            "smithy.api#documentation": "List of nameservers."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_dns_v1#DnsRecordsStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the records."
+          }
+        },
+        "dns_config": {
+          "target": "com.scaleway.webhosting_dns_v1#DnsRecordsDnsConfigList",
+          "traits": {
+            "smithy.api#documentation": "Records dns auto configuration settings (deprecated, use auto_config_domain_dns)."
+          }
+        },
+        "auto_config_domain_dns": {
+          "target": "com.scaleway.webhosting_dns_v1#AutoConfigDomainDns",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize each types of records."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DnsRecord": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Record name."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.webhosting_dns_v1#DnsRecordType",
+          "traits": {
+            "smithy.api#documentation": "Record type."
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Record time-to-live."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Record value."
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Record priority level.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_dns_v1#DnsRecordStatus",
+          "traits": {
+            "smithy.api#documentation": "Record status."
+          }
+        },
+        "raw_data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Record representation as it appears in the zone file or DNS management system."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DnsRecordType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "A": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a"
+          }
+        },
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cname"
+          }
+        },
+        "MX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mx"
+          }
+        },
+        "TXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "txt"
+          }
+        },
+        "NS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ns"
+          }
+        },
+        "AAAA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aaaa"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DnsRecordStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "VALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "valid"
+          }
+        },
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DnsRecordsRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_dns_v1#DnsRecord"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of DNS records."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#Nameserver": {
+      "type": "structure",
+      "members": {
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname of the nameserver."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_dns_v1#NameserverStatus",
+          "traits": {
+            "smithy.api#documentation": "Status of the nameserver."
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether the nameserver is the default one."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#NameserverStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "VALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "valid"
+          }
+        },
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DnsRecordsNameServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_dns_v1#Nameserver"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of nameservers."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#DnsRecordsStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "VALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "valid"
+          }
+        },
+        "INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invalid"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DnsRecordsDnsConfigList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_dns_v1#DomainDnsAction"
+      },
+      "traits": {
+        "smithy.api#documentation": "Records dns auto configuration settings (deprecated, use auto_config_domain_dns)."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#GetDomainDnsRecords": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_dns_v1#GetDomainDnsRecordsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_dns_v1#DnsRecords"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/domains/{domain}/dns-records",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get DNS records\n\nGet the set of DNS records of a specified domain associated with a Web Hosting plan's domain."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecordsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecordsRequestRecord": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "com.scaleway.webhosting_dns_v1#DnsRecordType"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecordsRequestCustomRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecordsRequestRecord"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom records to synchronize."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecordsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecordsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Domain for which the DNS records will be synchronized."
+          }
+        },
+        "update_web_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize the web records (deprecated, use auto_config_domain_dns)."
+          }
+        },
+        "update_mail_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize the mail records (deprecated, use auto_config_domain_dns)."
+          }
+        },
+        "update_all_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize all types of records. This one has priority (deprecated, use auto_config_domain_dns)."
+          }
+        },
+        "update_nameservers": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize domain nameservers (deprecated, use auto_config_domain_dns)."
+          }
+        },
+        "custom_records": {
+          "target": "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecordsRequestCustomRecordsList",
+          "traits": {
+            "smithy.api#documentation": "Custom records to synchronize."
+          }
+        },
+        "auto_config_domain_dns": {
+          "target": "com.scaleway.webhosting_dns_v1#AutoConfigDomainDns",
+          "traits": {
+            "smithy.api#documentation": "Whether or not to synchronize each types of records."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecords": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecordsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_dns_v1#DnsRecords"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhosting/v1/regions/{region}/domains/{domain}/sync-domain-dns-records",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Synchronize your DNS records on the Elements Console and on cPanel."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#SearchDomainsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "FR_PAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fr-par"
+          }
+        },
+        "NL_AMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nl-ams"
+          }
+        },
+        "PL_WAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pl-waw"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#SearchDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.scaleway.webhosting_dns_v1#SearchDomainsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "domain_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain_name",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Domain name to search."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the Scaleway Project in which to search the domain to create the Web Hosting plan."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#SearchDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "domains_available": {
+          "target": "com.scaleway.webhosting_dns_v1#SearchDomainsResponseDomainsAvailableList",
+          "traits": {
+            "smithy.api#documentation": "List of domains availability."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainAvailability": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fully qualified domain name (FQDN)."
+          }
+        },
+        "zone_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DNS zone associated with the domain."
+          }
+        },
+        "status": {
+          "target": "com.scaleway.webhosting_dns_v1#DomainAvailabilityStatus",
+          "traits": {
+            "smithy.api#documentation": "Availability status of the domain."
+          }
+        },
+        "available_actions": {
+          "target": "com.scaleway.webhosting_dns_v1#DomainAvailabilityAvailableActionsList",
+          "traits": {
+            "smithy.api#documentation": "A list of actions that can be performed on the domain."
+          }
+        },
+        "can_create_hosting": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a hosting can be created for this domain."
+          }
+        },
+        "price": {
+          "target": "com.scaleway.webhosting_dns_v1#GoogleTypeMoney",
+          "traits": {
+            "smithy.api#documentation": "Price for registering the domain."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainAvailabilityStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "NOT_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_available"
+          }
+        },
+        "OWNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "owned"
+          }
+        },
+        "VALIDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validating"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainAvailabilityAction": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_action"
+          }
+        },
+        "REGISTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "register"
+          }
+        },
+        "TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer"
+          }
+        },
+        "MANAGE_EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manage_external"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#DomainAvailabilityAvailableActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_dns_v1#DomainAvailabilityAction"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of actions that can be performed on the domain."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#GoogleTypeMoney": {
+      "type": "structure",
+      "members": {
+        "currency_code": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#Integer"
+        },
+        "nanos": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.webhosting_dns_v1#SearchDomainsResponseDomainsAvailableList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.webhosting_dns_v1#DomainAvailability"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of domains availability."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#SearchDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.webhosting_dns_v1#SearchDomainsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.webhosting_dns_v1#SearchDomainsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhosting/v1/regions/{region}/search-domains",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Search for available domains based on domain name."
+      }
+    },
+    "com.scaleway.webhosting_dns_v1#WebhostingDnsV1": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.scaleway.webhosting_dns_v1#GetDomain"
+        },
+        {
+          "target": "com.scaleway.webhosting_dns_v1#GetDomainDnsRecords"
+        },
+        {
+          "target": "com.scaleway.webhosting_dns_v1#SyncDomainDnsRecords"
+        },
+        {
+          "target": "com.scaleway.webhosting_dns_v1#SearchDomains"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Web Hosting Dns API",
+        "smithy.api#documentation": "Scaleway provides several Web Hosting plans for individuals, professionals, and everyone in between. Our Web Hosting plans include:\n\n- A domain name\n- A configurable webhosting service\n- The management of your emails, including anti-spam, antivirus and filter systems\n- Unlimited sub-domains\n- An FTP account to upload your website\n- At least one database\n\n## Concepts\n\nRefer to our [dedicated concepts page](https://www.scaleway.com/en/docs/managed-services/webhosting/concepts/) to find definitions of all Web Hosting-related terminology.\n\n## Quickstart\n\n1. Configure your environment variables.\n\n   <Message type=\"note\">\n   This is an optional step that seeks to simplify your usage of the Web Hosting API.\n   </Message>\n\n    ```bash\n    export SCW_SECRET_KEY=\"<API secret key>\"\n    export SCW_PROJECT_ID=\"<Scaleway Project ID>\"\n    ```\n\n2. **Choose a Web Hosting offer**: run the following command to list all Web Hosting offers. The `| jq` appendage at the end of the command makes the output easier to read.\n\n    ```bash\n    curl -X GET \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/offers?without_options=true\" | jq\n    ```\n\n   <Message type=\"note\">\n   In the above example, we choose to get offers only. Adjust the query parameter if you would also like to get information about the different options you can add to offers.\n   </Message>\n\n3. **Order a Web Hosting plan**: run the following command to create a Web Hosting plan. You can customize the details in the payload to your needs, using the table below to help.\n\n    ```bash\n    curl -X POST \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        -H \"Content-Type: application/json\" \\\n        \"https://api.scaleway.com/webhosting/v1/regions/fr-par/hostings\" \\\n        -d '{\n        \"domain\": \"mydomain.net\",\n        \"offer_id\": \"f5c2ae8f-7625-4bca-b711-b44bb3d08694\",\n        \"project_id\": \"'\"$SCW_PROJECT_ID\"'\",\n        \"tags\": [\"my-tag\"]\n    }'\n    ```\n\n\n   <Message type=\"tip\">\n   Once you've ordered your Web Hosting plan, check out our [dedicated documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/) to get started with your configuration.\n   </Message>\n\n4. **Delete your Web Hosting plan**: run the following command to delete your Web Hosting plan. Ensure that you replace `{hosting-id}` in the URL with the ID of the Web Hosting plan you want to delete.\n\n    ```bash\n    curl -X DELETE \\\n        -H \"Content-Type: application/json\" \\\n        -H \"X-Auth-Token: $SCW_SECRET_KEY\" \\\n        \"https://api.scaleway.com/rest-of-endpoint/{hosting-id}\"\n    ```\n\n<Message type=\"requirement\">\n- You have a [Scaleway account](https://console.scaleway.com/)\n- You have created an [API key](https://www.scaleway.com/en/docs/iam/how-to/create-api-keys/) and that the API key has sufficient [IAM permissions](https://www.scaleway.com/en/docs/iam/reference-content/permission-sets/) to perform the actions described on this page\n- You have [installed `curl`](https://curl.se/download.html)\n- You have [installaed `jq`](https://stedolan.github.io/jq/download/)\n</Message>\n\n## Technical information\n\nAll Scaleway Web Hosting plans now offer a choice between cPanel and Plesk for website management. Both tools provide a graphical interface and fast access icons, allowing you to configure and monitor your hosting solutions with ease. You can access cPanel or Plesk via the [Scaleway console](https://www.scaleway.com/en/docs/managed-services/webhosting/quickstart/#how-to-access-the-web-hosting-control-panel-from-the-scaleway-console).\n\n### Regions\n\nThe Scaleway Web Hosting API is a **regional** API, meaning that each call must specify in its path parameters the region for the resources concerned by the call.\n\nScaleway Web Hosting is available only in the `fr-par` region.\n\n## Going further\n\nFor more help using Scaleway Web Hosting, check out the following resources:\n\n- Our [main documentation](https://www.scaleway.com/en/docs/managed-services/webhosting/)\n- The #webhosting-early-access channel on our [Slack Community](https://www.scaleway.com/en/docs/tutorials/scaleway-slack-community/)\n- Our [support ticketing system](https://www.scaleway.com/en/docs/account/how-to/open-a-support-ticket/)."
+      }
+    }
+  }
+}

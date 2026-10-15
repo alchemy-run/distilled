@@ -1,0 +1,27 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, so `ListOS` lose filters the API takes. The official JS SDK sends them through `resolveOneOf` in `urlParams` \u2014 scaleway-sdk-js packages_generated/dedibox/src/v1/api.gen.ts \u2014 with the types in the sibling types.gen.ts. They are added as optional query members; the API enforces the one-of. Live on 2026-10-12: `ListOS` with neither answered `invalid_arguments` (\"You must set an offer_id or a server_id.\"); with an Offer's `offer_id` it answered the OS list, with the Offer's `id` it answered \"The selected choice is invalid\".",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.dedibox_v1#ListOSRequest/members/server_id",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "server_id",
+          "smithy.api#documentation": "Filter OS by compatible server ID. One-of `filter`: exactly one of `server_id`, `offer_id` \u2014 the API rejects a call with neither."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.dedibox_v1#ListOSRequest/members/offer_id",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "offer_id",
+          "smithy.api#documentation": "Filter OS by compatible offer: the Offer's `offer_id` (the product, e.g. Pro-8-XS), not its `id` (one priced variant), which the API rejects as an invalid choice. One-of `filter`: exactly one of `server_id`, `offer_id` \u2014 the API rejects a call with neither."
+        }
+      }
+    }
+  ]
+}

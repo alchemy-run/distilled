@@ -1,0 +1,514 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsRequestPrivateNetworkIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name"
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsRequestTagsList",
+          "traits": {
+            "smithy.api#httpQuery": "tags"
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "private_network_ids": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsRequestPrivateNetworkIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "private_network_ids"
+          }
+        },
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "vpc_id",
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsResponse": {
+      "type": "structure",
+      "members": {
+        "private_networks": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsResponsePrivateNetworksList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkWithNics": {
+      "type": "structure",
+      "members": {
+        "private_network": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetwork",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "private_nics": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkWithNicsPrivateNicsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetwork": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network ID. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the private network."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network name."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Organization the Private Network belongs to. (UUID format)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Project the Private Network belongs to. (UUID format)"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the Private Network is available."
+          }
+        },
+        "tags": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags of the Private Network."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the Private Network was created. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the Private Network was last modified. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subnets": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Private Network subnets."
+          }
+        },
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VPC the Private Network belongs to. (UUID format)"
+          }
+        },
+        "dhcp_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether managed DHCP is enabled for this Private Network."
+          }
+        },
+        "default_route_propagation_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether default v4 and v6 routes are propagated for this Private Network."
+          }
+        },
+        "has_object_storage_private_access": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defines whether this Private Network is enabled for Object Storage private access."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags of the Private Network."
+      }
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#Subnet": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the subnet. (UUID format)"
+          }
+        },
+        "srn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SRN of the subnet."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subnet creation date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subnet last modification date. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subnet": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subnet CIDR. (IP network)"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaleway Project the subnet belongs to. (UUID format)"
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private Network the subnet belongs to. (UUID format)"
+          }
+        },
+        "vpc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VPC the subnet belongs to. (UUID format)"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region in which the Subnet can be used."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_private_network_with_nics_v2#Subnet"
+      },
+      "traits": {
+        "smithy.api#documentation": "Private Network subnets."
+      }
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#PrivateNIC": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "private_network_id": {
+          "target": "smithy.api#String"
+        },
+        "server_id": {
+          "target": "smithy.api#String"
+        },
+        "mac_address": {
+          "target": "smithy.api#String"
+        },
+        "vlan": {
+          "target": "smithy.api#Integer"
+        },
+        "metadata": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNICMetadata"
+        },
+        "status": {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNICStatus"
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The zone you want to target"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#PrivateNICMetadata": {
+      "type": "structure",
+      "members": {
+        "product_type": {
+          "target": "smithy.api#String"
+        },
+        "resource_type": {
+          "target": "smithy.api#String"
+        },
+        "resource_id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#PrivateNICStatus": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_status"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "available"
+          }
+        },
+        "CONFIGURING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "configuring"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkWithNicsPrivateNicsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNIC"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsResponsePrivateNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkWithNics"
+      },
+      "traits": {}
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNics": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNicsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc/v2/regions/{region}/private-networks-with-nics",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "private_networks",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#GetPrivateNetworkWithNicsRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The region you want to target"
+          }
+        },
+        "private_network_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#GetPrivateNetworkWithNics": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.vpc_private_network_with_nics_v2#GetPrivateNetworkWithNicsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.vpc_private_network_with_nics_v2#PrivateNetworkWithNics"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vpc/v2/regions/{region}/private-networks-with-nics/{private_network_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        }
+      }
+    },
+    "com.scaleway.vpc_private_network_with_nics_v2#VpcPrivateNetworkWithNicsV2": {
+      "type": "service",
+      "version": "v2",
+      "operations": [
+        {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#ListPrivateNetworksWithNics"
+        },
+        {
+          "target": "com.scaleway.vpc_private_network_with_nics_v2#GetPrivateNetworkWithNics"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Private Network with Nics API"
+      }
+    }
+  }
+}

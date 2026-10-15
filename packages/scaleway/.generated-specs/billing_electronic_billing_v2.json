@@ -1,0 +1,380 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.billing_electronic_billing_v2#ListElectronicAddressesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "STARTS_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_at_asc"
+          }
+        },
+        "STARTS_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starts_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_electronic_billing_v2#ListElectronicAddressesRequest": {
+      "type": "structure",
+      "members": {
+        "order_by": {
+          "target": "com.scaleway.billing_electronic_billing_v2#ListElectronicAddressesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Sort order of Electronic address in the response."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "organization_id",
+            "smithy.api#documentation": "The Organization ID to set electronic address."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number to return, from the paginated results."
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Number of Electronic Address to return per page."
+          }
+        },
+        "starts_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "starts_after",
+            "smithy.api#documentation": "Filter services where electronic address start_date is greater or equal to starts_after."
+          }
+        },
+        "stops_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "stops_before",
+            "smithy.api#documentation": "Filter services where electronic address stop_date is before stops_before."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#ListElectronicAddressesResponse": {
+      "type": "structure",
+      "members": {
+        "electronic_addresses": {
+          "target": "com.scaleway.billing_electronic_billing_v2#ListElectronicAddressesResponseElectronicAddressesList",
+          "traits": {
+            "smithy.api#documentation": "List of electronic addresses."
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total Number of returned electronic addresses."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_electronic_billing_v2#ElectronicAddress": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The id of the electronic address."
+          }
+        },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start date of the electronic address."
+          }
+        },
+        "stops_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The stop date of the electronic address."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation date of the electronic address."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last modification date of the electronic address."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization ID of the electronic address."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current value of electronic address."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.billing_electronic_billing_v2#ListElectronicAddressesResponseElectronicAddressesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.billing_electronic_billing_v2#ElectronicAddress"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of electronic addresses."
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#ListElectronicAddresses": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_electronic_billing_v2#ListElectronicAddressesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_electronic_billing_v2#ListElectronicAddressesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2/electronic-address",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List electronic addresses\n\nDerived from scaleway-sdk-js (`ElectronicBillingAPI.listElectronicAddresses`): Scaleway publishes no OpenAPI document for this route.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "electronic_addresses",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#CreateElectronicAddressRequest": {
+      "type": "structure",
+      "members": {
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Organization ID to set electronic address."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Electronic address to set.",
+            "smithy.api#required": {}
+          }
+        },
+        "starts_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When electronic address should be active."
+          }
+        },
+        "stops_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When electronic address should stop being active."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#CreateElectronicAddress": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_electronic_billing_v2#CreateElectronicAddressRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_electronic_billing_v2#ElectronicAddress"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/billing/v2/electronic-address",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Create a new electronic address\n\nDerived from scaleway-sdk-js (`ElectronicBillingAPI.createElectronicAddress`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#GetElectronicAddressRequest": {
+      "type": "structure",
+      "members": {
+        "electronic_address_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the electronic address we want to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#GetElectronicAddress": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_electronic_billing_v2#GetElectronicAddressRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_electronic_billing_v2#ElectronicAddress"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/billing/v2/electronic-address/{electronic_address_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Fetch an electronic address\n\nDerived from scaleway-sdk-js (`ElectronicBillingAPI.getElectronicAddress`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#UpdateElectronicAddressRequest": {
+      "type": "structure",
+      "members": {
+        "electronic_address_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the electronic address we want to update."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Electronic address to set."
+          }
+        },
+        "stops_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When electronic address should stop being active."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#UpdateElectronicAddress": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_electronic_billing_v2#UpdateElectronicAddressRequest"
+      },
+      "output": {
+        "target": "com.scaleway.billing_electronic_billing_v2#ElectronicAddress"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/billing/v2/electronic-address/{electronic_address_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Update an electronic address\n\nDerived from scaleway-sdk-js (`ElectronicBillingAPI.updateElectronicAddress`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#DeleteElectronicAddressRequest": {
+      "type": "structure",
+      "members": {
+        "electronic_address_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the electronic address to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#DeleteElectronicAddress": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.billing_electronic_billing_v2#DeleteElectronicAddressRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/billing/v2/electronic-address/{electronic_address_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Delete an electronic address\n\nDerived from scaleway-sdk-js (`ElectronicBillingAPI.deleteElectronicAddress`): Scaleway publishes no OpenAPI document for this route."
+      }
+    },
+    "com.scaleway.billing_electronic_billing_v2#BillingElectronicBillingV2": {
+      "type": "service",
+      "version": "v2",
+      "operations": [
+        {
+          "target": "com.scaleway.billing_electronic_billing_v2#ListElectronicAddresses"
+        },
+        {
+          "target": "com.scaleway.billing_electronic_billing_v2#CreateElectronicAddress"
+        },
+        {
+          "target": "com.scaleway.billing_electronic_billing_v2#GetElectronicAddress"
+        },
+        {
+          "target": "com.scaleway.billing_electronic_billing_v2#UpdateElectronicAddress"
+        },
+        {
+          "target": "com.scaleway.billing_electronic_billing_v2#DeleteElectronicAddress"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "scaleway.billing.v2.ElectronicBillingApi (derived)",
+        "smithy.api#documentation": "Derived from scaleway/scaleway-sdk-js packages_generated/billing/src/v2 — the portal publishes no OpenAPI document for these routes."
+      }
+    }
+  }
+}

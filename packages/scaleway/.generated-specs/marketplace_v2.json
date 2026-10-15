@@ -1,0 +1,839 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.scaleway.marketplace_v2#ListCategoriesRequest": {
+      "type": "structure",
+      "members": {
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.marketplace_v2#ListCategoriesResponse": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.scaleway.marketplace_v2#ListCategoriesResponseCategoriesList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#Category": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListCategoriesResponseCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.marketplace_v2#Category"
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListCategories": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.marketplace_v2#ListCategoriesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.marketplace_v2#ListCategoriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/marketplace/v2/categories",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List existing image categories\n\nGet a list of all existing categories. The output can be paginated.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "categories",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.marketplace_v2#GetCategoryRequest": {
+      "type": "structure",
+      "members": {
+        "category_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.marketplace_v2#GetCategory": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.marketplace_v2#GetCategoryRequest"
+      },
+      "output": {
+        "target": "com.scaleway.marketplace_v2#Category"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/marketplace/v2/categories/{category_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a specific category\n\nGet information about a specific category of the marketplace catalog, specified by its `category_id` (UUID format)."
+      }
+    },
+    "com.scaleway.marketplace_v2#ListImagesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        },
+        "UPDATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_asc"
+          }
+        },
+        "UPDATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListImagesRequest": {
+      "type": "structure",
+      "members": {
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "A positive integer lower or equal to 100 to select the number of items to display."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A positive integer to choose the page to display."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.marketplace_v2#ListImagesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Ordering to use."
+          }
+        },
+        "arch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "arch",
+            "smithy.api#documentation": "Choose for which machine architecture to return images."
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "category",
+            "smithy.api#documentation": "Choose the category of images to get."
+          }
+        },
+        "include_eol": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_eol",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Choose to include end-of-life images."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.marketplace_v2#ListImagesResponse": {
+      "type": "structure",
+      "members": {
+        "images": {
+          "target": "com.scaleway.marketplace_v2#ListImagesResponseImagesList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#Image": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of this image. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the image."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text description of this image."
+          }
+        },
+        "logo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of this image's logo."
+          }
+        },
+        "categories": {
+          "target": "com.scaleway.marketplace_v2#ImageCategoriesList",
+          "traits": {
+            "smithy.api#documentation": "List of categories this image belongs to."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of this image. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of the last modification of this image. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "valid_until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date of this image. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label of this image.\nTypically an identifier for a distribution (ex. \"ubuntu_focal\").\nThis label can be used in the image field of the server creation request."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ImageCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of categories this image belongs to."
+      }
+    },
+    "com.scaleway.marketplace_v2#ListImagesResponseImagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.marketplace_v2#Image"
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListImages": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.marketplace_v2#ListImagesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.marketplace_v2#ListImagesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/marketplace/v2/images",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List marketplace images\n\nList all available images on the marketplace, their UUID, CPU architecture and description.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "images",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.marketplace_v2#GetImageRequest": {
+      "type": "structure",
+      "members": {
+        "image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Display the image name. (UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.marketplace_v2#GetImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.marketplace_v2#GetImageRequest"
+      },
+      "output": {
+        "target": "com.scaleway.marketplace_v2#Image"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/marketplace/v2/images/{image_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a specific marketplace image\n\nGet detailed information about a marketplace image, specified by its `image_id` (UUID format)."
+      }
+    },
+    "com.scaleway.marketplace_v2#ListLocalImagesRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type_desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#LocalImageType": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown_type"
+          }
+        },
+        "INSTANCE_LOCAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_local"
+          }
+        },
+        "INSTANCE_SBS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_sbs"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListLocalImagesRequest": {
+      "type": "structure",
+      "members": {
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "A positive integer lower or equal to 100 to select the number of items to display."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "A positive integer to choose the page to display."
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.marketplace_v2#ListLocalImagesRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by",
+            "smithy.api#documentation": "Ordering to use."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "zone",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Filter local images available on this Availability Zone."
+          }
+        },
+        "arch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "arch",
+            "smithy.api#documentation": "Filter local images available for this machine architecture."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.marketplace_v2#LocalImageType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "Filter by type."
+          }
+        },
+        "image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "image_id",
+            "smithy.api#documentation": "Local images of this marketplace image ID. One-of `scope`: exactly one of `image_id`, `version_id`, `image_label` — the API rejects a call with none."
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version_id",
+            "smithy.api#documentation": "Local images of this marketplace version ID. One-of `scope`: exactly one of `image_id`, `version_id`, `image_label` — the API rejects a call with none."
+          }
+        },
+        "image_label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "image_label",
+            "smithy.api#documentation": "Local images of this marketplace image label (`ubuntu_noble`). One-of `scope`: exactly one of `image_id`, `version_id`, `image_label` — the API rejects a call with none."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.marketplace_v2#ListLocalImagesResponse": {
+      "type": "structure",
+      "members": {
+        "local_images": {
+          "target": "com.scaleway.marketplace_v2#ListLocalImagesResponseLocalImagesList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#LocalImage": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of this local image.\nVersion you will typically use to define an image in an API call. (UUID format)"
+          }
+        },
+        "compatible_commercial_types": {
+          "target": "com.scaleway.marketplace_v2#LocalImageCompatibleCommercialTypesList",
+          "traits": {
+            "smithy.api#documentation": "List of all commercial types that are compatible with this local image."
+          }
+        },
+        "arch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Supported architecture for this local image."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Availability Zone where this local image is available."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image label this image belongs to.\nThis label can be used in the image field of the server creation request."
+          }
+        },
+        "type": {
+          "target": "com.scaleway.marketplace_v2#LocalImageType",
+          "traits": {
+            "smithy.api#documentation": "Type of this local image."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#LocalImageCompatibleCommercialTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all commercial types that are compatible with this local image."
+      }
+    },
+    "com.scaleway.marketplace_v2#ListLocalImagesResponseLocalImagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.marketplace_v2#LocalImage"
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListLocalImages": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.marketplace_v2#ListLocalImagesRequest"
+      },
+      "output": {
+        "target": "com.scaleway.marketplace_v2#ListLocalImagesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/marketplace/v2/local-images",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List local images from a specific image or version\n\nList information about local images in a specific Availability Zone, specified by its `image_id` (UUID format), `version_id` (UUID format) or `image_label`. Only one of these three parameters may be set.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "local_images",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.marketplace_v2#GetLocalImageRequest": {
+      "type": "structure",
+      "members": {
+        "local_image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.marketplace_v2#GetLocalImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.marketplace_v2#GetLocalImageRequest"
+      },
+      "output": {
+        "target": "com.scaleway.marketplace_v2#LocalImage"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/marketplace/v2/local-images/{local_image_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a specific local image by ID\n\nGet detailed information about a local image, including compatible commercial types, supported architecture, labels and the Availability Zone of the image, specified by its `local_image_id` (UUID format)."
+      }
+    },
+    "com.scaleway.marketplace_v2#ListVersionsRequestOrderBy": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_asc"
+          }
+        },
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at_desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "image_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "image_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "order_by": {
+          "target": "com.scaleway.marketplace_v2#ListVersionsRequestOrderBy",
+          "traits": {
+            "smithy.api#httpQuery": "order_by"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.marketplace_v2#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.scaleway.marketplace_v2#ListVersionsResponseVersionsList"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#Version": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of this version. (UUID format)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of this version."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date of this image version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of the last modification of this version. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date this version was officially published. (RFC 3339 format)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.scaleway.marketplace_v2#Version"
+      },
+      "traits": {}
+    },
+    "com.scaleway.marketplace_v2#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.marketplace_v2#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.scaleway.marketplace_v2#ListVersionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/marketplace/v2/versions",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "List versions of an Image\n\nGet a list of all available version of an image, specified by its `image_id` (UUID format).",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "total_count",
+          "items": "versions",
+          "pageSize": "page_size"
+        }
+      }
+    },
+    "com.scaleway.marketplace_v2#GetVersionRequest": {
+      "type": "structure",
+      "members": {
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "(UUID format)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.scaleway.marketplace_v2#GetVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.scaleway.marketplace_v2#GetVersionRequest"
+      },
+      "output": {
+        "target": "com.scaleway.marketplace_v2#Version"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/marketplace/v2/versions/{version_id}",
+          "code": 200,
+          "baseUrl": "https://api.scaleway.com"
+        },
+        "smithy.api#documentation": "Get a specific image version\n\nGet information such as the name, creation date, last update and published date for an image version specified by its `version_id` (UUID format)."
+      }
+    },
+    "com.scaleway.marketplace_v2#MarketplaceV2": {
+      "type": "service",
+      "version": "v2",
+      "operations": [
+        {
+          "target": "com.scaleway.marketplace_v2#ListCategories"
+        },
+        {
+          "target": "com.scaleway.marketplace_v2#GetCategory"
+        },
+        {
+          "target": "com.scaleway.marketplace_v2#ListImages"
+        },
+        {
+          "target": "com.scaleway.marketplace_v2#GetImage"
+        },
+        {
+          "target": "com.scaleway.marketplace_v2#ListLocalImages"
+        },
+        {
+          "target": "com.scaleway.marketplace_v2#GetLocalImage"
+        },
+        {
+          "target": "com.scaleway.marketplace_v2#ListVersions"
+        },
+        {
+          "target": "com.scaleway.marketplace_v2#GetVersion"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Marketplace API",
+        "smithy.api#documentation": "The Marketplace API serves as a catalog of available Instance images. Its goal is to help find the specific image ID to use when launching an Instance.\n\nUsers can launch Instances through the Instances API. These Instances use a predefined disk state, called an image. To launch an Instance with a specific image, you must know the image's ID to pass to the Instance API.\n\nThese IDs can change over time as the Scaleway team releases new versions of the images, so the Marketplace API can be used to find the most up-to-date image to use.\n\n<Message type=\"note\">\nCheck out the [Instance API](https://www.scaleway.com/en/developers/api/instance/)\n</Message>\n\n## Concepts\n\nRefer to [the Instances concepts page](https://www.scaleway.com/en/docs/instances/concepts/) to learn more about images and other concepts related to Instances.\n\n## Quickstart\n\nThis API uses calls to the `/local-images?image_label=<label>` endpoint to get the IDs of specific images.\n\nFor example, make the following call to the endpoint `/local-images?image_label=ubuntu_jammy&zone=fr-par-1` to get the local images for **Ubuntu 22.04 LTS (Jammy Jellyfish)** in the `fr-par-1` Availability Zone:\n\n    ```bash\n    $ curl -X GET https://api.scaleway.com/marketplace/v2/local-images\\?image_label\\=ubuntu_jammy\\&zone\\=fr-par-1 |jq\n    ```\n\nThe following list of images is returned:\n\n    ```bash\n    {\n      \"local_images\": [\n        {\n          \"id\": \"350a06b2-ecd0-48b9-ba9e-495a51345a68\",\n          \"arch\": \"x86_64\",\n          \"zone\": \"fr-par-1\",\n          \"compatible_commercial_types\": [\n            [...]\n            \"STARDUST1-S\",\n            \"PLAY2-MICRO\",\n            \"PLAY2-NANO\",\n            \"PLAY2-PICO\"\n          ],\n          \"label\": \"ubuntu_jammy\"\n        },\n        {\n          \"id\": \"94299452-12c4-4d79-9c79-ced52967d75f\",\n          \"arch\": \"arm64\",\n          \"zone\": \"fr-par-1\",\n          \"compatible_commercial_types\": [\n            \"COPARM1-2C-8G\",\n            \"COPARM1-4C-16G\",\n            [...]\n          ],\n          \"label\": \"ubuntu_jammy\"\n        }\n      ],\n      \"total_count\": 2\n    }\n    ```\n\n<Message type=\"requirement\">\n- You have [installed `curl`](https://curl.se/download.html)\n- You have [installed `jq`](https://stedolan.github.io/jq/download/) (this will make it significantly easier to read the information returned by the Marketplace API)\n</Message>\n\n## Technical information\n\n### Availability Zones\n\nScaleway's infrastructure is spread across different [regions and Availability Zones](https://www.scaleway.com/en/docs/account/reference-content/products-availability/).\n\nThe Marketplace API is a global API and provides information about Instance images in all Availability Zones.\n\n### Authentication\n\nNo authentication or API key is required to use the Marketplace API.\n\n### Pagination\n\nMost listing requests receive a paginated response. Requests against paginated endpoints accept two `query` arguments:\n\n- `page`, a positive integer to choose which page to return. The default value is `1`.\n- `page_size`, an positive integer lower or equal to 100 to select the number of items to return per page. The default value is `20`.\n\nPaginated endpoints usually also accept filters to search and sort results. These filters are documented along each endpoint documentation.\n\n## Going further\n\nFor more help using the Marketplace API, check out the following resources:\n\n- Our [Instances API documentation](https://www.scaleway.com/en/developers/api/instance/)."
+      }
+    }
+  }
+}
