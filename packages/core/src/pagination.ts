@@ -52,8 +52,9 @@ export const getItems = (obj: unknown, path: string): readonly unknown[] => {
     for (const value of current) {
       if (value == null || typeof value !== "object") continue;
       const child = (value as Record<string, unknown>)[part];
-      if (Array.isArray(child)) next.push(...child);
-      else if (child != null) next.push(child);
+      if (Array.isArray(child)) {
+        for (const item of child) next.push(item);
+      } else if (child != null) next.push(child);
     }
     current = next;
   }

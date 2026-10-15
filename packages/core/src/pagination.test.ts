@@ -139,6 +139,16 @@ describe("cursor pagination", () => {
     ),
   );
 
+  test("extracts every item from a large page in order", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const items = Array.from({ length: 200_000 }, (_, index) => index);
+        const stream = Stream.make({ items });
+        const result = yield* collect(extractItems<Page, number, never, never>(stream, "items"));
+        expect(Array.from(result)).toEqual(items);
+      }),
+    ));
+
   test("cursor history is isolated across repeated and concurrent stream runs", () =>
     Effect.runPromise(
       Effect.gen(function* () {
